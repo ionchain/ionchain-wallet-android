@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ionchain-wallet-android</string>
+    <string name="tab_home">资产</string>
+    <string name="tab_info">资讯</string>
+    <string name="tab_user_center">我的</string>
+
+</resources>

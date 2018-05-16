@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/toolbarlayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:elevation="5dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/qmui_topbar_height"
+        android:title=""
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:background="?attr/qmui_config_color_blue">
+
+        <TextView
+            android:id="@+id/TITLE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:text="@string/app_name"
+            android:textSize="@dimen/toolbar_title"
+            android:singleLine="true"
+            android:ellipsize="middle"
+            android:textColor="@color/toolbarTextColor" />
+
+    </android.support.v7.widget.Toolbar>
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h05"
+        android:background="@color/toolbarLineColor"
+        android:layout_below="@id/toolbar"/>
+</LinearLayout>

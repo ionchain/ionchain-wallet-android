@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
+        <item name="qmui_topbar_height">@dimen/h50</item>
+        <item name="actionBarSize">?attr/qmui_topbar_height</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <item name="homeAsUpIndicator">@drawable/qmui_icon_topbar_back</item>
+        <item name="actionMenuTextColor">@color/black</item>
+    </style>
+
+</resources>

@@ -1,0 +1,79 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha14'
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+ext {
+
+    kotlinVersion = '1.2.41'
+    kotlin = '1.2.41'
+
+    // Sdk and tools
+    minSdkVersion = 16
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.3'
+
+    // App dependencies
+    supportLibraryVersion = '27.1.0'
+    multidexVersion = '1.0.1'
+    gsonVersion = '2.8.0'
+    constraintlayoutVersion = '1.0.2'
+    glideVersion = '4.3.1'
+    glideTransformationsVersion = '3.0.1'
+    okhttpVersion = '3.8.0'
+    eventbusVersion = '3.0.0'
+    transitionseverywhereVersion = '1.7.7'
+    easypermissionsVersion = '1.0.1'
+
+    rx2FastAndroidNetworking = '1.0.0'
+
+    dagger2Version = '2.8'
+    rxjava2Version = '2.0.6'
+    rxandroidVersion = '2.0.1'
+    butterKnifeVersion = '8.8.1'
+    greenDaoVersion = '3.2.0'
+    placeholderviewVersion = '0.6.1'
+    debugDBVersion = '1.0.0'
+    timberVersion = '4.5.1'
+
+    eventbusAnnotationVersion = '3.0.1'
+    magicIndicatorVersion = '1.5.0'
+
+    freelineDevVersion = '0.8.8-SNAPSHOT'
+    freelineReleaseVersion = '0.8.8'
+
+    //Test dependencies
+    junitVersion = '4.12'
+    espressoVersion = '2.2.2'
+    mockitoVersion = '2.7.1'
+
+    stethoVersion = '1.5.0'
+    leakcanaryVersion = '1.5.1'
+
+
+}

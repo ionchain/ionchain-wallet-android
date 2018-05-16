@@ -1,0 +1,64 @@
+<resources>
+
+    <string name="app_name">DDCLibrary</string>
+    
+	<string name="pull_to_refresh_pull_label">下拉刷新…</string>
+    <string name="pull_to_refresh_release_label">放开刷新…</string>
+    <string name="pull_to_refresh_refreshing_label">加载中…</string>
+
+    <!-- Just use standard Pull Down String when pulling up. These can be set for languages which require it -->
+    <string name="pull_to_refresh_from_bottom_pull_label">@string/pull_to_refresh_pull_label</string>
+    <string name="pull_to_refresh_from_bottom_release_label">@string/pull_to_refresh_release_label</string>
+    <string name="pull_to_refresh_from_bottom_refreshing_label">@string/pull_to_refresh_refreshing_label</string>
+
+
+    <string name="bga_pp_take_picture">拍摄照片</string>
+    <string name="bga_pp_photo_not_support">当前设备不支持发送图片</string>
+    <string name="bga_pp_not_support_take_photo">当前设备不支持拍照</string>
+    <string name="bga_pp_not_support_crop">当前设备不支持裁剪图片</string>
+    <string name="bga_pp_toast_photo_picker_max">最多只能选择 %1$s 张图片</string>
+    <string name="bga_pp_all_image">所有图片</string>
+    <string name="bga_pp_confirm">确定</string>
+    <string name="bga_pp_choose">选择</string>
+    <string name="bga_pp_view_photo">查看图片</string>
+    <string name="bga_pp_download_img_failure">下载到图片失败</string>
+    <string name="bga_pp_save_img_failure">保存图片失败，再试试?</string>
+    <string name="bga_pp_save_img_success_folder">图片已保存至 %s 文件夹</string>
+
+    <string name="activity_photopicker">选择图片</string>
+    <string name="picker_images">图片</string>
+    <string name="picker_delete">删除</string>
+    <string name="picker_done">完成</string>
+    <string name="picker_done_with_count">完成(%1$d/%2$d)</string>
+    <string name="picker_image_index">%1$d/%2$d</string>
+    <string name="picker_undo">撤消</string>
+    <string name="picker_deleted_a_photo">删除了一张图片</string>
+    <string name="picker_confirm_to_delete">确认删除？</string>
+    <string name="picker_yes">确定</string>
+    <string name="picker_cancel">取消</string>
+    <string name="picker_all_image">所有图片</string>
+    <string name="picker_over_max_count_tips">你最多可以选择%1$d张图片</string>
+    <string name="picker_image_count">%1$d张</string>
+
+
+    <string name="title_settings_dialog">权限请求</string>
+
+    <string name="rationale_ask">没有请求权限，此应用程序可能无法正常工作。</string>
+    <string name="rationale_ask_again">
+        没有请求权限，此应用程序可能无法正常工作。
+        打开应用程序设置屏幕以修改应用程序权限。
+    </string>
+
+
+    <string name="exit_app">再按一次退出程序</string>
+
+    <string name="pickerview_cancel">取消</string>
+    <string name="pickerview_submit">确定</string>
+    <string name="pickerview_year">年</string>
+    <string name="pickerview_month">月</string>
+    <string name="pickerview_day">日</string>
+    <string name="pickerview_hours">时</string>
+    <string name="pickerview_minutes">分</string>
+    <string name="pickerview_seconds">秒</string>
+
+</resources>

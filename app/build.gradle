@@ -1,0 +1,131 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    defaultConfig {
+        applicationId "org.ionchain.wallet"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true //需要将dex 分包  false 则不分
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi-v7a'
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
+    }
+
+
+    signingConfigs {
+        key {
+            storeFile file("ionchainwallet.keystore")//签名文件
+            storePassword "ionchainandroid"
+            keyAlias "ionchain"
+            keyPassword "ionchainandroid"//签名密码
+            v2SigningEnabled false
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.key
+            manifestPlaceholders = ["app_name": "IonChain"]
+        }
+
+
+        release {
+            zipAlignEnabled true
+            minifyEnabled false
+            shrinkResources false
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.key
+            applicationVariants.all { variant ->
+
+                if (variant.buildType.name.equals('release')) {
+
+                    variant.outputs.all {
+                        outputFileName = "${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${generateVersionCode()}.apk"
+                    }
+                }
+            }
+        }
+    }
+
+
+    dexOptions {
+        maxProcessCount 4 // this is the default value
+        javaMaxHeapSize "4g"
+    }
+
+    lintOptions {
+        // true--错误发生后停止gradle构建
+        abortOnError false
+        // true--只报告error
+        ignoreWarnings true
+        // true--所有warning当做error
+        warningsAsErrors false
+    }
+
+    flavorDimensions "versionCode"
+
+    productFlavors {
+        // Main android app markets  百度，应用宝，360，小米，豌豆荚，华为，OPPO，GooglePlay，VIVO
+        //添加pre是因为flavor命名不支持数字开头，编译的时候会做处理
+        ionchain_android {
+            manifestPlaceholders = [ CHANNEL_NAME:"android"]
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation(name: 'qmui', ext: 'aar', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation("com.jakewharton:butterknife:$rootProject.butterKnifeVersion", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+    implementation 'com.tencent.sonic:sdk:1.0.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+
+    implementation project(':FastLib')
+
+
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    maven {
+        url "https://jitpack.io"
+    }
+    google()
+    jcenter()
+}
+
+// 方法定义获取当前时间
+def generateVersionCode() {
+    return new Date().format("yyyyMMddHH", TimeZone.getTimeZone("GMT+8"))
+}

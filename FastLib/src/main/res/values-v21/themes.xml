@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="LibAppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <!-- 标题 背景颜色 -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 状态 背景颜色 -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- -->
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@color/windowBackgroundColor</item>
+        <!-- 去掉 AndroidBar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+
+        <!-- 底部导航栏颜色 -->
+        <item name="android:navigationBarColor">#4876FF</item>
+        <item name="actionBarSize">@dimen/actionBarSize</item>
+
+    </style>
+</resources>
