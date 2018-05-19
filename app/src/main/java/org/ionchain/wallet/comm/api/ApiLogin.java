@@ -6,4 +6,5 @@ public class ApiLogin extends BaseApi {
     public void sendSmsCode(){}
     public void register(){}
     public void updatePassWord(){}
+
 }
