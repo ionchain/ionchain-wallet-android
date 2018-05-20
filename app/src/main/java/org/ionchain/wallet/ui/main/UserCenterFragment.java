@@ -2,6 +2,8 @@ package org.ionchain.wallet.ui.main;
 
 import android.os.Bundle;
 
+import com.fast.lib.immersionbar.ImmersionBar;
+
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 
@@ -10,7 +12,12 @@ public class UserCenterFragment extends BaseFragment {
 
     @Override
     protected void immersionInit() {
-
+        ImmersionBar.with(this)
+                .statusBarDarkFont(false)
+                .statusBarColor(R.color.qmui_config_color_blue)
+                .navigationBarColor(R.color.black,0.5f)
+                .fitsSystemWindows(true)
+                .init();
     }
 
     @Override

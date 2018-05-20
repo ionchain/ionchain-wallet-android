@@ -12,6 +12,7 @@ import com.fast.lib.logger.Logger;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.ui.wallet.CreateWalletProtocolActivity;
 
 import butterknife.BindView;
 
@@ -119,7 +120,7 @@ public class WelcomeActivity extends BaseActivity {
     void startMainActivity(){
         try{
             Logger.i(TAG+"===>startMainActivity");
-            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, CreateWalletProtocolActivity.class);
             startActivity(intent);
             finish();
         }catch(Throwable e){

@@ -173,6 +173,9 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
             title = (TextView) findViewById(R.id.TITLE);
             lineView = findViewById(R.id.lineView);
 
+            if(lineView != null)
+                lineView.setVisibility(View.GONE);
+
             if (getActivityTitleContent() != 0) {
                 title.setText(getActivityTitleContent());
             }
@@ -276,7 +279,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         if (systemBar)
             ImmersionBar.with(this)
                     .statusBarDarkFont(true)
-                    .statusBarColor(R.color.white)
+                    .statusBarColor(R.color.qmui_config_color_blue)
                     .navigationBarColor(R.color.black,0.5f)
                     .fitsSystemWindows(true)
                     .init();

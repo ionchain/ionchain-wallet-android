@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <include
+        android:id="@+id/toolbarlayout"
+        layout="@layout/layout_toolbar"/>
+
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="我已仔细阅读并同意以上条款。"
+            android:textSize="@dimen/txt_microsize"
+            android:textColor="@color/library_33"/>
+
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="继续"/>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbarlayout"
+        android:layout_above="@id/bottom_layout">
+        <LinearLayout
+            android:id="@+id/webViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
+
+        <ProgressBar android:id="@+id/mProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h3"
+            android:max="100"
+            android:indeterminateOnly="false"
+            android:progressDrawable="@drawable/progress_horizontal"
+            />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

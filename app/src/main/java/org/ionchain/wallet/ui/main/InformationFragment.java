@@ -3,6 +3,7 @@ package org.ionchain.wallet.ui.main;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
@@ -50,7 +51,12 @@ public class InformationFragment extends BaseFragment {
 
     @Override
     protected void immersionInit() {
-
+        ImmersionBar.with(this)
+                .statusBarDarkFont(false)
+                .statusBarColor(R.color.qmui_config_color_blue)
+                .navigationBarColor(R.color.black,0.5f)
+                .fitsSystemWindows(true)
+                .init();
     }
 
     @Override

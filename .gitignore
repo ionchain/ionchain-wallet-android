@@ -1,0 +1,13 @@
+/app/build
+/app/.DS_Store
+/app/app.iml
+/FastLib/build
+/FastLib/.DS_Store
+/FastLib/FastLib.iml
+/.idea
+ionchain-wallet-android.iml
+/.git
+/.gradle
+.DS_Store
+
+

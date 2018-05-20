@@ -6,9 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbarlayout"
-        layout="@layout/layout_toolbar"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -19,18 +16,152 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="资产"
-            android:textColor="@color/black"
-            android:textSize="@dimen/txt_biglargesize"/>
+            android:orientation="vertical"
+            android:background="@drawable/home_top_bg">
+            <View
+                android:id="@+id/statusView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/qmui_topbar_height"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                android:background="@color/transparent"/>
 
 
-        <ImageView
-            android:id="@+id/testIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="@dimen/h16">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的钱包名称"
+                    android:textColor="#B3BFD0"
+                    android:textSize="@dimen/txt_mediumsize"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/qmui_icon_notify_info"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h40"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="@dimen/h16"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/h10">
+
+                <TextView
+                    android:layout_width="@dimen/h30"
+                    android:layout_height="@dimen/h30"
+                    android:background="@drawable/comm_yellow_circle"
+                    android:text="ionc"
+                    android:textSize="@dimen/txt_microsize"
+                    android:textColor="@color/white"
+                    android:gravity="center_vertical"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="889.98"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_biglargesize"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="bottom"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IONC"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_microsize"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="bottom"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="≈900.156￥"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_microsize"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginTop="@dimen/h5"/>
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h1"
+                android:background="#B3BFD0"
+                android:layout_margin="@dimen/h16"/>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="@dimen/h16"
+                android:layout_marginBottom="@dimen/h16">
+
+                <ImageView
+                    android:id="@+id/codeIv"
+                    android:layout_width="@dimen/h80"
+                    android:layout_height="@dimen/h80"
+                    android:src="@mipmap/def_img_lib"
+                    android:layout_alignParentRight="true"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_toLeftOf="@id/codeIv">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="地址"
+                        android:textColor="#B3BFD0"
+                        android:textSize="@dimen/txt_smallsize"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0xfa85Bd2AD4330010CBe6A86eC22D16A5fE68d39B"
+                        android:textColor="#B3BFD0"
+                        android:textSize="@dimen/txt_smallsize"/>
+
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+
+
 
 
     </LinearLayout>

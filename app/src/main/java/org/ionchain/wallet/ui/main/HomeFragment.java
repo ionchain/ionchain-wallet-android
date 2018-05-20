@@ -1,23 +1,69 @@
 package org.ionchain.wallet.ui.main;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import com.fast.lib.immersionbar.ImmersionBar;
+import com.fast.lib.logger.Logger;
+import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.config.ImgLoader;
+import org.ionchain.wallet.model.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseFragment;
+import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
+import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
 import butterknife.BindView;
+import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 public class HomeFragment extends BaseFragment {
 
-    @BindView(R.id.testIv)
-    ImageView testIv;
 
+    @BindView(R.id.codeIv)
+    ImageView codeIv;
     @Override
     protected void immersionInit() {
+        ImmersionBar.with(this)
+                .statusBarDarkFont(false)
+                .transparentStatusBar()
+                .statusBarView(R.id.statusView)
+                .navigationBarColor(R.color.black,0.5f)
+                .fitsSystemWindows(false)
+                .init();
+    }
 
+    @Override
+    public void handleMessage(int what, Object obj) {
+        super.handleMessage(what, obj);
+        try{
+
+            switch (what){
+                case R.id.addBtn:
+                    transfer(CreateWalletSelectActivity.class);
+                    break;
+                case 0:
+                    dismissProgressDialog();
+                    if(obj == null)
+                        return;
+
+                    ResponseModel<String> responseModel = (ResponseModel)obj;
+                    if(!verifyStatus(responseModel)){
+                        ToastUtil.showShortToast(responseModel.getMsg());
+                        return;
+                    }
+
+
+                    break;
+            }
+
+        }catch (Throwable e){
+            Logger.e(e,TAG);
+        }
     }
 
     @Override
@@ -33,7 +79,29 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-        ImgLoader.loadStringRes(testIv,Comm.TESTIMG,null,null);
+        createChineseQRCode();
+    }
+
+
+    private void createChineseQRCode() {
+        /*
+        这里为了偷懒，就没有处理匿名 AsyncTask 内部类导致 Activity 泄漏的问题
+        请开发在使用时自行处理匿名内部类导致Activity内存泄漏的问题，处理方式可参考 https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md
+         */
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                return QRCodeEncoder.syncEncodeQRCode("0xfa85Bd2AD4330010CBe6A86eC22D16A5fE68d39B", BGAQRCodeUtil.dp2px(getActivity(), 80));
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                if (bitmap != null) {
+                    codeIv.setImageBitmap(bitmap);
+                } else {
+                }
+            }
+        }.execute();
     }
 
     @Override
@@ -43,7 +111,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public int getActivityMenuRes() {
-        return 0;
+        return R.menu.menu_home;
     }
 
     @Override

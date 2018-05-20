@@ -13,6 +13,17 @@
     <string name="text_output_privatekey">导出私匙</string>
     <string name="text_wallet_del">导出私匙</string>
 
+    <string name="activity_test">Test</string>
+
+    <string name="activity_create_wallet_protocol_title">IONToKen服务协议</string>
+    <string name="activity_create_wallet">创建钱包</string>
+    <string name="activity_import_wallet">导入私钥</string>
+    <string name="menu_import_scan">扫一扫</string>
+
+    <string name="activity_scan_title">扫一扫</string>
+    <string name="menu_scan_album">相册</string>
+    <string name="menu_main_add">添加</string>
+
     <string name="act_wallet_create_notify1">密码用于保护私钥，强度非常重要</string>
     <string name="act_wallet_create_notify2">IONCToken不储存密码，也无法帮你找回，请务必牢记</string>
     <string name="act_wallet_manager_native_title">IONCToKen</string>
@@ -21,6 +32,10 @@
     <string name="act_wallet_manager_native_import">导入钱包</string>
     <string name="act_wallet_edit_del">删除钱包</string>
     <string name="act_secretpass_pass">我已仔细阅读并同意以上条款。</string>
+
+    <string name="wallet_create_nick">钱包名称</string>
+    <string name="wallet_create_password">密码</string>
+    <string name="wallet_create_respwd">重复密码</string>
 
 
 </resources>
