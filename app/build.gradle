@@ -18,7 +18,8 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi-v7a'
+            abiFilters 'armeabi-v7a','x86'
+
         }
 
         javaCompileOptions {
@@ -92,11 +93,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     implementation(name: 'qmui', ext: 'aar', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -109,10 +109,8 @@ dependencies {
     implementation 'com.tencent.sonic:sdk:1.0.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
-
+    implementation 'org.web3j:core:3.3.1-android'
     implementation project(':FastLib')
-
-
 }
 
 repositories {
@@ -124,6 +122,7 @@ repositories {
     }
     google()
     jcenter()
+
 }
 
 // 方法定义获取当前时间

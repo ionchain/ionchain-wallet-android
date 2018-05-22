@@ -21,9 +21,9 @@ import com.fast.lib.okhttp.ResponseBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.comm.api.constant.ApiConstant;
+import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.model.ResponseModel;
 
 import java.util.HashMap;
 
@@ -241,7 +241,7 @@ public abstract class BaseFragment extends LibFragment {
 
     public boolean verifyStatus(ResponseModel responseModel) {
         try {
-            if (!TextUtils.isEmpty(responseModel.getCode()) && responseModel.getCode().equals(Comm.SUCCESS)) {
+            if (!TextUtils.isEmpty(responseModel.getCode()) && responseModel.getCode().equals(String.valueOf(ApiConstant.ApiErrCode.SUCCESS.getDesc()))) {
                 return true;
             } else {
                 return false;
@@ -431,6 +431,12 @@ public abstract class BaseFragment extends LibFragment {
         Logger.i(TAG + "==onStop");
     }
 
-
+    public void sendWalletLocalApi(){
+//        ResponseBean responseBean = new ResponseBean();
+//        responseBean.refreshType = refreshType;
+//        responseBean.obj = response;
+//        responseBean.mType = type;
+//        aidsendMessage(NETWORK_SUCCESSFUL_TYPE, responseBean);
+    }
 
 }

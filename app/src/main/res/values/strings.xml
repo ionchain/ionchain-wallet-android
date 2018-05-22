@@ -1,4 +1,8 @@
 <resources>
+    <string name="api_err_msg_unkown">API接口异常调用</string>
+    <string name="api_err_msg_success">成功</string>
+
+
     <string name="app_name">ionchain-wallet-android</string>
     <string name="tab_home">资产</string>
     <string name="tab_info">资讯</string>

@@ -9,8 +9,8 @@ import com.fast.lib.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.helper.RequestHelper;
-import org.ionchain.wallet.model.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 
 import butterknife.BindView;

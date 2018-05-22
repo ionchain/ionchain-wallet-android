@@ -1,4 +1,4 @@
-package org.ionchain.wallet.model;
+package org.ionchain.wallet.comm.api.resphonse;
 
 import java.io.Serializable;
 
