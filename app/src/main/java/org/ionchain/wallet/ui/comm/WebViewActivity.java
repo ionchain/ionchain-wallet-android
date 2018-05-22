@@ -36,12 +36,12 @@ import com.tencent.sonic.sdk.SonicSessionConfig;
 import com.tencent.sonic.sdk.SonicSessionConnection;
 import com.tencent.sonic.sdk.SonicSessionConnectionInterceptor;
 
-import org.greenrobot.eventbus.EventBus;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.network.SonicRuntimeImpl;
 import org.ionchain.wallet.comm.network.SonicSessionClientImpl;
-import org.ionchain.wallet.model.ResponseModel;
+
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

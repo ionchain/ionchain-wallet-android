@@ -1,7 +1,7 @@
 package org.ionchain.wallet.ui;
 
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,8 @@ import com.fast.lib.utils.ToastUtil;
 import com.fast.lib.widget.FragmentTabHost;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.model.ResponseModel;
+
+import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.main.HomeFragment;
 import org.ionchain.wallet.ui.main.InformationFragment;

@@ -7,11 +7,11 @@ import android.support.v7.widget.AppCompatEditText;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
-import com.fast.lib.utils.encrypt.base.TextUtils;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.model.ResponseModel;
+
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.ScanActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;

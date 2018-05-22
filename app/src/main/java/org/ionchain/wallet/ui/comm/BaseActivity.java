@@ -25,9 +25,9 @@ import com.fast.lib.logger.Logger;
 import com.fast.lib.okhttp.ResponseBean;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.model.ResponseModel;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
