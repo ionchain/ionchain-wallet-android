@@ -8,6 +8,7 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 
+import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
@@ -25,10 +26,11 @@ public class CreateWalletActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.createBtn:
-                    Intent intent = new Intent( this, MainActivity.class );
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent( this, MainActivity.class );
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+//                    finish();
+                    ApiWalletManager.test(CreateWalletActivity.this);
                     break;
                 case R.id.importBtn:
 
