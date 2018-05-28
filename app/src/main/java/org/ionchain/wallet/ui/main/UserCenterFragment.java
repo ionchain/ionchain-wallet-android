@@ -3,12 +3,44 @@ package org.ionchain.wallet.ui.main;
 import android.os.Bundle;
 
 import com.fast.lib.immersionbar.ImmersionBar;
+import com.fast.lib.logger.Logger;
+import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseFragment;
+import org.ionchain.wallet.ui.login.LoginActivity;
 
 public class UserCenterFragment extends BaseFragment {
 
+    @Override
+    public void handleMessage(int what, Object obj) {
+        super.handleMessage(what, obj);
+        try{
+
+            switch (what){
+                case R.id.loginRegTv:
+                    transfer(LoginActivity.class);
+                    break;
+                case 0:
+                    dismissProgressDialog();
+                    if(obj == null)
+                        return;
+
+                    ResponseModel<String> responseModel = (ResponseModel)obj;
+                    if(!verifyStatus(responseModel)){
+                        ToastUtil.showShortToast(responseModel.getMsg());
+                        return;
+                    }
+
+
+                    break;
+            }
+
+        }catch (Throwable e){
+            Logger.e(e,TAG);
+        }
+    }
 
     @Override
     protected void immersionInit() {
@@ -28,6 +60,7 @@ public class UserCenterFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        setOnClickListener(R.id.loginRegTv);
 
     }
 

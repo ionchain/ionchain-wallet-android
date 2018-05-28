@@ -1,17 +1,16 @@
-package org.ionchain.wallet.ui.wallet;
+package org.ionchain.wallet.ui.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 
+import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
-import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
-public class CreateWalletActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity {
 
 
     @Override
@@ -20,18 +19,8 @@ public class CreateWalletActivity extends BaseActivity {
         try{
 
             switch (what){
-                case R.id.navigationBack:
+                case R.id.cancelTv:
                     finish();
-                    break;
-                case R.id.createBtn:
-                    Intent intent = new Intent( this, MainActivity.class );
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
-//                    ApiWalletManager.test(CreateWalletActivity.this);
-                    break;
-                case R.id.importBtn:
-
                     break;
                 case 0:
                     dismissProgressDialog();
@@ -54,15 +43,28 @@ public class CreateWalletActivity extends BaseActivity {
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setSystemBar(false);
+        super.onCreate(savedInstanceState);
+
+        ImmersionBar.with(this)
+                .statusBarDarkFont(false)
+                .transparentStatusBar()
+                .statusBarView(R.id.statusView)
+                .navigationBarColor(R.color.black,0.5f)
+                .fitsSystemWindows(false)
+                .init();
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_wallet_create);
+        setContentView(R.layout.activity_login);
 
     }
 
     @Override
     protected void setListener() {
-        setOnClickListener(R.id.createBtn);
-        setOnClickListener(R.id.importBtn);
+        setOnClickListener(R.id.cancelTv);
 
     }
 
@@ -83,6 +85,6 @@ public class CreateWalletActivity extends BaseActivity {
 
     @Override
     public int getActivityTitleContent() {
-        return R.string.activity_create_wallet;
+        return R.string.activity_test;
     }
 }

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbarlayout"
+        layout="@layout/layout_toolbar"/>
+
+    <Button
+        android:id="@+id/delBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除钱包"
+        android:layout_margin="@dimen/h16"
+        android:layout_alignParentBottom="true"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbarlayout"
+        android:layout_above="@id/delBtn">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/home_top_bg"
+            android:paddingTop="@dimen/h10"
+            android:paddingBottom="@dimen/h10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h40"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="@dimen/h16"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="889.98"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_biglargesize"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="bottom"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IONC"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_microsize"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="bottom"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="@dimen/h16"
+                android:layout_marginTop="@dimen/h10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="钱包地址"
+                    android:textColor="#B3BFD0"
+                    android:textSize="@dimen/txt_smallsize"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0xfa85Bd2AD4330010CBe6A86eC22D16A5fE68d39B"
+                    android:textColor="#B3BFD0"
+                    android:textSize="@dimen/txt_smallsize"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="钱包名"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:layout_marginTop="@dimen/h10"
+            android:textSize="@dimen/txt_mediumsize"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:hint="钱包名称"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:textSize="@dimen/txt_mediumsize"
+            android:textColor="@color/library_33"
+            />
+
+
+        <RelativeLayout
+            android:id="@+id/modifyPwdLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改密码"
+                android:layout_centerVertical="true"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h1"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line"
+                />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/importLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="导出私钥"
+                android:layout_centerVertical="true"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h1"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line"
+                />
+        </RelativeLayout>
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

@@ -90,6 +90,21 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
+        <activity android:name=".ui.wallet.ModifyWalletActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
+        <activity android:name=".ui.wallet.ModifyWalletPwdActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
+        <activity android:name=".ui.login.LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
 
     </application>
 

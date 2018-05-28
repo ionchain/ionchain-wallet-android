@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/statusView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <TextView
+            android:id="@+id/cancelTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:textSize="@dimen/txt_smallsize"
+            android:textColor="@color/library_99"
+            android:padding="@dimen/h16"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/h16"
+        android:layout_marginLeft="@dimen/h16">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="还没有IONCToken账号？"
+            android:textColor="@color/library_99"
+            android:textSize="@dimen/txt_smallmediumsize"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:textColor="@color/qmui_config_color_blue"
+            android:textSize="@dimen/txt_smallmediumsize"/>
+
+    </LinearLayout>
+
+
+
+    <ImageView
+        android:id="@+id/headIv"
+        android:layout_width="@dimen/h80"
+        android:layout_height="@dimen/h80"
+        android:background="@drawable/comm_gray_circle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/h80"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/h16"
+        android:layout_marginRight="@dimen/h16"
+        android:orientation="vertical"
+        android:layout_below="@id/headIv"
+        android:layout_marginTop="@dimen/h50">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h50"
+                android:hint="手机号码"
+                android:textSize="@dimen/txt_mediumsize"
+                android:textColor="@color/library_33"
+                android:inputType="phone"
+                android:background="@color/transparent"
+                android:gravity="center_vertical"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h1"
+                android:background="@color/line"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h50"
+                android:hint="密码"
+                android:textSize="@dimen/txt_mediumsize"
+                android:textColor="@color/library_33"
+                android:inputType="textPassword"
+                android:background="@color/transparent"
+                android:gravity="center_vertical"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h1"
+                android:background="@color/line"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:layout_marginTop="@dimen/h20"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/qmui_config_color_blue"
+            android:text="忘记密码?"
+            android:textSize="@dimen/txt_mediumsize"
+            android:paddingTop="@dimen/h16"
+            android:paddingBottom="@dimen/h16"/>
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

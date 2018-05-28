@@ -11,12 +11,9 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
-import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.config.ImgLoader;
-
 import org.ionchain.wallet.ui.comm.BaseFragment;
-import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
+import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;
 
 import butterknife.BindView;
 import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
@@ -47,6 +44,9 @@ public class HomeFragment extends BaseFragment {
                 case R.id.addBtn:
                     transfer(CreateWalletSelectActivity.class);
                     break;
+                case R.id.walletLayout:
+                    transfer(ModifyWalletActivity.class);
+                    break;
                 case 0:
                     dismissProgressDialog();
                     if(obj == null)
@@ -75,6 +75,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        setOnClickListener(R.id.walletLayout);
 
     }
 
