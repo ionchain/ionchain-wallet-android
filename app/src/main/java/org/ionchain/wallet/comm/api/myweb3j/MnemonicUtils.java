@@ -19,7 +19,7 @@ import static org.web3j.crypto.Hash.sha256;
 public class MnemonicUtils {
     private static final int SEED_ITERATIONS = 2048;
     private static final int SEED_KEY_SIZE = 512;
-    public static  List<String> WORD_LIST = populateWordList();
+    public static  List<String> WORD_LIST = null;
 
     /**
      * The mnemonic must encode entropy in a multiple of 32 bits. With more entropy security is

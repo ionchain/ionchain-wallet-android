@@ -9,8 +9,17 @@ public class Wallet implements Serializable {
     private String name;
     private String address;
     private String publickey;
-    private float balance;
-    private String keystore;
+    private String balance;
+    private String keystore="";
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
@@ -52,11 +61,11 @@ public class Wallet implements Serializable {
         this.publickey = publickey;
     }
 
-    public float getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 
@@ -67,8 +76,6 @@ public class Wallet implements Serializable {
     public void setKeystore(String keystore) {
         this.keystore = keystore;
     }
-
-
 
 
 }
