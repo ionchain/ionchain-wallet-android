@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class ApiWalletManager {
     private static final String DEF_WALLET_PATH = Environment.getExternalStorageDirectory().toString() + "/ionchain/wallet";
     private static final String DEF_WALLET_WORDS_LIST_NAME = "en-mnemonic-word-list";
     private static final BigDecimal DEF_WALLET_DECIMALS = new BigDecimal("1000000000000000000");
-    private static final String DEF_WALLET_DECIMALS_UNIT = "0.0000";
+    private static final int DEF_WALLET_DECIMALS_UNIT = 4;
 
     private Wallet myWallet;
     private String contractAddress;
@@ -92,6 +93,11 @@ public class ApiWalletManager {
                 arr.add(word);
             }
             MnemonicUtils.WORD_LIST = arr;
+        }
+        //创建默认目录
+        File file =new File(DEF_WALLET_PATH);
+        if( !file.exists() ){
+            file.mkdirs();
         }
 
     }
@@ -270,10 +276,8 @@ public class ApiWalletManager {
         List<Type> results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
         balanceValue = (BigInteger) results.get(0).getValue();
         BigDecimal bigDecimal = new BigDecimal(balanceValue);
-        java.text.DecimalFormat myformat = new java.text.DecimalFormat(DEF_WALLET_DECIMALS_UNIT);
-        BigDecimal balance = bigDecimal.divide(DEF_WALLET_DECIMALS);
-        String balanceStr = myformat.format(balance);
-        myWallet.setBalance(balanceStr);
+        BigDecimal balance = bigDecimal.divide(DEF_WALLET_DECIMALS).setScale(DEF_WALLET_DECIMALS_UNIT,BigDecimal.ROUND_DOWN);
+        myWallet.setBalance(balance.toString());
         return balanceValue;
     }
 
@@ -288,7 +292,7 @@ public class ApiWalletManager {
                 ecKeyPair,
                 new File(DEF_WALLET_PATH),
                 true);
-        keystore = DEF_WALLET_PATH + keystore;
+        keystore = DEF_WALLET_PATH +"/"+ keystore;
         //发生更换了
         if (null != myWallet.getKeystore() && !myWallet.getKeystore().equals(keystore)) {
             String old = myWallet.getKeystore();
@@ -369,7 +373,7 @@ public class ApiWalletManager {
         responseModel.data = data;
         responseModel.code = code;
         responseModel.msg = msg;
-        aidsendMessage(handler, type, data);
+        aidsendMessage(handler, type, responseModel);
     }
 
     private void aidsendMessage(Handler handler, int what, Object obj) {
@@ -380,7 +384,7 @@ public class ApiWalletManager {
 
     }
 
-    private void printtest(String info) {
+    public static void printtest(String info) {
         Log.e("wallet", info);
     }
 }

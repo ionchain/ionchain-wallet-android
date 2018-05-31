@@ -146,7 +146,7 @@ public class ApiConstant {
     /**
      * 接口码
      */
-    public enum WalletManagerType {
+    public  enum WalletManagerType {
         MANAGER_INIT(0x9001),
         WALLET_IMPORT(0x9002),
         WALLET_CREATE(0x9003),
@@ -154,6 +154,15 @@ public class ApiConstant {
         WALLET_EDIT_PASS(0x9005),
         OTHER(0x9999);
         private int desc;
+
+        public static WalletManagerType codeOf(int code) {
+            for (WalletManagerType dos : WalletManagerType.values()) {
+                if (dos.getDesc()== code) {
+                    return dos;
+                }
+            }
+            return null;
+        }
 
         public static WalletManagerType codeOf(String name) {
             for (WalletManagerType dos : WalletManagerType.values()) {
