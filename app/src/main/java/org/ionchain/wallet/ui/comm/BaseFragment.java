@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.fast.lib.base.LibFragment;
 import com.fast.lib.logger.Logger;
@@ -39,8 +38,6 @@ public abstract class BaseFragment extends LibFragment {
     protected View mContentView;
 
     protected Toolbar mToolbar;
-    public TextView title;
-    public View lineView;
 
     private Menu menu;
 
@@ -152,18 +149,14 @@ public abstract class BaseFragment extends LibFragment {
             if (mToolbar == null)
                 return;
 
-            title = (TextView) mContentView.findViewById(R.id.TITLE);
-            lineView = mContentView.findViewById(R.id.lineView);
 
-            if(title != null)
-                if (getActivityTitleContent() != 0) {
-                    title.setText(getActivityTitleContent());
-                } else {
-                    title.setText("");
-                }
+            if(getActivityTitleContent() !=0){
+                mToolbar.setTitle(getActivityTitleContent());
+            }else{
+                mToolbar.setTitle("");
+            }
 
 
-            mToolbar.setTitle("");
             ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
 
             if (getHomeAsUpIndicatorIcon() != 0) {
@@ -322,23 +315,6 @@ public abstract class BaseFragment extends LibFragment {
                 mToolbar.setNavigationIcon(resId);
             }
 
-        } catch (Throwable e) {
-            Logger.e(e,TAG);
-        }
-    }
-
-    public void setTitleBackground(@DrawableRes int resId) {
-        try {
-            title.setBackgroundResource(resId);
-        } catch (Throwable e) {
-            Logger.e(e,TAG);
-        }
-    }
-
-    public void setTitle(String resId) {
-        try {
-            if(title != null)
-                title.setText(resId);
         } catch (Throwable e) {
             Logger.e(e,TAG);
         }

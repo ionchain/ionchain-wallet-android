@@ -4,61 +4,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <include
-        android:id="@+id/toolbarlayout"
-        layout="@layout/layout_toolbar"/>
+    android:layout_height="match_parent"
+    android:background="@mipmap/create_wallet_bg">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbarlayout">
-
-
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/h150"
             android:gravity="center_horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="IONCToKen"
-                android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_largesize"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_largesize"
+                android:lineSpacingExtra="@dimen/h5"
+                android:textScaleX="1"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="分布式智能数字钱包"
-                android:textColor="@color/library_33"
+                android:textColor="@color/white"
                 android:textSize="@dimen/txt_largesize"
-                android:layout_marginTop="@dimen/h10"/>
+                android:layout_marginTop="@dimen/h16"/>
 
 
             <Button
                 android:id="@+id/createBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/h50"
                 android:text="创建钱包"
-                android:layout_marginLeft="@dimen/bga_adapter_vertical_margin"
-                android:layout_marginRight="@dimen/bga_adapter_vertical_margin"
-                android:layout_marginTop="@dimen/bga_adapter_vertical_margin"/>
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_smallmediumsize"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="@dimen/h16"
+                android:layout_marginTop="@dimen/h16"
+                android:background="@drawable/common_button_semicircle"/>
 
             <Button
                 android:id="@+id/importBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/h50"
                 android:text="导入钱包"
-                android:layout_marginLeft="@dimen/bga_adapter_vertical_margin"
-                android:layout_marginRight="@dimen/bga_adapter_vertical_margin"
-                android:layout_marginTop="@dimen/bga_adapter_vertical_margin"/>
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_smallmediumsize"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="@dimen/h16"
+                android:layout_marginTop="@dimen/h16"
+                android:background="@drawable/common_button_semicircle"
+                />
 
         </LinearLayout>
+
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/check_white"
+            android:drawablePadding="@dimen/h5"
+            android:button="@null"
+            android:text="开始使用本产品及表示同意服务及隐私条款"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_smallsize"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/h20"
+            android:checked="true"/>
 
     </RelativeLayout>
 

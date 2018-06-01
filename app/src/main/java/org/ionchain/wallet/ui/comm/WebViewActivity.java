@@ -175,7 +175,6 @@ public class WebViewActivity extends BaseActivity {
         }
 
         setContentView(R.layout.activity_webview);
-        setVisGoneLine(View.GONE);
         initWebView();
 
     }

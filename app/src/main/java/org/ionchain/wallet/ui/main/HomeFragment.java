@@ -118,7 +118,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.drawable.qmui_icon_topbar_back;
+        return R.mipmap.ic_arrow_back;
     }
 
     @Override

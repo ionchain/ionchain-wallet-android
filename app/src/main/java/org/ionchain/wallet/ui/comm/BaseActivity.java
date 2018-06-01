@@ -17,12 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.fast.lib.base.LibActivity;
 import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.okhttp.ResponseBean;
+import com.umeng.message.PushAgent;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
@@ -45,8 +45,6 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
 
     protected String TAG;
     public Toolbar mToolbar;
-    private TextView title;
-    private View lineView;
     private boolean systemBar = true;
 
     int statusBarHeight = 0;
@@ -170,18 +168,13 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
             if (mToolbar == null)
                 return;
 
-            title = (TextView) findViewById(R.id.TITLE);
-            lineView = findViewById(R.id.lineView);
 
-            if(lineView != null)
-                lineView.setVisibility(View.GONE);
 
-            if (getActivityTitleContent() != 0) {
-                title.setText(getActivityTitleContent());
+            if(getActivityTitleContent() !=0){
+                mToolbar.setTitle(getActivityTitleContent());
+            }else{
+                mToolbar.setTitle("");
             }
-
-
-            mToolbar.setTitle("");
             setSupportActionBar(mToolbar);
 
             if (getHomeAsUpIndicatorIcon() != 0) {
@@ -201,22 +194,6 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         }
     }
 
-
-    public void setTitleVisibility(int visGone) {
-        title.setVisibility(visGone);
-    }
-
-    public void setTitle(String mTitle) {
-        try {
-
-            if (title != null && !TextUtils.isEmpty(mTitle)) {
-                title.setText(String.valueOf(mTitle));
-            }
-
-        } catch (Throwable e) {
-            Logger.e(e,TAG);
-        }
-    }
 
     public void setNavigationIcon(@DrawableRes int resId) {
         try {
@@ -267,7 +244,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         processLogic(savedInstanceState);
         setListener();
 
-//        PushAgent.getInstance(this).onAppStart();
+        PushAgent.getInstance(this).onAppStart();
 
 
     }
@@ -278,8 +255,8 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         ButterKnife.bind(this);
         if (systemBar)
             ImmersionBar.with(this)
-                    .statusBarDarkFont(true)
-                    .statusBarColor(R.color.qmui_config_color_blue)
+                    .statusBarDarkFont(false)
+                    .statusBarColor(R.color.window_bg)
                     .navigationBarColor(R.color.black,0.5f)
                     .fitsSystemWindows(true)
                     .init();
@@ -371,16 +348,6 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         return super.onOptionsItemSelected(item);
     }
 
-    public void setVisGoneLine(int visGone) {
-        try {
-            if (lineView != null) {
-                lineView.setVisibility(visGone);
-            }
-        } catch (Throwable e) {
-            Logger.e(TAG, e);
-        }
-    }
-
 
     @Override
     public void showProgressDialog() {
@@ -395,13 +362,11 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
     @Override
     protected void onPause() {
         super.onPause();
-//        MobclickAgent.onPause(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        MobclickAgent.onResume(this);
     }
 
     @Override

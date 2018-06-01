@@ -65,7 +65,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void setListener() {
         setOnClickListener(R.id.cancelTv);
-
     }
 
     @Override
@@ -80,7 +79,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.drawable.qmui_icon_topbar_back;
+        return R.mipmap.ic_arrow_back;
     }
 
     @Override

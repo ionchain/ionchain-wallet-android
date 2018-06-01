@@ -78,7 +78,7 @@ public class CreateWalletActivity extends BaseActivity {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.drawable.qmui_icon_topbar_back;
+        return R.mipmap.ic_arrow_back;
     }
 
     @Override

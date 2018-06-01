@@ -7,11 +7,20 @@
     <color name="qmui_config_color_blue">#445EE9</color>
     <color name="qmui_config_color_50_blue">#801B88EE</color>
 
+    <color name="window_bg">#f0f2f5</color>
+
     <color name="main_bg">#515F71</color>
+    <color name="main_blue">#3574FA</color>
 
     <color name="toolbarTextColor">@color/white</color>
 
     <color name="line">#B3BFD0</color>
 
+    <color name="main_btn_color_normal">#2F80F6</color>
+    <color name="main_btn_color_pressed">#808DA0C8</color>
+    <color name="main_btn_color_disable">#8DA0C8</color>
     
+    <color name="btn_semicircle_color">#D3E1FF</color>
+
+
 </resources>
