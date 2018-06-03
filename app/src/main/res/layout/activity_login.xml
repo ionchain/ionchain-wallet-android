@@ -4,30 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <View
-            android:id="@+id/statusView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
-
-        <TextView
-            android:id="@+id/cancelTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="取消"
-            android:textSize="@dimen/txt_smallsize"
-            android:textColor="@color/library_99"
-            android:padding="@dimen/h16"/>
-
-    </LinearLayout>
+    <include
+        android:id="@+id/toolbarlayout"
+        layout="@layout/layout_toolbar"/>
 
 
     <LinearLayout
@@ -46,10 +28,11 @@
             android:textSize="@dimen/txt_smallmediumsize"/>
 
         <TextView
+            android:id="@+id/regTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="注册"
-            android:textColor="@color/qmui_config_color_blue"
+            android:textColor="@color/main_blue"
             android:textSize="@dimen/txt_smallmediumsize"/>
 
     </LinearLayout>
@@ -60,7 +43,7 @@
         android:id="@+id/headIv"
         android:layout_width="@dimen/h80"
         android:layout_height="@dimen/h80"
-        android:background="@drawable/comm_gray_circle"
+        android:background="@mipmap/login_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/h80"/>
 
@@ -79,8 +62,9 @@
             android:layout_height="@dimen/h50">
 
             <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/mobileEt"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/h50"
+                android:layout_height="@dimen/h60"
                 android:hint="手机号码"
                 android:textSize="@dimen/txt_mediumsize"
                 android:textColor="@color/library_33"
@@ -98,9 +82,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/h50">
+            android:layout_height="@dimen/h60">
 
             <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/pwdEt"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h50"
                 android:hint="密码"
@@ -123,13 +108,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="登录"
-            android:layout_marginTop="@dimen/h20"/>
+            android:layout_marginTop="@dimen/h20"
+            android:enabled="false"/>
 
 
         <TextView
+            android:id="@+id/forgetTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/qmui_config_color_blue"
+            android:textColor="@color/main_blue"
             android:text="忘记密码?"
             android:textSize="@dimen/txt_mediumsize"
             android:paddingTop="@dimen/h16"

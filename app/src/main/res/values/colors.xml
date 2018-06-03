@@ -14,7 +14,7 @@
 
     <color name="toolbarTextColor">@color/white</color>
 
-    <color name="line">#B3BFD0</color>
+    <color name="line">#E3E3E3</color>
 
     <color name="main_btn_color_normal">#2F80F6</color>
     <color name="main_btn_color_pressed">#808DA0C8</color>

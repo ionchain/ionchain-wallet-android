@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.Button;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
@@ -14,15 +18,26 @@ import com.fast.lib.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
-import static org.ionchain.wallet.comm.api.constant.ApiConstant.WalletManagerType.MANAGER_INIT;
+import butterknife.BindView;
 
-public class CreateWalletActivity extends BaseActivity {
+public class CreateWalletActivity extends BaseActivity implements TextWatcher{
 
+
+    @BindView(R.id.walletNameEt)
+    AppCompatEditText walletNameEt;
+
+    @BindView(R.id.pwdEt)
+    AppCompatEditText pwdEt;
+
+    @BindView(R.id.resetPwdEt)
+    AppCompatEditText resetPwdEt;
+
+    @BindView(R.id.createBtn)
+    Button createBtn;
 
     @SuppressLint("HandlerLeak")
     Handler walletHandler = new Handler() {
@@ -121,6 +136,8 @@ public class CreateWalletActivity extends BaseActivity {
                     break;
                 case R.id.importBtn:
 
+                    transfer(ImprotWalletActivity.class);
+
                     break;
                 case 0:
                     dismissProgressDialog();
@@ -152,6 +169,9 @@ public class CreateWalletActivity extends BaseActivity {
     protected void setListener() {
         setOnClickListener(R.id.createBtn);
         setOnClickListener(R.id.importBtn);
+        walletNameEt.addTextChangedListener(this);
+        pwdEt.addTextChangedListener(this);
+        resetPwdEt.addTextChangedListener(this);
 
     }
 
@@ -173,5 +193,30 @@ public class CreateWalletActivity extends BaseActivity {
     @Override
     public int getActivityTitleContent() {
         return R.string.activity_create_wallet;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        String walletnamestr = walletNameEt.getText().toString().trim();
+        String pwdstr = pwdEt.getText().toString().trim();
+        String resetpwdstr = resetPwdEt.getText().toString().trim();
+
+        if(!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)){
+            createBtn.setEnabled(true);
+        }else{
+            createBtn.setEnabled(false);
+        }
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

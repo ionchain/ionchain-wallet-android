@@ -4,6 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.widget.Button;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
@@ -20,12 +24,22 @@ import butterknife.BindView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class ImprotWalletActivity extends BaseActivity{
+public class ImprotWalletActivity extends BaseActivity implements TextWatcher{
 
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
 
     @BindView(R.id.contentEt)
     AppCompatEditText contentEt;
+
+    @BindView(R.id.pwdEt)
+    AppCompatEditText pwdEt;
+
+    @BindView(R.id.repwdEt)
+    AppCompatEditText repwdEt;
+
+    @BindView(R.id.importBtn)
+    Button importBtn;
+
 
     @Override
     public void handleMessage(int what, Object obj) {
@@ -79,6 +93,10 @@ public class ImprotWalletActivity extends BaseActivity{
         setOnClickListener(R.id.importBtn);
         setOnClickListener(R.id.linkUrlTv);
 
+        contentEt.addTextChangedListener(this);
+        pwdEt.addTextChangedListener(this);
+        repwdEt.addTextChangedListener(this);
+
 
     }
 
@@ -123,5 +141,28 @@ public class ImprotWalletActivity extends BaseActivity{
             transfer(ScanActivity.class,999);
 
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        String contentstr = contentEt.getText().toString().trim();
+        String pwdstr = pwdEt.getText().toString().trim();
+        String resetpwdstr = repwdEt.getText().toString().trim();
+
+        if(!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)){
+            importBtn.setEnabled(true);
+        }else{
+            importBtn.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

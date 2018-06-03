@@ -18,7 +18,7 @@
         <item name="android:textSize">@dimen/txt_mediumsize</item>
         <item name="android:layout_marginLeft">@dimen/h16</item>
         <item name="android:layout_marginRight">@dimen/h16</item>
-        <item name="android:background">@color/qmui_config_color_blue</item>
+        <item name="android:background">@drawable/common_button_main</item>
     </style>
 
 </resources>

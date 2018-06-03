@@ -10,7 +10,7 @@
         android:layout_height="20dp"
         android:layout_centerHorizontal="true"
         android:tag="TAB_ICON"
-        tools:src="@mipmap/ic_launcher"
+        tools:src="@drawable/tab_home_bg"
         android:layout_marginTop="@dimen/h5"
         />
     <TextView

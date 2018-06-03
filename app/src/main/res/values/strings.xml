@@ -33,6 +33,8 @@
     <string name="menu_wallet_modify_save">保存</string>
     <string name="menu_wallet_modify_complet">完成</string>
 
+    <string name="activity_login_title">登录</string>
+
     <string name="act_wallet_create_notify1">密码用于保护私钥，强度非常重要</string>
     <string name="act_wallet_create_notify2">IONCToken不储存密码，也无法帮你找回，请务必牢记</string>
     <string name="act_wallet_manager_native_title">IONCToKen</string>

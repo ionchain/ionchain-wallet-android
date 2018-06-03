@@ -1,6 +1,5 @@
 package org.ionchain.wallet.ui.comm;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.TextUtils;
-import android.widget.TextView;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
@@ -17,10 +15,8 @@ import com.fast.lib.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 
-
 import java.nio.ByteBuffer;
 
-import butterknife.BindView;
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
@@ -153,7 +149,7 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate{
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.drawable.qmui_icon_topbar_back;
+        return R.mipmap.ic_arrow_back;
     }
 
     @Override

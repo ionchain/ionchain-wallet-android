@@ -255,7 +255,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         ButterKnife.bind(this);
         if (systemBar)
             ImmersionBar.with(this)
-                    .statusBarDarkFont(false)
+                    .statusBarDarkFont(true)
                     .statusBarColor(R.color.window_bg)
                     .navigationBarColor(R.color.black,0.5f)
                     .fitsSystemWindows(true)

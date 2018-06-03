@@ -1,8 +1,12 @@
 package org.ionchain.wallet.ui.login;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.widget.Button;
 
-import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 
@@ -10,8 +14,18 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
-public class LoginActivity extends BaseActivity {
+import butterknife.BindView;
 
+public class LoginActivity extends BaseActivity implements TextWatcher{
+
+    @BindView(R.id.mobileEt)
+    AppCompatEditText mobileEt;
+
+    @BindView(R.id.pwdEt)
+    AppCompatEditText pwdEt;
+
+    @BindView(R.id.loginBtn)
+    Button loginBtn;
 
     @Override
     public void handleMessage(int what, Object obj) {
@@ -19,7 +33,7 @@ public class LoginActivity extends BaseActivity {
         try{
 
             switch (what){
-                case R.id.cancelTv:
+                case R.id.navigationBack:
                     finish();
                     break;
                 case 0:
@@ -42,19 +56,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setSystemBar(false);
-        super.onCreate(savedInstanceState);
-
-        ImmersionBar.with(this)
-                .statusBarDarkFont(false)
-                .transparentStatusBar()
-                .statusBarView(R.id.statusView)
-                .navigationBarColor(R.color.black,0.5f)
-                .fitsSystemWindows(false)
-                .init();
-    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -64,7 +65,12 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-        setOnClickListener(R.id.cancelTv);
+        setOnClickListener(R.id.regTv);
+        setOnClickListener(R.id.forgetTv);
+        mobileEt.addTextChangedListener(this);
+        pwdEt.addTextChangedListener(this);
+        loginBtn.setOnClickListener(this);
+
     }
 
     @Override
@@ -84,6 +90,30 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public int getActivityTitleContent() {
-        return R.string.activity_test;
+        return R.string.activity_login_title;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        String mobilestr = mobileEt.getText().toString().trim();
+        String pwdstr = pwdEt.getText().toString().trim();
+
+        if(!TextUtils.isEmpty(mobilestr) && !TextUtils.isEmpty(pwdstr)){
+            loginBtn.setEnabled(true);
+        }else{
+            loginBtn.setEnabled(false);
+        }
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

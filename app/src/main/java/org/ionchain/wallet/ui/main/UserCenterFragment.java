@@ -45,8 +45,8 @@ public class UserCenterFragment extends BaseFragment {
     @Override
     protected void immersionInit() {
         ImmersionBar.with(this)
-                .statusBarDarkFont(false)
-                .statusBarColor(R.color.qmui_config_color_blue)
+                .statusBarDarkFont(true)
+                .statusBarColor(R.color.window_bg)
                 .navigationBarColor(R.color.black,0.5f)
                 .fitsSystemWindows(true)
                 .init();
@@ -81,11 +81,11 @@ public class UserCenterFragment extends BaseFragment {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return 0;
     }
 
     @Override
     public int getActivityTitleContent() {
-        return R.string.tab_user_center;
+        return 0;
     }
 }

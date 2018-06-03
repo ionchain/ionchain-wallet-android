@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/home_top_bg">
+            android:background="@mipmap/app_bar">
             <View
                 android:id="@+id/statusView"
                 android:layout_width="match_parent"
@@ -31,7 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/qmui_topbar_height"
                 app:navigationIcon="?attr/homeAsUpIndicator"
-                android:background="@color/transparent"/>
+                android:background="@color/transparent"
+                app:titleTextColor="@color/white"/>
 
 
 

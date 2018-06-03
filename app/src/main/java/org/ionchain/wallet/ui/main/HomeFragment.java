@@ -118,7 +118,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return 0;
     }
 
     @Override
