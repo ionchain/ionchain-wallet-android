@@ -8,8 +8,10 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.ui.account.MessageCenterActivity;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.login.LoginActivity;
+import org.ionchain.wallet.ui.account.WalletManageActivity;
 
 public class UserCenterFragment extends BaseFragment {
 
@@ -21,6 +23,12 @@ public class UserCenterFragment extends BaseFragment {
             switch (what){
                 case R.id.loginRegTv:
                     transfer(LoginActivity.class);
+                    break;
+                case R.id.messageCenterRLayout:
+                    transfer(MessageCenterActivity.class);
+                    break;
+                case R.id.walletManageRLayout:
+                    transfer(WalletManageActivity.class);
                     break;
                 case 0:
                     dismissProgressDialog();
@@ -61,7 +69,8 @@ public class UserCenterFragment extends BaseFragment {
     @Override
     protected void setListener() {
         setOnClickListener(R.id.loginRegTv);
-
+        setOnClickListener(R.id.walletManageRLayout);
+        setOnClickListener(R.id.messageCenterRLayout);
     }
 
     @Override

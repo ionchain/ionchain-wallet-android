@@ -45,6 +45,7 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/walletManageRLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
             android:layout_marginLeft="@dimen/h16"
@@ -76,6 +77,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/messageCenterRLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
             android:layout_marginLeft="@dimen/h16"

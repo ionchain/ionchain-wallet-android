@@ -21,6 +21,7 @@
     <color name="main_btn_color_disable">#8DA0C8</color>
     
     <color name="btn_semicircle_color">#D3E1FF</color>
+    <color name="main_btn_color_normal_50abf1">#50ABF1</color>
 
 
 </resources>
