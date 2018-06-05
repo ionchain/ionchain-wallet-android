@@ -30,6 +30,7 @@ android {
     }
 
 
+
     signingConfigs {
         key {
             storeFile file("ionchainwallet.keystore")//签名文件
@@ -134,7 +135,22 @@ repositories {
 
 
 }
+apply plugin: 'org.greenrobot.greendao'
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.0.0'
+    }
+}
+
+greendao {
+    schemaVersion 1
+    daoPackage 'org.ionchain.wallet.greendao.gen'
+    targetGenDir 'src/main/java'
+}
 // 方法定义获取当前时间
 def generateVersionCode() {
     return new Date().format("yyyyMMddHH", TimeZone.getTimeZone("GMT+8"))

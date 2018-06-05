@@ -123,7 +123,8 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher{
                     finish();
                     break;
                 case R.id.createBtn:
-                    Intent intent = new Intent( this, MainActivity.class );
+                    Log.e("wallet","xxxxxxx");
+                    Intent intent = new Intent( CreateWalletActivity.this, MainActivity.class );
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
@@ -155,6 +156,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher{
             }
 
         } catch (Throwable e) {
+            e.printStackTrace();
             Logger.e(e, TAG);
         }
     }

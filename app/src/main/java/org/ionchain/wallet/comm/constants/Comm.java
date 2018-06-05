@@ -18,6 +18,7 @@ public class Comm extends LibComm {
     public static final String SERIALIZABLE_DATA1 = "serializable_data1";
     public static final String SERIALIZABLE_DATA2 = "serializable_data2";
 
-
-
+    public static final String DB_NAME = "ionchainwallet";
+    public static final String LOCAL_SAVE_NOW_WALLET_NAME = "now_wallet_name";
+    public static final String NULL = "";
 }
