@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:minLines="5"
             android:hint="明文私钥"
+            android:text=""
             android:padding="@dimen/h5"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"

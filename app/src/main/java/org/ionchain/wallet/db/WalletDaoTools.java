@@ -17,6 +17,15 @@ public class WalletDaoTools {
         return wallet;
     }
 
+    public static Wallet getWalletByPrivateKey(String priavtekey) {
+        Wallet wallet = null;
+        List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().where(WalletDao.Properties.PrivateKey.eq(priavtekey)).list();
+        if( list.size()>0 ){
+            wallet = list.get(0);
+        }
+        return wallet;
+    }
+
     public static long saveWallet(Wallet wallet) {
        long id = EntityManager.getInstance().getWalletDao().insertOrReplace(wallet);
        return id;
