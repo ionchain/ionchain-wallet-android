@@ -45,6 +45,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         Intent intent=getIntent();
         isAddMode=intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE,false);
+        ApiWalletManager.printtest(isAddMode+"");
         int REQUEST_EXTERNAL_STORAGE = 1;
         String[] PERMISSIONS_STORAGE = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
