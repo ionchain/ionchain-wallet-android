@@ -315,7 +315,7 @@ public class ApiWalletManager {
 
     private void loadWalltBaseInfo(Wallet wallet) throws IOException, CipherException {
         if(null == wallet)wallet = myWallet;
-        Credentials credentials = WalletUtils.loadCredentials(myWallet.getPassword(), myWallet.getKeystore());
+        Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());
         wallet.setAddress(credentials.getAddress());
         wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
         wallet.setPublickey(credentials.getEcKeyPair().getPublicKey().toString(16));
