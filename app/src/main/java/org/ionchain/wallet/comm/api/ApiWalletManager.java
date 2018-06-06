@@ -59,6 +59,8 @@ public class ApiWalletManager {
     private static final BigDecimal DEF_WALLET_DECIMALS = new BigDecimal("1000000000000000000");
     private static final int DEF_WALLET_DECIMALS_UNIT = 4;
 
+
+
     private Wallet myWallet;
     private String contractAddress;
     private String walletIndexUrl;
@@ -70,7 +72,9 @@ public class ApiWalletManager {
     public Wallet getMyWallet() {
         return myWallet;
     }
-
+    public void setMyWallet(Wallet myWallet) {
+        this.myWallet = myWallet;
+    }
     public Boolean getInit() {
         return isInit;
     }
@@ -147,7 +151,7 @@ public class ApiWalletManager {
      * 创建钱包
      * @param handler
      */
-    public void createWallet(final Handler handler) {
+    public void createWallet(final Wallet wallet,final Handler handler) {
 
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_CREATE.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
@@ -158,11 +162,14 @@ public class ApiWalletManager {
             public void run() {
                 super.run();
                 try {
+                    Wallet newWallet = null;
+                    if(null== wallet)newWallet=myWallet;
+                    else newWallet = wallet;
                     String filePath = DEF_WALLET_PATH;
-                    Bip39Wallet wallet = generateBip39Wallet(myWallet.getPassword(), new File(filePath));
+                    Bip39Wallet wallet = generateBip39Wallet(newWallet.getPassword(), new File(filePath));
                     String keystore = filePath + "/" + wallet.getFilename();
-                    myWallet.setKeystore(keystore);
-                    loadWalltBaseInfo();
+                    newWallet.setKeystore(keystore);
+                    loadWalltBaseInfo(newWallet);
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_CREATE.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
                 } catch (Exception e) {
                     Log.e("wallet", "", e);
@@ -179,7 +186,7 @@ public class ApiWalletManager {
      * 导入钱包
      * @param handler
      */
-    public void importWallet(final Handler handler) {
+    public void importWallet(final Wallet wallet,final Handler handler) {
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_IMPORT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
             return;
@@ -190,9 +197,9 @@ public class ApiWalletManager {
                 super.run();
 
                 try {
-                    importWallt(null);
+                    importWallt(wallet,null);
                     printtest("keystore name " + myWallet.getKeystore());
-                    loadWalltBaseInfo();
+                    loadWalltBaseInfo(wallet);
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_IMPORT.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
                 } catch (Exception e) {
                     Log.e("wallet", "", e);
@@ -207,7 +214,7 @@ public class ApiWalletManager {
      * 读取钱包余额
      * @param handler
      */
-    public void reLoadBlance(final Handler handler) {
+    public void reLoadBlance(final Wallet wallet,final Handler handler) {
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_BALANCE.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
             return;
@@ -217,7 +224,7 @@ public class ApiWalletManager {
             public void run() {
                 super.run();
                 try {
-                    reLoadBlance();
+                    reLoadBlance(wallet);
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_BALANCE.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
                 } catch (Exception e) {
                     Log.e("wallet", "", e);
@@ -234,7 +241,7 @@ public class ApiWalletManager {
      * @param newPassWord
      * @param handler
      */
-    public void editPassWord(final String newPassWord, final Handler handler) {
+    public void editPassWord(final Wallet wallet,final String newPassWord, final Handler handler) {
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_EDIT_PASS.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
             return;
@@ -245,8 +252,7 @@ public class ApiWalletManager {
                 super.run();
 
                 try {
-                    importWallt(newPassWord);
-                    myWallet.setPassword(newPassWord);
+                    importWallt(wallet,newPassWord);
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_EDIT_PASS.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
                 } catch (Exception e) {
                     Log.e("wallet", "", e);
@@ -258,18 +264,19 @@ public class ApiWalletManager {
     }
 
 
-    private BigInteger reLoadBlance() throws IOException {
+    private BigInteger reLoadBlance(Wallet wallet) throws IOException {
+        if(null == wallet)wallet = myWallet;
         String methodName = "balanceOf";
         List<Type> inputParameters = new ArrayList<>();
         List<TypeReference<?>> outputParameters = new ArrayList<>();
-        Address address = new Address(myWallet.getAddress());
+        Address address = new Address(wallet.getAddress());
         inputParameters.add(address);
         TypeReference<Uint256> typeReference = new TypeReference<Uint256>() {
         };
         outputParameters.add(typeReference);
         Function function = new Function(methodName, inputParameters, outputParameters);
         String data = FunctionEncoder.encode(function);
-        Transaction transaction = Transaction.createEthCallTransaction(myWallet.getAddress(), contractAddress, data);
+        Transaction transaction = Transaction.createEthCallTransaction(wallet.getAddress(), contractAddress, data);
         EthCall ethCall;
         BigInteger balanceValue = BigInteger.ZERO;
         ethCall = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).send();
@@ -277,16 +284,16 @@ public class ApiWalletManager {
         balanceValue = (BigInteger) results.get(0).getValue();
         BigDecimal bigDecimal = new BigDecimal(balanceValue);
         BigDecimal balance = bigDecimal.divide(DEF_WALLET_DECIMALS).setScale(DEF_WALLET_DECIMALS_UNIT,BigDecimal.ROUND_DOWN);
-        myWallet.setBalance(balance.toString());
+        wallet.setBalance(balance.toString());
         return balanceValue;
     }
 
 
-    private void importWallt(String passWord) throws CipherException, IOException {
-
-        if (null == passWord) passWord = myWallet.getPassword();
+    private void importWallt(Wallet wallet,String passWord) throws CipherException, IOException {
+        if(null == wallet)wallet = myWallet;
+        if (null == passWord) passWord = wallet.getPassword();
         String keystore;
-        BigInteger privateKeyBig = new BigInteger(myWallet.getPrivateKey(), 16);
+        BigInteger privateKeyBig = new BigInteger(wallet.getPrivateKey(), 16);
         ECKeyPair ecKeyPair = ECKeyPair.create(privateKeyBig);
         keystore = WalletUtils.generateWalletFile(passWord,
                 ecKeyPair,
@@ -294,22 +301,24 @@ public class ApiWalletManager {
                 true);
         keystore = DEF_WALLET_PATH +"/"+ keystore;
         //发生更换了
-        if (null != myWallet.getKeystore() && !myWallet.getKeystore().equals(keystore)) {
-            String old = myWallet.getKeystore();
+        if (null != wallet.getKeystore() && !wallet.getKeystore().equals(keystore)) {
+            String old = wallet.getKeystore();
             //删除旧的keystore
             File file = new File(old);
             if (file.exists()) {
                 file.delete();
             }
         }
-        myWallet.setKeystore(keystore);
+        wallet.setKeystore(keystore);
+        wallet.setPassword(passWord);
     }
 
-    private void loadWalltBaseInfo() throws IOException, CipherException {
+    private void loadWalltBaseInfo(Wallet wallet) throws IOException, CipherException {
+        if(null == wallet)wallet = myWallet;
         Credentials credentials = WalletUtils.loadCredentials(myWallet.getPassword(), myWallet.getKeystore());
-        myWallet.setAddress(credentials.getAddress());
-        myWallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
-        myWallet.setPublickey(credentials.getEcKeyPair().getPublicKey().toString(16));
+        wallet.setAddress(credentials.getAddress());
+        wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
+        wallet.setPublickey(credentials.getEcKeyPair().getPublicKey().toString(16));
         printtest("address " + credentials.getAddress());
         printtest("xx  " + credentials.getEcKeyPair().getPublicKey().toString(16));
         printtest("oo  " + credentials.getEcKeyPair().getPrivateKey().toString(16));

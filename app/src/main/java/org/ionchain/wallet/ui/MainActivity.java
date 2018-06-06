@@ -13,7 +13,6 @@ import com.fast.lib.utils.ToastUtil;
 import com.fast.lib.widget.FragmentTabHost;
 
 import org.ionchain.wallet.R;
-
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.main.HomeFragment;
@@ -24,12 +23,17 @@ public class MainActivity extends BaseActivity {
 
     private long mExitTime = 0;
 
+
+
     FragmentTabHost tabhost;
 
 
     private int[] intImageViewArray = new int[]{R.drawable.tab_home_bg,R.drawable.tab_info_bg, R.drawable.tab_usercenter_bg};
     private Class[] fragmentArray = new Class[]{HomeFragment.class, InformationFragment.class, UserCenterFragment.class};
     private int[] nameArray = new int[]{R.string.tab_home,R.string.tab_info,R.string.tab_user_center};
+
+
+
 
     @Override
     public void handleMessage(int what, Object obj) {
@@ -205,6 +209,7 @@ public class MainActivity extends BaseActivity {
             Logger.e(e,"");
         }
     }
+
 
 
 }

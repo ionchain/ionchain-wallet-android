@@ -106,7 +106,7 @@
                 android:layout_marginRight="@dimen/h16"
                 android:layout_marginTop="@dimen/h16"
                 android:background="@drawable/common_button_main"
-                android:enabled="true"/>
+                android:enabled="false"/>
 
 
 

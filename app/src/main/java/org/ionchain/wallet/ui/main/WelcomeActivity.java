@@ -190,11 +190,8 @@ public class WelcomeActivity extends BaseActivity {
             Logger.i(TAG + "===>startMainActivity");
             Intent intent = null;
             if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getName())) {
-                Toast.makeText(Global.mContext, "1111", Toast.LENGTH_SHORT).show();
-                 intent = new Intent(WelcomeActivity.this, CreateWalletSelectActivity.class);
-            }
-            else{
-                Toast.makeText(Global.mContext, "2222", Toast.LENGTH_SHORT).show();
+                intent = new Intent(WelcomeActivity.this, CreateWalletSelectActivity.class);
+            } else {
                 intent = new Intent(WelcomeActivity.this, MainActivity.class);
             }
 

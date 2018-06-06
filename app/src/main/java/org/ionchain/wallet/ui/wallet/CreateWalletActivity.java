@@ -11,24 +11,38 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.fast.lib.logger.Logger;
+import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
+import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
 import butterknife.BindView;
 
-public class CreateWalletActivity extends BaseActivity implements TextWatcher{
+public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
-
+    //判定是否需要刷新
+    private boolean isAddMode = false;
+    private Wallet nowWallet = null;
     @BindView(R.id.walletNameEt)
     AppCompatEditText walletNameEt;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent intent=getIntent();
+        isAddMode=intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE,false);
+    }
 
     @BindView(R.id.pwdEt)
     AppCompatEditText pwdEt;
@@ -51,6 +65,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher{
                 switch (resulit) {
                     case MANAGER_INIT:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+
                             //创建钱包
 //                            ApiWalletManager.getInstance().getMyWallet().setPassword("123123123xxxxxx");
 //                            ApiWalletManager.getInstance().createWallet(walletHandler);
@@ -60,25 +75,27 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher{
 //                            ApiWalletManager.getInstance().getMyWallet().setPassword("123456");
 //                            ApiWalletManager.getInstance().importWallet(walletHandler);
                             //修改密码
-                            ApiWalletManager.getInstance().getMyWallet().setKeystore("/storage/emulated/0/ionchain/wallet/UTC--2018-05-31T18-19-51.779--dc39f3895c38f5999ba462fc10dfb1f78bdfecf2.json");
-                            ApiWalletManager.getInstance().getMyWallet().setPrivateKey("b71c1f7594fd8718c7ae06ea89c48e2e621990e5736c6f1087f04defa5c251a6");
-                            ApiWalletManager.getInstance().getMyWallet().setPassword("1234567");
-                            ApiWalletManager.getInstance().editPassWord("12345678",walletHandler);
-                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMyWallet().getKeystore());
+//                            ApiWalletManager.getInstance().getMyWallet().setKeystore("/storage/emulated/0/ionchain/wallet/UTC--2018-05-31T18-19-51.779--dc39f3895c38f5999ba462fc10dfb1f78bdfecf2.json");
+//                            ApiWalletManager.getInstance().getMyWallet().setPrivateKey("b71c1f7594fd8718c7ae06ea89c48e2e621990e5736c6f1087f04defa5c251a6");
+//                            ApiWalletManager.getInstance().getMyWallet().setPassword("1234567");
+//                            ApiWalletManager.getInstance().editPassWord("12345678", walletHandler);
+//                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMyWallet().getKeystore());
 
                         } else {
-                            ApiWalletManager.printtest("ERRRRRR");
+                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case WALLET_CREATE:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMyWallet().getKeystore());
-                            //取余额度
-                            ApiWalletManager.getInstance().getMyWallet().setAddress("0xc21e95a78a224da9c69354de4470012aba1f1711");
-                            ApiWalletManager.getInstance().reLoadBlance(walletHandler);
+                            long id = saveWallet();
+                            ApiWalletManager.printtest(id+"");
+                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建成功", Toast.LENGTH_SHORT).show();
+                            //初始化用户跳转主页面
+                            if(!isAddMode) startMain();
+
 
                         } else {
-                            ApiWalletManager.printtest("ERRRRRR");
+                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case WALLET_BALANCE:
@@ -123,12 +140,8 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher{
                     finish();
                     break;
                 case R.id.createBtn:
-                    Log.e("wallet","xxxxxxx");
-                    Intent intent = new Intent( CreateWalletActivity.this, MainActivity.class );
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
-
+                    Log.e("wallet", "xxxxxxx");
+                    cerateWallet();
 //                    Wallet wallet = new Wallet();
 //                    wallet.setName("test");
 //                    wallet.setPassword("1234567899xxxxxx");
@@ -156,7 +169,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher{
             }
 
         } catch (Throwable e) {
-            e.printStackTrace();
+
             Logger.e(e, TAG);
         }
     }
@@ -209,9 +222,9 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher{
         String pwdstr = pwdEt.getText().toString().trim();
         String resetpwdstr = resetPwdEt.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)){
+        if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)) {
             createBtn.setEnabled(true);
-        }else{
+        } else {
             createBtn.setEnabled(false);
         }
 
@@ -221,4 +234,49 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher{
     public void afterTextChanged(Editable s) {
 
     }
+
+    public void startMain() {
+        Intent intent = new Intent(CreateWalletActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    private void cerateWallet() {
+        try {
+            String walletname = walletNameEt.getText().toString().trim();
+            String resetpass = resetPwdEt.getText().toString().trim();
+            String pass = pwdEt.getText().toString().trim();
+
+            if (!resetpass.equals(pass)) {
+                Toast.makeText(this.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (null != WalletDaoTools.getWalletByName(walletname)) {
+                Toast.makeText(this.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            nowWallet = new Wallet();
+            nowWallet.setName(walletname);
+            nowWallet.setPassword(pass);
+            ApiWalletManager.getInstance().createWallet(nowWallet,walletHandler);
+
+            Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
+        } catch (Exception e) {
+            Log.e("wallet", "errr", e);
+        }
+
+    }
+
+    private long saveWallet(){
+        //保存钱包到本地数据库
+       long id = WalletDaoTools.saveWallet(nowWallet);
+       //首次创建模式修改当前其钱包的信息
+       if( id>0 && !isAddMode){
+           ApiWalletManager.getInstance().setMyWallet(nowWallet);
+           LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME,nowWallet.getName());
+       }
+       return id;
+    }
+
 }

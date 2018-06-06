@@ -1,16 +1,26 @@
 package org.ionchain.wallet.ui.main;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.api.ApiWalletManager;
+import org.ionchain.wallet.comm.api.constant.ApiConstant;
+import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;
@@ -24,6 +34,44 @@ public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.codeIv)
     ImageView codeIv;
+    @BindView(R.id.walletNameTx)
+    TextView walletNameTx;
+
+    @BindView(R.id.walletBalanceTx)
+    TextView walletBalanceTx;
+
+    @BindView(R.id.walletAddressTx)
+    TextView walletAddressTx;
+
+    @SuppressLint("HandlerLeak")
+    Handler walletHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            try {
+                ApiConstant.WalletManagerType resulit = ApiConstant.WalletManagerType.codeOf(msg.what);
+                if (null == resulit) return;
+                ResponseModel<String> responseModel = (ResponseModel<String>) msg.obj;
+                switch (resulit) {
+                    case WALLET_BALANCE:
+                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+                            Toast.makeText(HomeFragment.this.getContext(), "余额度已刷新", Toast.LENGTH_SHORT).show();
+                            walletBalanceTx.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
+                        } else {
+                            Toast.makeText(HomeFragment.this.getContext(), "余额度刷新失败", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+
+                    default:
+                        break;
+
+                }
+            } catch (Throwable e) {
+                Log.e(TAG, "handleMessage", e);
+            }
+        }
+    };
+
     @Override
     protected void immersionInit() {
         ImmersionBar.with(this)
@@ -70,7 +118,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_home);
-
+        reloadInfo();
     }
 
     @Override
@@ -81,7 +129,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-        createChineseQRCode();
+        reloadInfo();
     }
 
 
@@ -93,7 +141,7 @@ public class HomeFragment extends BaseFragment {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return QRCodeEncoder.syncEncodeQRCode("0xfa85Bd2AD4330010CBe6A86eC22D16A5fE68d39B", BGAQRCodeUtil.dp2px(getActivity(), 80));
+                return QRCodeEncoder.syncEncodeQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress(), BGAQRCodeUtil.dp2px(getActivity(), 80));
             }
 
             @Override
@@ -125,4 +173,15 @@ public class HomeFragment extends BaseFragment {
     public int getActivityTitleContent() {
         return R.string.tab_home;
     }
+
+    private void reloadInfo(){
+
+        Wallet wallet = ApiWalletManager.getInstance().getMyWallet();
+        walletNameTx.setText(wallet.getName());
+        walletAddressTx.setText(wallet.getAddress());
+        walletBalanceTx.setText("0.0000");
+        ApiWalletManager.getInstance().reLoadBlance(wallet,walletHandler);
+        createChineseQRCode();
+    }
+
 }

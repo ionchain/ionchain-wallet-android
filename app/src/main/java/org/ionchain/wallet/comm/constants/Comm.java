@@ -21,4 +21,6 @@ public class Comm extends LibComm {
     public static final String DB_NAME = "ionchainwallet";
     public static final String LOCAL_SAVE_NOW_WALLET_NAME = "now_wallet_name";
     public static final String NULL = "";
+    public static final String JUMP_PARM_ID = "id";
+    public static final String JUMP_PARM_ISADDMODE = "isaddmode";
 }
