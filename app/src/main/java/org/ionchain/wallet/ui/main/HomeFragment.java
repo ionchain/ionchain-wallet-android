@@ -20,10 +20,8 @@ import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
-import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
-import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;
 
 import butterknife.BindView;
 import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
@@ -93,7 +91,7 @@ public class HomeFragment extends BaseFragment {
                     transfer(CreateWalletSelectActivity.class);
                     break;
                 case R.id.walletLayout:
-                    transfer(ModifyWalletActivity.class);
+
                     break;
                 case 0:
                     dismissProgressDialog();

@@ -67,12 +67,6 @@ public class ModifyWalletPwdActivity extends BaseActivity {
                         return;
                     }
 
-                    if(!newpwdstr.equals(resetnewpwdstr)){
-                        ToastUtil.showShortToast("新密码两次输入不一至,请重新输入");
-                        return;
-                    }
-
-
 
                     if(!newpwdstr.equals(resetnewpwdstr)){
                         ToastUtil.showShortToast("新密码两次输入不一至,请重新输入");
