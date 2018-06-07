@@ -51,7 +51,7 @@ public class ApiWalletManager {
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
     private static final String DEF_WALLET_ADDRESS = "https://ropsten.infura.io";
     private static final String DEF_CONTRACT_ADDRESS = "0x92e831bbbb22424e0f22eebb8beb126366fa07ce";
-    private static final String DEF_WALLET_PATH = Environment.getExternalStorageDirectory().toString() + "/ionchain/wallet";
+    public static final String DEF_WALLET_PATH = Environment.getExternalStorageDirectory().toString() + "/ionchain/wallet";
     private static final String DEF_WALLET_WORDS_LIST_NAME = "en-mnemonic-word-list";
     private static final BigDecimal DEF_WALLET_DECIMALS = new BigDecimal("1000000000000000000");
     private static final int DEF_WALLET_DECIMALS_UNIT = 4;
@@ -94,11 +94,6 @@ public class ApiWalletManager {
                 arr.add(word);
             }
             MnemonicUtils.WORD_LIST = arr;
-        }
-        //创建默认目录
-        File file =new File(DEF_WALLET_PATH);
-        if( !file.exists() ){
-            file.mkdirs();
         }
 
     }

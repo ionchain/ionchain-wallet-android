@@ -28,6 +28,8 @@ import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
+import java.io.File;
+
 import butterknife.BindView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -250,6 +252,8 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
         if (!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, "创建钱包需要的权限", REQUEST_CODE_CREATE_PERMISSIONS, perms);
         } else {
+
+
             cerateWallet();
 
         }
@@ -257,6 +261,11 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
     private void cerateWallet() {
         try {
+            //创建默认目录
+            File file =new File(ApiWalletManager.DEF_WALLET_PATH);
+            if( !file.exists() ){
+                boolean crate = file.mkdirs();
+            }
             String walletname = walletNameEt.getText().toString().trim();
             String resetpass = resetPwdEt.getText().toString().trim();
             String pass = pwdEt.getText().toString().trim();

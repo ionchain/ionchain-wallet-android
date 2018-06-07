@@ -30,6 +30,8 @@ import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.ScanActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
 
+import java.io.File;
+
 import butterknife.BindView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -239,6 +241,11 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
 
     private void importWallet() {
         try {
+            //创建默认目录
+            File file =new File(ApiWalletManager.DEF_WALLET_PATH);
+            if( !file.exists() ){
+                boolean crate = file.mkdirs();
+            }
             String content = contentEt.getText().toString().trim();
             String resetpass = repwdEt.getText().toString().trim();
             String pass = pwdEt.getText().toString().trim();
