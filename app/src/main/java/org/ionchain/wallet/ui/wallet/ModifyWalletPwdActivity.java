@@ -62,10 +62,16 @@ public class ModifyWalletPwdActivity extends BaseActivity {
                         return;
                     }
 
-                    if(TextUtils.isEmpty(resetnewpwdstr)){
-                        ToastUtil.showShortToast("新密码不能为空");
+                    if(!mWallet.getPassword().equals(oldpwdstr)){
+                        ToastUtil.showShortToast("旧密码错误");
                         return;
                     }
+
+                    if(!newpwdstr.equals(resetnewpwdstr)){
+                        ToastUtil.showShortToast("新密码两次输入不一至,请重新输入");
+                        return;
+                    }
+
 
 
                     if(!newpwdstr.equals(resetnewpwdstr)){
@@ -147,12 +153,10 @@ public class ModifyWalletPwdActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-
     }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-
     }
 
     @Override

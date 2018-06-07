@@ -291,10 +291,7 @@ public class ApiWalletManager {
         String keystore;
         BigInteger privateKeyBig = new BigInteger(wallet.getPrivateKey(), 16);
         ECKeyPair ecKeyPair = ECKeyPair.create(privateKeyBig);
-        keystore = WalletUtils.generateWalletFile(passWord,
-                ecKeyPair,
-                new File(DEF_WALLET_PATH),
-                true);
+        keystore = WalletUtils.generateWalletFile(passWord,ecKeyPair,new File(DEF_WALLET_PATH),false);
         keystore = DEF_WALLET_PATH +"/"+ keystore;
 
         Logger.i("new keystore ==>"+keystore);
