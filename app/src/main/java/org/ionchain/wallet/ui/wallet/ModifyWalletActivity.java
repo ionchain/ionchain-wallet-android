@@ -3,6 +3,7 @@ package org.ionchain.wallet.ui.wallet;
 import android.os.Bundle;
 import android.text.InputType;
 
+import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
@@ -54,6 +55,19 @@ public class ModifyWalletActivity extends BaseActivity {
         }catch (Throwable e){
             Logger.e(e,TAG);
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setSystemBar(false);
+        super.onCreate(savedInstanceState);
+        ImmersionBar.with(this)
+                .statusBarDarkFont(false)
+                .transparentStatusBar()
+                .statusBarView(R.id.statusView)
+                .navigationBarColor(R.color.black,0.5f)
+                .fitsSystemWindows(false)
+                .init();
     }
 
     @Override
@@ -109,7 +123,7 @@ public class ModifyWalletActivity extends BaseActivity {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.drawable.qmui_icon_topbar_back;
     }
 
     @Override

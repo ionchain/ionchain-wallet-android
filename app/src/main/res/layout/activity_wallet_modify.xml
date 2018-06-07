@@ -6,10 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbarlayout"
-        layout="@layout/layout_toolbar"/>
-
     <Button
         android:id="@+id/delBtn"
         android:layout_width="match_parent"
@@ -21,7 +17,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbarlayout"
         android:layout_above="@id/delBtn">
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,9 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/home_top_bg"
+            android:background="@mipmap/app_bar"
             android:paddingTop="@dimen/h10"
             android:paddingBottom="@dimen/h10">
+
+            <View
+                android:id="@+id/statusView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/qmui_topbar_height"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                android:background="@color/transparent"
+                app:titleTextColor="@color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

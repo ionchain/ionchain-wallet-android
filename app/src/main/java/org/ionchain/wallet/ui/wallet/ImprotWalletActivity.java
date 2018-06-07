@@ -3,18 +3,15 @@ package org.ionchain.wallet.ui.wallet;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fast.lib.logger.Logger;
@@ -27,7 +24,6 @@ import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
@@ -41,6 +37,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
 
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
+    private static final int REQUEST_CODE_IMPORT_PERMISSIONS = 2;
 
     private Wallet nowWallet;
     private boolean isAddMode = false;
@@ -100,21 +97,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
         Intent intent=getIntent();
         isAddMode=intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE,false);
         ApiWalletManager.printtest(isAddMode+"");
-        int REQUEST_EXTERNAL_STORAGE = 1;
-        String[] PERMISSIONS_STORAGE = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
     }
 
     @Override
@@ -130,7 +113,9 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                     requestCodeQRCodePermissions();
                     break;
                 case R.id.importBtn:
-                    importWallet();
+
+                    requestCodeImprotPermissions();
+
 
                     break;
                 case R.id.linkUrlTv:
@@ -214,6 +199,17 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
             EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
         } else {
             transfer(ScanActivity.class, 999);
+
+        }
+    }
+
+    @AfterPermissionGranted(REQUEST_CODE_IMPORT_PERMISSIONS)
+    private void requestCodeImprotPermissions() {
+        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, "导入钱包需要的权限", REQUEST_CODE_IMPORT_PERMISSIONS, perms);
+        } else {
+            importWallet();
 
         }
     }
