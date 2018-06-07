@@ -24,4 +24,6 @@ public class Comm extends LibComm {
     public static final String NULL = "";
     public static final String JUMP_PARM_ID = "id";
     public static final String JUMP_PARM_ISADDMODE = "isaddmode";
+
+    public static final int modify_wallet_refresh_type = 10000;
 }

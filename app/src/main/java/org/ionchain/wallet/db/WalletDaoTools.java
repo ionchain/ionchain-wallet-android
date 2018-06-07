@@ -36,6 +36,21 @@ public class WalletDaoTools {
 
     }
 
+
+    /** 更新数据 */
+    public static void updateWallet(Wallet wallet)
+    {
+
+        try{
+            EntityManager.getInstance().getWalletDao().update(wallet);
+        }catch (Throwable e){
+            Logger.e(e,"getAllWallet");
+        }
+
+
+
+    }
+
     public static Wallet getWalletByPrivateKey(String priavtekey) {
         Wallet wallet = null;
         List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().where(WalletDao.Properties.PrivateKey.eq(priavtekey)).list();

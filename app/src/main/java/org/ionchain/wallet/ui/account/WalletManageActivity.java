@@ -46,6 +46,9 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
                 case R.id.navigationBack:
                     finish();
                     break;
+                case Comm.modify_wallet_refresh_type:
+                    srl.autoRefresh();
+                    break;
                 case R.id.createBtn:
                     transfer(CreateWalletActivity.class,Comm.JUMP_PARM_ISADDMODE,true);
                     break;
@@ -115,7 +118,10 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
 
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
-        transfer(ModifyWalletActivity.class);
+
+        Wallet wallet = walletManageAdapter.getItem(position);
+
+        transfer(ModifyWalletActivity.class,Comm.SERIALIZABLE_DATA,wallet);
     }
 
     @Override
@@ -130,5 +136,10 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
         List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
 
         walletManageAdapter.setData(walletlist);
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
     }
 }

@@ -55,6 +55,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/walletBalanceTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="889.98"
@@ -93,9 +94,10 @@
                     android:textSize="@dimen/txt_smallsize"/>
 
                 <TextView
+                    android:id="@+id/walletAddressTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0xfa85Bd2AD4330010CBe6A86eC22D16A5fE68d39B"
+                    android:text=""
                     android:textColor="#B3BFD0"
                     android:textSize="@dimen/txt_smallsize"/>
 
@@ -115,6 +117,7 @@
             android:textSize="@dimen/txt_mediumsize"/>
 
         <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/walletNameEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
             android:hint="钱包名称"

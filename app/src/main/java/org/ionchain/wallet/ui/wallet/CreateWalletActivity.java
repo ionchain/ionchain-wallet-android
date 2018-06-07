@@ -3,11 +3,9 @@ package org.ionchain.wallet.ui.wallet;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -28,13 +26,15 @@ import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
-import org.ionchain.wallet.ui.account.WalletManageActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
 import butterknife.BindView;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
+    final int REQUEST_CODE_CREATE_PERMISSIONS = 1;
     //判定是否需要刷新
     private boolean isAddMode = false;
     private Wallet nowWallet = null;
@@ -47,21 +47,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
         Intent intent=getIntent();
         isAddMode=intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE,false);
         ApiWalletManager.printtest(isAddMode+"");
-        int REQUEST_EXTERNAL_STORAGE = 1;
-        String[] PERMISSIONS_STORAGE = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
     }
 
     @BindView(R.id.pwdEt)
@@ -113,8 +99,6 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                             Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建成功", Toast.LENGTH_SHORT).show();
                             //初始化用户跳转主页面
                             if(!isAddMode) startMain();
-
-
                         } else {
                             Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
                         }
@@ -155,14 +139,13 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
         try {
-            Intent  intent = null;
             switch (what) {
                 case R.id.navigationBack:
                     finish();
                     break;
                 case R.id.createBtn:
                     Log.e("wallet", "xxxxxxx");
-                    cerateWallet();
+                    requestCodeCreatePermissions();
 //                    Wallet wallet = new Wallet();
 //                    wallet.setName("test");
 //                    wallet.setPassword("1234567899xxxxxx");
@@ -170,12 +153,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
                     break;
                 case R.id.importBtn:
-
-                    intent = new Intent();
-                    intent.putExtra(Comm.JUMP_PARM_ISADDMODE, isAddMode);
-                    intent.setClass(CreateWalletActivity.this, ImprotWalletActivity.class);//从哪里跳到哪里
-                    CreateWalletActivity.this.startActivity(intent);
-
+                    transfer(ImprotWalletActivity.class,Comm.JUMP_PARM_ISADDMODE,isAddMode);
                     break;
                 case 0:
                     dismissProgressDialog();
@@ -264,6 +242,17 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    @AfterPermissionGranted(REQUEST_CODE_CREATE_PERMISSIONS)
+    private void requestCodeCreatePermissions() {
+        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, "创建钱包需要的权限", REQUEST_CODE_CREATE_PERMISSIONS, perms);
+        } else {
+            cerateWallet();
+
+        }
     }
 
     private void cerateWallet() {

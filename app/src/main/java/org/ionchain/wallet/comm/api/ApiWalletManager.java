@@ -1,19 +1,17 @@
 package org.ionchain.wallet.comm.api;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+
+import com.fast.lib.logger.Logger;
 
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
-import org.ionchain.wallet.comm.api.request.WalletCreateRquest;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -41,7 +39,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -253,7 +250,7 @@ public class ApiWalletManager {
 
                 try {
                     importWallt(wallet,newPassWord);
-                    sendResult(handler, ApiConstant.WalletManagerType.WALLET_EDIT_PASS.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
+                    sendResult(handler, ApiConstant.WalletManagerType.WALLET_EDIT_PASS.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, wallet);
                 } catch (Exception e) {
                     Log.e("wallet", "", e);
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_EDIT_PASS.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
@@ -271,8 +268,7 @@ public class ApiWalletManager {
         List<TypeReference<?>> outputParameters = new ArrayList<>();
         Address address = new Address(wallet.getAddress());
         inputParameters.add(address);
-        TypeReference<Uint256> typeReference = new TypeReference<Uint256>() {
-        };
+        TypeReference<Uint256> typeReference = new TypeReference<Uint256>() {};
         outputParameters.add(typeReference);
         Function function = new Function(methodName, inputParameters, outputParameters);
         String data = FunctionEncoder.encode(function);
@@ -300,6 +296,9 @@ public class ApiWalletManager {
                 new File(DEF_WALLET_PATH),
                 true);
         keystore = DEF_WALLET_PATH +"/"+ keystore;
+
+        Logger.i("new keystore ==>"+keystore);
+
         //发生更换了
         if (null != wallet.getKeystore() && !wallet.getKeystore().equals(keystore)) {
             String old = wallet.getKeystore();
@@ -377,8 +376,8 @@ public class ApiWalletManager {
         return responseModel;
     }*/
 
-    private void sendResult(Handler handler, int type, String code, String msg, String data) {
-        ResponseModel<String> responseModel = new ResponseModel<String>();
+    private void sendResult(Handler handler, int type, String code, String msg, Object data) {
+        ResponseModel responseModel = new ResponseModel();
         responseModel.data = data;
         responseModel.code = code;
         responseModel.msg = msg;
@@ -394,6 +393,6 @@ public class ApiWalletManager {
     }
 
     public static void printtest(String info) {
-        Log.e("wallet", info);
+        Logger.i(info);
     }
 }

@@ -125,7 +125,7 @@ public abstract class LibActivity extends AppCompatActivity implements View.OnCl
 		}
 	}
 
-	private LibHandler mHandler = new LibHandler(this);
+	public LibHandler mHandler = new LibHandler(this);
 
 
 	public void aidHandleMessage(int what,Object obj){};

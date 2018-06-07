@@ -1,5 +1,9 @@
 package org.ionchain.wallet.comm.utils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -57,5 +61,12 @@ public final class StringUtils {
 
     public static String encryptionPwd(String pwd) {
         return new String( Hex.encodeHex( DigestUtils.sha256( pwd ) ) );
+    }
+
+    public static void copy(Context context,String text){
+        ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("txt", text);//参数一：标签，参数二：要复制到剪贴板的文本
+        clipboard.setPrimaryClip(clip);
+
     }
 }
