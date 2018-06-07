@@ -280,13 +280,13 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                 Toast.makeText(this.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                 return;
             }
-            showProgressDialog("正在创建钱包请稍候");
+
 
             nowWallet = new Wallet();
             nowWallet.setName(walletname);
             nowWallet.setPassword(pass);
             ApiWalletManager.getInstance().createWallet(nowWallet,walletHandler);
-
+            showProgressDialog("正在创建钱包请稍候");
             Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
         } catch (Exception e) {
             Log.e("wallet", "errr", e);
