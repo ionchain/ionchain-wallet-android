@@ -115,6 +115,11 @@
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" />
 
+        <activity android:name=".ui.wallet.WalletManagerActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+
 
         <meta-data
             android:name="UMENG_APPKEY"

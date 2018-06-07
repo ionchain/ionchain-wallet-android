@@ -267,7 +267,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
             String pass = pwdEt.getText().toString().trim();
 
             if (!resetpass.equals(pass)) {
-                Toast.makeText(this.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                ToastUtil.showShortToast("密码和重复密码必须相同");
                 return;
             }
             if (null != WalletDaoTools.getWalletByName(walletname)) {
