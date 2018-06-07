@@ -1,5 +1,6 @@
 package org.ionchain.wallet.ui.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.adpter.WalletManageAdapter;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
 import org.ionchain.wallet.ui.wallet.ImprotWalletActivity;
@@ -40,17 +42,24 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
         try {
-
+            Intent intent =null;
             switch (what) {
                 case R.id.navigationBack:
                     finish();
                     break;
                 case R.id.createBtn:
-                    transfer(CreateWalletActivity.class);
+                    intent = new Intent();
+                    intent.putExtra(Comm.JUMP_PARM_ISADDMODE, true);
+                    intent.setClass(WalletManageActivity.this, CreateWalletActivity.class);//从哪里跳到哪里
+                    WalletManageActivity.this.startActivity(intent);
 
                     break;
                 case R.id.importBtn:
-                    transfer(ImprotWalletActivity.class);
+                    intent = new Intent();
+                    intent.putExtra(Comm.JUMP_PARM_ISADDMODE, true);
+                    intent.setClass(WalletManageActivity.this, ImprotWalletActivity.class);//从哪里跳到哪里
+                    WalletManageActivity.this.startActivity(intent);
+
                     break;
                 case 0:
                     dismissProgressDialog();

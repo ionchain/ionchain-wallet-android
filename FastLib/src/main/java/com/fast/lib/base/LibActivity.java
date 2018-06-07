@@ -263,7 +263,7 @@ public abstract class LibActivity extends AppCompatActivity implements View.OnCl
 		try{
 			mProgressDialog = new ProgressDialog(this);
 			mProgressDialog.setMessage("正在加载，请稍后...");
-			mProgressDialog.setCancelable(true);
+			mProgressDialog.setCancelable(false);
 		}catch (Throwable e){
 			Log.e(TAG,"initProgressDialog",e);
 		}

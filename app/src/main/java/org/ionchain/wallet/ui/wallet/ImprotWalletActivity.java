@@ -3,9 +3,11 @@ package org.ionchain.wallet.ui.wallet;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -40,6 +42,8 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
 
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
 
+    private Wallet nowWallet;
+    private boolean isAddMode = false;
 
     @BindView(R.id.contentEt)
     AppCompatEditText contentEt;
@@ -66,10 +70,16 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                 switch (resulit) {
 
                     case WALLET_IMPORT:
+                        dismissProgressDialog();
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+                            long id = saveWallet();
+                            ApiWalletManager.printtest(id + "");
                             Toast.makeText(ImprotWalletActivity.this.getApplicationContext(), "钱包已经导入", Toast.LENGTH_SHORT).show();
+                            //初始化用户跳转主页面
+                            if (!isAddMode) startMain();
+
                         } else {
-                            Toast.makeText(ImprotWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ImprotWalletActivity.this.getApplicationContext(), "钱包导入失败", Toast.LENGTH_SHORT).show();
                         }
                         break;
 
@@ -83,6 +93,29 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
         }
     };
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent intent=getIntent();
+        isAddMode=intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE,false);
+        ApiWalletManager.printtest(isAddMode+"");
+        int REQUEST_EXTERNAL_STORAGE = 1;
+        String[] PERMISSIONS_STORAGE = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    this,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
 
     @Override
     public void handleMessage(int what, Object obj) {
@@ -218,30 +251,46 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                 Toast.makeText(this.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Integer nameInex = (Integer) LibSPUtils.get(this.getApplicationContext(),Comm.LOCAL_SAVE_NOW_WALLET_NAME,1);
-            String walletname = "新增钱包"+nameInex;
-            ApiWalletManager.getInstance().getMyWallet().setName(walletname);
-            ApiWalletManager.getInstance().getMyWallet().setPassword(pass);
-            ApiWalletManager.getInstance().getMyWallet().setPrivateKey(content);
-            ApiWalletManager.getInstance().importWallet( ApiWalletManager.getInstance().getMyWallet(),walletHandler);
+            Wallet extisWallet = WalletDaoTools.getWalletByPrivateKey(content);
+            if (null != extisWallet) {
+                Toast.makeText(this.getApplicationContext(), "该私钥已经导入 钱包名称：" + extisWallet.getName(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            Integer nameInex = (Integer) LibSPUtils.get(this.getApplicationContext(), Comm.LOCAL_SAVE_WALLET_INDEX, 1);
+            String walletname = "新增钱包" + nameInex;
+            nowWallet = new Wallet();
+            nowWallet.setName(walletname);
+            nowWallet.setPassword(pass);
+            nowWallet.setPrivateKey(content);
+            ApiWalletManager.getInstance().importWallet(nowWallet, walletHandler);
             Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
+            showProgressDialog("正在导入钱包请稍候");
         } catch (Exception e) {
             Log.e("wallet", "errr", e);
         }
 
     }
 
-    private long saveWallet() {
+    private long saveWallet(){
         //保存钱包到本地数据库
-        long id = WalletDaoTools.saveWallet(ApiWalletManager.getInstance().getMyWallet());
+        long id = WalletDaoTools.saveWallet(nowWallet);
+        Integer index = (Integer) LibSPUtils.get(ImprotWalletActivity.this.getApplicationContext(),Comm.LOCAL_SAVE_WALLET_INDEX,1);
+        LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_WALLET_INDEX,index+1);
+        //首次创建模式修改当前其钱包的信息
+        if( id>0 && !isAddMode){
+            ApiWalletManager.getInstance().setMyWallet(nowWallet);
+
+        }
         return id;
     }
 
 
-    public void startMain( ) {
+    public void startMain() {
         //第一次导入的 钱包跳主页面
-        if (TextUtils.isEmpty((String)LibSPUtils.get(ImprotWalletActivity.this.getApplicationContext(),Comm.LOCAL_SAVE_NOW_WALLET_NAME,Comm.NULL))) {
-            LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(),Comm.LOCAL_SAVE_NOW_WALLET_NAME,ApiWalletManager.getInstance().getMyWallet().getName());
+        if (TextUtils.isEmpty((String) LibSPUtils.get(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL))) {
+            LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, ApiWalletManager.getInstance().getMyWallet().getName());
             Intent intent = new Intent(ImprotWalletActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

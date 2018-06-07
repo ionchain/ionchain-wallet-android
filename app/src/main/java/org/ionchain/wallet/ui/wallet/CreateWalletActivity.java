@@ -28,6 +28,7 @@ import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
+import org.ionchain.wallet.ui.account.WalletManageActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
 import butterknife.BindView;
@@ -45,6 +46,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         Intent intent=getIntent();
         isAddMode=intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE,false);
+        ApiWalletManager.printtest(isAddMode+"");
         int REQUEST_EXTERNAL_STORAGE = 1;
         String[] PERMISSIONS_STORAGE = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -104,6 +106,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                         }
                         break;
                     case WALLET_CREATE:
+                        dismissProgressDialog();
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
                             long id = saveWallet();
                             ApiWalletManager.printtest(id+"");
@@ -152,7 +155,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
         try {
-
+            Intent  intent = null;
             switch (what) {
                 case R.id.navigationBack:
                     finish();
@@ -168,7 +171,10 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                     break;
                 case R.id.importBtn:
 
-                    transfer(ImprotWalletActivity.class);
+                    intent = new Intent();
+                    intent.putExtra(Comm.JUMP_PARM_ISADDMODE, isAddMode);
+                    intent.setClass(CreateWalletActivity.this, ImprotWalletActivity.class);//从哪里跳到哪里
+                    CreateWalletActivity.this.startActivity(intent);
 
                     break;
                 case 0:
@@ -274,6 +280,8 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                 Toast.makeText(this.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                 return;
             }
+            showProgressDialog("正在创建钱包请稍候");
+
             nowWallet = new Wallet();
             nowWallet.setName(walletname);
             nowWallet.setPassword(pass);
