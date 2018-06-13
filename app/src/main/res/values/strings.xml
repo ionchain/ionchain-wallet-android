@@ -53,6 +53,10 @@
     <string name="my_message">我的消息</string>
     <string name="activity_wallet_manage">钱包管理</string>
     <string name="activity_message_center">消息中心</string>
+    <string name="next_step">下一步</string>
+    <string name="register">注册</string>
+    <string name="input_code">输入验证码</string>
+    <string name="sure">确认</string>
 
 
 </resources>
