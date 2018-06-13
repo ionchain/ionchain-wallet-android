@@ -254,11 +254,12 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                 Toast.makeText(this.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Wallet extisWallet = WalletDaoTools.getWalletByPrivateKey(content);
-            if (null != extisWallet) {
-                Toast.makeText(this.getApplicationContext(), "该私钥已经导入 钱包名称：" + extisWallet.getName(), Toast.LENGTH_SHORT).show();
-                return;
-            }
+//去除导入
+//            Wallet extisWallet = WalletDaoTools.getWalletByPrivateKey(content);
+//            if (null != extisWallet) {
+//                Toast.makeText(this.getApplicationContext(), "该私钥已经导入 钱包名称：" + extisWallet.getName(), Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
 
             Integer nameInex = (Integer) LibSPUtils.get(this.getApplicationContext(), Comm.LOCAL_SAVE_WALLET_INDEX, 1);

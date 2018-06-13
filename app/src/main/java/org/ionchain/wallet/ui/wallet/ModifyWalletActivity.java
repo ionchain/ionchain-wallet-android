@@ -10,10 +10,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fast.lib.event.CommonEvent;
 import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
+import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.ToastUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
@@ -25,7 +27,11 @@ import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.utils.StringUtils;
+import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.ui.main.WelcomeActivity;
+
+import java.io.File;
 
 import butterknife.BindView;
 
@@ -46,6 +52,7 @@ public class ModifyWalletActivity extends BaseActivity {
     Wallet mWallet;
 
     QMUIDialog dialog;
+
 
 
     @Override
@@ -77,7 +84,8 @@ public class ModifyWalletActivity extends BaseActivity {
                 case R.id.saveBtn:
                     break;
                 case R.id.delBtn:
-                    finish();
+                    delwallet();
+                    
                     break;
                 case R.id.modifyPwdLayout:
                     transfer(ModifyWalletPwdActivity.class,Comm.SERIALIZABLE_DATA,mWallet);
@@ -125,7 +133,16 @@ public class ModifyWalletActivity extends BaseActivity {
                             ToastUtil.showShortToast("余额度刷新失败");
                         }
                         break;
-
+                    case WALLET_EXPORT_PRIVATEKEY:
+                        dismissProgressDialog();
+                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+                            String data = responseModel.getData();
+                            mWallet.setPrivateKey(data);
+                            showImportPrivateKeyDialog();
+                        } else {
+                            ToastUtil.showShortToast("请检查密码是否正确");
+                        }
+                        break;
                     default:
                         break;
 
@@ -196,15 +213,10 @@ public class ModifyWalletActivity extends BaseActivity {
                     public void onClick(QMUIDialog dialog, int index) {
                         CharSequence text = builder.getEditText().getText();
                         if (text != null && text.length() > 0) {
-
-                            if(!text.toString().equals(mWallet.getPassword())){
-                                ToastUtil.showShortToast("密码错误");
-                            }else{
-                                showImportPrivateKeyDialog();
-                                dialog.dismiss();
-                            }
-
-                        } else {
+                            dialog.dismiss();
+                            showProgressDialog("正在导出请稍候");
+                            ApiWalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(),text.toString(),walletHandler);
+                         } else {
                             ToastUtil.showShortToast("请输入密码");
                         }
                     }
@@ -232,7 +244,25 @@ public class ModifyWalletActivity extends BaseActivity {
 
     }
 
+    /**
+     * 删钱包
+     */
+    private void delwallet(){
 
+        String nowWalletName = (String) LibSPUtils.get(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
+        if( nowWalletName.equals(mWallet.getName()) ){
+            Toast.makeText(ModifyWalletActivity.this,"主钱包删除逻辑我还没做好 先拦截掉：） 子钱包可以删了",Toast.LENGTH_SHORT).show();
+            return;
+            //LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME,Comm.NULLWALLET);
+        }
+        File file = new File(mWallet.getKeystore());
+        if( file.exists() ){
+             file.delete();
+        }
+        WalletDaoTools.deleteWallet(mWallet.getId());
+        //删除的是主钱包
+        finish();
+    }
 
 
     @Override

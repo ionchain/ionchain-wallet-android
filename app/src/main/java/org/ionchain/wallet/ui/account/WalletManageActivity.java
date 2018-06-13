@@ -96,9 +96,9 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
         walletManageAdapter = new WalletManageAdapter(dataRv);
         dataRv.setAdapter(walletManageAdapter);
 
-        List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
-
-        walletManageAdapter.setData(walletlist);
+//        List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
+//
+//        walletManageAdapter.setData(walletlist);
     }
 
     @Override
@@ -133,6 +133,14 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         srl.finishRefresh();
+        List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
+
+        walletManageAdapter.setData(walletlist);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
 
         walletManageAdapter.setData(walletlist);

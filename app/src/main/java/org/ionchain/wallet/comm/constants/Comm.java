@@ -22,8 +22,11 @@ public class Comm extends LibComm {
     public static final String LOCAL_SAVE_NOW_WALLET_NAME = "now_wallet_name";
     public static final String LOCAL_SAVE_WALLET_INDEX = "wallet_index";
     public static final String NULL = "";
+    public static final String AND = "&";
+    public static final String SPLIT = ",";
+    public static final String IS = "=";
     public static final String JUMP_PARM_ID = "id";
     public static final String JUMP_PARM_ISADDMODE = "isaddmode";
-
+    public static final String NULLWALLET = "nullwallet";
     public static final int modify_wallet_refresh_type = 10000;
 }

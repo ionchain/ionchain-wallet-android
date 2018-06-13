@@ -43,6 +43,18 @@ public class RequestHelper {
             Logger.e(TAG, "sendDdkHttpPost", e);
         }
     }
+    public static void sendHttpPostJson(BaseFragment activity, String url, HashMap<String, String> map, Type type, int refreshType) {
+        try {
+            if (map == null)
+                map = new HashMap<>();
+            HashMap<String, String> headerMap = new HashMap<>();
+            ParamsUtils.parseParams(activity.getContext(), url, map, headerMap);
+
+            activity.sendHttpPost(url, Global.mGson.toJson(map), headerMap, type, refreshType);
+        } catch (Throwable e) {
+            Logger.e(TAG, "sendDdkHttpPost", e);
+        }
+    }
 
     public static void sendHttpPost(BaseFragment fragment, String url, HashMap<String,String> map, Type type, int refreshType){
         try{

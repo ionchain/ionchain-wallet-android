@@ -2,13 +2,13 @@ package org.ionchain.wallet.comm.api.request;
 
 import org.ionchain.wallet.comm.api.conf.ApiConfig;
 
+import java.util.HashMap;
+
 public class BaseRquset {
 
     private String appyKey;
     private String appSercert;
     private String baseUrl;
-
-
     private String postUri;
 
     public BaseRquset(String postUri) {
@@ -67,5 +67,15 @@ public class BaseRquset {
         return this.baseUrl + this.postUri;
     }
 
+    /**
+     * @return
+     */
+    public HashMap<String, String> getPostParm() {
+        return null;
+    }
+
+    public void formatHashParm() {
+
+    }
 
 }

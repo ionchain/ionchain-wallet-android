@@ -11,8 +11,10 @@ public class ApiConstant {
      * api调用地址URI
      */
     public enum ApiUri {
-        URI_LOGIN("/login");
-
+        URI_LOGIN("/user/login"),
+        URI_REG("/user/register"),
+        URI_EDIT_PASS("/user/updatePassword"),
+        URI_SMS_CODE("/sendSms");
         private String desc;
 
         public static ApiErrMsg codeOf(String name) {
@@ -152,6 +154,7 @@ public class ApiConstant {
         WALLET_CREATE(0x9003),
         WALLET_BALANCE(0x9004),
         WALLET_EDIT_PASS(0x9005),
+        WALLET_EXPORT_PRIVATEKEY(0x9006),
         OTHER(0x9999);
         private int desc;
 

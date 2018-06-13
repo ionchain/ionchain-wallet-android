@@ -58,7 +58,7 @@
                     android:id="@+id/walletBalanceTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="889.98"
+                    android:text="0.0000"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_biglargesize"
                     android:textStyle="bold"
