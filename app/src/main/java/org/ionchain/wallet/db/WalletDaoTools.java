@@ -76,4 +76,15 @@ public class WalletDaoTools {
         //私钥不存储于数据库中
         EntityManager.getInstance().getWalletDao().deleteByKey(id);
     }
+
+    //获取最新的 最老的钱包
+    public static Wallet getWalletTop() {
+        //私钥不存储于数据库中
+        Wallet wallet = null;
+        List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().orderAsc(WalletDao.Properties.Id).limit(1).list();
+        if (list.size() > 0) {
+            wallet = list.get(0);
+        }
+        return wallet;
+    }
 }

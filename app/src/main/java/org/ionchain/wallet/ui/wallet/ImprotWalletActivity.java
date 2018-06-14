@@ -74,6 +74,12 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                             long id = saveWallet();
                             ApiWalletManager.printtest(id + "");
                             Toast.makeText(ImprotWalletActivity.this.getApplicationContext(), "钱包已经导入", Toast.LENGTH_SHORT).show();
+                            //一个主钱包的 都没有的情况 添加导入钱包 第一个都做为默认主钱包
+                            String nowWalletName = (String) LibSPUtils.get(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
+                            if(nowWalletName.equals(Comm.NULLWALLET)){
+                                ApiWalletManager.getInstance().setMyWallet(nowWallet);
+                                LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME,nowWallet.getName());
+                            }
                             //初始化用户跳转主页面
                             if (!isAddMode) startMain();
 

@@ -116,7 +116,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_home);
-        reloadInfo();
+
     }
 
     @Override
@@ -182,4 +182,9 @@ public class HomeFragment extends BaseFragment {
         createChineseQRCode();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadInfo();
+    }
 }

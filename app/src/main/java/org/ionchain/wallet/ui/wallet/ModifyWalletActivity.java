@@ -44,7 +44,7 @@ public class ModifyWalletActivity extends BaseActivity {
     TextView walletAddressTv;
 
     @BindView(R.id.walletBalanceTv)
-            TextView walletBalanceTv;
+    TextView walletBalanceTv;
 
     @BindView(R.id.walletNameEt)
     AppCompatEditText walletNameEt;
@@ -54,29 +54,28 @@ public class ModifyWalletActivity extends BaseActivity {
     QMUIDialog dialog;
 
 
-
     @Override
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
-        try{
+        try {
 
-            switch (what){
+            switch (what) {
                 case R.id.navigationBack:
                     finish();
                     break;
                 case Comm.modify_wallet_refresh_type:
-                    CommonEvent event = (CommonEvent)obj;
+                    CommonEvent event = (CommonEvent) obj;
 
-                    if(event.getData() == null)
+                    if (event.getData() == null)
                         return;
 
-                    Wallet wallet = (Wallet)event.getData();
+                    Wallet wallet = (Wallet) event.getData();
 
                     mWallet = wallet;
 
                     break;
                 case R.id.copyBtn:
-                    StringUtils.copy(this,mWallet.getPrivateKey());
+                    StringUtils.copy(this, mWallet.getPrivateKey());
                     ToastUtil.showShortToast("已复制到剪切板");
                     dialog.dismiss();
 
@@ -85,10 +84,10 @@ public class ModifyWalletActivity extends BaseActivity {
                     break;
                 case R.id.delBtn:
                     delwallet();
-                    
+
                     break;
                 case R.id.modifyPwdLayout:
-                    transfer(ModifyWalletPwdActivity.class,Comm.SERIALIZABLE_DATA,mWallet);
+                    transfer(ModifyWalletPwdActivity.class, Comm.SERIALIZABLE_DATA, mWallet);
                     break;
                 case R.id.importLayout:
                     showEditTextDialog();
@@ -96,11 +95,11 @@ public class ModifyWalletActivity extends BaseActivity {
 
                 case 0:
                     dismissProgressDialog();
-                    if(obj == null)
+                    if (obj == null)
                         return;
 
-                    ResponseModel<String> responseModel = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel)){
+                    ResponseModel<String> responseModel = (ResponseModel) obj;
+                    if (!verifyStatus(responseModel)) {
                         ToastUtil.showShortToast(responseModel.getMsg());
                         return;
                     }
@@ -109,8 +108,8 @@ public class ModifyWalletActivity extends BaseActivity {
                     break;
             }
 
-        }catch (Throwable e){
-            Logger.e(e,TAG);
+        } catch (Throwable e) {
+            Logger.e(e, TAG);
         }
     }
 
@@ -127,10 +126,10 @@ public class ModifyWalletActivity extends BaseActivity {
                 switch (resulit) {
                     case WALLET_BALANCE:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            Logger.i("余额度已刷新");
+                            Logger.i("余额已刷新");
                             walletBalanceTv.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
                         } else {
-                            ToastUtil.showShortToast("余额度刷新失败");
+                            ToastUtil.showShortToast("余额刷新失败");
                         }
                         break;
                     case WALLET_EXPORT_PRIVATEKEY:
@@ -161,7 +160,7 @@ public class ModifyWalletActivity extends BaseActivity {
                 .statusBarDarkFont(false)
                 .transparentStatusBar()
                 .statusBarView(R.id.statusView)
-                .navigationBarColor(R.color.black,0.5f)
+                .navigationBarColor(R.color.black, 0.5f)
                 .fitsSystemWindows(false)
                 .init();
     }
@@ -184,15 +183,15 @@ public class ModifyWalletActivity extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
 
-        if(!TextUtils.isEmpty(mWallet.getAddress())){
+        if (!TextUtils.isEmpty(mWallet.getAddress())) {
             walletAddressTv.setText(mWallet.getAddress());
         }
 
-        if(!TextUtils.isEmpty(mWallet.getName())){
+        if (!TextUtils.isEmpty(mWallet.getName())) {
             walletNameEt.setText(mWallet.getName());
         }
 
-        ApiWalletManager.getInstance().reLoadBlance(mWallet,walletHandler);
+        ApiWalletManager.getInstance().reLoadBlance(mWallet, walletHandler);
 
     }
 
@@ -215,8 +214,8 @@ public class ModifyWalletActivity extends BaseActivity {
                         if (text != null && text.length() > 0) {
                             dialog.dismiss();
                             showProgressDialog("正在导出请稍候");
-                            ApiWalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(),text.toString(),walletHandler);
-                         } else {
+                            ApiWalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), text.toString(), walletHandler);
+                        } else {
                             ToastUtil.showShortToast("请输入密码");
                         }
                     }
@@ -224,15 +223,15 @@ public class ModifyWalletActivity extends BaseActivity {
                 .create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show();
     }
 
-    private void showImportPrivateKeyDialog(){
+    private void showImportPrivateKeyDialog() {
         QMUIDialog.CustomDialogBuilder dialogBuilder = new QMUIDialog.CustomDialogBuilder(this);
         dialogBuilder.setLayout(R.layout.layout_import_private_key);
         dialog = dialogBuilder.create();
 
         TextView preivateKeyTv = dialog.findViewById(R.id.preivateKeyTv);
-        if(!TextUtils.isEmpty(mWallet.getPrivateKey())){
+        if (!TextUtils.isEmpty(mWallet.getPrivateKey())) {
             preivateKeyTv.setText(mWallet.getPrivateKey());
-        }else {
+        } else {
             preivateKeyTv.setText("");
         }
 
@@ -247,23 +246,32 @@ public class ModifyWalletActivity extends BaseActivity {
     /**
      * 删钱包
      */
-    private void delwallet(){
+    private void delwallet() {
 
         String nowWalletName = (String) LibSPUtils.get(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
-        if( nowWalletName.equals(mWallet.getName()) ){
-            Toast.makeText(ModifyWalletActivity.this,"主钱包删除逻辑我还没做好 先拦截掉：） 子钱包可以删了",Toast.LENGTH_SHORT).show();
-            return;
-            //LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME,Comm.NULLWALLET);
-        }
+
         File file = new File(mWallet.getKeystore());
-        if( file.exists() ){
-             file.delete();
+        if (file.exists()) {
+            file.delete();
         }
         WalletDaoTools.deleteWallet(mWallet.getId());
+        if (nowWalletName.equals(mWallet.getName())) {
+            Wallet topWallet = WalletDaoTools.getWalletTop();
+            if (null == topWallet) {
+                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULLWALLET);
+                Wallet nullWallet = new Wallet();
+                nullWallet.setName(Comm.NULLWALLETNAME);
+                nullWallet.setAddress(Comm.NULLWALLETNAME);
+                ApiWalletManager.getInstance().setMyWallet(nullWallet);
+            } else {
+                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, topWallet.getName());
+                ApiWalletManager.getInstance().setMyWallet(topWallet);
+            }
+        }
+
         //删除的是主钱包
         finish();
     }
-
 
     @Override
     public int getActivityMenuRes() {

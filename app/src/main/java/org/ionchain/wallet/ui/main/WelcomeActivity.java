@@ -155,10 +155,17 @@ public class WelcomeActivity extends BaseActivity {
                     String nowWalletName = (String) LibSPUtils.get(WelcomeActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
                     if (!TextUtils.isEmpty(nowWalletName)) {
                         wallet = WalletDaoTools.getWalletByName(nowWalletName);
+                        //处理钱包被删除以后的逻辑
+                        if(null == wallet){
+                            wallet = new Wallet();
+                            wallet.setName(Comm.NULLWALLETNAME);
+                            wallet.setAddress(Comm.NULLWALLETNAME);
+                        }
                     }
                     if (null == wallet) {
                         wallet = new Wallet();
                     }
+
                     ApiWalletManager.getInstance(wallet, WelcomeActivity.this.getApplicationContext()).init(walletHandler);
                 }
             });
