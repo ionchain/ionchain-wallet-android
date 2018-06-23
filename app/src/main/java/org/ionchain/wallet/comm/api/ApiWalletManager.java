@@ -7,13 +7,17 @@ import android.os.Message;
 import android.util.Log;
 
 import com.fast.lib.logger.Logger;
+import com.fast.lib.okhttp.callback.ResultCallback;
+import com.fast.lib.okhttp.request.OkHttpRequest;
 
+import org.ionchain.wallet.comm.api.conf.ApiConfig;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
+import org.json.JSONObject;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -42,7 +46,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import okhttp3.Request;
 
 import static org.web3j.crypto.Hash.sha256;
 
@@ -131,8 +138,47 @@ public class ApiWalletManager {
                     contractAddress = DEF_CONTRACT_ADDRESS;
                     walletIndexUrl = DEF_WALLET_ADDRESS;
                     web3 = Web3jFactory.build(new HttpService(walletIndexUrl));
-                    isInit = true;
-                    sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
+
+                    try {
+                        String url = ApiConfig.API_BASE_URL + ApiConstant.ApiUri.URI_SYS_INFO.getDesc();
+                        printtest(url);
+                        HashMap<String,String> map = new HashMap<>();
+                        map.put("1","1");
+                        new OkHttpRequest.Builder().url(url).params(map).headers(null).post(new ResultCallback<String>() {
+                            @Override
+                            public void onError(Request request, Exception e) {
+                                sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
+                            }
+
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject json = new JSONObject(response);
+                                    int code = json.getInt("code");
+                                    if (code == 0) {
+                                        String contractAddress = json.getJSONObject("data").getString("contractAddress");
+                                        String providerUrl = json.getJSONObject("data").getString("providerUrl");
+                                        ApiWalletManager.this.contractAddress = contractAddress;
+                                        ApiWalletManager.this.walletIndexUrl = providerUrl;
+                                        isInit = true;
+
+                                        sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
+                                    } else {
+                                        sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
+                                    }
+
+                                } catch (Exception e) {
+                                    sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
+                                }
+
+                            }
+                        });
+
+                    } catch (Throwable e) {
+                        Logger.e(e, "getSysInfoSyn");
+                        sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
+                    }
+
                 } catch (Exception e) {
                     sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
                 }

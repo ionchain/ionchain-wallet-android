@@ -5,12 +5,16 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.api.ApiArticle;
+import org.ionchain.wallet.comm.api.ApiLogin;
+import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.login.register.RegisterActivity;
@@ -36,6 +40,21 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
             switch (what){
                 case R.id.navigationBack:
                     finish();
+                    break;
+                case R.id.loginBtn:
+                    login();
+                    break;
+                case 10002:
+                    Log.e("wallet","OKOKOKOKOKO"+obj.toString());
+                    if(obj == null)
+                        return;
+
+                    ResponseModel<String> responseModel2 = (ResponseModel)obj;
+                    if(!verifyStatus(responseModel2)){
+                        ToastUtil.showShortToast(responseModel2.getMsg());
+                        return;
+                    }
+                    //to do login OK
                     break;
                 case R.id.regTv:
                     transfer(RegisterActivity.class);
@@ -71,9 +90,10 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
     protected void setListener() {
         setOnClickListener(R.id.regTv);
         setOnClickListener(R.id.forgetTv);
+        setOnClickListener(R.id.loginBtn);
         mobileEt.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
-        loginBtn.setOnClickListener(this);
+
 
     }
 
@@ -118,6 +138,23 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
+
+    }
+
+    private void login(){
+        String mobilestr = mobileEt.getText().toString().trim();
+        String pwdstr = pwdEt.getText().toString().trim();
+        ViewParm viewParm = new ViewParm(LoginActivity.this,null,String.class,10002);
+//        ApiLogin.sendSmsCode("18764266691",viewParm);
+//        ApiLogin.register("18764266691","1234","123456Xyx","",viewParm);
+//        ApiLogin.login("18764266691","123456Xyx",viewParm);
+
+//        ApiLogin.sendSmsCode("18764266691",viewParm);
+//        ApiLogin.updatePassWord("18764266691","1234","1234567Xyx",viewParm);
+
+        ApiArticle.getArticle("1","1","10",viewParm);
+//        ApiArticle.viewArticle("1",viewParm);
+//        ApiArticle.praiseArticle("1","1",viewParm);
 
     }
 }
