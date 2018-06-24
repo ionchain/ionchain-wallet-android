@@ -13,7 +13,7 @@ public class Comm extends LibComm {
     public static final String TESTIMG = "http://ww2.sinaimg.cn/large/7a8aed7bjw1ey77s2wab8j20zk0nmdm2.jpg";
 
 
-    public static final int SUCCESS = 1;
+    public static final String SUCCESS = "0";
     public static final String SERIALIZABLE_DATA = "serializable_data";
     public static final String SERIALIZABLE_DATA1 = "serializable_data1";
     public static final String SERIALIZABLE_DATA2 = "serializable_data2";
@@ -28,6 +28,11 @@ public class Comm extends LibComm {
     public static final String JUMP_PARM_ID = "id";
     public static final String JUMP_PARM_ISADDMODE = "isaddmode";
     public static final String NULLWALLET = "nullwallet";
-    public static final int modify_wallet_refresh_type = 10000;
+    public static final int modify_wallet_refresh_type = 1000;
     public static final String NULLWALLETNAME = "暂无";
+
+    public static final int user_info_refresh_type = 1001;
+
+
+    public static final String user = "user_model";
 }

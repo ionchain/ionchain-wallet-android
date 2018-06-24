@@ -22,6 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
 
 import java.util.HashMap;
@@ -234,7 +235,7 @@ public abstract class BaseFragment extends LibFragment {
 
     public boolean verifyStatus(ResponseModel responseModel) {
         try {
-            if (!TextUtils.isEmpty(responseModel.getCode()) && responseModel.getCode().equals(String.valueOf(ApiConstant.ApiErrCode.SUCCESS.getDesc()))) {
+            if (!TextUtils.isEmpty(responseModel.getCode()) && responseModel.getCode().equals(Comm.SUCCESS)) {
                 return true;
             } else {
                 return false;

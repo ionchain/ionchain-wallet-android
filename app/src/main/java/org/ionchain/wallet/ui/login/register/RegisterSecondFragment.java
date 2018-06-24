@@ -6,18 +6,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
-import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
+import com.google.gson.reflect.TypeToken;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.api.ApiLogin;
+import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.model.UserModel;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 
 import butterknife.BindView;
@@ -68,7 +70,7 @@ public class RegisterSecondFragment extends BaseFragment implements TextWatcher 
                 case R.id.loginTv:
                     getActivity().finish();
                     break;
-                case 0:
+                case 100:
                     dismissProgressDialog();
                     if (obj == null)
                         return;
@@ -78,6 +80,8 @@ public class RegisterSecondFragment extends BaseFragment implements TextWatcher 
                         ToastUtil.showShortToast(responseModel.getMsg());
                         return;
                     }
+
+                    ToastUtil.showShortToast(responseModel.getMsg());
 
 
                     break;
@@ -102,6 +106,10 @@ public class RegisterSecondFragment extends BaseFragment implements TextWatcher 
         if (arguments == null) return;
         mMobileStr = arguments.getString(Comm.SERIALIZABLE_DATA, "");
         mInvitationCodeStr = arguments.getString(Comm.SERIALIZABLE_DATA1, "");
+
+        ViewParm viewParm = new ViewParm(null,this,new TypeToken<ResponseModel<String>>(){}.getType(),100);
+        ApiLogin.sendSmsCode(mMobileStr,viewParm);
+        showProgressDialog();
 
         tipsTv.setText("我们已经向"+mMobileStr+"发送验证码短信，请查收并输入短信验证码");
     }

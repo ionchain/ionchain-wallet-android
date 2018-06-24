@@ -10,4 +10,6 @@ public abstract class LibGlobal {
 
 	public static Gson mGson;
 
+
+
 }

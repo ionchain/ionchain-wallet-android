@@ -1,6 +1,7 @@
 package org.ionchain.wallet.ui.main;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
@@ -8,12 +9,19 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.ui.account.MessageCenterActivity;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.login.LoginActivity;
 import org.ionchain.wallet.ui.account.WalletManageActivity;
 
+import butterknife.BindView;
+
 public class UserCenterFragment extends BaseFragment {
+
+    @BindView(R.id.loginRegTv)
+    TextView loginRegTv;
 
     @Override
     public void handleMessage(int what, Object obj) {
@@ -22,13 +30,22 @@ public class UserCenterFragment extends BaseFragment {
 
             switch (what){
                 case R.id.loginRegTv:
-                    transfer(LoginActivity.class);
+                    if(Global.user == null)
+                        transfer(LoginActivity.class);
+                    else{
+                        transfer(SettingActivity.class);
+                    }
                     break;
                 case R.id.messageCenterRLayout:
                     transfer(MessageCenterActivity.class);
                     break;
                 case R.id.walletManageRLayout:
                     transfer(WalletManageActivity.class);
+                    break;
+                case Comm.user_info_refresh_type:
+
+                    refreshData();
+
                     break;
                 case 0:
                     dismissProgressDialog();
@@ -75,12 +92,36 @@ public class UserCenterFragment extends BaseFragment {
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+        refreshData();
+    }
 
+    private void refreshData(){
+        try{
+
+            if(Global.user == null){
+                loginRegTv.setText("注册/登陆  >");
+                return;
+            }
+
+
+            loginRegTv.setText(Global.user.getUserName());
+
+
+
+
+        }catch (Throwable e){
+            Logger.e(e,TAG);
+        }
     }
 
     @Override
     protected void onUserVisible() {
 
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
     }
 
     @Override

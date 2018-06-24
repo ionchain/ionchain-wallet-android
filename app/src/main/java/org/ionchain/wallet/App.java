@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.fast.lib.base.LibApp;
 import com.fast.lib.glideimageloader.ImageLoadConfig;
 import com.fast.lib.logger.Logger;
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -34,8 +36,10 @@ import com.umeng.message.entity.UMessage;
 
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
+import org.ionchain.wallet.comm.utils.SPUtils;
 import org.ionchain.wallet.comm.utils.StorageUtils;
 import org.ionchain.wallet.config.ImgLoader;
+import org.ionchain.wallet.model.UserModel;
 
 import java.util.List;
 
@@ -100,6 +104,11 @@ public class App extends LibApp {
             ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
             int heapSize = activityManager.getMemoryClass();
             Logger.i("heapSize==>"+heapSize);
+
+            String userinfo = SPUtils.get(Global.mContext,Comm.user,"").toString();
+            if(!TextUtils.isEmpty(userinfo)){
+                Global.user = Global.mGson.fromJson(userinfo,UserModel.class);
+            }
 
 
         }catch (Throwable e){
