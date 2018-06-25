@@ -1,51 +1,132 @@
 package org.ionchain.wallet.ui.main;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.adpter.InformationAdapter;
+import org.ionchain.wallet.adpter.WalletManageAdapter;
+import org.ionchain.wallet.comm.api.ApiArticle;
+import org.ionchain.wallet.comm.api.model.Article;
+import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.comm.helper.RequestHelper;
+import org.ionchain.wallet.model.UserModel;
 import org.ionchain.wallet.ui.comm.BaseFragment;
+import org.ionchain.wallet.ui.login.LoginActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import cn.bingoogolapple.baseadapter.BGAOnItemChildClickListener;
+import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 
-public class InformationFragment extends BaseFragment {
+public class InformationFragment extends BaseFragment implements OnRefreshLoadmoreListener, BGAOnItemChildClickListener, BGAOnRVItemClickListener {
 
-    @BindView(R.id.infoTv)
-    TextView infoTv;
+//    @BindView(R.id.infoTv)
+//    TextView infoTv;
+
+    @BindView(R.id.srl)
+    SmartRefreshLayout srl;
+
+    @BindView(R.id.dataRv)
+    RecyclerView dataRv;
+
+    private int pageNo = 1;
+    private int pageSize = 10;
+
+    private InformationAdapter informationAdapter;
+    private List<Article> articleList = new ArrayList<>();
+    private int itemMark;
 
     @Override
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
-        try{
+        try {
 
-            switch (what){
+            switch (what) {
+
+                case Comm.article_refresh_type:
+                    srl.autoRefresh();
+                    break;
+
                 case 100:
-                    dismissProgressDialog();
-                    if(obj == null)
+                    srl.finishLoadmore();
+                    srl.finishRefresh();
+                    if (obj == null)
                         return;
-
-                    ResponseModel<String> responseModel = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel)){
-                        ToastUtil.showShortToast(responseModel.getMsg());
-                        infoTv.setText(responseModel.getData());
+                    ResponseModel<List<Article>> responseModel2 = (ResponseModel) obj;
+                    if (!verifyStatus(responseModel2)) {
+                        ToastUtil.showShortToast(responseModel2.getMsg());
                         return;
                     }
 
+                    if (pageNo == 1) articleList.clear();
 
+                    articleList.addAll(responseModel2.data);
+                    informationAdapter.setData(articleList);
 
+                    if (responseModel2.data.size() < pageSize) srl.setEnableLoadmore(false);
+
+                    break;
+
+                case 101:
+                    srl.finishLoadmore();
+                    srl.finishRefresh();
+                    if (obj == null)
+                        return;
+                    ResponseModel<List<Article>> responseModel3 = (ResponseModel) obj;
+                    if (!verifyStatus(responseModel3)) {
+                        ToastUtil.showShortToast(responseModel3.getMsg());
+                        return;
+                    }
+
+                    articleList.get(itemMark).setIsPraise(1);
+                    articleList.get(itemMark).setPraiseCount(articleList.get(itemMark).getPraiseCount() + 1);
+
+                    informationAdapter.setData(articleList);
+
+                    break;
+                case 102:
+                    srl.finishLoadmore();
+                    srl.finishRefresh();
+                    if (obj == null)
+                        return;
+                    ResponseModel<List<Article>> responseModel4 = (ResponseModel) obj;
+                    if (!verifyStatus(responseModel4)) {
+                        ToastUtil.showShortToast(responseModel4.getMsg());
+                        return;
+                    }
+
+                    articleList.get(itemMark).setViewCount(articleList.get(itemMark).getViewCount() + 1);
+                    informationAdapter.setData(articleList);
+
+                    if (articleList.get(itemMark).getUrl() != null) {
+                        //有url的话 跳转
+                    }
 
                     break;
             }
 
-        }catch (Throwable e){
-            Logger.e(e,TAG);
+        } catch (Throwable e) {
+            Logger.e(e, TAG);
         }
     }
 
@@ -54,7 +135,7 @@ public class InformationFragment extends BaseFragment {
         ImmersionBar.with(this)
                 .statusBarDarkFont(false)
                 .statusBarColor(R.color.qmui_config_color_blue)
-                .navigationBarColor(R.color.black,0.5f)
+                .navigationBarColor(R.color.black, 0.5f)
                 .fitsSystemWindows(true)
                 .init();
     }
@@ -62,23 +143,31 @@ public class InformationFragment extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_information);
-
+        dataRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
     protected void setListener() {
-
+        srl.setOnRefreshLoadmoreListener(this);
+        informationAdapter.setOnItemChildClickListener(this);
+        informationAdapter.setOnRVItemClickListener(this);
     }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
 
-        showProgressDialog();
-        //RequestHelper.sendHttpGet(this,"https://api.douban.com/v2/book/1220562",null,new TypeToken<ResponseModel<String>>(){}.getType(),100);
+        informationAdapter = new InformationAdapter(dataRv);
+        dataRv.setAdapter(informationAdapter);
+    }
 
-        //测式  正确格式参考上一条
-        RequestHelper.sendHttpGet(this,"https://api.douban.com/v2/book/1220562",null,new TypeToken<String>(){}.getType(),100);
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Global.user == null) {
+            transfer(LoginActivity.class);
+            return;
+        }
+        srl.autoRefresh();
     }
 
     @Override
@@ -99,5 +188,54 @@ public class InformationFragment extends BaseFragment {
     @Override
     public int getActivityTitleContent() {
         return R.string.tab_info;
+    }
+
+    @Override
+    public void onLoadmore(RefreshLayout refreshlayout) {
+
+        pageNo++;
+        ViewParm viewParm = new ViewParm(null, InformationFragment.this, new TypeToken<ResponseModel<List<Article>>>() {
+        }.getType(), 100);
+        ApiArticle.getArticle(Global.user.getUserId() + "", pageNo + "", pageSize + "", viewParm);
+
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshlayout) {
+
+        pageNo = 1;
+        ViewParm viewParm = new ViewParm(null, InformationFragment.this, new TypeToken<ResponseModel<List<Article>>>() {
+        }.getType(), 100);
+        ApiArticle.getArticle(Global.user.getUserId() + "", pageNo + "", pageSize + "", viewParm);
+
+    }
+
+    @Override
+    public void onItemChildClick(ViewGroup parent, View childView, int position) {
+
+        switch (childView.getId()) {
+            case R.id.praiseLy:
+                if (1 != articleList.get(position).getIsPraise()) {
+                    itemMark = position;
+
+                    ViewParm viewParm = new ViewParm(null, InformationFragment.this, new TypeToken<ResponseModel>() {
+                    }.getType(), 101);
+
+                    ApiArticle.praiseArticle(Global.user.getUserId() + "", articleList.get(position).getId() + "", viewParm);
+                }
+                break;
+        }
+
+    }
+
+    @Override
+    public void onRVItemClick(ViewGroup parent, View itemView, int position) {
+        itemMark = position;
+
+        ViewParm viewParm = new ViewParm(null, InformationFragment.this, new TypeToken<ResponseModel>() {
+        }.getType(), 102);
+
+        ApiArticle.viewArticle(articleList.get(position).getId() + "", viewParm);
+
     }
 }

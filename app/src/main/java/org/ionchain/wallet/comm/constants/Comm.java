@@ -29,6 +29,7 @@ public class Comm extends LibComm {
     public static final String JUMP_PARM_ISADDMODE = "isaddmode";
     public static final String NULLWALLET = "nullwallet";
     public static final int modify_wallet_refresh_type = 1000;
+    public static final int article_refresh_type = 1002;
     public static final String NULLWALLETNAME = "暂无";
 
     public static final int user_info_refresh_type = 1001;

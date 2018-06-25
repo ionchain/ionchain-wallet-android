@@ -10,26 +10,19 @@
         android:id="@+id/toolbarlayout"
         layout="@layout/layout_toolbar"/>
 
-    <android.support.v4.widget.NestedScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbarlayout">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_below="@id/toolbarlayout"
+        >
 
-        <TextView
-            android:id="@+id/infoTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="资讯"
-            android:textColor="@color/black"
-            android:textSize="@dimen/txt_biglargesize"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dataRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>
