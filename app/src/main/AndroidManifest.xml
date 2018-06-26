@@ -2,80 +2,88 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ionchain.wallet">
 
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- 需要运行时注册的权限 -->
     <!-- 用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 用于提高GPS定位速度 -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 读取缓存数据 -->
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".App">
-        <activity android:name=".ui.main.WelcomeActivity"
-            android:theme="@style/NoTitleFullscreen"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.main.WelcomeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:theme="@style/NoTitleFullscreen"
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".ui.wallet.CreateWalletSelectActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ui.wallet.CreateWalletSelectActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".ui.wallet.CreateWalletProtocolActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ui.wallet.CreateWalletProtocolActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".ui.wallet.CreateWalletActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ui.wallet.CreateWalletActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.comm.ScanActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.comm.ScanActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.wallet.ImprotWalletActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.wallet.ImprotWalletActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.comm.WebViewActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.comm.WebViewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <!--图片选择界面-->
         <activity
@@ -92,40 +100,54 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-        <activity android:name=".ui.wallet.ModifyWalletActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.wallet.ModifyWalletActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.wallet.ModifyWalletPwdActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.wallet.ModifyWalletPwdActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.login.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.login.register.RegisterActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.login.register.RegisterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.account.WalletManageActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.login.forget.ForgetPasswordActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <activity android:name=".ui.account.MessageCenterActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
 
-        <activity android:name=".ui.main.SettingActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+        <activity
+            android:name=".ui.account.WalletManageActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".ui.account.MessageCenterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".ui.main.SettingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <meta-data
             android:name="UMENG_APPKEY"

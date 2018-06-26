@@ -1,4 +1,4 @@
-package org.ionchain.wallet.ui.login.register;
+package org.ionchain.wallet.ui.login.forget;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,8 +6,10 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
@@ -18,12 +20,11 @@ import org.ionchain.wallet.comm.api.ApiLogin;
 import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.model.UserModel;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 
 import butterknife.BindView;
 
-public class RegisterThirdFragment extends BaseFragment implements TextWatcher {
+public class ForgetPasswordThirdFragment extends BaseFragment implements TextWatcher {
 
     @BindView(R.id.passwordEt1)
     AppCompatEditText passwordEt1;
@@ -34,19 +35,23 @@ public class RegisterThirdFragment extends BaseFragment implements TextWatcher {
     @BindView(R.id.submitBtn)
     Button submitBtn;
 
+    @BindView(R.id.haveAccountTv)
+    TextView haveAccountTv;
+
+    @BindView(R.id.loginTv)
+    TextView loginTv;
+
     String mMobileStr;
-    String mInvitationCodeStr;
     String mVerifyCodeStr;
 
 
-    public static RegisterThirdFragment newInstance(String mobile, String invitationCode,String verifyCode) {
+    public static ForgetPasswordThirdFragment newInstance(String mobile, String verifyCode) {
 
         Bundle args = new Bundle();
 
-        RegisterThirdFragment fragment = new RegisterThirdFragment();
+        ForgetPasswordThirdFragment fragment = new ForgetPasswordThirdFragment();
         args.putString(Comm.SERIALIZABLE_DATA, mobile);
-        args.putString(Comm.SERIALIZABLE_DATA1, invitationCode);
-        args.putString(Comm.SERIALIZABLE_DATA2, verifyCode);
+        args.putString(Comm.SERIALIZABLE_DATA1, verifyCode);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +77,7 @@ public class RegisterThirdFragment extends BaseFragment implements TextWatcher {
 
 
                     ViewParm viewParm = new ViewParm(null,this, new TypeToken<ResponseModel<String>>(){}.getType(),100);
-                    ApiLogin.register(mMobileStr,mVerifyCodeStr,passwordEt1.getText().toString().trim(),mInvitationCodeStr,viewParm);
+                    ApiLogin.updatePassWord(mMobileStr,mVerifyCodeStr,passwordEt1.getText().toString().trim(),viewParm);
 
                     showProgressDialog();
 
@@ -90,7 +95,7 @@ public class RegisterThirdFragment extends BaseFragment implements TextWatcher {
                     }
                     getActivity().finish();
 
-                    ToastUtil.showShortToast("注册成功,请登录");
+                    ToastUtil.showShortToast("修改成功,请登录");
 
 
                     break;
@@ -114,8 +119,10 @@ public class RegisterThirdFragment extends BaseFragment implements TextWatcher {
         Bundle arguments = getArguments();
         if (arguments == null) return;
         mMobileStr = arguments.getString(Comm.SERIALIZABLE_DATA, "");
-        mInvitationCodeStr = arguments.getString(Comm.SERIALIZABLE_DATA1, "");
-        mVerifyCodeStr = arguments.getString(Comm.SERIALIZABLE_DATA2, "");
+        mVerifyCodeStr = arguments.getString(Comm.SERIALIZABLE_DATA1, "");
+
+        loginTv.setVisibility(View.GONE);
+        haveAccountTv.setVisibility(View.GONE);
     }
 
     @Override

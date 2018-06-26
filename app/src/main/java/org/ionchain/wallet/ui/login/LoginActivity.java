@@ -24,6 +24,7 @@ import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.comm.utils.SPUtils;
 import org.ionchain.wallet.model.UserModel;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.ui.login.forget.ForgetPasswordActivity;
 import org.ionchain.wallet.ui.login.register.RegisterActivity;
 
 import butterknife.BindView;
@@ -50,6 +51,9 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
                     break;
                 case R.id.loginBtn:
                     login();
+                    break;
+                case R.id.forgetTv:
+                    transfer(ForgetPasswordActivity.class);
                     break;
                 case 100:
                     dismissProgressDialog();
