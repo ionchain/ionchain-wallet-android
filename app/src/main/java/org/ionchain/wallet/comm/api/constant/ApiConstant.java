@@ -18,7 +18,7 @@ public class ApiConstant {
         URI_ATRICLE_ALL("/article/findAll"),
         URI_ATRICLE_VIEW("/article/view"),
         URI_ATRICLE_PRAISE("/article/praise"),
-        URI_SYS_INFO("/sys/info ");
+        URI_SYS_INFO("/sys/info");
         private String desc;
 
         public static ApiErrMsg codeOf(String name) {

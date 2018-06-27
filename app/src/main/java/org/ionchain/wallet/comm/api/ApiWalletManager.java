@@ -475,6 +475,6 @@ public class ApiWalletManager {
     }
 
     public static void printtest(String info) {
-        Logger.i(info);
+       Log.e("wallet",info);
     }
 }
