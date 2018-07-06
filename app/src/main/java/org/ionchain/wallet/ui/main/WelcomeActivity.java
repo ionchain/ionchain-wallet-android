@@ -31,6 +31,7 @@ import org.ionchain.wallet.db.EntityManager;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.ui.login.LoginActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
 import butterknife.BindView;
@@ -156,7 +157,7 @@ public class WelcomeActivity extends BaseActivity {
                     if (!TextUtils.isEmpty(nowWalletName)) {
                         wallet = WalletDaoTools.getWalletByName(nowWalletName);
                         //处理钱包被删除以后的逻辑
-                        if(null == wallet){
+                        if (null == wallet) {
                             wallet = new Wallet();
                             wallet.setName(Comm.NULLWALLETNAME);
                             wallet.setAddress(Comm.NULLWALLETNAME);
@@ -195,14 +196,13 @@ public class WelcomeActivity extends BaseActivity {
     void startMainActivity() {
         try {
             Logger.i(TAG + "===>startMainActivity");
-            Intent intent = null;
-            if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getName())) {
-                intent = new Intent(WelcomeActivity.this, CreateWalletSelectActivity.class);
+            if (Global.user == null) {
+                transfer(LoginActivity.class);
+            } else if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getName())) {
+                transfer(CreateWalletSelectActivity.class);
             } else {
-                intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                transfer(MainActivity.class);
             }
-
-            startActivity(intent);
             finish();
         } catch (Throwable e) {
             Logger.e(TAG, e);

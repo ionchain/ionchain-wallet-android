@@ -17,15 +17,18 @@ import org.greenrobot.eventbus.EventBus;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiArticle;
 import org.ionchain.wallet.comm.api.ApiLogin;
+import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.comm.utils.SPUtils;
 import org.ionchain.wallet.model.UserModel;
+import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.login.forget.ForgetPasswordActivity;
 import org.ionchain.wallet.ui.login.register.RegisterActivity;
+import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
 import butterknife.BindView;
 
@@ -72,7 +75,15 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
                     SPUtils.put(Global.mContext, Comm.user, Global.mGson.toJson(userModel));
                     Global.user = userModel;
 
-                    EventBus.getDefault().post(new CommonEvent(Comm.user_info_refresh_type,null));
+                    //EventBus.getDefault().post(new CommonEvent(Comm.user_info_refresh_type,null));
+
+
+                    if (com.fast.lib.utils.encrypt.base.TextUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getName())) {
+                        transfer(CreateWalletSelectActivity.class);
+                    }else {
+                        transfer(MainActivity.class);
+                    }
+
                     finish();
 
 

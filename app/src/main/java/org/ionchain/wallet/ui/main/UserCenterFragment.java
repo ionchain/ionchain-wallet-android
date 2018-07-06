@@ -113,7 +113,15 @@ public class UserCenterFragment extends BaseFragment {
             Logger.e(e,TAG);
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Global.user == null) {
+            transfer(LoginActivity.class);
+            getActivity().finish();
+            return;
+        }
+    }
     @Override
     protected void onUserVisible() {
 

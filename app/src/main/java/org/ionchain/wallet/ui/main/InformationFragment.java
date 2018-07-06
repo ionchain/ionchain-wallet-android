@@ -165,6 +165,7 @@ public class InformationFragment extends BaseFragment implements OnRefreshLoadmo
         super.onResume();
         if (Global.user == null) {
             transfer(LoginActivity.class);
+            getActivity().finish();
             return;
         }
         srl.autoRefresh();
