@@ -27,6 +27,7 @@ import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.ui.comm.WebViewActivity;
 import org.ionchain.wallet.ui.main.WelcomeActivity;
 
 import java.io.File;
@@ -47,9 +48,9 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent=getIntent();
-        isAddMode=intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE,false);
-        ApiWalletManager.printtest(isAddMode+"");
+        Intent intent = getIntent();
+        isAddMode = intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE, false);
+        ApiWalletManager.printtest(isAddMode + "");
 
     }
 
@@ -98,16 +99,16 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                         dismissProgressDialog();
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
                             long id = saveWallet();
-                            ApiWalletManager.printtest(id+"");
+                            ApiWalletManager.printtest(id + "");
                             Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建成功", Toast.LENGTH_SHORT).show();
                             //一个主钱包的 都没有的情况 添加导入钱包 第一个都做为默认主钱包
                             String nowWalletName = (String) LibSPUtils.get(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
-                            if(nowWalletName.equals(Comm.NULLWALLET)){
+                            if (nowWalletName.equals(Comm.NULLWALLET)) {
                                 ApiWalletManager.getInstance().setMyWallet(nowWallet);
-                                LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME,nowWallet.getName());
+                                LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, nowWallet.getName());
                             }
                             //初始化用户跳转主页面
-                            if(!isAddMode) startMain();
+                            if (!isAddMode) startMain();
                         } else {
                             Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
                         }
@@ -162,7 +163,11 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
                     break;
                 case R.id.importBtn:
-                    transfer(ImprotWalletActivity.class,Comm.JUMP_PARM_ISADDMODE,isAddMode);
+                    transfer(ImprotWalletActivity.class, Comm.JUMP_PARM_ISADDMODE, isAddMode);
+                    break;
+
+                case R.id.linkUrlTv:
+                    transfer(WebViewActivity.class, Comm.SERIALIZABLE_DATA, Comm.URL_AGREE, Comm.SERIALIZABLE_DATA1, "条款");
                     break;
                 case 0:
                     dismissProgressDialog();
@@ -198,8 +203,12 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
         walletNameEt.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
         resetPwdEt.addTextChangedListener(this);
+        setOnClickListener(R.id.linkUrlTv);
 
     }
+
+
+
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
@@ -255,7 +264,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
     @AfterPermissionGranted(REQUEST_CODE_CREATE_PERMISSIONS)
     private void requestCodeCreatePermissions() {
-        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if (!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, "创建钱包需要的权限", REQUEST_CODE_CREATE_PERMISSIONS, perms);
         } else {
@@ -269,8 +278,8 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
     private void cerateWallet() {
         try {
             //创建默认目录
-            File file =new File(ApiWalletManager.DEF_WALLET_PATH);
-            if( !file.exists() ){
+            File file = new File(ApiWalletManager.DEF_WALLET_PATH);
+            if (!file.exists()) {
                 boolean crate = file.mkdirs();
             }
             String walletname = walletNameEt.getText().toString().trim();
@@ -290,7 +299,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
             nowWallet = new Wallet();
             nowWallet.setName(walletname);
             nowWallet.setPassword(pass);
-            ApiWalletManager.getInstance().createWallet(nowWallet,walletHandler);
+            ApiWalletManager.getInstance().createWallet(nowWallet, walletHandler);
             showProgressDialog("正在创建钱包请稍候");
             Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
         } catch (Exception e) {
@@ -299,15 +308,15 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
     }
 
-    private long saveWallet(){
+    private long saveWallet() {
         //保存钱包到本地数据库
-       long id = WalletDaoTools.saveWallet(nowWallet);
-       //首次创建模式修改当前其钱包的信息
-       if( id>0 && !isAddMode){
-           ApiWalletManager.getInstance().setMyWallet(nowWallet);
-           LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME,nowWallet.getName());
-       }
-       return id;
+        long id = WalletDaoTools.saveWallet(nowWallet);
+        //首次创建模式修改当前其钱包的信息
+        if (id > 0 && !isAddMode) {
+            ApiWalletManager.getInstance().setMyWallet(nowWallet);
+            LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, nowWallet.getName());
+        }
+        return id;
     }
 
 }

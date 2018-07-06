@@ -127,7 +127,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
 
                     break;
                 case R.id.linkUrlTv:
-                    transfer(WebViewActivity.class, Comm.SERIALIZABLE_DATA, "https://www.baidu.com", Comm.SERIALIZABLE_DATA1, "条款");
+                    transfer(WebViewActivity.class, Comm.SERIALIZABLE_DATA, Comm.URL_AGREE, Comm.SERIALIZABLE_DATA1, "条款");
                     break;
                 case 0:
                     dismissProgressDialog();

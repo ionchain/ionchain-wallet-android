@@ -17,8 +17,10 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.utils.CheckUtil;
 import org.ionchain.wallet.ui.comm.BaseFragment;
+import org.ionchain.wallet.ui.comm.WebViewActivity;
 import org.ionchain.wallet.ui.login.view.CountTimer;
 
 import java.sql.Date;
@@ -52,6 +54,9 @@ public class RegisterFirstFragment extends BaseFragment implements TextWatcher {
                     break;
                 case R.id.loginTv:
                     getActivity().finish();
+                    break;
+                case R.id.agreementTv:
+                    transfer(WebViewActivity.class, Comm.SERIALIZABLE_DATA, Comm.URL_AGREE, Comm.SERIALIZABLE_DATA1, "条款");
                     break;
                 case R.id.nextBtn:
                     showKeyboard(false);
@@ -130,6 +135,7 @@ public class RegisterFirstFragment extends BaseFragment implements TextWatcher {
 
     @Override
     protected void setListener() {
+        setOnClickListener(R.id.agreementTv);
         setOnClickListener(R.id.loginTv);
         setOnClickListener(R.id.nextBtn);
         mobileEt.addTextChangedListener(this);

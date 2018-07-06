@@ -12,6 +12,9 @@ public class Comm extends LibComm {
 
     public static final String TESTIMG = "http://ww2.sinaimg.cn/large/7a8aed7bjw1ey77s2wab8j20zk0nmdm2.jpg";
 
+    public static final String URL_AGREE ="https://www.baidu.com";
+
+
 
     public static final String SUCCESS = "0";
     public static final String SERIALIZABLE_DATA = "serializable_data";

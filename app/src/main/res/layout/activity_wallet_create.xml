@@ -82,19 +82,37 @@
                 />
 
 
-            <CheckBox
-                android:id="@+id/checkbox"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="我已仔细阅读并同意以上条款。"
-                android:textSize="@dimen/txt_microsize"
-                android:textColor="@color/library_33"
+                android:orientation="horizontal"
                 android:layout_marginLeft="@dimen/h16"
                 android:layout_marginRight="@dimen/h16"
-                android:drawableLeft="@drawable/check_blue"
-                android:drawablePadding="@dimen/h5"
-                android:button="@null"/>
+                android:layout_marginTop="@dimen/h16"
+                android:gravity="center_vertical">
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="我已经仔细阅读并 "
+                    android:textSize="@dimen/txt_microsize"
+                    android:textColor="@color/library_33"
+                    android:drawableLeft="@drawable/check_blue"
+                    android:drawablePadding="@dimen/h5"
+                    android:button="@null"
+                    />
+                <TextView
+                    android:id="@+id/linkUrlTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/qmui_config_color_blue"
+                    android:text="服务及隐私条款"
+                    android:textSize="@dimen/txt_microsize"
+                    android:layout_marginLeft="@dimen/h10"
+                    android:autoLink="web"/>
+            </LinearLayout>
+
 
 
             <Button

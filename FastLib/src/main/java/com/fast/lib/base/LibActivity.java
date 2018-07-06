@@ -416,7 +416,7 @@ public abstract class LibActivity extends AppCompatActivity implements View.OnCl
 								errorMsg = NETWORK_EXCEPTION_TYPE+":网络异常，请稍后再试";
 								//aidsendMessage(NETWORK_EXCEPTION_TYPE, "网络异常，请稍后再试");
 							}
-
+							Log.e("wallet","ERRRR"+errorMsg);
 							//将错误信息返回上一层  上层可以不处理该回调的结果
 							ResponseBean responseBean = new ResponseBean();
 							responseBean.refreshType = refreshType;
@@ -426,6 +426,7 @@ public abstract class LibActivity extends AppCompatActivity implements View.OnCl
 
 						@Override
 						public void onResponse(String response) {
+							Log.e("wallet","RES"+response);
 							ResponseBean responseBean = new ResponseBean();
 							responseBean.refreshType = refreshType;
 
