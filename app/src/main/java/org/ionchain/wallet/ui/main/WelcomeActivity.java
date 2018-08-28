@@ -48,8 +48,6 @@ public class WelcomeActivity extends BaseActivity {
     @BindView(R.id.rootLayout)
     RelativeLayout rootview;
 
-    @BindView(R.id.topImgIv)
-    ImageView topImgIv;
 
     @SuppressLint("HandlerLeak")
     Handler walletHandler = new Handler() {
@@ -138,20 +136,13 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         try {
-            Animation aAnimation = new AlphaAnimation(0.0f, 1.0f);
+            Animation aAnimation = new AlphaAnimation(1.0f, 1.0f);
             aAnimation.setDuration(2000);
             aAnimation.setAnimationListener(new Animation.AnimationListener() {
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
 
-
-                }
-
-                public void onAnimationRepeat(Animation animation) {
-                }
-
-                public void onAnimationStart(Animation animation) {
                     Wallet wallet = null;
                     String nowWalletName = (String) LibSPUtils.get(WelcomeActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
                     if (!TextUtils.isEmpty(nowWalletName)) {
@@ -168,6 +159,13 @@ public class WelcomeActivity extends BaseActivity {
                     }
 
                     ApiWalletManager.getInstance(wallet, WelcomeActivity.this.getApplicationContext()).init(walletHandler);
+                }
+
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                public void onAnimationStart(Animation animation) {
+
                 }
             });
             rootview.startAnimation(aAnimation);
@@ -196,9 +194,7 @@ public class WelcomeActivity extends BaseActivity {
     void startMainActivity() {
         try {
             Logger.i(TAG + "===>startMainActivity");
-            if (Global.user == null) {
-                transfer(LoginActivity.class);
-            } else if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getName())) {
+            if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getName())) {
                 transfer(CreateWalletSelectActivity.class);
             } else {
                 transfer(MainActivity.class);

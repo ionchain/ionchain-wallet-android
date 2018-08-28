@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 import butterknife.BindView;
 import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
+
+import static com.fast.lib.utils.LibSystemUtils.hideKeyBoard;
 
 public class HomeFragment extends BaseFragment {
 
@@ -116,7 +119,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_home);
-
     }
 
     @Override

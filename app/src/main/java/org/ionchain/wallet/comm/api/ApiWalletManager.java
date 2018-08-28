@@ -142,8 +142,8 @@ public class ApiWalletManager {
                     try {
                         String url = ApiConfig.API_BASE_URL + ApiConstant.ApiUri.URI_SYS_INFO.getDesc();
                         printtest(url);
-                        HashMap<String,String> map = new HashMap<>();
-                        map.put("1","1");
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("1", "1");
                         new OkHttpRequest.Builder().url(url).params(map).headers(null).post(new ResultCallback<String>() {
                             @Override
                             public void onError(Request request, Exception e) {
@@ -374,7 +374,9 @@ public class ApiWalletManager {
         if (null == wallet) wallet = myWallet;
         if (null == passWord) passWord = wallet.getPassword();
         String keystore;
-        BigInteger privateKeyBig = new BigInteger(wallet.getPrivateKey(), 16);
+        String key = wallet.getPrivateKey().substring(2);
+        Log.i("key", "importWallt: " + key);
+        BigInteger privateKeyBig = new BigInteger(key, 16);
         ECKeyPair ecKeyPair = ECKeyPair.create(privateKeyBig);
         keystore = WalletUtils.generateWalletFile(passWord, ecKeyPair, new File(DEF_WALLET_PATH), false);
         keystore = DEF_WALLET_PATH + "/" + keystore;
@@ -475,6 +477,6 @@ public class ApiWalletManager {
     }
 
     public static void printtest(String info) {
-       Log.e("wallet",info);
+        Log.e("wallet", info);
     }
 }

@@ -16,17 +16,17 @@ android {
         versionName "1.0"
         multiDexEnabled true //需要将dex 分包  false 则不分
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi-v7a','x86'
-
-        }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath false
-            }
-        }
+//        ndk {
+//            //选择要添加的对应cpu类型的.so库。
+//            abiFilters 'armeabi-v7a','x86'
+//
+////        }
+//
+//        javaCompileOptions {
+//            annotationProcessorOptions {
+//                includeCompileClasspath false
+//            }
+//        }
     }
 
 
@@ -49,21 +49,21 @@ android {
 
 
         release {
-            zipAlignEnabled true
+//            zipAlignEnabled true
             minifyEnabled false
-            shrinkResources false
+//            shrinkResources false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.key
-            applicationVariants.all { variant ->
-
-                if (variant.buildType.name.equals('release')) {
-
-                    variant.outputs.all {
-                        outputFileName = "${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${generateVersionCode()}.apk"
-                    }
-                }
-            }
+//            applicationVariants.all { variant ->
+//
+//                if (variant.buildType.name.equals('release')) {
+//
+//                    variant.outputs.all {
+//                        outputFileName = "${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${generateVersionCode()}.apk"
+//                    }
+//                }
+//            }
         }
     }
 
@@ -95,9 +95,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation(name: 'qmui', ext: 'aar', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

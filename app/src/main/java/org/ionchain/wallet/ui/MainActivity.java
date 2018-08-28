@@ -14,6 +14,7 @@ import com.fast.lib.widget.FragmentTabHost;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.manager.ActivityHelper;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.main.HomeFragment;
 import org.ionchain.wallet.ui.main.InformationFragment;
@@ -29,8 +30,9 @@ public class MainActivity extends BaseActivity {
 
 
     private int[] intImageViewArray = new int[]{R.drawable.tab_home_bg,R.drawable.tab_info_bg, R.drawable.tab_usercenter_bg};
-    private Class[] fragmentArray = new Class[]{HomeFragment.class, InformationFragment.class, UserCenterFragment.class};
-    private int[] nameArray = new int[]{R.string.tab_home,R.string.tab_info,R.string.tab_user_center};
+    //移除资讯
+    private Class[] fragmentArray = new Class[]{HomeFragment.class,  UserCenterFragment.class};
+    private int[] nameArray = new int[]{R.string.tab_home,R.string.tab_user_center};
 
 
 
@@ -139,12 +141,13 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
-            tabhost.getTabWidget().getChildTabViewAt(2).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tabhost.setCurrentTab(2);
-                }
-            });
+            //移除 第三tab
+//            tabhost.getTabWidget().getChildTabViewAt(2).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    tabhost.setCurrentTab(2);
+//                }
+//            });
 
 
         }catch (Throwable e){
@@ -194,13 +197,17 @@ public class MainActivity extends BaseActivity {
                 ToastUtil.showShortToast(getString(R.string.exit_app));
                 mExitTime = System.currentTimeMillis();
             } else {
-                exitApp();
+//                exitApp();
+                ActivityHelper.getHelper().AppExit(this);
             }
             return false;
         }
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * 退出程序
+     */
     void exitApp(){
         try{
             android.os.Process.killProcess(android.os.Process.myPid());

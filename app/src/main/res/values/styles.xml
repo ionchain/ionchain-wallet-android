@@ -1,12 +1,13 @@
 <resources>
 
-    <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@mipmap/create_wallet_bg</item>
+
         <item name="qmui_topbar_height">@dimen/h50</item>
         <item name="actionBarSize">?attr/qmui_topbar_height</item>
-        <item name="android:windowBackground">@color/window_bg</item>
-        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+
         <item name="homeAsUpIndicator">@mipmap/ic_arrow_back</item>
         <item name="actionMenuTextColor">@color/main_blue</item>
         <item name="buttonStyle">@style/buttonStyle</item>

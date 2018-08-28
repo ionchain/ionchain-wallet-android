@@ -1,33 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rootLayout"
-    android:background="@color/white">
-
-
-
-
+    android:background="@mipmap/create_wallet_bg"
+    android:id="@+id/rootLayout">
     <ImageView
         android:id="@+id/logoIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/icon"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/h20"
-        android:layout_marginTop="@dimen/h20"/>
-
-    <ImageView
-        android:id="@+id/topImgIv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        tools:src="@mipmap/create_wallet_bg"
-        android:layout_above="@id/logoIv"/>
-
-
+        android:src="@mipmap/splash_logo"
+        android:layout_centerInParent="true"
+        />
 </RelativeLayout>

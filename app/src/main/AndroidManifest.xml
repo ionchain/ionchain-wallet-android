@@ -50,7 +50,7 @@
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|adjustPan|stateHidden" />
         <activity
             android:name=".ui.wallet.CreateWalletSelectActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

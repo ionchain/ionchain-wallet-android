@@ -97,18 +97,15 @@ public class UserCenterFragment extends BaseFragment {
 
     private void refreshData(){
         try{
+            /*
+             * 移除 进入 此页面时 对用户是否的登录的判断
+             * */
 
-            if(Global.user == null){
-                loginRegTv.setText("注册/登陆  >");
-                return;
-            }
-
-
+//            if(Global.user == null){
+//                loginRegTv.setText("注册/登陆  >");
+//                return;
+//            }
             loginRegTv.setText(Global.user.getUserName());
-
-
-
-
         }catch (Throwable e){
             Logger.e(e,TAG);
         }
@@ -116,11 +113,14 @@ public class UserCenterFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (Global.user == null) {
-            transfer(LoginActivity.class);
-            getActivity().finish();
-            return;
-        }
+        /*
+        * 移除 进入 此页面时 对用户是否的登录的判断
+        * */
+//        if (Global.user == null) {
+//            transfer(LoginActivity.class);
+//            getActivity().finish();
+//            return;
+//        }
     }
     @Override
     protected void onUserVisible() {

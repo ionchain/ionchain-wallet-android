@@ -27,6 +27,10 @@ import java.sql.Date;
 
 import butterknife.BindView;
 
+
+/**
+ * 注册界面
+ */
 public class RegisterFirstFragment extends BaseFragment implements TextWatcher {
 
     @BindView(R.id.mobileEt)

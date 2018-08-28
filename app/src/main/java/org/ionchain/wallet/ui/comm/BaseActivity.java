@@ -29,6 +29,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
+import org.ionchain.wallet.manager.ActivityHelper;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -237,7 +238,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
-
+        ActivityHelper.getHelper().addActivity(this);
 //        ImmersionBar.with(this).init();
         int REQUEST_EXTERNAL_STORAGE = 1;
         String[] PERMISSIONS_STORAGE = {

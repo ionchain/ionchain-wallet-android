@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbarlayout">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,21 +12,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@mipmap/app_bar">
+            android:background="@mipmap/app_bar"
+            android:orientation="vertical">
+
             <View
                 android:id="@+id/statusView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/qmui_topbar_height"
-                app:navigationIcon="?attr/homeAsUpIndicator"
                 android:background="@color/transparent"
-                app:titleTextColor="@color/white"/>
-
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:titleTextColor="@color/white" />
 
 
             <RelativeLayout
@@ -41,21 +34,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/h16"
                 android:layout_marginRight="@dimen/h16">
+
                 <TextView
                     android:id="@+id/walletNameTx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text=""
                     android:textColor="#B3BFD0"
-                    android:textSize="@dimen/txt_mediumsize"
-                    android:layout_centerVertical="true"/>
+                    android:textSize="@dimen/txt_mediumsize" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/qmui_icon_notify_info"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/qmui_icon_notify_info" />
             </RelativeLayout>
 
 
@@ -64,88 +58,86 @@
                 android:layout_height="@dimen/h40"
                 android:layout_marginLeft="@dimen/h16"
                 android:layout_marginRight="@dimen/h16"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/h10">
+                android:layout_marginTop="@dimen/h10"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="@dimen/h30"
                     android:layout_height="@dimen/h30"
                     android:background="@drawable/comm_yellow_circle"
+                    android:gravity="center_vertical"
                     android:text="ionc"
-                    android:textSize="@dimen/txt_microsize"
                     android:textColor="@color/white"
-                    android:gravity="center_vertical"/>
+                    android:textSize="@dimen/txt_microsize" />
 
 
                 <TextView
                     android:id="@+id/walletBalanceTx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="bottom"
                     android:text="0.0000"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_biglargesize"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/h5"
-                    android:gravity="bottom"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="bottom"
                     android:text="IONC"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_microsize"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/h5"
-                    android:gravity="bottom"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginTop="@dimen/h5"
                 android:text=""
                 android:textColor="@color/white"
-                android:textSize="@dimen/txt_microsize"
-                android:layout_marginLeft="@dimen/h16"
-                android:layout_marginTop="@dimen/h5"/>
-
+                android:textSize="@dimen/txt_microsize" />
 
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h1"
-                android:background="#B3BFD0"
-                android:layout_margin="@dimen/h16"/>
-
+                android:layout_margin="@dimen/h16"
+                android:background="#B3BFD0" />
 
 
             <RelativeLayout
                 android:id="@+id/walletLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/h16"
                 android:layout_marginLeft="@dimen/h16"
-                android:layout_marginRight="@dimen/h16"
-                android:layout_marginBottom="@dimen/h16">
+                android:layout_marginRight="@dimen/h16">
 
                 <ImageView
                     android:id="@+id/codeIv"
                     android:layout_width="@dimen/h80"
                     android:layout_height="@dimen/h80"
-                    android:src="@mipmap/def_img_lib"
                     android:layout_alignParentRight="true"
-                    />
+                    android:src="@mipmap/def_img_lib" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_toLeftOf="@id/codeIv">
+                    android:layout_toLeftOf="@id/codeIv"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="地址"
                         android:textColor="#B3BFD0"
-                        android:textSize="@dimen/txt_smallsize"/>
+                        android:textSize="@dimen/txt_smallsize" />
 
                     <TextView
                         android:id="@+id/walletAddressTx"
@@ -153,24 +145,14 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="#B3BFD0"
-                        android:textSize="@dimen/txt_smallsize"/>
+                        android:textSize="@dimen/txt_smallsize" />
 
                 </LinearLayout>
 
 
-
             </RelativeLayout>
 
-
-
-
         </LinearLayout>
-
-
-
-
     </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>
