@@ -28,9 +28,8 @@ public class MainActivity extends BaseActivity {
 
     FragmentTabHost tabhost;
 
-
-    private int[] intImageViewArray = new int[]{R.drawable.tab_home_bg,R.drawable.tab_info_bg, R.drawable.tab_usercenter_bg};
     //移除资讯
+    private int[] intImageViewArray = new int[]{R.drawable.tab_home_bg, R.drawable.tab_usercenter_bg};
     private Class[] fragmentArray = new Class[]{HomeFragment.class,  UserCenterFragment.class};
     private int[] nameArray = new int[]{R.string.tab_home,R.string.tab_user_center};
 
