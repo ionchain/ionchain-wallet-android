@@ -135,6 +135,7 @@ public class ApiWalletManager {
                 super.run();
                 try {
                     //这里回头要从接口获取 现在先写死
+                    // TODO: 2018/8/29  这里回头要从接口获取 现在先写死
                     contractAddress = DEF_CONTRACT_ADDRESS;
                     walletIndexUrl = DEF_WALLET_ADDRESS;
                     web3 = Web3jFactory.build(new HttpService(walletIndexUrl));

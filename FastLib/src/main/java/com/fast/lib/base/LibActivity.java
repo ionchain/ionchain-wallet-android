@@ -27,7 +27,6 @@ import com.fast.lib.okhttp.request.OkHttpGetRequest;
 import com.fast.lib.okhttp.request.OkHttpPostRequest;
 import com.fast.lib.okhttp.request.OkHttpRequest;
 import com.fast.lib.utils.ToastUtil;
-import com.squareup.leakcanary.RefWatcher;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -512,9 +511,6 @@ public abstract class LibActivity extends AppCompatActivity implements View.OnCl
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-
-		RefWatcher refWatcher = LibApp.getRefWatcher(this);
-		refWatcher.watch(this);
 
 		// Stop method tracing that the activity started during onCreate()
 		//如果activity含有在onCreate调用时创建的后台线程，或者是其他有可能导致内存泄漏的资源，

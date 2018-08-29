@@ -1,11 +1,15 @@
 package org.ionchain.wallet.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fast.lib.logger.Logger;
@@ -20,38 +24,41 @@ import org.ionchain.wallet.ui.main.HomeFragment;
 import org.ionchain.wallet.ui.main.InformationFragment;
 import org.ionchain.wallet.ui.main.UserCenterFragment;
 
-public class MainActivity extends BaseActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
 
     private long mExitTime = 0;
 
+    private RadioGroup mRadioGroup;
 
 
-    FragmentTabHost tabhost;
+    private HomeFragment mAssetFragment;
+    private UserCenterFragment mMineFragment;
+    private List<Fragment> mFragments = new ArrayList<>();
 
-    //移除资讯
-    private int[] intImageViewArray = new int[]{R.drawable.tab_home_bg, R.drawable.tab_usercenter_bg};
-    private Class[] fragmentArray = new Class[]{HomeFragment.class,  UserCenterFragment.class};
-    private int[] nameArray = new int[]{R.string.tab_home,R.string.tab_user_center};
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
 
-
-
+    private int mPostion;
 
     @Override
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
-        try{
+        try {
 
-            switch (what){
+            switch (what) {
                 case R.id.navigationBack:
                     finish();
                     break;
                 case 0:
                     dismissProgressDialog();
-                    if(obj == null)
+                    if (obj == null)
                         return;
 
-                    ResponseModel<String> responseModel = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel)){
+                    ResponseModel<String> responseModel = (ResponseModel) obj;
+                    if (!verifyStatus(responseModel)) {
                         ToastUtil.showShortToast(responseModel.getMsg());
                         return;
                     }
@@ -60,8 +67,8 @@ public class MainActivity extends BaseActivity {
                     break;
             }
 
-        }catch (Throwable e){
-            Logger.e(e,TAG);
+        } catch (Throwable e) {
+            Logger.e(e, TAG);
         }
     }
 
@@ -73,14 +80,20 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        try{
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+        mRadioGroup = findViewById(R.id.rg_main);
+        mRadioGroup.setOnCheckedChangeListener(this);
 
-            tabhost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        //初始化 fragment
+        mAssetFragment = new HomeFragment();
+        mMineFragment = new UserCenterFragment();
+        mFragments.add(mAssetFragment);
+        mFragments.add(mMineFragment);
 
-        }catch (Throwable e){
-            Logger.e(e,TAG);
-        }
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.add(R.id.fm_contariner, mAssetFragment);
+        mFragmentTransaction.commit();
     }
 
     @Override
@@ -90,84 +103,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-        try{
-            initFragmentTabHost();
-            refreshData();
-
-        }catch (Throwable e){
-            Logger.e(e,TAG);
-        }
-    }
-
-    private void refreshData(){
-        try{
-
-
-
-        }catch (Throwable e){
-            Logger.e(e,TAG);
-        }
-    }
-
-    private void initFragmentTabHost(){
-        try{
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            // 得到fragment的个数
-            int count = intImageViewArray.length;
-            // 实例化TabHost对象，得到TabHost
-            tabhost.setup(this, fragmentManager, R.id.realtabcontent);
-            for (int i = 0; i < count; i++) {
-                // 将Tab按钮添加进Tab选项卡中
-                View view = getTabItemView(i);
-                tabhost.addTab(tabhost.newTabSpec(String.valueOf(i)).setIndicator(view), fragmentArray[i], null);
-            }
-
-            tabhost.getTabWidget().setDividerDrawable(getResources().getDrawable(R.color.white));
-            tabhost.setCurrentTab(0);
-
-            tabhost.getTabWidget().getChildTabViewAt(0).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tabhost.setCurrentTab(0);
-                }
-            });
-
-            tabhost.getTabWidget().getChildTabViewAt(1).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    tabhost.setCurrentTab(1);
-                }
-            });
-
-            //移除 第三tab
-//            tabhost.getTabWidget().getChildTabViewAt(2).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    tabhost.setCurrentTab(2);
-//                }
-//            });
-
-
-        }catch (Throwable e){
-            Logger.e(TAG,e);
-        }
-    }
-
-    private View getTabItemView(int i) {
-        try{
-            View view = LayoutInflater.from(this).inflate(R.layout.layout_tab_item, null);
-            ImageView mImageView = (ImageView) view.findViewById(R.id.icon);
-            TextView mTextView = view.findViewById(R.id.name);
-
-            mImageView.setImageResource(intImageViewArray[i]);
-            mTextView.setText(nameArray[i]);
-            return view;
-        }catch (Throwable e){
-            Logger.e(TAG,e);
-        }
-        return null;
-
     }
 
 
@@ -191,12 +126,11 @@ public class MainActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
 
-        if(keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 ToastUtil.showShortToast(getString(R.string.exit_app));
                 mExitTime = System.currentTimeMillis();
             } else {
-//                exitApp();
                 ActivityHelper.getHelper().AppExit(this);
             }
             return false;
@@ -204,18 +138,36 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * 退出程序
-     */
-    void exitApp(){
-        try{
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(0);
-        }catch (Throwable e){
-            Logger.e(e,"");
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        hideNow();
+        switch (checkedId) {
+            case R.id.rb_asset:
+                mPostion = 0;
+                break;
+            case R.id.rb_mine:
+                mPostion = 1;
+                break;
+        }
+        showNext();
+        mFragmentTransaction.commit();
+    }
+
+    private void hideNow() {
+        if (!mFragments.get(mPostion).isAdded()) {
+            mFragmentTransaction.add(R.id.fm_contariner, mFragments.get(mPostion));
+        } else {
+            mFragmentTransaction.hide(mFragments.get(mPostion));
         }
     }
 
-
+    private void showNext() {
+        if (!mFragments.get(mPostion).isAdded()) {
+            mFragmentTransaction.add(R.id.fm_contariner, mFragments.get(mPostion));
+        } else {
+            mFragmentTransaction.show(mFragments.get(mPostion));
+        }
+    }
 
 }

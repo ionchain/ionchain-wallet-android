@@ -13,6 +13,9 @@ import org.ionchain.wallet.ui.comm.BaseActivity;
 
 import butterknife.BindView;
 
+/**
+ * 创建钱包。导入钱包，第一次安装时，由启动页跳转过来
+ */
 public class CreateWalletSelectActivity extends BaseActivity {
 
     @BindView(R.id.checkbox)

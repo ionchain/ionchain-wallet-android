@@ -23,7 +23,6 @@ import com.fast.lib.base.LibActivity;
 import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.okhttp.ResponseBean;
-import com.umeng.message.PushAgent;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
@@ -259,10 +258,6 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         initView(savedInstanceState);
         processLogic(savedInstanceState);
         setListener();
-
-        PushAgent.getInstance(this).onAppStart();
-
-
     }
 
     @Override

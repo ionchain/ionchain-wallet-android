@@ -51,6 +51,7 @@ public final class StringUtils {
 
     /**
      * 获取格式化当前时间
+     *
      * @return
      */
     public static String getCurFormatTime() {
@@ -60,13 +61,17 @@ public final class StringUtils {
 
 
     public static String encryptionPwd(String pwd) {
-        return new String( Hex.encodeHex( DigestUtils.sha256( pwd ) ) );
+        return new String(Hex.encodeHex(DigestUtils.sha256(pwd)));
     }
 
-    public static void copy(Context context,String text){
-        ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+    public static void copy(Context context, String text) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("txt", text);//参数一：标签，参数二：要复制到剪贴板的文本
         clipboard.setPrimaryClip(clip);
 
+    }
+
+    public static boolean isEmpty(String s) {
+        return s == null || "".equals(s) || " ".equals(s);
     }
 }

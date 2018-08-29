@@ -6,8 +6,6 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.view.View;
 
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.fast.lib.BuildConfig;
 import com.fast.lib.comm.LibComm;
 import com.fast.lib.comm.LibGlobal;
@@ -22,8 +20,6 @@ import com.fast.lib.okhttp.OkHttpClientManager;
 import com.fast.lib.utils.LibDateUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 
 import java.lang.reflect.Modifier;
 import java.text.SimpleDateFormat;
@@ -36,7 +32,6 @@ public abstract class LibApp extends Application {
 
 	private static final String TAG = "LibApp";
 
-	private RefWatcher refWatcher;
 
     @Override
 	public void onCreate() {
@@ -49,7 +44,6 @@ public abstract class LibApp extends Application {
 		super.onCreate();
 		
 		LibGlobal.mContext = getApplicationContext();
-		initDevTools();
 		initLogger();
 		initGson();
 		initData();
@@ -63,37 +57,6 @@ public abstract class LibApp extends Application {
 
 	}
 
-
-	private void initDevTools() {
-		try {
-
-
-			if (LeakCanary.isInAnalyzerProcess(this)) {
-				// This process is dedicated to LeakCanary for heap analysis.
-				// You should not init your app in this process.
-				return;
-			}
-
-			if (BuildConfig.DEBUG)
-				refWatcher = LeakCanary.install(this);
-			else
-				refWatcher = installLeakCanary();
-
-
-			Stetho.initializeWithDefaults(this);
-		} catch (Throwable e) {
-			Logger.e(TAG, e);
-		}
-	}
-
-	protected RefWatcher installLeakCanary() {
-		return RefWatcher.DISABLED;
-	}
-
-	public static RefWatcher getRefWatcher(Context context) {
-		LibApp application = (LibApp) context.getApplicationContext();
-		return application.refWatcher;
-	}
 
 
 
@@ -134,7 +97,6 @@ public abstract class LibApp extends Application {
 		try {
 
 			OkHttpClientManager.getInstance().setOkHttpClient(OkHttpClientManager.getInstance().getOkHttpClient().newBuilder()
-					.addNetworkInterceptor(new StethoInterceptor())
 					.addInterceptor(new LoggingInerceptor())
 					.build());
 		} catch (Throwable e) {

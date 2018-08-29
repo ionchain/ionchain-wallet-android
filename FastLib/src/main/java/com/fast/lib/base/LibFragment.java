@@ -24,7 +24,6 @@ import com.fast.lib.okhttp.callback.ResultCallback;
 import com.fast.lib.okhttp.request.OkHttpPostRequest;
 import com.fast.lib.okhttp.request.OkHttpRequest;
 import com.fast.lib.utils.ToastUtil;
-import com.squareup.leakcanary.RefWatcher;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -467,9 +466,6 @@ public class LibFragment extends Fragment implements View.OnClickListener,Activt
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        RefWatcher refWatcher = LibApp.getRefWatcher(getActivity());
-        refWatcher.watch(this);
     }
 
     /**

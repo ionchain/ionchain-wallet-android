@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresh_asset"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -40,16 +40,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text=""
-                    android:textColor="#B3BFD0"
+                    android:text="钱包名字"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/txt_mediumsize" />
 
                 <ImageView
+                    android:id="@+id/create_wallet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/qmui_icon_notify_info" />
+                    android:src="@mipmap/create_wallet" />
             </RelativeLayout>
 
 
@@ -61,22 +62,20 @@
                 android:layout_marginTop="@dimen/h10"
                 android:orientation="horizontal">
 
-                <TextView
+                <ImageView
                     android:layout_width="@dimen/h30"
                     android:layout_height="@dimen/h30"
-                    android:background="@drawable/comm_yellow_circle"
-                    android:gravity="center_vertical"
-                    android:text="ionc"
+                    android:layout_gravity="bottom"
+                    android:background="@mipmap/wallet_logo"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_microsize" />
-
 
                 <TextView
                     android:id="@+id/walletBalanceTx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/h5"
-                    android:gravity="bottom"
+                    android:layout_gravity="bottom"
                     android:text="0.0000"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_biglargesize"
@@ -86,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/h5"
-                    android:gravity="bottom"
+                    android:layout_gravity="bottom"
                     android:text="IONC"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_microsize"
@@ -94,20 +93,11 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/h16"
-                android:layout_marginTop="@dimen/h5"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="@dimen/txt_microsize" />
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h1"
-                android:layout_margin="@dimen/h16"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:background="#B3BFD0" />
 
 
@@ -154,5 +144,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
-</RelativeLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

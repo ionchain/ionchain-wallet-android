@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,12 +16,16 @@ import android.widget.Toast;
 import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.comm.utils.StringUtils;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
@@ -30,7 +35,7 @@ import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 import static com.fast.lib.utils.LibSystemUtils.hideKeyBoard;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements OnRefreshListener {
 
 
     @BindView(R.id.codeIv)
@@ -43,6 +48,10 @@ public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.walletAddressTx)
     TextView walletAddressTx;
+    @BindView(R.id.create_wallet)
+    ImageView mImageView;
+
+    private SmartRefreshLayout mSmartRefreshLayout;
 
     @SuppressLint("HandlerLeak")
     Handler walletHandler = new Handler() {
@@ -75,11 +84,11 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void immersionInit() {
-        ImmersionBar.with(this)
+        ImmersionBar.with(getActivity()).with(this)
                 .statusBarDarkFont(false)
                 .transparentStatusBar()
                 .statusBarView(R.id.statusView)
-                .navigationBarColor(R.color.black,0.5f)
+                .navigationBarColor(R.color.black, 0.5f)
                 .fitsSystemWindows(false)
                 .init();
     }
@@ -87,9 +96,9 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
-        try{
+        try {
 
-            switch (what){
+            switch (what) {
                 case R.id.addBtn:
                     transfer(CreateWalletSelectActivity.class);
                     break;
@@ -98,11 +107,11 @@ public class HomeFragment extends BaseFragment {
                     break;
                 case 0:
                     dismissProgressDialog();
-                    if(obj == null)
+                    if (obj == null)
                         return;
 
-                    ResponseModel<String> responseModel = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel)){
+                    ResponseModel<String> responseModel = (ResponseModel) obj;
+                    if (!verifyStatus(responseModel)) {
                         ToastUtil.showShortToast(responseModel.getMsg());
                         return;
                     }
@@ -111,19 +120,28 @@ public class HomeFragment extends BaseFragment {
                     break;
             }
 
-        }catch (Throwable e){
-            Logger.e(e,TAG);
+        } catch (Throwable e) {
+            Logger.e(e, TAG);
         }
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_home);
+
+        mSmartRefreshLayout = getViewById(R.id.refresh_asset);
+        mSmartRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
     protected void setListener() {
         setOnClickListener(R.id.walletLayout);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transfer(CreateWalletSelectActivity.class);
+            }
+        });
 
     }
 
@@ -134,24 +152,12 @@ public class HomeFragment extends BaseFragment {
 
 
     private void createChineseQRCode() {
-        /*
-        这里为了偷懒，就没有处理匿名 AsyncTask 内部类导致 Activity 泄漏的问题
-        请开发在使用时自行处理匿名内部类导致Activity内存泄漏的问题，处理方式可参考 https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md
-         */
-        new AsyncTask<Void, Void, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-                return QRCodeEncoder.syncEncodeQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress(), BGAQRCodeUtil.dp2px(getActivity(), 80));
-            }
+        Log.i("time", "createChineseQRCode: "+System.currentTimeMillis());
+        long t = System.currentTimeMillis();
+        Bitmap bitmap = QRCodeEncoder.syncEncodeQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress(), BGAQRCodeUtil.dp2px(getActivity(), 80));
+        Log.i("time", "createChineseQRCode: "+(System.currentTimeMillis()-t));
+        codeIv.setImageBitmap(bitmap);
 
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                if (bitmap != null) {
-                    codeIv.setImageBitmap(bitmap);
-                } else {
-                }
-            }
-        }.execute();
     }
 
     @Override
@@ -174,19 +180,37 @@ public class HomeFragment extends BaseFragment {
         return R.string.tab_home;
     }
 
-    private void reloadInfo(){
+    /**
+     * 获取钱包信息，并加载展示
+     */
+    private void reloadInfo() {
+
 
         Wallet wallet = ApiWalletManager.getInstance().getMyWallet();
+        if (wallet == null) {
+            return;
+        }
         walletNameTx.setText(wallet.getName());
         walletAddressTx.setText(wallet.getAddress());
-        walletBalanceTx.setText("0.0000");
-        ApiWalletManager.getInstance().reLoadBlance(wallet,walletHandler);
+        if (!StringUtils.isEmpty(wallet.getBalance())) {
+            walletBalanceTx.setText(wallet.getBalance());// 钱包金额
+        } else {
+            walletBalanceTx.setText("0.0000");// 钱包金额
+        }
+
+        ApiWalletManager.getInstance().reLoadBlance(wallet, walletHandler);
         createChineseQRCode();
+        mSmartRefreshLayout.finishRefresh();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+//        reloadInfo();
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshlayout) {
         reloadInfo();
     }
 }

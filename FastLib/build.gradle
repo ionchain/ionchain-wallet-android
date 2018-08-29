@@ -45,22 +45,6 @@ dependencies {
     api "com.andkulikov:transitionseverywhere:$rootProject.transitionseverywhereVersion"
     api "pub.devrel:easypermissions:$rootProject.easypermissionsVersion"
     api "com.android.support:multidex:$rootProject.multidexVersion"
-
-
-
-
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-alpha-0'
-
-
-    testImplementation 'junit:junit:4.12'
-
-    // 数据拦截工具 stetho
-    api "com.facebook.stetho:stetho:$rootProject.stethoVersion"
-    api "com.facebook.stetho:stetho-okhttp3:$rootProject.stethoVersion"
-
-    // 内存检测工具 leakcanary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryVersion"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion"
-    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion"
 }
 
