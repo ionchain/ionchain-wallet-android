@@ -1,7 +1,8 @@
 package org.ionchain.wallet.ui.main;
 
 import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -28,8 +28,8 @@ import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
 import butterknife.BindView;
-import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
-import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
+
+import static org.ionchain.wallet.comm.utils.QRCodeUtils.generateQRCode;
 
 public class HomeFragment extends BaseFragment implements OnRefreshListener {
 
@@ -61,7 +61,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 switch (resulit) {
                     case WALLET_BALANCE:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            Toast.makeText(HomeFragment.this.getContext(), "余额度已刷新", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(HomeFragment.this.getContext(), "余额度已刷新", Toast.LENGTH_SHORT).show();
                             walletBalanceTx.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
                         } else {
                             Toast.makeText(HomeFragment.this.getContext(), "余额度刷新失败", Toast.LENGTH_SHORT).show();
@@ -78,16 +78,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         }
     };
 
-    @Override
-    protected void immersionInit() {
-        ImmersionBar.with(getActivity()).with(this)
-                .statusBarDarkFont(false)
-                .transparentStatusBar()
-                .statusBarView(R.id.statusView)
-                .navigationBarColor(R.color.black, 0.5f)
-                .fitsSystemWindows(false)
-                .init();
-    }
+
 
     @Override
     public void handleMessage(int what, Object obj) {
@@ -109,11 +100,11 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                     ResponseModel<String> responseModel = (ResponseModel) obj;
                     if (!verifyStatus(responseModel)) {
                         ToastUtil.showShortToast(responseModel.getMsg());
-                        return;
                     }
-
-
                     break;
+//                case R.id.walletAddressTx:
+//                    Toast.makeText(getActivity(), "ssss", Toast.LENGTH_SHORT).show();
+//                    break;
             }
 
         } catch (Throwable e) {
@@ -121,17 +112,29 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         }
     }
 
+
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_asset);
-
         mSmartRefreshLayout = getViewById(R.id.refresh_asset);
         mSmartRefreshLayout.setOnRefreshListener(this);
+        mImmersionBar.titleBar(getViewById(R.id.statusView)).init();
     }
 
     @Override
     protected void setListener() {
         setOnClickListener(R.id.walletLayout);
+        walletAddressTx.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardManager copy = (ClipboardManager) getActivity()
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                copy.setText(walletAddressTx.getText());
+                Toast.makeText(getActivity(), "已复制地址", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,16 +147,6 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
         reloadInfo();
-    }
-
-
-    private void createChineseQRCode() {
-        Log.i("time", "createChineseQRCode: "+System.currentTimeMillis());
-        long t = System.currentTimeMillis();
-        Bitmap bitmap = QRCodeEncoder.syncEncodeQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress(), BGAQRCodeUtil.dp2px(getActivity(), 80));
-        Log.i("time", "createChineseQRCode: "+(System.currentTimeMillis()-t));
-        codeIv.setImageBitmap(bitmap);
-
     }
 
     @Override
@@ -195,14 +188,14 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         }
 
         ApiWalletManager.getInstance().reLoadBlance(wallet, walletHandler);
-        createChineseQRCode();
+        generateQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress(),codeIv);
         mSmartRefreshLayout.finishRefresh();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-//        reloadInfo();
+        reloadInfo();
     }
 
     @Override
