@@ -1,14 +1,9 @@
 package org.ionchain.wallet.adpter;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-
-import com.fast.lib.glideimageloader.ImageLoadConfig;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.model.Article;
-import org.ionchain.wallet.comm.api.model.Wallet;
-import org.ionchain.wallet.config.ImgLoader;
 
 import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter;
 import cn.bingoogolapple.baseadapter.BGAViewHolderHelper;

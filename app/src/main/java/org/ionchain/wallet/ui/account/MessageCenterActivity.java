@@ -3,8 +3,6 @@ package org.ionchain.wallet.ui.account;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
@@ -12,19 +10,13 @@ import com.fast.lib.widget.recyclerview.LibraryRecyclerView;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adpter.MessageCenterAdapter;
-import org.ionchain.wallet.adpter.WalletManageAdapter;
-import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseActivity;
-import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
-import org.ionchain.wallet.ui.wallet.ImprotWalletActivity;
-import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import cn.bingoogolapple.baseadapter.BGAOnRVItemClickListener;
 
 public class MessageCenterActivity extends BaseActivity {
 

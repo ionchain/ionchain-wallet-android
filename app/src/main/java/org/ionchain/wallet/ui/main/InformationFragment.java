@@ -3,11 +3,8 @@ package org.ionchain.wallet.ui.main;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
@@ -19,15 +16,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adpter.InformationAdapter;
-import org.ionchain.wallet.adpter.WalletManageAdapter;
 import org.ionchain.wallet.comm.api.ApiArticle;
 import org.ionchain.wallet.comm.api.model.Article;
 import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.comm.helper.RequestHelper;
-import org.ionchain.wallet.model.UserModel;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.login.LoginActivity;
 

@@ -1,16 +1,10 @@
 package org.ionchain.wallet.comm.api.request;
 
-import com.fast.lib.logger.Logger;
-
-import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.comm.utils.ParamsUtils;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 
-import java.io.File;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 
 
 public class ViewParm {

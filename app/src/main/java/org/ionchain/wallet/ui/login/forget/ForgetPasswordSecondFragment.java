@@ -21,7 +21,6 @@ import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.ui.comm.BaseFragment;
-import org.ionchain.wallet.ui.login.register.RegisterThirdFragment;
 
 import butterknife.BindView;
 

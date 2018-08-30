@@ -1,11 +1,10 @@
 package org.ionchain.wallet.comm.api.model;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
-
-import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class Wallet implements Serializable {

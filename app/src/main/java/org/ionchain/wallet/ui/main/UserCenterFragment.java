@@ -12,9 +12,9 @@ import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.ui.account.MessageCenterActivity;
+import org.ionchain.wallet.ui.account.WalletManageActivity;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.login.LoginActivity;
-import org.ionchain.wallet.ui.account.WalletManageActivity;
 
 import butterknife.BindView;
 

@@ -20,7 +20,6 @@ import com.fast.lib.okhttp.ResponseBean;
 
 import org.greenrobot.eventbus.EventBus;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;

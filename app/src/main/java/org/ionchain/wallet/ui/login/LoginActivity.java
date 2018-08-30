@@ -8,14 +8,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 
-import com.fast.lib.event.CommonEvent;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 import com.google.gson.reflect.TypeToken;
 
-import org.greenrobot.eventbus.EventBus;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.api.ApiArticle;
 import org.ionchain.wallet.comm.api.ApiLogin;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.request.ViewParm;

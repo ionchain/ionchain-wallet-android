@@ -5,8 +5,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import java.util.Calendar;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**

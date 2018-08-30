@@ -28,7 +28,6 @@ import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
-import org.ionchain.wallet.ui.main.WelcomeActivity;
 
 import java.io.File;
 

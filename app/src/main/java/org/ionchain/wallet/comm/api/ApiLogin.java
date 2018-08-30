@@ -1,22 +1,10 @@
 package org.ionchain.wallet.comm.api;
 
-import com.fast.lib.logger.Logger;
-import com.fast.lib.okhttp.ResponseBean;
-import com.fast.lib.okhttp.callback.ResultCallback;
-import com.fast.lib.okhttp.request.OkHttpRequest;
-
 import org.ionchain.wallet.comm.api.conf.ApiConfig;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.request.ViewParm;
-import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.ui.comm.BaseActivity;
 
-import java.lang.reflect.Type;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.util.HashMap;
-
-import okhttp3.Request;
 
 public class ApiLogin extends BaseApi {
 

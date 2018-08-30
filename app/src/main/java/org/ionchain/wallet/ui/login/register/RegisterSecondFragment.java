@@ -19,7 +19,6 @@ import org.ionchain.wallet.comm.api.ApiLogin;
 import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.model.UserModel;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 
 import butterknife.BindView;

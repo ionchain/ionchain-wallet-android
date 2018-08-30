@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fast.lib.event.CommonEvent;
 import com.fast.lib.immersionbar.ImmersionBar;
@@ -29,7 +28,6 @@ import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.utils.StringUtils;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseActivity;
-import org.ionchain.wallet.ui.main.WelcomeActivity;
 
 import java.io.File;
 

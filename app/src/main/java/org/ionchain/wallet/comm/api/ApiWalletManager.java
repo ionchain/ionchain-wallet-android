@@ -16,7 +16,6 @@ import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
-import org.ionchain.wallet.comm.constants.Comm;
 import org.json.JSONObject;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;

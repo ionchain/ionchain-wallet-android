@@ -1,22 +1,17 @@
 package org.ionchain.wallet;
 
 import android.app.ActivityManager;
-import android.app.Notification;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.fast.lib.base.LibApp;
 import com.fast.lib.glideimageloader.ImageLoadConfig;
 import com.fast.lib.logger.Logger;
-import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;

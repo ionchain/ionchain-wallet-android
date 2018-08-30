@@ -42,7 +42,6 @@ import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.network.SonicRuntimeImpl;
 import org.ionchain.wallet.comm.network.SonicSessionClientImpl;
 
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;

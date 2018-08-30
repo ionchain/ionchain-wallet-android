@@ -1,7 +1,5 @@
 package org.ionchain.wallet.comm.api.constant;
 
-import android.app.Application;
-
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.constants.Global;
 

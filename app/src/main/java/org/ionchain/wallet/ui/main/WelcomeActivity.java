@@ -1,17 +1,12 @@
 package org.ionchain.wallet.ui.main;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -26,12 +21,9 @@ import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.comm.utils.StorageUtils;
-import org.ionchain.wallet.db.EntityManager;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
-import org.ionchain.wallet.ui.login.LoginActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
 import butterknife.BindView;
