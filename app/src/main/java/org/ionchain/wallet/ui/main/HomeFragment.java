@@ -2,11 +2,9 @@ package org.ionchain.wallet.ui.main;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,8 +30,6 @@ import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 import butterknife.BindView;
 import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
-
-import static com.fast.lib.utils.LibSystemUtils.hideKeyBoard;
 
 public class HomeFragment extends BaseFragment implements OnRefreshListener {
 
@@ -127,7 +123,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.fragment_home);
+        setContentView(R.layout.fragment_asset);
 
         mSmartRefreshLayout = getViewById(R.id.refresh_asset);
         mSmartRefreshLayout.setOnRefreshListener(this);

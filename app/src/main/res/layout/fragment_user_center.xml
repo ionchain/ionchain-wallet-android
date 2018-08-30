@@ -29,7 +29,7 @@
             <ImageView
                 android:layout_width="@dimen/h60"
                 android:layout_height="@dimen/h60"
-                android:src="@mipmap/login_logo"/>
+                android:src="@mipmap/login_register_logo"/>
 
 
             <TextView
