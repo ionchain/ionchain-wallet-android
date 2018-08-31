@@ -3,7 +3,6 @@ package org.ionchain.wallet.ui.main;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 
@@ -67,20 +66,24 @@ public class UserCenterFragment extends BaseFragment {
         }
     }
 
-    @Override
-    protected void immersionInit() {
-        ImmersionBar.with(this)
-                .statusBarDarkFont(true)
-                .statusBarColor(R.color.window_bg)
-                .navigationBarColor(R.color.black,0.5f)
-                .fitsSystemWindows(true)
-                .init();
-    }
+
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_user_center);
-
+        mImmersionBar.titleBar(getViewById(R.id.top_view))
+                .statusBarDarkFont(true)
+                .init();
+//        setDarkStatusBar(mImmersionBar,getViewById(R.id.top_view));
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            mImmersionBar.titleBar(getViewById(R.id.top_view))
+                    .statusBarDarkFont(true)
+                    .init();
+        }
     }
 
     @Override
