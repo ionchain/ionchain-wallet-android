@@ -24,6 +24,7 @@ import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.comm.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
@@ -164,6 +165,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
             switch (what) {
                 case R.id.navigationBack:
                     finish();
+                    SoftKeyboardUtil.hideSoftKeyboard(this);
                     break;
                 case R.id.createBtn:
                     Log.e("wallet", "xxxxxxx");
