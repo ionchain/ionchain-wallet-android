@@ -3,38 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh_asset"
     android:layout_width="match_parent"
+    app:srlPrimaryColor="#3574FA"
+    app:srlAccentColor="#3574FA"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <TextView
+            android:id="@+id/statusView"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#3574FA"
+            android:paddingLeft="@dimen/h16"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size"
+            android:text="资产"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@mipmap/app_bar"
             android:orientation="vertical">
-
-            <View
-                android:id="@+id/statusView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/qmui_topbar_height"
-                android:background="@color/transparent"
-                app:navigationIcon="?attr/homeAsUpIndicator"
-                app:titleTextColor="@color/white" />
-
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/h16"
                 android:layout_marginRight="@dimen/h16">
-
                 <TextView
                     android:id="@+id/walletNameTx"
                     android:layout_width="wrap_content"
@@ -52,9 +47,8 @@
                     android:layout_centerVertical="true"
                     android:src="@mipmap/create_wallet" />
             </RelativeLayout>
-
-
             <LinearLayout
+                android:id="@+id/modify_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h40"
                 android:layout_marginLeft="@dimen/h16"
@@ -92,27 +86,23 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h1"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="#B3BFD0" />
-
-
             <RelativeLayout
                 android:id="@+id/walletLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/h16"
                 android:layout_marginLeft="@dimen/h16"
                 android:layout_marginRight="@dimen/h16">
 
                 <ImageView
                     android:id="@+id/codeIv"
-                    android:layout_width="@dimen/h80"
-                    android:layout_height="@dimen/h80"
+                    android:layout_width="@dimen/h60"
+                    android:layout_height="@dimen/h60"
                     android:layout_alignParentRight="true"
                     android:src="@mipmap/def_img_lib" />
 
@@ -144,4 +134,5 @@
 
         </LinearLayout>
     </LinearLayout>
+
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>
