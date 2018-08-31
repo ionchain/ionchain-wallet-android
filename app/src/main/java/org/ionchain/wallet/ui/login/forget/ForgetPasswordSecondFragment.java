@@ -97,10 +97,6 @@ public class ForgetPasswordSecondFragment extends BaseFragment implements TextWa
     }
 
 
-    @Override
-    protected void immersionInit() {
-
-    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {

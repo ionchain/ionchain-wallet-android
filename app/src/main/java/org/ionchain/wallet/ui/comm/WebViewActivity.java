@@ -183,7 +183,7 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
 
 
         mTitle = getIntent().getStringExtra(Comm.SERIALIZABLE_DATA1);

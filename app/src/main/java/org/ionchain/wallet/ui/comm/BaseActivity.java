@@ -20,9 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fast.lib.base.LibActivity;
-import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.okhttp.ResponseBean;
+import com.gyf.barlibrary.ImmersionBar;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
@@ -51,7 +51,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
     int statusBarHeight = 0;
 
     private Menu menu;
-
+    protected ImmersionBar mImmersionBar;
 
     /**
      * 需要进行检测的权限数组
@@ -129,15 +129,15 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
 
                     } catch (Throwable e) {
 
-                        try{
-                            HashMap map =  Global.mGson.fromJson(result,HashMap.class);
+                        try {
+                            HashMap map = Global.mGson.fromJson(result, HashMap.class);
 
                             ResponseModel responseModel = new ResponseModel();
                             responseModel.setCode(map.get("code").toString());
                             responseModel.setMsg(map.get("msg").toString());
                             responseModel.setData(Global.mGson.toJson(map.get("data")));
                             jsonObject = responseModel;
-                        }catch (Throwable e1){
+                        } catch (Throwable e1) {
                             Logger.e(TAG, e);
                             Logger.e(TAG, e1);
                             ResponseModel jsonMsgModel = new ResponseModel();
@@ -145,7 +145,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
                             jsonMsgModel.setMsg("Json解析的错误");
                             jsonObject = jsonMsgModel;
                         }
-                    }finally {
+                    } finally {
                         handleMessage(successfulBean.refreshType, jsonObject);
                     }
 
@@ -155,25 +155,27 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
                     break;
             }
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
     }
 
-    public void handleMessage(int what, Object obj) {};
+    public void handleMessage(int what, Object obj) {
+    }
+
+    ;
 
 
     public void initToolbar() {
         try {
-            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            mToolbar = (Toolbar) findViewById(R.id.back);
 
             if (mToolbar == null)
                 return;
 
 
-
-            if(getActivityTitleContent() !=0){
+            if (getActivityTitleContent() != 0) {
                 mToolbar.setTitle(getActivityTitleContent());
-            }else{
+            } else {
                 mToolbar.setTitle("");
             }
             setSupportActionBar(mToolbar);
@@ -191,21 +193,21 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
                 }
             });
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
     }
 
 
     public void setNavigationIcon(@DrawableRes int resId) {
         try {
-            if(resId == 0){
+            if (resId == 0) {
                 mToolbar.setNavigationIcon(null);
-            }else{
+            } else {
                 mToolbar.setNavigationIcon(resId);
             }
 
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
     }
 
@@ -213,7 +215,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         try {
             mToolbar.setNavigationContentDescription(resId);
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
     }
 
@@ -226,7 +228,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
             }
 
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
 
         return true;
@@ -238,7 +240,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
         ActivityHelper.getHelper().addActivity(this);
-//        ImmersionBar.with(this).init();
+        mImmersionBar = ImmersionBar.with(this);
         int REQUEST_EXTERNAL_STORAGE = 1;
         String[] PERMISSIONS_STORAGE = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -256,7 +258,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
         }
 
         initView(savedInstanceState);
-        processLogic(savedInstanceState);
+        initData(savedInstanceState);
         setListener();
     }
 
@@ -264,13 +266,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
-        if (systemBar)
-            ImmersionBar.with(this)
-                    .statusBarDarkFont(true)
-                    .statusBarColor(R.color.window_bg)
-                    .navigationBarColor(R.color.black,0.5f)
-                    .fitsSystemWindows(true)
-                    .init();
+        ImmersionBar.with(this).init();
         initToolbar();
 
     }
@@ -291,7 +287,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
      *
      * @param savedInstanceState
      */
-    protected abstract void processLogic(Bundle savedInstanceState);
+    protected abstract void initData(Bundle savedInstanceState);
 
 
     /**
@@ -321,7 +317,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
      * @param <VT> View类型
      * @return
      */
-    protected <VT extends View> VT getViewById(View rootView,@IdRes int id) {
+    protected <VT extends View> VT getViewById(View rootView, @IdRes int id) {
         return (VT) rootView.findViewById(id);
     }
 

@@ -108,11 +108,6 @@ public class ForgetPasswordThirdFragment extends BaseFragment implements TextWat
 
 
     @Override
-    protected void immersionInit() {
-
-    }
-
-    @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_register_third);
 

@@ -105,12 +105,6 @@ public class RegisterFirstFragment extends BaseFragment implements TextWatcher {
         }
     }
 
-
-    @Override
-    protected void immersionInit() {
-
-    }
-
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_register_first);

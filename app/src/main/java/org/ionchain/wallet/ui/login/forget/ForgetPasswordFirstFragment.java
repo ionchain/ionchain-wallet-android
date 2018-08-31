@@ -92,11 +92,6 @@ public class ForgetPasswordFirstFragment extends BaseFragment implements TextWat
 
 
     @Override
-    protected void immersionInit() {
-
-    }
-
-    @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_password_first);
         initTime();

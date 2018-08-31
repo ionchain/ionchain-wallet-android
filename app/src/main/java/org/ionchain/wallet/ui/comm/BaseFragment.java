@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.fast.lib.base.LibFragment;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.okhttp.ResponseBean;
+import com.gyf.barlibrary.ImmersionBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.ionchain.wallet.R;
@@ -45,6 +46,7 @@ public abstract class BaseFragment extends LibFragment {
 
     private Unbinder unbinder;
 
+    protected ImmersionBar mImmersionBar;
 
     public boolean isClose() {
         return isClose;
@@ -140,19 +142,17 @@ public abstract class BaseFragment extends LibFragment {
     }
 
 
-    protected abstract void immersionInit();
-
     public void initToolbar() {
         try {
-            mToolbar = (Toolbar) mContentView.findViewById(R.id.toolbar);
+            mToolbar = (Toolbar) mContentView.findViewById(R.id.back);
 
             if (mToolbar == null)
                 return;
 
 
-            if(getActivityTitleContent() !=0){
+            if (getActivityTitleContent() != 0) {
                 mToolbar.setTitle(getActivityTitleContent());
-            }else{
+            } else {
                 mToolbar.setTitle("");
             }
 
@@ -171,21 +171,24 @@ public abstract class BaseFragment extends LibFragment {
                 }
             });
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
         TAG = this.getClass().getSimpleName();
         // 避免多次从xml中加载布局文件
         if (mContentView == null) {
 
             if (getActivityMenuRes() != 0)
                 setHasOptionsMenu(true);
-
+            if (mImmersionBar == null) {
+                mImmersionBar = ImmersionBar.with(this);
+                mImmersionBar.init();
+            }
             initView(savedInstanceState);
 
             processLogic(savedInstanceState);
@@ -214,7 +217,7 @@ public abstract class BaseFragment extends LibFragment {
             initToolbar();
 
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
 
     }
@@ -225,7 +228,7 @@ public abstract class BaseFragment extends LibFragment {
             return mContentView;
 
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
 
         return null;
@@ -241,7 +244,7 @@ public abstract class BaseFragment extends LibFragment {
             }
 
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
 
         return true;
@@ -274,7 +277,7 @@ public abstract class BaseFragment extends LibFragment {
      * @param <VT> View类型
      * @return
      */
-    protected <VT extends View> VT getViewById(View rootView,@IdRes int id) {
+    protected <VT extends View> VT getViewById(View rootView, @IdRes int id) {
         return (VT) rootView.findViewById(id);
     }
 
@@ -309,17 +312,16 @@ public abstract class BaseFragment extends LibFragment {
 
     public void setNavigationIcon(@DrawableRes int resId) {
         try {
-            if(resId == 0){
+            if (resId == 0) {
                 mToolbar.setNavigationIcon(null);
-            }else{
+            } else {
                 mToolbar.setNavigationIcon(resId);
             }
 
         } catch (Throwable e) {
-            Logger.e(e,TAG);
+            Logger.e(e, TAG);
         }
     }
-
 
 
     @Override
@@ -375,7 +377,9 @@ public abstract class BaseFragment extends LibFragment {
         if (isRegisterEventBus()) {
             EventBus.getDefault().unregister(this);
         }
-
+        if (mImmersionBar != null) {
+            mImmersionBar.destroy();
+        }
     }
 
     @Override
@@ -388,10 +392,6 @@ public abstract class BaseFragment extends LibFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Logger.i(TAG + "==onResume");
-        if (getUserVisibleHint()) {
-            immersionInit();
-        }
     }
 
     @Override
@@ -407,7 +407,7 @@ public abstract class BaseFragment extends LibFragment {
         Logger.i(TAG + "==onStop");
     }
 
-    public void sendWalletLocalApi(){
+    public void sendWalletLocalApi() {
 //        ResponseBean responseBean = new ResponseBean();
 //        responseBean.refreshType = refreshType;
 //        responseBean.obj = response;

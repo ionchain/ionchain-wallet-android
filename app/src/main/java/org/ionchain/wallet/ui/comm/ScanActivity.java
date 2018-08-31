@@ -79,7 +79,7 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate{
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
         mQRCodeView.startSpot();
     }
 

@@ -85,7 +85,7 @@ public class MessageCenterActivity extends BaseActivity {
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
 
     }
 

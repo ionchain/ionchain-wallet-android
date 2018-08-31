@@ -92,10 +92,6 @@ public class RegisterSecondFragment extends BaseFragment implements TextWatcher 
     }
 
 
-    @Override
-    protected void immersionInit() {
-
-    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {

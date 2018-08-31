@@ -3,9 +3,9 @@ package org.ionchain.wallet.ui.wallet;
 import android.os.Bundle;
 import android.widget.CheckBox;
 
-import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
+import com.gyf.barlibrary.ImmersionBar;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
@@ -84,7 +84,7 @@ public class CreateWalletSelectActivity extends BaseActivity {
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
 
     }
 

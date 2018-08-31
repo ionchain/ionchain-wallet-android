@@ -87,7 +87,7 @@ public class CreateWalletProtocolActivity extends BaseActivity {
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
         initWebView();
         mWebView.loadUrl("file:///android_asset/xy.html");
     }

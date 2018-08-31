@@ -130,7 +130,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
 
     }
 
