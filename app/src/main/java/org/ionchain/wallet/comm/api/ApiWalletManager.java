@@ -6,9 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.fast.lib.logger.Logger;
 import com.fast.lib.okhttp.callback.ResultCallback;
 import com.fast.lib.okhttp.request.OkHttpRequest;
-import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.comm.api.conf.ApiConfig;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
