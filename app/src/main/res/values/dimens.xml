@@ -2,5 +2,6 @@
 <resources>
 
     <dimen name="ButtonCornerSize">5dp</dimen>
+    <dimen name="title_size">20sp</dimen>
 
 </resources>

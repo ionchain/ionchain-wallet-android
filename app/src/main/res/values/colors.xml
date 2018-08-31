@@ -22,6 +22,7 @@
     
     <color name="btn_semicircle_color">#D3E1FF</color>
     <color name="main_btn_color_normal_50abf1">#50ABF1</color>
+    <color name="title_color_blue">#3574FA</color>
 
 
 </resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.ionchain.wallet.widget.IONCTitleBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ionc_title_bar"
+    android:layout_height="?actionBarSize">
+
+    <ImageView
+        android:id="@+id/left_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/h10"
+        android:background="@drawable/qmui_icon_topbar_back" />
+
+    <TextView
+        android:id="@+id/left_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/left_img"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="@dimen/title_size"
+        android:text="返回" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_size"
+        android:text="标题" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/right_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/h10"
+        android:background="@mipmap/scan" />
+
+    <TextView
+        android:id="@+id/right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/h10"
+        android:textSize="@dimen/title_size"
+        android:textColor="@color/white"
+        android:text="保存" />
+</org.ionchain.wallet.widget.IONCTitleBar>
