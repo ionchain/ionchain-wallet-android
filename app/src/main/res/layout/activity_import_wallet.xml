@@ -10,16 +10,11 @@
         android:id="@+id/toolbarlayout"
         layout="@layout/layout_toolbar"/>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbarlayout">
     <LinearLayout
+        android:layout_below="@id/toolbarlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/contentEt"
             android:layout_width="match_parent"
@@ -106,7 +101,5 @@
 
 
     </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>
