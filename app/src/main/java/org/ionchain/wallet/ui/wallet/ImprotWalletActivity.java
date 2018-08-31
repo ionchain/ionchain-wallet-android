@@ -152,7 +152,9 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_import_wallet);
-
+        mImmersionBar.titleBar(getViewById(R.id.toolbarlayout))
+                .statusBarDarkFont(true)
+                .init();
     }
 
     @Override
