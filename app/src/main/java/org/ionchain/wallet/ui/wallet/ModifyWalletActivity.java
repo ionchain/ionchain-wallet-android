@@ -8,11 +8,11 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.fast.lib.event.CommonEvent;
-import com.fast.lib.immersionbar.ImmersionBar;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.ToastUtil;
@@ -25,14 +25,21 @@ import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.comm.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.comm.utils.StringUtils;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.widget.IONCTitleBar;
 
 import java.io.File;
 
 import butterknife.BindView;
 
+import static org.ionchain.wallet.db.WalletDaoTools.updateWallet;
+
+/**
+ * 修改钱包：钱包名、修改密码、导出私钥
+ */
 public class ModifyWalletActivity extends BaseActivity {
 
 
@@ -125,7 +132,11 @@ public class ModifyWalletActivity extends BaseActivity {
                     case WALLET_BALANCE:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
                             Logger.i("余额已刷新");
-                            walletBalanceTv.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
+                            if (!StringUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getBalance())) {
+                                walletBalanceTv.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
+                            }else{
+                                walletBalanceTv.setText("0.0000");
+                            }
                         } else {
                             ToastUtil.showShortToast("余额刷新失败");
                         }
@@ -154,20 +165,31 @@ public class ModifyWalletActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setSystemBar(false);
         super.onCreate(savedInstanceState);
-        ImmersionBar.with(this)
-                .statusBarDarkFont(false)
-                .transparentStatusBar()
-                .statusBarView(R.id.statusView)
-                .navigationBarColor(R.color.black, 0.5f)
-                .fitsSystemWindows(false)
-                .init();
+        final IONCTitleBar ioncTitleBar = findViewById(R.id.ionc_title_bar);
+        ioncTitleBar.setTitle(mWallet.getName());
+        ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        ioncTitleBar.setRightTextCLickedListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!StringUtils.isEmpty(walletNameEt.getText().toString())) {
+                    mWallet.setName(walletNameEt.getText().toString());
+                    ioncTitleBar.setTitle(walletNameEt.getText().toString());
+                    SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
+                    updateWallet(mWallet);
+                }
+            }
+        });
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_wallet_modify);
         mWallet = (Wallet) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
-
     }
 
     @Override
@@ -179,7 +201,7 @@ public class ModifyWalletActivity extends BaseActivity {
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
 
         if (!TextUtils.isEmpty(mWallet.getAddress())) {
             walletAddressTv.setText(mWallet.getAddress());
