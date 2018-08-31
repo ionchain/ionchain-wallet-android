@@ -6,9 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.fast.lib.logger.Logger;
 import com.fast.lib.okhttp.callback.ResultCallback;
 import com.fast.lib.okhttp.request.OkHttpRequest;
+import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.comm.api.conf.ApiConfig;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
@@ -16,6 +16,7 @@ import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.db.WalletDaoTools;
 import org.json.JSONObject;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -84,8 +85,8 @@ public class ApiWalletManager {
         return isInit;
     }
 
-    private ApiWalletManager(Wallet myWallet, Context mContext) {
-        this.myWallet = myWallet;
+    private ApiWalletManager( Context mContext) {
+//        this.myWallet = wallet;
         this.contractAddress = null;
         this.walletIndexUrl = null;
         this.web3 = null;
@@ -110,15 +111,15 @@ public class ApiWalletManager {
         return instance;
     }
 
-    public static ApiWalletManager getInstance(Wallet myWallet, Context mContext) {
+    public static ApiWalletManager getInstance(Context mContext) {
         if (null == instance) {
-            instance = new ApiWalletManager(myWallet, mContext);
+            instance = new ApiWalletManager(mContext);
         }
         return instance;
     }
 
-    public static ApiWalletManager reloadInstance(Wallet myWallet, Context mContext) {
-        instance = new ApiWalletManager(myWallet, mContext);
+    public static ApiWalletManager reloadInstance(Context mContext) {
+        instance = new ApiWalletManager(mContext);
         return instance;
     }
 
@@ -127,18 +128,17 @@ public class ApiWalletManager {
      *
      * @param handler
      */
-    public void init(final Handler handler) {
+    public void init(final Handler handler,Wallet wallet) {
+        myWallet = wallet;
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 try {
                     //这里回头要从接口获取 现在先写死
-                    // TODO: 2018/8/29  这里回头要从接口获取 现在先写死
-                    contractAddress = DEF_CONTRACT_ADDRESS;
+//                    contractAddress = DEF_CONTRACT_ADDRESS;
                     walletIndexUrl = DEF_WALLET_ADDRESS;
                     web3 = Web3jFactory.build(new HttpService(walletIndexUrl));
-
                     try {
                         String url = ApiConfig.API_BASE_URL + ApiConstant.ApiUri.URI_SYS_INFO.getDesc();
                         printtest(url);
@@ -147,6 +147,7 @@ public class ApiWalletManager {
                         new OkHttpRequest.Builder().url(url).params(map).headers(null).post(new ResultCallback<String>() {
                             @Override
                             public void onError(Request request, Exception e) {
+                                printtest(e.getMessage());
                                 sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
                             }
 
@@ -168,6 +169,7 @@ public class ApiWalletManager {
                                     }
 
                                 } catch (Exception e) {
+                                    printtest(e.getMessage());
                                     sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
                                 }
 
@@ -175,11 +177,12 @@ public class ApiWalletManager {
                         });
 
                     } catch (Throwable e) {
-                        Logger.e(e, "getSysInfoSyn");
+                        printtest(e.getMessage());
                         sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
                     }
 
                 } catch (Exception e) {
+                    printtest(e.getMessage());
                     sendResult(handler, ApiConstant.WalletManagerType.MANAGER_INIT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
                 }
 
@@ -204,14 +207,12 @@ public class ApiWalletManager {
             public void run() {
                 super.run();
                 try {
-                    Wallet newWallet = null;
-                    if (null == wallet) newWallet = myWallet;
-                    else newWallet = wallet;
+
                     String filePath = DEF_WALLET_PATH;
-                    Bip39Wallet wallet = generateBip39Wallet(newWallet.getPassword(), new File(filePath));
-                    String keystore = filePath + "/" + wallet.getFilename();
-                    newWallet.setKeystore(keystore);
-                    loadWalltBaseInfo(newWallet);
+                    Bip39Wallet bip39Wallet = generateBip39Wallet(wallet.getPassword(), new File(filePath));
+                    String keystore = filePath + "/" + bip39Wallet.getFilename();
+                    wallet.setKeystore(keystore);
+                    loadWalletBaseInfo(wallet);
 
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_CREATE.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
                 } catch (Exception e) {
@@ -242,8 +243,7 @@ public class ApiWalletManager {
 
                 try {
                     importWallt(wallet, null);
-                    printtest("keystore name " + myWallet.getKeystore());
-                    loadWalltBaseInfo(wallet);
+                    loadWalletBaseInfo(wallet);
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_IMPORT.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
                 } catch (Exception e) {
                     Log.e("wallet", "", e);
@@ -396,16 +396,23 @@ public class ApiWalletManager {
         wallet.setPassword(passWord);
     }
 
-    private void loadWalltBaseInfo(Wallet wallet) throws IOException, CipherException {
-        if (null == wallet) wallet = myWallet;
+    /**
+     * 为用户创建钱包凭证
+     *
+     *  Credentials ：包含钱包地址，address
+     *
+     *                包含公私钥 ECKeyPair
+     *
+     */
+    private void loadWalletBaseInfo(Wallet wallet) throws IOException, CipherException {
         Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());
         wallet.setAddress(credentials.getAddress());
-        //wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
+        wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
         wallet.setPublickey(credentials.getEcKeyPair().getPublicKey().toString(16));
         printtest("address " + credentials.getAddress());
         printtest("xx  " + credentials.getEcKeyPair().getPublicKey().toString(16));
         printtest("oo  " + credentials.getEcKeyPair().getPrivateKey().toString(16));
-
+        WalletDaoTools.saveWallet(wallet);
     }
 
 
@@ -460,6 +467,15 @@ public class ApiWalletManager {
         return responseModel;
     }*/
 
+    /**
+     * 发送消息
+     *
+     * @param handler 处理消息的 对象
+     * @param type
+     * @param code
+     * @param msg
+     * @param data
+     */
     private void sendResult(Handler handler, int type, String code, String msg, Object data) {
         ResponseModel responseModel = new ResponseModel();
         responseModel.data = data;
@@ -477,6 +493,6 @@ public class ApiWalletManager {
     }
 
     public static void printtest(String info) {
-        Log.e("wallet", info);
+        Logger.d(info);
     }
 }
