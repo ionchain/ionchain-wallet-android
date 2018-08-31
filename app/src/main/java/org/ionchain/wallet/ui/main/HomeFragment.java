@@ -1,8 +1,6 @@
 package org.ionchain.wallet.ui.main;
 
 import android.annotation.SuppressLint;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,9 +21,11 @@ import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.utils.StringUtils;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
+import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;
 
 import butterknife.BindView;
 
@@ -63,6 +63,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
 //                            Toast.makeText(HomeFragment.this.getContext(), "余额度已刷新", Toast.LENGTH_SHORT).show();
                             walletBalanceTx.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
+                            walletNameTx.setText(ApiWalletManager.getInstance().getMyWallet().getName());
                         } else {
                             Toast.makeText(HomeFragment.this.getContext(), "余额度刷新失败", Toast.LENGTH_SHORT).show();
                         }
@@ -77,7 +78,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
             }
         }
     };
-
+    private Wallet mWallet;
 
 
     @Override
@@ -102,9 +103,10 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                         ToastUtil.showShortToast(responseModel.getMsg());
                     }
                     break;
-//                case R.id.walletAddressTx:
-//                    Toast.makeText(getActivity(), "ssss", Toast.LENGTH_SHORT).show();
-//                    break;
+                case R.id.modify_wallet:
+                    Toast.makeText(getActivity(), "修改钱包", Toast.LENGTH_SHORT).show();
+                    transfer(ModifyWalletActivity.class, Comm.SERIALIZABLE_DATA,mWallet);
+                    break;
             }
 
         } catch (Throwable e) {
@@ -113,25 +115,36 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     }
 
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            reloadInfo();
+            mImmersionBar.titleBar(getViewById(R.id.statusView))
+                    .init();
+        }
+    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_asset);
         mSmartRefreshLayout = getViewById(R.id.refresh_asset);
         mSmartRefreshLayout.setOnRefreshListener(this);
-        mImmersionBar.titleBar(getViewById(R.id.statusView)).init();
+        mImmersionBar.titleBar(getViewById(R.id.statusView))
+                .statusBarColor("#3574FA")
+                .init();
+
     }
 
     @Override
     protected void setListener() {
         setOnClickListener(R.id.walletLayout);
+        setOnClickListener(R.id.modify_wallet);
         walletAddressTx.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ClipboardManager copy = (ClipboardManager) getActivity()
-                        .getSystemService(Context.CLIPBOARD_SERVICE);
-                copy.setText(walletAddressTx.getText());
                 Toast.makeText(getActivity(), "已复制地址", Toast.LENGTH_LONG).show();
+                StringUtils.copy(getActivity(), walletAddressTx.getText().toString());
                 return false;
             }
         });
@@ -174,28 +187,21 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
      */
     private void reloadInfo() {
 
-
-        Wallet wallet = ApiWalletManager.getInstance().getMyWallet();
-        if (wallet == null) {
+        mWallet = ApiWalletManager.getInstance().getMyWallet();
+        if (mWallet == null) {
             return;
         }
-        walletNameTx.setText(wallet.getName());
-        walletAddressTx.setText(wallet.getAddress());
-        if (!StringUtils.isEmpty(wallet.getBalance())) {
-            walletBalanceTx.setText(wallet.getBalance());// 钱包金额
+        walletNameTx.setText(mWallet.getName());
+        walletAddressTx.setText(mWallet.getAddress());
+        if (!StringUtils.isEmpty(mWallet.getBalance())) {
+            walletBalanceTx.setText(mWallet.getBalance());// 钱包金额
         } else {
             walletBalanceTx.setText("0.0000");// 钱包金额
         }
 
-        ApiWalletManager.getInstance().reLoadBlance(wallet, walletHandler);
+        ApiWalletManager.getInstance().reLoadBlance(mWallet, walletHandler);
         generateQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress(),codeIv);
         mSmartRefreshLayout.finishRefresh();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        reloadInfo();
     }
 
     @Override
