@@ -4,7 +4,6 @@ import com.fast.lib.logger.Logger;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.ionchain.wallet.comm.api.model.Wallet;
-import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.greendao.gen.WalletDao;
 
 import java.util.List;
@@ -14,6 +13,14 @@ public class WalletDaoTools {
     public static Wallet getWalletByName(String name) {
         Wallet wallet = null;
         List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().where(WalletDao.Properties.Name.eq(name)).list();
+        if (list.size() > 0) {
+            wallet = list.get(0);
+        }
+        return wallet;
+    }
+    public static Wallet getWalletByAddress(String adress) {
+        Wallet wallet = null;
+        List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().where(WalletDao.Properties.Address.eq(adress)).list();
         if (list.size() > 0) {
             wallet = list.get(0);
         }
@@ -45,14 +52,10 @@ public class WalletDaoTools {
     public static void updateWallet(Wallet wallet) {
 
         try {
-            wallet.setPrivateKey(Comm.NULL);
-            wallet.setPassword(Comm.NULL);
             EntityManager.getInstance().getWalletDao().update(wallet);
         } catch (Throwable e) {
             Logger.e(e, "getAllWallet");
         }
-
-
     }
 
     public static Wallet getWalletByPrivateKey(String priavtekey) {
@@ -66,8 +69,8 @@ public class WalletDaoTools {
 
     public static long saveWallet(Wallet wallet) {
         //私钥不存储于数据库中
-        wallet.setPrivateKey(Comm.NULL);
-        wallet.setPassword(Comm.NULL);
+        wallet.setPrivateKey(wallet.getPrivateKey());
+        wallet.setPassword(wallet.getPassword());
         long id = EntityManager.getInstance().getWalletDao().insertOrReplace(wallet);
         return id;
     }
@@ -75,6 +78,11 @@ public class WalletDaoTools {
     public static void deleteWallet(Long id) {
         //私钥不存储于数据库中
         EntityManager.getInstance().getWalletDao().deleteByKey(id);
+    }
+
+    public static void deleteWallet(Wallet wallet) {
+        //私钥不存储于数据库中
+        EntityManager.getInstance().getWalletDao().delete(wallet);
     }
 
     //获取最新的 最老的钱包

@@ -124,10 +124,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                     requestCodeQRCodePermissions();
                     break;
                 case R.id.importBtn:
-
                     requestCodeImprotPermissions();
-
-
                     break;
                 case R.id.linkUrlTv:
                     transfer(WebViewActivity.class, Comm.SERIALIZABLE_DATA, Comm.URL_AGREE, Comm.SERIALIZABLE_DATA1, "条款");
@@ -172,7 +169,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
 
     }
 
@@ -181,9 +178,9 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == 999) {
-            String reslut = data.getStringExtra("result");
-            contentEt.setText(reslut);
-
+            String result = data.getStringExtra("result");
+            result = result.substring(result.length() - 42);
+            contentEt.setText(result);
         }
     }
 
@@ -258,7 +255,11 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
             String content = contentEt.getText().toString().trim();
             String resetpass = repwdEt.getText().toString().trim();
             String pass = pwdEt.getText().toString().trim();
-
+            Wallet wallet = WalletDaoTools.getWalletByAddress(content);
+            if (null != wallet) {
+                Toast.makeText(this, "该钱包已存在,钱包名 : " + wallet.getName(), Toast.LENGTH_LONG).show();
+                return;
+            }
             if (!resetpass.equals(pass)) {
                 Toast.makeText(this.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                 return;
