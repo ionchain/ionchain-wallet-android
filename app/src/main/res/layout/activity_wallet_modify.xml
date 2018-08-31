@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,70 +9,63 @@
         android:id="@+id/delBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="删除钱包"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/h16"
-        android:layout_alignParentBottom="true"/>
+        android:text="删除钱包" />
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/delBtn">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@mipmap/app_bar"
-            android:paddingTop="@dimen/h10"
-            android:paddingBottom="@dimen/h10">
-
-            <View
-                android:id="@+id/statusView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"/>
-
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/h10"
+            android:paddingTop="@dimen/h10">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/back"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/qmui_topbar_height"
-                app:navigationIcon="?attr/homeAsUpIndicator"
                 android:background="@color/transparent"
-                app:titleTextColor="@color/white"/>
+                android:visibility="gone"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:titleTextColor="@color/white" />
+
+            <include layout="@layout/custom_title_bar" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h40"
+                android:layout_marginTop="@dimen/h10"
                 android:layout_marginLeft="@dimen/h16"
                 android:layout_marginRight="@dimen/h16"
-                android:orientation="horizontal"
-                >
+                android:gravity="center|bottom"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/walletBalanceTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="center"
                     android:text="0.0000"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_biglargesize"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/h5"
-                    android:gravity="bottom"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="bottom"
                     android:text="IONC"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_microsize"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/h5"
-                    android:gravity="bottom"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -81,17 +73,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginLeft="@dimen/h16"
                 android:layout_marginRight="@dimen/h16"
-                android:layout_marginTop="@dimen/h10">
+                android:layout_marginTop="@dimen/h10"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="钱包地址"
                     android:textColor="#B3BFD0"
-                    android:textSize="@dimen/txt_smallsize"/>
+                    android:textSize="@dimen/txt_smallsize" />
 
                 <TextView
                     android:id="@+id/walletAddressTv"
@@ -99,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="#B3BFD0"
-                    android:textSize="@dimen/txt_smallsize"/>
+                    android:textSize="@dimen/txt_smallsize" />
 
             </LinearLayout>
 
@@ -110,22 +102,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="钱包名"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
             android:layout_marginTop="@dimen/h10"
-            android:textSize="@dimen/txt_mediumsize"/>
+            android:text="钱包名"
+            android:textSize="@dimen/txt_mediumsize" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/walletNameEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:hint="钱包名称"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
-            android:textSize="@dimen/txt_mediumsize"
+            android:hint="钱包名称"
             android:textColor="@color/library_33"
-            />
+            android:textSize="@dimen/txt_mediumsize" />
 
 
         <RelativeLayout
@@ -134,17 +125,18 @@
             android:layout_height="@dimen/h50"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="修改密码"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:text="修改密码" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h1"
                 android:layout_alignParentBottom="true"
-                android:background="@color/line"
-                />
+                android:background="@color/line" />
         </RelativeLayout>
 
 
@@ -154,28 +146,20 @@
             android:layout_height="@dimen/h50"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="导出私钥"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:text="导出私钥" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h1"
                 android:layout_alignParentBottom="true"
-                android:background="@color/line"
-                />
+                android:background="@color/line" />
         </RelativeLayout>
 
 
-
-
-
-
-
-
     </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-
 </RelativeLayout>
