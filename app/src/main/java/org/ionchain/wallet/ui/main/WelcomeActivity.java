@@ -126,9 +126,9 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
         try {
-            Animation aAnimation = new AlphaAnimation(1.0f, 1.0f);
+            Animation aAnimation = new AlphaAnimation(0.0f, 1.0f);
             aAnimation.setDuration(2000);
             aAnimation.setAnimationListener(new Animation.AnimationListener() {
 
@@ -136,7 +136,9 @@ public class WelcomeActivity extends BaseActivity {
                 public void onAnimationEnd(Animation animation) {
 
                     Wallet wallet = null;
-                    String nowWalletName = (String) LibSPUtils.get(WelcomeActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
+
+                    //从SP中读取 首页展示的钱包的名字
+                    String nowWalletName = (String) LibSPUtils.get(Global.mContext, Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
                     if (!TextUtils.isEmpty(nowWalletName)) {
                         wallet = WalletDaoTools.getWalletByName(nowWalletName);
                         //处理钱包被删除以后的逻辑
@@ -150,7 +152,7 @@ public class WelcomeActivity extends BaseActivity {
                         wallet = new Wallet();
                     }
 
-                    ApiWalletManager.getInstance(wallet, WelcomeActivity.this.getApplicationContext()).init(walletHandler);
+                    ApiWalletManager.getInstance(Global.mContext).init(walletHandler,wallet);
                 }
 
                 public void onAnimationRepeat(Animation animation) {
