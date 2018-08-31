@@ -43,9 +43,9 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
         super.handleMessage(what, obj);
         try {
             switch (what) {
-                case R.id.navigationBack:
-                    finish();
-                    break;
+//                case R.id.navigationBack:
+//                    finish();
+//                    break;
                 case Comm.modify_wallet_refresh_type:
                     srl.autoRefresh();
                     break;
@@ -79,8 +79,16 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_wallet_manage);
+        mImmersionBar.titleBar(getViewById(R.id.back))
+                .statusBarDarkFont(true)
+                .init();
         dataRv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
     @Override
@@ -92,9 +100,10 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
         walletManageAdapter = new WalletManageAdapter(dataRv);
         dataRv.setAdapter(walletManageAdapter);
+        mImmersionBar.titleBar(R.id.back).init();
 
 //        List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
 //
