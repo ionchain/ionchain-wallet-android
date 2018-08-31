@@ -24,30 +24,30 @@
             android:layout_height="wrap_content"
             android:background="@drawable/comm_toast_bg"
             android:orientation="vertical"
-            android:padding="@dimen/h16">
+            android:padding="@dimen/h6">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/act_wallet_create_notify1"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/txt_smallsize" />
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/act_wallet_create_notify2"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/txt_smallsize" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/walletNameEt"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/h50"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
+            android:layout_marginTop="@dimen/h6"
             android:hint="钱包名称"
             android:textColor="@color/library_33"
             android:textSize="@dimen/txt_mediumsize" />
@@ -55,10 +55,10 @@
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/pwdEt"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/h50"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
+            android:layout_marginTop="@dimen/h6"
             android:hint="@string/wallet_create_password"
             android:inputType="textPassword"
             android:textColor="@color/library_33"
@@ -67,10 +67,10 @@
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/resetPwdEt"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/h50"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
+            android:layout_marginTop="@dimen/h6"
             android:hint="@string/wallet_create_respwd"
             android:inputType="textPassword"
             android:textColor="@color/library_33"
