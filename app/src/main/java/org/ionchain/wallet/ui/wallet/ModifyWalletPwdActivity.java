@@ -41,43 +41,33 @@ public class ModifyWalletPwdActivity extends BaseActivity {
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
         try{
-
             switch (what){
                 case R.id.navigationBack:
                     finish();
                     break;
                 case R.id.completBtn:
-
                     String oldpwdstr = oldPwdEdit.getText().toString().trim();
                     String newpwdstr = newPwdEt.getText().toString().trim();
                     String resetnewpwdstr = resetNewPwdEt.getText().toString().trim();
-
+                    String old_pwd = mWallet.getPassword();
                     if(TextUtils.isEmpty(oldpwdstr)){
                         ToastUtil.showShortToast("当前密码不能为空");
                         return;
                     }
-
                     if(TextUtils.isEmpty(newpwdstr)){
                         ToastUtil.showShortToast("新密码不能为空");
                         return;
                     }
-
-                    if(!mWallet.getPassword().equals(oldpwdstr)){
+                    if(!old_pwd.equals(oldpwdstr)){
                         ToastUtil.showShortToast("旧密码错误");
                         return;
                     }
-
-
                     if(!newpwdstr.equals(resetnewpwdstr)){
                         ToastUtil.showShortToast("新密码两次输入不一至,请重新输入");
                         return;
                     }
-
-
                     ApiWalletManager.getInstance().editPassWord(mWallet,newpwdstr,walletHandler);
                     showProgressDialog("正在修改密码");
-
-
                     break;
                 case 0:
                     dismissProgressDialog();
@@ -89,8 +79,6 @@ public class ModifyWalletPwdActivity extends BaseActivity {
                         ToastUtil.showShortToast(responseModel.getMsg());
                         return;
                     }
-
-
                     break;
             }
 
@@ -150,7 +138,7 @@ public class ModifyWalletPwdActivity extends BaseActivity {
     }
 
     @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initData(Bundle savedInstanceState) {
     }
 
     @Override
