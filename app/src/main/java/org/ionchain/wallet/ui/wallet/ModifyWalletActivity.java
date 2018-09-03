@@ -169,6 +169,7 @@ public class ModifyWalletActivity extends BaseActivity {
         ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
                 finish();
             }
         });
@@ -229,7 +230,6 @@ public class ModifyWalletActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
             }
         });
         dialog.setRightBtnClickedListener(new View.OnClickListener() {
@@ -261,7 +261,7 @@ public class ModifyWalletActivity extends BaseActivity {
                     public void onClick(View v) {
                         //复制
                         StringUtils.copy(ModifyWalletActivity.this, mWallet.getPrivateKey());
-                        ToastUtil.showToastLonger("已复制地址");
+                        ToastUtil.showToastLonger("已复制私钥");
                     }
                 }).show();
 
