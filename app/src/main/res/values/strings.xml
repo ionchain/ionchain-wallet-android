@@ -61,6 +61,7 @@
     <string name="sure">确认</string>
     <string name="setPassWord">设置密码</string>
     <string name="forgetPassword">忘记密码</string>
+    <string name="title_activity_show_address">ShowAddressActivity</string>
 
 
 </resources>

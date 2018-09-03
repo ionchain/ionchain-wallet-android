@@ -24,7 +24,7 @@ public class DialogImportPrivKey extends BaseDialog {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
         findViews();
         privateKeyTv.setText(preivateKeyText);
     }

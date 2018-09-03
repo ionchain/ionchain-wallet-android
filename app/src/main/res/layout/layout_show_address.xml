@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/bg_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/show_address_top_bg" />
+
+    <RelativeLayout
+        android:id="@+id/show_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:layout_marginLeft="@dimen/h10"
+            android:src="@drawable/qmui_icon_topbar_back" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:gravity="center"
+            android:text="收款码"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/walletAddressTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bg_img"
+        android:layout_margin="@dimen/h20"
+        android:gravity="center"
+        android:maxLines="2"
+        android:textColor="@color/grey"
+        android:textSize="20sp"
+        android:text="" />
+    <ImageView
+        android:layout_marginTop="@dimen/h15"
+        android:id="@+id/show_qr_img"
+        android:layout_below="@id/walletAddressTv"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/copyBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/h16"
+        android:text="复制收款地址" />
+</RelativeLayout>

@@ -1,6 +1,8 @@
 package org.ionchain.wallet.ui.main;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,6 +50,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     ImageView mImageView;
 
     private SmartRefreshLayout mSmartRefreshLayout;
+    private Bitmap mBitmap;//二维码
 
     @SuppressLint("HandlerLeak")
     Handler walletHandler = new Handler() {
@@ -148,6 +151,14 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 return false;
             }
         });
+        walletAddressTx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(),ShowAddressActivity.class);
+                i.putExtra("msg", mWallet.getAddress());
+                getActivity().startActivity(i);
+            }
+        });
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,7 +211,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         }
 
         ApiWalletManager.getInstance().reLoadBlance(mWallet, walletHandler);
-        generateQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress(),codeIv);
+        mBitmap = generateQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress());
+        codeIv.setImageBitmap(mBitmap);
         mSmartRefreshLayout.finishRefresh();
     }
 
@@ -208,4 +220,6 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     public void onRefresh(RefreshLayout refreshlayout) {
         reloadInfo();
     }
+
+
 }

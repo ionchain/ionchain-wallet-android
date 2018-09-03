@@ -3,5 +3,6 @@
 
     <dimen name="ButtonCornerSize">5dp</dimen>
     <dimen name="title_size">20sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

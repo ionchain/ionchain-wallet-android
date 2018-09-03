@@ -19,6 +19,7 @@
         <item name="android:layout_marginRight">@dimen/h16</item>
         <item name="android:background">@drawable/common_button_main</item>
     </style>
+
     <style name="base_dialog" parent="android:style/Theme.Dialog">
         <!--背景颜色及和透明程度-->
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -31,5 +32,9 @@
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
