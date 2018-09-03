@@ -97,9 +97,10 @@
                 android:layout_alignParentRight="true"/>
 
             <TextView
+                android:id="@+id/hint_message_num"
                 android:layout_width="@dimen/h20"
                 android:layout_height="@dimen/h20"
-                android:text="10"
+                android:text=""
                 android:elevation="@dimen/h5"
                 android:background="@drawable/comm_msg_bg"
                 android:layout_toLeftOf="@id/arrowIv"

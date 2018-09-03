@@ -91,6 +91,7 @@ public class UserCenterFragment extends BaseFragment {
         setOnClickListener(R.id.loginRegTv);
         setOnClickListener(R.id.walletManageRLayout);
         setOnClickListener(R.id.messageCenterRLayout);
+        setOnClickListener(R.id.hint_message_num);//消息数量提示
     }
 
     @Override
