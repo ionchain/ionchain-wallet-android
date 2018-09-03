@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.AppCompatEditText;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.fast.lib.event.CommonEvent;
@@ -17,7 +15,6 @@ import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.ToastUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
@@ -29,6 +26,8 @@ import org.ionchain.wallet.comm.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.comm.utils.StringUtils;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.widget.DialogImportPrivKey;
+import org.ionchain.wallet.widget.DialogImportPrivKeyCheck;
 import org.ionchain.wallet.widget.IONCTitleBar;
 
 import java.io.File;
@@ -134,7 +133,7 @@ public class ModifyWalletActivity extends BaseActivity {
                             Logger.i("余额已刷新");
                             if (!StringUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getBalance())) {
                                 walletBalanceTv.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
-                            }else{
+                            } else {
                                 walletBalanceTv.setText("0.0000");
                             }
                         } else {
@@ -189,6 +188,12 @@ public class ModifyWalletActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_wallet_modify);
+        getViewById(R.id.importLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditTextDialog();
+            }
+        });
         mWallet = (Wallet) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
     }
 
@@ -196,8 +201,6 @@ public class ModifyWalletActivity extends BaseActivity {
     protected void setListener() {
         setOnClickListener(R.id.delBtn);
         setOnClickListener(R.id.modifyPwdLayout);
-        setOnClickListener(R.id.importLayout);
-
     }
 
     @Override
@@ -216,50 +219,51 @@ public class ModifyWalletActivity extends BaseActivity {
     }
 
 
+    /**
+     * 输入密码
+     */
     private void showEditTextDialog() {
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(this);
-        builder.setTitle("输入密码")
-                .setPlaceholder("在此输入密码")
-                .setInputType(InputType.TYPE_CLASS_TEXT)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
-                    @Override
-                    public void onClick(QMUIDialog dialog, int index) {
-                        dialog.dismiss();
-                    }
-                })
-                .addAction("确定", new QMUIDialogAction.ActionListener() {
-                    @Override
-                    public void onClick(QMUIDialog dialog, int index) {
-                        CharSequence text = builder.getEditText().getText();
-                        if (text != null && text.length() > 0) {
-                            dialog.dismiss();
-                            showProgressDialog("正在导出请稍候");
-                            ApiWalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), text.toString(), walletHandler);
-                        } else {
-                            ToastUtil.showShortToast("请输入密码");
-                        }
-                    }
-                })
-                .create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show();
+        ToastUtil.showShortToast("dddddd");
+        final DialogImportPrivKeyCheck dialog = new DialogImportPrivKeyCheck(this);
+        dialog.setLeftBtnClickedListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
+            }
+        });
+        dialog.setRightBtnClickedListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*比对密码是否正确*/
+                String pwd = mWallet.getPassword();
+                String pwd1 = dialog.getPasswordEt().getText().toString();
+                if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
+                    dialog.dismiss();
+                    showProgressDialog("正在导出请稍候");
+                    ApiWalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd.toString(), walletHandler);
+                } else {
+                    ToastUtil.showToastLonger("请检查密码是否正确！");
+                }
+            }
+        });
+        dialog.show();
     }
 
+    /**
+     * 导出私钥
+     */
     private void showImportPrivateKeyDialog() {
-        QMUIDialog.CustomDialogBuilder dialogBuilder = new QMUIDialog.CustomDialogBuilder(this);
-        dialogBuilder.setLayout(R.layout.layout_import_private_key);
-        dialog = dialogBuilder.create();
 
-        TextView preivateKeyTv = dialog.findViewById(R.id.preivateKeyTv);
-        if (!TextUtils.isEmpty(mWallet.getPrivateKey())) {
-            preivateKeyTv.setText(mWallet.getPrivateKey());
-        } else {
-            preivateKeyTv.setText("");
-        }
-
-
-        Button copyBtn = dialog.findViewById(R.id.copyBtn);
-        copyBtn.setOnClickListener(this);
-
-        dialog.show();
+        new DialogImportPrivKey(this).setPrivateKeyText(mWallet.getPrivateKey())
+                .setCopyBtnClickedListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //复制
+                        StringUtils.copy(ModifyWalletActivity.this, mWallet.getPrivateKey());
+                        ToastUtil.showToastLonger("已复制地址");
+                    }
+                }).show();
 
     }
 

@@ -143,8 +143,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         walletAddressTx.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getActivity(), "已复制地址", Toast.LENGTH_LONG).show();
                 StringUtils.copy(getActivity(), walletAddressTx.getText().toString());
+                Toast.makeText(getActivity(), "已复制地址", Toast.LENGTH_LONG).show();
                 return false;
             }
         });

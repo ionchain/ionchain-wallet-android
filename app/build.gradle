@@ -109,13 +109,7 @@ dependencies {
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.2.1'
     implementation 'org.web3j:core:3.3.1-android'
     implementation project(':FastLib')
-
-//    //PushSDK必须依赖基础组件库，所以需要加入对应依赖
-//    implementation 'com.umeng.sdk:common:1.5.3'
-//    //PushSDK必须依赖utdid库，所以需要加入对应依赖
-//    implementation 'com.umeng.sdk:utdid:1.1.5.3'
-//    //PushSDK
-//    implementation 'com.umeng.sdk:push:4.2.0'
+    implementation 'com.gyf.immersionbar:immersionbar:2.3.1'
 }
 
 repositories {
