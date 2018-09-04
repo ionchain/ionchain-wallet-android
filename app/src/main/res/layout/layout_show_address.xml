@@ -7,7 +7,7 @@
         android:id="@+id/bg_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/show_address_top_bg" />
+        android:background="@mipmap/show_address_top_bg" />
 
     <RelativeLayout
         android:id="@+id/show_title"
@@ -39,15 +39,14 @@
         android:gravity="center"
         android:maxLines="2"
         android:textColor="@color/grey"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:text="" />
     <ImageView
-        android:layout_marginTop="@dimen/h15"
         android:id="@+id/show_qr_img"
         android:layout_below="@id/walletAddressTv"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"/>
+        android:layout_height="200dp"/>
     <Button
         android:id="@+id/copyBtn"
         android:layout_width="match_parent"

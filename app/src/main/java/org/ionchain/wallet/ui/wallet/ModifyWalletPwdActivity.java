@@ -40,8 +40,8 @@ public class ModifyWalletPwdActivity extends BaseActivity {
     @Override
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
-        try{
-            switch (what){
+        try {
+            switch (what) {
                 case R.id.navigationBack:
                     finish();
                     break;
@@ -50,43 +50,42 @@ public class ModifyWalletPwdActivity extends BaseActivity {
                     String newpwdstr = newPwdEt.getText().toString().trim();
                     String resetnewpwdstr = resetNewPwdEt.getText().toString().trim();
                     String old_pwd = mWallet.getPassword();
-                    if(TextUtils.isEmpty(oldpwdstr)){
+                    if (TextUtils.isEmpty(oldpwdstr)) {
                         ToastUtil.showShortToast("当前密码不能为空");
                         return;
                     }
-                    if(TextUtils.isEmpty(newpwdstr)){
+                    if (TextUtils.isEmpty(newpwdstr)) {
                         ToastUtil.showShortToast("新密码不能为空");
                         return;
                     }
-                    if(!old_pwd.equals(oldpwdstr)){
+                    if (!old_pwd.equals(oldpwdstr)) {
                         ToastUtil.showShortToast("旧密码错误");
                         return;
                     }
-                    if(!newpwdstr.equals(resetnewpwdstr)){
+                    if (!newpwdstr.equals(resetnewpwdstr)) {
                         ToastUtil.showShortToast("新密码两次输入不一至,请重新输入");
                         return;
                     }
-                    ApiWalletManager.getInstance().editPassWord(mWallet,newpwdstr,walletHandler);
+                    ApiWalletManager.getInstance().editPassWord(mWallet, newpwdstr, walletHandler);
                     showProgressDialog("正在修改密码");
                     break;
                 case 0:
                     dismissProgressDialog();
-                    if(obj == null)
+                    if (obj == null)
                         return;
 
-                    ResponseModel<String> responseModel = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel)){
+                    ResponseModel<String> responseModel = (ResponseModel) obj;
+                    if (!verifyStatus(responseModel)) {
                         ToastUtil.showShortToast(responseModel.getMsg());
                         return;
                     }
                     break;
             }
 
-        }catch (Throwable e){
-            Logger.e(e,TAG);
+        } catch (Throwable e) {
+            Logger.e(e, TAG);
         }
     }
-
 
 
     @SuppressLint("HandlerLeak")
@@ -103,10 +102,10 @@ public class ModifyWalletPwdActivity extends BaseActivity {
                     case WALLET_EDIT_PASS:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
 
-                            Wallet wallet = (Wallet)responseModel.data;
+                            Wallet wallet = (Wallet) responseModel.data;
                             WalletDaoTools.updateWallet(wallet);
 
-                            EventBus.getDefault().post(new CommonEvent(Comm.modify_wallet_refresh_type,wallet));
+                            EventBus.getDefault().post(new CommonEvent(Comm.modify_wallet_refresh_type, wallet));
 
                             ToastUtil.showShortToast("修改密码成功");
                         } else {
@@ -128,7 +127,7 @@ public class ModifyWalletPwdActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_modify_wallet_pwd);
-
+        mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
         mWallet = (Wallet) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
 
     }

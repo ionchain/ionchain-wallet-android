@@ -18,6 +18,7 @@ public class WalletDaoTools {
         }
         return wallet;
     }
+
     public static Wallet getWalletByAddress(String adress) {
         Wallet wallet = null;
         List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().where(WalletDao.Properties.Address.eq(adress)).list();
@@ -69,8 +70,6 @@ public class WalletDaoTools {
 
     public static long saveWallet(Wallet wallet) {
         //私钥不存储于数据库中
-        wallet.setPrivateKey(wallet.getPrivateKey());
-        wallet.setPassword(wallet.getPassword());
         long id = EntityManager.getInstance().getWalletDao().insertOrReplace(wallet);
         return id;
     }

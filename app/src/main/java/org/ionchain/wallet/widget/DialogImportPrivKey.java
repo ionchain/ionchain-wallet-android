@@ -17,14 +17,14 @@ public class DialogImportPrivKey extends BaseDialog {
         return this;
     }
 
-    protected View.OnClickListener copyBtnClickedListener;
+    private View.OnClickListener copyBtnClickedListener;
 
     public DialogImportPrivKey(@NonNull Context context) {
         super(context);
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView() {
         findViews();
         privateKeyTv.setText(preivateKeyText);
     }

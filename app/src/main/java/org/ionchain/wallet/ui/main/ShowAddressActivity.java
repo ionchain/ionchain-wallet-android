@@ -1,6 +1,7 @@
 package org.ionchain.wallet.ui.main;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,19 +37,17 @@ public class ShowAddressActivity extends BaseActivity {
         walletAddressTv = (TextView) findViewById(R.id.walletAddressTv);
         showQrImg = (ImageView) findViewById(R.id.show_qr_img);
         copyBtn = (Button) findViewById(R.id.copyBtn);
+        msg = getIntent().getStringExtra("msg");
+        walletAddressTv.setText(msg);
+        showQrImg.setImageBitmap(QRCodeUtils.generateQRCode(msg, 200));
     }
 
-
     @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_show_address);
         findViews();
-
-        mImmersionBar.titleBar(getViewById(R.id.show_title)).statusBarDarkFont(false).init();
-    }
-
-    @Override
-    protected void setListener() {
+        mImmersionBar.titleBar(findViewById(R.id.show_title)).statusBarDarkFont(false).init();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,10 +68,18 @@ public class ShowAddressActivity extends BaseActivity {
     }
 
     @Override
+    protected void initView(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
+    @Override
     protected void initData(Bundle savedInstanceState) {
-        msg = getIntent().getStringExtra("msg");
-        walletAddressTv.setText(msg);
-        showQrImg.setImageBitmap(QRCodeUtils.generateQRCode(msg, 200));
+
     }
 
     @Override

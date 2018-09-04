@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     TextView walletAddressTx;
     @BindView(R.id.create_wallet)
     ImageView mImageView;
+    @BindView(R.id.walletLayout)
+    RelativeLayout walletLayout;
 
     private SmartRefreshLayout mSmartRefreshLayout;
     private Bitmap mBitmap;//二维码
@@ -151,7 +154,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 return false;
             }
         });
-        walletAddressTx.setOnClickListener(new View.OnClickListener() {
+        walletLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(),ShowAddressActivity.class);

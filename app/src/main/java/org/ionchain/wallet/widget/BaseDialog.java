@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import org.ionchain.wallet.R;
 
@@ -21,16 +19,14 @@ public abstract class BaseDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = LayoutInflater.from(mActivity).inflate(getLayout(), null);
-        setContentView(view);
-        initView(view);
+        setContentView(getLayout());
+        initView();
     }
 
     /**
      * 实例化视图
-     * @param view
      */
-    protected abstract void initView(View view);
+    protected abstract void initView();
 
     /**
      * @return 布局id

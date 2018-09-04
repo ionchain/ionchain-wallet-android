@@ -23,7 +23,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView() {
         findViews();
         setCanceledOnTouchOutside(false);
         initListener();
