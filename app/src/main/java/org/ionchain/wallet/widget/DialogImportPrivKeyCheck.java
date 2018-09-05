@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.comm.utils.StringUtils;
 
 /*
  * 导出私钥对话框
@@ -44,36 +45,71 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
     private Button leftBtn;
     private Button rightBtn;
 
+    private String leftBtnText;
+    private String rightBtnText;
+    private String titleText;
+
+    public String getLeftBtnText() {
+        return leftBtnText;
+    }
+
+    public DialogImportPrivKeyCheck setLeftBtnText(String leftBtnText) {
+        this.leftBtnText = leftBtnText;
+        return this;
+    }
+
+    public String getRightBtnText() {
+        return rightBtnText;
+    }
+
+    public DialogImportPrivKeyCheck setRightBtnText(String rightBtnText) {
+        this.rightBtnText = rightBtnText;
+        return this;
+    }
+
+    public String getTitleText() {
+        return titleText;
+    }
+
+    public DialogImportPrivKeyCheck setTitleText(String titleText) {
+        this.titleText = titleText;
+        return this;
+    }
+
     public TextView getTitle() {
         return title;
     }
 
-    public void setTitle(TextView title) {
+    public DialogImportPrivKeyCheck setTitle(TextView title) {
         this.title = title;
+        return this;
     }
 
     public EditText getPasswordEt() {
         return passwordEt;
     }
 
-    public void setPasswordEt(EditText passwordEt) {
+    public DialogImportPrivKeyCheck setPasswordEt(EditText passwordEt) {
         this.passwordEt = passwordEt;
+        return this;
     }
 
     public Button getLeftBtn() {
         return leftBtn;
     }
 
-    public void setLeftBtn(Button leftBtn) {
+    public DialogImportPrivKeyCheck setLeftBtn(Button leftBtn) {
         this.leftBtn = leftBtn;
+        return this;
     }
 
     public Button getRightBtn() {
         return rightBtn;
     }
 
-    public void setRightBtn(Button rightBtn) {
+    public DialogImportPrivKeyCheck setRightBtn(Button rightBtn) {
         this.rightBtn = rightBtn;
+        return this;
     }
 
     /**
@@ -87,6 +123,15 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
         passwordEt = (EditText) findViewById(R.id.password_et);
         leftBtn = (Button) findViewById(R.id.left_btn);
         rightBtn = (Button) findViewById(R.id.right_btn);
+        if (!StringUtils.isEmpty(titleText)) {
+            title.setText(titleText);
+        }
+        if (!StringUtils.isEmpty(leftBtnText)) {
+            leftBtn.setText(leftBtnText);
+        }
+        if (!StringUtils.isEmpty(rightBtnText)) {
+            rightBtn.setText(rightBtnText);
+        }
     }
 
     /**

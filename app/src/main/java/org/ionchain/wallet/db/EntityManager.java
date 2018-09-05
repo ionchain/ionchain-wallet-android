@@ -4,7 +4,6 @@ import org.ionchain.wallet.greendao.gen.WalletDao;
 
 public class EntityManager {
     private static EntityManager entityManager;
-    public WalletDao walletDao;
 
     /**
      * 创建User表实例
@@ -12,8 +11,7 @@ public class EntityManager {
      * @return
      */
     public WalletDao getWalletDao(){
-        walletDao = DaoManager.getInstance().getSession().getWalletDao();
-        return walletDao;
+        return DaoManager.getInstance().getSession().getWalletDao();
     }
 
     /**

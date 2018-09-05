@@ -48,6 +48,8 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import okhttp3.Request;
 
@@ -85,7 +87,7 @@ public class ApiWalletManager {
         return isInit;
     }
 
-    private ApiWalletManager( Context mContext) {
+    private ApiWalletManager(Context mContext) {
 //        this.myWallet = wallet;
         this.contractAddress = null;
         this.walletIndexUrl = null;
@@ -128,7 +130,7 @@ public class ApiWalletManager {
      *
      * @param handler
      */
-    public void init(final Handler handler,Wallet wallet) {
+    public void init(final Handler handler, Wallet wallet) {
         myWallet = wallet;
         new Thread() {
             @Override
@@ -259,7 +261,7 @@ public class ApiWalletManager {
      *
      * @param handler
      */
-    public void reLoadBlance(final Wallet wallet, final Handler handler) {
+    public void getBlance(final Wallet wallet, final Handler handler) {
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_BALANCE.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
             return;
@@ -269,7 +271,7 @@ public class ApiWalletManager {
             public void run() {
                 super.run();
                 try {
-                    reLoadBlance(wallet);
+                    getBlance(wallet);
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_BALANCE.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
                 } catch (Exception e) {
                     Log.e("wallet", "", e);
@@ -344,8 +346,10 @@ public class ApiWalletManager {
         }.start();
     }
 
-    private BigInteger reLoadBlance(Wallet wallet) throws IOException {
+    private BigInteger getBlance(Wallet wallet) throws IOException {
         if (null == wallet) wallet = myWallet;
+
+        wallet.setAddress("0xf7171d1EA98F698e22EF0EbFb5498d0C2CA83890");//测试地址
         String methodName = "balanceOf";
         List<Type> inputParameters = new ArrayList<>();
         List<TypeReference<?>> outputParameters = new ArrayList<>();
@@ -355,17 +359,31 @@ public class ApiWalletManager {
         };
         outputParameters.add(typeReference);
         Function function = new Function(methodName, inputParameters, outputParameters);
-        String data = FunctionEncoder.encode(function);
-        Transaction transaction = Transaction.createEthCallTransaction(wallet.getAddress(), contractAddress, data);
-        EthCall ethCall;
-        BigInteger balanceValue = BigInteger.ZERO;
-        ethCall = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).send();
-        List<Type> results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
-        balanceValue = (BigInteger) results.get(0).getValue();
-        BigDecimal bigDecimal = new BigDecimal(balanceValue);
-        BigDecimal balance = bigDecimal.divide(DEF_WALLET_DECIMALS).setScale(DEF_WALLET_DECIMALS_UNIT, BigDecimal.ROUND_DOWN);
-        wallet.setBalance(balance.toString());
 
+
+        String dealString = FunctionEncoder.encode(function);//交易串
+//        String contractAddress = "0xbc647aad10114b89564c0a7aabe542bd0cf2c5af";//代币地址
+        Transaction transaction = Transaction.createEthCallTransaction(wallet.getAddress(), contractAddress, dealString);
+
+        EthCall ethCall;
+        BigInteger balanceValue = null;
+        ethCall = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).send();
+        Future<EthCall> s = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync();
+        try {
+            s.get().getValue();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        String value = ethCall.getValue();
+        List<Type> results = FunctionReturnDecoder.decode(value, function.getOutputParameters());
+        if (results != null && results.size() > 0) {
+            balanceValue = (BigInteger) results.get(0).getValue();
+            BigDecimal bigDecimal = new BigDecimal(balanceValue);
+            BigDecimal balance = bigDecimal.divide(DEF_WALLET_DECIMALS).setScale(DEF_WALLET_DECIMALS_UNIT, BigDecimal.ROUND_DOWN);
+            wallet.setBalance(balance.toString());
+        }
         return balanceValue;
     }
 
@@ -374,7 +392,7 @@ public class ApiWalletManager {
         if (null == wallet) wallet = myWallet;
         if (null == passWord) passWord = wallet.getPassword();
         String keystore;
-        String key = wallet.getPrivateKey().substring(2);
+        String key = wallet.getPrivateKey();
         Log.i("key", "importWallt: " + key);
         BigInteger privateKeyBig = new BigInteger(key, 16);
         ECKeyPair ecKeyPair = ECKeyPair.create(privateKeyBig);
@@ -398,11 +416,10 @@ public class ApiWalletManager {
 
     /**
      * 为用户创建钱包凭证
-     *
-     *  Credentials ：包含钱包地址，address
-     *
-     *                包含公私钥 ECKeyPair
-     *
+     * <p>
+     * Credentials ：包含钱包地址，address
+     * <p>
+     * 包含公私钥 ECKeyPair
      */
     private void loadWalletBaseInfo(Wallet wallet) throws IOException, CipherException {
         Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());

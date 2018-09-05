@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.facebook.stetho.Stetho;
 import com.fast.lib.base.LibApp;
 import com.fast.lib.glideimageloader.ImageLoadConfig;
 import com.fast.lib.logger.Logger;
+import com.lzy.okgo.OkGo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
@@ -67,6 +69,8 @@ public class App extends LibApp {
         super.onCreate();
         initImageLoader();
         initData();
+        Stetho.initializeWithDefaults(this);
+        OkGo.getInstance().init(this);
     }
 
     private void initImageLoader() {

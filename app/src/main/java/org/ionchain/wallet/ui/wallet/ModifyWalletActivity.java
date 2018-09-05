@@ -215,7 +215,7 @@ public class ModifyWalletActivity extends BaseActivity {
             walletNameEt.setText(mWallet.getName());
         }
 
-        ApiWalletManager.getInstance().reLoadBlance(mWallet, walletHandler);
+        ApiWalletManager.getInstance().getBlance(mWallet, walletHandler);
 
     }
 
@@ -271,30 +271,53 @@ public class ModifyWalletActivity extends BaseActivity {
      * 删钱包
      */
     private void delwallet() {
+        final DialogImportPrivKeyCheck dialogImportPrivKeyCheck = new DialogImportPrivKeyCheck(this);
+        dialogImportPrivKeyCheck.setLeftBtnText("取消")
+                .setRightBtnText("确定")
+                .setTitleText("请输入该钱包的密码")
+                .setLeftBtnClickedListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogImportPrivKeyCheck.dismiss();
+                    }
+                })
+                .setRightBtnClickedListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (StringUtils.isEmpty(dialogImportPrivKeyCheck.getPasswordEt().getText().toString())) {
+                            ToastUtil.showToastLonger("请输入密码！");
+                            return;
+                        }
+                        if (!dialogImportPrivKeyCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
+                            ToastUtil.showToastLonger("你输入的密码有误！");
+                            return;
+                        }
+                        String nowWalletName = (String) LibSPUtils.get(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
 
-        String nowWalletName = (String) LibSPUtils.get(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
+                        File file = new File(mWallet.getKeystore());
+                        if (file.exists()) {
+                            file.delete();
+                        }
+                        WalletDaoTools.deleteWallet(mWallet.getId());
+                        if (nowWalletName.equals(mWallet.getName())) {
+                            Wallet topWallet = WalletDaoTools.getWalletTop();
+                            if (null == topWallet) {
+                                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULLWALLET);
+                                Wallet nullWallet = new Wallet();
+                                nullWallet.setName(Comm.NULLWALLETNAME);
+                                nullWallet.setAddress(Comm.NULLWALLETNAME);
+                                ApiWalletManager.getInstance().setMyWallet(nullWallet);
+                            } else {
+                                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, topWallet.getName());
+                                ApiWalletManager.getInstance().setMyWallet(topWallet);
+                            }
+                        }
 
-        File file = new File(mWallet.getKeystore());
-        if (file.exists()) {
-            file.delete();
-        }
-        WalletDaoTools.deleteWallet(mWallet.getId());
-        if (nowWalletName.equals(mWallet.getName())) {
-            Wallet topWallet = WalletDaoTools.getWalletTop();
-            if (null == topWallet) {
-                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULLWALLET);
-                Wallet nullWallet = new Wallet();
-                nullWallet.setName(Comm.NULLWALLETNAME);
-                nullWallet.setAddress(Comm.NULLWALLETNAME);
-                ApiWalletManager.getInstance().setMyWallet(nullWallet);
-            } else {
-                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, topWallet.getName());
-                ApiWalletManager.getInstance().setMyWallet(topWallet);
-            }
-        }
+                        //删除的是主钱包
+                        finish();
+                    }
+                }).show();
 
-        //删除的是主钱包
-        finish();
     }
 
     @Override

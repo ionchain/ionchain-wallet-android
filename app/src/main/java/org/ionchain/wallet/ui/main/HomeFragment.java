@@ -26,6 +26,7 @@ import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.utils.StringUtils;
+import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;
@@ -68,8 +69,11 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                     case WALLET_BALANCE:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
 //                            Toast.makeText(HomeFragment.this.getContext(), "余额度已刷新", Toast.LENGTH_SHORT).show();
+                            /*
+                            * 这个地方重新设置显示信息
+                            * */
                             walletBalanceTx.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
-                            walletNameTx.setText(ApiWalletManager.getInstance().getMyWallet().getName());
+//                            walletNameTx.setText(ApiWalletManager.getInstance().getMyWallet().getName());
                         } else {
                             Toast.makeText(HomeFragment.this.getContext(), "余额度刷新失败", Toast.LENGTH_SHORT).show();
                         }
@@ -201,7 +205,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
      */
     private void reloadInfo() {
 
-        mWallet = ApiWalletManager.getInstance().getMyWallet();
+        mWallet = WalletDaoTools.getWalletTop();
         if (mWallet == null) {
             return;
         }
@@ -213,7 +217,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
             walletBalanceTx.setText("0.0000");// 钱包金额
         }
 
-        ApiWalletManager.getInstance().reLoadBlance(mWallet, walletHandler);
+        ApiWalletManager.getInstance().getBlance(mWallet, walletHandler);
         mBitmap = generateQRCode(ApiWalletManager.getInstance().getMyWallet().getAddress());
         codeIv.setImageBitmap(mBitmap);
         mSmartRefreshLayout.finishRefresh();

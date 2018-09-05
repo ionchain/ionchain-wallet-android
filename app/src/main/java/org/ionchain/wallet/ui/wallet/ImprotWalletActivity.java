@@ -24,6 +24,7 @@ import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.comm.utils.StringUtils;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
@@ -84,8 +85,6 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                             if (!isAddMode) {
                                 startMain();
                             }
-
-
                         } else {
                             Toast.makeText(ImprotWalletActivity.this.getApplicationContext(), "钱包导入失败", Toast.LENGTH_SHORT).show();
                         }
@@ -174,14 +173,12 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
     protected void initData(Bundle savedInstanceState) {
 
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == 999) {
             String result = data.getStringExtra("result");
-            result = result.substring(result.length() - 42);
             contentEt.setText(result);
         }
     }
@@ -220,7 +217,6 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
             EasyPermissions.requestPermissions(this, "导入钱包需要的权限", REQUEST_CODE_IMPORT_PERMISSIONS, perms);
         } else {
             importWallet();
-
         }
     }
 
@@ -257,7 +253,15 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
             String content = contentEt.getText().toString().trim();
             String resetpass = repwdEt.getText().toString().trim();
             String pass = pwdEt.getText().toString().trim();
-            Wallet wallet = WalletDaoTools.getWalletByAddress(content);
+            if (StringUtils.isEmpty(content)) {
+                ToastUtil.showToastLonger("私钥为空！");
+                return;
+            }
+            if (content.length() != 64) {
+                ToastUtil.showToastLonger("无效私钥！");
+                return;
+            }
+            Wallet wallet = WalletDaoTools.getWalletByPrivateKey(content);
             if (null != wallet) {
                 Toast.makeText(this, "该钱包已存在,钱包名 : " + wallet.getName(), Toast.LENGTH_LONG).show();
                 return;
@@ -266,20 +270,13 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                 Toast.makeText(this.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                 return;
             }
-//去除导入
-            Wallet extisWallet = WalletDaoTools.getWalletByAddress(content.substring(2));
-            if (null != extisWallet) {
-                Toast.makeText(this.getApplicationContext(), "该私钥已经导入 钱包名称：" + extisWallet.getName(), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
 
             Integer nameInex = (Integer) LibSPUtils.get(this.getApplicationContext(), Comm.LOCAL_SAVE_WALLET_INDEX, 1);
             String walletname = "新增钱包" + nameInex;
             nowWallet = new Wallet();
             nowWallet.setName(walletname);
             nowWallet.setPassword(pass);
-            nowWallet.setPrivateKey(content);
+            nowWallet.setPrivateKey(content.toLowerCase());
             ApiWalletManager.getInstance().importWallet(nowWallet, walletHandler);
             Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
             showProgressDialog("正在导入钱包请稍候");

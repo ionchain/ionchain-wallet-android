@@ -68,6 +68,7 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate{
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_scan);
+        mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
         mQRCodeView = (ZXingView) findViewById(R.id.zbarview);
 
     }
@@ -144,7 +145,7 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate{
 
     @Override
     public int getActivityMenuRes() {
-        return R.menu.menu_scan;
+        return 0;
     }
 
     @Override

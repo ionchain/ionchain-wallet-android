@@ -12,7 +12,7 @@ public class WalletDaoTools {
 
     public static Wallet getWalletByName(String name) {
         Wallet wallet = null;
-        List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().where(WalletDao.Properties.Name.eq(name)).list();
+        List<Wallet> list = DaoManager.getInstance().getSession().getWalletDao().queryBuilder().where(WalletDao.Properties.Name.eq(name)).list();
         if (list.size() > 0) {
             wallet = list.get(0);
         }
@@ -21,7 +21,7 @@ public class WalletDaoTools {
 
     public static Wallet getWalletByAddress(String adress) {
         Wallet wallet = null;
-        List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().where(WalletDao.Properties.Address.eq(adress)).list();
+        List<Wallet> list = DaoManager.getInstance().getSession().getWalletDao().queryBuilder().where(WalletDao.Properties.Address.eq(adress)).list();
         if (list.size() > 0) {
             wallet = list.get(0);
         }
@@ -38,7 +38,10 @@ public class WalletDaoTools {
             QueryBuilder.LOG_SQL = true;
             QueryBuilder.LOG_VALUES = true;
             QueryBuilder<Wallet> qb = EntityManager.getInstance().getWalletDao().queryBuilder();
-            walletList = qb.list();
+            walletList = qb.orderDesc(WalletDao.Properties.Id).list();
+
+            walletList.add(0,getWalletTop());//将第一个添加到首位
+            walletList.remove(walletList.size()-1);
         } catch (Throwable e) {
             Logger.e(e, "getAllWallet");
         }
@@ -61,7 +64,11 @@ public class WalletDaoTools {
 
     public static Wallet getWalletByPrivateKey(String priavtekey) {
         Wallet wallet = null;
-        List<Wallet> list = EntityManager.getInstance().getWalletDao().queryBuilder().where(WalletDao.Properties.PrivateKey.eq(priavtekey)).list();
+        List<Wallet> list1 = getAllWallet();
+        List<Wallet> list = DaoManager.getInstance().getSession().getWalletDao()
+                .queryBuilder()
+                .where(WalletDao.Properties.PrivateKey.eq(priavtekey.toLowerCase())).build()
+                .list();
         if (list.size() > 0) {
             wallet = list.get(0);
         }
