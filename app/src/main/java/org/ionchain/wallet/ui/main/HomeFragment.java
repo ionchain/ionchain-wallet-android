@@ -74,6 +74,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                             * 这个地方重新设置显示信息
                             * */
                             walletBalanceTx.setText(mWallet.getBalance());
+                            WalletDaoTools.updateWallet(mWallet);
 //                            walletNameTx.setText(ApiWalletManager.getInstance().getMainWallet().getName());
                         } else {
                             Toast.makeText(HomeFragment.this.getContext(), "余额度刷新失败", Toast.LENGTH_SHORT).show();
