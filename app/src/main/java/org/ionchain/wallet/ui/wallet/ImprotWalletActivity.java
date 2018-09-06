@@ -78,7 +78,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                             //一个主钱包的 都没有的情况 添加导入钱包 第一个都做为默认主钱包
                             String nowWalletName = (String) LibSPUtils.get(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
                             if (nowWalletName.equals(Comm.NULLWALLET)) {
-                                ApiWalletManager.getInstance().setMyWallet(nowWallet);
+                                ApiWalletManager.getInstance().setMainWallet(nowWallet);
                                 LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, nowWallet.getName());
                             }
                             //初始化用户跳转主页面
@@ -293,7 +293,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
         LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_WALLET_INDEX, index + 1);
         //首次创建模式修改当前其钱包的信息
         if (id > 0 && !isAddMode) {
-            ApiWalletManager.getInstance().setMyWallet(nowWallet);
+            ApiWalletManager.getInstance().setMainWallet(nowWallet);
 
         }
         return id;
@@ -304,7 +304,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
         //第一次导入的 钱包跳主页面
         String res = (String) LibSPUtils.get(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
         if (TextUtils.isEmpty(res)) {
-            LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, ApiWalletManager.getInstance().getMyWallet().getName());
+            LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, ApiWalletManager.getInstance().getMainWallet().getName());
             Intent intent = new Intent(ImprotWalletActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

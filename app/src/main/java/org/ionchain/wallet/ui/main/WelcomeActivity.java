@@ -51,7 +51,7 @@ public class WelcomeActivity extends BaseActivity {
                 if (null == resulit) return;
                 ResponseModel<String> responseModel = (ResponseModel<String>) msg.obj;
                 switch (resulit) {
-                    case MANAGER_INIT:
+                    case MANAGER_INIT://此处可以改为回调
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
                             startMainActivity();
                             //  ApiWalletManager.getInstance(,WelcomeActivity.this.getApplicationContext());
@@ -70,6 +70,9 @@ public class WelcomeActivity extends BaseActivity {
         }
     };
 
+    /*
+    * 此处处理事件
+    * */
     @Override
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
@@ -188,7 +191,7 @@ public class WelcomeActivity extends BaseActivity {
     void startMainActivity() {
         try {
             Logger.i(TAG + "===>startMainActivity");
-            if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getName())) {
+            if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMainWallet().getName())) {
                 transfer(CreateWalletSelectActivity.class);
             } else {
                 transfer(MainActivity.class);

@@ -46,25 +46,25 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
 
     protected String TAG;
     public Toolbar mToolbar;
-    private boolean systemBar = true;
+//    private boolean systemBar = true;
 
     int statusBarHeight = 0;
 
     private Menu menu;
     protected ImmersionBar mImmersionBar;
 
-    /**
-     * 需要进行检测的权限数组
-     */
-    protected String[] needPermissions = {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE
-    };
+//    /**
+//     * 需要进行检测的权限数组
+//     */
+//    protected String[] needPermissions = {
+//            Manifest.permission.ACCESS_COARSE_LOCATION,
+//            Manifest.permission.ACCESS_FINE_LOCATION,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.READ_PHONE_STATE
+//    };
 
-    private static final int PERMISSON_REQUESTCODE = 0;
+//    private static final int PERMISSON_REQUESTCODE = 0;
 
     /**
      * 判断是否需要检测，防止不停的弹框
@@ -75,7 +75,6 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
 
 
     public void setSystemBar(boolean systemBar) {
-        this.systemBar = systemBar;
     }
 
     public int getStatusBarHeight() {

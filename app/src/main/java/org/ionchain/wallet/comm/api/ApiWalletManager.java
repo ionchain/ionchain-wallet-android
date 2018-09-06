@@ -67,20 +67,21 @@ public class ApiWalletManager {
     private static final int DEF_WALLET_DECIMALS_UNIT = 4;
 
 
-    private Wallet myWallet;
+    private Wallet mainWallet;
     private String contractAddress;
     private String walletIndexUrl;
     private Web3j web3;
     private static ApiWalletManager instance;
-    private Boolean isInit;
+    private Boolean isInit;//是否初始化了
     private Context mContext;
 
-    public Wallet getMyWallet() {
-        return myWallet;
+
+    public Wallet getMainWallet() {
+        return mainWallet;
     }
 
-    public void setMyWallet(Wallet myWallet) {
-        this.myWallet = myWallet;
+    public void setMainWallet(Wallet myWallet) {
+        this.mainWallet = myWallet;
     }
 
     public Boolean getInit() {
@@ -88,7 +89,7 @@ public class ApiWalletManager {
     }
 
     private ApiWalletManager(Context mContext) {
-//        this.myWallet = wallet;
+//        this.mainWallet = wallet;
         this.contractAddress = null;
         this.walletIndexUrl = null;
         this.web3 = null;
@@ -99,7 +100,7 @@ public class ApiWalletManager {
             String info = readAssetsTxt(this.mContext, DEF_WALLET_WORDS_LIST_NAME);
             String[] a = info.split("\n");
             printtest(a.length + "");
-            List<String> arr = new ArrayList<String>();
+            List<String> arr = new ArrayList<>();
             for (String word :
                     a) {
                 arr.add(word);
@@ -131,7 +132,7 @@ public class ApiWalletManager {
      * @param handler
      */
     public void init(final Handler handler, Wallet wallet) {
-        myWallet = wallet;
+        mainWallet = wallet;
         new Thread() {
             @Override
             public void run() {
@@ -347,7 +348,7 @@ public class ApiWalletManager {
     }
 
     private BigInteger getBlance(Wallet wallet) throws IOException {
-        if (null == wallet) wallet = myWallet;
+        if (null == wallet) wallet = mainWallet;
 
         wallet.setAddress("0xf7171d1EA98F698e22EF0EbFb5498d0C2CA83890");//测试地址
         String methodName = "balanceOf";
@@ -389,7 +390,7 @@ public class ApiWalletManager {
 
 
     private void importWallt(Wallet wallet, String passWord) throws CipherException, IOException {
-        if (null == wallet) wallet = myWallet;
+        if (null == wallet) wallet = mainWallet;
         if (null == passWord) passWord = wallet.getPassword();
         String keystore;
         String key = wallet.getPrivateKey();

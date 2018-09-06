@@ -75,7 +75,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
                     //EventBus.getDefault().post(new CommonEvent(Comm.user_info_refresh_type,null));
 
 
-                    if (com.fast.lib.utils.encrypt.base.TextUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getName())) {
+                    if (com.fast.lib.utils.encrypt.base.TextUtils.isEmpty(ApiWalletManager.getInstance().getMainWallet().getName())) {
                         transfer(CreateWalletSelectActivity.class);
                     }else {
                         transfer(MainActivity.class);

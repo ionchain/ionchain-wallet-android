@@ -131,8 +131,8 @@ public class ModifyWalletActivity extends BaseActivity {
                     case WALLET_BALANCE:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
                             Logger.i("余额已刷新");
-                            if (!StringUtils.isEmpty(ApiWalletManager.getInstance().getMyWallet().getBalance())) {
-                                walletBalanceTv.setText(ApiWalletManager.getInstance().getMyWallet().getBalance());
+                            if (!StringUtils.isEmpty(ApiWalletManager.getInstance().getMainWallet().getBalance())) {
+                                walletBalanceTv.setText(ApiWalletManager.getInstance().getMainWallet().getBalance());
                             } else {
                                 walletBalanceTv.setText("0.0000");
                             }
@@ -306,10 +306,10 @@ public class ModifyWalletActivity extends BaseActivity {
                                 Wallet nullWallet = new Wallet();
                                 nullWallet.setName(Comm.NULLWALLETNAME);
                                 nullWallet.setAddress(Comm.NULLWALLETNAME);
-                                ApiWalletManager.getInstance().setMyWallet(nullWallet);
+                                ApiWalletManager.getInstance().setMainWallet(nullWallet);
                             } else {
                                 LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, topWallet.getName());
-                                ApiWalletManager.getInstance().setMyWallet(topWallet);
+                                ApiWalletManager.getInstance().setMainWallet(topWallet);
                             }
                         }
 
