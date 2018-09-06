@@ -347,8 +347,10 @@ public class ApiWalletManager {
         }.start();
     }
 
-    private BigInteger getBlance(Wallet wallet) throws IOException {
-        if (null == wallet) wallet = mainWallet;
+    private void getBlance(Wallet wallet) throws IOException {
+        if (null == wallet) {
+            wallet = mainWallet;
+        }
 
         wallet.setAddress("0xf7171d1EA98F698e22EF0EbFb5498d0C2CA83890");//测试地址
         String methodName = "balanceOf";
@@ -367,7 +369,7 @@ public class ApiWalletManager {
         Transaction transaction = Transaction.createEthCallTransaction(wallet.getAddress(), contractAddress, dealString);
 
         EthCall ethCall;
-        BigInteger balanceValue = null;
+        BigInteger balanceValue;
         ethCall = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).send();
         Future<EthCall> s = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync();
         try {
@@ -385,7 +387,6 @@ public class ApiWalletManager {
             BigDecimal balance = bigDecimal.divide(DEF_WALLET_DECIMALS).setScale(DEF_WALLET_DECIMALS_UNIT, BigDecimal.ROUND_DOWN);
             wallet.setBalance(balance.toString());
         }
-        return balanceValue;
     }
 
 
