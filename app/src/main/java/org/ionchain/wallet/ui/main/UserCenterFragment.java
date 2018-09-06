@@ -111,7 +111,9 @@ public class UserCenterFragment extends BaseFragment {
 //                loginRegTv.setText("注册/登陆  >");
 //                return;
 //            }
-            loginRegTv.setText(Global.user.getUserName());
+            if (Global.user!= null) {
+                loginRegTv.setText(Global.user.getUserName());
+            }
         }catch (Throwable e){
             Logger.e(e,TAG);
         }
