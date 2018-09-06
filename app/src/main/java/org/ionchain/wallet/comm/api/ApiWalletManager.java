@@ -213,13 +213,13 @@ public class ApiWalletManager {
 
                     String filePath = DEF_WALLET_PATH;
                     Bip39Wallet bip39Wallet = generateBip39Wallet(wallet.getPassword(), new File(filePath));
+                    printtest(bip39Wallet.toString());
                     String keystore = filePath + "/" + bip39Wallet.getFilename();
                     wallet.setKeystore(keystore);
                     loadWalletBaseInfo(wallet);
 
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_CREATE.getDesc(), ApiConstant.WalletManagerErrCode.SUCCESS.name(), null, null);
                 } catch (Exception e) {
-                    Log.e("wallet", "", e);
                     sendResult(handler, ApiConstant.WalletManagerType.WALLET_CREATE.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
                 }
 
@@ -470,10 +470,13 @@ public class ApiWalletManager {
         byte[] initialEntropy = new byte[16];
         secureRandom.nextBytes(initialEntropy);
 
+        //生成助记词
         String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+        //根据助记词生成种子
         byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+        //根据种子生成秘钥对
         ECKeyPair privateKey = ECKeyPair.create(sha256(seed));
-
+        //完成钱包的创建
         String walletFile = WalletUtils.generateWalletFile(password, privateKey, destinationDirectory, false);
 
         return new Bip39Wallet(walletFile, mnemonic);

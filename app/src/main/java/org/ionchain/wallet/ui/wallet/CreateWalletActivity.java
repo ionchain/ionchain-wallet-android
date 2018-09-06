@@ -304,6 +304,10 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                 ToastUtil.showShortToast("密码和重复密码必须相同");
                 return;
             }
+
+            /*
+            * 从数据库比对，重复检查
+            * */
             if (null != WalletDaoTools.getWalletByName(walletname)) {
                 Toast.makeText(this.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                 return;
