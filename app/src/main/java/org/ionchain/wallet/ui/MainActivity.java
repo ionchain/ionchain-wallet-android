@@ -69,6 +69,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onCreate(Bundle savedInstanceState) {
         setSystemBar(false);
         super.onCreate(savedInstanceState);
+        mImmersionBar
+                .statusBarColor("#3574FA")
+                .init();
     }
 
     @Override

@@ -57,7 +57,7 @@ public class MessageCenterActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_message_center);
-
+        mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         messageCenterAdapter = new MessageCenterAdapter(recyclerView);

@@ -115,7 +115,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
-
+        mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
     }
 
     @Override

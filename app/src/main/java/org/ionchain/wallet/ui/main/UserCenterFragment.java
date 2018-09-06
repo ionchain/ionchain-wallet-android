@@ -71,8 +71,10 @@ public class UserCenterFragment extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_user_center);
+
         mImmersionBar.titleBar(getViewById(R.id.top_view))
                 .statusBarDarkFont(true)
+                .statusBarColor("#ffffff")
                 .init();
 //        setDarkStatusBar(mImmersionBar,getViewById(R.id.top_view));
     }

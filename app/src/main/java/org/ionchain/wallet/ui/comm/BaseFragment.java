@@ -24,6 +24,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
+import org.ionchain.wallet.comm.utils.SoftKeyboardUtil;
 
 import java.util.HashMap;
 
@@ -131,7 +132,7 @@ public abstract class BaseFragment extends LibFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-
+        SoftKeyboardUtil.hideSoftKeyboard(getActivity());
         if (isVisibleToUser) {
             onUserVisible();
         }
@@ -187,7 +188,7 @@ public abstract class BaseFragment extends LibFragment {
                 setHasOptionsMenu(true);
             if (mImmersionBar == null) {
                 mImmersionBar = ImmersionBar.with(this);
-                mImmersionBar.init();
+//                mImmersionBar.init();
             }
             initView(savedInstanceState);
 

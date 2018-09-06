@@ -28,6 +28,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
+import org.ionchain.wallet.comm.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.manager.ActivityHelper;
 
 import java.lang.ref.WeakReference;
@@ -373,6 +374,7 @@ public abstract class BaseActivity extends LibActivity implements ActivityCompat
     @Override
     protected void onResume() {
         super.onResume();
+        SoftKeyboardUtil.hideSoftKeyboard(this);
     }
 
     @Override
