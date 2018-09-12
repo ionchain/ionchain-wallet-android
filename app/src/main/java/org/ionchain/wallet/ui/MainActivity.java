@@ -1,26 +1,24 @@
 package org.ionchain.wallet.ui;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.RadioGroup;
 
-import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 
+import org.ionchain.wallet.ui.base.AbsBaseActivity;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.manager.ActivityHelper;
-import org.ionchain.wallet.ui.comm.BaseActivity;
-import org.ionchain.wallet.ui.main.HomeFragment;
-import org.ionchain.wallet.ui.main.UserCenterFragment;
+import org.ionchain.wallet.ui.fragment.DevicesFragment;
+import org.ionchain.wallet.ui.fragment.HomeFragment;
+import org.ionchain.wallet.ui.fragment.UserCenterFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends AbsBaseActivity implements RadioGroup.OnCheckedChangeListener {
 
     private long mExitTime = 0;
 
@@ -29,6 +27,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     private HomeFragment mAssetFragment;
     private UserCenterFragment mMineFragment;
+    private DevicesFragment mDevicesFragment;
     private List<Fragment> mFragments = new ArrayList<>();
 
     private FragmentManager mFragmentManager;
@@ -36,54 +35,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     private int mPostion;
 
-    @Override
-    public void handleMessage(int what, Object obj) {
-        super.handleMessage(what, obj);
-        try {
-
-            switch (what) {
-                case R.id.navigationBack:
-                    finish();
-                    break;
-                case 0:
-                    dismissProgressDialog();
-                    if (obj == null)
-                        return;
-
-                    ResponseModel<String> responseModel = (ResponseModel) obj;
-                    if (!verifyStatus(responseModel)) {
-                        ToastUtil.showShortToast(responseModel.getMsg());
-                        return;
-                    }
-
-
-                    break;
-            }
-
-        } catch (Throwable e) {
-            Logger.e(e, TAG);
-        }
-    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setSystemBar(false);
-        super.onCreate(savedInstanceState);
-        mImmersionBar
-                .statusBarColor("#3574FA")
-                .init();
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
-        mRadioGroup = findViewById(R.id.rg_main);
-        mRadioGroup.setOnCheckedChangeListener(this);
-
+    protected void initData() {
         //初始化 fragment
         mAssetFragment = new HomeFragment();
         mMineFragment = new UserCenterFragment();
+        mDevicesFragment = new DevicesFragment();
         mFragments.add(mAssetFragment);
+        mFragments.add(mDevicesFragment);
         mFragments.add(mMineFragment);
 
         mFragmentManager = getSupportFragmentManager();
@@ -93,28 +53,19 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     @Override
-    protected void setListener() {
+    protected void handleIntent() {
 
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-    }
-
-
-    @Override
-    public int getActivityMenuRes() {
-        return 0;
+    protected void initView() {
+        mRadioGroup = findViewById(R.id.rg_main);
+        mRadioGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return 0;
-    }
-
-    @Override
-    public int getActivityTitleContent() {
-        return 0;
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
 
@@ -142,8 +93,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             case R.id.rb_asset:
                 mPostion = 0;
                 break;
-            case R.id.rb_mine:
+            case R.id.rb_devices:
                 mPostion = 1;
+                break;
+            case R.id.rb_mine:
+                mPostion = 2;
                 break;
         }
         showNext();

@@ -1,4 +1,4 @@
-package com.fast.lib.immersionbar;
+package org.ionchain.wallet.immersionbar;
 
 import android.app.Activity;
 import android.os.Build;

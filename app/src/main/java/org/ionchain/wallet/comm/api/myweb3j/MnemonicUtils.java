@@ -78,7 +78,7 @@ public class MnemonicUtils {
         validateMnemonic(mnemonic);
         passphrase = passphrase == null ? "" : passphrase;
 
-        String salt = String.format("mnemonic%s", passphrase);
+        String salt = String.format("mnemonic%s", passphrase);//"mnemonic" + passphrase 作为盐
         PKCS5S2ParametersGenerator gen = new PKCS5S2ParametersGenerator(new SHA512Digest());
         gen.init(mnemonic.getBytes(Charset.forName("UTF-8")), salt.getBytes(Charset.forName("UTF-8")), SEED_ITERATIONS);
 
@@ -90,7 +90,7 @@ public class MnemonicUtils {
             throw new IllegalArgumentException("Mnemonic is required to generate a seed");
         }
     }
-
+                
     private static boolean[] nextElevenBits(boolean[] bits, int i) {
         int from = i * 11;
         int to = from + 11;

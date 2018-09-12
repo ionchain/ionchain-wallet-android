@@ -126,12 +126,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5b0f99c9f43e483e64000033" />
-        <meta-data
-            android:name="UMENG_MESSAGE_SECRET"
-            android:value="85cab502850c3752c3b26615477e4dc8" />
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="5b0f99c9f43e483e64000033" />-->
+        <!--<meta-data-->
+            <!--android:name="UMENG_MESSAGE_SECRET"-->
+            <!--android:value="85cab502850c3752c3b26615477e4dc8" />-->
 
         <activity
             android:name=".ui.main.ShowAddressActivity"

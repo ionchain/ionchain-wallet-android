@@ -84,8 +84,7 @@ public class ModifyWalletActivity extends BaseActivity {
                     dialog.dismiss();
 
                     break;
-                case R.id.saveBtn:
-                    break;
+
                 case R.id.delBtn:
                     delwallet();
 

@@ -1,4 +1,4 @@
-package com.fast.lib.immersionbar;
+package org.ionchain.wallet.immersionbar;
 
 /**
  * 软键盘监听

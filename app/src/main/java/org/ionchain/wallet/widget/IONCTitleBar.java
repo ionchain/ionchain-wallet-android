@@ -164,4 +164,8 @@ public class IONCTitleBar extends RelativeLayout {
         return this;
     }
 
+    public IONCTitleBar setTitleTextColor(int color) {
+        mTitle.setTextColor(getResources().getColor(color));
+        return this;
+    }
 }

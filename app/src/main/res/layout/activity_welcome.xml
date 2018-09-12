@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/create_wallet_bg"
-    android:id="@+id/rootLayout">
+    android:id="@+id/welcome_layout">
     <ImageView
         android:id="@+id/logoIv"
         android:layout_width="wrap_content"

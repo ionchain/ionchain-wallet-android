@@ -9,7 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/h10"
         android:background="@drawable/qmui_icon_topbar_back" />
 
@@ -18,7 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/left_img"
         android:textColor="@color/white"
         android:gravity="center"
@@ -31,7 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size"
         android:text="标题" />
@@ -43,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginRight="@dimen/h10"
         android:background="@mipmap/scan" />
 
@@ -53,7 +49,6 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginRight="@dimen/h10"
         android:textSize="@dimen/title_size"
         android:textColor="@color/white"

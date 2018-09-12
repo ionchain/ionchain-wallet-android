@@ -1,4 +1,4 @@
-package com.fast.lib.immersionbar;
+package org.ionchain.wallet.immersionbar;
 
 import android.text.TextUtils;
 

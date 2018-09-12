@@ -1,19 +1,17 @@
 package org.ionchain.wallet.ui.main;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.encrypt.base.TextUtils;
 
+import org.ionchain.wallet.ui.base.AbsBaseActivity;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
@@ -23,22 +21,15 @@ import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.db.WalletDaoTools;
 import org.ionchain.wallet.ui.MainActivity;
-import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
-
-import butterknife.BindView;
 
 /**
  * Created by siberiawolf on 17/4/28.
  */
 
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends AbsBaseActivity {
 
-
-    final int getEncodeKeys_network_type = 100;
-
-    @BindView(R.id.rootLayout)
-    RelativeLayout rootview;
+    RelativeLayout welcome_layout;
 
 
     @SuppressLint("HandlerLeak")
@@ -46,81 +37,67 @@ public class WelcomeActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            try {
-                ApiConstant.WalletManagerType resulit = ApiConstant.WalletManagerType.codeOf(msg.what);
-                if (null == resulit) return;
-                ResponseModel<String> responseModel = (ResponseModel<String>) msg.obj;
-                switch (resulit) {
-                    case MANAGER_INIT://此处可以改为回调
-                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            startMainActivity();
-                            //  ApiWalletManager.getInstance(,WelcomeActivity.this.getApplicationContext());
+            ApiConstant.WalletManagerType resulit = ApiConstant.WalletManagerType.codeOf(msg.what);
+            if (null == resulit) return;
+            ResponseModel<String> responseModel = (ResponseModel<String>) msg.obj;
+            switch (resulit) {
+                case MANAGER_INIT://此处可以改为回调
+                    if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+                        if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMainWallet().getName())) {
+                            transfer(CreateWalletSelectActivity.class);
                         } else {
-                            Toast.makeText(Global.mContext, "钱包初始化失败", Toast.LENGTH_SHORT).show();
+                            transfer(MainActivity.class);
                         }
-                        break;
+                        finish();
+                    } else {
+                        Toast.makeText(Global.mContext, "钱包初始化失败", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
 
-                    default:
-                        break;
-
-                }
-            } catch (Throwable e) {
-                Log.e(TAG, "handleMessage", e);
+                default:
+                    break;
             }
         }
     };
 
-    /*
-    * 此处处理事件
-    * */
+
     @Override
-    public void handleMessage(int what, Object obj) {
-        super.handleMessage(what, obj);
-        try {
+    protected void initData() {
+        Animation aAnimation = new AlphaAnimation(0.0f, 1.0f);
+        aAnimation.setDuration(2000);
+        aAnimation.setAnimationListener(new Animation.AnimationListener() {
 
-            switch (what) {
-                case R.id.navigationBack:
+            @Override
+            public void onAnimationEnd(Animation animation) {
 
-                    finish();
-                    break;
-                case getEncodeKeys_network_type:
-                    dismissProgressDialog();
-                    if (obj == null)
-                        return;
+                Wallet wallet = null;
 
+                //从SP中读取 首页展示的钱包的名字
+                String nowWalletName = (String) LibSPUtils.get(Global.mContext, Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
+                if (!TextUtils.isEmpty(nowWalletName)) {
+                    wallet = WalletDaoTools.getWalletByName(nowWalletName);
+                    //处理钱包被删除以后的逻辑
+                    if (null == wallet) {
+                        wallet = new Wallet();
+                        wallet.setName(Comm.NULLWALLETNAME);
+                        wallet.setAddress(Comm.NULLWALLETNAME);
+                    }
+                }
+                if (null == wallet) {
+                    wallet = new Wallet();
+                }
 
-                    break;
+                ApiWalletManager.getInstance(Global.mContext).init(walletHandler, wallet);
             }
-        } catch (Throwable e) {
-            Logger.e(TAG, e);
-        }
-    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setSystemBar(false);
-        super.onCreate(savedInstanceState);
-//        int REQUEST_EXTERNAL_STORAGE = 1;
-//        String[] PERMISSIONS_STORAGE = {
-//                Manifest.permission.READ_EXTERNAL_STORAGE,
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE
-//        };
-//        int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//
-//        if (permission != PackageManager.PERMISSION_GRANTED) {
-//            // We don't have permission so prompt the user
-//            ActivityCompat.requestPermissions(
-//                    this,
-//                    PERMISSIONS_STORAGE,
-//                    REQUEST_EXTERNAL_STORAGE
-//            );
-//        }
+            public void onAnimationRepeat(Animation animation) {
+            }
 
-    }
+            public void onAnimationStart(Animation animation) {
 
-    @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_welcome);
+            }
+        });
+        welcome_layout.startAnimation(aAnimation);
     }
 
     @Override
@@ -129,76 +106,19 @@ public class WelcomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-        try {
-            Animation aAnimation = new AlphaAnimation(0.0f, 1.0f);
-            aAnimation.setDuration(2000);
-            aAnimation.setAnimationListener(new Animation.AnimationListener() {
+    protected void handleIntent() {
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                    Wallet wallet = null;
-
-                    //从SP中读取 首页展示的钱包的名字
-                    String nowWalletName = (String) LibSPUtils.get(Global.mContext, Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
-                    if (!TextUtils.isEmpty(nowWalletName)) {
-                        wallet = WalletDaoTools.getWalletByName(nowWalletName);
-                        //处理钱包被删除以后的逻辑
-                        if (null == wallet) {
-                            wallet = new Wallet();
-                            wallet.setName(Comm.NULLWALLETNAME);
-                            wallet.setAddress(Comm.NULLWALLETNAME);
-                        }
-                    }
-                    if (null == wallet) {
-                        wallet = new Wallet();
-                    }
-
-                    ApiWalletManager.getInstance(Global.mContext).init(walletHandler,wallet);
-                }
-
-                public void onAnimationRepeat(Animation animation) {
-                }
-
-                public void onAnimationStart(Animation animation) {
-
-                }
-            });
-            rootview.startAnimation(aAnimation);
-
-
-        } catch (Throwable e) {
-            Logger.e(TAG, e);
-        }
     }
 
     @Override
-    public int getActivityMenuRes() {
-        return 0;
+    protected void initView() {
+        welcome_layout = findViewById(R.id.welcome_layout);
     }
 
     @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return 0;
+    protected int getLayoutId() {
+        return R.layout.activity_welcome;
     }
 
-    @Override
-    public int getActivityTitleContent() {
-        return 0;
-    }
 
-    void startMainActivity() {
-        try {
-            Logger.i(TAG + "===>startMainActivity");
-            if (TextUtils.isEmpty(ApiWalletManager.getInstance().getMainWallet().getName())) {
-                transfer(CreateWalletSelectActivity.class);
-            } else {
-                transfer(MainActivity.class);
-            }
-            finish();
-        } catch (Throwable e) {
-            Logger.e(TAG, e);
-        }
-    }
 }

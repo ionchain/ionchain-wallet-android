@@ -1,4 +1,4 @@
-package com.fast.lib.immersionbar;
+package org.ionchain.wallet.immersionbar;
 
 /**
  * Created by geyifeng on 2017/4/25.

@@ -3,6 +3,7 @@ package org.ionchain.wallet;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
@@ -39,7 +40,7 @@ public class App extends LibApp {
 
     public static final String UPDATE_STATUS_ACTION = "org.ionchain.wallet.action.UPDATE_STATUS";
 
-    private Handler handler;
+    public static  Handler mHandler = new Handler(Looper.getMainLooper());
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

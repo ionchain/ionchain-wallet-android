@@ -1,4 +1,4 @@
-package com.fast.lib.immersionbar;
+package org.ionchain.wallet.immersionbar;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -53,7 +53,7 @@ public class ImmersionBar {
     private Dialog mDialog;
 
     private BarParams mBarParams;
-    public BarConfig mConfig;
+    private BarConfig mConfig;
 
     private String mActivityName;
     private String mFragmentName;
@@ -70,10 +70,10 @@ public class ImmersionBar {
     private ImmersionBar(Activity activity) {
         WeakReference<Activity> activityWeakReference = new WeakReference<>(activity);
         mActivity = activityWeakReference.get();
-        mWindow = mActivity.getWindow();
+        mWindow = mActivity.getWindow();//获取 窗口
         mActivityName = activity.getClass().getName();
         mImmersionBarName = mActivityName;
-        initParams();
+        initParams();//Activity
     }
 
     /**
@@ -97,7 +97,7 @@ public class ImmersionBar {
         mActivityName = mActivity.getClass().getName();
         mFragmentName = mActivityName + "_AND_" + fragmentWeakReference.get().getClass().getName();
         mImmersionBarName = mFragmentName;
-        initParams();
+        initParams();//Activity activity, Fragment fragment
     }
 
     private ImmersionBar(DialogFragment dialogFragment, Dialog dialog) {
@@ -108,7 +108,7 @@ public class ImmersionBar {
         mWindow = mDialog.getWindow();
         mActivityName = mActivity.getClass().getName();
         mImmersionBarName = mActivityName + "_AND_" + dialogFragmentWeakReference.get().getClass().getName();
-        initParams();
+        initParams();//DialogFragment dialogFragment, Dialog dialog
     }
 
     /**
@@ -127,7 +127,7 @@ public class ImmersionBar {
         mWindow = mDialog.getWindow();
         mActivityName = mActivity.getClass().getName();
         mImmersionBarName = mActivityName + "_AND_" + dialogTag;
-        initParams();
+        initParams();//Activity activity, Dialog dialog, String dialogTag
     }
 
     /**
@@ -135,8 +135,8 @@ public class ImmersionBar {
      * Init params.
      */
     private void initParams() {
-        mDecorView = (ViewGroup) mWindow.getDecorView();
-        mContentView = (ViewGroup) mDecorView.findViewById(android.R.id.content);
+        mDecorView = (ViewGroup) mWindow.getDecorView();//获取顶级视图
+        mContentView = mDecorView.findViewById(android.R.id.content);//获取根视图
         mConfig = new BarConfig(mActivity);
         if (mMap.get(mImmersionBarName) == null) {
             mBarParams = new BarParams();
@@ -1374,9 +1374,9 @@ public class ImmersionBar {
     }
 
     /**
-     * 通过上面配置后初始化后方可成功调用
+     * 通过上面配置后初始化后方可成功调用，使配置生效
      */
-    public void init() {
+    public void execute() {
         mMap.put(mImmersionBarName, mBarParams);
         initBar();   //初始化沉浸式
         setStatusBarView();  //通过状态栏高度动态设置状态栏布局

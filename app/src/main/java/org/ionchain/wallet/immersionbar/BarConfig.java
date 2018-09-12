@@ -1,4 +1,4 @@
-package com.fast.lib.immersionbar;
+package org.ionchain.wallet.immersionbar;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
@@ -16,12 +15,12 @@ import android.view.WindowManager;
  * Created by geyifeng on 2017/5/11.
  */
 
-public class BarConfig {
+class BarConfig {
 
-    private static final String STATUS_BAR_HEIGHT_RES_NAME = "status_bar_height";
-    private static final String NAV_BAR_HEIGHT_RES_NAME = "navigation_bar_height";
-    private static final String NAV_BAR_HEIGHT_LANDSCAPE_RES_NAME = "navigation_bar_height_landscape";
-    private static final String NAV_BAR_WIDTH_RES_NAME = "navigation_bar_width";
+    private static final String status_bar_height = "status_bar_height";
+    private static final String navigation_bar_height = "navigation_bar_height";
+    private static final String navigation_bar_height_landscape = "navigation_bar_height_landscape";
+    private static final String navigation_bar_width = "navigation_bar_width";
 
     private final int mStatusBarHeight;
     private final int mActionBarHeight;
@@ -32,12 +31,11 @@ public class BarConfig {
     private final float mSmallestWidthDp;
 
 
-
-    public BarConfig(Activity activity) {
+    BarConfig(Activity activity) {
         Resources res = activity.getResources();
         mInPortrait = (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
         mSmallestWidthDp = getSmallestWidthDp(activity);
-        mStatusBarHeight = getInternalDimensionSize(res, STATUS_BAR_HEIGHT_RES_NAME);
+        mStatusBarHeight = getInternalDimensionSize(res, status_bar_height);
         mActionBarHeight = getActionBarHeight(activity);
         mNavigationBarHeight = getNavigationBarHeight(activity);
         mNavigationBarWidth = getNavigationBarWidth(activity);
@@ -46,12 +44,10 @@ public class BarConfig {
 
     @TargetApi(14)
     private int getActionBarHeight(Context context) {
-        int result = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            TypedValue tv = new TypedValue();
-            context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-            result = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
-        }
+        int result;
+        TypedValue tv = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+        result = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
         return result;
     }
 
@@ -59,16 +55,14 @@ public class BarConfig {
     private int getNavigationBarHeight(Context context) {
         Resources res = context.getResources();
         int result = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            if (hasNavBar((Activity) context)) {
-                String key;
-                if (mInPortrait) {
-                    key = NAV_BAR_HEIGHT_RES_NAME;
-                } else {
-                    key = NAV_BAR_HEIGHT_LANDSCAPE_RES_NAME;
-                }
-                return getInternalDimensionSize(res, key);
+        if (hasNavBar((Activity) context)) {
+            String key;
+            if (mInPortrait) {
+                key = navigation_bar_height;
+            } else {
+                key = navigation_bar_height_landscape;
             }
+            return getInternalDimensionSize(res, key);
         }
         return result;
     }
@@ -77,10 +71,8 @@ public class BarConfig {
     private int getNavigationBarWidth(Context context) {
         Resources res = context.getResources();
         int result = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            if (hasNavBar((Activity) context)) {
-                return getInternalDimensionSize(res, NAV_BAR_WIDTH_RES_NAME);
-            }
+        if (hasNavBar((Activity) context)) {
+            return getInternalDimensionSize(res, navigation_bar_width);
         }
         return result;
     }
@@ -91,9 +83,7 @@ public class BarConfig {
         Display d = windowManager.getDefaultDisplay();
 
         DisplayMetrics realDisplayMetrics = new DisplayMetrics();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            d.getRealMetrics(realDisplayMetrics);
-        }
+        d.getRealMetrics(realDisplayMetrics);
 
         int realHeight = realDisplayMetrics.heightPixels;
         int realWidth = realDisplayMetrics.widthPixels;
@@ -107,12 +97,23 @@ public class BarConfig {
         return (realWidth - displayWidth) > 0 || (realHeight - displayHeight) > 0;
     }
 
+    /**
+     *
+     * 获取 dimen 的值
+     * @param res 资源文件的引用
+     * @param key
+     * @return
+     */
     private int getInternalDimensionSize(Resources res, String key) {
         int result = 0;
         try {
-            Class clazz = Class.forName("com.android.internal.R$dimen");
-            Object object = clazz.newInstance();
-            int resourceId = Integer.parseInt(clazz.getField(key).get(object).toString());
+            @SuppressLint("PrivateApi") Class clazz = Class.forName("com.android.internal.R$dimen");//获取R的内部类 demin 的class对象
+            Object object = clazz.newInstance();//调用默认构造方法创建 dimen 类的一个对象
+
+//            Field field = clazz.getField(key);
+//            field.setAccessible(true);
+//            result = field.getInt(null);
+            int resourceId = Integer.parseInt(clazz.getField(key).get(object).toString());//
             if (resourceId > 0)
                 result = res.getDimensionPixelSize(resourceId);
         } catch (Exception e) {
@@ -124,12 +125,7 @@ public class BarConfig {
     @SuppressLint("NewApi")
     private float getSmallestWidthDp(Activity activity) {
         DisplayMetrics metrics = new DisplayMetrics();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-        } else {
-            // TODO this is not correct, but we don't really care pre-kitkat
-            activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        }
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
         float widthDp = metrics.widthPixels / metrics.density;
         float heightDp = metrics.heightPixels / metrics.density;
         return Math.min(widthDp, heightDp);

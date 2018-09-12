@@ -19,10 +19,9 @@
     <color name="main_btn_color_normal">#2F80F6</color>
     <color name="main_btn_color_pressed">#808DA0C8</color>
     <color name="main_btn_color_disable">#8DA0C8</color>
-    
+
     <color name="btn_semicircle_color">#D3E1FF</color>
     <color name="main_btn_color_normal_50abf1">#50ABF1</color>
     <color name="title_color_blue">#3574FA</color>
-
-
+    <color name="blue_top">#3574FA</color>
 </resources>

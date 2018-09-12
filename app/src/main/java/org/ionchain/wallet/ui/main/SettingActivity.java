@@ -13,6 +13,7 @@ import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.comm.utils.SPUtils;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
 public class SettingActivity extends BaseActivity {
 
@@ -20,6 +21,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void handleMessage(int what, Object obj) {
         super.handleMessage(what, obj);
+        transfer(CreateWalletSelectActivity.class);
         try{
 
             switch (what){

@@ -37,6 +37,20 @@
             android:layout_width="1px"
             android:layout_height="match_parent"/>
         <RadioButton
+            android:id="@+id/rb_devices"
+            android:text="设备"
+            android:textColor="@drawable/tab_text_color"
+            android:drawableTop="@drawable/tab_usercenter_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+        <View
+            android:background="@color/btn_semicircle_color"
+            android:layout_width="1px"
+            android:layout_height="match_parent"/>
+        <RadioButton
             android:id="@+id/rb_mine"
             android:text="我的"
             android:textColor="@drawable/tab_text_color"

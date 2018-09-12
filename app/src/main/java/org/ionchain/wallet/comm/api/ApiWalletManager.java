@@ -10,6 +10,8 @@ import com.fast.lib.logger.Logger;
 import com.fast.lib.okhttp.callback.ResultCallback;
 import com.fast.lib.okhttp.request.OkHttpRequest;
 
+import org.ionchain.wallet.App;
+import org.ionchain.wallet.callback.OnBalanceRefreshCallback;
 import org.ionchain.wallet.comm.api.conf.ApiConfig;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.model.Wallet;
@@ -282,6 +284,74 @@ public class ApiWalletManager {
             }
         }.start();
     }
+    /**
+     * 读取钱包余额
+     *
+     * @param callback
+     */
+    public void getBalance(final Wallet wallet, final OnBalanceRefreshCallback callback) {
+        if (!isInit) {
+            callback.onFailure("请先初始化！");
+            return;
+        }
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    wallet.setAddress("0xf7171d1EA98F698e22EF0EbFb5498d0C2CA83890");//测试地址
+                    String methodName = "balanceOf";
+                    List<Type> inputParameters = new ArrayList<>();
+                    List<TypeReference<?>> outputParameters = new ArrayList<>();
+                    Address address = new Address(wallet.getAddress());
+                    inputParameters.add(address);
+                    TypeReference<Uint256> typeReference = new TypeReference<Uint256>() {
+                    };
+                    outputParameters.add(typeReference);
+                    Function function = new Function(methodName, inputParameters, outputParameters);
+
+
+                    String dealString = FunctionEncoder.encode(function);//交易串
+//        String contractAddress = "0xbc647aad10114b89564c0a7aabe542bd0cf2c5af";//代币地址
+                    Transaction transaction = Transaction.createEthCallTransaction(wallet.getAddress(), contractAddress, dealString);
+
+                    EthCall ethCall;
+                    BigInteger balanceValue;
+                    ethCall = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).send();
+                    Future<EthCall> s = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync();
+                    try {
+                        s.get().getValue();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    String value = ethCall.getValue();
+                    List<Type> results = FunctionReturnDecoder.decode(value, function.getOutputParameters());
+                    if (results != null && results.size() > 0) {
+                        balanceValue = (BigInteger) results.get(0).getValue();
+                        BigDecimal bigDecimal = new BigDecimal(balanceValue);
+                        BigDecimal balance = bigDecimal.divide(DEF_WALLET_DECIMALS).setScale(DEF_WALLET_DECIMALS_UNIT, BigDecimal.ROUND_DOWN);
+                        wallet.setBalance(balance.toString());
+                    }
+                    App.mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess(wallet);
+                        }
+                    });
+                } catch (final Exception e) {
+                    App.mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFailure(e.getMessage());
+                        }
+                    });
+                }
+
+            }
+        }.start();
+    }
 
     /**
      * 没有所谓的 修改密码 修改的密码实现是 利用私匙重新生成一个keystore
@@ -351,7 +421,6 @@ public class ApiWalletManager {
         if (null == wallet) {
             wallet = mainWallet;
         }
-
         wallet.setAddress("0xf7171d1EA98F698e22EF0EbFb5498d0C2CA83890");//测试地址
         String methodName = "balanceOf";
         List<Type> inputParameters = new ArrayList<>();
@@ -468,12 +537,13 @@ public class ApiWalletManager {
     private Bip39Wallet generateBip39Wallet(String password, File destinationDirectory)
             throws CipherException, IOException {
         byte[] initialEntropy = new byte[16];
-        secureRandom.nextBytes(initialEntropy);
+        secureRandom.nextBytes(initialEntropy);//产红一个随机数
 
         //生成助记词
         String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
+        Log.i("mnemonic", "generateBip39Wallet: " + mnemonic);
         //根据助记词生成种子
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+        byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
         //根据种子生成秘钥对
         ECKeyPair privateKey = ECKeyPair.create(sha256(seed));
         //完成钱包的创建

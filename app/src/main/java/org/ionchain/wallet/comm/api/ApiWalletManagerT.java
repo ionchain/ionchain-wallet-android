@@ -219,7 +219,7 @@ public class ApiWalletManagerT {
         secureRandom.nextBytes(initialEntropy);
 
         String mnemonic = MnemonicUtils.generateMnemonic(initialEntropy);
-        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
+        byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);//生成种子
         ECKeyPair privateKey = ECKeyPair.create(sha256(seed));
 
         String walletFile = WalletUtils.generateWalletFile(password, privateKey, destinationDirectory, false);
