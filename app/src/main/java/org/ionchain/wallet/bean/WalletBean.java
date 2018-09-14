@@ -1,4 +1,4 @@
-package org.ionchain.wallet.comm.api.model;
+package org.ionchain.wallet.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -7,7 +7,7 @@ import org.greenrobot.greendao.annotation.Id;
 import java.io.Serializable;
 
 @Entity
-public class Wallet implements Serializable {
+public class WalletBean implements Serializable {
     @Id
     private Long id;
     /**
@@ -46,9 +46,19 @@ public class Wallet implements Serializable {
      */
     private String password;
 
-    @Generated(hash = 2046348699)
-    public Wallet(Long id, String privateKey, String name, String address,
-                  String publickey, String balance, String keystore, String password) {
+    private int mIconIdex;
+
+    public int getIconIdex() {
+        return mIconIdex;
+    }
+
+    public void setIconIdex(int iconIdex) {
+        mIconIdex = iconIdex;
+    }
+
+    @Generated(hash = 147693845)
+    public WalletBean(Long id, String privateKey, String name, String address, String publickey,
+            String balance, String keystore, String password, int mIconIdex) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -57,10 +67,11 @@ public class Wallet implements Serializable {
         this.balance = balance;
         this.keystore = keystore;
         this.password = password;
+        this.mIconIdex = mIconIdex;
     }
 
-    @Generated(hash = 1197745249)
-    public Wallet() {
+    @Generated(hash = 1814219826)
+    public WalletBean() {
     }
 
     public String getPassword() {
@@ -125,6 +136,14 @@ public class Wallet implements Serializable {
 
     public void setKeystore(String keystore) {
         this.keystore = keystore;
+    }
+
+    public int getMIconIdex() {
+        return this.mIconIdex;
+    }
+
+    public void setMIconIdex(int mIconIdex) {
+        this.mIconIdex = mIconIdex;
     }
 
 
