@@ -1,21 +1,20 @@
-package org.ionchain.wallet.ui.fragment;
+package org.ionchain.wallet.mvp.view.fragment;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.ionchain.wallet.ui.base.AbsBaseFragment;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.ui.account.MessageCenterActivity;
 import org.ionchain.wallet.ui.account.WalletManageActivity;
+import org.ionchain.wallet.ui.base.AbsBaseFragment;
 import org.ionchain.wallet.ui.login.LoginActivity;
 import org.ionchain.wallet.ui.main.SettingActivity;
 
-public class UserCenterFragment extends AbsBaseFragment {
+public class MineFragment extends AbsBaseFragment {
 
-    private View topView;
     private TextView loginRegTv;
     private RelativeLayout walletManageRLayout;
     private RelativeLayout messageCenterRLayout;
@@ -30,15 +29,13 @@ public class UserCenterFragment extends AbsBaseFragment {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews(View rootView) {
-        topView = (View) rootView.findViewById(R.id.top_view);
-        loginRegTv = (TextView) rootView.findViewById(R.id.loginRegTv);
-        walletManageRLayout = (RelativeLayout) rootView.findViewById(R.id.walletManageRLayout);
-        messageCenterRLayout = (RelativeLayout) rootView.findViewById(R.id.messageCenterRLayout);
-        arrowIv = (ImageView) rootView.findViewById(R.id.arrowIv);
-        hintMessageNum = (TextView) rootView.findViewById(R.id.hint_message_num);
-        arrowIv1 = (ImageView) rootView.findViewById(R.id.arrowIv1);
+        loginRegTv = rootView.findViewById(R.id.loginRegTv);
+        walletManageRLayout = rootView.findViewById(R.id.walletManageRLayout);
+        messageCenterRLayout = rootView.findViewById(R.id.messageCenterRLayout);
+        arrowIv = rootView.findViewById(R.id.arrowIv);
+        hintMessageNum = rootView.findViewById(R.id.hint_message_num);
+        arrowIv1 = rootView.findViewById(R.id.arrowIv1);
     }
-
 
     @Override
     protected void setListener() {
@@ -75,19 +72,8 @@ public class UserCenterFragment extends AbsBaseFragment {
 
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            mImmersionBar
-                    .statusBarColor("#ffffff")
-                    .statusBarDarkFont(true)
-                    .execute();
-        }
-    }
-
-    @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_user_center;
+        return R.layout.fragment_mine;
     }
 
     @Override
@@ -96,18 +82,9 @@ public class UserCenterFragment extends AbsBaseFragment {
     }
 
     @Override
-    protected void getData() {
+    protected void initData() {
         if (Global.user != null) {
             loginRegTv.setText(Global.user.getUserName());
         }
-    }
-
-    @Override
-    protected void setImmersionBar() {
-        super.setImmersionBar();
-        mImmersionBar
-                .statusBarDarkFont(true)
-                .statusBarColor("#ffffff")
-                .execute();
     }
 }
