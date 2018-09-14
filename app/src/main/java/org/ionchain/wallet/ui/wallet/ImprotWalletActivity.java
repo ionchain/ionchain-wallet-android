@@ -19,17 +19,18 @@ import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.comm.utils.StringUtils;
-import org.ionchain.wallet.db.WalletDaoTools;
-import org.ionchain.wallet.ui.MainActivity;
+import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.ScanActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
+import org.ionchain.wallet.utils.SoftKeyboardUtil;
+import org.ionchain.wallet.utils.StringUtils;
 
 import java.io.File;
 
@@ -37,12 +38,14 @@ import butterknife.BindView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.ionchain.wallet.utils.RandomUntil.getNum;
+
 public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
 
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_IMPORT_PERMISSIONS = 2;
 
-    private Wallet nowWallet;
+    private WalletBean nowWallet;
     private boolean isAddMode = false;
 
     @BindView(R.id.contentEt)
@@ -81,9 +84,11 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                                 ApiWalletManager.getInstance().setMainWallet(nowWallet);
                                 LibSPUtils.put(ImprotWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, nowWallet.getName());
                             }
-                            //初始化用户跳转主页面
                             if (!isAddMode) {
                                 startMain();
+                            } else {
+                                finish();
+                                SoftKeyboardUtil.hideSoftKeyboard(ImprotWalletActivity.this);
                             }
                         } else {
                             Toast.makeText(ImprotWalletActivity.this.getApplicationContext(), "钱包导入失败", Toast.LENGTH_SHORT).show();
@@ -190,7 +195,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override
@@ -261,7 +266,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                 ToastUtil.showToastLonger("无效私钥！");
                 return;
             }
-            Wallet wallet = WalletDaoTools.getWalletByPrivateKey(content);
+            WalletBean wallet = WalletDaoTools.getWalletByPrivateKey(content);
             if (null != wallet) {
                 Toast.makeText(this, "该钱包已存在,钱包名 : " + wallet.getName(), Toast.LENGTH_LONG).show();
                 return;
@@ -273,10 +278,11 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
 
             Integer nameInex = (Integer) LibSPUtils.get(this.getApplicationContext(), Comm.LOCAL_SAVE_WALLET_INDEX, 1);
             String walletname = "新增钱包" + nameInex;
-            nowWallet = new Wallet();
+            nowWallet = new WalletBean();
             nowWallet.setName(walletname);
             nowWallet.setPassword(pass);
             nowWallet.setPrivateKey(content.toLowerCase());
+            nowWallet.setIconIdex(getNum(7));
             ApiWalletManager.getInstance().importWallet(nowWallet, walletHandler);
             Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
             showProgressDialog("正在导入钱包请稍候");

@@ -18,7 +18,7 @@ import com.bumptech.glide.module.AppGlideModule;
 
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.comm.utils.StorageUtils;
+import org.ionchain.wallet.utils.StorageUtils;
 
 import java.io.File;
 import java.io.InputStream;

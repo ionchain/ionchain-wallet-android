@@ -14,12 +14,12 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.db.WalletDaoTools;
+import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
 import butterknife.BindView;
@@ -35,7 +35,7 @@ public class ModifyWalletPwdActivity extends BaseActivity {
     @BindView(R.id.resetNewPwdEt)
     AppCompatEditText resetNewPwdEt;
 
-    Wallet mWallet;
+    WalletBean mWallet;
 
     @Override
     public void handleMessage(int what, Object obj) {
@@ -102,7 +102,7 @@ public class ModifyWalletPwdActivity extends BaseActivity {
                     case WALLET_EDIT_PASS:
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
 
-                            Wallet wallet = (Wallet) responseModel.data;
+                            WalletBean wallet = (WalletBean) responseModel.data;
                             WalletDaoTools.updateWallet(wallet);
 
                             EventBus.getDefault().post(new CommonEvent(Comm.modify_wallet_refresh_type, wallet));
@@ -128,7 +128,7 @@ public class ModifyWalletPwdActivity extends BaseActivity {
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_modify_wallet_pwd);
         mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
-        mWallet = (Wallet) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
+        mWallet = (WalletBean) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
 
     }
 
@@ -147,7 +147,7 @@ public class ModifyWalletPwdActivity extends BaseActivity {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override

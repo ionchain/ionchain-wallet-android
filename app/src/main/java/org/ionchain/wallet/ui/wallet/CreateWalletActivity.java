@@ -21,12 +21,12 @@ import com.fast.lib.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.model.Wallet;
+import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.comm.utils.SoftKeyboardUtil;
-import org.ionchain.wallet.db.WalletDaoTools;
-import org.ionchain.wallet.ui.MainActivity;
+import org.ionchain.wallet.utils.SoftKeyboardUtil;
+import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
 
@@ -36,12 +36,14 @@ import butterknife.BindView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.ionchain.wallet.utils.RandomUntil.getNum;
+
 public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
     final int REQUEST_CODE_CREATE_PERMISSIONS = 1;
     //判定是否需要刷新
     private boolean isAddMode = false;
-    private Wallet mCreateWallet = null;
+    private WalletBean mCreateWallet = null;
     @BindView(R.id.walletNameEt)
     AppCompatEditText walletNameEt;
 
@@ -101,8 +103,8 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                     case WALLET_CREATE:
 
                         /*
-                        * 创建钱包
-                        * */
+                         * 创建钱包
+                         * */
                         dismissProgressDialog();
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
                             long id = saveWallet();
@@ -115,7 +117,12 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                                 LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, mCreateWallet.getName());
                             }
                             //初始化用户跳转主页面
-                            if (!isAddMode) startMain();
+                            if (!isAddMode) {
+                                startMain();
+                            } else {
+                                finish();
+                                SoftKeyboardUtil.hideSoftKeyboard(CreateWalletActivity.this);
+                            }
                         } else {
                             Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
                         }
@@ -170,7 +177,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
                 case R.id.createBtn:
                     Log.e("wallet", "xxxxxxx");
                     requestCodeCreatePermissions();
-//                    Wallet wallet = new Wallet();
+//                    WalletBean wallet = new WalletBean();
 //                    wallet.setName("test");
 //                    wallet.setPassword("1234567899xxxxxx");
 //                    ApiWalletManager.getInstance(wallet, this.getApplicationContext()).init(walletHandler);
@@ -222,8 +229,6 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
     }
 
 
-
-
     @Override
     protected void initData(Bundle savedInstanceState) {
 
@@ -236,7 +241,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override
@@ -306,15 +311,17 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
             }
 
             /*
-            * 从数据库比对，重复检查
-            * */
+             * 从数据库比对，重复检查
+             * */
             if (null != WalletDaoTools.getWalletByName(walletname)) {
                 Toast.makeText(this.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mCreateWallet = new Wallet();
+            mCreateWallet = new WalletBean();
             mCreateWallet.setName(walletname);
             mCreateWallet.setPassword(pass);
+            mCreateWallet.setIconIdex(getNum(7));
+
             ApiWalletManager.getInstance().createWallet(mCreateWallet, walletHandler);
             showProgressDialog("正在创建钱包请稍候");
             Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);

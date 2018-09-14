@@ -6,7 +6,7 @@
         <item name="qmui_topbar_height">@dimen/h50</item>
         <item name="actionBarSize">?attr/qmui_topbar_height</item>
 
-        <item name="homeAsUpIndicator">@mipmap/ic_arrow_back</item>
+        <item name="homeAsUpIndicator">@mipmap/arrow_back_blue</item>
         <item name="actionMenuTextColor">@color/main_blue</item>
         <item name="buttonStyle">@style/buttonStyle</item>
         <item name="editTextBackground">@drawable/abc_edit_text_material</item>
@@ -36,5 +36,18 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!--右往左推出效果-->
+    <style name="push_left_in_out" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/push_left_in</item>
+        <item name="android:windowExitAnimation">@anim/push_right_out</item>
+    </style>
 
+    <style name="MyEditText" parent="Base.Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/blue_top</item>
+        <item name="colorControlActivated">@color/blue_top</item>
+    </style>
+    <style name="MyEditTextNUll" parent="Base.Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="colorControlActivated">@android:color/transparent</item>
+    </style>
 </resources>

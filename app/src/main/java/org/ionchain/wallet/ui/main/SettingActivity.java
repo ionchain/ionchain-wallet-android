@@ -11,7 +11,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.comm.utils.SPUtils;
+import org.ionchain.wallet.utils.SPUtils;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
@@ -79,7 +79,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override

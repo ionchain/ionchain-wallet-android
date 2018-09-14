@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adpter.WalletManageAdapter;
-import org.ionchain.wallet.comm.api.model.Wallet;
+import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.db.WalletDaoTools;
+import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
 import org.ionchain.wallet.ui.wallet.ImprotWalletActivity;
@@ -78,6 +78,7 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        initToolbar = false;
         setContentView(R.layout.activity_wallet_manage);
         mImmersionBar.titleBar(getViewById(R.id.back))
                 .statusBarDarkFont(true)
@@ -105,7 +106,7 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
         dataRv.setAdapter(walletManageAdapter);
         mImmersionBar.titleBar(R.id.back).init();
 
-//        List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
+//        List<WalletBean> walletlist =  WalletDaoTools.getAllWallet();
 //
 //        walletManageAdapter.setData(walletlist);
     }
@@ -117,7 +118,7 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override
@@ -128,7 +129,7 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
     @Override
     public void onRVItemClick(ViewGroup parent, View itemView, int position) {
 
-        Wallet wallet = walletManageAdapter.getItem(position);
+        WalletBean wallet = walletManageAdapter.getItem(position);
 
         transfer(ModifyWalletActivity.class,Comm.SERIALIZABLE_DATA,wallet);
     }
@@ -142,7 +143,7 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         srl.finishRefresh();
-        List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
+        List<WalletBean> walletlist =  WalletDaoTools.getAllWallet();
 
         walletManageAdapter.setData(walletlist);
     }
@@ -150,7 +151,7 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
     @Override
     protected void onResume() {
         super.onResume();
-        List<Wallet> walletlist =  WalletDaoTools.getAllWallet();
+        List<WalletBean> walletlist =  WalletDaoTools.getAllWallet();
 
         walletManageAdapter.setData(walletlist);
     }

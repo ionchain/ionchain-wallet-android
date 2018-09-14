@@ -8,8 +8,8 @@ import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
 import org.ionchain.wallet.comm.api.request.WalletCreateRquest;
@@ -64,7 +64,7 @@ public class ApiWalletManagerT {
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
     private static final String WALLET_ADDRESS = "https://ropsten.infura.io";
     private static String contractAddress = "0x92e831bbbb22424e0f22eebb8beb126366fa07ce";
-    private Wallet myWallet;
+    private WalletBean myWallet;
     
     public static ResponseModel<String> createWallet(WalletCreateRquest request) {
         ResponseModel<String> responseModel = new ResponseModel<String>();

@@ -11,16 +11,16 @@ import android.widget.Toast;
 import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.encrypt.base.TextUtils;
 
-import org.ionchain.wallet.ui.base.AbsBaseActivity;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.model.Wallet;
+import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.db.WalletDaoTools;
-import org.ionchain.wallet.ui.MainActivity;
+import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
+import org.ionchain.wallet.ui.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
 /**
@@ -70,7 +70,7 @@ public class WelcomeActivity extends AbsBaseActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
 
-                Wallet wallet = null;
+                WalletBean wallet = null;
 
                 //从SP中读取 首页展示的钱包的名字
                 String nowWalletName = (String) LibSPUtils.get(Global.mContext, Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
@@ -78,13 +78,13 @@ public class WelcomeActivity extends AbsBaseActivity {
                     wallet = WalletDaoTools.getWalletByName(nowWalletName);
                     //处理钱包被删除以后的逻辑
                     if (null == wallet) {
-                        wallet = new Wallet();
+                        wallet = new WalletBean();
                         wallet.setName(Comm.NULLWALLETNAME);
                         wallet.setAddress(Comm.NULLWALLETNAME);
                     }
                 }
                 if (null == wallet) {
-                    wallet = new Wallet();
+                    wallet = new WalletBean();
                 }
 
                 ApiWalletManager.getInstance(Global.mContext).init(walletHandler, wallet);

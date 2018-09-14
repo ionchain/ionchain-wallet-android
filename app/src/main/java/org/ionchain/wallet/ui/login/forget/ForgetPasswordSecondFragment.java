@@ -165,7 +165,7 @@ public class ForgetPasswordSecondFragment extends BaseFragment implements TextWa
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override

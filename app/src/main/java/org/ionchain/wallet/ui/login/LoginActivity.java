@@ -19,9 +19,9 @@ import org.ionchain.wallet.comm.api.request.ViewParm;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.comm.utils.SPUtils;
-import org.ionchain.wallet.model.UserModel;
-import org.ionchain.wallet.ui.MainActivity;
+import org.ionchain.wallet.utils.SPUtils;
+import org.ionchain.wallet.bean.UserModel;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.login.forget.ForgetPasswordActivity;
 import org.ionchain.wallet.ui.login.register.RegisterActivity;
@@ -141,7 +141,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override

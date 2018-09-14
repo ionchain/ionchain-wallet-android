@@ -4,9 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
-import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -15,21 +13,13 @@ import com.fast.lib.base.LibApp;
 import com.fast.lib.glideimageloader.ImageLoadConfig;
 import com.fast.lib.logger.Logger;
 import com.lzy.okgo.OkGo;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import org.ionchain.wallet.bean.UserModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.comm.utils.SPUtils;
-import org.ionchain.wallet.comm.utils.StorageUtils;
 import org.ionchain.wallet.config.ImgLoader;
-import org.ionchain.wallet.model.UserModel;
+import org.ionchain.wallet.utils.SPUtils;
+import org.ionchain.wallet.utils.StorageUtils;
 
 import java.util.List;
 
@@ -38,31 +28,14 @@ public class App extends LibApp {
 
     String TAG = "App";
 
-    public static final String UPDATE_STATUS_ACTION = "org.ionchain.wallet.action.UPDATE_STATUS";
+//    public static final String UPDATE_STATUS_ACTION = "org.ionchain.wallet.action.UPDATE_STATUS";
 
     public static  Handler mHandler = new Handler(Looper.getMainLooper());
-
-    static {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
-            @NonNull
-            @Override
-            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-//                layout.setPrimaryColorsId(R.color.white,R.color.main_color);//全局设置主题颜色
-                return new ClassicsHeader(context);
-            }
-        });
-        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
-            @NonNull
-            @Override
-            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
-                layout.setPrimaryColorsId(R.color.windowBackgroundColor,R.color.black);//全局设置主题颜色
-                layout.setEnableAutoLoadmore(true);
-
-                return new ClassicsFooter(context);
-            }
-        });
-    }
+//
+//    static {
+//        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+////
+//    }
 
 
     @Override

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvp.view.activity.TxOutActivity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:paddingLeft="@dimen/h20"
+        android:paddingRight="@dimen/h20">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_back_blue" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="转  账"
+            android:textSize="@dimen/txt_largesize"
+            android:textColor="@color/blue_top" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/comm_toast_bg"
+        android:orientation="vertical">
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="@dimen/h20"
+            android:paddingRight="@dimen/h20"
+            android:text="@string/act_wallet_create_notify1"
+            android:textColor="@color/main_blue"
+            android:textSize="@dimen/txt_smallsize" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/h10"
+            android:paddingLeft="@dimen/h20"
+            android:text="@string/act_wallet_create_notify2"
+            android:textColor="@color/main_blue"
+            android:textSize="@dimen/txt_smallsize" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/tx_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/h20"
+        android:layout_marginRight="@dimen/h20"
+        android:layout_marginTop="@dimen/h15"
+        android:hint="收款人地址"
+        android:textColor="#666666"
+        android:theme="@style/MyEditText" />
+
+    <EditText
+        android:id="@+id/tx_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/h20"
+        android:layout_marginRight="@dimen/h20"
+        android:layout_marginTop="@dimen/h15"
+        android:hint="转账金额"
+        android:textColor="#666666"
+        android:theme="@style/MyEditText" />
+
+    <EditText
+        android:id="@+id/tx_cost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/h20"
+        android:layout_marginRight="@dimen/h20"
+        android:layout_marginTop="@dimen/h15"
+        android:text="旷工费"
+        android:textColor="#666666"
+        android:textSize="15sp"
+        android:theme="@style/MyEditTextNUll" />
+
+    <SeekBar
+        android:id="@+id/tx_seek_bar_index"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/h20"
+        android:layout_marginRight="@dimen/h20"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp"
+        android:progress="10"
+        android:thumb="@mipmap/progress_index" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/h20"
+        android:layout_marginRight="@dimen/h20"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="慢"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="快"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/tx_next"
+        android:layout_width="324dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:text="下一步" />
+</LinearLayout>

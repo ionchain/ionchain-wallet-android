@@ -18,7 +18,7 @@ import com.fast.lib.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.comm.utils.CheckUtil;
+import org.ionchain.wallet.utils.CheckUtil;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
 import org.ionchain.wallet.ui.login.view.CountTimer;
@@ -192,7 +192,7 @@ public class RegisterFirstFragment extends BaseFragment implements TextWatcher {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override

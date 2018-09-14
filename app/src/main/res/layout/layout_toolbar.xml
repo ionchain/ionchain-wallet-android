@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/toolbarlayout"
+<LinearLayout android:id="@+id/toolbarlayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -15,6 +13,6 @@
         android:layout_height="?attr/qmui_topbar_height"
         android:title="Test"
         app:titleTextColor="@color/main_blue"
-        app:navigationIcon="@mipmap/ic_arrow_back"
+        app:navigationIcon="@mipmap/arrow_back_blue"
         android:background="@color/window_bg" />
 </LinearLayout>

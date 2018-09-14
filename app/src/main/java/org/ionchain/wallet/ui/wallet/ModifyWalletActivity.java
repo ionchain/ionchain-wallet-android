@@ -19,12 +19,12 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.model.Wallet;
+import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.comm.utils.SoftKeyboardUtil;
-import org.ionchain.wallet.comm.utils.StringUtils;
-import org.ionchain.wallet.db.WalletDaoTools;
+import org.ionchain.wallet.utils.SoftKeyboardUtil;
+import org.ionchain.wallet.utils.StringUtils;
+import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.widget.DialogImportPrivKey;
 import org.ionchain.wallet.widget.DialogImportPrivKeyCheck;
@@ -34,7 +34,7 @@ import java.io.File;
 
 import butterknife.BindView;
 
-import static org.ionchain.wallet.db.WalletDaoTools.updateWallet;
+import static org.ionchain.wallet.dao.WalletDaoTools.updateWallet;
 
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
@@ -53,7 +53,7 @@ public class ModifyWalletActivity extends BaseActivity {
     @BindView(R.id.walletNameEt)
     AppCompatEditText walletNameEt;
 
-    Wallet mWallet;
+    WalletBean mWallet;
 
     QMUIDialog dialog;
 
@@ -73,7 +73,7 @@ public class ModifyWalletActivity extends BaseActivity {
                     if (event.getData() == null)
                         return;
 
-                    Wallet wallet = (Wallet) event.getData();
+                    WalletBean wallet = (WalletBean) event.getData();
 
                     mWallet = wallet;
 
@@ -194,7 +194,7 @@ public class ModifyWalletActivity extends BaseActivity {
                 showEditTextDialog();
             }
         });
-        mWallet = (Wallet) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
+        mWallet = (WalletBean) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
     }
 
     @Override
@@ -299,10 +299,10 @@ public class ModifyWalletActivity extends BaseActivity {
                         }
                         WalletDaoTools.deleteWallet(mWallet.getId());
                         if (nowWalletName.equals(mWallet.getName())) {
-                            Wallet topWallet = WalletDaoTools.getWalletTop();
+                            WalletBean topWallet = WalletDaoTools.getWalletTop();
                             if (null == topWallet) {
                                 LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULLWALLET);
-                                Wallet nullWallet = new Wallet();
+                                WalletBean nullWallet = new WalletBean();
                                 nullWallet.setName(Comm.NULLWALLETNAME);
                                 nullWallet.setAddress(Comm.NULLWALLETNAME);
                                 ApiWalletManager.getInstance().setMainWallet(nullWallet);

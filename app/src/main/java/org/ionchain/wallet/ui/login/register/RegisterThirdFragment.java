@@ -154,7 +154,7 @@ public class RegisterThirdFragment extends BaseFragment implements TextWatcher {
 
     @Override
     public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.ic_arrow_back;
+        return R.mipmap.arrow_back_blue;
     }
 
     @Override

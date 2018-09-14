@@ -24,12 +24,12 @@ import java.io.Serializable;
  */
 public abstract class AbsBaseFragment extends Fragment {
 
-    protected Activity mActivity;
+    protected AbsBaseActivity mActivity;
     protected final String TAG;
     protected View mContainerView;
     protected boolean mIsFirstBindData = true;
     protected ImmersionBar mImmersionBar;
-
+    protected boolean isRefreshing=false;//listview是否可用
     public AbsBaseFragment() {
         this.TAG = this.getClass().getSimpleName();
     }
@@ -43,7 +43,7 @@ public abstract class AbsBaseFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (mIsFirstBindData && mContainerView != null && isVisibleToUser) {
             mIsFirstBindData = false;
-            getData();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
+            initData();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
         }
     }
 
@@ -60,7 +60,7 @@ public abstract class AbsBaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (Activity) context;
+        mActivity = (AbsBaseActivity) context;
     }
 
 
@@ -72,7 +72,7 @@ public abstract class AbsBaseFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = activity;
+        mActivity = (AbsBaseActivity) activity;
     }
 
     @Nullable
@@ -94,11 +94,11 @@ public abstract class AbsBaseFragment extends Fragment {
         mContainerView = inflater.inflate(getFragmentLayout(), container, false);
         initView(mContainerView);
         mImmersionBar = ImmersionBar.with(getActivity(), this);
-        setImmersionBar();
+        initImmersionBar();
         setListener();
         if (getUserVisibleHint()) {
             mIsFirstBindData = false;
-            getData();//第一个 可见的 fragment 要加载数据
+            initData();//第一个 可见的 fragment 要加载数据
         }
         return mContainerView;
     }
@@ -126,12 +126,12 @@ public abstract class AbsBaseFragment extends Fragment {
      * <p>
      * 加载本地数据 或者网络数据
      */
-    protected abstract void getData();
+    protected abstract void initData();
 
     /**
      * 设置沉浸式
      */
-    protected void setImmersionBar() {
+    protected void initImmersionBar() {
 
     }
 

@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.utils.StringUtils;
+import org.ionchain.wallet.utils.StringUtils;
 
 /*
  * 导出私钥对话框
@@ -37,7 +37,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
 
     @Override
     protected int getLayout() {
-        return R.layout.layout_base_dialog;
+        return R.layout.dialog_layout_check_pwd;
     }
 
     private TextView title;

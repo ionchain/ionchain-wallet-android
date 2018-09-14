@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.utils.QRCodeUtils;
-import org.ionchain.wallet.comm.utils.StringUtils;
+import org.ionchain.wallet.utils.QRCodeUtils;
+import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 
 public class ShowAddressActivity extends BaseActivity {

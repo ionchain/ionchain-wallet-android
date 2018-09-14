@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:background="@color/blue_top"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="@dimen/h16"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/h60"
+            android:layout_height="@dimen/h60"
+            android:src="@mipmap/login_register_logo" />
+
+
+        <TextView
+            android:id="@+id/loginRegTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/h10"
+            android:text="注册/登陆  >"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_largesize" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/walletManageRLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h60"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:layout_marginTop="@dimen/h16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="钱包管理"
+                android:textColor="@color/library_33"
+                android:textSize="@dimen/txt_mediumsize" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_keyboard_arrow_right" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h05"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/messageCenterRLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h60"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:layout_marginTop="@dimen/h16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="消息中心"
+                android:textColor="@color/library_33"
+                android:textSize="@dimen/txt_mediumsize" />
+
+            <ImageView
+                android:id="@+id/arrowIv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_keyboard_arrow_right" />
+
+            <TextView
+                android:id="@+id/hint_message_num"
+                android:layout_width="@dimen/h20"
+                android:layout_height="@dimen/h20"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/h5"
+                android:layout_toLeftOf="@id/arrowIv"
+                android:background="@drawable/comm_msg_bg"
+                android:elevation="@dimen/h5"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_microsize" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h05"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h60"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:layout_marginTop="@dimen/h16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="邀请返现"
+                android:textColor="@color/library_33"
+                android:textSize="@dimen/txt_mediumsize" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_keyboard_arrow_right" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h05"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h60"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:layout_marginTop="@dimen/h16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="关于我们"
+                android:textColor="@color/library_33"
+                android:textSize="@dimen/txt_mediumsize" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_keyboard_arrow_right" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h05"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h60"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:layout_marginTop="@dimen/h16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="清除缓存"
+                android:textColor="@color/library_33"
+                android:textSize="@dimen/txt_mediumsize" />
+
+            <ImageView
+                android:id="@+id/arrowIv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_keyboard_arrow_right" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/arrowIv1"
+                android:text="0 M"
+                android:textColor="#BABABA"
+                android:textSize="@dimen/txt_mediumsize" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h05"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

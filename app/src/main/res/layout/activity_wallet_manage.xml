@@ -11,7 +11,7 @@
         android:text="钱包管理"
         android:gravity="center_vertical"
         android:textSize="@dimen/txt_largesize"
-        android:drawableLeft="@mipmap/ic_arrow_back"
+        android:drawableLeft="@mipmap/arrow_back_blue"
         android:textColor="@color/title_color_blue"/>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl"

@@ -11,14 +11,14 @@ import com.fast.lib.okhttp.callback.ResultCallback;
 import com.fast.lib.okhttp.request.OkHttpRequest;
 
 import org.ionchain.wallet.App;
-import org.ionchain.wallet.callback.OnBalanceRefreshCallback;
+import org.ionchain.wallet.bean.WalletBean;
+import org.ionchain.wallet.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.comm.api.conf.ApiConfig;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.model.Wallet;
 import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
-import org.ionchain.wallet.db.WalletDaoTools;
+import org.ionchain.wallet.dao.WalletDaoTools;
 import org.json.JSONObject;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -61,7 +61,7 @@ import static org.web3j.crypto.Hash.sha256;
 public class ApiWalletManager {
 
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
-    private static final String DEF_WALLET_ADDRESS = "https://ropsten.infura.io";
+    private static final String DEF_WALLET_ADDRESS = "http://192.168.23.149:8545";
     private static final String DEF_CONTRACT_ADDRESS = "0x92e831bbbb22424e0f22eebb8beb126366fa07ce";
     public static final String DEF_WALLET_PATH = Environment.getExternalStorageDirectory().toString() + "/ionchain/wallet";
     private static final String DEF_WALLET_WORDS_LIST_NAME = "en-mnemonic-word-list";
@@ -69,7 +69,7 @@ public class ApiWalletManager {
     private static final int DEF_WALLET_DECIMALS_UNIT = 4;
 
 
-    private Wallet mainWallet;
+    private WalletBean mainWallet;
     private String contractAddress;
     private String walletIndexUrl;
     private Web3j web3;
@@ -78,11 +78,11 @@ public class ApiWalletManager {
     private Context mContext;
 
 
-    public Wallet getMainWallet() {
+    public WalletBean getMainWallet() {
         return mainWallet;
     }
 
-    public void setMainWallet(Wallet myWallet) {
+    public void setMainWallet(WalletBean myWallet) {
         this.mainWallet = myWallet;
     }
 
@@ -133,7 +133,7 @@ public class ApiWalletManager {
      *
      * @param handler
      */
-    public void init(final Handler handler, Wallet wallet) {
+    public void init(final Handler handler, WalletBean wallet) {
         mainWallet = wallet;
         new Thread() {
             @Override
@@ -201,7 +201,7 @@ public class ApiWalletManager {
      *
      * @param handler
      */
-    public void createWallet(final Wallet wallet, final Handler handler) {
+    public void createWallet(final WalletBean wallet, final Handler handler) {
 
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_CREATE.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
@@ -236,7 +236,7 @@ public class ApiWalletManager {
      *
      * @param handler
      */
-    public void importWallet(final Wallet wallet, final Handler handler) {
+    public void importWallet(final WalletBean wallet, final Handler handler) {
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_IMPORT.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
             return;
@@ -264,7 +264,7 @@ public class ApiWalletManager {
      *
      * @param handler
      */
-    public void getBlance(final Wallet wallet, final Handler handler) {
+    public void getBlance(final WalletBean wallet, final Handler handler) {
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_BALANCE.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
             return;
@@ -289,9 +289,9 @@ public class ApiWalletManager {
      *
      * @param callback
      */
-    public void getBalance(final Wallet wallet, final OnBalanceRefreshCallback callback) {
+    public void getBalance(final WalletBean wallet, final OnCreateWalletCallback callback) {
         if (!isInit) {
-            callback.onFailure("请先初始化！");
+            callback.onCreateFailure("请先初始化！");
             return;
         }
         new Thread() {
@@ -299,7 +299,7 @@ public class ApiWalletManager {
             public void run() {
                 super.run();
                 try {
-                    wallet.setAddress("0xf7171d1EA98F698e22EF0EbFb5498d0C2CA83890");//测试地址
+//                    wallet.setAddress("0x018673c699738c569d88d31167be1d2cb97c443e");//测试地址
                     String methodName = "balanceOf";
                     List<Type> inputParameters = new ArrayList<>();
                     List<TypeReference<?>> outputParameters = new ArrayList<>();
@@ -319,13 +319,7 @@ public class ApiWalletManager {
                     BigInteger balanceValue;
                     ethCall = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).send();
                     Future<EthCall> s = web3.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync();
-                    try {
-                        s.get().getValue();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
+                    s.get().getValue();
                     String value = ethCall.getValue();
                     List<Type> results = FunctionReturnDecoder.decode(value, function.getOutputParameters());
                     if (results != null && results.size() > 0) {
@@ -337,14 +331,14 @@ public class ApiWalletManager {
                     App.mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onSuccess(wallet);
+                            callback.onCreateSuccess(wallet);
                         }
                     });
                 } catch (final Exception e) {
                     App.mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onFailure(e.getMessage());
+                            callback.onCreateFailure(e.getMessage());
                         }
                     });
                 }
@@ -359,7 +353,7 @@ public class ApiWalletManager {
      * @param newPassWord
      * @param handler
      */
-    public void editPassWord(final Wallet wallet, final String newPassWord, final Handler handler) {
+    public void editPassWord(final WalletBean wallet, final String newPassWord, final Handler handler) {
         if (!isInit) {
             sendResult(handler, ApiConstant.WalletManagerType.WALLET_EDIT_PASS.getDesc(), ApiConstant.WalletManagerErrCode.FAIL.name(), null, null);
             return;
@@ -417,7 +411,7 @@ public class ApiWalletManager {
         }.start();
     }
 
-    private void getBlance(Wallet wallet) throws IOException {
+    private void getBlance(WalletBean wallet) throws IOException {
         if (null == wallet) {
             wallet = mainWallet;
         }
@@ -459,7 +453,7 @@ public class ApiWalletManager {
     }
 
 
-    private void importWallt(Wallet wallet, String passWord) throws CipherException, IOException {
+    private void importWallt(WalletBean wallet, String passWord) throws CipherException, IOException {
         if (null == wallet) wallet = mainWallet;
         if (null == passWord) passWord = wallet.getPassword();
         String keystore;
@@ -492,7 +486,7 @@ public class ApiWalletManager {
      * <p>
      * 包含公私钥 ECKeyPair
      */
-    private void loadWalletBaseInfo(Wallet wallet) throws IOException, CipherException {
+    private void loadWalletBaseInfo(WalletBean wallet) throws IOException, CipherException {
         Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());
         wallet.setAddress(credentials.getAddress());
         wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));

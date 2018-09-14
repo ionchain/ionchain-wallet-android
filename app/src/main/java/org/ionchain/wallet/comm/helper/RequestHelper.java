@@ -5,7 +5,7 @@ import android.util.Pair;
 import com.fast.lib.logger.Logger;
 
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.comm.utils.ParamsUtils;
+import org.ionchain.wallet.utils.ParamsUtils;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 
