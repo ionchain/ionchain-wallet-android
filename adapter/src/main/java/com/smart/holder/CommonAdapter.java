@@ -36,6 +36,7 @@ public class CommonAdapter<BEAN extends Serializable> extends BaseAdapter {
      * @param itemViewLayout  item的布局文件
      * @param iViewHolderHelper viewholder的接口
      */
+    @SuppressWarnings("unchecked")
     public CommonAdapter(Context context, List<BEAN> iBaseBeanList, int itemViewLayout, IViewHolderHelper iViewHolderHelper) {
         mContext = context;
         mIBaseBeanList = iBaseBeanList;
@@ -59,7 +60,7 @@ public class CommonAdapter<BEAN extends Serializable> extends BaseAdapter {
     }
 
     @Override
-//    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(mItemViewLayout,parent,false);
