@@ -25,13 +25,12 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapterhelper.device.DeviceViewHelper;
 import org.ionchain.wallet.adapterhelper.moewwallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
-import org.ionchain.wallet.bean.DeviceListBean;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.callback.OnDeviceListCallback;
+import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.callback.OnUnbindDeviceCallback;
-import org.ionchain.wallet.callback.UnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
@@ -65,7 +64,7 @@ public class HomeFragment extends AbsBaseFragment implements
         OnRefreshListener,
         OnBindDeviceCallback,
         OnDeviceListCallback,
-        OnCreateWalletCallback, UnbindDeviceButtonClickedListener, OnUnbindDeviceCallback {
+        OnCreateWalletCallback, OnUnbindDeviceButtonClickedListener, OnUnbindDeviceCallback {
 
 
     public static int[] sRandomHeader = {
@@ -109,7 +108,7 @@ public class HomeFragment extends AbsBaseFragment implements
 
     private CommonAdapter mAdapterDeviceLv;
 
-    private List<DeviceListBean.DataBean> mDataBeans = new ArrayList<>();
+    private List<DeviceBean.DataBean> mDataBeans = new ArrayList<>();
     private View lvHeader;//lv头部
 
     private Presenter mPresenter;
@@ -431,7 +430,7 @@ public class HomeFragment extends AbsBaseFragment implements
 
     @Override
     public void onBindSuccess(DeviceBean.DataBean dataBean) {
-        DeviceListBean.DataBean bean = new DeviceListBean.DataBean();
+        DeviceBean.DataBean bean = new DeviceBean.DataBean();
         bean.setCksn(dataBean.getCksn());
         bean.setCreated_at(dataBean.getCreated_at());
         bean.setId(dataBean.getId());
@@ -448,7 +447,7 @@ public class HomeFragment extends AbsBaseFragment implements
     }
 
     @Override
-    public void onDeviceListSuccess(List<DeviceListBean.DataBean> list) {
+    public void onDeviceListSuccess(List<DeviceBean.DataBean> list) {
         Log.i(TAG, "onDeviceListSuccess: " + list.toString());
         mDataBeans.clear();
         mDataBeans.addAll(list);

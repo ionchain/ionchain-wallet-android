@@ -13,9 +13,10 @@ import com.smart.holder.CommonAdapter;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapterhelper.device.DeviceViewHelper;
+import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.DeviceListBean;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.UnbindDeviceButtonClickedListener;
+import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.ui.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.NetUtils;
@@ -29,11 +30,11 @@ import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_GET;
 /**
  * 我的设备
  */
-public class DevicesFragment extends AbsBaseFragment implements SwipeRefreshLayout.OnRefreshListener, UnbindDeviceButtonClickedListener {
+public class DevicesFragment extends AbsBaseFragment implements SwipeRefreshLayout.OnRefreshListener, OnUnbindDeviceButtonClickedListener {
     private ListView mListView;
     private CommonAdapter mAdapter;
 
-    private List<DeviceListBean.DataBean> mDevicelistbeans = new ArrayList<>();
+    private List<DeviceBean.DataBean> mDevicelistbeans = new ArrayList<>();
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override

@@ -11,8 +11,8 @@ import com.smart.holder.iinterface.IViewHolder;
 import com.smart.holder.iinterface.IViewHolderHelper;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.bean.DeviceListBean;
-import org.ionchain.wallet.callback.UnbindDeviceButtonClickedListener;
+import org.ionchain.wallet.bean.DeviceBean;
+import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ import java.util.List;
  * DATE: 2018/9/12
  * 描述: 辅助类 绑定数据
  */
-public class DeviceViewHelper implements IViewHolderHelper<DeviceViewHolder, DeviceListBean.DataBean> {
-    private UnbindDeviceButtonClickedListener mListener;
+public class DeviceViewHelper implements IViewHolderHelper<DeviceViewHolder, DeviceBean.DataBean> {
+    private OnUnbindDeviceButtonClickedListener mListener;
 
-    public DeviceViewHelper(UnbindDeviceButtonClickedListener listener) {
+    public DeviceViewHelper(OnUnbindDeviceButtonClickedListener listener) {
         mListener = listener;
     }
 
@@ -40,8 +40,8 @@ public class DeviceViewHelper implements IViewHolderHelper<DeviceViewHolder, Dev
     }
 
     @Override
-    public void bindListDataToView(Context context, List<DeviceListBean.DataBean> iBaseBeanList, DeviceViewHolder viewHolder, final int position) {
-        final DeviceListBean.DataBean bean = iBaseBeanList.get(position);
+    public void bindListDataToView(Context context, List<DeviceBean.DataBean> iBaseBeanList, DeviceViewHolder viewHolder, final int position) {
+        final DeviceBean.DataBean bean = iBaseBeanList.get(position);
         Glide.with(context)
                 .load(bean.getImage_url())
                 .into(viewHolder.deviceIcon);

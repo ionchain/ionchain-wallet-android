@@ -1,9 +1,8 @@
 package org.ionchain.wallet.mvp.presenter;
 
-import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.DataCallback;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
+import org.ionchain.wallet.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.callback.OnDeviceListCallback;
 import org.ionchain.wallet.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.model.home.HomePageModel;
@@ -49,7 +48,7 @@ public class Presenter implements IPresenter {
     }
 
     @Override
-    public void getDeviceDetail(String cksn, DataCallback<DeviceBean.DataBean> deviceBean) {
+    public void getDeviceDetail(String cksn,OnDeviceDetailCallback deviceBean) {
 
     }
 }

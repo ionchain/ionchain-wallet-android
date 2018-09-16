@@ -1,6 +1,6 @@
 package org.ionchain.wallet.callback;
 
-import org.ionchain.wallet.bean.DeviceListBean;
+import org.ionchain.wallet.bean.DeviceBean;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface OnDeviceListCallback extends ILoadingView {
      *
      * @param list 设备列表
      */
-    void onDeviceListSuccess(List<DeviceListBean.DataBean> list);
+    void onDeviceListSuccess(List<DeviceBean.DataBean> list);
 
     /**
      * 获取设备列表失败

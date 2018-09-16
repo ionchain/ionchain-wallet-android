@@ -287,6 +287,7 @@ public class ModifyWalletActivity extends BaseActivity {
                             ToastUtil.showToastLonger("请输入密码！");
                             return;
                         }
+                        Log.i(TAG, "onClick: "+mWallet.getPassword());
                         if (!dialogImportPrivKeyCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
                             ToastUtil.showToastLonger("你输入的密码有误！");
                             return;

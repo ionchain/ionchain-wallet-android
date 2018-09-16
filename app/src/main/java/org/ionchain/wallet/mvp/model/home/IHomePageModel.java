@@ -1,9 +1,8 @@
 package org.ionchain.wallet.mvp.model.home;
 
-import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
-import org.ionchain.wallet.callback.DataCallback;
+import org.ionchain.wallet.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.callback.OnDeviceListCallback;
 import org.ionchain.wallet.callback.OnUnbindDeviceCallback;
 
@@ -53,5 +52,5 @@ public interface IHomePageModel {
      * @param cksn     设备识别码
      * @param callback 设备信息
      */
-    void getDeviceDetail(String cksn, DataCallback<DeviceBean.DataBean> callback);
+    void getDeviceDetail(String cksn, OnDeviceDetailCallback callback);
 }

@@ -20,11 +20,13 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
+import org.ionchain.wallet.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.ScanActivity;
@@ -40,7 +42,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 
-public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
+public class ImprotWalletActivity extends BaseActivity implements TextWatcher, OnCreateWalletCallback {
 
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_IMPORT_PERMISSIONS = 2;
@@ -178,6 +180,7 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
     protected void initData(Bundle savedInstanceState) {
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -276,15 +279,15 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
                 return;
             }
 
-            Integer nameInex = (Integer) LibSPUtils.get(this.getApplicationContext(), Comm.LOCAL_SAVE_WALLET_INDEX, 1);
-            String walletname = "新增钱包" + nameInex;
-            nowWallet = new WalletBean();
-            nowWallet.setName(walletname);
-            nowWallet.setPassword(pass);
-            nowWallet.setPrivateKey(content.toLowerCase());
-            nowWallet.setIconIdex(getNum(7));
-            ApiWalletManager.getInstance().importWallet(nowWallet, walletHandler);
-            Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
+
+//            nowWallet = new WalletBean();
+//            nowWallet.setName(walletname);
+//            nowWallet.setPassword(pass);
+//            nowWallet.setPrivateKey(content.toLowerCase());
+//            nowWallet.setIconIdex(getNum(7));
+//            ApiWalletManager.getInstance().importWallet(nowWallet, walletHandler);
+            WalletManager.getInstance().importPrivateKey(content, pass, this);
+//            Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
             showProgressDialog("正在导入钱包请稍候");
         } catch (Exception e) {
             Log.e("wallet", "errr", e);
@@ -316,5 +319,20 @@ public class ImprotWalletActivity extends BaseActivity implements TextWatcher {
             startActivity(intent);
         }
         finish();
+    }
+
+    @Override
+    public void onCreateSuccess(WalletBean walletBean) {
+        walletBean.setIconIdex(getNum(7));
+        WalletDaoTools.saveWallet(walletBean);
+        dismissProgressDialog();
+        ToastUtil.showToastLonger("导入成功!");
+    }
+
+    @Override
+    public void onCreateFailure(String result) {
+        Log.i(TAG, "onCreateFailure: " + result);
+        dismissProgressDialog();
+        ToastUtil.showToastLonger("导入成失败");
     }
 }

@@ -56,6 +56,7 @@ public class WalletBean implements Serializable {
         mIconIdex = iconIdex;
     }
 
+
     @Generated(hash = 147693845)
     public WalletBean(Long id, String privateKey, String name, String address, String publickey,
             String balance, String keystore, String password, int mIconIdex) {
@@ -146,5 +147,18 @@ public class WalletBean implements Serializable {
         this.mIconIdex = mIconIdex;
     }
 
-
+    @Override
+    public String toString() {
+        return "WalletBean{" +
+                "id=" + id +
+                ", privateKey='" + privateKey + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", publickey='" + publickey + '\'' +
+                ", balance='" + balance + '\'' +
+                ", keystore='" + keystore + '\'' +
+                ", password='" + password + '\'' +
+                ", mIconIdex=" + mIconIdex +
+                '}';
+    }
 }

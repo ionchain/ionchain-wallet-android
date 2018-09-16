@@ -19,16 +19,18 @@ import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.bean.WalletBean;
+import org.ionchain.wallet.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
+import org.ionchain.wallet.utils.SoftKeyboardUtil;
 
 import java.io.File;
 
@@ -38,7 +40,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 
-public class CreateWalletActivity extends BaseActivity implements TextWatcher {
+public class CreateWalletActivity extends BaseActivity implements TextWatcher, OnCreateWalletCallback {
 
     final int REQUEST_CODE_CREATE_PERMISSIONS = 1;
     //判定是否需要刷新
@@ -287,8 +289,11 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
         if (!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, "创建钱包需要的权限", REQUEST_CODE_CREATE_PERMISSIONS, perms);
         } else {
+            String walletname = walletNameEt.getText().toString().trim();
+            String resetpass = resetPwdEt.getText().toString().trim();
+            String pass = pwdEt.getText().toString().trim();//获取密码
 
-
+            WalletManager.getInstance().createBip39Wallet(walletname, pass, this);
             cerateWallet();
 
         }
@@ -303,7 +308,7 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
             }
             String walletname = walletNameEt.getText().toString().trim();
             String resetpass = resetPwdEt.getText().toString().trim();
-            String pass = pwdEt.getText().toString().trim();
+            String pass = pwdEt.getText().toString().trim();//获取密码
 
             if (!resetpass.equals(pass)) {
                 ToastUtil.showShortToast("密码和重复密码必须相同");
@@ -319,8 +324,8 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
             }
             mCreateWallet = new WalletBean();
             mCreateWallet.setName(walletname);
-            mCreateWallet.setPassword(pass);
-            mCreateWallet.setIconIdex(getNum(7));
+            mCreateWallet.setPassword(pass);//设置密码
+            mCreateWallet.setIconIdex(getNum(7));//设置随机的头像
 
             ApiWalletManager.getInstance().createWallet(mCreateWallet, walletHandler);
             showProgressDialog("正在创建钱包请稍候");
@@ -342,4 +347,15 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher {
         return id;
     }
 
+    @Override
+    public void onCreateSuccess(WalletBean walletBean) {
+        Log.i(TAG, "onCreateSuccess: " + walletBean);
+        SoftKeyboardUtil.hideSoftKeyboard(this);
+    }
+
+    @Override
+    public void onCreateFailure(String result) {
+        Log.i(TAG, "onCreateFailure: " + result);
+        SoftKeyboardUtil.hideSoftKeyboard(this);
+    }
 }

@@ -11,8 +11,8 @@ import com.lzy.okgo.request.base.Request;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.DeviceListBean;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.DataCallback;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
+import org.ionchain.wallet.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.callback.OnDeviceListCallback;
 import org.ionchain.wallet.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.utils.NetUtils;
@@ -178,7 +178,7 @@ public class HomePageModel implements IHomePageModel {
     }
 
     @Override
-    public void getDeviceDetail(String cksn, DataCallback<DeviceBean.DataBean> deviceBean) {
+    public void getDeviceDetail(String cksn, OnDeviceDetailCallback deviceBean) {
 
     }
 }

@@ -5,6 +5,6 @@ package org.ionchain.wallet.callback;
  * DATE: 2018/9/14
  * 描述:
  */
-public interface UnbindDeviceButtonClickedListener {
+public interface OnUnbindDeviceButtonClickedListener {
     void onUnbindButtonClick(String cksn, int position);
 }

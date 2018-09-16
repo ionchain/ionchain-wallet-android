@@ -10,16 +10,14 @@ import android.view.View;
 
 import com.facebook.stetho.Stetho;
 import com.fast.lib.base.LibApp;
-import com.fast.lib.glideimageloader.ImageLoadConfig;
 import com.fast.lib.logger.Logger;
 import com.lzy.okgo.OkGo;
 
 import org.ionchain.wallet.bean.UserModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.config.ImgLoader;
+import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.utils.SPUtils;
-import org.ionchain.wallet.utils.StorageUtils;
 
 import java.util.List;
 
@@ -41,24 +39,13 @@ public class App extends LibApp {
     @Override
     public void onCreate() {
         super.onCreate();
-        initImageLoader();
         initData();
         Stetho.initializeWithDefaults(this);
         OkGo.getInstance().init(this);
+        WalletManager.getInstance().initWeb3j(this);
     }
 
-    private void initImageLoader() {
-        StorageUtils.getIndividualCacheDirectory(Global.mContext, Comm.SDCARD_IMG_ROOT);
-        ImgLoader.defConfig = new ImageLoadConfig.Builder().
-                setCropType(ImageLoadConfig.CENTER_CROP).
-                setAsBitmap(true).
-                setColorFilter(0).
-                setPlaceHolderResId(R.mipmap.def_img_lib).
-                setErrorResId(R.mipmap.def_img_lib).
-                setDiskCacheStrategy(ImageLoadConfig.DiskCache.SOURCE).
-                setPrioriy(ImageLoadConfig.LoadPriority.HIGH).build();
 
-    }
 
 
     private void initData(){
