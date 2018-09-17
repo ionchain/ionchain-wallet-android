@@ -10,6 +10,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.ui.comm.ScanActivity;
 
 import butterknife.BindView;
 
@@ -35,7 +36,7 @@ public class CreateWalletSelectActivity extends BaseActivity {
 
                     break;
                 case R.id.importBtn:
-                    transfer(ImprotWalletActivity.class);
+                    transfer(ImportWalletActivity.class);
                     break;
                 case 0:
                     dismissProgressDialog();
@@ -47,7 +48,7 @@ public class CreateWalletSelectActivity extends BaseActivity {
                         ToastUtil.showShortToast(responseModel.getMsg());
                         return;
                     }
-
+                    transfer(ScanActivity.class, 999);
 
                     break;
             }

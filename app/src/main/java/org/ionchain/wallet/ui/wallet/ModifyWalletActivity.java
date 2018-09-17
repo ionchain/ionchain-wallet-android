@@ -17,17 +17,20 @@ import com.fast.lib.utils.ToastUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.bean.WalletBean;
+import org.ionchain.wallet.callback.OnBalanceCallback;
+import org.ionchain.wallet.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
+import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.manager.WalletManager;
+import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
-import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.widget.DialogImportPrivKey;
-import org.ionchain.wallet.widget.DialogImportPrivKeyCheck;
+import org.ionchain.wallet.widget.DialogPasswordCheck;
 import org.ionchain.wallet.widget.IONCTitleBar;
 
 import java.io.File;
@@ -39,7 +42,7 @@ import static org.ionchain.wallet.dao.WalletDaoTools.updateWallet;
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
  */
-public class ModifyWalletActivity extends BaseActivity {
+public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallback, OnImportPrivateKeyCallback {
 
 
     final int REQUEST_MODIFY_WALLET_PWD = 100;
@@ -144,7 +147,7 @@ public class ModifyWalletActivity extends BaseActivity {
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
                             String data = responseModel.getData();
                             mWallet.setPrivateKey(data);
-                            showImportPrivateKeyDialog();
+                            showImportPrivateKeyDialog("");
                         } else {
                             ToastUtil.showShortToast("请检查密码是否正确");
                         }
@@ -214,7 +217,7 @@ public class ModifyWalletActivity extends BaseActivity {
             walletNameEt.setText(mWallet.getName());
         }
 
-        ApiWalletManager.getInstance().getBlance(mWallet, walletHandler);
+        WalletManager.getInstance().getAccountBalance(mWallet, this);
 
     }
 
@@ -224,7 +227,7 @@ public class ModifyWalletActivity extends BaseActivity {
      */
     private void showEditTextDialog() {
         ToastUtil.showShortToast("dddddd");
-        final DialogImportPrivKeyCheck dialog = new DialogImportPrivKeyCheck(this);
+        final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
         dialog.setLeftBtnClickedListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,7 +243,7 @@ public class ModifyWalletActivity extends BaseActivity {
                 if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
                     dialog.dismiss();
                     showProgressDialog("正在导出请稍候");
-                    ApiWalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd.toString(), walletHandler);
+                    WalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
                 } else {
                     ToastUtil.showToastLonger("请检查密码是否正确！");
                 }
@@ -251,10 +254,12 @@ public class ModifyWalletActivity extends BaseActivity {
 
     /**
      * 导出私钥
+     *
+     * @param privateKey
      */
-    private void showImportPrivateKeyDialog() {
+    private void showImportPrivateKeyDialog(String privateKey) {
 
-        new DialogImportPrivKey(this).setPrivateKeyText(mWallet.getPrivateKey())
+        new DialogImportPrivKey(this).setPrivateKeyText(privateKey)
                 .setCopyBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -270,25 +275,25 @@ public class ModifyWalletActivity extends BaseActivity {
      * 删钱包
      */
     private void delwallet() {
-        final DialogImportPrivKeyCheck dialogImportPrivKeyCheck = new DialogImportPrivKeyCheck(this);
-        dialogImportPrivKeyCheck.setLeftBtnText("取消")
+        final DialogPasswordCheck dialogPasswordCheck = new DialogPasswordCheck(this);
+        dialogPasswordCheck.setLeftBtnText("取消")
                 .setRightBtnText("确定")
                 .setTitleText("请输入该钱包的密码")
                 .setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialogImportPrivKeyCheck.dismiss();
+                        dialogPasswordCheck.dismiss();
                     }
                 })
                 .setRightBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (StringUtils.isEmpty(dialogImportPrivKeyCheck.getPasswordEt().getText().toString())) {
+                        if (StringUtils.isEmpty(dialogPasswordCheck.getPasswordEt().getText().toString())) {
                             ToastUtil.showToastLonger("请输入密码！");
                             return;
                         }
-                        Log.i(TAG, "onClick: "+mWallet.getPassword());
-                        if (!dialogImportPrivKeyCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
+                        Log.i(TAG, "onClick: " + mWallet.getPassword());
+                        if (!dialogPasswordCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
                             ToastUtil.showToastLonger("你输入的密码有误！");
                             return;
                         }
@@ -339,5 +344,26 @@ public class ModifyWalletActivity extends BaseActivity {
     @Override
     protected boolean isRegisterEventBus() {
         return true;
+    }
+
+    @Override
+    public void onBalanceSuccess(WalletBean walletBean) {
+        walletBalanceTv.setText(walletBean.getBalance());
+    }
+
+    @Override
+    public void onBalanceFailure(String error) {
+        walletBalanceTv.setText("0.0000");
+    }
+
+    @Override
+    public void onImportPriKeySuccess(String privateKey) {
+        showImportPrivateKeyDialog(privateKey);
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void onImportPriKeyFailure(String erroe) {
+        dismissProgressDialog();
     }
 }

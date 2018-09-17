@@ -20,7 +20,7 @@ import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.ui.comm.BaseActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
-import org.ionchain.wallet.ui.wallet.ImprotWalletActivity;
+import org.ionchain.wallet.ui.wallet.ImportWalletActivity;
 import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class WalletManageActivity extends BaseActivity implements BGAOnRVItemCli
                     transfer(CreateWalletActivity.class,Comm.JUMP_PARM_ISADDMODE,true);
                     break;
                 case R.id.importBtn:
-                    transfer(ImprotWalletActivity.class,Comm.JUMP_PARM_ISADDMODE,true);
+                    transfer(ImportWalletActivity.class,Comm.JUMP_PARM_ISADDMODE,true);
 
                     break;
                 case 0:

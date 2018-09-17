@@ -546,7 +546,7 @@ public class ApiWalletManagerT {
             PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(
                     fromAddress, password, BigInteger.valueOf(10)).send();
             if (personalUnlockAccount.accountUnlocked()) {
-                String methodName = "transfer";
+                String methodName = "skip";
                 List<Type> inputParameters = new ArrayList<>();
                 List<TypeReference<?>> outputParameters = new ArrayList<>();
 

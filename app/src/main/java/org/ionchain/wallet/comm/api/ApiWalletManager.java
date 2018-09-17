@@ -12,13 +12,14 @@ import com.fast.lib.okhttp.request.OkHttpRequest;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.OnCreateWalletCallback;
+import org.ionchain.wallet.callback.OnBalanceCallback;
 import org.ionchain.wallet.comm.api.conf.ApiConfig;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
 import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.manager.WalletManager;
 import org.json.JSONObject;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -33,11 +34,9 @@ import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthCall;
-import org.web3j.protocol.http.HttpService;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -60,6 +59,7 @@ import static org.web3j.crypto.Hash.sha256;
 
 public class ApiWalletManager {
 
+    private final String TAG = this.getClass().getSimpleName();
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
     private static final String DEF_WALLET_ADDRESS = "http://192.168.23.149:8545";
     private static final String DEF_CONTRACT_ADDRESS = "0x92e831bbbb22424e0f22eebb8beb126366fa07ce";
@@ -143,7 +143,7 @@ public class ApiWalletManager {
                     //这里回头要从接口获取 现在先写死
 //                    contractAddress = DEF_CONTRACT_ADDRESS;
                     walletIndexUrl = DEF_WALLET_ADDRESS;
-                    web3 = Web3jFactory.build(new HttpService(walletIndexUrl));
+                    web3 = WalletManager.getInstance().getWeb3j();
                     try {
                         String url = ApiConfig.API_BASE_URL + ApiConstant.ApiUri.URI_SYS_INFO.getDesc();
                         printtest(url);
@@ -284,14 +284,16 @@ public class ApiWalletManager {
             }
         }.start();
     }
+
     /**
      * 读取钱包余额
      *
      * @param callback
      */
-    public void getBalance(final WalletBean wallet, final OnCreateWalletCallback callback) {
+    public void getBalance(final WalletBean wallet, final OnBalanceCallback callback) {
+        Log.i(TAG, "getBalance: " + wallet.toString());
         if (!isInit) {
-            callback.onCreateFailure("请先初始化！");
+            callback.onBalanceFailure("请先初始化！");
             return;
         }
         new Thread() {
@@ -299,7 +301,6 @@ public class ApiWalletManager {
             public void run() {
                 super.run();
                 try {
-//                    wallet.setAddress("0x018673c699738c569d88d31167be1d2cb97c443e");//测试地址
                     String methodName = "balanceOf";
                     List<Type> inputParameters = new ArrayList<>();
                     List<TypeReference<?>> outputParameters = new ArrayList<>();
@@ -312,7 +313,6 @@ public class ApiWalletManager {
 
 
                     String dealString = FunctionEncoder.encode(function);//交易串
-//        String contractAddress = "0xbc647aad10114b89564c0a7aabe542bd0cf2c5af";//代币地址
                     Transaction transaction = Transaction.createEthCallTransaction(wallet.getAddress(), contractAddress, dealString);
 
                     EthCall ethCall;
@@ -327,18 +327,19 @@ public class ApiWalletManager {
                         BigDecimal bigDecimal = new BigDecimal(balanceValue);
                         BigDecimal balance = bigDecimal.divide(DEF_WALLET_DECIMALS).setScale(DEF_WALLET_DECIMALS_UNIT, BigDecimal.ROUND_DOWN);
                         wallet.setBalance(balance.toString());
+                        WalletDaoTools.updateWallet(wallet);
                     }
                     App.mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onCreateSuccess(wallet);
+                            callback.onBalanceSuccess(wallet);
                         }
                     });
                 } catch (final Exception e) {
                     App.mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onCreateFailure(e.getMessage());
+                            callback.onBalanceFailure(e.getMessage());
                         }
                     });
                 }

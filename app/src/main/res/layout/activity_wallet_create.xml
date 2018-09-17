@@ -6,9 +6,26 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include
+
+    <RelativeLayout
         android:id="@+id/toolbarlayout"
-        layout="@layout/layout_toolbar" />
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/h16"
+            android:src="@mipmap/arrow_back_blue" />
+
+        <TextView
+            style="@style/common_title"
+            android:layout_toRightOf="@id/back"
+            android:text="@string/activity_create_wallet" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,9 +35,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:layout_height="wrap_content"
             android:background="@drawable/comm_toast_bg"
             android:orientation="vertical"
             android:padding="@dimen/h6">

@@ -3,12 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbarlayout"
-        layout="@layout/layout_toolbar"/>
-
+   <RelativeLayout
+       android:id="@+id/import_header"
+       android:layout_width="match_parent"
+       android:layout_height="?actionBarSize">
+       <ImageView
+           android:id="@+id/back"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:src="@mipmap/arrow_back_blue"
+           android:layout_centerVertical="true"
+           android:layout_marginLeft="@dimen/h16"/>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="导入私钥"
+           android:textSize="16sp"
+           android:textColor="@color/blue_top"
+           android:layout_centerInParent="true"/>
+       <ImageView
+           android:id="@+id/scan"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:layout_centerVertical="true"
+           android:layout_marginRight="@dimen/h16"
+           android:src="@mipmap/scan"/>
+   </RelativeLayout>
     <LinearLayout
-        android:layout_below="@id/toolbarlayout"
+        android:layout_below="@id/import_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

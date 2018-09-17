@@ -1,255 +1,244 @@
 package org.ionchain.wallet.ui.wallet;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fast.lib.logger.Logger;
-import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.comm.api.ApiWalletManager;
-import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.ui.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 
 import java.io.File;
 
-import butterknife.BindView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 
-public class CreateWalletActivity extends BaseActivity implements TextWatcher, OnCreateWalletCallback {
+public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback {
 
     final int REQUEST_CODE_CREATE_PERMISSIONS = 1;
     //判定是否需要刷新
     private boolean isAddMode = false;
     private WalletBean mCreateWallet = null;
-    @BindView(R.id.walletNameEt)
-    AppCompatEditText walletNameEt;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        isAddMode = intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE, false);
-        ApiWalletManager.printtest(isAddMode + "");
 
-    }
-
-    @BindView(R.id.pwdEt)
-    AppCompatEditText pwdEt;
-
-    @BindView(R.id.resetPwdEt)
-    AppCompatEditText resetPwdEt;
-
-    @BindView(R.id.createBtn)
-    Button createBtn;
-
-    @SuppressLint("HandlerLeak")
-    Handler walletHandler = new Handler() {
-        /**
-         * @param msg
-         */
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            try {
-                ApiConstant.WalletManagerType resulit = ApiConstant.WalletManagerType.codeOf(msg.what);
-                if (null == resulit) return;
-                ResponseModel<String> responseModel = (ResponseModel<String>) msg.obj;
-                switch (resulit) {
-                    case MANAGER_INIT:
-                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-
-                            //创建钱包
-//                            ApiWalletManager.getInstance().getMainWallet().setPassword("123123123xxxxxx");
-//                            ApiWalletManager.getInstance().createWallet(walletHandler);
-//                            ApiWalletManager.printtest("OKOKOKOKOKOKOKO");
-                            //导入钱包
-//                            ApiWalletManager.getInstance().getMainWallet().setPrivateKey("b71c1f7594fd8718c7ae06ea89c48e2e621990e5736c6f1087f04defa5c251a6");
-//                            ApiWalletManager.getInstance().getMainWallet().setPassword("123456");
-//                            ApiWalletManager.getInstance().importWallet(walletHandler);
-                            //修改密码
-//                            ApiWalletManager.getInstance().getMainWallet().setKeystore("/storage/emulated/0/ionchain/wallet/UTC--2018-05-31T18-19-51.779--dc39f3895c38f5999ba462fc10dfb1f78bdfecf2.json");
-//                            ApiWalletManager.getInstance().getMainWallet().setPrivateKey("b71c1f7594fd8718c7ae06ea89c48e2e621990e5736c6f1087f04defa5c251a6");
-//                            ApiWalletManager.getInstance().getMainWallet().setPassword("1234567");
-//                            ApiWalletManager.getInstance().editPassWord("12345678", walletHandler);
-//                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMainWallet().getKeystore());
-
-                        } else {
-                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    case WALLET_CREATE:
-
-                        /*
-                         * 创建钱包
-                         * */
-                        dismissProgressDialog();
-                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            long id = saveWallet();
-                            ApiWalletManager.printtest(id + "");
-                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建成功", Toast.LENGTH_SHORT).show();
-                            //一个主钱包的 都没有的情况 添加导入钱包 第一个都做为默认主钱包
-                            String nowWalletName = (String) LibSPUtils.get(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
-                            if (nowWalletName.equals(Comm.NULLWALLET)) {
-                                ApiWalletManager.getInstance().setMainWallet(mCreateWallet);
-                                LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, mCreateWallet.getName());
-                            }
-                            //初始化用户跳转主页面
-                            if (!isAddMode) {
-                                startMain();
-                            } else {
-                                finish();
-                                SoftKeyboardUtil.hideSoftKeyboard(CreateWalletActivity.this);
-                            }
-                        } else {
-                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    case WALLET_BALANCE:
-                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMainWallet().getBalance());
-                        } else {
-                            ApiWalletManager.printtest("ERRRRRR");
-                        }
-                        break;
-                    case WALLET_IMPORT:
-                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMainWallet().getPublickey());
-                        } else {
-                            ApiWalletManager.printtest("ERRRRRR");
-                        }
-                        break;
-                    case WALLET_EDIT_PASS:
-                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMainWallet().getKeystore());
-                        } else {
-                            ApiWalletManager.printtest("ERRRRRR");
-                        }
-                        break;
-                    default:
-                        break;
-
-                }
-            } catch (Throwable e) {
-                Log.e(TAG, "handleMessage", e);
-            }
-        }
-    };
+    private RelativeLayout toolbarlayout;
+    private ImageView back;
+    private AppCompatEditText walletNameEt;
+    private AppCompatEditText pwdEt;
+    private AppCompatEditText resetPwdEt;
+    private CheckBox checkbox;
+    private TextView linkUrlTv;
+    private Button createBtn;
+    private TextView importBtn;
 
 
     /**
-     * 处理点击事件
-     *
-     * @param what
-     * @param obj
+     * Find the Views in the layout<br />
+     * <br />
+     * Auto-created on 2018-09-17 19:48:43 by Android Layout Finder
+     * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
-    @Override
-    public void handleMessage(int what, Object obj) {
-        super.handleMessage(what, obj);
-        try {
-            switch (what) {
-                case R.id.navigationBack:
-                    finish();
-                    SoftKeyboardUtil.hideSoftKeyboard(this);
-                    break;
-                case R.id.createBtn:
-                    Log.e("wallet", "xxxxxxx");
-                    requestCodeCreatePermissions();
-//                    WalletBean wallet = new WalletBean();
-//                    wallet.setName("test");
-//                    wallet.setPassword("1234567899xxxxxx");
-//                    ApiWalletManager.getInstance(wallet, this.getApplicationContext()).init(walletHandler);
+    private void findViews() {
+        toolbarlayout = (RelativeLayout) findViewById(R.id.toolbarlayout);
+        back = (ImageView) findViewById(R.id.back);
+        walletNameEt = (AppCompatEditText) findViewById(R.id.walletNameEt);
+        pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
+        resetPwdEt = (AppCompatEditText) findViewById(R.id.resetPwdEt);
+        checkbox = (CheckBox) findViewById(R.id.checkbox);
+        linkUrlTv = (TextView) findViewById(R.id.linkUrlTv);
+        createBtn = (Button) findViewById(R.id.createBtn);
+        importBtn = (TextView) findViewById(R.id.importBtn);
 
-                    break;
-                case R.id.importBtn:
-                    transfer(ImprotWalletActivity.class, Comm.JUMP_PARM_ISADDMODE, isAddMode);
-                    break;
-
-                case R.id.linkUrlTv:
-                    transfer(WebViewActivity.class, Comm.SERIALIZABLE_DATA, Comm.URL_AGREE, Comm.SERIALIZABLE_DATA1, "条款");
-                    break;
-                case 0:
-                    dismissProgressDialog();
-                    if (obj == null)
-                        return;
-
-                    ResponseModel<String> responseModel = (ResponseModel) obj;
-                    if (!verifyStatus(responseModel)) {
-                        ToastUtil.showShortToast(responseModel.getMsg());
-                        return;
-                    }
-
-
-                    break;
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
-
-        } catch (Throwable e) {
-
-            Logger.e(e, TAG);
-        }
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_wallet_create);
-        mImmersionBar.titleBar(getViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
-    }
-
-    @Override
-    protected void setListener() {
-        setOnClickListener(R.id.createBtn);
-        setOnClickListener(R.id.importBtn);
+        });
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestCodeCreatePermissions();
+            }
+        });
+        importBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip(ImportWalletActivity.class, Comm.JUMP_PARM_ISADDMODE, isAddMode);
+            }
+        });
+        linkUrlTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip(WebViewActivity.class, Comm.SERIALIZABLE_DATA, Comm.URL_AGREE, Comm.SERIALIZABLE_DATA1, "条款");
+            }
+        });
         walletNameEt.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
         resetPwdEt.addTextChangedListener(this);
-        setOnClickListener(R.id.linkUrlTv);
-
     }
+
+//
+//    @SuppressLint("HandlerLeak")
+//    Handler walletHandler = new Handler() {
+//        /**
+//         * @param msg
+//         */
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            try {
+//                ApiConstant.WalletManagerType resulit = ApiConstant.WalletManagerType.codeOf(msg.what);
+//                if (null == resulit) return;
+//                ResponseModel<String> responseModel = (ResponseModel<String>) msg.obj;
+//                switch (resulit) {
+//                    case MANAGER_INIT:
+//                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+//
+//                            //创建钱包
+////                            ApiWalletManager.getInstance().getMainWallet().setPassword("123123123xxxxxx");
+////                            ApiWalletManager.getInstance().createWallet(walletHandler);
+////                            ApiWalletManager.printtest("OKOKOKOKOKOKOKO");
+//                            //导入钱包
+////                            ApiWalletManager.getInstance().getMainWallet().setPrivateKey("b71c1f7594fd8718c7ae06ea89c48e2e621990e5736c6f1087f04defa5c251a6");
+////                            ApiWalletManager.getInstance().getMainWallet().setPassword("123456");
+////                            ApiWalletManager.getInstance().importWallet(walletHandler);
+//                            //修改密码
+////                            ApiWalletManager.getInstance().getMainWallet().setKeystore("/storage/emulated/0/ionchain/wallet/UTC--2018-05-31T18-19-51.779--dc39f3895c38f5999ba462fc10dfb1f78bdfecf2.json");
+////                            ApiWalletManager.getInstance().getMainWallet().setPrivateKey("b71c1f7594fd8718c7ae06ea89c48e2e621990e5736c6f1087f04defa5c251a6");
+////                            ApiWalletManager.getInstance().getMainWallet().setPassword("1234567");
+////                            ApiWalletManager.getInstance().editPassWord("12345678", walletHandler);
+////                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMainWallet().getKeystore());
+//
+//                        } else {
+//                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
+//                        }
+//                        break;
+//                    case WALLET_CREATE:
+//
+//                        /*
+//                         * 创建钱包
+//                         * */
+//                        dismissProgressDialog();
+//                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+//                            long id = saveWallet();
+//                            ApiWalletManager.printtest(id + "");
+//                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建成功", Toast.LENGTH_SHORT).show();
+//                            //一个主钱包的 都没有的情况 添加导入钱包 第一个都做为默认主钱包
+//                            String nowWalletName = (String) LibSPUtils.get(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
+//                            if (nowWalletName.equals(Comm.NULLWALLET)) {
+//                                ApiWalletManager.getInstance().setMainWallet(mCreateWallet);
+//                                LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, mCreateWallet.getName());
+//                            }
+//                            //初始化用户跳转主页面
+//                            if (!isAddMode) {
+//                                startMain();
+//                            } else {
+//                                finish();
+//                                SoftKeyboardUtil.hideSoftKeyboard(CreateWalletActivity.this);
+//                            }
+//                        } else {
+//                            Toast.makeText(CreateWalletActivity.this.getApplicationContext(), "钱包创建失败", Toast.LENGTH_SHORT).show();
+//                        }
+//                        break;
+//                    case WALLET_BALANCE:
+//                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+//                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMainWallet().getBalance());
+//                        } else {
+//                            ApiWalletManager.printtest("ERRRRRR");
+//                        }
+//                        break;
+//                    case WALLET_IMPORT:
+//                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+//                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMainWallet().getPublickey());
+//                        } else {
+//                            ApiWalletManager.printtest("ERRRRRR");
+//                        }
+//                        break;
+//                    case WALLET_EDIT_PASS:
+//                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+//                            ApiWalletManager.printtest(ApiWalletManager.getInstance().getMainWallet().getKeystore());
+//                        } else {
+//                            ApiWalletManager.printtest("ERRRRRR");
+//                        }
+//                        break;
+//                    default:
+//                        break;
+//
+//                }
+//            } catch (Throwable e) {
+//                Log.e(TAG, "handleMessage", e);
+//            }
+//        }
+//    };
 
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-
+    protected void handleIntent() {
+        super.handleIntent();
+        Intent intent = getIntent();
+        isAddMode = intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE, false);
+        ApiWalletManager.printtest(isAddMode + "");
     }
 
     @Override
-    public int getActivityMenuRes() {
-        return 0;
+    protected void initView() {
+        findViews();
+        mImmersionBar.titleBar(R.id.toolbarlayout).statusBarDarkFont(true).execute();
     }
 
     @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.arrow_back_blue;
+    protected int getLayoutId() {
+        return R.layout.activity_wallet_create;
     }
 
     @Override
-    public int getActivityTitleContent() {
-        return R.string.activity_create_wallet;
+    protected void initData() {
+
     }
+
+//    @Override
+//    protected void initData(Bundle savedInstanceState) {
+//
+//    }
+//
+//    @Override
+//    public int getActivityMenuRes() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public int getHomeAsUpIndicatorIcon() {
+//        return R.mipmap.arrow_back_blue;
+//    }
+//
+//    @Override
+//    public int getActivityTitleContent() {
+//        return R.string.activity_create_wallet;
+//    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -276,13 +265,6 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher, O
 
     }
 
-    public void startMain() {
-        Intent intent = new Intent(CreateWalletActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-    }
-
     @AfterPermissionGranted(REQUEST_CODE_CREATE_PERMISSIONS)
     private void requestCodeCreatePermissions() {
         String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -293,8 +275,21 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher, O
             String resetpass = resetPwdEt.getText().toString().trim();
             String pass = pwdEt.getText().toString().trim();//获取密码
 
+            if (!resetpass.equals(pass)) {
+                ToastUtil.showShortToast("密码和重复密码必须相同");
+                return;
+            }
+
+            /*
+             * 从数据库比对，重复检查
+             * */
+            if (null != WalletDaoTools.getWalletByName(walletname)) {
+                Toast.makeText(this.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             WalletManager.getInstance().createBip39Wallet(walletname, pass, this);
-            cerateWallet();
+//            cerateWallet();
 
         }
     }
@@ -327,8 +322,8 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher, O
             mCreateWallet.setPassword(pass);//设置密码
             mCreateWallet.setIconIdex(getNum(7));//设置随机的头像
 
-            ApiWalletManager.getInstance().createWallet(mCreateWallet, walletHandler);
-            showProgressDialog("正在创建钱包请稍候");
+            WalletManager.getInstance().createBip39Wallet(walletname, pass, this);
+//            showProgressDialog("正在创建钱包请稍候");
             Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
         } catch (Exception e) {
             Log.e("wallet", "errr", e);
@@ -336,21 +331,11 @@ public class CreateWalletActivity extends BaseActivity implements TextWatcher, O
 
     }
 
-    private long saveWallet() {
-        //保存钱包到本地数据库
-        long id = WalletDaoTools.saveWallet(mCreateWallet);
-        //首次创建模式修改当前其钱包的信息
-        if (id > 0 && !isAddMode) {
-            ApiWalletManager.getInstance().setMainWallet(mCreateWallet);
-            LibSPUtils.put(CreateWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, mCreateWallet.getName());
-        }
-        return id;
-    }
-
     @Override
     public void onCreateSuccess(WalletBean walletBean) {
         Log.i(TAG, "onCreateSuccess: " + walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
+        skip(MainActivity.class);
     }
 
     @Override

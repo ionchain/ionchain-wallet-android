@@ -60,7 +60,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.ImprotWalletActivity"
+            android:name=".ui.wallet.ImportWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -123,7 +123,7 @@
             android:name=".ui.main.ShowAddressActivity"
             android:label="@string/title_activity_show_address"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.view.activity.TxOutActivity"/>
+        <activity android:name=".mvp.view.activity.TxActivity"/>
     </application>
 
 </manifest>

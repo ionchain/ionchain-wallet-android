@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".mvp.view.activity.TxOutActivity">
+    tools:context=".mvp.view.activity.TxActivity">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -59,13 +59,14 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/tx_address"
+        android:id="@+id/tx_to_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/h20"
         android:layout_marginRight="@dimen/h20"
         android:layout_marginTop="@dimen/h15"
         android:hint="收款人地址"
+        android:text="0xeb680f30715f347d4eb5cd03ac5eced297ac5046"
         android:textColor="#666666"
         android:theme="@style/MyEditText" />
 
@@ -77,10 +78,11 @@
         android:layout_marginRight="@dimen/h20"
         android:layout_marginTop="@dimen/h15"
         android:hint="转账金额"
+        android:text="1"
         android:textColor="#666666"
         android:theme="@style/MyEditText" />
 
-    <EditText
+    <TextView
         android:id="@+id/tx_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,20 +91,17 @@
         android:layout_marginTop="@dimen/h15"
         android:text="旷工费"
         android:textColor="#666666"
+        android:clickable="false"
         android:textSize="15sp"
         android:theme="@style/MyEditTextNUll" />
 
     <SeekBar
         android:id="@+id/tx_seek_bar_index"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/h20"
         android:layout_marginRight="@dimen/h20"
-        android:paddingEnd="0dp"
-        android:paddingStart="0dp"
-        android:progress="10"
         android:thumb="@mipmap/progress_index" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

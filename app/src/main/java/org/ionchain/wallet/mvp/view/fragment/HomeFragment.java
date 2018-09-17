@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fast.lib.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -26,21 +27,22 @@ import org.ionchain.wallet.adapterhelper.device.DeviceViewHelper;
 import org.ionchain.wallet.adapterhelper.moewwallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.WalletBean;
+import org.ionchain.wallet.callback.OnBalanceCallback;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.callback.OnDeviceListCallback;
 import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.callback.OnUnbindDeviceCallback;
-import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.presenter.Presenter;
-import org.ionchain.wallet.mvp.view.activity.TxOutActivity;
+import org.ionchain.wallet.mvp.view.activity.TxActivity;
 import org.ionchain.wallet.ui.base.AbsBaseFragment;
 import org.ionchain.wallet.ui.comm.ScanActivity;
 import org.ionchain.wallet.ui.main.ShowAddressActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
-import org.ionchain.wallet.ui.wallet.ImprotWalletActivity;
+import org.ionchain.wallet.ui.wallet.ImportWalletActivity;
 import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
@@ -64,7 +66,7 @@ public class HomeFragment extends AbsBaseFragment implements
         OnRefreshListener,
         OnBindDeviceCallback,
         OnDeviceListCallback,
-        OnCreateWalletCallback, OnUnbindDeviceButtonClickedListener, OnUnbindDeviceCallback {
+        OnCreateWalletCallback, OnUnbindDeviceButtonClickedListener, OnUnbindDeviceCallback, OnBalanceCallback {
 
 
     public static int[] sRandomHeader = {
@@ -261,7 +263,7 @@ public class HomeFragment extends AbsBaseFragment implements
         tx_out_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(TxOutActivity.class);
+                skip(TxActivity.class, "wallet", mCurrentWallet);
             }
         });
 
@@ -285,7 +287,7 @@ public class HomeFragment extends AbsBaseFragment implements
         }
         int id = mCurrentWallet.getIconIdex();
         wallet_logo.setImageResource(sRandomHeader[id]);
-        ApiWalletManager.getInstance().getBalance(mCurrentWallet, this);
+        WalletManager.getInstance().getAccountBalance(mCurrentWallet, this);
         getDeviceList();
 
 //        mBitmap = generateQRCode(ApiWalletManager.getInstance().getMainWallet().getAddress());
@@ -358,7 +360,7 @@ public class HomeFragment extends AbsBaseFragment implements
             @Override
             public void onClick(View v) {
                 //todo
-                skip(ImprotWalletActivity.class);
+                skip(ImportWalletActivity.class);
                 instance.dismiss();
             }
         });
@@ -383,7 +385,7 @@ public class HomeFragment extends AbsBaseFragment implements
                 }
                 int ids = mCurrentWallet.getIconIdex();
                 wallet_logo.setImageResource(sRandomHeader[ids]);
-                ApiWalletManager.getInstance().getBalance(mCurrentWallet, HomeFragment.this);
+                WalletManager.getInstance().getAccountBalance(mCurrentWallet,  HomeFragment.this);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 getDeviceList();
@@ -423,7 +425,7 @@ public class HomeFragment extends AbsBaseFragment implements
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        ApiWalletManager.getInstance().getBalance(mCurrentWallet, this);
+        WalletManager.getInstance().getAccountBalance(mCurrentWallet, this);
         getDeviceList();
     }
 
@@ -495,4 +497,15 @@ public class HomeFragment extends AbsBaseFragment implements
         Log.i(TAG, "onUnbindFailure: " + result);
     }
 
+    @Override
+    public void onBalanceSuccess(WalletBean walletBean) {
+        Log.i(TAG, "onBalanceSuccess: " + walletBean.getBalance());
+        walletBalanceTx.setText(mCurrentWallet.getBalance());
+    }
+
+    @Override
+    public void onBalanceFailure(String error) {
+        Log.i(TAG, "onCreateFailure: " + error);
+        ToastUtil.showToastLonger(error);
+    }
 }

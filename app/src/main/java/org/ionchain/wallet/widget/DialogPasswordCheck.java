@@ -13,13 +13,13 @@ import org.ionchain.wallet.utils.StringUtils;
 /*
  * 导出私钥对话框
  * 、*/
-public class DialogImportPrivKeyCheck extends BaseDialog {
+public class DialogPasswordCheck extends BaseDialog {
 
     private View.OnClickListener leftBtnClickedListener;
     private View.OnClickListener rightBtnClickedListener;
 
 
-    public DialogImportPrivKeyCheck(@NonNull Context context) {
+    public DialogPasswordCheck(@NonNull Context context) {
         super(context);
     }
 
@@ -53,7 +53,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
         return leftBtnText;
     }
 
-    public DialogImportPrivKeyCheck setLeftBtnText(String leftBtnText) {
+    public DialogPasswordCheck setLeftBtnText(String leftBtnText) {
         this.leftBtnText = leftBtnText;
         return this;
     }
@@ -62,7 +62,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
         return rightBtnText;
     }
 
-    public DialogImportPrivKeyCheck setRightBtnText(String rightBtnText) {
+    public DialogPasswordCheck setRightBtnText(String rightBtnText) {
         this.rightBtnText = rightBtnText;
         return this;
     }
@@ -71,7 +71,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
         return titleText;
     }
 
-    public DialogImportPrivKeyCheck setTitleText(String titleText) {
+    public DialogPasswordCheck setTitleText(String titleText) {
         this.titleText = titleText;
         return this;
     }
@@ -80,7 +80,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
         return title;
     }
 
-    public DialogImportPrivKeyCheck setTitle(TextView title) {
+    public DialogPasswordCheck setTitle(TextView title) {
         this.title = title;
         return this;
     }
@@ -89,7 +89,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
         return passwordEt;
     }
 
-    public DialogImportPrivKeyCheck setPasswordEt(EditText passwordEt) {
+    public DialogPasswordCheck setPasswordEt(EditText passwordEt) {
         this.passwordEt = passwordEt;
         return this;
     }
@@ -98,7 +98,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
         return leftBtn;
     }
 
-    public DialogImportPrivKeyCheck setLeftBtn(Button leftBtn) {
+    public DialogPasswordCheck setLeftBtn(Button leftBtn) {
         this.leftBtn = leftBtn;
         return this;
     }
@@ -107,7 +107,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
         return rightBtn;
     }
 
-    public DialogImportPrivKeyCheck setRightBtn(Button rightBtn) {
+    public DialogPasswordCheck setRightBtn(Button rightBtn) {
         this.rightBtn = rightBtn;
         return this;
     }
@@ -137,7 +137,7 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
     /**
      * 设置左侧按钮点击事件
      */
-    public DialogImportPrivKeyCheck setLeftBtnClickedListener(View.OnClickListener leftBtnClickedListener) {
+    public DialogPasswordCheck setLeftBtnClickedListener(View.OnClickListener leftBtnClickedListener) {
         this.leftBtnClickedListener = leftBtnClickedListener;
         return this;
     }
@@ -145,7 +145,13 @@ public class DialogImportPrivKeyCheck extends BaseDialog {
     /**
      * 设置右侧按钮点击事件
      */
-    public DialogImportPrivKeyCheck setRightBtnClickedListener(View.OnClickListener rightBtnClickedListener) {
+    public DialogPasswordCheck setRightBtnClickedListener(View.OnClickListener rightBtnClickedListener) {
+        this.rightBtnClickedListener = rightBtnClickedListener;
+        return this;
+    }
+
+    public DialogPasswordCheck setBtnClickedListener(View.OnClickListener leftBtnClickedListener,View.OnClickListener rightBtnClickedListener) {
+        this.leftBtnClickedListener = leftBtnClickedListener;
         this.rightBtnClickedListener = rightBtnClickedListener;
         return this;
     }
