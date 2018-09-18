@@ -127,6 +127,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
         } catch (NullPointerException e) {
             default_value = 0.00009;//默认值 0.00009
         }
+        if (default_value == 0) {
+            default_value = 0.00009;
+        }
         double min_value = WalletManager.getInstance().getMinFee().doubleValue();//最小值 0.0003
         double value = default_value - min_value;//0.0006
         double max_fee = WalletManager.getInstance().getMaxFee().doubleValue();

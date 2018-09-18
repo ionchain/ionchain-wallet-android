@@ -503,4 +503,11 @@ public class WalletManager {
         }.start();
     }
 
+    public void deleteWallet(WalletBean walletBean) {
+        File file = new File(walletBean.getKeystore());
+        if (file.exists()) {
+            file.delete();
+        }
+        WalletDaoTools.deleteWallet(walletBean.getId());
+    }
 }

@@ -1,4 +1,4 @@
-package org.ionchain.wallet.adapterhelper.moewwallet;
+package org.ionchain.wallet.adapterhelper.morewallet;
 
 import android.content.Context;
 import android.view.View;
@@ -11,7 +11,7 @@ import org.ionchain.wallet.bean.WalletBean;
 
 import java.util.List;
 
-import static org.ionchain.wallet.mvp.view.fragment.HomeFragment.sRandomHeaderMore;
+import static org.ionchain.wallet.App.sRandomHeaderMore;
 
 /**
  * USER: binny

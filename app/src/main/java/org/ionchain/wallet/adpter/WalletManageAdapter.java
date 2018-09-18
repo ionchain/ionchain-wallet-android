@@ -3,6 +3,7 @@ package org.ionchain.wallet.adpter;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 
@@ -24,6 +25,6 @@ public class WalletManageAdapter extends BGARecyclerViewAdapter<WalletBean>{
             helper.setText(R.id.walletNameTv,"");
         }
 
-
+        helper.getImageView(R.id.manager_wallet_img).setImageResource(App.sRandomHeaderMore[model.getIconIdex()]);
     }
 }

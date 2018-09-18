@@ -10,8 +10,9 @@ import android.view.View;
 
 import com.facebook.stetho.Stetho;
 import com.fast.lib.base.LibApp;
-import com.fast.lib.logger.Logger;
 import com.lzy.okgo.OkGo;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.bean.UserModel;
 import org.ionchain.wallet.comm.constants.Comm;
@@ -26,16 +27,29 @@ public class App extends LibApp {
 
     String TAG = "App";
 
-//    public static final String UPDATE_STATUS_ACTION = "org.ionchain.wallet.action.UPDATE_STATUS";
 
     public static  Handler mHandler = new Handler(Looper.getMainLooper());
-//
-//    static {
-//        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-////
-//    }
 
-
+    public static int[] sRandomHeader = {
+            R.mipmap.random_header_more_1,
+            R.mipmap.random_header_more_2,
+            R.mipmap.random_header_more_3,
+            R.mipmap.random_header_more_4,
+            R.mipmap.random_header_more_5,
+            R.mipmap.random_header_more_6,
+            R.mipmap.random_header_more_7,
+            R.mipmap.random_header_more_8,
+    };
+    public static int[] sRandomHeaderMore = {
+            R.mipmap.random_header_1,
+            R.mipmap.random_header_2,
+            R.mipmap.random_header_3,
+            R.mipmap.random_header_4,
+            R.mipmap.random_header_5,
+            R.mipmap.random_header_6,
+            R.mipmap.random_header_7,
+            R.mipmap.random_header_8,
+    };
     @Override
     public void onCreate() {
         super.onCreate();
@@ -43,6 +57,7 @@ public class App extends LibApp {
         Stetho.initializeWithDefaults(this);
         OkGo.getInstance().init(this);
         WalletManager.getInstance().initWeb3j(this);
+        Logger.addLogAdapter(new AndroidLogAdapter());
     }
 
 

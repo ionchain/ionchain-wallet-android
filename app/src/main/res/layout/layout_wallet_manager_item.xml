@@ -10,12 +10,20 @@
         android:background="@color/white"
         android:paddingLeft="@dimen/h16"
         android:paddingRight="@dimen/h16">
-
+        <ImageView
+            android:id="@+id/manager_wallet_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/more_wallet" />
 
         <TextView
+            android:layout_toRightOf="@id/manager_wallet_img"
             android:id="@+id/walletNameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/h16"
             android:text="My Wallet"
             android:textSize="@dimen/txt_mediumsize"
             android:textColor="@color/library_66"

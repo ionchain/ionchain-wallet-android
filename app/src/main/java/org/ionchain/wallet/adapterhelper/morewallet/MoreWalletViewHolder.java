@@ -1,4 +1,4 @@
-package org.ionchain.wallet.adapterhelper.moewwallet;
+package org.ionchain.wallet.adapterhelper.morewallet;
 
 import android.widget.ImageView;
 import android.widget.TextView;

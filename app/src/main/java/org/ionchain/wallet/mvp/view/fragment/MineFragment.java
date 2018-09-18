@@ -8,7 +8,7 @@ import android.widget.TextView;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.ui.account.MessageCenterActivity;
-import org.ionchain.wallet.ui.account.WalletManageActivity;
+import org.ionchain.wallet.mvp.view.activity.WalletManageActivity;
 import org.ionchain.wallet.ui.base.AbsBaseFragment;
 import org.ionchain.wallet.ui.login.LoginActivity;
 import org.ionchain.wallet.ui.main.SettingActivity;

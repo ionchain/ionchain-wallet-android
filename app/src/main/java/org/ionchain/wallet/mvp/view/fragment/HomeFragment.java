@@ -24,7 +24,7 @@ import com.smart.holder.CommonAdapter;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapterhelper.device.DeviceViewHelper;
-import org.ionchain.wallet.adapterhelper.moewwallet.MoreWalletViewHelper;
+import org.ionchain.wallet.adapterhelper.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.callback.OnBalanceCallback;
@@ -56,6 +56,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
+import static org.ionchain.wallet.App.sRandomHeader;
 
 /**
  *
@@ -69,26 +70,7 @@ public class HomeFragment extends AbsBaseFragment implements
         OnCreateWalletCallback, OnUnbindDeviceButtonClickedListener, OnUnbindDeviceCallback, OnBalanceCallback {
 
 
-    public static int[] sRandomHeader = {
-            R.mipmap.random_header_more_1,
-            R.mipmap.random_header_more_2,
-            R.mipmap.random_header_more_3,
-            R.mipmap.random_header_more_4,
-            R.mipmap.random_header_more_5,
-            R.mipmap.random_header_more_6,
-            R.mipmap.random_header_more_7,
-            R.mipmap.random_header_more_8,
-    };
-    public static int[] sRandomHeaderMore = {
-            R.mipmap.random_header_1,
-            R.mipmap.random_header_2,
-            R.mipmap.random_header_3,
-            R.mipmap.random_header_4,
-            R.mipmap.random_header_5,
-            R.mipmap.random_header_6,
-            R.mipmap.random_header_7,
-            R.mipmap.random_header_8,
-    };
+
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
     private static final int REQUEST_CODE_IMPORT_PERMISSIONS = 2;
     private SmartRefreshLayout mRefresh;
@@ -104,7 +86,8 @@ public class HomeFragment extends AbsBaseFragment implements
     private ImageView wallet_logo;
 
     private CommonAdapter mAdapterMore;
-    private List<WalletBean> mWallets = new ArrayList<>();
+    private List<WalletBean> mMoreWallets = new ArrayList<>();
+    private List<WalletBean> mMoreWalletsTemp = new ArrayList<>();
     private ListView mDevicesLv;//设备列表
     private ListView mMoreWalletListView;//更过钱包
 
@@ -123,15 +106,15 @@ public class HomeFragment extends AbsBaseFragment implements
     private int mUnbindPos = 0;
 
     private void initListViewHeaderViews(View rootView) {
-        walletNameTx = (TextView) rootView.findViewById(R.id.wallet_name_tv);
-        moreWallet = (ImageView) rootView.findViewById(R.id.wallet_list);
-        modifyWallet = (LinearLayout) rootView.findViewById(R.id.modify_wallet);
-        walletBalanceTx = (TextView) rootView.findViewById(R.id.walletBalanceTx);
-        walletAddressLayout = (RelativeLayout) rootView.findViewById(R.id.wallet_address_layout);
-        addDevice = (ImageView) rootView.findViewById(R.id.add_device);
-        wallet_logo = (ImageView) rootView.findViewById(R.id.wallet_logo);
-        walletAddressTx = (TextView) rootView.findViewById(R.id.wallet_address_tv);
-        walletAddressTx = (TextView) rootView.findViewById(R.id.wallet_address_tv);
+        walletNameTx = rootView.findViewById(R.id.wallet_name_tv);
+        moreWallet = rootView.findViewById(R.id.wallet_list);
+        modifyWallet = rootView.findViewById(R.id.modify_wallet);
+        walletBalanceTx = rootView.findViewById(R.id.walletBalanceTx);
+        walletAddressLayout = rootView.findViewById(R.id.wallet_address_layout);
+        addDevice = rootView.findViewById(R.id.add_device);
+        wallet_logo = rootView.findViewById(R.id.wallet_logo);
+        walletAddressTx = rootView.findViewById(R.id.wallet_address_tv);
+        walletAddressTx = rootView.findViewById(R.id.wallet_address_tv);
         tx_in_ll = rootView.findViewById(R.id.tx_in_ll);
         tx_out_ll = rootView.findViewById(R.id.tx_out_ll);
 
@@ -153,16 +136,31 @@ public class HomeFragment extends AbsBaseFragment implements
     public void onResume() {
         super.onResume();
         SoftKeyboardUtil.hideSoftKeyboard(getActivity());
-        if (walletNameTx != null && WalletDaoTools.getWalletTop() != null) {
-            String name = WalletDaoTools.getWalletTop().getName();
-            walletNameTx.setText(name);
-        }
-        if (WalletDaoTools.getAllWallet() != null && WalletDaoTools.getAllWallet().size() > 0) {
-            mWallets.clear();
-            mWallets.addAll(WalletDaoTools.getAllWallet());
+        mMoreWalletsTemp = WalletDaoTools.getAllWallet();
+        if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
+            mMoreWallets.clear();
+            mMoreWallets.addAll(mMoreWalletsTemp);
             mAdapterMore.notifyDataSetChanged();
         }
+       getCurrentWalletInfo();
+    }
 
+    private void getCurrentWalletInfo() {
+        mCurrentWallet = WalletDaoTools.getWalletTop();
+        if (mCurrentWallet == null) {
+            return;
+        }
+        walletNameTx.setText(mCurrentWallet.getName());
+        walletAddressTx.setText(mCurrentWallet.getAddress());
+        if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {
+            walletBalanceTx.setText(mCurrentWallet.getBalance());// 钱包金额
+        } else {
+            walletBalanceTx.setText("0.0000");// 钱包金额
+        }
+        int id = mCurrentWallet.getIconIdex();
+        wallet_logo.setImageResource(sRandomHeader[id]);
+        WalletManager.getInstance().getAccountBalance(mCurrentWallet, this);
+        getDeviceList();
     }
 
     @Override
@@ -232,7 +230,6 @@ public class HomeFragment extends AbsBaseFragment implements
                         .build()
                         .show();
                 mMoreWalletListView.smoothScrollToPosition(0);
-//                mImmersionBar.statusBarDarkFont(true).execute();
 
             }
 
@@ -266,6 +263,15 @@ public class HomeFragment extends AbsBaseFragment implements
                 skip(TxActivity.class, "wallet", mCurrentWallet);
             }
         });
+        /*
+         * 转账
+         * */
+        tx_in_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip(TxActivity.class, "wallet", mCurrentWallet);
+            }
+        });
 
     }
 
@@ -274,24 +280,6 @@ public class HomeFragment extends AbsBaseFragment implements
     protected void initData() {
         mPresenter = new Presenter();
         mPresenter.initHomePageModel();
-        mCurrentWallet = WalletDaoTools.getWalletTop();
-        if (mCurrentWallet == null) {
-            return;
-        }
-        walletNameTx.setText(mCurrentWallet.getName());
-        walletAddressTx.setText(mCurrentWallet.getAddress());
-        if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {
-            walletBalanceTx.setText(mCurrentWallet.getBalance());// 钱包金额
-        } else {
-            walletBalanceTx.setText("0.0000");// 钱包金额
-        }
-        int id = mCurrentWallet.getIconIdex();
-        wallet_logo.setImageResource(sRandomHeader[id]);
-        WalletManager.getInstance().getAccountBalance(mCurrentWallet, this);
-        getDeviceList();
-
-//        mBitmap = generateQRCode(ApiWalletManager.getInstance().getMainWallet().getAddress());
-//        codeIv.setImageBitmap(mBitmap);
 
     }
 
@@ -349,17 +337,20 @@ public class HomeFragment extends AbsBaseFragment implements
     @SuppressWarnings("unchecked")
     @Override
     public void initItems(final PopupWindow instance, View contentView) {
-        mWallets.addAll(WalletDaoTools.getAllWallet());
-
+        mMoreWalletsTemp = WalletDaoTools.getAllWallet();
+        if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
+            mMoreWallets.clear();
+//            Collections.reverse(mMoreWalletsTemp);
+            mMoreWallets.addAll(mMoreWalletsTemp);
+        }
         mMoreWalletListView = contentView.findViewById(R.id.data_list);
         LinearLayout scan_popu = contentView.findViewById(R.id.scan_popu);
         LinearLayout new_ll = contentView.findViewById(R.id.new_ll);
-        mAdapterMore = new CommonAdapter(getActivity(), mWallets, R.layout.item_popup_list, new MoreWalletViewHelper());
+        mAdapterMore = new CommonAdapter(getActivity(), mMoreWallets, R.layout.item_popup_list, new MoreWalletViewHelper());
         mMoreWalletListView.setAdapter(mAdapterMore);
         scan_popu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo
                 skip(ImportWalletActivity.class);
                 instance.dismiss();
             }
@@ -375,7 +366,7 @@ public class HomeFragment extends AbsBaseFragment implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "onItemClick: ");
-                mCurrentWallet = mWallets.get(position);
+                mCurrentWallet = mMoreWallets.get(position);
                 walletNameTx.setText(mCurrentWallet.getName());
                 walletAddressTx.setText(mCurrentWallet.getAddress());
                 if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {
@@ -385,7 +376,8 @@ public class HomeFragment extends AbsBaseFragment implements
                 }
                 int ids = mCurrentWallet.getIconIdex();
                 wallet_logo.setImageResource(sRandomHeader[ids]);
-                WalletManager.getInstance().getAccountBalance(mCurrentWallet,  HomeFragment.this);
+//                SPUtils.put(getActivity(), "current_wallet_name", mCurrentWallet.getName());
+                WalletManager.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 getDeviceList();
@@ -430,6 +422,9 @@ public class HomeFragment extends AbsBaseFragment implements
     }
 
 
+    /**
+     * @param dataBean 成功
+     */
     @Override
     public void onBindSuccess(DeviceBean.DataBean dataBean) {
         DeviceBean.DataBean bean = new DeviceBean.DataBean();
@@ -443,11 +438,17 @@ public class HomeFragment extends AbsBaseFragment implements
         mAdapterDeviceLv.notifyDataSetChanged();
     }
 
+    /**
+     * @param result 绑定失败
+     */
     @Override
     public void onBindFailure(String result) {
         Log.i(TAG, "onBindFailure: " + result);
     }
 
+    /**
+     * @param list 设备列表
+     */
     @Override
     public void onDeviceListSuccess(List<DeviceBean.DataBean> list) {
         Log.i(TAG, "onDeviceListSuccess: " + list.toString());
@@ -456,11 +457,19 @@ public class HomeFragment extends AbsBaseFragment implements
         mAdapterDeviceLv.notifyDataSetChanged();
     }
 
+    /**
+     * @param errorMessage 失败信息 获取设备列表失败
+     */
     @Override
     public void onDeviceListFailure(String errorMessage) {
         Log.i(TAG, "onDeviceListFailure: " + errorMessage);
     }
 
+    /**
+     * 解绑设备
+     * @param cksn
+     * @param position
+     */
     @Override
     public void onUnbindButtonClick(final String cksn, int position) {
         Log.i(TAG, "onUnbindButtonClick: " + cksn);
@@ -486,23 +495,35 @@ public class HomeFragment extends AbsBaseFragment implements
 
     }
 
+    /**
+     * 解绑定成功
+     */
     @Override
     public void onUnbindSuccess(DeviceBean.DataBean dataBean) {
         mDataBeans.remove(mUnbindPos);
         mAdapterDeviceLv.notifyDataSetChanged();
     }
 
+    /**
+     * @param result 解绑定失败
+     */
     @Override
     public void onUnbindFailure(String result) {
         Log.i(TAG, "onUnbindFailure: " + result);
     }
 
+    /**
+     * @param walletBean 余额 获取成功
+     */
     @Override
     public void onBalanceSuccess(WalletBean walletBean) {
         Log.i(TAG, "onBalanceSuccess: " + walletBean.getBalance());
         walletBalanceTx.setText(mCurrentWallet.getBalance());
     }
 
+    /**
+     * @param error 失败信息 获取余额失败
+     */
     @Override
     public void onBalanceFailure(String error) {
         Log.i(TAG, "onCreateFailure: " + error);

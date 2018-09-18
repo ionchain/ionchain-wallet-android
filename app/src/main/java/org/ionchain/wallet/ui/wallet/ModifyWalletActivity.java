@@ -33,8 +33,6 @@ import org.ionchain.wallet.widget.DialogImportPrivKey;
 import org.ionchain.wallet.widget.DialogPasswordCheck;
 import org.ionchain.wallet.widget.IONCTitleBar;
 
-import java.io.File;
-
 import butterknife.BindView;
 
 import static org.ionchain.wallet.dao.WalletDaoTools.updateWallet;
@@ -226,7 +224,6 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
      * 输入密码
      */
     private void showEditTextDialog() {
-        ToastUtil.showShortToast("dddddd");
         final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
         dialog.setLeftBtnClickedListener(new View.OnClickListener() {
             @Override
@@ -275,6 +272,7 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
      * 删钱包
      */
     private void delwallet() {
+
         final DialogPasswordCheck dialogPasswordCheck = new DialogPasswordCheck(this);
         dialogPasswordCheck.setLeftBtnText("取消")
                 .setRightBtnText("确定")
@@ -297,26 +295,26 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
                             ToastUtil.showToastLonger("你输入的密码有误！");
                             return;
                         }
+                        if (WalletDaoTools.getAllWallet().size()==1) {
+                            ToastUtil.showToastLonger("不能删除该钱包，您必须至少有一个钱包");
+                            return;
+                        }
                         String nowWalletName = (String) LibSPUtils.get(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
 
-                        File file = new File(mWallet.getKeystore());
-                        if (file.exists()) {
-                            file.delete();
-                        }
-                        WalletDaoTools.deleteWallet(mWallet.getId());
-                        if (nowWalletName.equals(mWallet.getName())) {
-                            WalletBean topWallet = WalletDaoTools.getWalletTop();
-                            if (null == topWallet) {
-                                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULLWALLET);
-                                WalletBean nullWallet = new WalletBean();
-                                nullWallet.setName(Comm.NULLWALLETNAME);
-                                nullWallet.setAddress(Comm.NULLWALLETNAME);
-                                ApiWalletManager.getInstance().setMainWallet(nullWallet);
-                            } else {
-                                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, topWallet.getName());
-                                ApiWalletManager.getInstance().setMainWallet(topWallet);
-                            }
-                        }
+                        WalletManager.getInstance().deleteWallet(mWallet);
+//                        if (nowWalletName.equals(mWallet.getName())) {
+//                            WalletBean topWallet = WalletDaoTools.getWalletTop();
+//                            if (null == topWallet) {
+//                                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULLWALLET);
+//                                WalletBean nullWallet = new WalletBean();
+//                                nullWallet.setName(Comm.NULLWALLETNAME);
+//                                nullWallet.setAddress(Comm.NULLWALLETNAME);
+//                                ApiWalletManager.getInstance().setMainWallet(nullWallet);
+//                            } else {
+//                                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, topWallet.getName());
+//                                ApiWalletManager.getInstance().setMainWallet(topWallet);
+//                            }
+//                        }
 
                         //删除的是主钱包
                         finish();

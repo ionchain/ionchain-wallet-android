@@ -22,6 +22,7 @@ import org.ionchain.wallet.comm.api.ApiWalletManager;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.ui.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.comm.ScanActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
@@ -196,7 +197,7 @@ public class ImportWalletActivity extends AbsBaseActivity implements TextWatcher
         WalletDaoTools.saveWallet(walletBean);
         hideProgress();
         ToastUtil.showToastLonger("导入成功啦!");
-        finish();
+        skip(MainActivity.class);
     }
 
     @Override
