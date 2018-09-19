@@ -346,7 +346,13 @@ public class WalletManager {
                     BigDecimal balacne = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
                     balacne = balacne.setScale(4, BigDecimal.ROUND_DOWN);
                     System.out.println(balacne);
-                    walletBean.setBalance(String.valueOf(balacne));
+                    int a = balacne.compareTo(BigDecimal.valueOf(10));
+                    if (a < 0) {
+                        walletBean.setBalance("0.0000");
+                    } else {
+                        walletBean.setBalance(String.valueOf(balacne));
+                    }
+
                     WalletDaoTools.updateWallet(walletBean);
                     App.mHandler.post(new Runnable() {
                         @Override
