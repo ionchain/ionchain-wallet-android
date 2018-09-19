@@ -344,6 +344,7 @@ public class WalletManager {
                     BigInteger balance = web3j.ethGetBalance(walletBean.getAddress(), DefaultBlockParameterName.LATEST).send().getBalance();
 
                     BigDecimal balacne = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
+                    balacne = balacne.setScale(4, BigDecimal.ROUND_DOWN);
                     System.out.println(balacne);
                     walletBean.setBalance(String.valueOf(balacne));
                     WalletDaoTools.updateWallet(walletBean);
