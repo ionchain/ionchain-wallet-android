@@ -140,8 +140,8 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     @Override
     protected void initView() {
         findViews();
-
         final IONCTitleBar ioncTitleBar = findViewById(R.id.ionc_title_bar);
+        mImmersionBar.titleBar(ioncTitleBar).statusBarDarkFont(true).execute();
         ioncTitleBar.setTitle(mWallet.getName());
         ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
             @Override
@@ -256,27 +256,6 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 }).show();
 
     }
-
-//    @Override
-//    public int getActivityMenuRes() {
-//        return R.menu.menu_wallet_modify;
-//    }
-//
-//    @Override
-//    public int getHomeAsUpIndicatorIcon() {
-//        return R.drawable.qmui_icon_topbar_back;
-//    }
-//
-//    @Override
-//    public int getActivityTitleContent() {
-//        return R.string.activity_modify_wallet;
-//    }
-//
-//
-//    @Override
-//    protected boolean isRegisterEventBus() {
-//        return true;
-//    }
 
     @Override
     public void onBalanceSuccess(WalletBean walletBean) {
