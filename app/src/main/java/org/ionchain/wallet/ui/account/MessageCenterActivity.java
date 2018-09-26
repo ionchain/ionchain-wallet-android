@@ -1,69 +1,32 @@
 package org.ionchain.wallet.ui.account;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
-import com.fast.lib.logger.Logger;
-import com.fast.lib.utils.ToastUtil;
-import com.fast.lib.widget.recyclerview.LibraryRecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ListView;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adpter.MessageCenterAdapter;
-import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
-import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
-public class MessageCenterActivity extends BaseActivity {
-
-    @BindView(R.id.recyclerView)
-    LibraryRecyclerView recyclerView;
-
-    private MessageCenterAdapter messageCenterAdapter;
-
-    @Override
-    public void handleMessage(int what, Object obj) {
-        super.handleMessage(what, obj);
-        try {
-
-            switch (what) {
-                case R.id.navigationBack:
-                    finish();
-                    break;
-                case 0:
-                    dismissProgressDialog();
-                    if (obj == null)
-                        return;
-
-                    ResponseModel<String> responseModel = (ResponseModel) obj;
-                    if (!verifyStatus(responseModel)) {
-                        ToastUtil.showShortToast(responseModel.getMsg());
-                        return;
-                    }
+public class MessageCenterActivity extends AbsBaseActivity {
 
 
-                    break;
-            }
+    private ImageView back;
+    private ListView listview;
 
-        } catch (Throwable e) {
-            Logger.e(e, TAG);
-        }
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_message_center);
-        mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        messageCenterAdapter = new MessageCenterAdapter(recyclerView);
-
-        messageCenterAdapter.addNewData(loadData());
-        recyclerView.setAdapter(messageCenterAdapter);
+    /**
+     * Find the Views in the layout<br />
+     * <br />
+     * Auto-created on 2018-09-26 17:05:28 by Android Layout Finder
+     * (http://www.buzzingandroid.com/tools/android-layout-finder)
+     */
+    private void findViews() {
+        back = (ImageView)findViewById( R.id.back );
+        listview = (ListView)findViewById( R.id.listview );
     }
 
     private List<String> loadData() {
@@ -81,27 +44,29 @@ public class MessageCenterActivity extends BaseActivity {
     }
 
     @Override
-    protected void setListener() {
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
+    protected void initData() {
 
     }
 
+
     @Override
-    public int getActivityMenuRes() {
-        return 0;
+    protected void initView() {
+        findViews();
+        mImmersionBar.titleBar(R.id.header).statusBarDarkFont(true).execute();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.arrow_back_blue;
-    }
-
-    @Override
-    public int getActivityTitleContent() {
-        return R.string.activity_message_center;
+    protected int getLayoutId() {
+        return R.layout.activity_message_center;
     }
 
 }
