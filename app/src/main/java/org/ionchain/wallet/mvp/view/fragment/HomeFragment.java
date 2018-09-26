@@ -1,6 +1,5 @@
 package org.ionchain.wallet.mvp.view.fragment;
 
-import android.Manifest;
 import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -38,7 +37,7 @@ import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.TxActivity;
-import org.ionchain.wallet.ui.base.AbsBaseFragment;
+import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.ui.comm.ScanActivity;
 import org.ionchain.wallet.ui.main.ShowAddressActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
@@ -51,9 +50,6 @@ import org.ionchain.wallet.widget.PopupWindowBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
 import static org.ionchain.wallet.App.sRandomHeader;
@@ -70,9 +66,7 @@ public class HomeFragment extends AbsBaseFragment implements
         OnCreateWalletCallback, OnUnbindDeviceButtonClickedListener, OnUnbindDeviceCallback, OnBalanceCallback {
 
 
-
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
-    private static final int REQUEST_CODE_IMPORT_PERMISSIONS = 2;
     private SmartRefreshLayout mRefresh;
     private WalletBean mCurrentWallet;
     private TextView walletNameTx;
@@ -142,7 +136,7 @@ public class HomeFragment extends AbsBaseFragment implements
             mMoreWallets.addAll(mMoreWalletsTemp);
             mAdapterMore.notifyDataSetChanged();
         }
-       getCurrentWalletInfo();
+        getCurrentWalletInfo();
     }
 
     private void getCurrentWalletInfo() {
@@ -249,7 +243,8 @@ public class HomeFragment extends AbsBaseFragment implements
         addDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestCodeQRCodePermissions();
+                Intent intent = new Intent(getActivity(), ScanActivity.class);
+                startActivityForResult(intent, 10);
 
             }
         });
@@ -269,7 +264,9 @@ public class HomeFragment extends AbsBaseFragment implements
         tx_in_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(TxActivity.class, "wallet", mCurrentWallet);
+                Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
+                intent.putExtra("msg", mCurrentWallet.getAddress());
+                skip(intent);
             }
         });
 
@@ -387,16 +384,6 @@ public class HomeFragment extends AbsBaseFragment implements
 
     }
 
-    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
-    private void requestCodeQRCodePermissions() {
-        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.VIBRATE};
-        if (!EasyPermissions.hasPermissions(getActivity(), perms)) {
-            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
-        } else {
-            Intent intent = new Intent(getActivity(), ScanActivity.class);
-            startActivityForResult(intent, 10);
-        }
-    }
 
     @Override
     public void onLoadStart() {
@@ -467,6 +454,7 @@ public class HomeFragment extends AbsBaseFragment implements
 
     /**
      * 解绑设备
+     *
      * @param cksn
      * @param position
      */

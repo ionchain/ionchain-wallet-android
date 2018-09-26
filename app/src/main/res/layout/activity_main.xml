@@ -19,7 +19,7 @@
         android:background="#eff4ff"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content">
         <RadioButton
             android:id="@+id/rb_asset"
             android:text="资产"
@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:checked="true"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
         <View
             android:background="@color/btn_semicircle_color"
             android:layout_width="1px"
@@ -44,7 +44,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
         <View
             android:background="@color/btn_semicircle_color"
             android:layout_width="1px"
@@ -58,7 +58,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
     </RadioGroup>
 
 </LinearLayout>

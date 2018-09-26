@@ -6,88 +6,99 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include
+    <RelativeLayout
         android:id="@+id/toolbarlayout"
-        layout="@layout/layout_toolbar"/>
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_margin="@dimen/h16">
 
-    <android.support.v4.widget.NestedScrollView
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_back_blue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/blue_top"
+            android:text="修改密码"/>
+        <TextView
+            android:id="@+id/completBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/blue_top"
+            android:text="完成" />
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbarlayout">
+        android:layout_below="@id/toolbarlayout"
+        android:orientation="vertical">
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@drawable/comm_toast_bg"
+            android:orientation="vertical"
+            android:padding="@dimen/h16">
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/h16"
-                android:background="@drawable/comm_toast_bg"
-                android:orientation="vertical">
+                android:text="@string/act_wallet_create_notify1"
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_smallsize" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/act_wallet_create_notify1"
-                    android:textColor="@color/main_blue"
-                    android:textSize="@dimen/txt_smallsize"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/act_wallet_create_notify2"
-                    android:textColor="@color/main_blue"
-                    android:textSize="@dimen/txt_smallsize"/>
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/oldPwdEdit"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h50"
-                android:hint="当前密码"
-                android:layout_marginLeft="@dimen/h16"
-                android:layout_marginRight="@dimen/h16"
-                android:layout_marginTop="@dimen/h16"
-                android:textSize="@dimen/txt_mediumsize"
-                android:textColor="@color/library_33"
-                />
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/newPwdEt"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h50"
-                android:hint="新密码"
-                android:layout_marginLeft="@dimen/h16"
-                android:layout_marginRight="@dimen/h16"
-                android:layout_marginTop="@dimen/h16"
-                android:textSize="@dimen/txt_mediumsize"
-                android:textColor="@color/library_33"
-                android:inputType="textPassword"
-                />
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/resetNewPwdEt"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h50"
-                android:hint="@string/wallet_create_respwd"
-                android:layout_marginLeft="@dimen/h16"
-                android:layout_marginRight="@dimen/h16"
-                android:layout_marginTop="@dimen/h16"
-                android:textSize="@dimen/txt_mediumsize"
-                android:textColor="@color/library_33"
-                android:inputType="textPassword"
-                />
-
-
-
-
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/act_wallet_create_notify2"
+                android:textColor="@color/main_blue"
+                android:textSize="@dimen/txt_smallsize" />
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/oldPwdEdit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginTop="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:hint="当前密码"
+            android:textColor="@color/library_33"
+            android:textSize="@dimen/txt_mediumsize" />
 
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/newPwdEt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginTop="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:hint="新密码"
+            android:inputType="textPassword"
+            android:textColor="@color/library_33"
+            android:textSize="@dimen/txt_mediumsize" />
 
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/resetNewPwdEt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginTop="@dimen/h16"
+            android:layout_marginRight="@dimen/h16"
+            android:hint="@string/wallet_create_respwd"
+            android:inputType="textPassword"
+            android:textColor="@color/library_33"
+            android:textSize="@dimen/txt_mediumsize" />
+
+    </LinearLayout>
 
 </RelativeLayout>

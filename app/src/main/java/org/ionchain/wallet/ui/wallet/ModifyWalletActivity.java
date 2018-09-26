@@ -1,18 +1,18 @@
 package org.ionchain.wallet.ui.wallet;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fast.lib.event.CommonEvent;
 import com.fast.lib.logger.Logger;
-import com.fast.lib.utils.LibSPUtils;
 import com.fast.lib.utils.ToastUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
@@ -26,97 +26,52 @@ import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
-import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.widget.DialogImportPrivKey;
 import org.ionchain.wallet.widget.DialogPasswordCheck;
 import org.ionchain.wallet.widget.IONCTitleBar;
 
-import butterknife.BindView;
-
+import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
+import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
 import static org.ionchain.wallet.dao.WalletDaoTools.updateWallet;
 
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
  */
-public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallback, OnImportPrivateKeyCallback {
+public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCallback, OnImportPrivateKeyCallback, View.OnClickListener {
 
-
-    final int REQUEST_MODIFY_WALLET_PWD = 100;
-
-    @BindView(R.id.walletAddressTv)
-    TextView walletAddressTv;
-
-    @BindView(R.id.walletBalanceTv)
-    TextView walletBalanceTv;
-
-    @BindView(R.id.walletNameEt)
-    AppCompatEditText walletNameEt;
 
     WalletBean mWallet;
 
     QMUIDialog dialog;
 
+    private Button delBtn;
+    private TextView walletBalanceTv;
+    private TextView walletAddressTv;
+    private AppCompatEditText walletNameEt;
+    private RelativeLayout modifyPwdLayout;
+    private RelativeLayout importLayout;
 
-    @Override
-    public void handleMessage(int what, Object obj) {
-        super.handleMessage(what, obj);
-        try {
+    /**
+     * Find the Views in the layout<br />
+     * <br />
+     * Auto-created on 2018-09-26 14:47:05 by Android Layout Finder
+     * (http://www.buzzingandroid.com/tools/android-layout-finder)
+     */
+    private void findViews() {
+        delBtn = (Button) findViewById(R.id.delBtn);
+        walletBalanceTv = (TextView) findViewById(R.id.walletBalanceTv);
+        walletAddressTv = (TextView) findViewById(R.id.walletAddressTv);
+        walletNameEt = (AppCompatEditText) findViewById(R.id.walletNameEt);
+        modifyPwdLayout = (RelativeLayout) findViewById(R.id.modifyPwdLayout);
+        importLayout = (RelativeLayout) findViewById(R.id.importLayout);
 
-            switch (what) {
-                case R.id.navigationBack:
-                    finish();
-                    break;
-                case Comm.modify_wallet_refresh_type:
-                    CommonEvent event = (CommonEvent) obj;
-
-                    if (event.getData() == null)
-                        return;
-
-                    WalletBean wallet = (WalletBean) event.getData();
-
-                    mWallet = wallet;
-
-                    break;
-                case R.id.copyBtn:
-                    StringUtils.copy(this, mWallet.getPrivateKey());
-                    ToastUtil.showShortToast("已复制到剪切板");
-                    dialog.dismiss();
-
-                    break;
-
-                case R.id.delBtn:
-                    delwallet();
-
-                    break;
-                case R.id.modifyPwdLayout:
-                    transfer(ModifyWalletPwdActivity.class, Comm.SERIALIZABLE_DATA, mWallet);
-                    break;
-                case R.id.importLayout:
-                    showEditTextDialog();
-                    break;
-
-                case 0:
-                    dismissProgressDialog();
-                    if (obj == null)
-                        return;
-
-                    ResponseModel<String> responseModel = (ResponseModel) obj;
-                    if (!verifyStatus(responseModel)) {
-                        ToastUtil.showShortToast(responseModel.getMsg());
-                        return;
-                    }
-
-
-                    break;
-            }
-
-        } catch (Throwable e) {
-            Logger.e(e, TAG);
-        }
+        delBtn.setOnClickListener(this);
+        modifyPwdLayout.setOnClickListener(this);
+        importLayout.setOnClickListener(this);
     }
-
 
     @SuppressLint("HandlerLeak")
     Handler walletHandler = new Handler() {
@@ -141,7 +96,7 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
                         }
                         break;
                     case WALLET_EXPORT_PRIVATEKEY:
-                        dismissProgressDialog();
+                        hideProgress();
                         if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
                             String data = responseModel.getData();
                             mWallet.setPrivateKey(data);
@@ -160,10 +115,32 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
         }
     };
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setSystemBar(false);
-        super.onCreate(savedInstanceState);
+    protected void initData() {
+
+        if (!TextUtils.isEmpty(mWallet.getAddress())) {
+            walletAddressTv.setText(mWallet.getAddress());
+        }
+
+        if (!TextUtils.isEmpty(mWallet.getName())) {
+            walletNameEt.setText(mWallet.getName());
+        }
+
+        WalletManager.getInstance().getAccountBalance(mWallet, this);
+
+    }
+
+    @Override
+    protected void handleIntent() {
+        super.handleIntent();
+        mWallet = (WalletBean) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
+    }
+
+    @Override
+    protected void initView() {
+        findViews();
+
         final IONCTitleBar ioncTitleBar = findViewById(R.id.ionc_title_bar);
         ioncTitleBar.setTitle(mWallet.getName());
         ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
@@ -187,36 +164,8 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
     }
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_wallet_modify);
-        getViewById(R.id.importLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showEditTextDialog();
-            }
-        });
-        mWallet = (WalletBean) getIntent().getSerializableExtra(Comm.SERIALIZABLE_DATA);
-    }
-
-    @Override
-    protected void setListener() {
-        setOnClickListener(R.id.delBtn);
-        setOnClickListener(R.id.modifyPwdLayout);
-    }
-
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-
-        if (!TextUtils.isEmpty(mWallet.getAddress())) {
-            walletAddressTv.setText(mWallet.getAddress());
-        }
-
-        if (!TextUtils.isEmpty(mWallet.getName())) {
-            walletNameEt.setText(mWallet.getName());
-        }
-
-        WalletManager.getInstance().getAccountBalance(mWallet, this);
-
+    protected int getLayoutId() {
+        return R.layout.activity_wallet_modify;
     }
 
 
@@ -239,7 +188,7 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
                 String pwd1 = dialog.getPasswordEt().getText().toString();
                 if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
                     dialog.dismiss();
-                    showProgressDialog("正在导出请稍候");
+                    showProgress("正在导出请稍候");
                     WalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
                 } else {
                     ToastUtil.showToastLonger("请检查密码是否正确！");
@@ -295,54 +244,39 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
                             ToastUtil.showToastLonger("你输入的密码有误！");
                             return;
                         }
-                        if (WalletDaoTools.getAllWallet().size()==1) {
+                        if (WalletDaoTools.getAllWallet().size() == 1) {
                             ToastUtil.showToastLonger("不能删除该钱包，您必须至少有一个钱包");
                             return;
                         }
-                        String nowWalletName = (String) LibSPUtils.get(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULL);
 
                         WalletManager.getInstance().deleteWallet(mWallet);
-//                        if (nowWalletName.equals(mWallet.getName())) {
-//                            WalletBean topWallet = WalletDaoTools.getWalletTop();
-//                            if (null == topWallet) {
-//                                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, Comm.NULLWALLET);
-//                                WalletBean nullWallet = new WalletBean();
-//                                nullWallet.setName(Comm.NULLWALLETNAME);
-//                                nullWallet.setAddress(Comm.NULLWALLETNAME);
-//                                ApiWalletManager.getInstance().setMainWallet(nullWallet);
-//                            } else {
-//                                LibSPUtils.put(ModifyWalletActivity.this.getApplicationContext(), Comm.LOCAL_SAVE_NOW_WALLET_NAME, topWallet.getName());
-//                                ApiWalletManager.getInstance().setMainWallet(topWallet);
-//                            }
-//                        }
 
-                        //删除的是主钱包
                         finish();
                     }
                 }).show();
 
     }
 
-    @Override
-    public int getActivityMenuRes() {
-        return R.menu.menu_wallet_modify;
-    }
-
-    @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return R.drawable.qmui_icon_topbar_back;
-    }
-
-    @Override
-    public int getActivityTitleContent() {
-        return R.string.activity_modify_wallet;
-    }
-
-
-    @Override
-    protected boolean isRegisterEventBus() {
-        return true;
-    }
+//    @Override
+//    public int getActivityMenuRes() {
+//        return R.menu.menu_wallet_modify;
+//    }
+//
+//    @Override
+//    public int getHomeAsUpIndicatorIcon() {
+//        return R.drawable.qmui_icon_topbar_back;
+//    }
+//
+//    @Override
+//    public int getActivityTitleContent() {
+//        return R.string.activity_modify_wallet;
+//    }
+//
+//
+//    @Override
+//    protected boolean isRegisterEventBus() {
+//        return true;
+//    }
 
     @Override
     public void onBalanceSuccess(WalletBean walletBean) {
@@ -357,11 +291,52 @@ public class ModifyWalletActivity extends BaseActivity implements OnBalanceCallb
     @Override
     public void onImportPriKeySuccess(String privateKey) {
         showImportPrivateKeyDialog(privateKey);
-        dismissProgressDialog();
+        hideProgress();
     }
 
     @Override
     public void onImportPriKeyFailure(String erroe) {
-        dismissProgressDialog();
+        hideProgress();
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.navigationBack:
+                finish();
+                break;
+
+            case R.id.copyBtn:
+                StringUtils.copy(this, mWallet.getPrivateKey());
+                ToastUtil.showShortToast("已复制到剪切板");
+                dialog.dismiss();
+
+                break;
+
+            case R.id.delBtn:
+                delwallet();
+
+                break;
+            case R.id.modifyPwdLayout:
+                intent = new Intent(mActivity, ModifyWalletPwdActivity.class);
+                intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, mWallet);
+                startActivityForResult(intent, REQUEST_MODIFY_WALLET_PWD);
+                break;
+            case R.id.importLayout:
+                showEditTextDialog();
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "onActivityResult1: " + mWallet.getKeystore());
+        if (requestCode == REQUEST_MODIFY_WALLET_PWD && data != null) {
+            mWallet = (WalletBean) data.getSerializableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
+        }
+        Log.i(TAG, "onActivityResult2: " + mWallet.getKeystore());
     }
 }

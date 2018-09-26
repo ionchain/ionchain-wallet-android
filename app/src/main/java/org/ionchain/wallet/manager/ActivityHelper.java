@@ -96,8 +96,7 @@ public class ActivityHelper {
         try {  
             finishAllActivity();  
             android.app.ActivityManager activityManager = (android.app.ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            activityManager.restartPackage(context.getPackageName());  
-            System.exit(0);  
+            System.exit(0);
         } catch (Exception e) {  
             e.printStackTrace();  
         }  

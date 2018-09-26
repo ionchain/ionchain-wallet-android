@@ -15,8 +15,8 @@ import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.callback.OnBalanceCallback;
 import org.ionchain.wallet.comm.api.conf.ApiConfig;
 import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
-import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
+import org.ionchain.wallet.utils.myweb3j.MnemonicUtils;
+import org.ionchain.wallet.utils.myweb3j.SecureRandomUtils;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
@@ -546,13 +546,7 @@ public class ApiWalletManager {
 
         return new Bip39Wallet(walletFile, mnemonic);
     }
-    /*public ResponseModel<String> createWallet(WalletCreateRquest request) {
-        ResponseModel<String> responseModel = new ResponseModel<String>();
-        responseModel.data = "123123123";
-        responseModel.code = String.valueOf(ApiConstant.ApiErrCode.SUCCESS.getDesc());
-        responseModel.msg = String.valueOf(ApiConstant.ApiErrMsg.SUCCESS.getDesc());
-        return responseModel;
-    }*/
+
 
     /**
      * 发送消息

@@ -25,7 +25,7 @@ import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.ui.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 
@@ -81,7 +81,24 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestCodeCreatePermissions();
+                String walletname = walletNameEt.getText().toString().trim();
+                String resetpass = resetPwdEt.getText().toString().trim();
+                String pass = pwdEt.getText().toString().trim();//获取密码
+
+                if (!resetpass.equals(pass)) {
+                    ToastUtil.showShortToast("密码和重复密码必须相同");
+                    return;
+                }
+
+                /*
+                 * 从数据库比对，重复检查
+                 * */
+                if (null != WalletDaoTools.getWalletByName(walletname)) {
+                    Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                WalletManager.getInstance().createBip39Wallet(walletname, pass, CreateWalletActivity.this);
             }
         });
         importBtn.setOnClickListener(new View.OnClickListener() {

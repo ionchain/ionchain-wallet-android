@@ -18,7 +18,7 @@ import org.ionchain.wallet.bean.DeviceListBean;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.ui.base.AbsBaseFragment;
+import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.NetUtils;
 import org.ionchain.wallet.utils.StringUtils;
 

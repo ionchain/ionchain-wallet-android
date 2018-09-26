@@ -10,7 +10,7 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.manager.ActivityHelper;
-import org.ionchain.wallet.ui.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.mvp.view.fragment.DevicesFragment;
 import org.ionchain.wallet.mvp.view.fragment.HomeFragment;
 import org.ionchain.wallet.mvp.view.fragment.MineFragment;
@@ -78,7 +78,7 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
                 ToastUtil.showShortToast(getString(R.string.exit_app));
                 mExitTime = System.currentTimeMillis();
             } else {
-                ActivityHelper.getHelper().AppExit(this);
+                ActivityHelper.getHelper().finishAllActivity();
             }
             return false;
         }

@@ -17,7 +17,7 @@ import org.ionchain.wallet.adpter.WalletManageAdapter;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.ui.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
 import org.ionchain.wallet.ui.wallet.ImportWalletActivity;
 import org.ionchain.wallet.ui.wallet.ModifyWalletActivity;

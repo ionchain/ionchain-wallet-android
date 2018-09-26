@@ -1,9 +1,9 @@
 package org.ionchain.wallet.manager;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
+import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.encrypt.base.TextUtils;
 
 import org.ionchain.wallet.App;
@@ -11,11 +11,12 @@ import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.callback.OnBalanceCallback;
 import org.ionchain.wallet.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.callback.OnImportPrivateKeyCallback;
+import org.ionchain.wallet.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.callback.OnTransationCallback;
-import org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils;
-import org.ionchain.wallet.comm.api.myweb3j.SecureRandomUtils;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.utils.RandomUntil;
+import org.ionchain.wallet.utils.myweb3j.MnemonicUtils;
+import org.ionchain.wallet.utils.myweb3j.SecureRandomUtils;
 import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -44,8 +45,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.ionchain.wallet.comm.api.ApiWalletManager.DEF_WALLET_PATH;
-import static org.ionchain.wallet.comm.api.myweb3j.MnemonicUtils.generateMnemonic;
+import static org.ionchain.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
+import static org.ionchain.wallet.utils.myweb3j.MnemonicUtils.generateMnemonic;
 import static org.web3j.crypto.Hash.sha256;
 
 /**
@@ -55,11 +57,12 @@ import static org.web3j.crypto.Hash.sha256;
  * 钱包的创建
  * 获获取余额{@link WalletManager#getAccountBalance(WalletBean, OnBalanceCallback)}
  */
+@SuppressWarnings({"JavaDoc", "ResultOfMethodCallIgnored"})
 public class WalletManager {
     private volatile static WalletManager mInstance;
     private static Web3j web3j;
     private Context mContext;
-    private String keystoreDir = Environment.getExternalStorageDirectory().toString() + "/ionchain/keystore";
+    private String keystoreDir;
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
 
     private BigDecimal mDefaultPrice;
@@ -125,18 +128,20 @@ public class WalletManager {
      */
     public void initWeb3j(Context context) {
         if (web3j == null) {
-            web3j = Web3jFactory.build(new HttpService("http://192.168.23.149:8545"));
+            web3j = Web3jFactory.build(new HttpService(IONC_CHAIN_NODE));
         }
         if (mContext == null) {
             mContext = context;
         }
+        keystoreDir = context.getExternalCacheDir() + "/ionchain/keystore";
+        Log.i(TAG, "initWeb3j: 文件创建成功 keystoreDir = " + keystoreDir);
         //创建keystore路径
         File file = new File(keystoreDir);
         if (!file.exists()) {
             boolean crate = file.mkdirs();
         }
 
-
+        Log.i(TAG, "initWeb3j: 文件创建成功file =" + file.getPath());
         minFee = Convert.fromWei(Convert.toWei(String.valueOf(GWEI_MIN_VALUE), Convert.Unit.GWEI).multiply(BigDecimal.valueOf(30000)), Convert.Unit.ETHER);
         maxFee = Convert.fromWei(Convert.toWei(String.valueOf(GWEI_MAX_VALUE), Convert.Unit.GWEI).multiply(BigDecimal.valueOf(30000)), Convert.Unit.ETHER);
         Log.i(TAG, "minFee: " + minFee);
@@ -204,6 +209,8 @@ public class WalletManager {
             if (!dest.exists()) {
                 dest.mkdir();
             }
+            Log.i(TAG, "initWeb3j: 文件创建成功" + dest.getPath());
+
             byte[] initialEntropy = new byte[16];
             secureRandom.nextBytes(initialEntropy);//产红一个随机数
 
@@ -217,10 +224,11 @@ public class WalletManager {
             //完成钱包的创建
             String walletFile = WalletUtils.generateWalletFile(password, privateKey, dest, false);
             Bip39Wallet bip39Wallet = new Bip39Wallet(walletFile, mnemonic);
-            ;
             String keystore = dest + "/" + bip39Wallet.getFilename();
             String c = bip39Wallet.getMnemonic();
             Log.i("cccc", "createBip39Wallet: " + c);
+            String cc = bip39Wallet.getFilename();
+            Log.i("cccc", "createBip39Wallet: " + cc);
             WalletBean wallet = loadWalletFile(password, bip39Wallet.getFilename());
             wallet.setKeystore(keystore);
             wallet.setName(name);
@@ -384,6 +392,7 @@ public class WalletManager {
      */
     public void transaction(final String from, final String to, final BigDecimal currentGasPrice, final String privateKey, final double account, final OnTransationCallback callback) {
         new Thread() {
+            @SuppressWarnings("UnnecessaryLocalVariable")
             @Override
             public void run() {
                 super.run();
@@ -414,24 +423,22 @@ public class WalletManager {
                 String signedData;
                 try {
                     signedData = signTransaction(nonce, gasPrice, gasLimit, toAddress, value, data, chainId, privateKey);
-                    if (signedData != null) {
-                        EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();
-                        final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
-                        if (!TextUtils.isEmpty(hashTx)) {
-                            App.mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    callback.OnTxSuccess(hashTx);
-                                }
-                            });
-                        } else {
-                            App.mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    callback.onTxFailure("null......");
-                                }
-                            });
-                        }
+                    EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();
+                    final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
+                    if (!TextUtils.isEmpty(hashTx)) {
+                        App.mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.OnTxSuccess(hashTx);
+                            }
+                        });
+                    } else {
+                        App.mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onTxFailure("null......");
+                            }
+                        });
                     }
                 } catch (final IOException e) {
                     App.mHandler.post(new Runnable() {
@@ -517,4 +524,57 @@ public class WalletManager {
         }
         WalletDaoTools.deleteWallet(walletBean.getId());
     }
+
+    /**
+     * 没有所谓的 修改密码 修改的密码实现是 利用私匙重新生成一个keystore
+     *
+     * @param wallet
+     * @param newPassWord
+     * @param callback
+     */
+    public void modifyPassWord(final WalletBean wallet, final String newPassWord, final OnModifyWalletPassWordCallback callback) {
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+
+                try {
+                    Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());
+                    if (null == credentials || !credentials.getAddress().equals(wallet.getAddress())) {
+                        callback.onModifyFailure("修改失败！");
+                        return;
+                    }
+                    wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
+                    String keystore;
+                    String key = wallet.getPrivateKey();
+                    Log.i("key", "importWallt: " + key);
+                    BigInteger privateKeyBig = new BigInteger(key, 16);
+                    ECKeyPair ecKeyPair = ECKeyPair.create(privateKeyBig);
+                    keystore = WalletUtils.generateWalletFile(newPassWord, ecKeyPair, new File(keystoreDir), false);
+                    keystore = keystoreDir + "/" + keystore;
+
+                    Logger.i("new keystore ==>" + keystore);
+
+                    //发生更换了
+                    if (null != wallet.getKeystore() && !wallet.getKeystore().equals(keystore)) {
+                        String old = wallet.getKeystore();
+                        //删除旧的keystore
+                        File file = new File(old);
+                        if (file.exists()) {
+                            file.delete();
+                        }
+                    }
+                    wallet.setKeystore(keystore);
+                    wallet.setPassword(newPassWord);
+                    callback.onModifySuccess(wallet);
+                } catch (Exception e) {
+                    Log.e("wallet", "", e);
+                    callback.onModifyFailure(e.getMessage());
+                }
+
+            }
+        }.start();
+    }
+
 }

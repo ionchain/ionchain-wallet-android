@@ -22,25 +22,16 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/app_bar"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/h10"
-            android:paddingTop="@dimen/h10">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/back"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/qmui_topbar_height"
-                android:background="@color/transparent"
-                android:visibility="gone"
-                app:navigationIcon="?attr/homeAsUpIndicator"
-                app:titleTextColor="@color/white" />
+            android:paddingTop="@dimen/h10"
+            android:paddingBottom="@dimen/h10">
 
             <include layout="@layout/custom_title_bar" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h40"
-                android:layout_marginTop="@dimen/h10"
                 android:layout_marginLeft="@dimen/h16"
+                android:layout_marginTop="@dimen/h10"
                 android:layout_marginRight="@dimen/h16"
                 android:gravity="center|bottom"
                 android:orientation="horizontal">
@@ -73,8 +64,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/h16"
-                android:layout_marginRight="@dimen/h16"
                 android:layout_marginTop="@dimen/h10"
+                android:layout_marginRight="@dimen/h16"
                 android:orientation="vertical">
 
                 <TextView
@@ -102,8 +93,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
             android:layout_marginTop="@dimen/h10"
+            android:layout_marginRight="@dimen/h16"
             android:text="钱包名"
             android:textSize="@dimen/txt_mediumsize" />
 

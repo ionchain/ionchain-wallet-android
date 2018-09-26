@@ -7,8 +7,8 @@ import android.widget.RelativeLayout;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.ui.base.AbsBaseActivity;
-import org.ionchain.wallet.ui.wallet.CreateWalletActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
 /**
  * Created by siberiawolf on 17/4/28.
@@ -30,7 +30,7 @@ public class WelcomeActivity extends AbsBaseActivity {
                 if (WalletDaoTools.getAllWallet() != null && WalletDaoTools.getAllWallet().size() > 0) {
                     skip(MainActivity.class);
                 } else {
-                    skip(CreateWalletActivity.class);
+                    skip(CreateWalletSelectActivity.class);
                 }
             }
 

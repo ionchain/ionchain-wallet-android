@@ -1,66 +1,50 @@
 package org.ionchain.wallet.ui.wallet;
 
 import android.os.Bundle;
-import android.widget.CheckBox;
+import android.view.View;
+import android.widget.Button;
 
-import com.fast.lib.logger.Logger;
-import com.fast.lib.utils.ToastUtil;
 import com.gyf.barlibrary.ImmersionBar;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
-import org.ionchain.wallet.ui.comm.BaseActivity;
-import org.ionchain.wallet.ui.comm.ScanActivity;
-
-import butterknife.BindView;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
 /**
  * 创建钱包。导入钱包，第一次安装时，由启动页跳转过来
  */
-public class CreateWalletSelectActivity extends BaseActivity {
+public class CreateWalletSelectActivity extends AbsBaseActivity {
 
-    @BindView(R.id.checkbox)
-    CheckBox checkbox;
 
-    @Override
-    public void handleMessage(int what, Object obj) {
-        super.handleMessage(what, obj);
-        try{
 
-            switch (what){
-                case R.id.navigationBack:
-                    finish();
-                    break;
-                case R.id.createBtn:
-                    transfer(CreateWalletActivity.class);
+    private Button createBtn;
+    private Button importBtn;
 
-                    break;
-                case R.id.importBtn:
-                    transfer(ImportWalletActivity.class);
-                    break;
-                case 0:
-                    dismissProgressDialog();
-                    if(obj == null)
-                        return;
-
-                    ResponseModel<String> responseModel = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel)){
-                        ToastUtil.showShortToast(responseModel.getMsg());
-                        return;
-                    }
-                    transfer(ScanActivity.class, 999);
-
-                    break;
+    /**
+     * Find the Views in the layout<br />
+     * <br />
+     * Auto-created on 2018-09-19 19:22:58 by Android Layout Finder
+     * (http://www.buzzingandroid.com/tools/android-layout-finder)
+     */
+    private void findViews() {
+        createBtn = (Button)findViewById( R.id.createBtn );
+        importBtn = (Button)findViewById( R.id.importBtn );
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip(CreateWalletActivity.class);
             }
-
-        }catch (Throwable e){
-            Logger.e(e,TAG);
-        }
+        });
+        importBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip(ImportWalletActivity.class);
+            }
+        });
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setSystemBar(false);
         super.onCreate(savedInstanceState);
 
         ImmersionBar.with(this)
@@ -72,35 +56,26 @@ public class CreateWalletSelectActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_create_wallet_select);
+    protected void initData() {
 
+    }
+
+
+
+    @Override
+    protected void initView() {
+        findViews();
     }
 
     @Override
-    protected void setListener() {
-        setOnClickListener(R.id.createBtn);
-        setOnClickListener(R.id.importBtn);
-
+    protected int getLayoutId() {
+        return R.layout.activity_create_wallet_select;
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-
+    protected void handleIntent() {
+        super.handleIntent();
+        requestCodeQRCodePermissions();
     }
 
-    @Override
-    public int getActivityMenuRes() {
-        return 0;
-    }
-
-    @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.arrow_back_blue;
-    }
-
-    @Override
-    public int getActivityTitleContent() {
-        return R.string.activity_create_wallet;
-    }
 }
