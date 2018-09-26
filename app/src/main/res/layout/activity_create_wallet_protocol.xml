@@ -4,10 +4,30 @@
     android:layout_height="match_parent">
 
 
-    <include
-        android:id="@+id/toolbarlayout"
-        layout="@layout/layout_toolbar"/>
+    <View
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
 
+    <RelativeLayout
+        android:id="@+id/toolbarlayout"
+        android:paddingLeft="@dimen/h16"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/arrow_back_blue"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue_top"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:text="IONToKen服务协议"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/bottom_layout"

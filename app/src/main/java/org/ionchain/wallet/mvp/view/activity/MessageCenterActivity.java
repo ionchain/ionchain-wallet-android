@@ -1,4 +1,4 @@
-package org.ionchain.wallet.ui.account;
+package org.ionchain.wallet.mvp.view.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

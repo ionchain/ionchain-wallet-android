@@ -1,9 +1,6 @@
-package org.ionchain.wallet.ui.wallet;
+package org.ionchain.wallet.mvp.view.activity.wallet;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,7 +9,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
@@ -20,9 +16,6 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.callback.OnBalanceCallback;
 import org.ionchain.wallet.callback.OnImportPrivateKeyCallback;
-import org.ionchain.wallet.comm.api.ApiWalletManager;
-import org.ionchain.wallet.comm.api.constant.ApiConstant;
-import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
@@ -73,47 +66,47 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
         importLayout.setOnClickListener(this);
     }
 
-    @SuppressLint("HandlerLeak")
-    Handler walletHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            try {
-                ApiConstant.WalletManagerType resulit = ApiConstant.WalletManagerType.codeOf(msg.what);
-                if (null == resulit) return;
-                ResponseModel<String> responseModel = (ResponseModel<String>) msg.obj;
-                switch (resulit) {
-                    case WALLET_BALANCE:
-                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            Logger.i("余额已刷新");
-                            if (!StringUtils.isEmpty(ApiWalletManager.getInstance().getMainWallet().getBalance())) {
-                                walletBalanceTv.setText(ApiWalletManager.getInstance().getMainWallet().getBalance());
-                            } else {
-                                walletBalanceTv.setText("0.0000");
-                            }
-                        } else {
-                            ToastUtil.showShortToast("余额刷新失败");
-                        }
-                        break;
-                    case WALLET_EXPORT_PRIVATEKEY:
-                        hideProgress();
-                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
-                            String data = responseModel.getData();
-                            mWallet.setPrivateKey(data);
-                            showImportPrivateKeyDialog("");
-                        } else {
-                            ToastUtil.showShortToast("请检查密码是否正确");
-                        }
-                        break;
-                    default:
-                        break;
-
-                }
-            } catch (Throwable e) {
-                Log.e(TAG, "handleMessage", e);
-            }
-        }
-    };
+//    @SuppressLint("HandlerLeak")
+//    Handler walletHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            try {
+//                ApiConstant.WalletManagerType resulit = ApiConstant.WalletManagerType.codeOf(msg.what);
+//                if (null == resulit) return;
+//                ResponseModel<String> responseModel = (ResponseModel<String>) msg.obj;
+//                switch (resulit) {
+//                    case WALLET_BALANCE:
+//                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+//                            Logger.i("余额已刷新");
+//                            if (!StringUtils.isEmpty(ApiWalletManager.getInstance().getMainWallet().getBalance())) {
+//                                walletBalanceTv.setText(ApiWalletManager.getInstance().getMainWallet().getBalance());
+//                            } else {
+//                                walletBalanceTv.setText("0.0000");
+//                            }
+//                        } else {
+//                            ToastUtil.showShortToast("余额刷新失败");
+//                        }
+//                        break;
+//                    case WALLET_EXPORT_PRIVATEKEY:
+//                        hideProgress();
+//                        if (responseModel.code.equals(ApiConstant.WalletManagerErrCode.SUCCESS.name())) {
+//                            String data = responseModel.getData();
+//                            mWallet.setPrivateKey(data);
+//                            showImportPrivateKeyDialog("");
+//                        } else {
+//                            ToastUtil.showShortToast("请检查密码是否正确");
+//                        }
+//                        break;
+//                    default:
+//                        break;
+//
+//                }
+//            } catch (Throwable e) {
+//                Log.e(TAG, "handleMessage", e);
+//            }
+//        }
+//    };
 
 
     @Override

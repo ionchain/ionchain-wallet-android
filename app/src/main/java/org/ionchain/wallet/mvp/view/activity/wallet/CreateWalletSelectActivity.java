@@ -1,4 +1,4 @@
-package org.ionchain.wallet.ui.wallet;
+package org.ionchain.wallet.mvp.view.activity.wallet;
 
 import android.os.Bundle;
 import android.view.View;

@@ -33,17 +33,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".ui.wallet.CreateWalletSelectActivity"
+            android:name=".mvp.view.activity.wallet.CreateWalletSelectActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".ui.wallet.CreateWalletProtocolActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name=".ui.wallet.CreateWalletActivity"
+            android:name=".mvp.view.activity.wallet.CreateWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
         <activity
@@ -51,7 +46,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.ImportWalletActivity"
+            android:name=".mvp.view.activity.wallet.ImportWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -71,15 +66,15 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.ModifyWalletActivity"
+            android:name=".mvp.view.activity.wallet.ModifyWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.ModifyWalletPwdActivity"
+            android:name=".mvp.view.activity.wallet.ModifyWalletPwdActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".mvp.view.activity.LoginActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -95,7 +90,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.account.MessageCenterActivity"
+            android:name=".mvp.view.activity.MessageCenterActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
         <activity

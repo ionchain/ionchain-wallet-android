@@ -1,4 +1,4 @@
-package org.ionchain.wallet.ui.wallet;
+package org.ionchain.wallet.mvp.view.activity.wallet;
 
 import android.content.Intent;
 import android.support.v7.widget.AppCompatEditText;
