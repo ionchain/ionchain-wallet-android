@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
 import java.nio.ByteBuffer;
 
@@ -21,76 +21,84 @@ import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
 
-public class ScanActivity extends BaseActivity implements QRCodeView.Delegate{
+public class ScanActivity extends AbsBaseActivity implements QRCodeView.Delegate{
 
     private static final int REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY = 666;
 
     private QRCodeView mQRCodeView;
 
+//    @Override
+//    public void handleMessage(int what, Object obj) {
+//        super.handleMessage(what, obj);
+//        try{
+//
+//            switch (what){
+//                case R.id.navigationBack:
+//                    finish();
+//                    break;
+//                case R.id.albumBtn:
+//                Intent photoPickerIntent = new BGAPhotoPickerActivity.IntentBuilder(this)
+//                        .cameraFileDir(null)
+//                        .maxChooseCount(1)
+//                        .selectedPhotos(null)
+//                        .pauseOnScroll(false)
+//                        .build();
+//                startActivityForResult(photoPickerIntent, REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY);
+//                    break;
+//                case 0:
+//                    dismissProgressDialog();
+//                    if(obj == null)
+//                        return;
+//
+//                    ResponseModel<String> responseModel = (ResponseModel)obj;
+//                    if(!verifyStatus(responseModel)){
+//                        ToastUtil.showShortToast(responseModel.getMsg());
+//                        return;
+//                    }
+//
+//
+//                    break;
+//            }
+//
+//        }catch (Throwable e){
+//            Logger.e(e,TAG);
+//        }
+//    }
+
+
     @Override
-    public void handleMessage(int what, Object obj) {
-        super.handleMessage(what, obj);
-        try{
-
-            switch (what){
-                case R.id.navigationBack:
-                    finish();
-                    break;
-                case R.id.albumBtn:
-                Intent photoPickerIntent = new BGAPhotoPickerActivity.IntentBuilder(this)
-                        .cameraFileDir(null)
-                        .maxChooseCount(1)
-                        .selectedPhotos(null)
-                        .pauseOnScroll(false)
-                        .build();
-                startActivityForResult(photoPickerIntent, REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY);
-                    break;
-                case 0:
-                    dismissProgressDialog();
-                    if(obj == null)
-                        return;
-
-                    ResponseModel<String> responseModel = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel)){
-                        ToastUtil.showShortToast(responseModel.getMsg());
-                        return;
-                    }
-
-
-                    break;
-            }
-
-        }catch (Throwable e){
-            Logger.e(e,TAG);
-        }
-    }
-
-    @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_scan);
-        mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
-        mQRCodeView = (ZXingView) findViewById(R.id.zbarview);
-
+    protected void initData() {
+        mQRCodeView.startSpot();
     }
 
     @Override
     protected void setListener() {
         mQRCodeView.setDelegate(this);
-
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-        mQRCodeView.startSpot();
+    protected void initView() {
+        mImmersionBar.titleBar(findViewById(R.id.header)).statusBarDarkFont(true).execute();
+        mQRCodeView = (ZXingView) findViewById(R.id.zbarview);
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_scan;
+    }
+
 
 
     @Override
     protected void onStart() {
         super.onStart();
         mQRCodeView.startCamera();
-//        mQRCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
-
         mQRCodeView.showScanRect();
     }
 
@@ -141,21 +149,6 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate{
         }catch (Throwable e){
             Logger.e(e,TAG);
         }
-    }
-
-    @Override
-    public int getActivityMenuRes() {
-        return 0;
-    }
-
-    @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.arrow_back_blue;
-    }
-
-    @Override
-    public int getActivityTitleContent() {
-        return R.string.activity_scan_title;
     }
 
 

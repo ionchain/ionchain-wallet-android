@@ -4,14 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
+    <View
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white" />
+
+    <RelativeLayout
+        android:layout_below="@id/header"
         android:id="@+id/toolbarlayout"
-        layout="@layout/layout_toolbar"/>
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_back_blue" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫一扫"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:textColor="@color/blue_top"/>
+    </RelativeLayout>
 
     <cn.bingoogolapple.qrcode.zxing.ZXingView
         android:id="@+id/zbarview"
-        android:layout_below="@id/toolbarlayout"
         style="@style/MatchMatch"
+        android:layout_below="@id/toolbarlayout"
         app:qrcv_animTime="1000"
         app:qrcv_barCodeTipText="将条码放入框内，即可自动扫描"
         app:qrcv_barcodeRectHeight="120dp"
@@ -33,6 +58,6 @@
         app:qrcv_rectWidth="300dp"
         app:qrcv_scanLineColor="@color/qmui_config_color_blue"
         app:qrcv_toolbarHeight="56dp"
-        app:qrcv_topOffset="20dp"/>
+        app:qrcv_topOffset="20dp" />
 
 </RelativeLayout>
