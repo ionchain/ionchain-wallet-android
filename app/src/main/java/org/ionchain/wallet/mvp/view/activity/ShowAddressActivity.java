@@ -1,7 +1,5 @@
-package org.ionchain.wallet.ui.main;
+package org.ionchain.wallet.mvp.view.activity;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,11 +8,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.StringUtils;
-import org.ionchain.wallet.ui.comm.BaseActivity;
 
-public class ShowAddressActivity extends BaseActivity {
+public class ShowAddressActivity extends AbsBaseActivity {
     private ImageView bgImg;
     private RelativeLayout showTitle;
     private ImageView back;
@@ -42,12 +40,15 @@ public class ShowAddressActivity extends BaseActivity {
         showQrImg.setImageBitmap(QRCodeUtils.generateQRCode(msg, 200));
     }
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_show_address);
-        findViews();
-        mImmersionBar.titleBar(findViewById(R.id.show_title)).statusBarDarkFont(false).init();
+    protected void initData() {
+
+    }
+
+
+    @Override
+    protected void setListener() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,33 +69,16 @@ public class ShowAddressActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected void initView() {
+        findViews();
+        mImmersionBar.titleBar(R.id.show_title).statusBarDarkFont(false).execute();
 
     }
 
     @Override
-    protected void setListener() {
-
+    protected int getLayoutId() {
+        return R.layout.layout_show_address;
     }
 
-    @Override
-    protected void initData(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public int getActivityMenuRes() {
-        return 0;
-    }
-
-    @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return 0;
-    }
-
-    @Override
-    public int getActivityTitleContent() {
-        return 0;
-    }
 
 }

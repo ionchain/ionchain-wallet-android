@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.main.WelcomeActivity"
+            android:name=".mvp.view.activity.WelcomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleFullscreen"
@@ -47,7 +47,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.comm.ScanActivity"
+            android:name=".mvp.view.activity.ScanActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -111,7 +111,7 @@
         <!-- android:value="85cab502850c3752c3b26615477e4dc8" /> -->
 
         <activity
-            android:name=".ui.main.ShowAddressActivity"
+            android:name=".mvp.view.activity.ShowAddressActivity"
             android:label="@string/title_activity_show_address"
             android:theme="@style/AppTheme" />
         <activity android:name=".mvp.view.activity.TxActivity"/>

@@ -1,4 +1,4 @@
-package org.ionchain.wallet.ui.main;
+package org.ionchain.wallet.mvp.view.activity;
 
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -6,7 +6,6 @@ import android.widget.RelativeLayout;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 

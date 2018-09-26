@@ -21,7 +21,7 @@ import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.utils.CheckUtil;
 import org.ionchain.wallet.ui.comm.BaseFragment;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
-import org.ionchain.wallet.ui.login.view.CountTimer;
+import org.ionchain.wallet.utils.CountTimer;
 
 import java.sql.Date;
 

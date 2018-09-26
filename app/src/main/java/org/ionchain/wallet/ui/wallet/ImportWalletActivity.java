@@ -23,7 +23,7 @@ import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.ui.comm.ScanActivity;
+import org.ionchain.wallet.mvp.view.activity.ScanActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
 import org.ionchain.wallet.utils.StringUtils;
 

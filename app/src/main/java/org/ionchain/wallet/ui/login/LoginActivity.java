@@ -1,153 +1,99 @@
 package org.ionchain.wallet.ui.login;
 
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.fast.lib.logger.Logger;
 import com.fast.lib.utils.ToastUtil;
-import com.google.gson.reflect.TypeToken;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.api.ApiLogin;
-import org.ionchain.wallet.comm.api.ApiWalletManager;
-import org.ionchain.wallet.comm.api.request.ViewParm;
-import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
-import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.utils.SPUtils;
-import org.ionchain.wallet.bean.UserModel;
-import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.ui.comm.BaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.login.forget.ForgetPasswordActivity;
 import org.ionchain.wallet.ui.login.register.RegisterActivity;
-import org.ionchain.wallet.ui.wallet.CreateWalletSelectActivity;
 
-import butterknife.BindView;
+public class LoginActivity extends AbsBaseActivity implements TextWatcher{
 
-public class LoginActivity extends BaseActivity implements TextWatcher{
+    private RelativeLayout toolbarlayout;
+    private ImageView back;
+    private TextView regTv;
+    private ImageView headIv;
+    private AppCompatEditText mobileEt;
+    private AppCompatEditText pwdEt;
+    private Button loginBtn;
+    private TextView forgetTv;
 
-    @BindView(R.id.mobileEt)
-    AppCompatEditText mobileEt;
-
-    @BindView(R.id.pwdEt)
-    AppCompatEditText pwdEt;
-
-    @BindView(R.id.loginBtn)
-    Button loginBtn;
-
-    @Override
-    public void handleMessage(int what, Object obj) {
-        super.handleMessage(what, obj);
-        try{
-
-            switch (what){
-                case R.id.navigationBack:
-                    finish();
-                    break;
-                case R.id.loginBtn:
-                    login();
-                    break;
-                case R.id.forgetTv:
-                    transfer(ForgetPasswordActivity.class);
-                    break;
-                case 100:
-                    dismissProgressDialog();
-                    Log.e("wallet","OKOKOKOKOKO"+obj.toString());
-                    if(obj == null)
-                        return;
-
-                    ResponseModel<UserModel> responseModel2 = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel2)){
-                        ToastUtil.showShortToast(responseModel2.getMsg());
-                        return;
-                    }
-
-                    UserModel userModel = responseModel2.getData();
-
-                    SPUtils.put(Global.mContext, Comm.user, Global.mGson.toJson(userModel));
-                    Global.user = userModel;
-
-                    //EventBus.getDefault().post(new CommonEvent(Comm.user_info_refresh_type,null));
-
-
-                    if (com.fast.lib.utils.encrypt.base.TextUtils.isEmpty(ApiWalletManager.getInstance().getMainWallet().getName())) {
-                        transfer(CreateWalletSelectActivity.class);
-                    }else {
-                        transfer(MainActivity.class);
-                    }
-
-                    finish();
-
-
-
-
-                    //to do login OK
-                    break;
-                case R.id.regTv:
-                    transfer(RegisterActivity.class);
-                    break;
-                case 0:
-                    dismissProgressDialog();
-                    if(obj == null)
-                        return;
-
-                    ResponseModel<String> responseModel = (ResponseModel)obj;
-                    if(!verifyStatus(responseModel)){
-                        ToastUtil.showShortToast(responseModel.getMsg());
-                        return;
-                    }
-
-
-                    break;
-            }
-
-        }catch (Throwable e){
-            Logger.e(e,TAG);
-        }
+    /**
+     * Find the Views in the layout<br />
+     * <br />
+     * Auto-created on 2018-09-26 22:19:19 by Android Layout Finder
+     * (http://www.buzzingandroid.com/tools/android-layout-finder)
+     */
+    private void findViews() {
+        toolbarlayout = (RelativeLayout)findViewById( R.id.toolbarlayout );
+        back = (ImageView)findViewById( R.id.back );
+        regTv = (TextView)findViewById( R.id.regTv );
+        headIv = (ImageView)findViewById( R.id.headIv );
+        mobileEt = (AppCompatEditText)findViewById( R.id.mobileEt );
+        pwdEt = (AppCompatEditText)findViewById( R.id.pwdEt );
+        loginBtn = (Button)findViewById( R.id.loginBtn );
+        forgetTv = (TextView)findViewById( R.id.forgetTv );
     }
 
 
+
     @Override
-    protected void initView(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_login);
-        mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).init();
+    protected void initData() {
+        mImmersionBar.titleBar(findViewById(R.id.header)).statusBarDarkFont(true).execute();
     }
 
     @Override
     protected void setListener() {
-        setOnClickListener(R.id.regTv);
-        setOnClickListener(R.id.forgetTv);
-        setOnClickListener(R.id.loginBtn);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        regTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip(RegisterActivity.class);
+            }
+        });
+        forgetTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip(ForgetPasswordActivity.class);
+            }
+        });
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
         mobileEt.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
-
-
     }
 
     @Override
-    protected void initData(Bundle savedInstanceState) {
-
+    protected void initView() {
+        findViews();
     }
 
     @Override
-    public int getActivityMenuRes() {
-        return 0;
+    protected int getLayoutId() {
+        return R.layout.activity_login;
     }
 
-    @Override
-    public int getHomeAsUpIndicatorIcon() {
-        return R.mipmap.arrow_back_blue;
-    }
 
-    @Override
-    public int getActivityTitleContent() {
-        return R.string.activity_login_title;
-    }
+
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -188,18 +134,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher{
             return;
         }
 
-        ViewParm viewParm = new ViewParm(LoginActivity.this,null,new TypeToken<ResponseModel<UserModel>>(){}.getType(),100);
-//        ApiLogin.sendSmsCode("18764266691",viewParm);
-//        ApiLogin.register("18764266691","1234","123456Xyx","",viewParm);
-//        ApiLogin.login("18764266691","123456Xyx",viewParm);
-            ApiLogin.login(mobilestr,pwdstr,viewParm);
-            showProgressDialog();
-//        ApiLogin.sendSmsCode("18764266691",viewParm);
-//        ApiLogin.updatePassWord("18764266691","1234","1234567Xyx",viewParm);
-
-//        ApiArticle.getArticle("1","1","10",viewParm);
-//        ApiArticle.viewArticle("1",viewParm);
-//        ApiArticle.praiseArticle("1","1",viewParm);
 
     }
 }

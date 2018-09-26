@@ -19,7 +19,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.api.resphonse.ResponseModel;
 import org.ionchain.wallet.utils.CheckUtil;
 import org.ionchain.wallet.ui.comm.BaseFragment;
-import org.ionchain.wallet.ui.login.view.CountTimer;
+import org.ionchain.wallet.utils.CountTimer;
 
 import java.sql.Date;
 

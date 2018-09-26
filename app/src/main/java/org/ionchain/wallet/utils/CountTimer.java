@@ -1,4 +1,4 @@
-package org.ionchain.wallet.ui.login.view;
+package org.ionchain.wallet.utils;
 
 import android.os.CountDownTimer;
 import android.widget.TextView;
