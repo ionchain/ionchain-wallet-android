@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity;
+package org.ionchain.wallet.mvp.view.activity.wallet;
 
 import android.view.View;
 import android.widget.Button;

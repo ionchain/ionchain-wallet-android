@@ -13,7 +13,7 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.OnModifyWalletPassWordCallback;
+import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 

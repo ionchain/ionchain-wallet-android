@@ -11,10 +11,10 @@ import com.lzy.okgo.request.base.Request;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.DeviceListBean;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.OnBindDeviceCallback;
-import org.ionchain.wallet.callback.OnDeviceDetailCallback;
-import org.ionchain.wallet.callback.OnDeviceListCallback;
-import org.ionchain.wallet.callback.OnUnbindDeviceCallback;
+import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
+import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback;
+import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
+import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.utils.NetUtils;
 import org.json.JSONObject;
 

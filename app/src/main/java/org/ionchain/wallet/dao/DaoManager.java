@@ -1,7 +1,7 @@
 package org.ionchain.wallet.dao;
 
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.comm.constants.Comm;
-import org.ionchain.wallet.comm.constants.Global;
 import org.ionchain.wallet.greendao.gen.DaoMaster;
 import org.ionchain.wallet.greendao.gen.DaoSession;
 
@@ -11,7 +11,7 @@ public class DaoManager {
     private DaoSession mDaoSession;
 
     private DaoManager() {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(Global.mContext, Comm.DB_NAME, null);
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(App.mContext, Comm.DB_NAME, null);
         DaoMaster mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         mDaoSession = mDaoMaster.newSession();
     }

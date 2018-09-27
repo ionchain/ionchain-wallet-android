@@ -14,8 +14,8 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.OnBalanceCallback;
-import org.ionchain.wallet.callback.OnImportPrivateKeyCallback;
+import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
+import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;

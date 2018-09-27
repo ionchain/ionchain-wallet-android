@@ -8,11 +8,11 @@ import com.fast.lib.utils.encrypt.base.TextUtils;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.OnBalanceCallback;
-import org.ionchain.wallet.callback.OnCreateWalletCallback;
-import org.ionchain.wallet.callback.OnImportPrivateKeyCallback;
-import org.ionchain.wallet.callback.OnModifyWalletPassWordCallback;
-import org.ionchain.wallet.callback.OnTransationCallback;
+import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
+import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
+import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
+import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
+import org.ionchain.wallet.mvp.callback.OnTransationCallback;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.utils.RandomUntil;
 import org.ionchain.wallet.utils.myweb3j.MnemonicUtils;
@@ -44,8 +44,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.ionchain.wallet.comm.api.ApiWalletManager.DEF_WALLET_PATH;
-import static org.ionchain.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
+import static org.ionchain.wallet.constant.ConstantUrl.INC_CHAIN_NODE;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.utils.myweb3j.MnemonicUtils.generateMnemonic;
 import static org.web3j.crypto.Hash.sha256;
@@ -128,7 +127,7 @@ public class WalletManager {
      */
     public void initWeb3j(Context context) {
         if (web3j == null) {
-            web3j = Web3jFactory.build(new HttpService(IONC_CHAIN_NODE));
+            web3j = Web3jFactory.build(new HttpService(INC_CHAIN_NODE));
         }
         if (mContext == null) {
             mContext = context;
@@ -326,8 +325,8 @@ public class WalletManager {
             wallet.setAddress("0x" + Keys.getAddress(keyPair));
             wallet.setName(walletname);
             wallet.setPassword(passwrd);
-            String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(DEF_WALLET_PATH), false);
-            keystore = DEF_WALLET_PATH + "/" + keystore;
+            String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(keystoreDir), false);
+            keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
             wallet.setIconIdex(getNum(7));//设置随机的头像
             WalletDaoTools.saveWallet(wallet);

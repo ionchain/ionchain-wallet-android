@@ -16,14 +16,13 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.OnCreateWalletCallback;
-import org.ionchain.wallet.comm.api.ApiWalletManager;
+import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.mvp.view.activity.ScanActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
 import org.ionchain.wallet.utils.StringUtils;
 
@@ -107,7 +106,6 @@ public class ImportWalletActivity extends AbsBaseActivity implements TextWatcher
         super.handleIntent();
         Intent intent = getIntent();
         boolean isAddMode = intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE, false);
-        ApiWalletManager.printtest(isAddMode + "");
     }
 
     @Override

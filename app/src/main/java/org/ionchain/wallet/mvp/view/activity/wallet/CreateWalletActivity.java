@@ -19,8 +19,7 @@ import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.OnCreateWalletCallback;
-import org.ionchain.wallet.comm.api.ApiWalletManager;
+import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
@@ -29,12 +28,8 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.ui.comm.WebViewActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 
-import java.io.File;
-
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
-
-import static org.ionchain.wallet.utils.RandomUntil.getNum;
 
 public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback {
 
@@ -218,7 +213,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         super.handleIntent();
         Intent intent = getIntent();
         isAddMode = intent.getBooleanExtra(Comm.JUMP_PARM_ISADDMODE, false);
-        ApiWalletManager.printtest(isAddMode + "");
     }
 
     @Override
@@ -306,46 +300,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
             }
 
             WalletManager.getInstance().createBip39Wallet(walletname, pass, this);
-//            cerateWallet();
-
         }
-    }
-
-    private void cerateWallet() {
-        try {
-            //创建默认目录
-            File file = new File(ApiWalletManager.DEF_WALLET_PATH);
-            if (!file.exists()) {
-                boolean crate = file.mkdirs();
-            }
-            String walletname = walletNameEt.getText().toString().trim();
-            String resetpass = resetPwdEt.getText().toString().trim();
-            String pass = pwdEt.getText().toString().trim();//获取密码
-
-            if (!resetpass.equals(pass)) {
-                ToastUtil.showShortToast("密码和重复密码必须相同");
-                return;
-            }
-
-            /*
-             * 从数据库比对，重复检查
-             * */
-            if (null != WalletDaoTools.getWalletByName(walletname)) {
-                Toast.makeText(this.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            mCreateWallet = new WalletBean();
-            mCreateWallet.setName(walletname);
-            mCreateWallet.setPassword(pass);//设置密码
-            mCreateWallet.setIconIdex(getNum(7));//设置随机的头像
-
-            WalletManager.getInstance().createBip39Wallet(walletname, pass, this);
-//            showProgressDialog("正在创建钱包请稍候");
-            Log.e("wallet", "" + walletname + " " + resetpass + " " + pass);
-        } catch (Exception e) {
-            Log.e("wallet", "errr", e);
-        }
-
     }
 
     @Override

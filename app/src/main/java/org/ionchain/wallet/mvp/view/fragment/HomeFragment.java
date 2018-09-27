@@ -26,12 +26,12 @@ import org.ionchain.wallet.adapterhelper.device.DeviceViewHelper;
 import org.ionchain.wallet.adapterhelper.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.callback.OnBalanceCallback;
-import org.ionchain.wallet.callback.OnBindDeviceCallback;
-import org.ionchain.wallet.callback.OnCreateWalletCallback;
-import org.ionchain.wallet.callback.OnDeviceListCallback;
-import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
-import org.ionchain.wallet.callback.OnUnbindDeviceCallback;
+import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
+import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
+import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
+import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
+import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
+import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
@@ -39,7 +39,7 @@ import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.TxActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.mvp.view.activity.ScanActivity;
-import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
+import org.ionchain.wallet.mvp.view.activity.wallet.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.wallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.wallet.ImportWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.wallet.ModifyWalletActivity;
@@ -54,10 +54,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static org.ionchain.wallet.App.sRandomHeader;
 
-/**
- *
- *
- */
+
 public class HomeFragment extends AbsBaseFragment implements
         PopupWindowBuilder.OnItemBuilder,
         OnRefreshListener,

@@ -7,11 +7,10 @@ import android.widget.TextView;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.comm.constants.Global;
+import org.ionchain.wallet.mvp.view.activity.LoginActivity;
 import org.ionchain.wallet.mvp.view.activity.MessageCenterActivity;
 import org.ionchain.wallet.mvp.view.activity.WalletManageActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-import org.ionchain.wallet.mvp.view.activity.LoginActivity;
-import org.ionchain.wallet.ui.main.SettingActivity;
 
 public class MineFragment extends AbsBaseFragment {
 
@@ -42,11 +41,7 @@ public class MineFragment extends AbsBaseFragment {
         loginRegTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Global.user == null)
-                    skip(LoginActivity.class);
-                else {
-                    skip(SettingActivity.class);
-                }
+                skip(LoginActivity.class);
             }
         });
         walletManageRLayout.setOnClickListener(new View.OnClickListener() {

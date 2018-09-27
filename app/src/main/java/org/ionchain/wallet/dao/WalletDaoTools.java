@@ -12,7 +12,12 @@ public class WalletDaoTools {
 
     public static WalletBean getWalletByName(String name) {
         WalletBean wallet = null;
-        List<WalletBean> list = DaoManager.getInstance().getSession().getWalletBeanDao().queryBuilder().where(WalletBeanDao.Properties.Name.eq(name)).list();
+        List<WalletBean> list = DaoManager.getInstance()
+                .getSession()
+                .getWalletBeanDao()
+                .queryBuilder()
+                .where(WalletBeanDao.Properties.Name.eq(name))
+                .list();
         if (list.size() > 0) {
             wallet = list.get(0);
         }

@@ -106,7 +106,7 @@
         <!-- android:value="85cab502850c3752c3b26615477e4dc8" /> -->
 
         <activity
-            android:name=".mvp.view.activity.ShowAddressActivity"
+            android:name=".mvp.view.activity.wallet.ShowAddressActivity"
             android:label="@string/title_activity_show_address"
             android:theme="@style/AppTheme" />
         <activity android:name=".mvp.view.activity.TxActivity"/>
