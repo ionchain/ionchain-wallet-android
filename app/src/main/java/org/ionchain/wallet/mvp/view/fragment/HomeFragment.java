@@ -15,15 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fast.lib.utils.ToastUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.smart.holder.CommonAdapter;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapterhelper.device.DeviceViewHelper;
-import org.ionchain.wallet.adapterhelper.morewallet.MoreWalletViewHelper;
+import org.ionchain.wallet.adapter.device.DeviceViewHelper;
+import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
@@ -32,19 +31,19 @@ import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
-import org.ionchain.wallet.comm.constants.Comm;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.TxActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.mvp.view.activity.ScanActivity;
-import org.ionchain.wallet.mvp.view.activity.wallet.ShowAddressActivity;
-import org.ionchain.wallet.mvp.view.activity.wallet.CreateWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.wallet.ImportWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.wallet.ModifyWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
+import org.ionchain.wallet.mvp.view.activity.CreateWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.ImportWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.ModifyWalletActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
+import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogBindDevice;
 import org.ionchain.wallet.widget.PopupWindowBuilder;
 
@@ -53,6 +52,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static org.ionchain.wallet.App.sRandomHeader;
+import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 
 
 public class HomeFragment extends AbsBaseFragment implements
@@ -174,7 +174,7 @@ public class HomeFragment extends AbsBaseFragment implements
 
         mRefresh = view.findViewById(R.id.refresh_asset);
         mRefresh.setOnRefreshListener(this);
-        mBuilder = new PopupWindowBuilder(getActivity(), R.layout.layout_popup_list, this);
+        mBuilder = new PopupWindowBuilder(getActivity(), R.layout.item_popup_list_layout, this);
 
         mAdapterDeviceLv = new CommonAdapter(getActivity(), mDataBeans, R.layout.item_devices_layout, new DeviceViewHelper(this));
         mDevicesLv.setAdapter(mAdapterDeviceLv);
@@ -231,7 +231,7 @@ public class HomeFragment extends AbsBaseFragment implements
         modifyWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(ModifyWalletActivity.class, Comm.SERIALIZABLE_DATA, mCurrentWallet);
+                skip(ModifyWalletActivity.class, SERIALIZABLE_DATA, mCurrentWallet);
             }
         });
         /*

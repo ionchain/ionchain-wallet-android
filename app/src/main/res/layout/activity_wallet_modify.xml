@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:background="@color/blue_top"
         android:layout_margin="@dimen/h16"
         android:text="删除钱包" />
 

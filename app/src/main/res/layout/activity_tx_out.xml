@@ -125,6 +125,8 @@
     </RelativeLayout>
 
     <Button
+        android:textColor="@color/white"
+        android:background="@color/blue_top"
         android:id="@+id/tx_next"
         android:layout_width="324dp"
         android:layout_height="wrap_content"

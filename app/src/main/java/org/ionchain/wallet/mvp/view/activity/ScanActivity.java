@@ -7,11 +7,12 @@ import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.fast.lib.logger.Logger;
-import com.fast.lib.utils.ToastUtil;
+
+import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.utils.ToastUtil;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;

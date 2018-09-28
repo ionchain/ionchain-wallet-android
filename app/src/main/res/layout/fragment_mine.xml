@@ -72,6 +72,7 @@
             android:id="@+id/messageCenterRLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
+            android:visibility="gone"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
             android:layout_marginTop="@dimen/h16">
@@ -119,6 +120,7 @@
             android:layout_height="@dimen/h60"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/h16">
 
             <TextView
@@ -177,6 +179,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
+            android:visibility="gone"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
             android:layout_marginTop="@dimen/h16">

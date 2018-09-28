@@ -1,10 +1,11 @@
 package org.ionchain.wallet.manager;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
-import com.fast.lib.logger.Logger;
-import com.fast.lib.utils.encrypt.base.TextUtils;
+
+import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.bean.WalletBean;
@@ -118,9 +119,6 @@ public class WalletManager {
         return mInstance;
     }
 
-    public Web3j getWeb3j() {
-        return web3j;
-    }
 
     /**
      * 初始化节点
@@ -330,9 +328,29 @@ public class WalletManager {
             wallet.setKeystore(keystore);
             wallet.setIconIdex(getNum(7));//设置随机的头像
             WalletDaoTools.saveWallet(wallet);
-            callback.onCreateSuccess(wallet);
+            App.mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    App.mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onCreateSuccess(wallet);
+                        }
+                    });
+                }
+            });
         } catch (CipherException | IOException e) {
-            callback.onCreateFailure(e.getMessage());
+           App.mHandler.post(new Runnable() {
+               @Override
+               public void run() {
+                   App.mHandler.post(new Runnable() {
+                       @Override
+                       public void run() {
+                           callback.onCreateFailure(e.getMessage());
+                       }
+                   });
+               }
+           });
         }
     }
 
@@ -541,7 +559,17 @@ public class WalletManager {
                 try {
                     Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());
                     if (null == credentials || !credentials.getAddress().equals(wallet.getAddress())) {
-                        callback.onModifyFailure("修改失败！");
+                       App.mHandler.post(new Runnable() {
+                           @Override
+                           public void run() {
+                               App.mHandler.post(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       callback.onModifyFailure("修改失败！");
+                                   }
+                               });
+                           }
+                       });
                         return;
                     }
                     wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
@@ -566,10 +594,21 @@ public class WalletManager {
                     }
                     wallet.setKeystore(keystore);
                     wallet.setPassword(newPassWord);
-                    callback.onModifySuccess(wallet);
-                } catch (Exception e) {
+                    App.mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onModifySuccess(wallet);
+                        }
+                    });
+                } catch (final Exception e) {
                     Log.e("wallet", "", e);
-                    callback.onModifyFailure(e.getMessage());
+                    App.mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onModifyFailure(e.getMessage());
+                        }
+                    });
+
                 }
 
             }

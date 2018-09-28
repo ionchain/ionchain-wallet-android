@@ -5,12 +5,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.comm.constants.Global;
-import org.ionchain.wallet.mvp.view.activity.LoginActivity;
 import org.ionchain.wallet.mvp.view.activity.MessageCenterActivity;
-import org.ionchain.wallet.mvp.view.activity.WalletManageActivity;
+import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
+import org.ionchain.wallet.utils.ToastUtil;
 
 public class MineFragment extends AbsBaseFragment {
 
@@ -41,13 +41,13 @@ public class MineFragment extends AbsBaseFragment {
         loginRegTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(LoginActivity.class);
+                ToastUtil.showToastLonger("暂不需要登录，不影响钱包的使用");
             }
         });
         walletManageRLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(WalletManageActivity.class);
+                skip(ManageWalletActivity.class);
             }
         });
         messageCenterRLayout.setOnClickListener(new View.OnClickListener() {
@@ -78,8 +78,8 @@ public class MineFragment extends AbsBaseFragment {
 
     @Override
     protected void initData() {
-        if (Global.user != null) {
-            loginRegTv.setText(Global.user.getUserName());
-        }
+//        if (Global.user != null) {
+//            loginRegTv.setText(Global.user.getUserName());
+//        }
     }
 }

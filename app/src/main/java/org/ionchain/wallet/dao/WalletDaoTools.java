@@ -1,6 +1,7 @@
 package org.ionchain.wallet.dao;
 
-import com.fast.lib.logger.Logger;
+
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.ionchain.wallet.bean.WalletBean;

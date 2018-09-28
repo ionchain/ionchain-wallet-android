@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.RadioGroup;
 
-import com.fast.lib.utils.ToastUtil;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.manager.ActivityHelper;
@@ -14,6 +13,7 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.mvp.view.fragment.DevicesFragment;
 import org.ionchain.wallet.mvp.view.fragment.HomeFragment;
 import org.ionchain.wallet.mvp.view.fragment.MineFragment;
+import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,7 +12,7 @@ import com.lzy.okgo.model.Response;
 import com.smart.holder.CommonAdapter;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapterhelper.device.DeviceViewHelper;
+import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.DeviceListBean;
 import org.ionchain.wallet.bean.WalletBean;

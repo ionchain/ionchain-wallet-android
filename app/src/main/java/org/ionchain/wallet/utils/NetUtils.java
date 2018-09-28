@@ -1,12 +1,12 @@
 package org.ionchain.wallet.utils;
 
-import com.fast.lib.logger.Logger;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
 

@@ -2,7 +2,6 @@ package org.ionchain.wallet.mvp.model.home;
 
 import android.util.Log;
 
-import com.fast.lib.utils.ToastUtil;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
@@ -16,6 +15,7 @@ import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.utils.NetUtils;
+import org.ionchain.wallet.utils.ToastUtil;
 import org.json.JSONObject;
 
 import java.util.HashMap;

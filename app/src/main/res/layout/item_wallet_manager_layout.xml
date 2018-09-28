@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/manager_wallet_rl"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/h60"
+    android:background="@color/white"
+
+    android:paddingLeft="@dimen/h16"
+    android:paddingRight="@dimen/h16">
+
+    <ImageView
+        android:id="@+id/manager_wallet_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/more_wallet" />
+
+    <TextView
+        android:id="@+id/manager_wallet_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/h16"
+        android:layout_toRightOf="@id/manager_wallet_img"
+        android:text="My Wallet"
+        android:textColor="@color/library_66"
+        android:textSize="@dimen/txt_mediumsize" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_keyboard_arrow_right" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/line" />
+
+
+</RelativeLayout>

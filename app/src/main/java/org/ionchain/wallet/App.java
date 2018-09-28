@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.lzy.okgo.OkGo;
@@ -49,7 +48,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
+        mContext = getApplicationContext();
         Stetho.initializeWithDefaults(this);
         OkGo.getInstance().init(this);
         WalletManager.getInstance().initWeb3j(this);
@@ -60,7 +59,6 @@ public class App extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        MultiDex.install(this);
     }
 
 //    @Override

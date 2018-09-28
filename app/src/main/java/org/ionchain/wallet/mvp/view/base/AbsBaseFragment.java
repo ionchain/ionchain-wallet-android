@@ -11,7 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fast.lib.logger.Logger;
+
+import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 

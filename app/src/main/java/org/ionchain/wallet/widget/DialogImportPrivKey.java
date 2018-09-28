@@ -31,7 +31,7 @@ public class DialogImportPrivKey extends BaseDialog {
 
     @Override
     protected int getLayout() {
-        return R.layout.layout_import_private_key;
+        return R.layout.dialog_import_private_key_layout;
     }
     private TextView privateKeyTv;
     private Button copyBtn;

@@ -11,8 +11,15 @@ public final class ConstantParams {
      */
     public static final String SERIALIZABLE_DATA_WALLET_BEAN = "wallet_bean";
     public static final int REQUEST_MODIFY_WALLET_PWD = 100;
-    /**
-     * 有返回值的 关闭界面 返回值为默认值
-     */
-    public static final int REQUEST_FINISH_BACK = 11111;
+
+
+    public static final String SERIALIZABLE_DATA = "serializable_data";
+    public static final String SERIALIZABLE_DATA1 = "serializable_data1";
+
+    public static final String URL_AGREE ="https://www.baidu.com";
+    public static final String DB_NAME = "ionchainwallet";
+    public static final String SPLIT = ",";
+    public static final String IS = "=";
+    public static final String JUMP_PARM_ISADDMODE = "isaddmode";
+    public static final String user = "user_model";
 }

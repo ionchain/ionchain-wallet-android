@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/h10"
-        android:background="@drawable/qmui_icon_topbar_back" />
+        android:background="@mipmap/arrow_back_blue" />
 
     <TextView
         android:id="@+id/left_text"

@@ -114,6 +114,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="开始导入"
+            android:textColor="@color/white"
+            android:background="@color/blue_top"
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
             android:layout_marginTop="@dimen/h16"

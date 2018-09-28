@@ -131,7 +131,8 @@
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
             android:layout_marginTop="@dimen/h16"
-            android:background="@drawable/common_button_main"
+            android:textColor="@color/white"
+            android:background="@color/blue_top"
             android:enabled="false"
             android:text="创建钱包" />
 

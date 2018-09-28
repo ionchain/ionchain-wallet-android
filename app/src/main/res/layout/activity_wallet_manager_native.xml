@@ -44,6 +44,8 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/name"
+            android:textColor="@color/white"
+            android:background="@color/blue_top"
             android:layout_centerHorizontal="true"
             android:text="@string/act_wallet_manager_native_create" />
 
@@ -54,7 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/wallet_create"
             android:layout_centerHorizontal="true"
-
+            android:textColor="@color/white"
+            android:background="@color/blue_top"
             android:text="@string/act_wallet_manager_native_import" />
     </RelativeLayout>
 
