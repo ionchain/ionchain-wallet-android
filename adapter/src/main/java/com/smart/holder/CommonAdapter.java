@@ -51,7 +51,7 @@ public class CommonAdapter<BEAN extends Serializable> extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return mIBaseBeanList.get(position);
     }
 
     @Override
