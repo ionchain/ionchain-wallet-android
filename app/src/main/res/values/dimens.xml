@@ -2,7 +2,7 @@
 <resources>
 
     <dimen name="ButtonCornerSize">5dp</dimen>
-    <dimen name="title_size">20sp</dimen>
+    <dimen name="title_size">22sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="display4">112sp</dimen>
@@ -179,4 +179,5 @@
     <dimen name="textSize_20">20sp</dimen>
     <dimen name="textSize_22">22sp</dimen>
     <dimen name="textSize_24">24sp</dimen>
+    <dimen name="title_right_size">18sp</dimen>
 </resources>

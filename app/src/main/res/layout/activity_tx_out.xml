@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="转  账"
-            android:textSize="@dimen/txt_largesize"
+            android:textSize="@dimen/title_size"
             android:textColor="@color/blue_top" />
     </RelativeLayout>
 

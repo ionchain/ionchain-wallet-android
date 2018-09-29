@@ -50,7 +50,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/h10"
-        android:textSize="@dimen/title_size"
+        android:textSize="@dimen/title_right_size"
         android:textColor="@color/white"
         android:text="保存" />
 </org.ionchain.wallet.widget.IONCTitleBar>

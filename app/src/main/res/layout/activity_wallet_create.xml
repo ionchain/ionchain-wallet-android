@@ -23,7 +23,8 @@
 
         <TextView
             style="@style/common_title"
-            android:layout_toRightOf="@id/back"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/title_size"
             android:text="@string/activity_create_wallet" />
     </RelativeLayout>
 

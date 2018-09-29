@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="@color/blue_top"
+            android:textSize="@dimen/title_size"
             android:text="修改密码"/>
         <TextView
             android:id="@+id/completBtn"
@@ -32,6 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:textColor="@color/blue_top"
+            android:textSize="@dimen/title_right_size"
             android:text="完成" />
     </RelativeLayout>
 

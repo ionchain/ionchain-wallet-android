@@ -77,7 +77,7 @@ public class ShowAddressActivity extends AbsBaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.layout_show_address;
+        return R.layout.activity_show_address;
     }
 
 

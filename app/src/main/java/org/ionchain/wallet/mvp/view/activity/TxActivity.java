@@ -62,13 +62,12 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
             @Override
             public void onClick(View v) {
                 final String toAddress = txToAddressEt.getText().toString();
-                if (StringUtils.isEmpty(toAddress)) {
-                    ToastUtil.showToastLonger("请输入转入地址！");
-                }
                 final String txAccount = txAccountEt.getText().toString();
-                if (StringUtils.isEmpty(txAccount)) {
-                    ToastUtil.showToastLonger("请输入转账金额！");
+                if (StringUtils.isEmpty(toAddress)||StringUtils.isEmpty(txAccount)) {
+                    ToastUtil.showToastLonger("请检查转帐地址或金额是否全部输入！");
+                    return;
                 }
+
                 final DialogPasswordCheck dialogPasswordCheck = new DialogPasswordCheck(mActivity);
                 dialogPasswordCheck.setBtnClickedListener(new View.OnClickListener() {
                     @Override

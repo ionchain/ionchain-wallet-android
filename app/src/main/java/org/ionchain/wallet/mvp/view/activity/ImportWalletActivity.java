@@ -146,20 +146,22 @@ public class ImportWalletActivity extends AbsBaseActivity implements TextWatcher
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
         String contentstr = mPrivateKey.getText().toString().trim();
         String pwdstr = mPwd.getText().toString().trim();
         String resetpwdstr = mRepeatPwd.getText().toString().trim();
 
         if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)) {
             importBtn.setEnabled(true);
+            importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
         } else {
             importBtn.setEnabled(false);
+            importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
         }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 
     @Override

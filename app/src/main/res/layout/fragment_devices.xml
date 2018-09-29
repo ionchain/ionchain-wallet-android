@@ -16,7 +16,7 @@
           android:gravity="center"
           android:layout_centerInParent="true"
           android:textColor="@color/white"
-          android:textSize="18sp"
+          android:textSize="@dimen/title_size"
           android:text="我的设备" />
 
       <ListView

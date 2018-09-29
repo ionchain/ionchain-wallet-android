@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:paddingLeft="@dimen/h16"
-        android:id="@+id/back"
+
+    <RelativeLayout
+        android:id="@+id/toolbarlayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:text="钱包管理"
-        android:gravity="center_vertical"
-        android:textSize="@dimen/txt_largesize"
-        android:drawableLeft="@mipmap/arrow_back_blue"
-        android:textColor="@color/title_color_blue"/>
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/h16"
+            android:src="@mipmap/arrow_back_blue" />
+
+        <TextView
+            style="@style/common_title"
+            android:layout_centerInParent="true"
+            android:text="钱包管理"
+            android:textSize="@dimen/title_size" />
+    </RelativeLayout>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/back"
         android:layout_above="@id/bottom_layout"
-        >
+        android:layout_below="@id/toolbarlayout">
+
         <ListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     <LinearLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
@@ -39,9 +51,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/bg_button_0_50abf1"
-            android:textColor="@color/white"
             android:enabled="true"
-            android:text="导入钱包" />
+            android:text="导入钱包"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/createBtn"
@@ -49,8 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/bg_button_0_main"
-            android:textColor="@color/white"
             android:enabled="true"
-            android:text="创建钱包" />
+            android:text="创建钱包"
+            android:textColor="@color/white" />
     </LinearLayout>
 </RelativeLayout>
