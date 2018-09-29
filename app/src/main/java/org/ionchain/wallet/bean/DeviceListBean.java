@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class DeviceListBean implements Serializable {
 
+
+    private static final long serialVersionUID = 8905431811048066465L;
     /**
      * success : 0
      * message : ok

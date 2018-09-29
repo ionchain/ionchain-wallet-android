@@ -22,7 +22,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
     /**
      * Properties of entity WalletBean.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property PrivateKey = new Property(1, String.class, "privateKey", false, "PRIVATE_KEY");
@@ -33,7 +33,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         public final static Property Keystore = new Property(6, String.class, "keystore", false, "KEYSTORE");
         public final static Property Password = new Property(7, String.class, "password", false, "PASSWORD");
         public final static Property MIconIdex = new Property(8, int.class, "mIconIdex", false, "M_ICON_IDEX");
-    };
+    }
 
 
     public WalletBeanDao(DaoConfig config) {
@@ -204,6 +204,11 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(WalletBean entity) {
+        return entity.getId() != null;
     }
 
     @Override

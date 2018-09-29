@@ -8,6 +8,9 @@ import java.io.Serializable;
 
 @Entity
 public class WalletBean implements Serializable {
+
+
+    private static final long serialVersionUID = 8908676465356334947L;
     @Id
     private Long id;
     /**
@@ -48,18 +51,10 @@ public class WalletBean implements Serializable {
 
     private int mIconIdex;
 
-    public int getIconIdex() {
-        return mIconIdex;
-    }
-
-    public void setIconIdex(int iconIdex) {
-        mIconIdex = iconIdex;
-    }
-
-
     @Generated(hash = 147693845)
-    public WalletBean(Long id, String privateKey, String name, String address, String publickey,
-            String balance, String keystore, String password, int mIconIdex) {
+    public WalletBean(Long id, String privateKey, String name, String address,
+            String publickey, String balance, String keystore, String password,
+            int mIconIdex) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -75,16 +70,8 @@ public class WalletBean implements Serializable {
     public WalletBean() {
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -92,7 +79,7 @@ public class WalletBean implements Serializable {
     }
 
     public String getPrivateKey() {
-        return privateKey;
+        return this.privateKey;
     }
 
     public void setPrivateKey(String privateKey) {
@@ -100,7 +87,7 @@ public class WalletBean implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -108,7 +95,7 @@ public class WalletBean implements Serializable {
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -116,7 +103,7 @@ public class WalletBean implements Serializable {
     }
 
     public String getPublickey() {
-        return publickey;
+        return this.publickey;
     }
 
     public void setPublickey(String publickey) {
@@ -124,7 +111,7 @@ public class WalletBean implements Serializable {
     }
 
     public String getBalance() {
-        return balance;
+        return this.balance;
     }
 
     public void setBalance(String balance) {
@@ -132,11 +119,19 @@ public class WalletBean implements Serializable {
     }
 
     public String getKeystore() {
-        return keystore;
+        return this.keystore;
     }
 
     public void setKeystore(String keystore) {
         this.keystore = keystore;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getMIconIdex() {
@@ -147,18 +142,5 @@ public class WalletBean implements Serializable {
         this.mIconIdex = mIconIdex;
     }
 
-    @Override
-    public String toString() {
-        return "WalletBean{" +
-                "id=" + id +
-                ", privateKey='" + privateKey + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", publickey='" + publickey + '\'' +
-                ", balance='" + balance + '\'' +
-                ", keystore='" + keystore + '\'' +
-                ", password='" + password + '\'' +
-                ", mIconIdex=" + mIconIdex +
-                '}';
-    }
+
 }

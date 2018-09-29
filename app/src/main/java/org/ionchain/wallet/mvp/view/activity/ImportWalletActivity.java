@@ -164,7 +164,7 @@ public class ImportWalletActivity extends AbsBaseActivity implements TextWatcher
 
     @Override
     public void onCreateSuccess(WalletBean walletBean) {
-        walletBean.setIconIdex(getNum(7));
+        walletBean.setMIconIdex(getNum(7));
         WalletDaoTools.saveWallet(walletBean);
         hideProgress();
         ToastUtil.showToastLonger("导入成功啦!");

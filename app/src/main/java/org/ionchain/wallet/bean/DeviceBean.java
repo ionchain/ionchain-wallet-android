@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 public class DeviceBean implements Serializable {
 
+    private static final long serialVersionUID = -1659155236033075557L;
     /**
      * success : 0
      * message : ok

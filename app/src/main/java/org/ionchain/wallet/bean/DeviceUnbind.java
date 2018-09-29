@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public class DeviceUnbind implements Serializable {
 
+
+    private static final long serialVersionUID = 7396183758899566166L;
     /**
      * success : 2005
      * message : 钱包地址不存在

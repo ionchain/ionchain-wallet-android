@@ -38,7 +38,7 @@ public class DaoSession extends AbstractDaoSession {
     }
     
     public void clear() {
-        walletBeanDaoConfig.getIdentityScope().clear();
+        walletBeanDaoConfig.clearIdentityScope();
     }
 
     public WalletBeanDao getWalletBeanDao() {

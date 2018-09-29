@@ -9,6 +9,8 @@ import java.util.List;
  * 描述:
  */
 public class MoreWalletBean implements Serializable{
+
+    private static final long serialVersionUID = -9157094035840945437L;
     private List<WalletBean> mWallets;
 
     public List<WalletBean> getWallets() {

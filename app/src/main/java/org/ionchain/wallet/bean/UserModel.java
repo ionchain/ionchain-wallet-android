@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class UserModel implements Serializable {
 
 
+    private static final long serialVersionUID = 1280463101463565123L;
     /**
      * userId : 26
      * userName : 15618273172

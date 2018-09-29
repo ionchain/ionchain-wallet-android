@@ -45,7 +45,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.ionchain.wallet.constant.ConstantUrl.INC_CHAIN_NODE;
+import static org.ionchain.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.utils.myweb3j.MnemonicUtils.generateMnemonic;
 import static org.web3j.crypto.Hash.sha256;
@@ -125,7 +125,7 @@ public class WalletManager {
      */
     public void initWeb3j(Context context) {
         if (web3j == null) {
-            web3j = Web3jFactory.build(new HttpService(INC_CHAIN_NODE));
+            web3j = Web3jFactory.build(new HttpService(IONC_CHAIN_NODE));
         }
         if (mContext == null) {
             mContext = context;
@@ -229,7 +229,7 @@ public class WalletManager {
             WalletBean wallet = loadWalletFile(password, bip39Wallet.getFilename());
             wallet.setKeystore(keystore);
             wallet.setName(name);
-            wallet.setIconIdex(getNum(7));//设置随机的头像
+            wallet.setMIconIdex(getNum(7));//设置随机的头像
             WalletDaoTools.saveWallet(wallet);
             callback.onCreateSuccess(wallet);
         } catch (Exception e) {
@@ -326,7 +326,7 @@ public class WalletManager {
             String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
-            wallet.setIconIdex(getNum(7));//设置随机的头像
+            wallet.setMIconIdex(getNum(7));//设置随机的头像
             WalletDaoTools.saveWallet(wallet);
             App.mHandler.post(new Runnable() {
                 @Override

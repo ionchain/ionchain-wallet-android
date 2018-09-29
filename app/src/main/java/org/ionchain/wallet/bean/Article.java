@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Article implements Serializable {
 
+    private static final long serialVersionUID = 829702727192931754L;
     private int id;
     private String title;
     private String content;
