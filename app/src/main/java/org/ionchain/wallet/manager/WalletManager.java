@@ -1,12 +1,19 @@
 package org.ionchain.wallet.manager;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
 
 import com.orhanobut.logger.Logger;
 
+import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.crypto.HDKeyDerivation;
+import org.bitcoinj.crypto.MnemonicCode;
+import org.bitcoinj.crypto.MnemonicException;
+import org.bitcoinj.wallet.DeterministicSeed;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
@@ -15,6 +22,7 @@ import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.mvp.callback.OnTransationCallback;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.RandomUntil;
 import org.ionchain.wallet.utils.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.utils.myweb3j.SecureRandomUtils;
@@ -42,7 +50,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.ionchain.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
@@ -62,7 +69,7 @@ public class WalletManager {
     private volatile static WalletManager mInstance;
     private static Web3j web3j;
     private Context mContext;
-    private String keystoreDir;
+    private static String keystoreDir;
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
 
     private BigDecimal mDefaultPrice;
@@ -75,6 +82,15 @@ public class WalletManager {
     public final static int GWEI_MIN_VALUE = 1;
 
     public final static BigInteger GAS_LIMIT = BigInteger.valueOf(30000);
+    /**
+     * 通用的以太坊基于bip44协议的助记词路径 （imtoken jaxx Metamask myetherwallet）
+     */
+    public static String ETH_JAXX_TYPE = "m/44'/60'/0'/0/0";
+    public static String ETH_LEDGER_TYPE = "m/44'/60'/0'/0";
+    public static String ETH_CUSTOM_TYPE = "m/44'/60'/1'/0/0";
+
+
+    private MnemonicCode mMnemonicCode = null;
 
     /**
      * @return 显示的默认矿工费
@@ -130,19 +146,27 @@ public class WalletManager {
         if (mContext == null) {
             mContext = context;
         }
-        keystoreDir = context.getExternalCacheDir() + "/ionchain/keystore";
-        Log.i(TAG, "initWeb3j: 文件创建成功 keystoreDir = " + keystoreDir);
-        //创建keystore路径
-        File file = new File(keystoreDir);
-        if (!file.exists()) {
-            boolean crate = file.mkdirs();
-        }
 
-        Log.i(TAG, "initWeb3j: 文件创建成功file =" + file.getPath());
-        minFee = Convert.fromWei(Convert.toWei(String.valueOf(GWEI_MIN_VALUE), Convert.Unit.GWEI).multiply(BigDecimal.valueOf(30000)), Convert.Unit.ETHER);
-        maxFee = Convert.fromWei(Convert.toWei(String.valueOf(GWEI_MAX_VALUE), Convert.Unit.GWEI).multiply(BigDecimal.valueOf(30000)), Convert.Unit.ETHER);
-        Log.i(TAG, "minFee: " + minFee);
-        Log.i(TAG, "maxFee: " + maxFee);
+        try {
+            mMnemonicCode = new MnemonicCode(App.mContext.getAssets().open("en-mnemonic-word-list.txt"), null);
+            keystoreDir = context.getExternalCacheDir() + "/ionchain/keystore";
+            Log.i(TAG, "initWeb3j: 文件创建成功 keystoreDir = " + keystoreDir);
+            //创建keystore路径
+            File file = new File(keystoreDir);
+            if (!file.exists()) {
+                boolean crate = file.mkdirs();
+            }
+
+            Log.i(TAG, "initWeb3j: 文件创建成功file =" + file.getPath());
+            minFee = Convert.fromWei(Convert.toWei(String.valueOf(GWEI_MIN_VALUE), Convert.Unit.GWEI).multiply(BigDecimal.valueOf(30000)), Convert.Unit.ETHER);
+            maxFee = Convert.fromWei(Convert.toWei(String.valueOf(GWEI_MAX_VALUE), Convert.Unit.GWEI).multiply(BigDecimal.valueOf(30000)), Convert.Unit.ETHER);
+            Log.i(TAG, "minFee: " + minFee);
+            Log.i(TAG, "maxFee: " + maxFee);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         new Thread() {
@@ -162,16 +186,6 @@ public class WalletManager {
 
             }
         }.start();
-        if (null == MnemonicUtils.WORD_LIST) {
-            String info = readAssetsTxt(this.mContext, "en-mnemonic-word-list");
-            String[] a = info.split("\n");
-            List<String> arr = new ArrayList<>();
-            for (String word :
-                    a) {
-                arr.add(word);
-            }
-            MnemonicUtils.WORD_LIST = arr;
-        }
     }
 
     private String readAssetsTxt(Context context, String fileName) {
@@ -196,46 +210,150 @@ public class WalletManager {
     }
 
     /**
-     * @param name
-     * @param password 钱包密码
+     * 创建钱包
+     *
+     * @param walletName 钱包名字
+     * @param password   钱包密码
      */
-    public void createBip39Wallet(String name, String password, final OnCreateWalletCallback callback) {
+    public void createBip39Wallet(String walletName, String password, final OnCreateWalletCallback callback) {
+
 
         try {
-            File dest = new File(keystoreDir);
-            if (!dest.exists()) {
-                dest.mkdir();
-            }
-            Log.i(TAG, "initWeb3j: 文件创建成功" + dest.getPath());
-
             byte[] initialEntropy = new byte[16];
             secureRandom.nextBytes(initialEntropy);//产红一个随机数
-
-            //生成助记词
-            String mnemonic = generateMnemonic(initialEntropy);
-            Log.i("mnemonic", "generateBip39Wallet: " + mnemonic);
-            //根据助记词生成种子
-            byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
-            //根据种子生成秘钥对
-            ECKeyPair privateKey = ECKeyPair.create(sha256(seed));
-            //完成钱包的创建
-            String walletFile = WalletUtils.generateWalletFile(password, privateKey, dest, false);
-            Bip39Wallet bip39Wallet = new Bip39Wallet(walletFile, mnemonic);
-            String keystore = dest + "/" + bip39Wallet.getFilename();
-            String c = bip39Wallet.getMnemonic();
-            Log.i("cccc", "createBip39Wallet: " + c);
-            String cc = bip39Wallet.getFilename();
-            Log.i("cccc", "createBip39Wallet: " + cc);
-            WalletBean wallet = loadWalletFile(password, bip39Wallet.getFilename());
-            wallet.setKeystore(keystore);
-            wallet.setName(name);
-            wallet.setMIconIdex(getNum(7));//设置随机的头像
-            WalletDaoTools.saveWallet(wallet);
-            callback.onCreateSuccess(wallet);
-        } catch (Exception e) {
-            e.printStackTrace();
+            List<String> mnemonicCode = mMnemonicCode.toMnemonic(initialEntropy);//生成助记词
+            importWalletByMnemonicCode(walletName, mnemonicCode, password, callback);
+        } catch (MnemonicException.MnemonicLengthException e) {
             callback.onCreateFailure(e.getMessage());
         }
+
+
+    }
+
+
+    /**
+     * 通过助记词导入钱包
+     *
+     * @param walletName   钱包名字
+     * @param mnemonicCode 助记词
+     * @param password     密码
+     * @param callback     回调结果
+     */
+    public void importWalletByMnemonicCode(String walletName, List<String> mnemonicCode, String password, OnCreateWalletCallback callback) {
+        String[] pathArray = ETH_JAXX_TYPE.split("/");
+        String passphrase = "";
+        long creationTimeSeconds = System.currentTimeMillis() / 1000;
+        DeterministicSeed ds = new DeterministicSeed(mnemonicCode, null, passphrase, creationTimeSeconds);
+
+        //种子
+        byte[] seedBytes = ds.getSeedBytes();
+
+        if (seedBytes == null) {
+            callback.onCreateFailure("创建种子（钱包）失败");
+            return;
+        }
+        DeterministicKey dkKey = HDKeyDerivation.createMasterPrivateKey(seedBytes);
+        for (int i = 1; i < pathArray.length; i++) {
+            ChildNumber childNumber;
+            if (pathArray[i].endsWith("'")) {
+                int number = Integer.parseInt(pathArray[i].substring(0,
+                        pathArray[i].length() - 1));
+                childNumber = new ChildNumber(number, true);
+            } else {
+                int number = Integer.parseInt(pathArray[i]);
+                childNumber = new ChildNumber(number, false);
+            }
+            dkKey = HDKeyDerivation.deriveChildKey(dkKey, childNumber);
+        }
+
+        ECKeyPair ecKeyPair = ECKeyPair.create(dkKey.getPrivKeyBytes());
+
+        WalletBean walletBean = new WalletBean();
+//            WalletFile walletFile = Wallet.create(password, ecKeyPair, 1024, 1); // WalletUtils. .generateNewWalletFile();
+        String privateKey = ecKeyPair.getPrivateKey().toString(16);
+        String publicKey = ecKeyPair.getPublicKey().toString(16);
+        walletBean.setPrivateKey(privateKey);
+        walletBean.setPublickey(publicKey);
+        Logger.i("私钥： " + privateKey);
+        String keystore = null;
+        try {
+            keystore = WalletUtils.generateWalletFile(password, ecKeyPair, new File(keystoreDir), false);
+            keystore = keystoreDir + "/" + keystore;
+            walletBean.setKeystore(keystore);
+            Logger.i("钱包keystore： " + keystore);
+
+            walletBean.setName(walletName);
+//            String addr1 = walletFile.getAddress();
+            String addr2 = Keys.getAddress(ecKeyPair);
+            String walletAddress = Keys.toChecksumAddress(addr2);
+            walletBean.setAddress(Keys.toChecksumAddress(walletAddress));//设置钱包地址
+            Logger.i("钱包地址： " + walletAddress);
+            walletBean.setPassword(Md5Utils.md5(password));
+
+
+//            Logger.i("addr1 " + addr1);
+//            Logger.i("addr2 " + addr2);
+//            Logger.i("addr3 " + Keys.toChecksumAddress(walletFile.getAddress()));
+
+            StringBuilder sb = new StringBuilder();
+            for (String mnemonic : mnemonicCode) {
+                sb.append(mnemonic);
+                sb.append(" ");
+            }
+            Logger.i("助记词 === " + sb.toString());
+            String mnemonicWord = sb.toString();
+            walletBean.setMnemonic(mnemonicWord);
+            WalletDaoTools.saveWallet(walletBean);
+            callback.onCreateSuccess(walletBean);
+        } catch (CipherException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private static String convertMnemonicList(List<String> mnemonics) {
+        StringBuilder sb = new StringBuilder();
+        for (String mnemonic : mnemonics
+                ) {
+            sb.append(mnemonic);
+            sb.append(" ");
+        }
+        Logger.i("助记词 1=== " + sb.toString());
+
+        return sb.toString();
+    }
+
+
+    /**
+     * 创建 keystore
+     *
+     * @param pwd
+     * @param ecKeyPair
+     * @return
+     * @throws CipherException
+     * @throws IOException
+     */
+    private static String getKeystorePath(String pwd, ECKeyPair ecKeyPair) throws CipherException, IOException {
+        String keystore = WalletUtils.generateWalletFile(pwd, ecKeyPair, new File(keystoreDir), false);
+        keystore = keystoreDir + "/" + keystore;
+        return keystore;
+    }
+
+
+    private static boolean createParentDir(File file) {
+        //判断目标文件所在的目录是否存在
+        if (!file.getParentFile().exists()) {
+            //如果目标文件所在的目录不存在，则创建父目录
+            System.out.println("目标文件所在目录不存在，准备创建");
+            if (!file.getParentFile().mkdirs()) {
+                System.out.println("创建目标文件所在目录失败！");
+                return false;
+            }
+        }
+        return true;
     }
 
 
@@ -293,14 +411,6 @@ public class WalletManager {
         };
     }
 
-    //
-//    private String[] getAccountTuple(ECKeyPair keyPair) {
-//        return new String[]{
-//                keyPair.getPrivateKey().toString(16),
-//                keyPair.getPublicKey().toString(16),
-//                Keys.getAddress(keyPair)
-//        };
-//    }
     /*
      * * 通过私钥创建秘钥对
      * <p>
@@ -340,17 +450,17 @@ public class WalletManager {
                 }
             });
         } catch (CipherException | IOException e) {
-           App.mHandler.post(new Runnable() {
-               @Override
-               public void run() {
-                   App.mHandler.post(new Runnable() {
-                       @Override
-                       public void run() {
-                           callback.onCreateFailure(e.getMessage());
-                       }
-                   });
-               }
-           });
+            App.mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    App.mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onCreateFailure(e.getMessage());
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -559,17 +669,17 @@ public class WalletManager {
                 try {
                     Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());
                     if (null == credentials || !credentials.getAddress().equals(wallet.getAddress())) {
-                       App.mHandler.post(new Runnable() {
-                           @Override
-                           public void run() {
-                               App.mHandler.post(new Runnable() {
-                                   @Override
-                                   public void run() {
-                                       callback.onModifyFailure("修改失败！");
-                                   }
-                               });
-                           }
-                       });
+                        App.mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                App.mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callback.onModifyFailure("修改失败！");
+                                    }
+                                });
+                            }
+                        });
                         return;
                     }
                     wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
