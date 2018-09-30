@@ -137,15 +137,11 @@ public class WalletManager {
 
 
     /**
-     * 初始化节点
+     * 初始化钱包
      */
     public void initWeb3j(Context context) {
-        if (web3j == null) {
-            web3j = Web3jFactory.build(new HttpService(IONC_CHAIN_NODE));
-        }
-        if (mContext == null) {
-            mContext = context;
-        }
+        web3j = Web3jFactory.build(new HttpService(IONC_CHAIN_NODE));
+        mContext = context;
 
         try {
             mMnemonicCode = new MnemonicCode(App.mContext.getAssets().open("en-mnemonic-word-list.txt"), null);
@@ -165,7 +161,7 @@ public class WalletManager {
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.i(e.getMessage());
         }
 
 
@@ -188,26 +184,6 @@ public class WalletManager {
         }.start();
     }
 
-    private String readAssetsTxt(Context context, String fileName) {
-        try {
-            //Return an AssetManager instance for your application's package
-            InputStream is = context.getAssets().open(fileName + ".txt");
-            int size = is.available();
-            // Read the entire asset into a local byte buffer.
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            // Convert the buffer into a string.
-            String text = new String(buffer, "utf-8");
-            // Finally stick the string into the text view.
-            return text;
-        } catch (IOException e) {
-            // Should never happen!
-//            throw new RuntimeException(e);
-            e.printStackTrace();
-        }
-        return "读取错误，请检查文件名";
-    }
 
     /**
      * 创建钱包
@@ -216,7 +192,6 @@ public class WalletManager {
      * @param password   钱包密码
      */
     public void createBip39Wallet(String walletName, String password, final OnCreateWalletCallback callback) {
-
 
         try {
             byte[] initialEntropy = new byte[16];
@@ -244,7 +219,6 @@ public class WalletManager {
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
         DeterministicSeed ds = new DeterministicSeed(mnemonicCode, null, passphrase, creationTimeSeconds);
-
         //种子
         byte[] seedBytes = ds.getSeedBytes();
 
@@ -275,9 +249,8 @@ public class WalletManager {
         walletBean.setPrivateKey(privateKey);
         walletBean.setPublickey(publicKey);
         Logger.i("私钥： " + privateKey);
-        String keystore = null;
         try {
-            keystore = WalletUtils.generateWalletFile(password, ecKeyPair, new File(keystoreDir), false);
+            String keystore = WalletUtils.generateWalletFile(password, ecKeyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             walletBean.setKeystore(keystore);
             Logger.i("钱包keystore： " + keystore);
@@ -305,10 +278,8 @@ public class WalletManager {
             walletBean.setMnemonic(mnemonicWord);
             WalletDaoTools.saveWallet(walletBean);
             callback.onCreateSuccess(walletBean);
-        } catch (CipherException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (CipherException | IOException e) {
+            callback.onCreateFailure(e.getMessage());
         }
 
     }

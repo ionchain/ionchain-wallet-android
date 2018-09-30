@@ -34,12 +34,12 @@ import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.presenter.Presenter;
+import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.TxActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.mvp.view.activity.ScanActivity;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
-import org.ionchain.wallet.mvp.view.activity.CreateWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.ImportWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.ModifyWalletActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
@@ -345,7 +345,7 @@ public class HomeFragment extends AbsBaseFragment implements
         scan_popu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(ImportWalletActivity.class);
+                skip(SelectImportModeActivity.class);
                 instance.dismiss();
             }
         });

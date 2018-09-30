@@ -18,7 +18,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="导入私钥"
-           android:textSize="16sp"
+           android:textSize="@dimen/title_size"
            android:textColor="@color/blue_top"
            android:layout_centerInParent="true"/>
        <ImageView

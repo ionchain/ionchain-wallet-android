@@ -51,10 +51,20 @@ public class WalletBean implements Serializable {
 
     private int mIconIdex;
 
-    @Generated(hash = 147693845)
+    private String mnemonic;
+
+    public String getMnemonic() {
+        return mnemonic;
+    }
+
+    public void setMnemonic(String mnemonic) {
+        this.mnemonic = mnemonic;
+    }
+
+    @Generated(hash = 74707821)
     public WalletBean(Long id, String privateKey, String name, String address,
             String publickey, String balance, String keystore, String password,
-            int mIconIdex) {
+            int mIconIdex, String mnemonic) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -64,6 +74,7 @@ public class WalletBean implements Serializable {
         this.keystore = keystore;
         this.password = password;
         this.mIconIdex = mIconIdex;
+        this.mnemonic = mnemonic;
     }
 
     @Generated(hash = 1814219826)

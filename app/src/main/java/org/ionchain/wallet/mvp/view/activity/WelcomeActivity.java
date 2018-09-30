@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletSelectActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
 /**

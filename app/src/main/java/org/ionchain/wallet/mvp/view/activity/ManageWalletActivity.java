@@ -2,9 +2,7 @@ package org.ionchain.wallet.mvp.view.activity;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
@@ -15,6 +13,8 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(ImportWalletActivity.class, JUMP_PARM_ISADDMODE, true);
+                skip(SelectImportModeActivity.class);
             }
         });
 
