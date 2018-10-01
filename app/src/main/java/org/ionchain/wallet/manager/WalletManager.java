@@ -1,6 +1,7 @@
 package org.ionchain.wallet.manager;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.mvp.callback.OnTransationCallback;
 import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.RandomUntil;
+import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.myweb3j.MnemonicUtils;
 import org.ionchain.wallet.utils.myweb3j.SecureRandomUtils;
 import org.web3j.crypto.Bip39Wallet;
@@ -251,7 +253,9 @@ public class WalletManager {
             keystore = keystoreDir + "/" + keystore;
             walletBean.setKeystore(keystore);
             Logger.i("钱包keystore： " + keystore);
-
+            if (StringUtils.isEmpty(walletName)) {
+                walletName = generateNewWalletName();
+            }
             walletBean.setName(walletName);
 //            String addr1 = walletFile.getAddress();
             String addr2 = Keys.getAddress(ecKeyPair);
@@ -281,6 +285,19 @@ public class WalletManager {
 
     }
 
+
+    @NonNull
+    private static String generateNewWalletName() {
+        char letter1 = (char) (int) (Math.random() * 26 + 97);
+        char letter2 = (char) (int) (Math.random() * 26 + 97);
+        String walletName = String.valueOf(letter1) + String.valueOf(letter2) + "-新钱包";
+        while (WalletDaoTools.getWalletByName(walletName) != null) {
+            letter1 = (char) (int) (Math.random() * 26 + 97);
+            letter2 = (char) (int) (Math.random() * 26 + 97);
+            walletName = String.valueOf(letter1) + String.valueOf(letter2) + "-新钱包";
+        }
+        return walletName;
+    }
 
     private static String convertMnemonicList(List<String> mnemonics) {
         StringBuilder sb = new StringBuilder();

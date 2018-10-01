@@ -17,6 +17,7 @@ import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -135,7 +136,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 /*比对密码是否正确*/
                 String pwd = mWallet.getPassword();
                 String pwd1 = dialog.getPasswordEt().getText().toString();
-                if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
+                if (!StringUtils.isEmpty(pwd) && pwd.equals(Md5Utils.md5(pwd1))) {
                     dialog.dismiss();
                     showProgress("正在导出请稍候");
                     WalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);

@@ -15,6 +15,7 @@ import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
@@ -65,7 +66,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
                     ToastUtil.showShortToast("新密码不能为空");
                     return;
                 }
-                if (!old_pwd.equals(oldpwdstr)) {
+                if (!old_pwd.equals(Md5Utils.md5(oldpwdstr))) {
                     Log.i(TAG, "旧密码错误: " + old_pwd);
                     ToastUtil.showShortToast("旧密码错误");
                     return;
