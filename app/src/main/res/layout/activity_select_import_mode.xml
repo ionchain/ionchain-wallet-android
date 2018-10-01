@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvp.view.activity.importmode.SelectImportModeActivity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:paddingLeft="@dimen/h20"
+        android:paddingRight="@dimen/h20">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_back_blue" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="请选择导入方式"
+            android:textColor="@color/blue_top"
+            android:textSize="@dimen/title_size" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/by_mnemonic"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_margin="20dp"
+        android:background="@color/blue_top"
+        android:text="助   记   词"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_size" />
+
+    <Button
+        android:id="@+id/by_private_key"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_margin="20dp"
+        android:background="@color/blue_top"
+        android:text="私   钥"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_size" />
+</LinearLayout>

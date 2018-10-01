@@ -129,7 +129,6 @@ app/app.iml
 app/ionchain_android/
 app/src/.DS_Store
 app/src/main/.DS_Store
-app/src/main/java/org/ionchain/wallet/ui/activity/
 app/src/main/res/.DS_Store
 app/src/main/res/drawable-hdpi/.DS_Store
 app/src/main/res/drawable-mdpi/.DS_Store
@@ -139,7 +138,6 @@ app/src/main/res/drawable-xxxhdpi/.DS_Store
 local.properties
 .gitignore
 app/build
-app/
 build/generated/res/
 build/generated/source/apt/
 build/generated/source/rs/
@@ -161,3 +159,15 @@ build/intermediates/shaders/
 build/intermediates/transforms/
 build/tmp/
 src/main/java/com/smart/.DS_Store
+build/generated/source/buildConfig/
+build/intermediates/aapt_friendly_merged_manifests/
+build/intermediates/full_jar/
+build/intermediates/incremental/packageDebugResources/compile-file-map.properties
+build/intermediates/incremental/packageDebugResources/merged.dir/
+build/intermediates/incremental/packageDebugResources/merger.xml
+build/intermediates/merged_manifests/
+build/intermediates/packaged_res/
+build/intermediates/res/
+build/intermediates/symbols/
+build/outputs/
+/adapter/build/
