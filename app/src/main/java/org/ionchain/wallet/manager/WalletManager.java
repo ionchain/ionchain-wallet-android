@@ -1,10 +1,8 @@
 package org.ionchain.wallet.manager;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-
 
 import com.orhanobut.logger.Logger;
 
@@ -16,12 +14,12 @@ import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.bean.WalletBean;
+import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
 import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.mvp.callback.OnTransationCallback;
-import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.RandomUntil;
 import org.ionchain.wallet.utils.myweb3j.MnemonicUtils;
@@ -46,7 +44,6 @@ import org.web3j.utils.Numeric;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -403,6 +400,7 @@ public class WalletManager {
             wallet.setPublickey(keyPair.getPublicKey().toString(16));
             wallet.setAddress("0x" + Keys.getAddress(keyPair));
             wallet.setName(walletname);
+            wallet.setMnemonic("");
             wallet.setPassword(passwrd);
             String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;

@@ -153,5 +153,19 @@ public class WalletBean implements Serializable {
         this.mIconIdex = mIconIdex;
     }
 
-
+    @Override
+    public String toString() {
+        return "WalletBean{" +
+                "id=" + id +
+                ", privateKey='" + privateKey + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", publickey='" + publickey + '\'' +
+                ", balance='" + balance + '\'' +
+                ", keystore='" + keystore + '\'' +
+                ", password='" + password + '\'' +
+                ", mIconIdex=" + mIconIdex +
+                ", mnemonic='" + mnemonic + '\'' +
+                '}';
+    }
 }
