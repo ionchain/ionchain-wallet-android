@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity.importmode;
 
+import android.content.Intent;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -25,6 +26,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Arrays;
 
+import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 
 public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback {
@@ -36,6 +38,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     private CheckBox checkbox;
     private TextView linkUrlTv;
     private Button importBtn;
+    private boolean isWelcome;
 
     /**
      * Find the Views in the layout<br />
@@ -67,7 +70,24 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
         mnemonic.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
         repwdEt.addTextChangedListener(this);
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mnemonic.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
+                    String content = mnemonic.getText().toString().trim();
+                    String pwdstr = pwdEt.getText().toString().trim();
+                    String resetpwdstr = repwdEt.getText().toString().trim();
 
+                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)&&checkbox.isChecked()) {
+                        importBtn.setEnabled(true);
+                        importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                    } else {
+                        importBtn.setEnabled(false);
+                        importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+                    }
+                }
+            }
+        });
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +129,12 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     }
 
     @Override
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        isWelcome = intent.getBooleanExtra(FROM_WELCOME,false);
+    }
+
+    @Override
     protected void initData() {
 
     }
@@ -140,7 +166,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             String pwdstr = pwdEt.getText().toString().trim();
             String resetpwdstr = repwdEt.getText().toString().trim();
 
-            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)) {
+            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)&&checkbox.isChecked()) {
                 importBtn.setEnabled(true);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
             } else {
@@ -158,6 +184,12 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
         hideProgress();
         ToastUtil.showToastLonger("导入成功啦!");
         Log.i(TAG, "onCreateSuccess: " + walletBean.toString());
+        if (isWelcome) {
+            walletBean.setIsShowWallet(true);
+        }else {
+            walletBean.setIsShowWallet(false);
+        }
+        WalletDaoTools.updateWallet(walletBean);
         skip(MainActivity.class);
     }
 

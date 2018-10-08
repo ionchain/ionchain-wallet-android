@@ -114,13 +114,44 @@ public class WalletDaoTools {
         }
         return wallet;
     }
-    //获取最新的 最老的钱包
-    public static WalletBean getCurrentWallet(String name) {
+
+    /**
+     * 获取要展示的钱包
+     *
+     * @return 首页展示的钱包
+     */
+    public static WalletBean getShowWallet() {
         WalletBean wallet = null;
-        List<WalletBean> list = DaoManager.getInstance().getSession().getWalletBeanDao().queryBuilder().where(WalletBeanDao.Properties.Name.eq(name)).list();
-        if (list.size() > 0) {
-            wallet = list.get(0);
+        List<WalletBean> list = DaoManager.getInstance().getSession().getWalletBeanDao().queryBuilder().where(WalletBeanDao.Properties.IsShowWallet.eq(true)).list();
+
+        int count = list.size();
+        if (count == 0) {
+            return null;
+        }
+        for (int i = 0; i < count; i++) {
+            if (list.get(i).getIsShowWallet()) {
+                wallet = list.get(i);
+                break;
+            }
         }
         return wallet;
+    }
+
+    /**
+     * 设置为 展示钱包
+     *
+     * @param wallet 要展示的钱钱包
+     */
+    public static void setShowWallet(WalletBean wallet){
+        List<WalletBean> list = DaoManager.getInstance().getSession().getWalletBeanDao().loadAll();
+        for (WalletBean w : list) {
+            if (w.getAddress().equals(wallet.getAddress())) {
+                w.setIsShowWallet(true);
+            }else {
+                w.setIsShowWallet(false);
+            }
+            WalletDaoTools.updateWallet(w);
+        }
+
     }
 }

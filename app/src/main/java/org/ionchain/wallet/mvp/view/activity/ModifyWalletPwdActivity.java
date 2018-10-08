@@ -93,9 +93,9 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
     }
 
     @Override
-    protected void handleIntent() {
-        super.handleIntent();
-        mWallet = (WalletBean) getIntent().getSerializableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        mWallet = (WalletBean) intent.getSerializableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
     }
 
     @Override

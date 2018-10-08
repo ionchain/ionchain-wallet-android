@@ -81,9 +81,9 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     }
 
     @Override
-    protected void handleIntent() {
-        super.handleIntent();
-        mWallet = (WalletBean) getIntent().getSerializableExtra(SERIALIZABLE_DATA);
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        mWallet = (WalletBean) intent.getSerializableExtra(SERIALIZABLE_DATA);
     }
 
     @Override

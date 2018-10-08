@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +42,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     private double mTotalValue;//seekbar所所代表的总长度 0.006-0.0003
 
     private BigDecimal mCurrentGasPrice;
+    private DialogPasswordCheck dialogPasswordCheck;
 
     private void findViews() {
         header = findViewById(R.id.header);
@@ -68,7 +70,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                     return;
                 }
 
-                final DialogPasswordCheck dialogPasswordCheck = new DialogPasswordCheck(mActivity);
+                dialogPasswordCheck = new DialogPasswordCheck(mActivity);
                 dialogPasswordCheck.setBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -161,7 +163,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     }
 
     @Override
-    protected void handleIntent() {
+    protected void handleIntent(Intent intent) {
         mCurrentWallet = (WalletBean) getIntent().getSerializableExtra("wallet");
     }
 
@@ -180,11 +182,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     @Override
     public void OnTxSuccess(String hashTx) {
         ToastUtil.showToastLonger("提交成功！");
+        dialogPasswordCheck.dismiss();
         Log.i(TAG, "OnTxSuccess: " + hashTx);
     }
 
     @Override
     public void onTxFailure(String error) {
         ToastUtil.showToastLonger(error);
+        dialogPasswordCheck.dismiss();
     }
 }

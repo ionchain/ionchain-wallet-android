@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity.importmode;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -8,6 +9,8 @@ import android.widget.RelativeLayout;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
+import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
+
 public class SelectImportModeActivity extends AbsBaseActivity implements View.OnClickListener {
 
     private RelativeLayout header;
@@ -15,6 +18,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     private Button byMnemonic;
     private Button byPrivateKey;
 
+    private boolean isWelcome;
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -40,12 +44,21 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     public void onClick(View v) {
         if (v == byMnemonic) {
-            skip(ImportByMnemonicActivity.class);
+            Intent intent = new Intent(mActivity,ImportByMnemonicActivity.class);
+            intent.putExtra(FROM_WELCOME,isWelcome);
+            startActivity(intent);
         } else if (v == byPrivateKey) {
-            skip(ImportByPriKeyActivity.class);
+            Intent intent = new Intent(mActivity,ImportByPriKeyActivity.class);
+            intent.putExtra(FROM_WELCOME,isWelcome);
+            startActivity(intent);
         }
     }
 
+    @Override
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
+    }
 
     @Override
     protected void initData() {

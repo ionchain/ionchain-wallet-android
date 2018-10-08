@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -53,7 +54,7 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
     }
 
     @Override
-    protected void handleIntent() {
+    protected void handleIntent(Intent intent) {
 
     }
 

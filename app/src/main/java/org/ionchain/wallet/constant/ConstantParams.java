@@ -22,4 +22,5 @@ public final class ConstantParams {
     public static final String IS = "=";
     public static final String JUMP_PARM_ISADDMODE = "isaddmode";
     public static final String user = "user_model";
+    public static final String FROM_WELCOME = "welcome";
 }

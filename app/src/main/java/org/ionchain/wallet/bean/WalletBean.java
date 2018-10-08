@@ -49,9 +49,18 @@ public class WalletBean implements Serializable {
      */
     private String password;
 
+    /**
+     * 钱包icon
+     */
     private int mIconIdex;
 
+    /**
+     * 助记词
+     */
     private String mnemonic;
+
+    private boolean isShowWallet;
+
 
     public String getMnemonic() {
         return mnemonic;
@@ -61,10 +70,10 @@ public class WalletBean implements Serializable {
         this.mnemonic = mnemonic;
     }
 
-    @Generated(hash = 74707821)
+    @Generated(hash = 514129665)
     public WalletBean(Long id, String privateKey, String name, String address,
             String publickey, String balance, String keystore, String password,
-            int mIconIdex, String mnemonic) {
+            int mIconIdex, String mnemonic, boolean isShowWallet) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -75,6 +84,7 @@ public class WalletBean implements Serializable {
         this.password = password;
         this.mIconIdex = mIconIdex;
         this.mnemonic = mnemonic;
+        this.isShowWallet = isShowWallet;
     }
 
     @Generated(hash = 1814219826)
@@ -167,5 +177,13 @@ public class WalletBean implements Serializable {
                 ", mIconIdex=" + mIconIdex +
                 ", mnemonic='" + mnemonic + '\'' +
                 '}';
+    }
+
+    public boolean getIsShowWallet() {
+        return this.isShowWallet;
+    }
+
+    public void setIsShowWallet(boolean isShowWallet) {
+        this.isShowWallet = isShowWallet;
     }
 }

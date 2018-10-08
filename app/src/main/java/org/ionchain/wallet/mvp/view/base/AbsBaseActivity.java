@@ -44,7 +44,11 @@ public abstract class AbsBaseActivity extends AppCompatActivity {
         mImmersionBar = ImmersionBar.with(this);
 
         mActivity = this;
-        handleIntent();
+        Intent intent = getIntent();
+        if (intent != null) {
+            handleIntent(intent);
+
+        }
         initView();
         initData();
         setListener();
@@ -57,7 +61,8 @@ public abstract class AbsBaseActivity extends AppCompatActivity {
 
     }
 
-    protected void handleIntent() {
+    protected void handleIntent(Intent intent) {
+
     }
 
     protected abstract void initView();

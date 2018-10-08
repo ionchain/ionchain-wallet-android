@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity.createwallet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,8 @@ import android.widget.Button;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+
+import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 
 /**
  * 创建钱包。导入钱包，第一次安装时，由启动页跳转过来
@@ -17,6 +20,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
 
     private Button createBtn;
     private Button importBtn;
+    private boolean isWelcome;
 
     /**
      * Find the Views in the layout<br />
@@ -30,13 +34,17 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(CreateWalletActivity.class);
+                Intent intent = new Intent(mActivity,CreateWalletActivity.class);
+                intent.putExtra(FROM_WELCOME,isWelcome);
+                startActivity(intent);
             }
         });
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(SelectImportModeActivity.class);
+                Intent intent = new Intent(mActivity,SelectImportModeActivity.class);
+                intent.putExtra(FROM_WELCOME,isWelcome);
+                startActivity(intent);
             }
         });
     }
@@ -72,8 +80,9 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     }
 
     @Override
-    protected void handleIntent() {
-        super.handleIntent();
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        isWelcome = intent.getBooleanExtra(FROM_WELCOME,false);
         requestCodeQRCodePermissions();
     }
 

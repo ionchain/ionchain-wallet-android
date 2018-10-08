@@ -24,6 +24,7 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 
 public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback {
@@ -32,7 +33,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     private AppCompatEditText mPwd;
     private AppCompatEditText mRepeatPwd;
     private Button importBtn;
-
+    private boolean isWelcome;
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -100,10 +101,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         });
     }
 
-    @Override
-    protected void handleIntent() {
-        super.handleIntent();
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -123,6 +121,10 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                 .execute();
     }
 
+    @Override
+    protected void handleIntent(Intent intent) {
+       isWelcome = intent.getBooleanExtra(FROM_WELCOME,false);
+    }
 
     @Override
     protected void initView() {
@@ -173,6 +175,12 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         hideProgress();
         ToastUtil.showToastLonger("导入成功啦!");
         Log.i(TAG, "onCreateSuccess: " + walletBean.toString());
+        if (isWelcome) {
+            walletBean.setIsShowWallet(true);
+        }else {
+            walletBean.setIsShowWallet(false);
+        }
+        WalletDaoTools.updateWallet(walletBean);
         skip(MainActivity.class);
     }
 

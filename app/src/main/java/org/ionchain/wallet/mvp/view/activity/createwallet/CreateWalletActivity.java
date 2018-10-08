@@ -16,22 +16,21 @@ import android.widget.Toast;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
+import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
-import static org.ionchain.wallet.constant.ConstantParams.JUMP_PARM_ISADDMODE;
+import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 
 public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback {
 
     final int REQUEST_CODE_CREATE_PERMISSIONS = 1;
     //判定是否需要刷新
-    private boolean isAddMode = false;
     private WalletBean mCreateWallet = null;
 
 
@@ -45,6 +44,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     private Button createBtn;
     private TextView importBtn;
 
+    private boolean isWelcome;
 
     /**
      * Find the Views in the layout<br />
@@ -110,10 +110,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     }
 
     @Override
-    protected void handleIntent() {
-        super.handleIntent();
-        Intent intent = getIntent();
-        isAddMode = intent.getBooleanExtra(JUMP_PARM_ISADDMODE, false);
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }
 
     @Override
@@ -164,6 +163,12 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     @Override
     public void onCreateSuccess(WalletBean walletBean) {
         Log.i(TAG, "onCreateSuccess: " + walletBean);
+        if (isWelcome) {
+            walletBean.setIsShowWallet(true);
+        }else {
+            walletBean.setIsShowWallet(false);
+        }
+        WalletDaoTools.updateWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
         skip(MainActivity.class);
     }

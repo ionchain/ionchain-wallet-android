@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity;
 
+import android.content.Intent;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
@@ -8,6 +9,8 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletSelectActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+
+import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 
 /**
  * Created by siberiawolf on 17/4/28.
@@ -29,7 +32,9 @@ public class WelcomeActivity extends AbsBaseActivity {
                 if (WalletDaoTools.getAllWallet() != null && WalletDaoTools.getAllWallet().size() > 0) {
                     skip(MainActivity.class);
                 } else {
-                    skip(CreateWalletSelectActivity.class);
+                    Intent intent = new Intent(mActivity,CreateWalletSelectActivity.class);
+                    intent.putExtra(FROM_WELCOME,true);
+                    startActivity(intent);
                 }
             }
 
@@ -49,7 +54,7 @@ public class WelcomeActivity extends AbsBaseActivity {
     }
 
     @Override
-    protected void handleIntent() {
+    protected void handleIntent(Intent intent) {
 
     }
 

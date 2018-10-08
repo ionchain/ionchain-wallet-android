@@ -137,7 +137,7 @@ public class HomeFragment extends AbsBaseFragment implements
     }
 
     private void getCurrentWalletInfo() {
-        mCurrentWallet = WalletDaoTools.getWalletTop();
+        mCurrentWallet = WalletDaoTools.getShowWallet();//第一个作为首页展示钱包
         if (mCurrentWallet == null) {
             return;
         }
@@ -361,6 +361,7 @@ public class HomeFragment extends AbsBaseFragment implements
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "onItemClick: ");
                 mCurrentWallet = mMoreWallets.get(position);
+                WalletDaoTools.setShowWallet(mCurrentWallet);
                 walletNameTx.setText(mCurrentWallet.getName());
                 walletAddressTx.setText(mCurrentWallet.getAddress());
                 if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {
@@ -513,5 +514,11 @@ public class HomeFragment extends AbsBaseFragment implements
     public void onBalanceFailure(String error) {
         Log.i(TAG, "onCreateFailure: " + error);
         ToastUtil.showToastLonger(error);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mBuilder.release();
     }
 }
