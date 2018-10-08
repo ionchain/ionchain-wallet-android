@@ -68,6 +68,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     protected void initView() {
         findViews();
+        mImmersionBar.titleBar(R.id.header_top).statusBarDarkFont(true).execute();
     }
 
     @Override

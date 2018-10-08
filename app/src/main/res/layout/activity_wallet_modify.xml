@@ -151,6 +151,25 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/line" />
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/import_mnemonic_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginRight="@dimen/h16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="导出助记词" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h1"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line" />
+        </RelativeLayout>
 
 
     </LinearLayout>

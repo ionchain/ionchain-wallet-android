@@ -9,13 +9,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
-import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
+import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
+import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
@@ -24,6 +23,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogImportPrivKey;
 import org.ionchain.wallet.widget.DialogPasswordCheck;
 import org.ionchain.wallet.widget.IONCTitleBar;
+import org.ionchain.wallet.widget.ImportMnemonicDialog;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
@@ -45,6 +45,8 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     private AppCompatEditText walletNameEt;
     private RelativeLayout modifyPwdLayout;
     private RelativeLayout importLayout;
+    private RelativeLayout import_mnemonic_layout;
+    private boolean bShowMnemonicRl;//是否显示导出助记词条目
 
     /**
      * Find the Views in the layout<br />
@@ -59,7 +61,11 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
         walletNameEt = (AppCompatEditText) findViewById(R.id.walletNameEt);
         modifyPwdLayout = (RelativeLayout) findViewById(R.id.modifyPwdLayout);
         importLayout = (RelativeLayout) findViewById(R.id.importLayout);
-
+        import_mnemonic_layout = (RelativeLayout) findViewById(R.id.import_mnemonic_layout);
+        if (!bShowMnemonicRl) {
+            import_mnemonic_layout.setVisibility(View.GONE);
+        }
+        import_mnemonic_layout.setOnClickListener(this);
         delBtn.setOnClickListener(this);
         modifyPwdLayout.setOnClickListener(this);
         importLayout.setOnClickListener(this);
@@ -84,6 +90,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
         mWallet = (WalletBean) intent.getSerializableExtra(SERIALIZABLE_DATA);
+        bShowMnemonicRl = !StringUtils.isEmpty(mWallet.getMnemonic());
     }
 
     @Override
@@ -251,6 +258,33 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 break;
             case R.id.importLayout:
                 showEditTextDialog();
+                break;
+            case R.id.import_mnemonic_layout:
+//                final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
+//                dialog.setLeftBtnClickedListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                dialog.setRightBtnClickedListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        /*比对密码是否正确*/
+//                        String pwd = mWallet.getPassword();
+//                        String pwd1 = dialog.getPasswordEt().getText().toString();
+//                        if (!StringUtils.isEmpty(pwd) && pwd.equals(Md5Utils.md5(pwd1))) {
+//                            dialog.dismiss();
+//                            showProgress("正在导出请稍候");
+//                            WalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
+//                        } else {
+//                            ToastUtil.showToastLonger("请检查密码是否正确！");
+//                        }
+//                    }
+//                });
+//                dialog.show();
+                ImportMnemonicDialog dialog = new ImportMnemonicDialog(this).setMnemonic(mWallet.getMnemonic());
+                dialog.show();
                 break;
 
         }

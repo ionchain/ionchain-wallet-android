@@ -5,6 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import org.ionchain.wallet.R;
 
@@ -32,4 +36,16 @@ public abstract class BaseDialog extends Dialog {
      * @return 布局id
      */
     protected abstract int getLayout();
+
+    protected void initDialog() {
+        Window window = this.getWindow();
+        if (window != null) {
+            window.setGravity(Gravity.CENTER);
+            DisplayMetrics dm = mActivity.getResources().getDisplayMetrics();
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.width = dm.widthPixels*6/7;
+            params.height = dm.widthPixels*3/5;
+            window.setAttributes(params);
+        }
+    }
 }

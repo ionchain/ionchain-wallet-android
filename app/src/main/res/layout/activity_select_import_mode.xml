@@ -7,6 +7,11 @@
     android:orientation="vertical"
     tools:context=".mvp.view.activity.importmode.SelectImportModeActivity">
 
+
+    <View
+        android:id="@+id/header_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"

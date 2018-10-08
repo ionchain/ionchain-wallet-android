@@ -711,4 +711,10 @@ public class WalletManager {
         }.start();
     }
 
+    /**
+     * mo
+     */
+    public static void simulateTimeConsuming(){
+
+    }
 }
