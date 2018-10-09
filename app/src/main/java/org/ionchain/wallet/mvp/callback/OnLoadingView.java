@@ -6,7 +6,7 @@ package org.ionchain.wallet.mvp.callback;
  * <p>
  * 正在加载
  */
-public interface ILoadingView {
+public interface OnLoadingView {
     /**
      * 正在加载
      */

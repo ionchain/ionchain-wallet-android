@@ -20,6 +20,7 @@ import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
 import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
+import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.callback.OnTransationCallback;
 import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.RandomUntil;
@@ -712,9 +713,30 @@ public class WalletManager {
     }
 
     /**
-     * mo
+     * 模拟耗时操作
      */
-    public static void simulateTimeConsuming(){
-
+    public static void simulateTimeConsuming(final OnSimulateTimeConsume simulateTimeConsume) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    sleep(3000);
+                    App.mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            simulateTimeConsume.onSimulateFinish();
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    App.mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            simulateTimeConsume.onSimulateFinish();
+                        }
+                    });
+                }
+            }
+        }.start();
     }
 }

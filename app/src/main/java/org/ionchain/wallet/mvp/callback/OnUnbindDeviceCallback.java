@@ -7,7 +7,7 @@ import org.ionchain.wallet.bean.DeviceBean;
  * DATE: 2018/9/14
  * 描述: 绑定设备回调接口
  */
-public interface OnUnbindDeviceCallback extends ILoadingView {
+public interface OnUnbindDeviceCallback extends OnLoadingView {
     /**
      * 绑定失败
      */

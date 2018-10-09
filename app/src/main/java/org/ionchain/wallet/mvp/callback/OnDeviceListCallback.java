@@ -9,7 +9,7 @@ import java.util.List;
  * DATE: 2018/9/14
  * 描述: 获取设备列表
  */
-public interface OnDeviceListCallback extends ILoadingView {
+public interface OnDeviceListCallback extends OnLoadingView {
     /**
      * 获取设备列表成功
      *
