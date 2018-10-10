@@ -1,4 +1,4 @@
-package org.ionchain.wallet.manager;
+package org.ionchain.wallet.helper;
 
 import android.app.Activity;
 import android.content.Context;

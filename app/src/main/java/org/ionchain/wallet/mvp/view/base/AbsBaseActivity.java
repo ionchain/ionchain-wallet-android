@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import org.ionchain.wallet.immersionbar.ImmersionBar;
-import org.ionchain.wallet.manager.ActivityHelper;
+import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 
 import java.io.Serializable;

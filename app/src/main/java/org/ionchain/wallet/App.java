@@ -10,7 +10,7 @@ import com.lzy.okgo.OkGo;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
-import org.ionchain.wallet.manager.WalletManager;
+import org.ionchain.wallet.helper.Web3jHelper;
 
 
 
@@ -51,7 +51,7 @@ public class App extends Application {
         mContext = getApplicationContext();
         Stetho.initializeWithDefaults(this);
         OkGo.getInstance().init(this);
-        WalletManager.getInstance().initWeb3j(this);
+        Web3jHelper.getInstance().initWeb3j(this);
         Logger.addLogAdapter(new AndroidLogAdapter());
     }
 

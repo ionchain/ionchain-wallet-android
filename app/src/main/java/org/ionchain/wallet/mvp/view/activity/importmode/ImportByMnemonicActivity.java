@@ -19,8 +19,9 @@ import android.widget.Toast;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.manager.WalletManager;
-import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
+import org.ionchain.wallet.helper.Web3jHelper;
+import org.ionchain.wallet.mvp.callback.OnImportMnemonicCallback;
+import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.StringUtils;
@@ -31,7 +32,7 @@ import java.util.Arrays;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 
-public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback {
+public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback,OnUpdatePasswordCallback {
     private RelativeLayout importHeader;
     private ImageView back;
     private AppCompatEditText mnemonic;
@@ -122,7 +123,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                 }
 
                 showProgress("正在导入钱包请稍候");
-                WalletManager.getInstance()
+                Web3jHelper.getInstance()
                         .importWalletByMnemonicCode("", Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);
             }
         });
@@ -177,23 +178,25 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     }
 
+
     @Override
-    public void onCreateSuccess(final WalletBean walletBean) {
+    public void onImportMnemonicSuccess(WalletBean walletBean) {
         final WalletBean wallet = WalletDaoTools.getWalletByAddress(walletBean.getAddress());
         Log.i(TAG, "onCreateSuccess: " + walletBean.toString());
 
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
+            wallet.setPrivateKey(walletBean.getPrivateKey());
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("该钱包已存在")
                     .setMessage("是否继续导入？/n继续导入则会更新钱包密码!")
                     .setPositiveButton("继续", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            WalletDaoTools.updateWallet(wallet);
+
                             dialog.dismiss();
-                            ToastUtil.showToastLonger("更新成功啦!");
-                            skip(MainActivity.class);
+                            Web3jHelper.updatePasswordAndKeyStore(wallet,ImportByMnemonicActivity.this);
+
                         }
                     })
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -216,13 +219,24 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             skip(MainActivity.class);
         }
         hideProgress();
-
     }
 
     @Override
-    public void onCreateFailure(String result) {
+    public void onImportMnemonicFailure(String error) {
         hideProgress();
         ToastUtil.showToastLonger("导入成失败");
-        Log.i(TAG, "onCreateFailure: " + result);
+        Log.i(TAG, "onCreateFailure: " + error);
+    }
+
+    @Override
+    public void onUpdatePasswordSuccess(WalletBean wallet) {
+        WalletDaoTools.updateWallet(wallet);
+        ToastUtil.showToastLonger("更新成功啦!");
+        skip(MainActivity.class);
+    }
+
+    @Override
+    public void onUpdatePasswordFailure(String error) {
+        ToastUtil.showToastLonger(error);
     }
 }

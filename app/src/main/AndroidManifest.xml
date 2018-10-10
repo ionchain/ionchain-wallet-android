@@ -8,7 +8,6 @@
 
     <application
         android:name=".App"
-        android:allowBackup="true"
         android:icon="@mipmap/login_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/login_logo"
@@ -78,7 +77,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".mvp.view.activity.TxActivity" />
         <activity android:name=".mvp.view.activity.importmode.SelectImportModeActivity" />
-        <activity android:name=".mvp.view.activity.importmode.ImportByMnemonicActivity"></activity>
+        <activity android:name=".mvp.view.activity.importmode.ImportByMnemonicActivity" />
     </application>
 
 </manifest>

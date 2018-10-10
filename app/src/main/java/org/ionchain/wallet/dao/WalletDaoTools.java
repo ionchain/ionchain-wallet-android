@@ -69,6 +69,7 @@ public class WalletDaoTools {
     public static void updateWallet(WalletBean wallet) {
 
         try {
+            wallet.setPrivateKey("");
             EntityManager.getInstance().getWalletDao().update(wallet);
         } catch (Throwable e) {
             Logger.e(e, "getAllWallet");
@@ -90,6 +91,7 @@ public class WalletDaoTools {
 
     public static long saveWallet(WalletBean wallet) {
         //私钥不存储于数据库中
+        wallet.setPrivateKey("");
         long id = EntityManager.getInstance().getWalletDao().insertOrReplace(wallet);
         return id;
     }

@@ -133,7 +133,7 @@
             android:layout_marginRight="@dimen/h16"
             android:layout_marginTop="@dimen/h16"
             android:textColor="@color/white"
-            android:background="@color/blue_top"
+            android:background="@color/grey"
             android:enabled="false"
             android:text="创建钱包" />
 

@@ -21,7 +21,7 @@ import com.orhanobut.logger.Logger;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.manager.WalletManager;
+import org.ionchain.wallet.helper.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
@@ -129,7 +129,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                 }
 
                 showProgress("正在导入钱包请稍候");
-                WalletManager.getInstance()
+                Web3jHelper.getInstance()
                         .importPrivateKey(private_key, pass, ImportByPriKeyActivity.this);
             }
         });
@@ -215,6 +215,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         final WalletBean wallet = WalletDaoTools.getWalletByAddress(walletBean.getAddress());
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
+            wallet.setPrivateKey(walletBean.getPrivateKey());
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("该钱包已存在")
                     .setMessage("是否继续导入？\n继续导入则会更新钱包密码!")
@@ -222,7 +223,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            WalletManager.updatePasswordByPrivateKey(wallet, wallet.getPassword(), private_key, ImportByPriKeyActivity.this);
+                            Web3jHelper.updatePasswordAndKeyStore(wallet, ImportByPriKeyActivity.this);
                         }
                     })
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -257,6 +258,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
         WalletDaoTools.updateWallet(wallet);
+        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger("更新成功啦!");
         skip(MainActivity.class);
     }
@@ -264,5 +266,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     @Override
     public void onUpdatePasswordFailure(String error) {
         ToastUtil.showToastLonger(error);
+        Logger.e("导入失败 " + error);
     }
 }

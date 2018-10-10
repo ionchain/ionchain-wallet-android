@@ -1,4 +1,4 @@
-package org.ionchain.wallet.manager;
+package org.ionchain.wallet.helper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -18,6 +18,7 @@ import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
 import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
+import org.ionchain.wallet.mvp.callback.OnImportMnemonicCallback;
 import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
@@ -62,11 +63,11 @@ import static org.web3j.crypto.Hash.sha256;
  * DATE: 2018/9/14
  * 描述: 钱包管理类
  * 钱包的创建
- * 获获取余额{@link WalletManager#getAccountBalance(WalletBean, OnBalanceCallback)}
+ * 获获取余额{@link Web3jHelper#getAccountBalance(WalletBean, OnBalanceCallback)}
  */
 @SuppressWarnings({"JavaDoc", "ResultOfMethodCallIgnored"})
-public class WalletManager {
-    private volatile static WalletManager mInstance;
+public class Web3jHelper {
+    private volatile static Web3jHelper mInstance;
     private static Web3j web3j;
     private Context mContext;
     private static String keystoreDir;
@@ -120,15 +121,15 @@ public class WalletManager {
         return GWEI_MAX_VALUE * 5;
     }
 
-    private WalletManager() {
+    private Web3jHelper() {
 
     }
 
-    public static WalletManager getInstance() {
+    public static Web3jHelper getInstance() {
         if (mInstance == null) {
-            synchronized (WalletManager.class) {
+            synchronized (Web3jHelper.class) {
                 if (mInstance == null) {
-                    mInstance = new WalletManager();
+                    mInstance = new Web3jHelper();
                 }
             }
         }
@@ -191,7 +192,7 @@ public class WalletManager {
      * @param walletName 钱包名字
      * @param password   钱包密码
      */
-    public void createBip39Wallet(String walletName, String password, final OnCreateWalletCallback callback) {
+    public void createBip39Wallet(String walletName, String password, final OnImportMnemonicCallback callback) {
 
         try {
             byte[] initialEntropy = new byte[16];
@@ -199,7 +200,7 @@ public class WalletManager {
             List<String> mnemonicCode = mMnemonicCode.toMnemonic(initialEntropy);//生成助记词
             importWalletByMnemonicCode(walletName, mnemonicCode, password, callback);
         } catch (MnemonicException.MnemonicLengthException e) {
-            callback.onCreateFailure(e.getMessage());
+            callback.onImportMnemonicFailure(e.getMessage());
         }
 
 
@@ -214,7 +215,8 @@ public class WalletManager {
      * @param password     密码
      * @param callback     回调结果
      */
-    public void importWalletByMnemonicCode(String walletName, List<String> mnemonicCode, String password, OnCreateWalletCallback callback) {
+    public void importWalletByMnemonicCode(String walletName, List<String> mnemonicCode, String password, OnImportMnemonicCallback callback) {
+        String md5pwd = Md5Utils.md5(password);
         String[] pathArray = ETH_JAXX_TYPE.split("/");
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
@@ -223,7 +225,7 @@ public class WalletManager {
         byte[] seedBytes = ds.getSeedBytes();
 
         if (seedBytes == null) {
-            callback.onCreateFailure("创建种子（钱包）失败");
+            callback.onImportMnemonicFailure("创建种子（钱包）失败");
             return;
         }
         DeterministicKey dkKey = HDKeyDerivation.createMasterPrivateKey(seedBytes);
@@ -250,7 +252,7 @@ public class WalletManager {
         walletBean.setPublickey(publicKey);
         Logger.i("私钥： " + privateKey);
         try {
-            String keystore = WalletUtils.generateWalletFile(password, ecKeyPair, new File(keystoreDir), false);
+            String keystore = WalletUtils.generateWalletFile(md5pwd, ecKeyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             walletBean.setKeystore(keystore);
             Logger.i("钱包keystore： " + keystore);
@@ -263,7 +265,7 @@ public class WalletManager {
             String walletAddress = Keys.toChecksumAddress(addr2);
             walletBean.setAddress(Keys.toChecksumAddress(walletAddress));//设置钱包地址
             Logger.i("钱包地址： " + walletAddress);
-            walletBean.setPassword(Md5Utils.md5(password));
+            walletBean.setPassword(md5pwd);
 
 
 //            Logger.i("addr1 " + addr1);
@@ -279,9 +281,9 @@ public class WalletManager {
             String mnemonicWord = sb.toString();
             walletBean.setMnemonic(mnemonicWord);
 //            WalletDaoTools.saveWallet(walletBean);
-            callback.onCreateSuccess(walletBean);
+            callback.onImportMnemonicSuccess(walletBean);
         } catch (CipherException | IOException e) {
-            callback.onCreateFailure(e.getMessage());
+            callback.onImportMnemonicFailure(e.getMessage());
         }
 
     }
@@ -410,18 +412,19 @@ public class WalletManager {
     public void importPrivateKey(final String privateKey, final String passwrd, final OnCreateWalletCallback callback) {
 
         try {
+            String md5pwd = Md5Utils.md5(passwrd);
             final WalletBean wallet = new WalletBean();
             String walletname = "新增钱包" + RandomUntil.getSmallLetter(3);
             BigInteger key = new BigInteger(privateKey, 16);
             ECKeyPair keyPair = ECKeyPair.create(key);
-//            String private_key = keyPair.getPrivateKey().toString(16);
-//            wallet.setPrivateKey(private_key);
+            String private_key = keyPair.getPrivateKey().toString(16);
+            wallet.setPrivateKey(private_key);
             wallet.setPublickey(keyPair.getPublicKey().toString(16));
             wallet.setAddress("0x" + Keys.getAddress(keyPair));
             wallet.setName(walletname);
             wallet.setMnemonic("");
-            wallet.setPassword(Md5Utils.md5(passwrd));
-            String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(keystoreDir), false);
+            wallet.setPassword(md5pwd);
+            String keystore = WalletUtils.generateWalletFile(md5pwd, keyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
 
@@ -441,7 +444,7 @@ public class WalletManager {
             });
         }
     }    /*
-     * * 更新密码，该方法在导入私钥的时候，遇到钱包已存在的情况下调用
+     * * 更新密码和key_store，该方法在导入私钥的时候，遇到钱包已存在的情况下调用
      * <p>
      * 从私钥可以得到公钥，然后进一步得到账户地址，而反之则无效。
      * 显然，以太坊不需要一个中心化的账户管理系统，我们可以根据以太坊约定 的算法自由地生成账户。
@@ -450,13 +453,13 @@ public class WalletManager {
      * @param passwrd    钱包密码
      * @param callback   创建结果的回调
      */
-    public static void updatePasswordByPrivateKey(final WalletBean wallet, final String passwrd,final String privateKey, final OnUpdatePasswordCallback callback) {
+    public static void updatePasswordAndKeyStore(final WalletBean wallet,final OnUpdatePasswordCallback callback) {
         try {
 
-            BigInteger key = new BigInteger(privateKey, 16);
+            BigInteger key = new BigInteger(wallet.getPrivateKey(), 16);
             ECKeyPair keyPair = ECKeyPair.create(key);
 
-            wallet.setPassword(passwrd);//在导入的时候已经做了加密，所以这里不用再加密了
+            wallet.setPassword(wallet.getPassword());//在导入的时候已经做了加密，所以这里不用再加密了
             String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
@@ -468,7 +471,7 @@ public class WalletManager {
                 }
             });
 
-        } catch (CipherException | IOException e) {
+        } catch (CipherException | NumberFormatException | IOException e) {
             App.mHandler.post(new Runnable() {
                 @Override
                 public void run() {

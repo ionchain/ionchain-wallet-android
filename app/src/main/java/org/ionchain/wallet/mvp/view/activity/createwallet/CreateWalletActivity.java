@@ -17,8 +17,8 @@ import android.widget.Toast;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.manager.WalletManager;
-import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
+import org.ionchain.wallet.helper.Web3jHelper;
+import org.ionchain.wallet.mvp.callback.OnImportMnemonicCallback;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -27,7 +27,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 
-public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback {
+public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback {
 
     final int REQUEST_CODE_CREATE_PERMISSIONS = 1;
     //判定是否需要刷新
@@ -126,7 +126,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                 }
 
 
-                WalletManager.getInstance().createBip39Wallet(walletname, pass, CreateWalletActivity.this);
+                Web3jHelper.getInstance().createBip39Wallet(walletname, pass, CreateWalletActivity.this);
             }
         });
         importBtn.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +196,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
 
 
     @Override
-    public void onCreateSuccess(WalletBean walletBean) {
+    public void onImportMnemonicSuccess(WalletBean walletBean) {
         Log.i(TAG, "onCreateSuccess: " + walletBean);
         if (isWelcome) {
             walletBean.setIsShowWallet(true);
@@ -209,8 +209,8 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     }
 
     @Override
-    public void onCreateFailure(String result) {
-        Log.i(TAG, "onCreateFailure: " + result);
+    public void onImportMnemonicFailure(String erroe) {
+        Log.i(TAG, "onCreateFailure: " + erroe);
         SoftKeyboardUtil.hideSoftKeyboard(this);
     }
 }

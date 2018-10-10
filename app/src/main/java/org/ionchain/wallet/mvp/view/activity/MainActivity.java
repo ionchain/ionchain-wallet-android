@@ -9,7 +9,7 @@ import android.widget.RadioGroup;
 
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.manager.ActivityHelper;
+import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.mvp.view.fragment.DevicesFragment;
 import org.ionchain.wallet.mvp.view.fragment.HomeFragment;

@@ -59,8 +59,8 @@ android {
         ignoreWarnings false
         // true--所有warning当做error
         warningsAsErrors false
+        disable 'GoogleAppIndexingWarning'
     }
-
     flavorDimensions "versionCode"
 
     productFlavors {

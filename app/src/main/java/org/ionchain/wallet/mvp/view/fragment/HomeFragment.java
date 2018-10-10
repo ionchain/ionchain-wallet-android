@@ -25,22 +25,21 @@ import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.WalletBean;
+import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.helper.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
-import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
-import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.presenter.Presenter;
-import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
-import org.ionchain.wallet.mvp.view.activity.TxActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
+import org.ionchain.wallet.mvp.view.activity.ModifyWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.ScanActivity;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
+import org.ionchain.wallet.mvp.view.activity.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.ModifyWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -59,8 +58,7 @@ public class HomeFragment extends AbsBaseFragment implements
         PopupWindowBuilder.OnItemBuilder,
         OnRefreshListener,
         OnBindDeviceCallback,
-        OnDeviceListCallback,
-        OnCreateWalletCallback, OnUnbindDeviceButtonClickedListener, OnUnbindDeviceCallback, OnBalanceCallback {
+        OnDeviceListCallback, OnUnbindDeviceButtonClickedListener, OnUnbindDeviceCallback, OnBalanceCallback {
 
 
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
@@ -150,7 +148,7 @@ public class HomeFragment extends AbsBaseFragment implements
         }
         int id = mCurrentWallet.getMIconIdex();
         wallet_logo.setImageResource(sRandomHeader[id]);
-        WalletManager.getInstance().getAccountBalance(mCurrentWallet, this);
+        Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, this);
         getDeviceList();
     }
 
@@ -290,18 +288,6 @@ public class HomeFragment extends AbsBaseFragment implements
     }
 
 
-    /*
-     * 请求余额结果
-     * */
-    @Override
-    public void onCreateSuccess(WalletBean walletBean) {
-        walletBalanceTx.setText(mCurrentWallet.getBalance());
-    }
-
-
-    /*
-     * 请求余额结果
-     * */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -372,7 +358,7 @@ public class HomeFragment extends AbsBaseFragment implements
                 int ids = mCurrentWallet.getMIconIdex();
                 wallet_logo.setImageResource(sRandomHeader[ids]);
 //                SPUtils.put(getActivity(), "current_wallet_name", mCurrentWallet.getName());
-                WalletManager.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
+                Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 getDeviceList();
@@ -396,13 +382,8 @@ public class HomeFragment extends AbsBaseFragment implements
 
 
     @Override
-    public void onCreateFailure(String result) {
-        Log.i(TAG, "onCreateFailure: " + result);
-    }
-
-    @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        WalletManager.getInstance().getAccountBalance(mCurrentWallet, this);
+        Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, this);
         getDeviceList();
     }
 

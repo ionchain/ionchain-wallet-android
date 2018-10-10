@@ -12,7 +12,7 @@ import android.widget.TextView;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.manager.WalletManager;
+import org.ionchain.wallet.helper.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
 import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
@@ -83,7 +83,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
             walletNameEt.setText(mWallet.getName());
         }
 
-        WalletManager.getInstance().getAccountBalance(mWallet, this);
+        Web3jHelper.getInstance().getAccountBalance(mWallet, this);
 
     }
 
@@ -147,7 +147,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 if (!StringUtils.isEmpty(pwd) && pwd.equals(Md5Utils.md5(pwd1))) {
                     dialog.dismiss();
                     showProgress("正在导出请稍候");
-                    WalletManager.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
+                    Web3jHelper.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
                 } else {
                     ToastUtil.showToastLonger("请检查密码是否正确！");
                 }
@@ -207,7 +207,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                             return;
                         }
 
-                        WalletManager.getInstance().deleteWallet(mWallet);
+                        Web3jHelper.getInstance().deleteWallet(mWallet);
 
                         finish();
                     }
@@ -277,7 +277,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                         if (!StringUtils.isEmpty(pwd) && pwd.equals(Md5Utils.md5(pwd1))) {
                             dialog.dismiss();
                             showProgress("正在导出请稍候");
-                            WalletManager.simulateTimeConsuming(ModifyWalletActivity.this);
+                            Web3jHelper.simulateTimeConsuming(ModifyWalletActivity.this);
                         } else {
                             ToastUtil.showToastLonger("请检查密码是否正确！");
                         }

@@ -25,7 +25,14 @@
         android:padding="@dimen/dp_10"
         android:textColor="@color/black"
         android:textSize="18sp"
-        android:text="424fbbf7dad260c40ce0626adc78c39deae369112dc1757c1b1cd5e183385b1"
+        android:text=""
         android:layout_height="100dp" />
-
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/grey"
+        android:layout_height="1dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="      通过助记词，可以恢复钱包，不需要原始密码,请妥善保管"/>
 </LinearLayout>
