@@ -1,6 +1,8 @@
 package org.ionchain.wallet.mvp.view.activity.importmode;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -78,7 +80,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     String pwdstr = pwdEt.getText().toString().trim();
                     String resetpwdstr = repwdEt.getText().toString().trim();
 
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)&&checkbox.isChecked()) {
+                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                         importBtn.setEnabled(true);
                         importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
                     } else {
@@ -107,13 +109,11 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                 String resetpass = pwdEt.getText().toString().trim();
                 String pass = repwdEt.getText().toString().trim();
                 if (StringUtils.isEmpty(content)) {
-                    ToastUtil.showToastLonger("助记词有误");
+                    ToastUtil.showToastLonger("请输入正确的助记词！");
                     return;
                 }
-
-                WalletBean wallet = WalletDaoTools.getWalletByPrivateKey(content);
-                if (null != wallet) {
-                    Toast.makeText(mActivity, "该钱包已存在,钱包名 : " + wallet.getName(), Toast.LENGTH_LONG).show();
+                if (resetpass.length() < 8 || pass.length() < 8) {
+                    ToastUtil.showToastLonger("密码长度不能小于8！");
                     return;
                 }
                 if (!resetpass.equals(pass)) {
@@ -131,7 +131,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
-        isWelcome = intent.getBooleanExtra(FROM_WELCOME,false);
+        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }
 
     @Override
@@ -166,7 +166,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             String pwdstr = pwdEt.getText().toString().trim();
             String resetpwdstr = repwdEt.getText().toString().trim();
 
-            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)&&checkbox.isChecked()) {
+            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
             } else {
@@ -178,19 +178,45 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     }
 
     @Override
-    public void onCreateSuccess(WalletBean walletBean) {
-        walletBean.setMIconIdex(getNum(7));
-        WalletDaoTools.saveWallet(walletBean);
-        hideProgress();
-        ToastUtil.showToastLonger("导入成功啦!");
+    public void onCreateSuccess(final WalletBean walletBean) {
+        final WalletBean wallet = WalletDaoTools.getWalletByAddress(walletBean.getAddress());
         Log.i(TAG, "onCreateSuccess: " + walletBean.toString());
-        if (isWelcome) {
-            walletBean.setIsShowWallet(true);
+
+        if (null != wallet) {
+            wallet.setPassword(walletBean.getPassword());
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("该钱包已存在")
+                    .setMessage("是否继续导入？/n继续导入则会更新钱包密码!")
+                    .setPositiveButton("继续", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            WalletDaoTools.updateWallet(wallet);
+                            dialog.dismiss();
+                            ToastUtil.showToastLonger("更新成功啦!");
+                            skip(MainActivity.class);
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
         }else {
-            walletBean.setIsShowWallet(false);
+            walletBean.setMIconIdex(getNum(7));
+            WalletDaoTools.saveWallet(walletBean);
+            ToastUtil.showToastLonger("导入成功啦!");
+            if (isWelcome) {
+                walletBean.setIsShowWallet(true);
+            } else {
+                walletBean.setIsShowWallet(false);
+            }
+            WalletDaoTools.saveWallet(walletBean);
+            skip(MainActivity.class);
         }
-        WalletDaoTools.updateWallet(walletBean);
-        skip(MainActivity.class);
+        hideProgress();
+
     }
 
     @Override

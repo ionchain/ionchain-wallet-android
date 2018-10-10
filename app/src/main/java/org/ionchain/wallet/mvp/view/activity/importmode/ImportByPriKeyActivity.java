@@ -1,6 +1,8 @@
 package org.ionchain.wallet.mvp.view.activity.importmode;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -8,32 +10,38 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.manager.WalletManager;
 import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
+import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.ScanActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 
-public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback {
+public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdatePasswordCallback {
 
     private AppCompatEditText mPrivateKey;
-    private AppCompatEditText mPwd;
-    private AppCompatEditText mRepeatPwd;
+    private AppCompatEditText pwdEt;
+    private AppCompatEditText repwdEt;
     private Button importBtn;
     private boolean isWelcome;
+    private CheckBox checkbox;
+    private String private_key;
+
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -46,10 +54,30 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         ImageView back = (ImageView) findViewById(R.id.back);
         ImageView scan = (ImageView) findViewById(R.id.scan);
         mPrivateKey = (AppCompatEditText) findViewById(R.id.contentEt);
-        mPwd = (AppCompatEditText) findViewById(R.id.pwdEt);
-        mRepeatPwd = (AppCompatEditText) findViewById(R.id.repwdEt);
+        pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
+        repwdEt = (AppCompatEditText) findViewById(R.id.repwdEt);
         TextView linkUrlTv = (TextView) findViewById(R.id.linkUrlTv);
         importBtn = (Button) findViewById(R.id.importBtn);
+        checkbox = (CheckBox) findViewById(R.id.checkbox);
+
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPrivateKey.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
+                    String content = mPrivateKey.getText().toString().trim();
+                    String pwdstr = pwdEt.getText().toString().trim();
+                    String resetpwdstr = repwdEt.getText().toString().trim();
+
+                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
+                        importBtn.setEnabled(true);
+                        importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                    } else {
+                        importBtn.setEnabled(false);
+                        importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+                    }
+                }
+            }
+        });
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,23 +94,35 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String private_key = mPrivateKey.getText().toString().trim();
-                String resetpass = mRepeatPwd.getText().toString().trim();
-                String pass = mPwd.getText().toString().trim();
-                if (StringUtils.isEmpty(private_key)) {
-                    ToastUtil.showToastLonger("私钥为空！");
+                String resetpass = "";
+                String pass = "";//获取密码
+                if (mPrivateKey.getText() == null) {
+                    ToastUtil.showToastLonger("私钥不能为空！");
                     return;
+                }
+                if (pwdEt.getText() == null) {
+                    ToastUtil.showToastLonger("密码不能为空！");
+                    return;
+                }
+                if (repwdEt.getText() == null) {
+                    ToastUtil.showToastLonger("重复密码不能为空！");
+                    return;
+                }
+                private_key = mPrivateKey.getText().toString().trim();
+                resetpass = repwdEt.getText().toString().trim();
+                pass = pwdEt.getText().toString().trim();
+                if (resetpass.length() < 8 || pass.length() < 8) {
+                    ToastUtil.showToastLonger("密码长度不能小于8！");
+                    return;
+                }
+                if (private_key.startsWith("0x")) {
+                    private_key = private_key.substring(2);
                 }
                 if (private_key.length() != 64) {
                     ToastUtil.showToastLonger("无效私钥！");
+                    return;
+                }
 
-                    return;
-                }
-                WalletBean wallet = WalletDaoTools.getWalletByPrivateKey(private_key);
-                if (null != wallet) {
-                    Toast.makeText(mActivity, "该钱包已存在,钱包名 : " + wallet.getName(), Toast.LENGTH_LONG).show();
-                    return;
-                }
                 if (!resetpass.equals(pass)) {
                     Toast.makeText(mActivity.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                     return;
@@ -102,7 +142,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -110,6 +149,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         if (resultCode == RESULT_OK && requestCode == 999) {
             String result = data.getStringExtra("result");
             mPrivateKey.setText(result);
+            private_key = result;
         }
     }
 
@@ -123,15 +163,15 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     protected void handleIntent(Intent intent) {
-       isWelcome = intent.getBooleanExtra(FROM_WELCOME,false);
+        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }
 
     @Override
     protected void initView() {
         findViews();
         mPrivateKey.addTextChangedListener(this);
-        mPwd.addTextChangedListener(this);
-        mRepeatPwd.addTextChangedListener(this);
+        pwdEt.addTextChangedListener(this);
+        repwdEt.addTextChangedListener(this);
     }
 
     @Override
@@ -152,10 +192,10 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (mPrivateKey.getText() != null && mPwd.getText() != null && mRepeatPwd.getText() != null) {
+        if (mPrivateKey.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
             String contentstr = mPrivateKey.getText().toString().trim();
-            String pwdstr = mPwd.getText().toString().trim();
-            String resetpwdstr = mRepeatPwd.getText().toString().trim();
+            String pwdstr = pwdEt.getText().toString().trim();
+            String resetpwdstr = repwdEt.getText().toString().trim();
 
             if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)) {
                 importBtn.setEnabled(true);
@@ -169,19 +209,42 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     }
 
     @Override
-    public void onCreateSuccess(WalletBean walletBean) {
-        walletBean.setMIconIdex(getNum(7));
-        WalletDaoTools.saveWallet(walletBean);
+    public void onCreateSuccess(final WalletBean walletBean) {
+        Logger.i(walletBean.toString());
         hideProgress();
-        ToastUtil.showToastLonger("导入成功啦!");
-        Log.i(TAG, "onCreateSuccess: " + walletBean.toString());
-        if (isWelcome) {
-            walletBean.setIsShowWallet(true);
-        }else {
-            walletBean.setIsShowWallet(false);
+        final WalletBean wallet = WalletDaoTools.getWalletByAddress(walletBean.getAddress());
+        if (null != wallet) {
+            wallet.setPassword(walletBean.getPassword());
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("该钱包已存在")
+                    .setMessage("是否继续导入？\n继续导入则会更新钱包密码!")
+                    .setPositiveButton("继续", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            WalletManager.updatePasswordByPrivateKey(wallet, wallet.getPassword(), private_key, ImportByPriKeyActivity.this);
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            walletBean.setMIconIdex(getNum(7));
+            WalletDaoTools.saveWallet(walletBean);
+            ToastUtil.showToastLonger("导入成功啦!");
+            if (isWelcome) {
+                walletBean.setIsShowWallet(true);
+            } else {
+                walletBean.setIsShowWallet(false);
+            }
+            WalletDaoTools.saveWallet(walletBean);
+            skip(MainActivity.class);
         }
-        WalletDaoTools.updateWallet(walletBean);
-        skip(MainActivity.class);
+
     }
 
     @Override
@@ -189,5 +252,17 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         hideProgress();
         ToastUtil.showToastLonger("导入成失败");
         Log.i(TAG, "onCreateFailure: " + result);
+    }
+
+    @Override
+    public void onUpdatePasswordSuccess(WalletBean wallet) {
+        WalletDaoTools.updateWallet(wallet);
+        ToastUtil.showToastLonger("更新成功啦!");
+        skip(MainActivity.class);
+    }
+
+    @Override
+    public void onUpdatePasswordFailure(String error) {
+        ToastUtil.showToastLonger(error);
     }
 }

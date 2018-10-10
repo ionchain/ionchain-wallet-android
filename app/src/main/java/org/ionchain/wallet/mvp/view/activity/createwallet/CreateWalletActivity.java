@@ -69,18 +69,43 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                 finish();
             }
         });
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (walletNameEt.getText() != null && pwdEt.getText() != null && resetPwdEt.getText() != null) {
+                    String content = walletNameEt.getText().toString().trim();
+                    String pwdstr = pwdEt.getText().toString().trim();
+                    String resetpwdstr = resetPwdEt.getText().toString().trim();
+
+                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)&&checkbox.isChecked()) {
+                        createBtn.setEnabled(true);
+                        createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                    } else {
+                        createBtn.setEnabled(false);
+                        createBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+                    }
+                }
+            }
+        });
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String walletname = walletNameEt.getText().toString().trim();
-                String resetpass = resetPwdEt.getText().toString().trim();
-                String pass = pwdEt.getText().toString().trim();//获取密码
-
-                if (!resetpass.equals(pass)) {
-                    ToastUtil.showShortToast("密码和重复密码必须相同");
+                String walletname = "";
+                String resetpass = "";
+                String pass = "";//获取密码
+                if (walletNameEt.getText() == null) {
+                    ToastUtil.showToastLonger("名字不能为空！");
                     return;
                 }
-
+                if (pwdEt.getText() == null) {
+                    ToastUtil.showToastLonger("密码不能为空！");
+                    return;
+                }
+                if (resetPwdEt.getText() == null) {
+                    ToastUtil.showToastLonger("重复密码不能为空！");
+                    return;
+                }
+                walletname = walletNameEt.getText().toString().trim();
                 /*
                  * 从数据库比对，重复检查
                  * */
@@ -88,6 +113,18 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                     Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                pass = pwdEt.getText().toString().trim();//获取密码
+                resetpass = resetPwdEt.getText().toString().trim();
+                if (resetpass.length() < 8 || pass.length() < 8) {
+                    ToastUtil.showToastLonger("密码长度不能小于8！");
+                    return;
+                }
+                if (!resetpass.equals(pass)) {
+                    ToastUtil.showShortToast("密码和重复密码必须相同");
+                    return;
+                }
+
 
                 WalletManager.getInstance().createBip39Wallet(walletname, pass, CreateWalletActivity.this);
             }
@@ -132,7 +169,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     }
 
 
-
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -141,23 +177,22 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
         String walletnamestr = walletNameEt.getText().toString().trim();
         String pwdstr = pwdEt.getText().toString().trim();
         String resetpwdstr = resetPwdEt.getText().toString().trim();
 
         if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)) {
             createBtn.setEnabled(true);
+            createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
         } else {
             createBtn.setEnabled(false);
+            createBtn.setBackgroundColor(getResources().getColor(R.color.grey));
         }
-
     }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
-
 
 
     @Override
@@ -165,10 +200,10 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         Log.i(TAG, "onCreateSuccess: " + walletBean);
         if (isWelcome) {
             walletBean.setIsShowWallet(true);
-        }else {
+        } else {
             walletBean.setIsShowWallet(false);
         }
-        WalletDaoTools.updateWallet(walletBean);
+        WalletDaoTools.saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
         skip(MainActivity.class);
     }

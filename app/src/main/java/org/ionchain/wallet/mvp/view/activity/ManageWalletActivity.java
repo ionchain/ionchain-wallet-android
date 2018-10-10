@@ -72,7 +72,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleBar(R.id.back)
+        mImmersionBar.titleBar(R.id.toolbarlayout)
                 .statusBarDarkFont(true)
                 .execute();
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {

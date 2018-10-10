@@ -161,14 +161,14 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
      *
      * @param privateKey
      */
-    private void showImportPrivateKeyDialog(String privateKey) {
+    private void showImportPrivateKeyDialog(final String privateKey) {
 
         new DialogImportPrivKey(this).setPrivateKeyText(privateKey)
                 .setCopyBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //复制
-                        StringUtils.copy(ModifyWalletActivity.this, mWallet.getPrivateKey());
+                        StringUtils.copy(ModifyWalletActivity.this, privateKey);
                         ToastUtil.showToastLonger("已复制私钥");
                     }
                 }).show();

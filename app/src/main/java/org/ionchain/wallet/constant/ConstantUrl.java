@@ -9,8 +9,8 @@ public class ConstantUrl {
     /**
      * 离子链节点
      */
-//    public final static String IONC_CHAIN_NODE = "http://192.168.23.71:8545";
-    public final static String IONC_CHAIN_NODE = "HTTP://192.168.21.183:8545";
+    public final static String IONC_CHAIN_NODE = "http://192.168.23.71:8545";
+//    public final static String IONC_CHAIN_NODE = "HTTP://192.168.21.183:8545";
 
     /**
      * 设备host

@@ -33,6 +33,8 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
 
         byMnemonic.setOnClickListener(this);
         byPrivateKey.setOnClickListener(this);
+        back.setOnClickListener(this);
+
     }
 
     /**
@@ -51,6 +53,8 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
             Intent intent = new Intent(mActivity,ImportByPriKeyActivity.class);
             intent.putExtra(FROM_WELCOME,isWelcome);
             startActivity(intent);
+        }else if (v==back){
+            finish();
         }
     }
 

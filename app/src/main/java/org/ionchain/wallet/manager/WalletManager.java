@@ -22,6 +22,7 @@ import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.callback.OnTransationCallback;
+import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.RandomUntil;
 import org.ionchain.wallet.utils.StringUtils;
@@ -53,7 +54,6 @@ import java.security.SecureRandom;
 import java.util.List;
 
 import static org.ionchain.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
-import static org.ionchain.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.utils.myweb3j.MnemonicUtils.generateMnemonic;
 import static org.web3j.crypto.Hash.sha256;
 
@@ -278,7 +278,7 @@ public class WalletManager {
             Logger.i("助记词 === " + sb.toString());
             String mnemonicWord = sb.toString();
             walletBean.setMnemonic(mnemonicWord);
-            WalletDaoTools.saveWallet(walletBean);
+//            WalletDaoTools.saveWallet(walletBean);
             callback.onCreateSuccess(walletBean);
         } catch (CipherException | IOException e) {
             callback.onCreateFailure(e.getMessage());
@@ -414,38 +414,65 @@ public class WalletManager {
             String walletname = "新增钱包" + RandomUntil.getSmallLetter(3);
             BigInteger key = new BigInteger(privateKey, 16);
             ECKeyPair keyPair = ECKeyPair.create(key);
-            wallet.setPrivateKey(keyPair.getPrivateKey().toString(16));
+//            String private_key = keyPair.getPrivateKey().toString(16);
+//            wallet.setPrivateKey(private_key);
             wallet.setPublickey(keyPair.getPublicKey().toString(16));
             wallet.setAddress("0x" + Keys.getAddress(keyPair));
             wallet.setName(walletname);
             wallet.setMnemonic("");
-            wallet.setPassword(passwrd);
+            wallet.setPassword(Md5Utils.md5(passwrd));
             String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
-            wallet.setMIconIdex(getNum(7));//设置随机的头像
-            WalletDaoTools.saveWallet(wallet);
+
             App.mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    App.mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.onCreateSuccess(wallet);
-                        }
-                    });
+                    callback.onCreateSuccess(wallet);
                 }
             });
+
         } catch (CipherException | IOException e) {
             App.mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    App.mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.onCreateFailure(e.getMessage());
-                        }
-                    });
+                    callback.onCreateFailure(e.getMessage());
+                }
+            });
+        }
+    }    /*
+     * * 更新密码，该方法在导入私钥的时候，遇到钱包已存在的情况下调用
+     * <p>
+     * 从私钥可以得到公钥，然后进一步得到账户地址，而反之则无效。
+     * 显然，以太坊不需要一个中心化的账户管理系统，我们可以根据以太坊约定 的算法自由地生成账户。
+     *
+     * @param privateKey 私钥
+     * @param passwrd    钱包密码
+     * @param callback   创建结果的回调
+     */
+    public static void updatePasswordByPrivateKey(final WalletBean wallet, final String passwrd,final String privateKey, final OnUpdatePasswordCallback callback) {
+        try {
+
+            BigInteger key = new BigInteger(privateKey, 16);
+            ECKeyPair keyPair = ECKeyPair.create(key);
+
+            wallet.setPassword(passwrd);//在导入的时候已经做了加密，所以这里不用再加密了
+            String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(keystoreDir), false);
+            keystore = keystoreDir + "/" + keystore;
+            wallet.setKeystore(keystore);
+
+            App.mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onUpdatePasswordSuccess(wallet);
+                }
+            });
+
+        } catch (CipherException | IOException e) {
+            App.mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    callback.onUpdatePasswordFailure(e.getMessage());
                 }
             });
         }
@@ -467,14 +494,9 @@ public class WalletManager {
 
                     BigDecimal balacne = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
                     balacne = balacne.setScale(4, BigDecimal.ROUND_DOWN);
-                    System.out.println(balacne);
+                    Logger.i("余额" + balacne);
                     int a = balacne.compareTo(BigDecimal.valueOf(10));
-                    if (a < 0) {
-                        walletBean.setBalance("0.0000");
-                    } else {
-                        walletBean.setBalance(String.valueOf(balacne));
-                    }
-
+                    walletBean.setBalance(String.valueOf(balacne));
                     WalletDaoTools.updateWallet(walletBean);
                     App.mHandler.post(new Runnable() {
                         @Override
