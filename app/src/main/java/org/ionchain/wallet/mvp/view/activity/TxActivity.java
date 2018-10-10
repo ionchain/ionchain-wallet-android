@@ -65,7 +65,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
             public void onClick(View v) {
                 final String toAddress = txToAddressEt.getText().toString();
                 final String txAccount = txAccountEt.getText().toString();
-                if (StringUtils.isEmpty(toAddress)||StringUtils.isEmpty(txAccount)) {
+                if (StringUtils.isEmpty(toAddress) || StringUtils.isEmpty(txAccount)) {
                     ToastUtil.showToastLonger("请检查转帐地址或金额是否全部输入！");
                     return;
                 }
@@ -133,23 +133,26 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
         double min_value = Web3jHelper.getInstance().getMinFee().doubleValue();//最小值 0.0003
         double value = default_value - min_value;//0.0006
         double max_fee = Web3jHelper.getInstance().getMaxFee().doubleValue();
-        double v1 = value / max_fee;
-        double progress = (v1 * Web3jHelper.getInstance().getSeekBarMaxValue());
-        Log.i(TAG, "default_value: " + default_value);
-        Log.i(TAG, "min_value: " + min_value);
-        Log.i(TAG, "value: " + value);
-        Log.i(TAG, "max_fee: " + max_fee);
-        Log.i(TAG, "v1: " + progress);
 
+        if (value == 0) {
+            value = 0.00006;
+        }
         DecimalFormat df = new DecimalFormat("0.00000000");
         txCostTv.setText("旷工费 " + df.format(value) + " IONC");
 
         int max = Web3jHelper.getInstance().getSeekBarMaxValue();
         Log.i(TAG, "max: " + max);
         txSeekBarIndex.setMax(max);// 200
+        double v1 = value / max_fee;
+        double progress = (v1 * Web3jHelper.getInstance().getSeekBarMaxValue());
         txSeekBarIndex.setProgress((int) progress);// 200
         mCurrentGasPrice = toGasPrice(default_value);
         Log.i(TAG, "initData: " + mCurrentGasPrice);
+        Log.i(TAG, "default_value: " + default_value);
+        Log.i(TAG, "min_value: " + min_value);
+        Log.i(TAG, "value: " + value);
+        Log.i(TAG, "max_fee: " + max_fee);
+        Log.i(TAG, "v1: " + progress);
     }
 
     private BigDecimal toGasPrice(double progress) {
