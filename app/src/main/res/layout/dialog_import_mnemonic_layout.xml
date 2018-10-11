@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/title_size"
-        android:layout_height="?actionBarSize" />
+        android:layout_height="wrap_content" />
     <View
         android:layout_width="match_parent"
         android:background="@color/grey"

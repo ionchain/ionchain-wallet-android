@@ -3,7 +3,6 @@ package org.ionchain.wallet.mvp.view.activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,8 +12,6 @@ import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.StringUtils;
 
 public class ShowAddressActivity extends AbsBaseActivity {
-    private ImageView bgImg;
-    private RelativeLayout showTitle;
     private ImageView back;
     private TextView walletAddressTv;
     private ImageView showQrImg;
@@ -29,8 +26,6 @@ public class ShowAddressActivity extends AbsBaseActivity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        bgImg = (ImageView) findViewById(R.id.bg_img);
-        showTitle = (RelativeLayout) findViewById(R.id.show_title);
         back = (ImageView) findViewById(R.id.back);
         walletAddressTv = (TextView) findViewById(R.id.walletAddressTv);
         showQrImg = (ImageView) findViewById(R.id.show_qr_img);
