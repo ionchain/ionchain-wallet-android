@@ -201,6 +201,14 @@ public class HomeFragment extends AbsBaseFragment implements
                 skip(intent);
             }
         });
+        walletAddressTx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
+                intent.putExtra("msg", mCurrentWallet.getAddress());
+                skip(intent);
+            }
+        });
 
         /*
          * 更多钱包
