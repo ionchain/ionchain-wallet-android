@@ -19,7 +19,9 @@ import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.helper.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnImportMnemonicCallback;
+import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
+import org.ionchain.wallet.mvp.view.activity.ModifyWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
@@ -27,7 +29,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 
-public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback {
+public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnSimulateTimeConsume {
 
     final int REQUEST_CODE_CREATE_PERMISSIONS = 1;
     //判定是否需要刷新
@@ -45,6 +47,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     private TextView importBtn;
 
     private boolean isWelcome;
+    private String walletnamestr;
+    private String pass;
+    private String resetpass;
 
     /**
      * Find the Views in the layout<br />
@@ -90,32 +95,16 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String walletname = "";
-                String resetpass = "";
-                String pass = "";//获取密码
-                if (walletNameEt.getText() == null) {
-                    ToastUtil.showToastLonger("名字不能为空！");
-                    return;
-                }
-                if (pwdEt.getText() == null) {
-                    ToastUtil.showToastLonger("密码不能为空！");
-                    return;
-                }
-                if (resetPwdEt.getText() == null) {
-                    ToastUtil.showToastLonger("重复密码不能为空！");
-                    return;
-                }
-                walletname = walletNameEt.getText().toString().trim();
+
                 /*
                  * 从数据库比对，重复检查
                  * */
-                if (null != WalletDaoTools.getWalletByName(walletname)) {
+                if (null != WalletDaoTools.getWalletByName(walletnamestr)) {
                     Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                pass = pwdEt.getText().toString().trim();//获取密码
-                resetpass = resetPwdEt.getText().toString().trim();
+
                 if (resetpass.length() < 8 || pass.length() < 8) {
                     ToastUtil.showToastLonger("密码长度不能小于8！");
                     return;
@@ -125,8 +114,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                     return;
                 }
 
+                showProgress("正在创建钱包……");
+                Web3jHelper.simulateTimeConsuming(CreateWalletActivity.this);
 
-                Web3jHelper.getInstance().createBip39Wallet(walletname, pass, CreateWalletActivity.this);
             }
         });
         importBtn.setOnClickListener(new View.OnClickListener() {
@@ -181,11 +171,23 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
 
     @Override
     public void afterTextChanged(Editable s) {
-        String walletnamestr = walletNameEt.getText().toString().trim();
-        String pwdstr = pwdEt.getText().toString().trim();
-        String resetpwdstr = resetPwdEt.getText().toString().trim();
+        if (walletNameEt.getText() == null) {
+            ToastUtil.showToastLonger("请输入钱包名字");
+            return;
+        }
+        if (pwdEt.getText() == null) {
+            ToastUtil.showToastLonger("请输入钱包密码");
+            return;
+        }
+        if (resetPwdEt.getText() == null) {
+            ToastUtil.showToastLonger("请输入钱包重复密码");
+            return;
+        }
+        walletnamestr = walletNameEt.getText().toString().trim();
+        pass = pwdEt.getText().toString().trim();
+        resetpass = resetPwdEt.getText().toString().trim();
 
-        if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)) {
+        if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(resetpass)) {
             createBtn.setEnabled(true);
             createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
         } else {
@@ -198,6 +200,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     @Override
     public void onImportMnemonicSuccess(WalletBean walletBean) {
         Log.i(TAG, "onCreateSuccess: " + walletBean);
+        hideProgress();
         if (isWelcome) {
             walletBean.setIsShowWallet(true);
         } else {
@@ -212,5 +215,10 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     public void onImportMnemonicFailure(String erroe) {
         Log.i(TAG, "onCreateFailure: " + erroe);
         SoftKeyboardUtil.hideSoftKeyboard(this);
+    }
+
+    @Override
+    public void onSimulateFinish() {
+        Web3jHelper.getInstance().createBip39Wallet(walletnamestr, pass, CreateWalletActivity.this);
     }
 }
