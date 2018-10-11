@@ -82,7 +82,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                     String pwdstr = pwdEt.getText().toString().trim();
                     String resetpwdstr = resetPwdEt.getText().toString().trim();
 
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)&&checkbox.isChecked()) {
+                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                         createBtn.setEnabled(true);
                         createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
                     } else {
@@ -212,8 +212,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     }
 
     @Override
-    public void onImportMnemonicFailure(String erroe) {
-        Log.i(TAG, "onCreateFailure: " + erroe);
+    public void onImportMnemonicFailure(String error) {
+        hideProgress();
+        ToastUtil.showToastLonger(error);
         SoftKeyboardUtil.hideSoftKeyboard(this);
     }
 
