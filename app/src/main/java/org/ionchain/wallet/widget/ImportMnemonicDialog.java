@@ -2,6 +2,7 @@ package org.ionchain.wallet.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.TextView;
 
 import org.ionchain.wallet.R;
@@ -25,8 +26,15 @@ public class ImportMnemonicDialog extends BaseDialog {
     protected void initView() {
         setCanceledOnTouchOutside(false);
         initDialog();
+        findViewById(R.id.close_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         TextView tv = findViewById(R.id.import_mnemonic_tv);
         tv.setText(mnemonic);
+
     }
 
     @Override

@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/h5"
+    android:paddingLeft="@dimen/h5"
+    android:paddingRight="@dimen/h5"
+    android:paddingTop="5dp"
     android:background="@drawable/dialog_import_mnemonic"
     android:layout_height="wrap_content">
     <TextView
@@ -32,7 +34,15 @@
         android:background="@color/grey"
         android:layout_height="1dp"/>
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="      通过助记词，可以恢复钱包，不需要原始密码,请妥善保管"/>
+    <Button
+        android:id="@+id/close_btn"
+        android:text="关闭"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
