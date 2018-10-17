@@ -97,8 +97,6 @@ dependencies {
     implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
     //    网络请求框架
     implementation 'com.lzy.net:okgo:3.0.4'
-    //    适配器
-//    implementation project(':adapter')
     //    下来刷新
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     //    适配器
