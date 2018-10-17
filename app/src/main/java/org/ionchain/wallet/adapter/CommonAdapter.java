@@ -1,4 +1,4 @@
-package com.smart.holder;
+package org.ionchain.wallet.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,12 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.smart.holder.iinterface.IViewHolder;
-import com.smart.holder.iinterface.IViewHolderHelper;
+import org.ionchain.wallet.adapter.iinterface.IViewHolder;
+import org.ionchain.wallet.adapter.iinterface.IViewHolderHelper;
 
 import java.io.Serializable;
 import java.util.List;
-
 
 
 /**

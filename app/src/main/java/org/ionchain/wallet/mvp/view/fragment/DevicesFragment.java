@@ -9,15 +9,15 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.smart.holder.CommonAdapter;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.adapter.CommonAdapter;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.DeviceListBean;
 import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.NetUtils;
 import org.ionchain.wallet.utils.StringUtils;

@@ -18,9 +18,9 @@ import android.widget.Toast;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.smart.holder.CommonAdapter;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.adapter.CommonAdapter;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;

@@ -7,9 +7,9 @@ import android.widget.ListView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.smart.holder.CommonAdapter;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.adapter.CommonAdapter;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
@@ -19,7 +19,6 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 import static org.ionchain.wallet.constant.ConstantParams.JUMP_PARM_ISADDMODE;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;

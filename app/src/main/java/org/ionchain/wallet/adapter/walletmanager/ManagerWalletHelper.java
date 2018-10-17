@@ -4,11 +4,9 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
-import com.orhanobut.logger.Logger;
-import com.smart.holder.iinterface.IViewHolder;
-import com.smart.holder.iinterface.IViewHolderHelper;
-
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.adapter.iinterface.IViewHolder;
+import org.ionchain.wallet.adapter.iinterface.IViewHolderHelper;
 import org.ionchain.wallet.bean.WalletBean;
 
 import java.util.List;

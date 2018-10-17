@@ -1,4 +1,4 @@
-package com.smart.holder.iinterface;
+package org.ionchain.wallet.adapter.iinterface;
 
 import android.content.Context;
 import android.view.View;
