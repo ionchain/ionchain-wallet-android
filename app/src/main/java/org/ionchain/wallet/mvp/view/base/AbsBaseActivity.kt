@@ -20,8 +20,6 @@ import java.io.Serializable
 abstract class AbsBaseActivity : AppCompatActivity() {
     protected lateinit var mActivity: AbsBaseActivity
     protected var mImmersionBar: ImmersionBar? = null
-    protected var mIntent: Intent? = null
-
     protected val TAG = this.javaClass.simpleName
 
     protected abstract val layoutId: Int
@@ -43,7 +41,6 @@ abstract class AbsBaseActivity : AppCompatActivity() {
         val intent = intent
         if (intent != null) {
             handleIntent(intent)
-
         }
         initView()
         initData()
