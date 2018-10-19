@@ -1,26 +1,24 @@
-package org.ionchain.wallet.mvp.model.home;
+package org.ionchain.wallet.mvp.model.home
 
-import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
-import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback;
-import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
-import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
-
-import java.util.List;
+import org.ionchain.wallet.bean.WalletBean
+import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback
+import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback
+import org.ionchain.wallet.mvp.callback.OnDeviceListCallback
+import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback
 
 /**
  * USER: binny
  * DATE: 2018/9/13
  * 描述: 首页数据的业务类
  */
-public interface IHomePageModel {
+interface IHomePageModel {
     /**
      * 获取用户当前钱包的设备列表
      *
      * @param walletBean 钱包地址
      * @param callback   钱包数据集
      */
-    void getCurrentWalletDevicesList(WalletBean walletBean, OnDeviceListCallback callback);
+    fun getCurrentWalletDevicesList(walletBean: WalletBean, callback: OnDeviceListCallback)
 
     /**
      * 获取用户所有钱包的相关的设备
@@ -28,7 +26,7 @@ public interface IHomePageModel {
      * @param walletBeans 用户的所有钱包
      * @param callback    钱包数据集
      */
-    void getAllWalletDeviceList(List<WalletBean> walletBeans, OnDeviceListCallback callback);
+    fun getAllWalletDeviceList(walletBeans: List<WalletBean>, callback: OnDeviceListCallback)
 
     /**
      * 将设备与钱包绑定
@@ -37,7 +35,7 @@ public interface IHomePageModel {
      * @param cksn     设备的唯一识别码
      * @param callback 绑定成功，返回的结果
      */
-    void bindDeviceToWallet(String address, String cksn, OnBindDeviceCallback callback);
+    fun bindDeviceToWallet(address: String, cksn: String, callback: OnBindDeviceCallback)
 
     /**
      * 将设备与钱包解绑定
@@ -46,11 +44,11 @@ public interface IHomePageModel {
      * @param cksn     设备的唯一识别码
      * @param callback
      */
-    void unbindDeviceToWallet(String address, String cksn, OnUnbindDeviceCallback callback);
+    fun unbindDeviceToWallet(address: String, cksn: String, callback: OnUnbindDeviceCallback)
 
     /**
      * @param cksn     设备识别码
      * @param callback 设备信息
      */
-    void getDeviceDetail(String cksn, OnDeviceDetailCallback callback);
+    fun getDeviceDetail(cksn: String, callback: OnDeviceDetailCallback)
 }

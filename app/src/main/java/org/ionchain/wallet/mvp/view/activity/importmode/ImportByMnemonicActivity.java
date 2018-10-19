@@ -119,7 +119,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     return;
                 }
                 if (!resetpass.equals(pass)) {
-                    Toast.makeText(mActivity.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getMActivity().getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -183,7 +183,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     @Override
     public void onImportMnemonicSuccess(WalletBean walletBean) {
         final WalletBean wallet = WalletDaoTools.getWalletByAddress(walletBean.getAddress());
-        Log.i(TAG, "onCreateSuccess: " + walletBean.toString());
+        Log.i(getTAG(), "onCreateSuccess: " + walletBean.toString());
 
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
@@ -226,7 +226,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     public void onImportMnemonicFailure(String error) {
         hideProgress();
         ToastUtil.showToastLonger("导入成失败");
-        Log.i(TAG, "onCreateFailure: " + error);
+        Log.i(getTAG(), "onCreateFailure: " + error);
     }
 
     @Override

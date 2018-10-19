@@ -32,7 +32,7 @@ public class WelcomeActivity extends AbsBaseActivity {
                 if (WalletDaoTools.getAllWallet() != null && WalletDaoTools.getAllWallet().size() > 0) {
                     skip(MainActivity.class);
                 } else {
-                    Intent intent = new Intent(mActivity,CreateWalletSelectActivity.class);
+                    Intent intent = new Intent(getMActivity(),CreateWalletSelectActivity.class);
                     intent.putExtra(FROM_WELCOME,true);
                     startActivity(intent);
                 }

@@ -52,7 +52,7 @@ public class MessageCenterActivity extends AbsBaseActivity {
     @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleBar(R.id.header).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleBar(R.id.header).statusBarDarkFont(true).execute();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
         back.setOnClickListener(new View.OnClickListener() {

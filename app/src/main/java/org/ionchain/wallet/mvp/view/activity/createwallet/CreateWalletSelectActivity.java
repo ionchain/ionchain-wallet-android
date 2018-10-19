@@ -34,7 +34,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,CreateWalletActivity.class);
+                Intent intent = new Intent(getMActivity(),CreateWalletActivity.class);
                 intent.putExtra(FROM_WELCOME,isWelcome);
                 startActivity(intent);
             }
@@ -42,7 +42,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,SelectImportModeActivity.class);
+                Intent intent = new Intent(getMActivity(),SelectImportModeActivity.class);
                 intent.putExtra(FROM_WELCOME,isWelcome);
                 startActivity(intent);
             }
@@ -54,7 +54,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mImmersionBar
+        getMImmersionBar()
                 .statusBarDarkFont(false)
                 .transparentStatusBar()
                 .navigationBarColor(R.color.black,0.5f)

@@ -68,7 +68,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
                     return;
                 }
                 if (!old_pwd.equals(Md5Utils.md5(oldpwdstr))) {
-                    Log.i(TAG, "旧密码错误: " + old_pwd);
+                    Log.i(getTAG(), "旧密码错误: " + old_pwd);
                     ToastUtil.showShortToast("旧密码错误");
                     return;
                 }
@@ -107,7 +107,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
     @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).execute();
     }
 
     @Override
@@ -118,7 +118,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
     @Override
     public void onModifySuccess(WalletBean walletBean) {
         hideProgress();
-        Log.i(TAG, "onModifySuccess: " + walletBean.getKeystore());
+        Log.i(getTAG(), "onModifySuccess: " + walletBean.getKeystore());
         ToastUtil.showShortToast("修改密码成功");
         Intent intent = new Intent();
         intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, walletBean);
@@ -128,7 +128,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
 
     @Override
     public void onModifyFailure(String error) {
-        Log.i(TAG, "onModifyFailure: " + error);
+        Log.i(getTAG(), "onModifyFailure: " + error);
         ToastUtil.showShortToast("修改密码失败");
         hideProgress();
     }

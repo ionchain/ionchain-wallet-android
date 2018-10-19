@@ -70,7 +70,6 @@ public final class StringUtils {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("txt", text);//参数一：标签，参数二：要复制到剪贴板的文本
         clipboard.setPrimaryClip(clip);
-
     }
 
     public static boolean isEmpty(String s) {

@@ -14,12 +14,12 @@ public class QRCodeUtils {
      * @param msg 二维码包含的信息
      */
     public static Bitmap generateQRCode(String msg) {
-        return QRCodeEncoder.syncEncodeQRCode(msg, BGAQRCodeUtil.dp2px(App.mContext, 80));
+        return QRCodeEncoder.syncEncodeQRCode(msg, BGAQRCodeUtil.dp2px(App.Companion.getMContext(), 80));
     }
     /**
      * @param msg 二维码包含的信息
      */
     public static Bitmap generateQRCode(String msg,int size_px) {
-        return QRCodeEncoder.syncEncodeQRCode(msg, BGAQRCodeUtil.dp2px(App.mContext, size_px));
+        return QRCodeEncoder.syncEncodeQRCode(msg, BGAQRCodeUtil.dp2px(App.Companion.getMContext(), size_px));
     }
 }

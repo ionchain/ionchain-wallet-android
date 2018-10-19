@@ -19,6 +19,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.CommonAdapter;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
@@ -50,7 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static org.ionchain.wallet.App.sRandomHeader;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 
 
@@ -147,7 +147,7 @@ public class HomeFragment extends AbsBaseFragment implements
             walletBalanceTx.setText("0.0000");// 钱包金额
         }
         int id = mCurrentWallet.getMIconIdex();
-        wallet_logo.setImageResource(sRandomHeader[id]);
+        wallet_logo.setImageResource(App.Companion.getSRandomHeader()[id]);
         Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, this);
         getDeviceList();
     }
@@ -364,7 +364,7 @@ public class HomeFragment extends AbsBaseFragment implements
                     walletBalanceTx.setText("0.0000");// 钱包金额
                 }
                 int ids = mCurrentWallet.getMIconIdex();
-                wallet_logo.setImageResource(sRandomHeader[ids]);
+                wallet_logo.setImageResource(App.Companion.getSRandomHeader()[ids]);
 //                SPUtils.put(getActivity(), "current_wallet_name", mCurrentWallet.getName());
                 Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
                 mDataBeans.clear();

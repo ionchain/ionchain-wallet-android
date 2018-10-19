@@ -100,7 +100,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                  * 从数据库比对，重复检查
                  * */
                 if (null != WalletDaoTools.getWalletByName(walletnamestr)) {
-                    Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getMActivity().getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -145,7 +145,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleBar(R.id.toolbarlayout).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleBar(R.id.toolbarlayout).statusBarDarkFont(true).execute();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
 
     @Override
     public void onImportMnemonicSuccess(WalletBean walletBean) {
-        Log.i(TAG, "onCreateSuccess: " + walletBean);
+        Log.i(getTAG(), "onCreateSuccess: " + walletBean);
         hideProgress();
         if (isWelcome) {
             walletBean.setIsShowWallet(true);

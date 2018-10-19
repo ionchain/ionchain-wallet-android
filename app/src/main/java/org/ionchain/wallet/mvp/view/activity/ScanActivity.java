@@ -74,7 +74,7 @@ public class ScanActivity extends AbsBaseActivity implements QRCodeView.Delegate
 
     @Override
     protected void initView() {
-        mImmersionBar.titleBar(findViewById(R.id.header)).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleBar(findViewById(R.id.header)).statusBarDarkFont(true).execute();
         mQRCodeView = (ZXingView) findViewById(R.id.zbarview);
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +117,7 @@ public class ScanActivity extends AbsBaseActivity implements QRCodeView.Delegate
 
     @Override
     public void onScanQRCodeSuccess(String result) {
-        Logger.i(TAG, "result:" + result);
+        Logger.i(getTAG(), "result:" + result);
         vibrate();
         mQRCodeView.startSpot();
         scanSuccess(result,"未发现二维码");
@@ -125,7 +125,7 @@ public class ScanActivity extends AbsBaseActivity implements QRCodeView.Delegate
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-        Logger.e(TAG, "打开相机出错");
+        Logger.e(getTAG(), "打开相机出错");
     }
 
 
@@ -143,7 +143,7 @@ public class ScanActivity extends AbsBaseActivity implements QRCodeView.Delegate
             finish();
 
         }catch (Throwable e){
-            Logger.e(e,TAG);
+            Logger.e(e, getTAG());
         }
     }
 

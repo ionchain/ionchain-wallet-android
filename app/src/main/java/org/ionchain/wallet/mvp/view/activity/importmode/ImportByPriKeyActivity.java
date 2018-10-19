@@ -125,7 +125,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                 }
 
                 if (!resetpass.equals(pass)) {
-                    Toast.makeText(mActivity.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getMActivity().getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -157,7 +157,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     protected void initData() {
-        mImmersionBar.titleBar(R.id.import_header)
+        getMImmersionBar().titleBar(R.id.import_header)
                 .statusBarDarkFont(true)
                 .execute();
     }
@@ -253,7 +253,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     public void onCreateFailure(String result) {
         hideProgress();
         ToastUtil.showToastLonger("导入成失败");
-        Log.i(TAG, "onCreateFailure: " + result);
+        Log.i(getTAG(), "onCreateFailure: " + result);
     }
 
     @Override

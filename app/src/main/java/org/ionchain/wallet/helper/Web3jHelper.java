@@ -145,7 +145,7 @@ public class Web3jHelper {
         mContext = context;
 
         try {
-            mMnemonicCode = new MnemonicCode(App.mContext.getAssets().open("en-mnemonic-word-list.txt"), null);
+            mMnemonicCode = new MnemonicCode(App.Companion.getMContext().getAssets().open("en-mnemonic-word-list.txt"), null);
             keystoreDir = context.getExternalCacheDir() + "/ionchain/keystore";
             Log.i(TAG, "initWeb3j: 文件创建成功 keystoreDir = " + keystoreDir);
             //创建keystore路径
@@ -428,7 +428,7 @@ public class Web3jHelper {
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
 
-            App.mHandler.post(new Runnable() {
+            App.Companion.getMHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     callback.onCreateSuccess(wallet);
@@ -436,7 +436,7 @@ public class Web3jHelper {
             });
 
         } catch (CipherException | IOException e) {
-            App.mHandler.post(new Runnable() {
+            App.Companion.getMHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     callback.onCreateFailure(e.getMessage());
@@ -464,7 +464,7 @@ public class Web3jHelper {
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
 
-            App.mHandler.post(new Runnable() {
+            App.Companion.getMHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     callback.onUpdatePasswordSuccess(wallet);
@@ -472,7 +472,7 @@ public class Web3jHelper {
             });
 
         } catch (CipherException | NumberFormatException | IOException e) {
-            App.mHandler.post(new Runnable() {
+            App.Companion.getMHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     callback.onUpdatePasswordFailure(e.getMessage());
@@ -501,14 +501,14 @@ public class Web3jHelper {
                     int a = balacne.compareTo(BigDecimal.valueOf(10));
                     walletBean.setBalance(String.valueOf(balacne));
                     WalletDaoTools.updateWallet(walletBean);
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             callback.onBalanceSuccess(walletBean);
                         }
                     });
                 } catch (final IOException e) {
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             callback.onBalanceFailure(e.getMessage());
@@ -540,7 +540,7 @@ public class Web3jHelper {
                 try {
                     ethGetTransactionCount = web3j.ethGetTransactionCount(from, DefaultBlockParameterName.PENDING).send();
                 } catch (final IOException e) {
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             callback.onTxFailure(e.getMessage());
@@ -565,14 +565,14 @@ public class Web3jHelper {
                     EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();
                     final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
                     if (!TextUtils.isEmpty(hashTx)) {
-                        App.mHandler.post(new Runnable() {
+                        App.Companion.getMHandler().post(new Runnable() {
                             @Override
                             public void run() {
                                 callback.OnTxSuccess(hashTx);
                             }
                         });
                     } else {
-                        App.mHandler.post(new Runnable() {
+                        App.Companion.getMHandler().post(new Runnable() {
                             @Override
                             public void run() {
                                 callback.onTxFailure("null......");
@@ -580,7 +580,7 @@ public class Web3jHelper {
                         });
                     }
                 } catch (final IOException e) {
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             callback.onTxFailure(e.getMessage());
@@ -637,14 +637,14 @@ public class Web3jHelper {
                 try {
                     Credentials credentials = WalletUtils.loadCredentials(password, keystore);
                     final String privateKey = credentials.getEcKeyPair().getPrivateKey().toString(16);
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             callback.onImportPriKeySuccess(privateKey);
                         }
                     });
                 } catch (final Exception e) {
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             callback.onImportPriKeySuccess(e.getMessage());
@@ -681,10 +681,10 @@ public class Web3jHelper {
                 try {
                     Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());
                     if (null == credentials || !credentials.getAddress().equals(wallet.getAddress())) {
-                        App.mHandler.post(new Runnable() {
+                        App.Companion.getMHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                App.mHandler.post(new Runnable() {
+                                App.Companion.getMHandler().post(new Runnable() {
                                     @Override
                                     public void run() {
                                         callback.onModifyFailure("修改失败！");
@@ -716,7 +716,7 @@ public class Web3jHelper {
                     }
                     wallet.setKeystore(keystore);
                     wallet.setPassword(newPassWord);
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             callback.onModifySuccess(wallet);
@@ -724,7 +724,7 @@ public class Web3jHelper {
                     });
                 } catch (final Exception e) {
                     Log.e("wallet", "", e);
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             callback.onModifyFailure(e.getMessage());
@@ -747,14 +747,14 @@ public class Web3jHelper {
                 super.run();
                 try {
                     sleep(3000);
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             simulateTimeConsume.onSimulateFinish();
                         }
                     });
                 } catch (InterruptedException e) {
-                    App.mHandler.post(new Runnable() {
+                    App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
                             simulateTimeConsume.onSimulateFinish();

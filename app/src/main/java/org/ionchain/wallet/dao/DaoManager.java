@@ -12,7 +12,7 @@ public class DaoManager {
     private DaoSession mDaoSession;
 
     private DaoManager() {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(App.mContext, DB_NAME, null);
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(App.Companion.getMContext(), DB_NAME, null);
         DaoMaster mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         mDaoSession = mDaoMaster.newSession();
     }

@@ -3,14 +3,13 @@ package org.ionchain.wallet.adapter.morewallet;
 import android.content.Context;
 import android.view.View;
 
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.iinterface.IViewHolder;
 import org.ionchain.wallet.adapter.iinterface.IViewHolderHelper;
 import org.ionchain.wallet.bean.WalletBean;
 
 import java.util.List;
-
-import static org.ionchain.wallet.App.sRandomHeaderMore;
 
 /**
  * USER: binny
@@ -29,6 +28,6 @@ public class MoreWalletViewHelper implements IViewHolderHelper<MoreWalletViewHol
     @Override
     public void bindListDataToView(Context context, List<WalletBean> iBaseBeanList, MoreWalletViewHolder viewHolder, int pos) {
         viewHolder.mWalletName.setText(iBaseBeanList.get(pos).getName());
-        viewHolder.mWalletImg.setImageResource(sRandomHeaderMore[iBaseBeanList.get(pos).getMIconIdex()]);
+        viewHolder.mWalletImg.setImageResource(App.Companion.getSRandomHeaderMore()[iBaseBeanList.get(pos).getMIconIdex()]);
     }
 }

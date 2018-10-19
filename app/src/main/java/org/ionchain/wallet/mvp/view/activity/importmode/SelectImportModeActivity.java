@@ -46,11 +46,11 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     public void onClick(View v) {
         if (v == byMnemonic) {
-            Intent intent = new Intent(mActivity,ImportByMnemonicActivity.class);
+            Intent intent = new Intent(getMActivity(),ImportByMnemonicActivity.class);
             intent.putExtra(FROM_WELCOME,isWelcome);
             startActivity(intent);
         } else if (v == byPrivateKey) {
-            Intent intent = new Intent(mActivity,ImportByPriKeyActivity.class);
+            Intent intent = new Intent(getMActivity(),ImportByPriKeyActivity.class);
             intent.putExtra(FROM_WELCOME,isWelcome);
             startActivity(intent);
         }else if (v==back){
@@ -72,7 +72,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleBar(R.id.header_top).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleBar(R.id.header_top).statusBarDarkFont(true).execute();
     }
 
     @Override

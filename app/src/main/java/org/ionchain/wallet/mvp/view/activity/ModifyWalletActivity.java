@@ -98,7 +98,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     protected void initView() {
         findViews();
         final IONCTitleBar ioncTitleBar = findViewById(R.id.ionc_title_bar);
-        mImmersionBar.titleBar(ioncTitleBar).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleBar(ioncTitleBar).statusBarDarkFont(true).execute();
         ioncTitleBar.setTitle(mWallet.getName());
         ioncTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
         ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
@@ -197,7 +197,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                             ToastUtil.showToastLonger("请输入密码！");
                             return;
                         }
-                        Log.i(TAG, "onClick: " + mWallet.getPassword());
+                        Log.i(getTAG(), "onClick: " + mWallet.getPassword());
                         if (!dialogPasswordCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
                             ToastUtil.showToastLonger("你输入的密码有误！");
                             return;
@@ -253,7 +253,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
 
                 break;
             case R.id.modifyPwdLayout:
-                intent = new Intent(mActivity, ModifyWalletPwdActivity.class);
+                intent = new Intent(getMActivity(), ModifyWalletPwdActivity.class);
                 intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, mWallet);
                 startActivityForResult(intent, REQUEST_MODIFY_WALLET_PWD);
                 break;
@@ -292,11 +292,11 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i(TAG, "onActivityResult1: " + mWallet.getKeystore());
+        Log.i(getTAG(), "onActivityResult1: " + mWallet.getKeystore());
         if (requestCode == REQUEST_MODIFY_WALLET_PWD && data != null) {
             mWallet = (WalletBean) data.getSerializableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
         }
-        Log.i(TAG, "onActivityResult2: " + mWallet.getKeystore());
+        Log.i(getTAG(), "onActivityResult2: " + mWallet.getKeystore());
     }
 
     @Override
