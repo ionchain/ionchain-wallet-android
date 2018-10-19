@@ -54,7 +54,8 @@
             android:layout_marginTop="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
             android:gravity="left"
-            android:hint="@string/wallet_create_password"
+            android:textSize="14sp"
+            android:hint="数字、大小写字母与特殊符号混合，且不少于8位"
             android:padding="@dimen/h5" />
 
         <android.support.v7.widget.AppCompatEditText
@@ -65,6 +66,7 @@
             android:layout_marginTop="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
             android:gravity="left"
+            android:textSize="14sp"
             android:hint="@string/wallet_create_respwd"
             android:padding="@dimen/h5" />
 
@@ -112,8 +114,6 @@
             android:enabled="false"
             android:text="开始导入"
             android:textColor="@color/white" />
-
-
     </LinearLayout>
 
 </RelativeLayout>

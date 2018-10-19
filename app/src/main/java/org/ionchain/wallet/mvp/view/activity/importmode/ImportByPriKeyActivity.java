@@ -31,6 +31,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
+import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdatePasswordCallback {
 
@@ -111,8 +112,8 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                 private_key = mPrivateKey.getText().toString().trim();
                 resetpass = repwdEt.getText().toString().trim();
                 pass = pwdEt.getText().toString().trim();
-                if (resetpass.length() < 8 || pass.length() < 8) {
-                    ToastUtil.showToastLonger("密码长度不能小于8！");
+                if (!check(resetpass) || !check(pass)) {
+                    ToastUtil.showToastLonger("密码不符合要求！");
                     return;
                 }
                 if (private_key.startsWith("0x")) {

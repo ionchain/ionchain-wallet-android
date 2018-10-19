@@ -20,6 +20,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
+import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModifyWalletPassWordCallback {
 
@@ -59,11 +60,11 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
                 String resetnewpwdstr = resetNewPwdEt.getText().toString().trim();
                 String old_pwd = mWallet.getPassword();
                 if (TextUtils.isEmpty(oldpwdstr)) {
-                    ToastUtil.showShortToast("当前密码不能为空");
+                    ToastUtil.showShortToast("请输入旧密码");
                     return;
                 }
                 if (TextUtils.isEmpty(newpwdstr)) {
-                    ToastUtil.showShortToast("新密码不能为空");
+                    ToastUtil.showShortToast("请输入新密码");
                     return;
                 }
                 if (!old_pwd.equals(Md5Utils.md5(oldpwdstr))) {
@@ -71,10 +72,15 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
                     ToastUtil.showShortToast("旧密码错误");
                     return;
                 }
+                if (!check(newpwdstr) || !check(resetnewpwdstr)) {
+                    ToastUtil.showToastLonger("密码不符合要求！");
+                    return;
+                }
                 if (!newpwdstr.equals(resetnewpwdstr)) {
                     ToastUtil.showShortToast("新密码两次输入不一至,请重新输入");
                     return;
                 }
+
                 Web3jHelper.getInstance()
                         .modifyPassWord(mWallet, newpwdstr, ModifyWalletPwdActivity.this);
                 showProgress("正在修改密码");

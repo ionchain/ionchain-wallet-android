@@ -67,7 +67,7 @@
             android:layout_marginTop="@dimen/h6"
             android:hint="钱包名称"
             android:textColor="@color/library_33"
-            android:textSize="@dimen/txt_mediumsize" />
+            android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/pwdEt"
@@ -76,9 +76,9 @@
             android:layout_marginLeft="@dimen/h16"
             android:layout_marginRight="@dimen/h16"
             android:layout_marginTop="@dimen/h6"
-            android:hint="@string/wallet_create_password"
+            android:hint="数字、大小写字母与特殊符号混合，且不少于8位"
             android:textColor="@color/library_33"
-            android:textSize="@dimen/txt_mediumsize" />
+            android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/resetPwdEt"
@@ -89,7 +89,7 @@
             android:layout_marginTop="@dimen/h6"
             android:hint="@string/wallet_create_respwd"
             android:textColor="@color/library_33"
-            android:textSize="@dimen/txt_mediumsize" />
+            android:textSize="14sp" />
 
 
         <LinearLayout

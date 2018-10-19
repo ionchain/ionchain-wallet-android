@@ -31,6 +31,7 @@ import java.util.Arrays;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
+import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback,OnUpdatePasswordCallback {
     private RelativeLayout importHeader;
@@ -113,8 +114,8 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     ToastUtil.showToastLonger("请输入正确的助记词！");
                     return;
                 }
-                if (resetpass.length() < 8 || pass.length() < 8) {
-                    ToastUtil.showToastLonger("密码长度不能小于8！");
+                if (!check(resetpass) || !check(pass)) {
+                    ToastUtil.showToastLonger("密码不符合要求！");
                     return;
                 }
                 if (!resetpass.equals(pass)) {

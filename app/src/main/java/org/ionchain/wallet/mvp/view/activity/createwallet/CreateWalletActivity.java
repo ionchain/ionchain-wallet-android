@@ -21,13 +21,13 @@ import org.ionchain.wallet.helper.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnImportMnemonicCallback;
 import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.activity.ModifyWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
+import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnSimulateTimeConsume {
 
@@ -105,8 +105,8 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                 }
 
 
-                if (resetpass.length() < 8 || pass.length() < 8) {
-                    ToastUtil.showToastLonger("密码长度不能小于8！");
+                if (!check(resetpass) || !check(pass)) {
+                    ToastUtil.showToastLonger("密码不符合要求！");
                     return;
                 }
                 if (!resetpass.equals(pass)) {

@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -113,6 +116,7 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'org.greenrobot:greendao-generator:3.2.2'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 repositories {
