@@ -11,7 +11,8 @@
     <View
         android:id="@+id/header_top"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp" />
+
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -37,6 +38,16 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/by_private_key"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_margin="20dp"
+        android:background="@color/blue_top"
+        android:text="私   钥"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_size" />
+
+    <Button
         android:id="@+id/by_mnemonic"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -47,12 +58,13 @@
         android:textSize="@dimen/title_size" />
 
     <Button
-        android:id="@+id/by_private_key"
+        android:id="@+id/by_keystore"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_margin="20dp"
         android:background="@color/blue_top"
-        android:text="私   钥"
+        android:text="Keystore"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size" />
+
 </LinearLayout>

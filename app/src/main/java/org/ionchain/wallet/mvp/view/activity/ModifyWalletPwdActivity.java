@@ -13,7 +13,7 @@ import android.widget.TextView;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
-import org.ionchain.wallet.helper.Web3jHelper;
+import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.ToastUtil;

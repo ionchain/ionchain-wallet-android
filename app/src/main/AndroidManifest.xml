@@ -78,6 +78,10 @@
         <activity android:name=".mvp.view.activity.TxActivity" />
         <activity android:name=".mvp.view.activity.importmode.SelectImportModeActivity" />
         <activity android:name=".mvp.view.activity.importmode.ImportByMnemonicActivity" />
+        <activity
+            android:name=".mvp.view.activity.importmode.ImportByKeystoreActivity"
+            android:label="@string/title_activity_import_by_keystore"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

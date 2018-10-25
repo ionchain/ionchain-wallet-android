@@ -63,6 +63,7 @@
     <string name="forgetPassword">忘记密码</string>
     <string name="title_activity_show_address">ShowAddressActivity</string>
     <string name="exit_app">按两次退出程序！</string>
+    <string name="title_activity_import_by_keystore">ImportByKeystoreActivity</string>
 
 
 </resources>

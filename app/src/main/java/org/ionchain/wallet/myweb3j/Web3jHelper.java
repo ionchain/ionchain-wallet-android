@@ -1,4 +1,4 @@
-package org.ionchain.wallet.helper;
+package org.ionchain.wallet.myweb3j;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -27,8 +27,6 @@ import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.RandomUntil;
 import org.ionchain.wallet.utils.StringUtils;
-import org.ionchain.wallet.utils.myweb3j.MnemonicUtils;
-import org.ionchain.wallet.utils.myweb3j.SecureRandomUtils;
 import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -55,7 +53,7 @@ import java.security.SecureRandom;
 import java.util.List;
 
 import static org.ionchain.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
-import static org.ionchain.wallet.utils.myweb3j.MnemonicUtils.generateMnemonic;
+import static org.ionchain.wallet.myweb3j.MnemonicUtils.generateMnemonic;
 import static org.web3j.crypto.Hash.sha256;
 
 /**

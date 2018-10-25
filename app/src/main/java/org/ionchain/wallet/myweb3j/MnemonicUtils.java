@@ -1,4 +1,4 @@
-package org.ionchain.wallet.utils.myweb3j;
+package org.ionchain.wallet.myweb3j;
 
 import org.spongycastle.crypto.digests.SHA512Digest;
 import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;

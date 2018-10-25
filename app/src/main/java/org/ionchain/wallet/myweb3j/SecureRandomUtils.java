@@ -1,4 +1,4 @@
-package org.ionchain.wallet.utils.myweb3j;
+package org.ionchain.wallet.myweb3j;
 
 import org.web3j.crypto.LinuxSecureRandom;
 

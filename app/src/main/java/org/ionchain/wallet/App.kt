@@ -10,8 +10,7 @@ import com.facebook.stetho.Stetho
 import com.lzy.okgo.OkGo
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
-
-import org.ionchain.wallet.helper.Web3jHelper
+import org.ionchain.wallet.myweb3j.Web3jHelper
 
 
 class App : Application() {

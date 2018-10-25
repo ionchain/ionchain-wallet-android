@@ -7,3 +7,5 @@ local.properties
 .gitignore
 build/
 .idea/
+app/.DS_Store
+/.gitignore

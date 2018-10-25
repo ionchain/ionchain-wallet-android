@@ -36,8 +36,6 @@
     <dimen name="header_footer_top_bottom_padding">12dp</dimen>
 
 
-
-
     <dimen name="h01">0.1dp</dimen>
     <dimen name="h02">0.2dp</dimen>
     <dimen name="h03">0.3dp</dimen>
