@@ -3,6 +3,9 @@ package org.ionchain.wallet.mvp.view.activity.importmode
 import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.AppCompatEditText
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -22,7 +25,40 @@ import org.ionchain.wallet.utils.RandomUntil.getNum
 import org.ionchain.wallet.utils.ToastUtil
 
 
-class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback {
+class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, TextWatcher {
+    private var mKeystore: AppCompatEditText? = null
+    private var pwdEt: AppCompatEditText? = null
+    private var importBtn: Button? = null
+    private var isWelcome: Boolean = false
+    private var checkbox: CheckBox? = null
+    private var linkUrlTv: TextView? = null
+    private var keystoreStr: String? = null
+    override val layoutId: Int
+        get() = R.layout.activity_import_by_keystore //To change initializer of created properties use File | Settings | File Templates.
+
+    override fun afterTextChanged(s: Editable?) {
+        if (mKeystore!!.getText() != null && pwdEt!!.getText() != null && pwdEt!!.getText() != null) {
+            val content = mKeystore!!.getText()!!.toString().trim { it <= ' ' }
+            val pwdstr = pwdEt!!.getText()!!.toString().trim { it <= ' ' }
+
+            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && checkbox!!.isChecked()) {
+                importBtn!!.setEnabled(true)
+                importBtn!!.setBackgroundColor(resources.getColor(R.color.blue_top))
+            } else {
+                importBtn!!.setEnabled(false)
+                importBtn!!.setBackgroundColor(resources.getColor(R.color.grey))
+            }
+        }
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+       Logger.i(s.toString())
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        Logger.i(s.toString())
+    }
+
     override fun onCreateSuccess(walletBean: WalletBean) {
         Logger.i(walletBean.toString())
         hideProgress()
@@ -40,15 +76,6 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback {
         Logger.e(TAG, "onCreateFailure: $result")
     }
 
-    private var mKeystore: AppCompatEditText? = null
-    private var pwdEt: AppCompatEditText? = null
-    private var importBtn: Button? = null
-    private var isWelcome: Boolean = false
-    private var checkbox: CheckBox? = null
-    private var linkUrlTv: TextView? = null
-    private var keystoreStr: String? = null
-    override val layoutId: Int
-        get() = R.layout.activity_import_by_keystore //To change initializer of created properties use File | Settings | File Templates.
 
     override fun initData() {
 //        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -68,10 +95,13 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback {
             skip(CaptureActivity::class.java, FROM_SCAN)
         }
         mKeystore = findViewById<View>(R.id.mnemonic) as AppCompatEditText
+
         pwdEt = findViewById<View>(R.id.pwdEt) as AppCompatEditText
+        mKeystore!!.addTextChangedListener(this)
+        pwdEt!!.addTextChangedListener(this)
         checkbox = findViewById<View>(R.id.checkbox) as CheckBox
         checkbox!!.setOnClickListener{
-            if (mKeystore!!.text!!.isNotEmpty()||pwdEt!!.text!!.isNotEmpty()) {
+            if (mKeystore!!.text!!.isNotEmpty()&&pwdEt!!.text!!.isNotEmpty()&&checkbox!!.isChecked) {
                 importBtn!!.setEnabled(true)
                 importBtn!!.setBackgroundColor(resources.getColor(R.color.blue_top))
             }else{
