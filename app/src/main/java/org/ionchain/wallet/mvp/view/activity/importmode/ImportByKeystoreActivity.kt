@@ -1,16 +1,44 @@
 package org.ionchain.wallet.mvp.view.activity.importmode
 
+import android.app.Activity
+import android.content.Intent
 import android.support.v7.widget.AppCompatEditText
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import com.orhanobut.logger.Logger
 import org.ionchain.wallet.R
-import org.ionchain.wallet.mvp.view.activity.ScanActivity
+import org.ionchain.wallet.bean.WalletBean
+import org.ionchain.wallet.constant.ConstantParams.FROM_SCAN
+import org.ionchain.wallet.dao.WalletDaoTools
+import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback
+import org.ionchain.wallet.mvp.view.activity.MainActivity
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity
+import org.ionchain.wallet.myweb3j.Web3jHelper
+import org.ionchain.wallet.qrcode.android.CaptureActivity
+import org.ionchain.wallet.utils.RandomUntil.getNum
+import org.ionchain.wallet.utils.ToastUtil
 
-class ImportByKeystoreActivity : AbsBaseActivity() {
+
+class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback {
+    override fun onCreateSuccess(walletBean: WalletBean) {
+        Logger.i(walletBean.toString())
+        hideProgress()
+        walletBean.mIconIdex = getNum(7)
+        WalletDaoTools.saveWallet(walletBean)
+        ToastUtil.showToastLonger("导入成功啦!")
+        walletBean.isShowWallet = isWelcome
+        WalletDaoTools.saveWallet(walletBean)
+        skip(MainActivity::class.java)
+    }
+
+    override fun onCreateFailure(result: String) {
+        hideProgress()
+        ToastUtil.showToastLonger("导入成失败")
+        Logger.e(TAG, "onCreateFailure: $result")
+    }
 
     private var mKeystore: AppCompatEditText? = null
     private var pwdEt: AppCompatEditText? = null
@@ -18,6 +46,7 @@ class ImportByKeystoreActivity : AbsBaseActivity() {
     private var isWelcome: Boolean = false
     private var checkbox: CheckBox? = null
     private var linkUrlTv: TextView? = null
+    private var keystoreStr: String? = null
     override val layoutId: Int
         get() = R.layout.activity_import_by_keystore //To change initializer of created properties use File | Settings | File Templates.
 
@@ -36,13 +65,43 @@ class ImportByKeystoreActivity : AbsBaseActivity() {
 
         val scan = findViewById<View>(R.id.scan) as ImageView
         scan.setOnClickListener {
-            skip(ScanActivity::class.java, 999)
+            skip(CaptureActivity::class.java, FROM_SCAN)
         }
         mKeystore = findViewById<View>(R.id.mnemonic) as AppCompatEditText
         pwdEt = findViewById<View>(R.id.pwdEt) as AppCompatEditText
         checkbox = findViewById<View>(R.id.checkbox) as CheckBox
+        checkbox!!.setOnClickListener{
+            if (mKeystore!!.text!!.isNotEmpty()||pwdEt!!.text!!.isNotEmpty()) {
+                importBtn!!.setEnabled(true)
+                importBtn!!.setBackgroundColor(resources.getColor(R.color.blue_top))
+            }else{
+                importBtn!!.setEnabled(false)
+                importBtn!!.setBackgroundColor(resources.getColor(R.color.grey))
+            }
+        }
+
         linkUrlTv = findViewById<View>(R.id.linkUrlTv) as TextView
         importBtn = findViewById<View>(R.id.importBtn) as Button
+        importBtn!!.setOnClickListener{
+            keystoreStr = mKeystore!!.text.toString()
+            Logger.i(keystoreStr!!)
+            //读取keystore密码
+            var  pass = pwdEt!!.text.toString()
+           //生成keystory文件
+            showProgress("正在导入钱包请稍候")
+            Web3jHelper.getInstance().loadWalletFile(pass, keystoreStr, this)
+
+
+        }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == FROM_SCAN) {
+            val result = data!!.getStringExtra("result")
+            mKeystore!!.setText(result)
+            keystoreStr = result
+            Logger.i(result)
+        }
+    }
 }

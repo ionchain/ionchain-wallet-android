@@ -64,6 +64,10 @@
     <string name="title_activity_show_address">ShowAddressActivity</string>
     <string name="exit_app">按两次退出程序！</string>
     <string name="title_activity_import_by_keystore">ImportByKeystoreActivity</string>
+    <string name="msg_camera_framework_bug">相机被占用或没有相机权限，请检查</string>
+    <string name="button_ok">退出</string>
+    <string name="viewfinderview_status_text1">将二维码/条码放入取景框内</string>
+    <string name="viewfinderview_status_text2">即可自动扫描</string>
 
 
 </resources>

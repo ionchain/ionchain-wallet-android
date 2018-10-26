@@ -1,5 +1,6 @@
 package org.ionchain.wallet.myweb3j;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.ionchain.wallet.App;
+import org.ionchain.wallet.bean.KeystoreBean;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
@@ -24,6 +26,7 @@ import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.callback.OnTransationCallback;
 import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
+import org.ionchain.wallet.utils.GsonUtils;
 import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.RandomUntil;
 import org.ionchain.wallet.utils.StringUtils;
@@ -46,10 +49,13 @@ import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.ionchain.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
@@ -214,7 +220,6 @@ public class Web3jHelper {
      * @param callback     回调结果
      */
     public void importWalletByMnemonicCode(String walletName, List<String> mnemonicCode, String password, OnImportMnemonicCallback callback) {
-        String md5pwd = Md5Utils.md5(password);
         String[] pathArray = ETH_JAXX_TYPE.split("/");
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
@@ -250,7 +255,7 @@ public class Web3jHelper {
         walletBean.setPublickey(publicKey);
         Logger.i("私钥： " + privateKey);
         try {
-            String keystore = WalletUtils.generateWalletFile(md5pwd, ecKeyPair, new File(keystoreDir), false);
+            String keystore = WalletUtils.generateWalletFile(password, ecKeyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             walletBean.setKeystore(keystore);
             Logger.i("钱包keystore： " + keystore);
@@ -263,7 +268,7 @@ public class Web3jHelper {
             String walletAddress = Keys.toChecksumAddress(addr2);
             walletBean.setAddress(Keys.toChecksumAddress(walletAddress));//设置钱包地址
             Logger.i("钱包地址： " + walletAddress);
-            walletBean.setPassword(md5pwd);
+            walletBean.setPassword(password);
 
 
 //            Logger.i("addr1 " + addr1);
@@ -364,21 +369,69 @@ public class Web3jHelper {
     /**
      * 通过 钱包密码和keystore文件导入钱包
      *
+     * 1/创建文件
+     * 2/导入钱包
      * @param password
-     * @param walletFileName
+     * @param keystoreContent
      * @return
      * @throws Exception
      */
-    private WalletBean loadWalletFile(String password, String walletFileName) throws Exception {
-        WalletBean bean = new WalletBean();
-        String src = keystoreDir + "/" + walletFileName;
-        Credentials credentials = WalletUtils.loadCredentials(password, src);
-        ECKeyPair keyPair = credentials.getEcKeyPair();
-        bean.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
-        bean.setPublickey(keyPair.getPublicKey().toString(16));//公钥
-        bean.setAddress("0x" + Keys.getAddress(keyPair)); //地址
-        bean.setPassword(password); //密码
-        return bean;
+    public void loadWalletFile(final String password, final String keystoreContent, final OnCreateWalletCallback callback) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    KeystoreBean keystoreBean = GsonUtils.gsonToBean(keystoreContent, KeystoreBean.class);
+                    final WalletBean bean = new WalletBean();
+
+                    String path = keystoreDir + "/" + getWalletFileName(keystoreBean.getAddress());
+                    File file = new File(path);
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    FileOutputStream out = new FileOutputStream(file, false); //如果追加方式用true,此处覆盖
+                    StringBuffer sb = new StringBuffer();
+                    byte[] bytes = keystoreContent.getBytes();
+                    out.write(bytes);
+//                out.write(sb.toString().getBytes("utf-8"));//注意需要转换对应的字符集
+                    out.close();
+                    //创建钱包
+                    Credentials credentials = WalletUtils.loadCredentials(password, path);
+                    ECKeyPair keyPair = credentials.getEcKeyPair();
+                    String walletname = "新增钱包" + RandomUntil.getSmallLetter(3);
+                    bean.setName(walletname);
+                    bean.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
+                    bean.setPublickey(keyPair.getPublicKey().toString(16));//公钥
+                    bean.setAddress("0x" + Keys.getAddress(keyPair)); //地址
+                    bean.setPassword(password); //密码
+                    App.Companion.getMHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onCreateSuccess(bean);
+                        }
+                    });
+                } catch (IOException | CipherException e) {
+                    App.Companion.getMHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onCreateFailure(e.getMessage());
+                        }
+                    });
+                }
+            }
+        }.start();
+
+    }
+
+    public void makeKetstoryFile() {
+
+    }
+
+    private String getWalletFileName(String walletAddress) {
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("'UTC--'yyyy-MM-dd'T'HH-mm-ss.SSS'--'");
+        return dateFormat.format(new Date()) + walletAddress + ".json";
     }
 
     /**
@@ -451,7 +504,8 @@ public class Web3jHelper {
      * @param passwrd    钱包密码
      * @param callback   创建结果的回调
      */
-    public static void updatePasswordAndKeyStore(final WalletBean wallet,final OnUpdatePasswordCallback callback) {
+
+    public static void updatePasswordAndKeyStore(final WalletBean wallet, final OnUpdatePasswordCallback callback) {
         try {
 
             BigInteger key = new BigInteger(wallet.getPrivateKey(), 16);
@@ -721,7 +775,7 @@ public class Web3jHelper {
                         }
                     });
                 } catch (final Exception e) {
-                    Log.e("wallet", "", e);
+                    Logger.e("wallet", "", e);
                     App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {

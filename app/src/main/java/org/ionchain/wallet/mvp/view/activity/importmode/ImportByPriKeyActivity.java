@@ -7,7 +7,6 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,14 +20,15 @@ import com.orhanobut.logger.Logger;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
 import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.activity.ScanActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.myweb3j.Web3jHelper;
+import org.ionchain.wallet.qrcode.android.CaptureActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.utils.StringUtils.check;
@@ -89,7 +89,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(ScanActivity.class, 999);
+                skip(CaptureActivity.class, FROM_SCAN);
             }
         });
         importBtn.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +147,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == 999) {
+        if (resultCode == RESULT_OK && requestCode == FROM_SCAN) {
             String result = data.getStringExtra("result");
             mPrivateKey.setText(result);
             private_key = result;
@@ -253,7 +253,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     public void onCreateFailure(String result) {
         hideProgress();
         ToastUtil.showToastLonger("导入成失败");
-        Log.i(getTAG(), "onCreateFailure: " + result);
+        Logger.e(getTAG(), "onCreateFailure: " + result);
     }
 
     @Override

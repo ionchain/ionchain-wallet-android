@@ -14,68 +14,29 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
-import cn.bingoogolapple.qrcode.core.QRCodeView;
-import cn.bingoogolapple.qrcode.zxing.ZXingView;
 
-public class ScanActivity extends AbsBaseActivity implements QRCodeView.Delegate{
+
+public class ScanActivity extends AbsBaseActivity{
 
     private static final int REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY = 666;
 
-    private QRCodeView mQRCodeView;
 
-//    @Override
-//    public void handleMessage(int what, Object obj) {
-//        super.handleMessage(what, obj);
-//        try{
-//
-//            switch (what){
-//                case R.id.navigationBack:
-//                    finish();
-//                    break;
-//                case R.id.albumBtn:
-//                Intent photoPickerIntent = new BGAPhotoPickerActivity.IntentBuilder(this)
-//                        .cameraFileDir(null)
-//                        .maxChooseCount(1)
-//                        .selectedPhotos(null)
-//                        .pauseOnScroll(false)
-//                        .build();
-//                startActivityForResult(photoPickerIntent, REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY);
-//                    break;
-//                case 0:
-//                    dismissProgressDialog();
-//                    if(obj == null)
-//                        return;
-//
-//                    ResponseModel<String> responseModel = (ResponseModel)obj;
-//                    if(!verifyStatus(responseModel)){
-//                        ToastUtil.showShortToast(responseModel.getMsg());
-//                        return;
-//                    }
-//
-//
-//                    break;
-//            }
-//
-//        }catch (Throwable e){
-//            Logger.e(e,TAG);
-//        }
-//    }
 
 
     @Override
     protected void initData() {
-        mQRCodeView.startSpot();
+
     }
 
     @Override
     protected void setListener() {
-        mQRCodeView.setDelegate(this);
+
     }
 
     @Override
     protected void initView() {
         getMImmersionBar().titleBar(findViewById(R.id.header)).statusBarDarkFont(true).execute();
-        mQRCodeView = (ZXingView) findViewById(R.id.zbarview);
+
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,53 +47,24 @@ public class ScanActivity extends AbsBaseActivity implements QRCodeView.Delegate
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_scan;
+        return R.layout.activity_capture;
     }
 
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mQRCodeView.startCamera();
-        mQRCodeView.showScanRect();
-    }
-
-    @Override
-    protected void onStop() {
-        mQRCodeView.stopCamera();
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        mQRCodeView.onDestroy();
-        super.onDestroy();
-    }
 
     private void vibrate() {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(200);
     }
 
-    @Override
-    public void onScanQRCodeSuccess(String result) {
-        Logger.i(getTAG(), "result:" + result);
-        vibrate();
-        mQRCodeView.startSpot();
-        scanSuccess(result,"未发现二维码");
-    }
-
-    @Override
-    public void onScanQRCodeOpenCameraError() {
-        Logger.e(getTAG(), "打开相机出错");
-    }
 
 
     void scanSuccess(String result,String msg){
         try{
 
             if(!TextUtils.isEmpty(result)){
+                Logger.i(result);
                 Intent intent = new Intent();
                 intent.putExtra("result",result);
                 setResult(RESULT_OK,intent);
@@ -146,57 +78,6 @@ public class ScanActivity extends AbsBaseActivity implements QRCodeView.Delegate
             Logger.e(e, getTAG());
         }
     }
-
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        // 识别图片中的二维码还有问题，占时不要用
-//        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY) {
-//            final String picturePath = BGAPhotoPickerActivity.getSelectedPhotos(data).get(0);
-//
-//            /*
-//            这里为了偷懒，就没有处理匿名 AsyncTask 内部类导致 Activity 泄漏的问题
-//            请开发在使用时自行处理匿名内部类导致Activity内存泄漏的问题，处理方式可参考 https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md
-//             */
-//            new AsyncTask<Void, Void, String>() {
-//                @Override
-//                protected String doInBackground(Void... params) {
-//                    Bitmap bitmap = getDecodeAbleBitmap(picturePath);
-//                    int picw = bitmap.getWidth();
-//                    int pich = bitmap.getHeight();
-//                    int[] pix = new int[picw * pich];
-//                    byte[] pixytes = new byte[picw * pich];
-//                    bitmap.getPixels(pix, 0, picw, 0, 0, picw, pich);
-//                    int R, G, B, Y;
-//
-//                    for (int y = 0; y < pich; y++) {
-//                        for (int x = 0; x < picw; x++) {
-//                            int index = y * picw + x;
-//                            R = (pix[index] >> 16) & 0xff;     //bitwise shifting
-//                            G = (pix[index] >> 8) & 0xff;
-//                            B = pix[index] & 0xff;
-//
-//                            //R,G.B - Red, Green, Blue
-//                            //to restore the values after RGB modification, use
-//                            //next statement
-//                            pixytes[index] = (byte) (0xff000000 | (R << 16) | (G << 8) | B);
-//                        }
-//                    }
-//                    ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount());
-//                    byte[] data = new byte[(int) (bitmap.getHeight() * bitmap.getWidth() * 1.5)];
-//                    rgba2Yuv420(pixytes, data, bitmap.getWidth(), bitmap.getHeight());
-//                    return mQRCodeView.processData(data, bitmap.getWidth(), bitmap.getHeight(), true);
-//                }
-//
-//                @Override
-//                protected void onPostExecute(String result) {
-//                    scanSuccess(result,"未发现二维码");
-//                }
-//            }.execute();
-//        }
-//    }
 
 
     /**

@@ -115,7 +115,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@id/codeIv"
-                android:text="sasadadada1231nhiuqe12y3nsduia37huhiu31231iu3hi"
+                android:text=""
                 android:textColor="#B3BFD0"
                 android:textSize="14sp" />
 

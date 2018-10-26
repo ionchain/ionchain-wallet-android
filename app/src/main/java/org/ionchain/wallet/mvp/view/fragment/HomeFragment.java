@@ -27,7 +27,6 @@ import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
@@ -35,12 +34,14 @@ import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.ModifyWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.ScanActivity;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
+import org.ionchain.wallet.myweb3j.Web3jHelper;
+import org.ionchain.wallet.qrcode.android.CaptureActivity;
+import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -246,7 +247,8 @@ public class HomeFragment extends AbsBaseFragment implements
         addDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ScanActivity.class);
+                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+                QRCodeUtils.setQR(intent);
                 startActivityForResult(intent, 10);
 
             }

@@ -12,12 +12,11 @@ import android.widget.TextView;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
 import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.utils.Md5Utils;
+import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -144,7 +143,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 /*比对密码是否正确*/
                 String pwd = mWallet.getPassword();
                 String pwd1 = dialog.getPasswordEt().getText().toString();
-                if (!StringUtils.isEmpty(pwd) && pwd.equals(Md5Utils.md5(pwd1))) {
+                if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
                     dialog.dismiss();
                     showProgress("正在导出请稍候");
                     Web3jHelper.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
@@ -242,17 +241,14 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
         switch (v.getId()) {
 
 
-            case R.id.copyBtn:
+            case R.id.copyBtn://复制
                 StringUtils.copy(this, mWallet.getPrivateKey());
                 ToastUtil.showShortToast("已复制到剪切板");
-
                 break;
-
-            case R.id.delBtn:
+            case R.id.delBtn://删除钱包
                 delwallet();
-
                 break;
-            case R.id.modifyPwdLayout:
+            case R.id.modifyPwdLayout://修改密码
                 intent = new Intent(getMActivity(), ModifyWalletPwdActivity.class);
                 intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, mWallet);
                 startActivityForResult(intent, REQUEST_MODIFY_WALLET_PWD);
@@ -260,7 +256,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
             case R.id.importLayout:
                 showEditTextDialog();
                 break;
-            case R.id.import_mnemonic_layout:
+            case R.id.import_mnemonic_layout://导出助记词
                 final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
                 dialog.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
@@ -274,7 +270,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                         /*比对密码是否正确*/
                         String pwd = mWallet.getPassword();
                         String pwd1 = dialog.getPasswordEt().getText().toString();
-                        if (!StringUtils.isEmpty(pwd) && pwd.equals(Md5Utils.md5(pwd1))) {
+                        if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
                             dialog.dismiss();
                             showProgress("正在导出请稍候");
                             Web3jHelper.simulateTimeConsuming(ModifyWalletActivity.this);
