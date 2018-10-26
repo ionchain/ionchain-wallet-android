@@ -11,6 +11,7 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
+import com.orhanobut.logger.Logger;
 
 import java.util.Hashtable;
 import java.util.Vector;
@@ -62,7 +63,7 @@ public class DecodeImgThread extends Thread {
         // 可以解析的编码类型
         Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
         if (decodeFormats == null || decodeFormats.isEmpty()) {
-            decodeFormats = new Vector<BarcodeFormat>();
+            decodeFormats = new Vector<>();
             // 扫描的类型  一维码和二维码
             decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
             decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
@@ -83,6 +84,7 @@ public class DecodeImgThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
             //  Log.i("解析的图片结果","失败");
+            Logger.e("解析失败"+e.getMessage());
         }
 
         if (rawResult != null) {
