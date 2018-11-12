@@ -20,6 +20,8 @@ public class Md5Utils {
             md5code = "0" + md5code;
         }
         return md5code;
+
+//        return plainText;
     }
 
     public static void main(String[] args) {

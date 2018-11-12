@@ -27,7 +27,6 @@ import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.callback.OnTransationCallback;
 import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.utils.GsonUtils;
-import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.RandomUntil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.web3j.crypto.Bip39Wallet;
@@ -376,7 +375,7 @@ public class Web3jHelper {
      * @return
      * @throws Exception
      */
-    public void loadWalletFile(final String password, final String keystoreContent, final OnCreateWalletCallback callback) {
+    public void importWalletByKeyStore(final String password, final String keystoreContent, final OnCreateWalletCallback callback) {
         new Thread() {
             @Override
             public void run() {
@@ -391,7 +390,7 @@ public class Web3jHelper {
                         file.createNewFile();
                     }
                     FileOutputStream out = new FileOutputStream(file, false); //如果追加方式用true,此处覆盖
-                    StringBuffer sb = new StringBuffer();
+//                    StringBuffer sb = new StringBuffer();
                     byte[] bytes = keystoreContent.getBytes();
                     out.write(bytes);
 //                out.write(sb.toString().getBytes("utf-8"));//注意需要转换对应的字符集
@@ -405,6 +404,7 @@ public class Web3jHelper {
                     bean.setPublickey(keyPair.getPublicKey().toString(16));//公钥
                     bean.setAddress("0x" + Keys.getAddress(keyPair)); //地址
                     bean.setPassword(password); //密码
+                    bean.setKeystore(path);
                     App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
@@ -424,10 +424,13 @@ public class Web3jHelper {
 
     }
 
-    public void makeKetstoryFile() {
 
-    }
 
+    /**
+     * 创建文件名
+     * @param walletAddress
+     * @return
+     */
     private String getWalletFileName(String walletAddress) {
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat dateFormat = new SimpleDateFormat("'UTC--'yyyy-MM-dd'T'HH-mm-ss.SSS'--'");
@@ -450,7 +453,7 @@ public class Web3jHelper {
         };
     }
 
-    /*
+    /**
      * * 通过私钥创建秘钥对
      * <p>
      * 从私钥可以得到公钥，然后进一步得到账户地址，而反之则无效。
@@ -463,7 +466,6 @@ public class Web3jHelper {
     public void importPrivateKey(final String privateKey, final String passwrd, final OnCreateWalletCallback callback) {
 
         try {
-            String md5pwd = Md5Utils.md5(passwrd);
             final WalletBean wallet = new WalletBean();
             String walletname = "新增钱包" + RandomUntil.getSmallLetter(3);
             BigInteger key = new BigInteger(privateKey, 16);
@@ -474,8 +476,8 @@ public class Web3jHelper {
             wallet.setAddress("0x" + Keys.getAddress(keyPair));
             wallet.setName(walletname);
             wallet.setMnemonic("");
-            wallet.setPassword(md5pwd);
-            String keystore = WalletUtils.generateWalletFile(md5pwd, keyPair, new File(keystoreDir), false);
+            wallet.setPassword(passwrd);
+            String keystore = WalletUtils.generateWalletFile(passwrd, keyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
 
@@ -505,14 +507,14 @@ public class Web3jHelper {
      * @param callback   创建结果的回调
      */
 
-    public static void updatePasswordAndKeyStore(final WalletBean wallet, final OnUpdatePasswordCallback callback) {
+    public static void updatePasswordAndKeyStore(final WalletBean wallet, String newPassword, final OnUpdatePasswordCallback callback) {
         try {
 
             BigInteger key = new BigInteger(wallet.getPrivateKey(), 16);
             ECKeyPair keyPair = ECKeyPair.create(key);
 
-            wallet.setPassword(wallet.getPassword());//在导入的时候已经做了加密，所以这里不用再加密了
-            String keystore = WalletUtils.generateWalletFile(wallet.getPassword(), keyPair, new File(keystoreDir), false);
+            wallet.setPassword(newPassword);
+            String keystore = WalletUtils.generateWalletFile(newPassword, keyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
 
@@ -749,7 +751,7 @@ public class Web3jHelper {
                     wallet.setPrivateKey(credentials.getEcKeyPair().getPrivateKey().toString(16));
                     String keystore;
                     String key = wallet.getPrivateKey();
-                    Log.i("key", "importWallt: " + key);
+                    Logger.i("key", "importWallt: " + key);
                     BigInteger privateKeyBig = new BigInteger(key, 16);
                     ECKeyPair ecKeyPair = ECKeyPair.create(privateKeyBig);
                     keystore = WalletUtils.generateWalletFile(newPassWord, ecKeyPair, new File(keystoreDir), false);
@@ -775,7 +777,6 @@ public class Web3jHelper {
                         }
                     });
                 } catch (final Exception e) {
-                    Logger.e("wallet", "", e);
                     App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {

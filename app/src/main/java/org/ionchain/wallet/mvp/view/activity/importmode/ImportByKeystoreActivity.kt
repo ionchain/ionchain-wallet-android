@@ -63,10 +63,9 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
         Logger.i(walletBean.toString())
         hideProgress()
         walletBean.mIconIdex = getNum(7)
-        WalletDaoTools.saveWallet(walletBean)
-        ToastUtil.showToastLonger("导入成功啦!")
         walletBean.isShowWallet = isWelcome
         WalletDaoTools.saveWallet(walletBean)
+        ToastUtil.showToastLonger("导入成功啦!")
         skip(MainActivity::class.java)
     }
 
@@ -119,7 +118,7 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
             var  pass = pwdEt!!.text.toString()
            //生成keystory文件
             showProgress("正在导入钱包请稍候")
-            Web3jHelper.getInstance().loadWalletFile(pass, keystoreStr, this)
+            Web3jHelper.getInstance().importWalletByKeyStore(pass, keystoreStr, this)
 
 
         }

@@ -42,6 +42,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     private boolean isWelcome;
     private CheckBox checkbox;
     private String private_key;
+    private String newPassword;
 
     /**
      * Find the Views in the layout<br />
@@ -116,6 +117,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     ToastUtil.showToastLonger("密码不符合要求！");
                     return;
                 }
+                newPassword = pass;
                 if (private_key.startsWith("0x")) {
                     private_key = private_key.substring(2);
                 }
@@ -224,7 +226,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            Web3jHelper.updatePasswordAndKeyStore(wallet, ImportByPriKeyActivity.this);
+                            Web3jHelper.updatePasswordAndKeyStore(wallet, newPassword, ImportByPriKeyActivity.this);
                         }
                     })
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -259,7 +261,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
         WalletDaoTools.updateWallet(wallet);
-        wallet.setPrivateKey("");//不保存私钥
+//        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger("更新成功啦!");
         skip(MainActivity.class);
     }

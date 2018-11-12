@@ -3,6 +3,7 @@ package org.ionchain.wallet.bean;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.ionchain.wallet.utils.Md5Utils;
 
 import java.io.Serializable;
 
@@ -152,7 +153,7 @@ public class WalletBean implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = Md5Utils.md5(password);//保存时，加密保存
     }
 
     public int getMIconIdex() {

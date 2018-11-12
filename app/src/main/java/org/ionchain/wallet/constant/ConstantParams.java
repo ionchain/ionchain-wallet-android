@@ -16,7 +16,6 @@ public final class ConstantParams {
     public static final String SERIALIZABLE_DATA = "serializable_data";
     public static final String SERIALIZABLE_DATA1 = "serializable_data1";
 
-    public static final String URL_AGREE ="https://www.baidu.com";
     public static final String DB_NAME = "ionchainwallet";
     public static final String SPLIT = ",";
     public static final String IS = "=";

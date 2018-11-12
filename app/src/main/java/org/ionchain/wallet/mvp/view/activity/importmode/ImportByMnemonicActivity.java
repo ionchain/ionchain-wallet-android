@@ -43,6 +43,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     private TextView linkUrlTv;
     private Button importBtn;
     private boolean isWelcome;
+    private String newPassword;
 
     /**
      * Find the Views in the layout<br />
@@ -114,6 +115,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     ToastUtil.showToastLonger("请输入正确的助记词！");
                     return;
                 }
+                newPassword = pass;
                 if (!check(resetpass) || !check(pass)) {
                     ToastUtil.showToastLonger("密码不符合要求！");
                     return;
@@ -196,7 +198,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                         public void onClick(DialogInterface dialog, int which) {
 
                             dialog.dismiss();
-                            Web3jHelper.updatePasswordAndKeyStore(wallet,ImportByMnemonicActivity.this);
+                            Web3jHelper.updatePasswordAndKeyStore(wallet,newPassword,ImportByMnemonicActivity.this);
 
                         }
                     })

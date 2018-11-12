@@ -11,11 +11,14 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnTransationCallback;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogPasswordCheck;
@@ -80,7 +83,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                     @Override
                     public void onClick(View v) {
                         //检查密码是否正确
-                        if (!dialogPasswordCheck.getPasswordEt().getText().toString().equals(mCurrentWallet.getPassword())) {
+                        if (!Md5Utils.md5(dialogPasswordCheck.getPasswordEt().getText().toString()).equals(mCurrentWallet.getPassword())) {
                             ToastUtil.showToastLonger("请输入的正确的密码！");
                             return;
                         }
@@ -186,12 +189,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     public void OnTxSuccess(String hashTx) {
         ToastUtil.showToastLonger("提交成功！");
         dialogPasswordCheck.dismiss();
-        Log.i(getTAG(), "OnTxSuccess: " + hashTx);
+        Logger.i(getTAG(), "OnTxSuccess: " + hashTx);
     }
 
     @Override
     public void onTxFailure(String error) {
         ToastUtil.showToastLonger(error);
+        Logger.e(getTAG(), "onTxFailure: "+error);
         dialogPasswordCheck.dismiss();
     }
 }

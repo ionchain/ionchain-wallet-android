@@ -9,11 +9,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.myweb3j.Web3jHelper;
+import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
@@ -65,7 +68,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
                     ToastUtil.showShortToast("请输入新密码");
                     return;
                 }
-                if (!old_pwd.equals(oldpwdstr)) {
+                if (!old_pwd.equals(Md5Utils.md5(oldpwdstr))) {
                     Log.i(getTAG(), "旧密码错误: " + old_pwd);
                     ToastUtil.showShortToast("旧密码错误");
                     return;
@@ -116,7 +119,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
     @Override
     public void onModifySuccess(WalletBean walletBean) {
         hideProgress();
-        Log.i(getTAG(), "onModifySuccess: " + walletBean.getKeystore());
+        Logger.e(getTAG(), "onModifySuccess: " + walletBean.getKeystore());
         ToastUtil.showShortToast("修改密码成功");
         Intent intent = new Intent();
         intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, walletBean);
@@ -126,7 +129,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
 
     @Override
     public void onModifyFailure(String error) {
-        Log.i(getTAG(), "onModifyFailure: " + error);
+        Logger.e(getTAG(), "onModifyFailure: " + error);
         ToastUtil.showShortToast("修改密码失败");
         hideProgress();
     }

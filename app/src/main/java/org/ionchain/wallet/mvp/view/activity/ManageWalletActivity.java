@@ -88,7 +88,6 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     }
 
 
-
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
         srl.finishLoadmore();
@@ -99,7 +98,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     public void onRefresh(RefreshLayout refreshlayout) {
         srl.finishRefresh();
         mWalletBeans.clear();
-        mWalletBeans = WalletDaoTools.getAllWallet();
+        mWalletBeans.addAll( WalletDaoTools.getAllWallet());
         mAdapter.notifyDataSetChanged();
     }
 

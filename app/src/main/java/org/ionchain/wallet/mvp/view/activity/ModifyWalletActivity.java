@@ -17,6 +17,7 @@ import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.myweb3j.Web3jHelper;
+import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -197,7 +198,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                             return;
                         }
                         Log.i(getTAG(), "onClick: " + mWallet.getPassword());
-                        if (!dialogPasswordCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
+                        if (!Md5Utils.md5(dialogPasswordCheck.getPasswordEt().getText().toString()).equals(mWallet.getPassword())) {
                             ToastUtil.showToastLonger("你输入的密码有误！");
                             return;
                         }

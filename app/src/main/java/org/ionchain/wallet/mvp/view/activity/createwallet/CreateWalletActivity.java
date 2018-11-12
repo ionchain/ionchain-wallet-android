@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity.createwallet;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -198,7 +199,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
 
 
     @Override
-    public void onImportMnemonicSuccess(WalletBean walletBean) {
+    public void onImportMnemonicSuccess(@NonNull WalletBean walletBean) {
         Log.i(getTAG(), "onCreateSuccess: " + walletBean);
         hideProgress();
         if (isWelcome) {
@@ -212,7 +213,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     }
 
     @Override
-    public void onImportMnemonicFailure(String error) {
+    public void onImportMnemonicFailure(@NonNull String error) {
         hideProgress();
         ToastUtil.showToastLonger(error);
         SoftKeyboardUtil.hideSoftKeyboard(this);
