@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.fragment;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MessageCenterActivity;
 import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 
@@ -17,6 +19,7 @@ public class MineFragment extends AbsBaseFragment {
     private TextView loginRegTv;
     private RelativeLayout walletManageRLayout;
     private RelativeLayout messageCenterRLayout;
+    private RelativeLayout tx_recoder;
     private ImageView arrowIv;
     private TextView hintMessageNum;
     private ImageView arrowIv1;
@@ -31,6 +34,7 @@ public class MineFragment extends AbsBaseFragment {
         loginRegTv = rootView.findViewById(R.id.loginRegTv);
         walletManageRLayout = rootView.findViewById(R.id.walletManageRLayout);
         messageCenterRLayout = rootView.findViewById(R.id.messageCenterRLayout);
+        tx_recoder = rootView.findViewById(R.id.tx_recoder);
         arrowIv = rootView.findViewById(R.id.arrowIv);
         hintMessageNum = rootView.findViewById(R.id.hint_message_num);
         arrowIv1 = rootView.findViewById(R.id.arrowIv1);
@@ -54,6 +58,12 @@ public class MineFragment extends AbsBaseFragment {
             @Override
             public void onClick(View v) {
                 skip(MessageCenterActivity.class);
+            }
+        });
+        tx_recoder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skip(TxRecoderActivity.class);
             }
         });
         hintMessageNum.setOnClickListener(new View.OnClickListener() {

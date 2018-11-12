@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/create_wallet_bg"
+    android:background="@mipmap/background"
     android:id="@+id/welcome_layout">
     <ImageView
         android:id="@+id/logoIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/launcher_logo"
+        android:src="@mipmap/login_logo"
         android:layout_centerInParent="true"
         />
 </RelativeLayout>

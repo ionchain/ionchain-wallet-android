@@ -3,184 +3,172 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/blue_top"
-        android:paddingLeft="@dimen/h16">
-
-        <TextView
-            android:id="@+id/wallet_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="名字"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_size" />
-
-        <ImageView
-            android:id="@+id/wallet_list"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/h16"
-            android:background="@mipmap/more_derices" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:background="@mipmap/app_bar"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/modify_wallet"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+        <RelativeLayout
+            android:id="@+id/part1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h10"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/wallet_logo"
+            android:layout_height="?actionBarSize"
+            android:paddingLeft="@dimen/h16">
+            <TextView
+                android:id="@+id/wallet_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/wallet_logo" />
-
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="名字"
+                android:textColor="@color/white"
+                android:textSize="@dimen/title_size" />
+            <ImageView
+                android:id="@+id/wallet_list"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/h16"
+                android:background="@mipmap/more_derices" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_below="@id/part1"
+            android:layout_width="match_parent"
+            android:layout_height="124dp"
+            android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/modify_wallet"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="@dimen/h16"
+                android:layout_marginTop="@dimen/h10"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/wallet_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/wallet_logo" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/walletBalanceTx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="@dimen/h5"
+                            android:text="0.0000"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/txt_biglargesize"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="@dimen/h5"
+                            android:text="IONC"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/txt_microsize"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/walletBalanceTx"
+                        android:visibility="gone"
+                        android:id="@+id/tx_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="@dimen/h5"
-                        android:text="0.0000"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/txt_biglargesize"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="@dimen/h5"
-                        android:text="IONC"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/txt_microsize"
-                        android:textStyle="bold" />
+                        android:text="≈￥0"
+                        android:textColor="#B3BFD0" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tx_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="≈￥0"
-                    android:textColor="#B3BFD0" />
             </LinearLayout>
 
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/wallet_address_layout"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="@dimen/h16">
-
-            <ImageView
-                android:id="@+id/codeIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@mipmap/qr" />
-
-            <TextView
-                android:id="@+id/wallet_address_tv"
+            <RelativeLayout
+                android:id="@+id/wallet_address_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@id/codeIv"
-                android:text=""
-                android:textColor="#B3BFD0"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="15dp"
-            android:alpha="0.8"
-            android:background="#B3BFD0" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/tx_out_ll"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="20dp"
+                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="@dimen/h16">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/tx_out_icon" />
+                    android:id="@+id/codeIv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/qr" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="转出"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+                    android:id="@+id/wallet_address_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@id/codeIv"
+                    android:text=""
+                    android:textColor="#B3BFD0"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/tx_in_ll"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
+                android:layout_height="30dp">
+                <LinearLayout
+                    android:id="@+id/tx_out_ll"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/tx_in_icon" />
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/tx_out_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="转出"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tx_in_ll"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="转入"
-                    android:textColor="@color/white" />
+                    android:layout_centerInParent="true">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/tx_in_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="转入"
+                        android:textColor="@color/white" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
+    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -209,4 +197,5 @@
         android:layout_width="match_parent"
         android:layout_height="0.5px"
         android:background="#D3DFEF" />
+
 </LinearLayout>
