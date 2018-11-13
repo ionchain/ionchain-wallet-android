@@ -9,7 +9,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:padding="@dimen/h16"
+        android:padding="@dimen/padding_size_16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -40,9 +40,9 @@
             android:id="@+id/walletManageRLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h16">
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,9 +73,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
             android:visibility="gone"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h16">
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,9 +119,9 @@
             android:id="@+id/tx_recoder"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h16">
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -149,9 +149,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h16">
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -180,9 +180,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
             android:visibility="gone"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
-            android:layout_marginTop="@dimen/h16">
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"

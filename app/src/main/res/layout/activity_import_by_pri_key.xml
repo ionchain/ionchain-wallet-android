@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
             android:src="@mipmap/arrow_back_blue" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:src="@mipmap/scan" />
     </RelativeLayout>
 
@@ -44,9 +44,9 @@
             android:id="@+id/contentEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@drawable/comm_imput_bg"
             android:gravity="left"
             android:hint="明文私钥"
@@ -60,9 +60,9 @@
             android:id="@+id/pwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:gravity="left|center_vertical"
             android:hint="数字、大小写字母与特殊符号混合，且不少于8位"
             android:padding="@dimen/h5"
@@ -72,9 +72,9 @@
             android:id="@+id/repwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:gravity="left|center_vertical"
             android:hint="@string/wallet_create_respwd"
             android:padding="@dimen/h5"
@@ -83,9 +83,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -117,9 +117,9 @@
             android:id="@+id/importBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@color/grey"
             android:enabled="false"
             android:text="开始导入"

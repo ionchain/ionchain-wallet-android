@@ -58,7 +58,7 @@
         android:id="@+id/copyBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/h16"
+        android:layout_margin="@dimen/padding_size_16dp"
         android:layout_marginBottom="20dp"
         android:text="复制收款地址" />
 </LinearLayout>

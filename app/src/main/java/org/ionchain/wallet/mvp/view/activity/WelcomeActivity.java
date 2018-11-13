@@ -35,6 +35,7 @@ public class WelcomeActivity extends AbsBaseActivity {
                     Intent intent = new Intent(getMActivity(),CreateWalletSelectActivity.class);
                     intent.putExtra(FROM_WELCOME,true);
                     startActivity(intent);
+                    finish();
                 }
             }
 

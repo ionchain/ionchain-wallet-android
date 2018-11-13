@@ -10,7 +10,7 @@
         android:layout_height="0dp"/>
     <RelativeLayout
         android:layout_below="@id/header"
-        android:paddingLeft="@dimen/h16"
+        android:paddingLeft="@dimen/padding_size_16dp"
         android:id="@+id/toolbarlayout"
         android:background="@color/white"
         android:layout_width="match_parent"
@@ -34,8 +34,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/h16"
-        android:layout_marginLeft="@dimen/h16">
+        android:layout_marginBottom="@dimen/padding_size_16dp"
+        android:layout_marginLeft="@dimen/padding_size_16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,8 +68,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/h16"
-        android:layout_marginRight="@dimen/h16"
+        android:layout_marginLeft="@dimen/padding_size_16dp"
+        android:layout_marginRight="@dimen/padding_size_16dp"
         android:orientation="vertical"
         android:layout_below="@id/headIv"
         android:layout_marginTop="@dimen/h50">
@@ -138,8 +138,8 @@
             android:textColor="@color/main_blue"
             android:text="忘记密码?"
             android:textSize="@dimen/txt_mediumsize"
-            android:paddingTop="@dimen/h16"
-            android:paddingBottom="@dimen/h16"/>
+            android:paddingTop="@dimen/padding_size_16dp"
+            android:paddingBottom="@dimen/padding_size_16dp"/>
 
     </LinearLayout>
 

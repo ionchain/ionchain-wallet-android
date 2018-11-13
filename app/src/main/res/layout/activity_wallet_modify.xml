@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:textColor="@color/white"
         android:background="@color/blue_top"
-        android:layout_margin="@dimen/h16"
+        android:layout_margin="@dimen/padding_size_16dp"
         android:text="删除钱包" />
 
     <LinearLayout
@@ -32,9 +32,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h40"
-                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
                 android:layout_marginTop="@dimen/h10"
-                android:layout_marginRight="@dimen/h16"
+                android:layout_marginRight="@dimen/padding_size_16dp"
                 android:gravity="center|bottom"
                 android:orientation="horizontal">
 
@@ -65,9 +65,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/h16"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
                 android:layout_marginTop="@dimen/h10"
-                android:layout_marginRight="@dimen/h16"
+                android:layout_marginRight="@dimen/padding_size_16dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -94,9 +94,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h10"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:text="钱包名"
             android:textSize="@dimen/txt_mediumsize" />
 
@@ -104,8 +104,8 @@
             android:id="@+id/walletNameEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:hint="钱包名称"
             android:textColor="@color/library_33"
             android:textSize="@dimen/txt_mediumsize" />
@@ -115,8 +115,8 @@
             android:id="@+id/modifyPwdLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16">
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -136,8 +136,8 @@
             android:id="@+id/importLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16">
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -155,8 +155,8 @@
             android:id="@+id/import_mnemonic_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginRight="@dimen/h16">
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"

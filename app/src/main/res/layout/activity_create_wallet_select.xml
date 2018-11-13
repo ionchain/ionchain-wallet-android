@@ -31,7 +31,7 @@
                 android:text="分布式智能数字钱包"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_largesize"
-                android:layout_marginTop="@dimen/h16"/>
+                android:layout_marginTop="@dimen/padding_size_16dp"/>
 
 
             <Button
@@ -41,9 +41,9 @@
                 android:text="创建钱包"
                 android:textColor="@color/main_blue"
                 android:textSize="@dimen/txt_smallmediumsize"
-                android:layout_marginLeft="@dimen/h16"
-                android:layout_marginRight="@dimen/h16"
-                android:layout_marginTop="@dimen/h16"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
+                android:layout_marginRight="@dimen/padding_size_16dp"
+                android:layout_marginTop="@dimen/padding_size_16dp"
                 android:background="@drawable/common_button_semicircle"/>
 
             <Button
@@ -53,9 +53,9 @@
                 android:text="导入钱包"
                 android:textColor="@color/main_blue"
                 android:textSize="@dimen/txt_smallmediumsize"
-                android:layout_marginLeft="@dimen/h16"
-                android:layout_marginRight="@dimen/h16"
-                android:layout_marginTop="@dimen/h16"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
+                android:layout_marginRight="@dimen/padding_size_16dp"
+                android:layout_marginTop="@dimen/padding_size_16dp"
                 android:background="@drawable/common_button_semicircle"
                 />
 

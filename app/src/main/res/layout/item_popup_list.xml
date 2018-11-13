@@ -19,7 +19,7 @@
         android:layout_gravity="center_vertical"
         android:gravity="center|left"
         android:paddingBottom="5dp"
-        android:layout_marginLeft="@dimen/h16"
+        android:layout_marginLeft="@dimen/padding_size_16dp"
         android:paddingTop="5dp"
         android:text="钱包名字"
         android:textSize="21sp" />

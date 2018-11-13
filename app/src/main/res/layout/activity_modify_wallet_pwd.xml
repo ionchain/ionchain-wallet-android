@@ -10,7 +10,7 @@
         android:id="@+id/toolbarlayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:layout_margin="@dimen/h16">
+        android:layout_margin="@dimen/padding_size_16dp">
 
         <ImageView
             android:id="@+id/back"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/comm_toast_bg"
             android:orientation="vertical"
-            android:padding="@dimen/h16">
+            android:padding="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,9 +70,9 @@
             android:id="@+id/oldPwdEdit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:hint="当前密码"
             android:textColor="@color/library_33"
             android:textSize="14sp" />
@@ -81,9 +81,9 @@
             android:id="@+id/newPwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:hint="数字、大小写字母与特殊符号混合，且不少于8位"
             android:inputType="textPassword"
             android:textColor="@color/library_33"
@@ -93,9 +93,9 @@
             android:id="@+id/resetNewPwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/h16"
-            android:layout_marginTop="@dimen/h16"
-            android:layout_marginRight="@dimen/h16"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:hint="@string/wallet_create_respwd"
             android:inputType="textPassword"
             android:textColor="@color/library_33"
