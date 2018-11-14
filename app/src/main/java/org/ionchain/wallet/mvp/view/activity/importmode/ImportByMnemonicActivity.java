@@ -115,7 +115,6 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     ToastUtil.showToastLonger("请输入正确的助记词！");
                     return;
                 }
-                newPassword = pass;
                 if (!check(resetpass) || !check(pass)) {
                     ToastUtil.showToastLonger("密码不符合要求！");
                     return;
@@ -124,7 +123,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     Toast.makeText(getMActivity().getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                newPassword = pass;
                 showProgress("正在导入钱包请稍候");
                 Web3jHelper.getInstance()
                         .importWalletByMnemonicCode("", Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);

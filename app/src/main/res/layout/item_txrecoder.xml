@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tx_block"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="left|center_vertical"
+        android:text="Block : 5666"
+        android:background="@color/grey"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tx_value"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="left|center_vertical"
+        android:text="Value : 51 IONC"
+        android:background="@color/tomato"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tx_fee"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="left|center_vertical"
+        android:text="txFee : 0.009424776 IONC"
+        android:background="@color/darkorange"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tx_hash"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/h1"
+        android:text="TxHash : 0xeb680f30715f347d4eb5cd03ac5eced297ac5046"
+        android:background="@color/orange"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:singleLine="true"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tx_from"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/tx_hash"
+        android:background="@color/lightpink"
+        android:text="From : 0xeb680f30715f347d4eb5cd03ac5eced297ac5046"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tx_to"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/tx_from"
+        android:background="@color/mistyrose"
+        android:text="To : 0xeb680f30715f347d4eb5cd03ac5eced297ac5046"
+        android:textSize="12sp" />
+</LinearLayout>

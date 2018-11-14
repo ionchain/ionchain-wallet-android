@@ -1,5 +1,7 @@
 package org.ionchain.wallet.mvp.callback
 
+import org.ionchain.wallet.bean.TxRecoderBean
+
 /**
  *
  * AUTHOR binny
@@ -8,3 +10,16 @@ package org.ionchain.wallet.mvp.callback
  *
  *
  */
+interface OnTxRecoderCallback:OnLoadingView {
+
+    /**
+     * 请求成功
+     * */
+    fun onTxRecoderSuccess(beans: ArrayList<TxRecoderBean.DataBean.ItemBean>)
+
+
+    /**
+     * 请求失败
+     * */
+    fun onTxRecoderFailure(error: String)
+}

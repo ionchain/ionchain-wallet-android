@@ -19,7 +19,6 @@ public class MineFragment extends AbsBaseFragment {
     private TextView loginRegTv;
     private RelativeLayout walletManageRLayout;
     private RelativeLayout messageCenterRLayout;
-    private RelativeLayout tx_recoder;
     private ImageView arrowIv;
     private TextView hintMessageNum;
     private ImageView arrowIv1;
@@ -34,7 +33,6 @@ public class MineFragment extends AbsBaseFragment {
         loginRegTv = rootView.findViewById(R.id.loginRegTv);
         walletManageRLayout = rootView.findViewById(R.id.walletManageRLayout);
         messageCenterRLayout = rootView.findViewById(R.id.messageCenterRLayout);
-        tx_recoder = rootView.findViewById(R.id.tx_recoder);
         arrowIv = rootView.findViewById(R.id.arrowIv);
         hintMessageNum = rootView.findViewById(R.id.hint_message_num);
         arrowIv1 = rootView.findViewById(R.id.arrowIv1);
@@ -60,12 +58,7 @@ public class MineFragment extends AbsBaseFragment {
                 skip(MessageCenterActivity.class);
             }
         });
-        tx_recoder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skip(TxRecoderActivity.class);
-            }
-        });
+
         hintMessageNum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,8 +81,5 @@ public class MineFragment extends AbsBaseFragment {
 
     @Override
     protected void initData() {
-//        if (Global.user != null) {
-//            loginRegTv.setText(Global.user.getUserName());
-//        }
     }
 }

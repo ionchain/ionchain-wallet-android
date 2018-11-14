@@ -1,10 +1,7 @@
 package org.ionchain.wallet.mvp.presenter
 
 import org.ionchain.wallet.bean.WalletBean
-import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback
-import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback
-import org.ionchain.wallet.mvp.callback.OnDeviceListCallback
-import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback
+import org.ionchain.wallet.mvp.callback.*
 
 /**
  * USER: binny
@@ -51,4 +48,11 @@ interface IPresenter {
      * @param callback 设备信息
      */
     fun getDeviceDetail(cksn: String, callback: OnDeviceDetailCallback)
+    /**
+     * @param type
+     * @param key 钱包地址
+     * @param pageNumber
+     * @param pageSize
+     * */
+    fun  getTxRedocer(type:String,key:String,pageNumber:String,pageSize:String,callback: OnTxRecoderCallback)
 }

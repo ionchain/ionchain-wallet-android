@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/white"
-        android:background="@color/blue_top"
         android:layout_margin="@dimen/padding_size_16dp"
-        android:text="删除钱包" />
+        android:background="@color/blue_top"
+        android:text="删除钱包"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -133,7 +133,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/importLayout"
+            android:id="@+id/import_pri_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
             android:layout_marginLeft="@dimen/padding_size_16dp"
@@ -151,6 +151,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/line" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/import_mnemonic_layout"
             android:layout_width="match_parent"
@@ -171,6 +172,23 @@
                 android:background="@color/line" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/import_key_store_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="导出keystore" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h1"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line" />
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

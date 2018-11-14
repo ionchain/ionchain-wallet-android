@@ -36,6 +36,7 @@ import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.ModifyWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.TxActivity;
+import org.ionchain.wallet.mvp.view.activity.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
@@ -59,7 +60,10 @@ public class HomeFragment extends AbsBaseFragment implements
         PopupWindowBuilder.OnItemBuilder,
         OnRefreshListener,
         OnBindDeviceCallback,
-        OnDeviceListCallback, OnUnbindDeviceButtonClickedListener, OnUnbindDeviceCallback, OnBalanceCallback {
+        OnDeviceListCallback,
+        OnUnbindDeviceButtonClickedListener,
+        OnUnbindDeviceCallback,
+        OnBalanceCallback {
 
 
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
@@ -67,8 +71,9 @@ public class HomeFragment extends AbsBaseFragment implements
     private WalletBean mCurrentWallet;
     private TextView walletNameTx;
     private ImageView moreWallet;
-    private LinearLayout modifyWallet;
+    private RelativeLayout modifyWallet;
     private TextView walletBalanceTx;
+    private TextView tx_recoder;
     private RelativeLayout walletAddressLayout;
     private TextView walletAddressTx;//钱包地址
     private PopupWindowBuilder mBuilder;
@@ -107,6 +112,7 @@ public class HomeFragment extends AbsBaseFragment implements
         walletAddressTx = rootView.findViewById(R.id.wallet_address_tv);
         tx_in_ll = rootView.findViewById(R.id.tx_in_ll);
         tx_out_ll = rootView.findViewById(R.id.tx_out_ll);
+        tx_recoder = rootView.findViewById(R.id.tx_recoder_tv);
 
     }
 
@@ -271,6 +277,17 @@ public class HomeFragment extends AbsBaseFragment implements
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
                 intent.putExtra("msg", mCurrentWallet.getAddress());
+                skip(intent);
+            }
+        });
+        /*
+         * 交易记录
+         * */
+        tx_recoder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TxRecoderActivity.class);
+                intent.putExtra("address", mCurrentWallet.getAddress());
                 skip(intent);
             }
         });

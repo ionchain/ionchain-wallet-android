@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
@@ -17,7 +19,6 @@ import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
 import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.myweb3j.Web3jHelper;
-import org.ionchain.wallet.utils.Md5Utils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -47,7 +48,9 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     private RelativeLayout modifyPwdLayout;
     private RelativeLayout importLayout;
     private RelativeLayout import_mnemonic_layout;
+    private RelativeLayout import_key_store_layout;
     private boolean bShowMnemonicRl;//是否显示导出助记词条目
+    private boolean bShowKSRl;//是否显示导出keystore
 
     /**
      * Find the Views in the layout<br />
@@ -61,10 +64,14 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
         walletAddressTv = (TextView) findViewById(R.id.walletAddressTv);
         walletNameEt = (AppCompatEditText) findViewById(R.id.walletNameEt);
         modifyPwdLayout = (RelativeLayout) findViewById(R.id.modifyPwdLayout);
-        importLayout = (RelativeLayout) findViewById(R.id.importLayout);
+        importLayout = (RelativeLayout) findViewById(R.id.import_pri_layout);
         import_mnemonic_layout = (RelativeLayout) findViewById(R.id.import_mnemonic_layout);
+        import_key_store_layout = (RelativeLayout) findViewById(R.id.import_key_store_layout);
         if (!bShowMnemonicRl) {
             import_mnemonic_layout.setVisibility(View.GONE);
+        }
+        if (!bShowKSRl) {
+            import_key_store_layout.setVisibility(View.GONE);
         }
         import_mnemonic_layout.setOnClickListener(this);
         delBtn.setOnClickListener(this);
@@ -92,6 +99,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
         super.handleIntent(intent);
         mWallet = (WalletBean) intent.getSerializableExtra(SERIALIZABLE_DATA);
         bShowMnemonicRl = !StringUtils.isEmpty(mWallet.getMnemonic());
+        bShowKSRl = !StringUtils.isEmpty(mWallet.getKeystore());
     }
 
     @Override
@@ -128,7 +136,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
 
 
     /**
-     * 输入密码
+     * 输入密码,导出私钥
      */
     private void showEditTextDialog() {
         final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
@@ -197,8 +205,8 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                             ToastUtil.showToastLonger("请输入密码！");
                             return;
                         }
-                        Log.i(getTAG(), "onClick: " + mWallet.getPassword());
-                        if (!Md5Utils.md5(dialogPasswordCheck.getPasswordEt().getText().toString()).equals(mWallet.getPassword())) {
+                        Logger.i(getTAG(), "onClick: " + mWallet.getPassword());
+                        if (!dialogPasswordCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
                             ToastUtil.showToastLonger("你输入的密码有误！");
                             return;
                         }
@@ -254,7 +262,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, mWallet);
                 startActivityForResult(intent, REQUEST_MODIFY_WALLET_PWD);
                 break;
-            case R.id.importLayout:
+            case R.id.import_pri_layout://导出私钥
                 showEditTextDialog();
                 break;
             case R.id.import_mnemonic_layout://导出助记词
@@ -281,6 +289,31 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                     }
                 });
                 dialog.show();
+                break;
+            case R.id.import_key_store_layout://导出KS
+                final DialogPasswordCheck dialog1 = new DialogPasswordCheck(this);
+                dialog1.setLeftBtnClickedListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog1.dismiss();
+                    }
+                });
+                dialog1.setRightBtnClickedListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        /*比对密码是否正确*/
+                        String pwd = mWallet.getPassword();
+                        String pwd1 = dialog1.getPasswordEt().getText().toString();
+                        if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
+                            dialog1.dismiss();
+                            showProgress("正在导出请稍候");
+                            Web3jHelper.simulateTimeConsuming(ModifyWalletActivity.this);
+                        } else {
+                            ToastUtil.showToastLonger("请检查密码是否正确！");
+                        }
+                    }
+                });
+                dialog1.show();
                 break;
 
         }

@@ -96,8 +96,9 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String resetpass = "";
-                String pass = "";//获取密码
+                String pass;//获取密码
+                String pass2;
+
                 if (mPrivateKey.getText() == null) {
                     ToastUtil.showToastLonger("私钥不能为空！");
                     return;
@@ -111,13 +112,13 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     return;
                 }
                 private_key = mPrivateKey.getText().toString().trim();
-                resetpass = repwdEt.getText().toString().trim();
+                pass2 = repwdEt.getText().toString().trim();
                 pass = pwdEt.getText().toString().trim();
-                if (!check(resetpass) || !check(pass)) {
+                if (!check(pass2) || !check(pass)) {
                     ToastUtil.showToastLonger("密码不符合要求！");
                     return;
                 }
-                newPassword = pass;
+
                 if (private_key.startsWith("0x")) {
                     private_key = private_key.substring(2);
                 }
@@ -126,11 +127,11 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     return;
                 }
 
-                if (!resetpass.equals(pass)) {
+                if (!pass2.equals(pass)) {
                     Toast.makeText(getMActivity().getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                newPassword = pass;
                 showProgress("正在导入钱包请稍候");
                 Web3jHelper.getInstance()
                         .importPrivateKey(private_key, pass, ImportByPriKeyActivity.this);

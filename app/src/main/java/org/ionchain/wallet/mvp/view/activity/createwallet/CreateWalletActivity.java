@@ -81,9 +81,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                 if (walletNameEt.getText() != null && pwdEt.getText() != null && resetPwdEt.getText() != null) {
                     String content = walletNameEt.getText().toString().trim();
                     String pwdstr = pwdEt.getText().toString().trim();
-                    String resetpwdstr = resetPwdEt.getText().toString().trim();
+                    String pass2 = resetPwdEt.getText().toString().trim();
 
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
+                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(pass2) && checkbox.isChecked()) {
                         createBtn.setEnabled(true);
                         createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
                     } else {

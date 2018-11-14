@@ -32,4 +32,8 @@ public class ConstantUrl {
      * 解绑设备
      */
     public final static String DEVICES_UNBIND_POST = DEVICES_HOST + "/api/wallet/v1/devices/unbind";
+
+
+    public final static String TX_RECODER_URL_GET = "http://explorer.blockchainbrother.com/v1/transaction";
+
 }

@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="260dp"
     android:orientation="vertical">
+
+    <!--背景  180 -->
     <ImageView
-        android:background="@mipmap/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="180dp" />
+        android:layout_height="180dp"
+        android:background="@mipmap/app_bar" />
+    <!--name 60-->
     <RelativeLayout
-        android:background="@mipmap/app_bar"
         android:id="@+id/h1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:paddingLeft="@dimen/padding_size_16dp">
 
         <TextView
             android:id="@+id/wallet_name_tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="名字"
@@ -34,23 +35,21 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@mipmap/more_derices" />
     </RelativeLayout>
-
+    <!--balance 120-->
     <LinearLayout
         android:id="@+id/h2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:layout_below="@id/h1"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/modify_wallet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginTop="10dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:orientation="horizontal">
-
             <ImageView
                 android:id="@+id/wallet_logo"
                 android:layout_width="40dp"
@@ -60,29 +59,43 @@
             <TextView
                 android:id="@+id/walletBalanceTx"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
+                android:gravity="center"
                 android:layout_marginLeft="@dimen/h5"
+                android:layout_toRightOf="@id/wallet_logo"
                 android:text="0.0000"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_biglargesize"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/h5"
+                android:layout_toRightOf="@id/walletBalanceTx"
                 android:text="IONC"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_microsize"
                 android:textStyle="bold" />
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/tx_recoder_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:text="交易记录"
+                android:textColor="@color/white" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/wallet_address_layout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="16dp">
 
@@ -107,11 +120,13 @@
         </RelativeLayout>
     </LinearLayout>
 
+
+    <!--转账 50-->
     <LinearLayout
         android:id="@+id/h3"
-        android:layout_below="@id/h2"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/h2"
         android:background="@color/blue_top"
         android:gravity="center">
 
@@ -157,28 +172,29 @@
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
-
+    <!--设备 30-->
     <RelativeLayout
-        android:layout_below="@id/h3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/h3"
         android:paddingLeft="@dimen/padding_size_16dp"
         android:paddingRight="@dimen/padding_size_16dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:text="我的设备"
+            android:gravity="center"
+            android:textSize="14sp"
             android:textColor="#333333" />
 
         <ImageView
             android:id="@+id/add_device"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:src="@mipmap/scan" />
     </RelativeLayout>
 

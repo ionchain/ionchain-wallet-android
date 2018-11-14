@@ -5,6 +5,7 @@ import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
+import com.orhanobut.logger.Logger
 import org.ionchain.wallet.bean.DeviceBean
 import org.ionchain.wallet.bean.DeviceListBean
 import org.ionchain.wallet.bean.WalletBean
@@ -39,9 +40,10 @@ class HomePageModel : IHomePageModel {
 
             override fun onSuccess(response: Response<String>) {
                 val json = response.body()
-                Log.i(TAG, "onCreateSuccess: $json")
+                Logger.i(TAG, "onCreateSuccess: $json")
                 val bean = NetUtils.gsonToBean(json, DeviceListBean::class.java)
                 if (bean == null || bean.data == null) {
+                    callback.onLoadFinish()
                     return
                 }
                 callback.onDeviceListSuccess(bean.data!!)

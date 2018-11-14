@@ -193,7 +193,7 @@ public class Web3jHelper {
      * 创建钱包
      *
      * @param walletName 钱包名字
-     * @param password   钱包密码
+     * @param password   钱包密码 已加密
      */
     public void createBip39Wallet(String walletName, String password, final OnImportMnemonicCallback callback) {
 
@@ -367,9 +367,10 @@ public class Web3jHelper {
 
     /**
      * 通过 钱包密码和keystore文件导入钱包
-     *
+     * <p>
      * 1/创建文件
      * 2/导入钱包
+     *
      * @param password
      * @param keystoreContent
      * @return
@@ -415,6 +416,7 @@ public class Web3jHelper {
                     App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
+                            Logger.e(e.getMessage() +"  "+ password);
                             callback.onCreateFailure(e.getMessage());
                         }
                     });
@@ -425,9 +427,9 @@ public class Web3jHelper {
     }
 
 
-
     /**
      * 创建文件名
+     *
      * @param walletAddress
      * @return
      */
@@ -460,7 +462,7 @@ public class Web3jHelper {
      * 显然，以太坊不需要一个中心化的账户管理系统，我们可以根据以太坊约定 的算法自由地生成账户。
      *
      * @param privateKey 私钥
-     * @param passwrd    钱包密码
+     * @param passwrd    钱包密码 已加密
      * @param callback   创建结果的回调
      */
     public void importPrivateKey(final String privateKey, final String passwrd, final OnCreateWalletCallback callback) {
