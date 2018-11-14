@@ -8,33 +8,45 @@ import android.widget.TextView;
 
 import org.ionchain.wallet.R;
 
-public class DialogImportPrivKey extends BaseDialog {
+public class DialogImport extends BaseDialog {
 
-    private String preivateKeyText;
+    private String message;
+    private String title;
 
-    public DialogImportPrivKey setCopyBtnClickedListener(View.OnClickListener copyBtnClickedListener) {
+    private TextView messageTV;
+    private Button copyBtn;
+    private TextView titleTv;
+
+    public DialogImport setTitle(String title) {
+
+        this.title = title;
+        return this;
+
+    }
+
+    public DialogImport setCopyBtnClickedListener(View.OnClickListener copyBtnClickedListener) {
         this.copyBtnClickedListener = copyBtnClickedListener;
         return this;
     }
 
     private View.OnClickListener copyBtnClickedListener;
 
-    public DialogImportPrivKey(@NonNull Context context) {
+    public DialogImport(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected void initView() {
         findViews();
-        privateKeyTv.setText(preivateKeyText);
+        messageTV.setText(message);
+        titleTv.setText(title);
     }
 
     @Override
     protected int getLayout() {
-        return R.layout.dialog_import_private_key_layout;
+        return R.layout.dialog_import_layout;
     }
-    private TextView privateKeyTv;
-    private Button copyBtn;
+
 
     /**
      * Find the Views in the layout<br />
@@ -43,12 +55,14 @@ public class DialogImportPrivKey extends BaseDialog {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        privateKeyTv = (TextView)findViewById( R.id.privateKeyTv);
-        copyBtn = (Button)findViewById( R.id.copyBtn );
+        messageTV = (TextView) findViewById(R.id.message_tv);
+        titleTv = (TextView) findViewById(R.id.title_tv);
+        copyBtn = (Button) findViewById(R.id.copyBtn);
         copyBtn.setOnClickListener(copyBtnClickedListener);
     }
-    public DialogImportPrivKey setPrivateKeyText(String preivateKeyTv) {
-        this.preivateKeyText = preivateKeyTv;
+
+    public DialogImport setMessage(String message) {
+        this.message = message;
         return this;
     }
 }

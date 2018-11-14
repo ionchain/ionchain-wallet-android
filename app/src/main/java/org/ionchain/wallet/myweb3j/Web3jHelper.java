@@ -416,7 +416,7 @@ public class Web3jHelper {
                     App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {
-                            Logger.e(e.getMessage() +"  "+ password);
+                            Logger.e(e.getMessage() + "  " + password);
                             callback.onCreateFailure(e.getMessage());
                         }
                     });
@@ -735,8 +735,15 @@ public class Web3jHelper {
                 super.run();
 
                 try {
-                    Credentials credentials = WalletUtils.loadCredentials(wallet.getPassword(), wallet.getKeystore());
-                    if (null == credentials || !credentials.getAddress().equals(wallet.getAddress())) {
+                    String ps = wallet.getPassword();
+                    String ks = wallet.getKeystore();
+                    Logger.i("ps = " + ps);
+                    Logger.i("ks = " + ks);
+                    Credentials credentials = WalletUtils.loadCredentials(ps, ks);
+                    Logger.i("credentials = " + credentials);
+                    Logger.i("credentials.getAddress() = " + credentials.getAddress());
+                    Logger.i("wallet.getAddress() = " + wallet.getAddress());
+                    if (null == credentials || !credentials.getAddress().equals(wallet.getAddress().toLowerCase())) {
                         App.Companion.getMHandler().post(new Runnable() {
                             @Override
                             public void run() {
@@ -764,6 +771,7 @@ public class Web3jHelper {
                     //发生更换了
                     if (null != wallet.getKeystore() && !wallet.getKeystore().equals(keystore)) {
                         String old = wallet.getKeystore();
+                        Logger.i("old keystore ==>" + old);
                         //删除旧的keystore
                         File file = new File(old);
                         if (file.exists()) {
@@ -772,6 +780,7 @@ public class Web3jHelper {
                     }
                     wallet.setKeystore(keystore);
                     wallet.setPassword(newPassWord);
+                    WalletDaoTools.updateWallet(wallet);
                     App.Companion.getMHandler().post(new Runnable() {
                         @Override
                         public void run() {

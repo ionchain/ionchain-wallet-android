@@ -102,7 +102,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                 BigDecimal bigDecimal = Convert.toWei(String.valueOf(dynamicValue), Convert.Unit.ETHER);
                 double d = bigDecimal.doubleValue() / 30000;
                 mCurrentGasPrice = Convert.fromWei(String.valueOf(d), Convert.Unit.GWEI);
-                Log.i(getTAG(), "mCurrentGasPrice: " + mCurrentGasPrice);
+                Logger.i(getTAG(), "mCurrentGasPrice: " + mCurrentGasPrice);
             }
 
             @Override
@@ -143,18 +143,18 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
         txCostTv.setText("旷工费 " + df.format(value) + " IONC");
 
         int max = Web3jHelper.getInstance().getSeekBarMaxValue();
-        Log.i(getTAG(), "max: " + max);
+        Logger.i(getTAG(), "max: " + max);
         txSeekBarIndex.setMax(max);// 200
         double v1 = value / max_fee;
         double progress = (v1 * Web3jHelper.getInstance().getSeekBarMaxValue());
         txSeekBarIndex.setProgress((int) progress);// 200
         mCurrentGasPrice = toGasPrice(default_value);
-        Log.i(getTAG(), "initData: " + mCurrentGasPrice);
-        Log.i(getTAG(), "default_value: " + default_value);
-        Log.i(getTAG(), "min_value: " + min_value);
-        Log.i(getTAG(), "value: " + value);
-        Log.i(getTAG(), "max_fee: " + max_fee);
-        Log.i(getTAG(), "v1: " + progress);
+        Logger.i(getTAG(), "initData: " + mCurrentGasPrice);
+        Logger.i(getTAG(), "default_value: " + default_value);
+        Logger.i(getTAG(), "min_value: " + min_value);
+        Logger.i(getTAG(), "value: " + value);
+        Logger.i(getTAG(), "max_fee: " + max_fee);
+        Logger.i(getTAG(), "v1: " + progress);
     }
 
     private BigDecimal toGasPrice(double progress) {

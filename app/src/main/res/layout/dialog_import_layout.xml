@@ -14,6 +14,7 @@
         android:gravity="center_horizontal">
 
         <TextView
+            android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="导出私钥"
@@ -27,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/comm_toast_red_bg"
-            android:text="安全警告！私钥导出有风险请妥善保管。"
+            android:text="安全警告！该信息导出,会有风险请妥善保管！"
             android:textColor="#ED3735"
             android:padding="@dimen/h10"
             android:layout_marginLeft="@dimen/h20"
@@ -36,7 +37,7 @@
 
 
         <TextView
-            android:id="@+id/privateKeyTv"
+            android:id="@+id/message_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/comm_gray_bg"

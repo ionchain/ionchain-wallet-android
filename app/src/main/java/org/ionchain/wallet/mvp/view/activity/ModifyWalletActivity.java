@@ -22,10 +22,13 @@ import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
-import org.ionchain.wallet.widget.DialogImportPrivKey;
+import org.ionchain.wallet.widget.DialogImport;
 import org.ionchain.wallet.widget.DialogPasswordCheck;
 import org.ionchain.wallet.widget.IONCTitleBar;
-import org.ionchain.wallet.widget.ImportMnemonicDialog;
+import org.web3j.utils.Files;
+
+import java.io.File;
+import java.io.IOException;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
@@ -52,6 +55,8 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     private boolean bShowMnemonicRl;//是否显示导出助记词条目
     private boolean bShowKSRl;//是否显示导出keystore
 
+    private int importFlag = 0;//默认导出助记词
+
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -76,6 +81,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
         import_mnemonic_layout.setOnClickListener(this);
         delBtn.setOnClickListener(this);
         modifyPwdLayout.setOnClickListener(this);
+        import_key_store_layout.setOnClickListener(this);
         importLayout.setOnClickListener(this);
     }
 
@@ -171,7 +177,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
      */
     private void showImportPrivateKeyDialog(final String privateKey) {
 
-        new DialogImportPrivKey(this).setPrivateKeyText(privateKey)
+        new DialogImport(this).setMessage(privateKey)
                 .setCopyBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -266,6 +272,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 showEditTextDialog();
                 break;
             case R.id.import_mnemonic_layout://导出助记词
+                importFlag = 0;
                 final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
                 dialog.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
@@ -279,11 +286,14 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                         /*比对密码是否正确*/
                         String pwd = mWallet.getPassword();
                         String pwd1 = dialog.getPasswordEt().getText().toString();
+                        Logger.i("pwd = " + pwd);
+                        Logger.i("pwd1 = " + pwd1);
                         if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
                             dialog.dismiss();
                             showProgress("正在导出请稍候");
                             Web3jHelper.simulateTimeConsuming(ModifyWalletActivity.this);
                         } else {
+
                             ToastUtil.showToastLonger("请检查密码是否正确！");
                         }
                     }
@@ -291,6 +301,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 dialog.show();
                 break;
             case R.id.import_key_store_layout://导出KS
+                importFlag = 1;
                 final DialogPasswordCheck dialog1 = new DialogPasswordCheck(this);
                 dialog1.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
@@ -332,7 +343,41 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     @Override
     public void onSimulateFinish() {
         hideProgress();
-        ImportMnemonicDialog dialog = new ImportMnemonicDialog(this).setMnemonic(mWallet.getMnemonic());
-        dialog.show();
+        if (importFlag == 0) {
+
+            new DialogImport(this).setMessage(mWallet.getMnemonic())
+                    .setTitle("导出助记词")
+                    .setCopyBtnClickedListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //复制
+                            StringUtils.copy(ModifyWalletActivity.this, mWallet.getMnemonic());
+                            ToastUtil.showToastLonger("已复制私钥");
+                        }
+                    }).show();
+        } else if (importFlag == 1) {
+
+            try {
+                String path = mWallet.getKeystore();
+                final String json = Files.readString(new File(path));
+                Logger.i(json);
+//                ImportMnemonicOrKSDialog dialog = new ImportMnemonicOrKSDialog(this).setMnemonicOrKS(json);
+//                dialog.show();
+                new DialogImport(this).setMessage(json)
+                        .setTitle("导出KeyStory")
+                        .setCopyBtnClickedListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //复制
+                                StringUtils.copy(ModifyWalletActivity.this, json);
+                                ToastUtil.showToastLonger("已复制私钥");
+                            }
+                        }).show();
+            } catch (IOException e) {
+                Logger.e(e.getMessage());
+            }
+
+        }
+
     }
 }

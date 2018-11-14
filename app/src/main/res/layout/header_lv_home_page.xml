@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="260dp"
+    android:layout_height="230dp"
     android:orientation="vertical">
 
     <!--背景  180 -->
@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:background="@mipmap/app_bar" />
-    <!--name 60-->
+        <!--name 60-->
     <RelativeLayout
         android:id="@+id/h1"
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@mipmap/more_derices" />
     </RelativeLayout>
-    <!--balance 120-->
+        <!--balance 120-->
     <LinearLayout
         android:id="@+id/h2"
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
         <RelativeLayout
             android:id="@+id/modify_wallet"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:orientation="horizontal">
@@ -60,7 +60,6 @@
                 android:id="@+id/walletBalanceTx"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="bottom"
                 android:gravity="center"
                 android:layout_marginLeft="@dimen/h5"
                 android:layout_toRightOf="@id/wallet_logo"
@@ -73,8 +72,8 @@
                 android:id="@+id/tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/h5"
+                android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@id/walletBalanceTx"
                 android:text="IONC"
                 android:textColor="@color/white"
@@ -94,8 +93,7 @@
         <RelativeLayout
             android:id="@+id/wallet_address_layout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="16dp">
 
@@ -118,65 +116,65 @@
                 android:textColor="#B3BFD0"
                 android:textSize="14sp" />
         </RelativeLayout>
+        <!--转账 40-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/h2"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/tx_out_ll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/tx_out_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="转出"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tx_in_ll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/tx_in_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="转入"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 
-    <!--转账 50-->
-    <LinearLayout
+
+    <!--设备 30-->
+    <RelativeLayout
         android:id="@+id/h3"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/h2"
-        android:background="@color/blue_top"
-        android:gravity="center">
-
-        <LinearLayout
-            android:id="@+id/tx_out_ll"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/tx_out_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="转出"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tx_in_ll"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/tx_in_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="转入"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </LinearLayout>
-    <!--设备 30-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_below="@id/h3"
         android:paddingLeft="@dimen/padding_size_16dp"
         android:paddingRight="@dimen/padding_size_16dp">
 
@@ -199,9 +197,10 @@
     </RelativeLayout>
 
     <View
+        android:layout_below="@id/h3"
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="0.5px"
+        android:layout_height="0.5dp"
         android:background="#D3DFEF" />
 
 </RelativeLayout>
