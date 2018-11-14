@@ -42,6 +42,7 @@
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:focusable="true"
+        android:gravity="center_vertical"
         android:focusableInTouchMode="true"
         android:singleLine="true"
         android:textSize="12sp" />
@@ -51,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_below="@id/tx_hash"
+        android:gravity="center_vertical"
         android:background="@color/lightpink"
         android:text="From : 0xeb680f30715f347d4eb5cd03ac5eced297ac5046"
         android:textSize="12sp" />
@@ -60,6 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_below="@id/tx_from"
+        android:gravity="center_vertical"
         android:background="@color/mistyrose"
         android:text="To : 0xeb680f30715f347d4eb5cd03ac5eced297ac5046"
         android:textSize="12sp" />
