@@ -1,7 +1,9 @@
 package org.ionchain.wallet.adapter.device;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ionchain.wallet.adapter.iinterface.IViewHolder;
@@ -17,5 +19,5 @@ public class DeviceViewHolder implements IViewHolder {
     public TextView deviceName;
     public TextView bindDate;
     public TextView totalIncome;
-    public Button unbindDevice;
+    public RelativeLayout unbindDevice;
 }

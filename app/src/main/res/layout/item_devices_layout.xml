@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:id="@+id/unbind_device"
     android:layout_height="wrap_content">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/device_icon"
@@ -45,24 +42,15 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/unbind_device"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:text="解绑"
-            android:textColor="@color/white"
-            android:textSize="10sp" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/h10"
             android:layout_marginEnd="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h10"
-            android:layout_toLeftOf="@id/unbind_device"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_size_16dp"
             android:orientation="vertical">
 
             <TextView
@@ -70,17 +58,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/h10"
-                android:text="income" />
+                android:text="0.000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="总收益" />
         </LinearLayout>
-    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5px"
         android:background="#D3DFEF" />
-</LinearLayout>
+</RelativeLayout>

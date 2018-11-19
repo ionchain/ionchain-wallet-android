@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,7 +36,7 @@ public class DeviceViewHelper implements IViewHolderHelper<DeviceViewHolder, Dev
         viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
         viewHolder.bindDate = (TextView) view.findViewById(R.id.bind_date);
         viewHolder.totalIncome = (TextView) view.findViewById(R.id.total_income);
-        viewHolder.unbindDevice = (Button) view.findViewById(R.id.unbind_device);
+        viewHolder.unbindDevice = (RelativeLayout) view.findViewById(R.id.unbind_device);
         return viewHolder;
     }
 
@@ -49,10 +50,11 @@ public class DeviceViewHelper implements IViewHolderHelper<DeviceViewHolder, Dev
         viewHolder.bindDate.setText(bean.getCreated_at());
 //        viewHolder.totalIncome.setText(bean.getCreated_at());
         if (mListener != null) {
-            viewHolder.unbindDevice.setOnClickListener(new View.OnClickListener() {
+            viewHolder.unbindDevice.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
+                public boolean onLongClick(View v) {
                     mListener.onUnbindButtonClick(bean.getCksn(),position);
+                    return false;
                 }
             });
         }
