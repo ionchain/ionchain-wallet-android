@@ -5,8 +5,11 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_KEY
+import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE
 import org.ionchain.wallet.helper.ActivityHelper
 import org.ionchain.wallet.immersionbar.ImmersionBar
+import org.ionchain.wallet.mvp.view.activity.WebActivity
 import org.ionchain.wallet.utils.SoftKeyboardUtil
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
@@ -73,6 +76,15 @@ abstract class AbsBaseActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    /*
+    * 跳转到 web 页面
+    * */
+    protected fun skipWeb(value: String) {
+        val intent = Intent(mActivity, WebActivity::class.java)
+        intent.putExtra(SERVER_PROTOCOL_KEY, value)
+        startActivity(intent)
+    }
+
     protected fun skip(clazz: Class<*>, requestCode: Int) {
         val intent = Intent(this, clazz)
         startActivityForResult(intent, requestCode)
@@ -124,7 +136,7 @@ abstract class AbsBaseActivity : AppCompatActivity() {
 
     @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
     protected fun requestCodeQRCodePermissions() {
-        val perms = arrayOf(Manifest.permission.CAMERA, Manifest.permission.VIBRATE,Manifest.permission.READ_EXTERNAL_STORAGE)
+        val perms = arrayOf(Manifest.permission.CAMERA, Manifest.permission.VIBRATE, Manifest.permission.READ_EXTERNAL_STORAGE)
         if (!EasyPermissions.hasPermissions(this, *perms)) {
             EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, *perms)
         }

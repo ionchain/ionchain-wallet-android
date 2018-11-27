@@ -19,6 +19,7 @@ import android.widget.Toast;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
+import org.ionchain.wallet.mvp.view.activity.WebActivity;
 import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.mvp.callback.OnImportMnemonicCallback;
 import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
@@ -127,6 +128,12 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                 showProgress("正在导入钱包请稍候");
                 Web3jHelper.getInstance()
                         .importWalletByMnemonicCode("", Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);
+            }
+        });
+        linkUrlTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skipWeb("");
             }
         });
     }

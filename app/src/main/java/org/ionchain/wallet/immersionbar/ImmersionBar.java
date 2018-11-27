@@ -27,6 +27,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.orhanobut.logger.Logger;
+
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -176,6 +178,7 @@ public class ImmersionBar {
      * @param fragment the fragment
      * @return the immersion bar
      */
+    @Deprecated
     public static ImmersionBar with(@NonNull Fragment fragment) {
         if (fragment == null)
             throw new IllegalArgumentException("Fragment不能为null");
@@ -1035,7 +1038,7 @@ public class ImmersionBar {
         if (view == null) {
             throw new IllegalArgumentException("View参数不能为空");
         }
-        mBarParams.statusBarViewByHeight = view;
+        mBarParams.statusBarViewWithHeight = view;
         return this;
     }
 
@@ -1088,11 +1091,11 @@ public class ImmersionBar {
      * @param view the view
      * @return the immersion bar
      */
-    public ImmersionBar titleBar(View view) {
+    public ImmersionBar titleView(View view) {
         if (view == null) {
             throw new IllegalArgumentException("View参数不能为空");
         }
-        return titleBar(view, true);
+        return titleView(view, true);
     }
 
     /**
@@ -1103,7 +1106,7 @@ public class ImmersionBar {
      * @param statusBarFlag the status bar flag 默认为true false表示状态栏不支持变色，true表示状态栏支持变色
      * @return the immersion bar
      */
-    public ImmersionBar titleBar(View view, boolean statusBarFlag) {
+    public ImmersionBar titleView(View view, boolean statusBarFlag) {
         if (view == null) {
             throw new IllegalArgumentException("View参数不能为空");
         }
@@ -1120,12 +1123,12 @@ public class ImmersionBar {
      * @param viewId the view id
      * @return the immersion bar
      */
-    public ImmersionBar titleBar(@IdRes int viewId) {
+    public ImmersionBar titleView(@IdRes int viewId) {
         View view = mActivity.findViewById(viewId);
         if (view == null) {
             throw new IllegalArgumentException("参数错误");
         }
-        return titleBar(view, true);
+        return titleView(view, true);
     }
 
     /**
@@ -1135,12 +1138,12 @@ public class ImmersionBar {
      * @param statusBarFlag the status bar flag
      * @return the immersion bar
      */
-    public ImmersionBar titleBar(@IdRes int viewId, boolean statusBarFlag) {
+    public ImmersionBar titleView(@IdRes int viewId, boolean statusBarFlag) {
         View view = mActivity.findViewById(viewId);
         if (view == null) {
             throw new IllegalArgumentException("参数错误");
         }
-        return titleBar(view, statusBarFlag);
+        return titleView(view, statusBarFlag);
     }
 
     /**
@@ -1150,12 +1153,12 @@ public class ImmersionBar {
      * @param rootView the root view
      * @return the immersion bar
      */
-    public ImmersionBar titleBar(@IdRes int viewId, View rootView) {
+    public ImmersionBar titleView(@IdRes int viewId, View rootView) {
         View view = rootView.findViewById(viewId);
         if (view == null) {
             throw new IllegalArgumentException("参数错误");
         }
-        return titleBar(view, true);
+        return titleView(view, true);
     }
 
     /**
@@ -1167,12 +1170,12 @@ public class ImmersionBar {
      * @param statusBarFlag the status bar flag 默认为true false表示状态栏不支持变色，true表示状态栏支持变色
      * @return the immersion bar
      */
-    public ImmersionBar titleBar(@IdRes int viewId, View rootView, boolean statusBarFlag) {
+    public ImmersionBar titleView(@IdRes int viewId, View rootView, boolean statusBarFlag) {
         View view = rootView.findViewById(viewId);
         if (view == null) {
             throw new IllegalArgumentException("参数错误");
         }
-        return titleBar(view, statusBarFlag);
+        return titleView(view, statusBarFlag);
     }
 
     /**
@@ -1761,10 +1764,11 @@ public class ImmersionBar {
      * 通过状态栏高度动态设置状态栏布局
      */
     private void setStatusBarView() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mBarParams.statusBarViewByHeight != null) {
-            ViewGroup.LayoutParams params = mBarParams.statusBarViewByHeight.getLayoutParams();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mBarParams.statusBarViewWithHeight != null) {
+            ViewGroup.LayoutParams params = mBarParams.statusBarViewWithHeight.getLayoutParams();
             params.height = mConfig.getStatusBarHeight();
-            mBarParams.statusBarViewByHeight.setLayoutParams(params);
+            mBarParams.statusBarViewWithHeight.setLayoutParams(params);
+            Logger.i("params.height = "+params.height);
         }
     }
 
@@ -1775,8 +1779,7 @@ public class ImmersionBar {
     private void setTitleBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mBarParams.titleBarView != null) {
             final ViewGroup.LayoutParams layoutParams = mBarParams.titleBarView.getLayoutParams();
-            if (layoutParams.height == ViewGroup.LayoutParams.WRAP_CONTENT ||
-                    layoutParams.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+            if (layoutParams.height == ViewGroup.LayoutParams.WRAP_CONTENT || layoutParams.height == ViewGroup.LayoutParams.MATCH_PARENT) {
                 mBarParams.titleBarView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
@@ -1795,11 +1798,16 @@ public class ImmersionBar {
                     }
                 });
             } else {
-                if (mBarParams.titleBarHeight == 0)
+                if (mBarParams.titleBarHeight == 0) {
                     mBarParams.titleBarHeight = layoutParams.height + mConfig.getStatusBarHeight();
-                if (mBarParams.titleBarPaddingTopHeight == 0)
-                    mBarParams.titleBarPaddingTopHeight = mBarParams.titleBarView.getPaddingTop()
-                            + mConfig.getStatusBarHeight();
+                    Logger.i("mConfig.getStatusBarHeight() = " + mConfig.getStatusBarHeight());//3dp  72
+                    Logger.i("layoutParams.height = " + layoutParams.height);// 168
+                    Logger.i("mBarParams.titleBarHeight = " + mBarParams.titleBarHeight);// 240
+                }
+                if (mBarParams.titleBarPaddingTopHeight == 0) {
+                    mBarParams.titleBarPaddingTopHeight = mBarParams.titleBarView.getPaddingTop() + mConfig.getStatusBarHeight();
+                }
+                Logger.i("mBarParams.titleBarPaddingTopHeight = " + mBarParams.titleBarPaddingTopHeight);
                 layoutParams.height = mBarParams.titleBarHeight;
                 mBarParams.titleBarView.setPadding(mBarParams.titleBarView.getPaddingLeft(),
                         mBarParams.titleBarPaddingTopHeight,

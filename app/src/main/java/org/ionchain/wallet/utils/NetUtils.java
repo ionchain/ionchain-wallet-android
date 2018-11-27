@@ -6,9 +6,15 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.request.GetRequest;
+import com.lzy.okserver.OkDownload;
+import com.lzy.okserver.download.DownloadListener;
+import com.lzy.okserver.download.DownloadTask;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
+
+import java.io.File;
 
 /**
  * USER: binny
@@ -31,7 +37,7 @@ public class NetUtils {
     }
 
     /**
-     * get请求获取数据
+     * post 请求获取数据
      *
      * @param url
      */
@@ -45,7 +51,7 @@ public class NetUtils {
     }
 
     /**
-     * get请求获取数据
+     * post 请求获取数据
      *
      * @param url
      * @param json
@@ -70,7 +76,7 @@ public class NetUtils {
      */
     public static <T> T gsonToBean(String jsonStr, Class<T> cls) {
         Gson gson = new Gson();
-        T t = null;
+        T t;
         try {
             t = gson.fromJson(jsonStr, cls);
             return t;
@@ -78,5 +84,18 @@ public class NetUtils {
             Logger.e(e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * @param url 下载的URL
+     * @param downloadListener 下载监听
+     * @return 下载任务
+     */
+    public static DownloadTask downloader(String url, DownloadListener downloadListener) {
+        GetRequest<File> request = OkGo.<File>get(url);
+        DownloadTask task = OkDownload.request("task_download_apk", request)
+                .save()
+                .register(downloadListener);
+        return task;
     }
 }

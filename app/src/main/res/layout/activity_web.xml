@@ -2,18 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/comm_title_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".mvp.view.activity.transaction.TxRecoderActivity">
-
+    tools:context=".mvp.view.activity.WebActivity">
 
     <RelativeLayout
         android:id="@+id/toolbarlayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/blue_top">
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/back"
@@ -21,25 +20,16 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:src="@mipmap/arrow_back_white" />
+            android:src="@mipmap/arrow_back_blue" />
 
         <TextView
             style="@style/common_title"
             android:layout_centerInParent="true"
-            android:text="转账记录"
-            android:textColor="@color/white"
+            android:text="离子链钱包服务协议"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <WebView
+        android:id="@+id/web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <ListView
-            android:id="@+id/tx_recoder_lv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:layout_height="match_parent"/>
 </LinearLayout>

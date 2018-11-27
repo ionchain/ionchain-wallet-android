@@ -56,11 +56,11 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.view.activity.ModifyWalletActivity"
+            android:name=".mvp.view.activity.modify.ModifyWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.view.activity.ModifyWalletPwdActivity"
+            android:name=".mvp.view.activity.modify.ModifyWalletPwdActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -83,7 +83,7 @@
             android:name=".mvp.view.activity.ShowAddressActivity"
             android:label="@string/title_activity_show_address"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.view.activity.TxActivity" />
+        <activity android:name=".mvp.view.activity.transaction.TxActivity" />
         <activity android:name=".mvp.view.activity.importmode.SelectImportModeActivity" />
         <activity android:name=".mvp.view.activity.importmode.ImportByMnemonicActivity" />
         <activity
@@ -91,7 +91,8 @@
             android:label="@string/title_activity_import_by_keystore"
             android:theme="@style/AppTheme" />
         <activity android:name=".qrcode.android.CaptureActivity" />
-        <activity android:name=".mvp.view.activity.TxRecoderActivity"></activity>
+        <activity android:name=".mvp.view.activity.transaction.TxRecoderActivity" />
+        <activity android:name=".mvp.view.activity.WebActivity"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity
 
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
@@ -52,7 +51,7 @@ class MessageCenterActivity : AbsBaseActivity() {
 
     override fun initView() {
         findViews()
-        mImmersionBar!!.titleBar(R.id.header).statusBarDarkFont(true).execute()
+        mImmersionBar!!.titleView(R.id.header).statusBarDarkFont(true).execute()
         val layoutManager = LinearLayoutManager(this)
 
         back!!.setOnClickListener { finish() }

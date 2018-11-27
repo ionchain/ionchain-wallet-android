@@ -28,14 +28,10 @@ import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
+import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnSimulateTimeConsume {
-
-    final int REQUEST_CODE_CREATE_PERMISSIONS = 1;
-    //判定是否需要刷新
-    private WalletBean mCreateWallet = null;
-
 
     private RelativeLayout toolbarlayout;
     private ImageView back;
@@ -59,15 +55,15 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        toolbarlayout = (RelativeLayout) findViewById(R.id.toolbarlayout);
-        back = (ImageView) findViewById(R.id.back);
-        walletNameEt = (AppCompatEditText) findViewById(R.id.walletNameEt);
-        pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
-        resetPwdEt = (AppCompatEditText) findViewById(R.id.resetPwdEt);
-        checkbox = (CheckBox) findViewById(R.id.checkbox);
-        linkUrlTv = (TextView) findViewById(R.id.linkUrlTv);
-        createBtn = (Button) findViewById(R.id.createBtn);
-        importBtn = (TextView) findViewById(R.id.importBtn);
+        toolbarlayout = findViewById(R.id.toolbarlayout);
+        back = findViewById(R.id.back);
+        walletNameEt = findViewById(R.id.walletNameEt);
+        pwdEt = findViewById(R.id.pwdEt);
+        resetPwdEt = findViewById(R.id.resetPwdEt);
+        checkbox = findViewById(R.id.checkbox);
+        linkUrlTv = findViewById(R.id.linkUrlTv);
+        createBtn = findViewById(R.id.createBtn);
+        importBtn = findViewById(R.id.importBtn);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +125,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                skip(WebViewActivity.class, Comm.SERIALIZABLE_DATA, Comm.URL_AGREE, Comm.SERIALIZABLE_DATA1, "条款");
+                skipWeb(SERVER_PROTOCOL_VALUE);
             }
         });
         walletNameEt.addTextChangedListener(this);
@@ -146,7 +142,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleBar(R.id.toolbarlayout).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
     }
 
     @Override

@@ -42,4 +42,7 @@ public final class ConstantParams {
     /*传递的zxingconfing*/
 
     public static final String INTENT_ZXING_CONFIG = "zxingConfig";
+
+    public static final String SERVER_PROTOCOL_KEY = "title_name";
+    public static final String SERVER_PROTOCOL_VALUE = "离子链钱包服务协议";
 }

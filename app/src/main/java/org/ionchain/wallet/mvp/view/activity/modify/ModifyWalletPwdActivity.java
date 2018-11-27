@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity;
+package org.ionchain.wallet.mvp.view.activity.modify;
 
 import android.content.Intent;
 import android.support.v7.widget.AppCompatEditText;
@@ -107,7 +107,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleBar(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleView(findViewById(R.id.toolbarlayout)).statusBarDarkFont(true).execute();
     }
 
     @Override

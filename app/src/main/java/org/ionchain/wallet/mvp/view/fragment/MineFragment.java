@@ -1,6 +1,5 @@
 package org.ionchain.wallet.mvp.view.fragment;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MessageCenterActivity;
 import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 

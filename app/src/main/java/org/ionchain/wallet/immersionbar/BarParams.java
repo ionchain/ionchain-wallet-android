@@ -45,7 +45,7 @@ public class BarParams implements Cloneable {
     public int navigationBarColorTemp = navigationBarColor;
     public View statusBarView;                       //4.4自定义一个状态栏
     public View navigationBarView;                //4.4自定义一个导航栏
-    public View statusBarViewByHeight;            //解决标题栏与状态栏重叠问题
+    public View statusBarViewWithHeight;            //解决标题栏与状态栏重叠问题
     @ColorInt
     public int flymeOSStatusBarFontColor;          //flymeOS状态栏字体变色
     public boolean isSupportActionBar = false;    //结合actionBar使用

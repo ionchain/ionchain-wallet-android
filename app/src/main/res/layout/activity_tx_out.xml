@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".mvp.view.activity.TxActivity">
+    tools:context=".mvp.view.activity.transaction.TxActivity">
 
     <RelativeLayout
         android:id="@+id/header"

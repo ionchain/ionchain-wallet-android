@@ -160,7 +160,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     protected void initData() {
-        getMImmersionBar().titleBar(R.id.import_header)
+        getMImmersionBar().titleView(R.id.import_header)
                 .statusBarDarkFont(true)
                 .execute();
     }

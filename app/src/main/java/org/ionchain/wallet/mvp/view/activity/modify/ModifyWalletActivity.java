@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity;
+package org.ionchain.wallet.mvp.view.activity.modify;
 
 import android.content.Intent;
 import android.support.v7.widget.AppCompatEditText;
@@ -112,7 +112,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
     protected void initView() {
         findViews();
         final IONCTitleBar ioncTitleBar = findViewById(R.id.ionc_title_bar);
-        getMImmersionBar().titleBar(ioncTitleBar).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleView(ioncTitleBar).statusBarDarkFont(true).execute();
         ioncTitleBar.setTitle(mWallet.getName());
         ioncTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
         ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {

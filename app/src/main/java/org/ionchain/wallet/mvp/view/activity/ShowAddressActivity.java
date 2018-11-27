@@ -66,7 +66,7 @@ public class ShowAddressActivity extends AbsBaseActivity {
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleBar(R.id.show_title).statusBarDarkFont(false).execute();
+        getMImmersionBar().titleView(R.id.show_title).statusBarDarkFont(false).execute();
 
     }
 

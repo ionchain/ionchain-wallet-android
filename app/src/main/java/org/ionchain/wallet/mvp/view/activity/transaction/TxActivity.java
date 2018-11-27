@@ -1,8 +1,7 @@
-package org.ionchain.wallet.mvp.view.activity;
+package org.ionchain.wallet.mvp.view.activity.transaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -175,7 +174,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleBar(header).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleView(header).statusBarDarkFont(true).execute();
     }
 
 

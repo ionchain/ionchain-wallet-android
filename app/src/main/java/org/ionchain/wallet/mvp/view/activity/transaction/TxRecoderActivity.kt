@@ -1,8 +1,6 @@
-package org.ionchain.wallet.mvp.view.activity
+package org.ionchain.wallet.mvp.view.activity.transaction
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 import org.ionchain.wallet.R
@@ -52,7 +50,7 @@ class TxRecoderActivity : AbsBaseActivity(), OnTxRecoderCallback {
     }
 
     override fun initView() {
-        mImmersionBar!!.titleBar(R.id.toolbarlayout).statusBarDarkFont(true).execute()
+        mImmersionBar!!.titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute()
         tx_recoder_lv = findViewById(R.id.tx_recoder_lv)
         adapterLv = CommonAdapter(this, itemBeans, R.layout.item_txrecoder, TxRecoderViewHelper())
         tx_recoder_lv.adapter = adapterLv

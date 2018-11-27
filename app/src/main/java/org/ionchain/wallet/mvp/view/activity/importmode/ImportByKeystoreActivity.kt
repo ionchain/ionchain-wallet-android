@@ -18,6 +18,7 @@ import org.ionchain.wallet.constant.ConstantParams.FROM_SCAN
 import org.ionchain.wallet.dao.WalletDaoTools
 import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback
 import org.ionchain.wallet.mvp.view.activity.MainActivity
+import org.ionchain.wallet.mvp.view.activity.WebActivity
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity
 import org.ionchain.wallet.myweb3j.Web3jHelper
 import org.ionchain.wallet.qrcode.android.CaptureActivity
@@ -81,7 +82,7 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
     }
 
     override fun initView() {
-        mImmersionBar!!.titleBar(R.id.import_header)
+        mImmersionBar!!.titleView(R.id.import_header)
                 .statusBarDarkFont(true)
                 .execute()
         val back = findViewById<View>(R.id.back) as ImageView
@@ -119,8 +120,9 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
            //生成keystory文件
             showProgress("正在导入钱包请稍候")
             Web3jHelper.getInstance().importWalletByKeyStore(pass, keystoreStr, this)
-
-
+        }
+        linkUrlTv!!.setOnClickListener {
+            skipWeb(" ")
         }
     }
 

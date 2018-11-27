@@ -15,6 +15,7 @@ import org.ionchain.wallet.bean.WalletBean;
 import org.ionchain.wallet.dao.WalletDaoTools;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
+import org.ionchain.wallet.mvp.view.activity.modify.ModifyWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleBar(R.id.toolbarlayout)
+        getMImmersionBar().titleView(R.id.toolbarlayout)
                 .statusBarDarkFont(true)
                 .execute();
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {

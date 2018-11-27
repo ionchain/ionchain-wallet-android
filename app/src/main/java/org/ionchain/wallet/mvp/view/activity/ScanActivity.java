@@ -35,7 +35,7 @@ public class ScanActivity extends AbsBaseActivity{
 
     @Override
     protected void initView() {
-        getMImmersionBar().titleBar(findViewById(R.id.header)).statusBarDarkFont(true).execute();
+        getMImmersionBar().titleView(findViewById(R.id.header)).statusBarDarkFont(true).execute();
 
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
