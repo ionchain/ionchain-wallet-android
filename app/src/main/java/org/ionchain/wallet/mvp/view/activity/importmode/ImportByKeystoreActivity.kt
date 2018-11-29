@@ -15,6 +15,7 @@ import com.orhanobut.logger.Logger
 import org.ionchain.wallet.R
 import org.ionchain.wallet.bean.WalletBean
 import org.ionchain.wallet.constant.ConstantParams.FROM_SCAN
+import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE
 import org.ionchain.wallet.dao.WalletDaoTools
 import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback
 import org.ionchain.wallet.mvp.view.activity.MainActivity
@@ -122,7 +123,7 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
             Web3jHelper.getInstance().importWalletByKeyStore(pass, keystoreStr, this)
         }
         linkUrlTv!!.setOnClickListener {
-            skipWeb(" ")
+            skipWeb(SERVER_PROTOCOL_VALUE)
         }
     }
 

@@ -154,7 +154,7 @@ public class HomeFragment extends AbsBaseFragment implements
             walletBalanceTx.setText("0.0000");// 钱包金额
         }
         int id = mCurrentWallet.getMIconIdex();
-        wallet_logo.setImageResource(App.Companion.getSRandomHeader()[id]);
+        wallet_logo.setImageResource(App.sRandomHeader[id]);
         Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, this);
         getDeviceList();
     }
@@ -383,7 +383,7 @@ public class HomeFragment extends AbsBaseFragment implements
                     walletBalanceTx.setText("0.0000");// 钱包金额
                 }
                 int ids = mCurrentWallet.getMIconIdex();
-                wallet_logo.setImageResource(App.Companion.getSRandomHeader()[ids]);
+                wallet_logo.setImageResource(App.sRandomHeader[ids]);
 //                SPUtils.put(getActivity(), "current_wallet_name", mCurrentWallet.getName());
                 Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
                 mDataBeans.clear();

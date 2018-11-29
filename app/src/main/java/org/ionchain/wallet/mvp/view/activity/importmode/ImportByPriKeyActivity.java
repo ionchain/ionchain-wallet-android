@@ -30,6 +30,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
+import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.utils.StringUtils.check;
 
@@ -83,8 +84,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                skip(WebViewActivity.class, Comm.SERIALIZABLE_DATA, Comm.URL_AGREE, Comm.SERIALIZABLE_DATA1, "条款");
-//                showProgress("正在导入钱包请稍候");
+                skipWeb(SERVER_PROTOCOL_VALUE);
             }
         });
         scan.setOnClickListener(new View.OnClickListener() {

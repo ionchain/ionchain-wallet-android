@@ -42,7 +42,7 @@ class HomePageModel : IHomePageModel {
                 val json = response.body()
                 Logger.i(TAG, "onCreateSuccess: $json")
                 val bean = NetUtils.gsonToBean(json, DeviceListBean::class.java)
-                if (bean == null || bean.data == null) {
+                if (bean?.data == null) {
                     callback.onLoadFinish()
                     return
                 }

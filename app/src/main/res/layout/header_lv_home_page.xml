@@ -91,9 +91,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/wallet_address_layout"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="16dp">
 

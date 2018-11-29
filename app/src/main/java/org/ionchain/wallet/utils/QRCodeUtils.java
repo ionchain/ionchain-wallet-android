@@ -35,7 +35,7 @@ public class QRCodeUtils {
              * logo：不需要logo的话直接传null
              * */
 
-            Bitmap logo = BitmapFactory.decodeResource(App.Companion.getMContext().getResources(), R.mipmap.ic_launcher);
+            Bitmap logo = BitmapFactory.decodeResource(App.mContext.getResources(), R.mipmap.ic_launcher);
             bitmap = CodeCreator.createQRCode(msg, size_px, size_px, null);
         } catch (WriterException e) {
             com.orhanobut.logger.Logger.e(e.getMessage());

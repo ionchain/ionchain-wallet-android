@@ -23,6 +23,6 @@ public class WebActivity extends AbsBaseActivity {
                 .statusBarDarkFont(true)
                 .execute();
         WebView webView = findViewById(R.id.web_view);
-        webView.loadUrl("http://192.168.23.112/wallet-agreement.html");
+        webView.loadUrl("https://www.ionchain.org/download/wallet-agreement.html");
     }
 }

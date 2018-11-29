@@ -12,4 +12,36 @@
         android:src="@mipmap/logo"
         android:layout_centerInParent="true"
         />
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:layout_margin="@dimen/padding_size_16dp"
+        android:id="@+id/version_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/progressRL"
+        android:layout_below="@id/logoIv"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/download_progress_value"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:layout_margin="50dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/download_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:max="100"
+            />
+    </RelativeLayout>
 </RelativeLayout>

@@ -31,6 +31,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 import java.util.Arrays;
 
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
+import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 import static org.ionchain.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.utils.StringUtils.check;
 
@@ -133,7 +134,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skipWeb("");
+                skipWeb(SERVER_PROTOCOL_VALUE);
             }
         });
     }
