@@ -16,24 +16,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ionc.wallet.sdk.IONCWalletSDK;
+import com.ionc.wallet.sdk.bean.WalletBean;
+import com.ionc.wallet.sdk.callback.OnImportMnemonicCallback;
+import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
+import com.ionc.wallet.sdk.dao.WalletDaoTools;
+import com.ionc.wallet.sdk.utils.StringUtils;
+
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.mvp.view.activity.WebActivity;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
-import org.ionchain.wallet.mvp.callback.OnImportMnemonicCallback;
-import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Arrays;
 
+import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
+import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
-import static org.ionchain.wallet.utils.RandomUntil.getNum;
-import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback,OnUpdatePasswordCallback {
     private RelativeLayout importHeader;
@@ -127,7 +127,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                 }
                 newPassword = pass;
                 showProgress("正在导入钱包请稍候");
-                Web3jHelper.getInstance()
+                IONCWalletSDK.getInstance()
                         .importWalletByMnemonicCode("", Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);
             }
         });
@@ -205,7 +205,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                         public void onClick(DialogInterface dialog, int which) {
 
                             dialog.dismiss();
-                            Web3jHelper.updatePasswordAndKeyStore(wallet,newPassword,ImportByMnemonicActivity.this);
+                            IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet,newPassword,ImportByMnemonicActivity.this);
 
                         }
                     })

@@ -15,21 +15,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ionc.wallet.sdk.IONCWalletSDK;
+import com.ionc.wallet.sdk.bean.WalletBean;
+import com.ionc.wallet.sdk.callback.OnImportMnemonicCallback;
+import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
+import com.ionc.wallet.sdk.dao.WalletDaoTools;
+
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
-import org.ionchain.wallet.mvp.callback.OnImportMnemonicCallback;
-import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
-import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnSimulateTimeConsume {
 
@@ -112,7 +113,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                 }
 
                 showProgress("正在创建钱包……");
-                Web3jHelper.simulateTimeConsuming(CreateWalletActivity.this);
+                IONCWalletSDK.getInstance().simulateTimeConsuming(CreateWalletActivity.this);
 
             }
         });
@@ -217,6 +218,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
 
     @Override
     public void onSimulateFinish() {
-        Web3jHelper.getInstance().createBip39Wallet(walletnamestr, pass, CreateWalletActivity.this);
+        IONCWalletSDK.getInstance().createBip39Wallet(walletnamestr, pass, CreateWalletActivity.this);
     }
 }

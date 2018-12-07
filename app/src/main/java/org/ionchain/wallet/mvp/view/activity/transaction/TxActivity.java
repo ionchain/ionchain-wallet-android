@@ -10,14 +10,14 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.ionc.wallet.sdk.IONCWalletSDK;
+import com.ionc.wallet.sdk.bean.WalletBean;
+import com.ionc.wallet.sdk.callback.OnTransationCallback;
+import com.ionc.wallet.sdk.utils.StringUtils;
 import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
-import org.ionchain.wallet.mvp.callback.OnTransationCallback;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogPasswordCheck;
 import org.web3j.utils.Convert;
@@ -85,7 +85,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                             ToastUtil.showToastLonger("请输入的正确的密码！");
                             return;
                         }
-                        Web3jHelper.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice, mCurrentWallet.getPrivateKey(), Double.parseDouble(txAccount), TxActivity.this);
+                        IONCWalletSDK.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice, mCurrentWallet.getPrivateKey(), Double.parseDouble(txAccount), TxActivity.this);
                     }
                 }).show();
 
@@ -95,7 +95,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
             @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                double dynamicValue = mSeekBarMinValue + mTotalValue * progress / Web3jHelper.getInstance().getSeekBarMaxValue();
+                double dynamicValue = mSeekBarMinValue + mTotalValue * progress / IONCWalletSDK.getInstance().getSeekBarMaxValue();
                 DecimalFormat df = new DecimalFormat("0.00000000");
                 txCostTv.setText("旷工费 " + df.format(dynamicValue) + " IONC");
                 BigDecimal bigDecimal = Convert.toWei(String.valueOf(dynamicValue), Convert.Unit.ETHER);
@@ -118,22 +118,22 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
 
     @Override
     protected void initData() {
-        mSeekBarMaxValue = Web3jHelper.getInstance().getMaxFee().doubleValue();//0.006
-        mSeekBarMinValue = Web3jHelper.getInstance().getMinFee().doubleValue();//0.0003
+        mSeekBarMaxValue = IONCWalletSDK.getInstance().getMaxFee().doubleValue();//0.006
+        mSeekBarMinValue = IONCWalletSDK.getInstance().getMinFee().doubleValue();//0.0003
         mTotalValue = mSeekBarMaxValue - mSeekBarMinValue;//0.006-0.0003
 
         double default_value;
         try {
-            default_value = Web3jHelper.getInstance().getDefaultPrice().doubleValue();//默认值 0.00009
+            default_value = IONCWalletSDK.getInstance().getDefaultPrice().doubleValue();//默认值 0.00009
         } catch (NullPointerException e) {
             default_value = 0.00009;//默认值 0.00009
         }
         if (default_value == 0) {
             default_value = 0.00009;
         }
-        double min_value = Web3jHelper.getInstance().getMinFee().doubleValue();//最小值 0.0003
+        double min_value = IONCWalletSDK.getInstance().getMinFee().doubleValue();//最小值 0.0003
         double value = default_value - min_value;//0.0006
-        double max_fee = Web3jHelper.getInstance().getMaxFee().doubleValue();
+        double max_fee = IONCWalletSDK.getInstance().getMaxFee().doubleValue();
 
         if (value == 0) {
             value = 0.00006;
@@ -141,11 +141,11 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
         DecimalFormat df = new DecimalFormat("0.00000000");
         txCostTv.setText("旷工费 " + df.format(value) + " IONC");
 
-        int max = Web3jHelper.getInstance().getSeekBarMaxValue();
+        int max = IONCWalletSDK.getInstance().getSeekBarMaxValue();
         Logger.i(getTAG(), "max: " + max);
         txSeekBarIndex.setMax(max);// 200
         double v1 = value / max_fee;
-        double progress = (v1 * Web3jHelper.getInstance().getSeekBarMaxValue());
+        double progress = (v1 * IONCWalletSDK.getInstance().getSeekBarMaxValue());
         txSeekBarIndex.setProgress((int) progress);// 200
         mCurrentGasPrice = toGasPrice(default_value);
         Logger.i(getTAG(), "initData: " + mCurrentGasPrice);
@@ -158,7 +158,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
 
     private BigDecimal toGasPrice(double progress) {
         BigDecimal price;
-        double value = mSeekBarMinValue + mTotalValue * progress / Web3jHelper.getInstance().getSeekBarMaxValue();
+        double value = mSeekBarMinValue + mTotalValue * progress / IONCWalletSDK.getInstance().getSeekBarMaxValue();
         DecimalFormat df = new DecimalFormat("0.00000000");
         BigDecimal bigDecimal = Convert.toWei(String.valueOf(value), Convert.Unit.ETHER);
         double d = bigDecimal.doubleValue() / 30000;

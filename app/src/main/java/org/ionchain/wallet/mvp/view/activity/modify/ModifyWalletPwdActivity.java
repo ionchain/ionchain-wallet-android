@@ -9,18 +9,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ionc.wallet.sdk.IONCWalletSDK;
+import com.ionc.wallet.sdk.bean.WalletBean;
+import com.ionc.wallet.sdk.callback.OnModifyWalletPassWordCallback;
 import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.mvp.callback.OnModifyWalletPassWordCallback;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
-import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModifyWalletPassWordCallback {
 
@@ -81,7 +81,7 @@ public class ModifyWalletPwdActivity extends AbsBaseActivity implements OnModify
                     return;
                 }
 
-                Web3jHelper.getInstance()
+                IONCWalletSDK.getInstance()
                         .modifyPassWord(mWallet, newpwdstr, ModifyWalletPwdActivity.this);
                 showProgress("正在修改密码");
             }

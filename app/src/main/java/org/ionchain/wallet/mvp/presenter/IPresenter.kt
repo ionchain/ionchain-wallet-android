@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.presenter
 
-import org.ionchain.wallet.bean.WalletBean
+import com.ionc.wallet.sdk.bean.WalletBean
+import com.ionc.wallet.sdk.callback.OnTxRecoderCallback
 import org.ionchain.wallet.mvp.callback.*
 
 /**

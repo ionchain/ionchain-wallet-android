@@ -6,11 +6,6 @@ package org.ionchain.wallet.constant;
  * 描述: 链接
  */
 public class ConstantUrl {
-    /**
-     * 离子链节点
-     */
-    public final static String IONC_CHAIN_NODE = "http://66.42.61.229:8545";
-//    public final static String IONC_CHAIN_NODE = "HTTP://192.168.21.183:8545";
 
     /**
      * 设备host

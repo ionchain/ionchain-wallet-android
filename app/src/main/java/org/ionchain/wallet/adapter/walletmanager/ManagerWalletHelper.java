@@ -4,11 +4,12 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import com.ionc.wallet.sdk.bean.WalletBean;
+
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.iinterface.IViewHolder;
 import org.ionchain.wallet.adapter.iinterface.IViewHolderHelper;
-import org.ionchain.wallet.bean.WalletBean;
 
 import java.util.List;
 

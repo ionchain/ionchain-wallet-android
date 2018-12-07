@@ -1,15 +1,15 @@
 package org.ionchain.wallet.mvp.model.txrecoder
 
+import com.ionc.wallet.sdk.bean.TxRecoderBean
+import com.ionc.wallet.sdk.callback.OnTxRecoderCallback
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
 import com.orhanobut.logger.Logger
-import org.ionchain.wallet.bean.DeviceListBean
-import org.ionchain.wallet.bean.TxRecoderBean
 import org.ionchain.wallet.constant.ConstantUrl.TX_RECODER_URL_GET
-import org.ionchain.wallet.mvp.callback.OnTxRecoderCallback
+import org.ionchain.wallet.mvp.callback.OnLoadingView
 import org.ionchain.wallet.utils.NetUtils
 
 /**
@@ -41,7 +41,6 @@ class TxRecoderModel : ITxRecoderModel {
 
             override fun onFinish() {
                 super.onFinish()
-                callback.onLoadFinish()
             }
 
             override fun downloadProgress(progress: Progress?) {
@@ -65,7 +64,6 @@ class TxRecoderModel : ITxRecoderModel {
 
             override fun onStart(request: Request<String, out Request<Any, Request<*, *>>>?) {
                 super.onStart(request)
-                callback.onLoadStart()
             }
         }, "recoder_cancel");
 

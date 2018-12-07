@@ -1,0 +1,86 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    //    数字钱包
+    implementation 'org.web3j:core:3.3.1-android'
+    implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
+
+
+    //    日志
+    implementation 'com.orhanobut:logger:2.2.0'
+
+
+    //    数据库管理
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    maven {
+        url "https://jitpack.io"
+    }
+
+    mavenCentral()
+    google()
+    jcenter()
+
+
+}
+apply plugin: 'org.greenrobot.greendao'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+    }
+}
+
+greendao {
+    schemaVersion 1
+    daoPackage 'com.ionc.wallet.sdk.greendao'
+    targetGenDir 'src/main/java'
+}
+
+task clearJar(type: Delete) {
+    delete 'jar'
+}
+task makeJar(type:Copy) {
+    from('build/intermediates/packaged-classes/release/')
+    into('../app/libs/')
+    include('classes.jar')
+    rename('classes.jar','ionchain_wallet_sdk.jar')
+}
+makeJar.dependsOn(clearJar)

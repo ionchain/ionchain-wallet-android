@@ -6,10 +6,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ionc.wallet.sdk.utils.StringUtils;
+
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
-import org.ionchain.wallet.utils.StringUtils;
 
 public class ShowAddressActivity extends AbsBaseActivity {
     private ImageView back;

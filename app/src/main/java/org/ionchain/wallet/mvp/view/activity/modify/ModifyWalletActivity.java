@@ -9,18 +9,18 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ionc.wallet.sdk.IONCWalletSDK;
+import com.ionc.wallet.sdk.bean.WalletBean;
+import com.ionc.wallet.sdk.callback.OnBalanceCallback;
+import com.ionc.wallet.sdk.callback.OnImportPrivateKeyCallback;
+import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
+import com.ionc.wallet.sdk.dao.WalletDaoTools;
+import com.ionc.wallet.sdk.utils.StringUtils;
 import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
-import org.ionchain.wallet.mvp.callback.OnImportPrivateKeyCallback;
-import org.ionchain.wallet.mvp.callback.OnSimulateTimeConsume;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
-import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogImport;
 import org.ionchain.wallet.widget.DialogPasswordCheck;
@@ -30,15 +30,19 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
+import static com.ionc.wallet.sdk.dao.WalletDaoTools.updateWallet;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
-import static org.ionchain.wallet.dao.WalletDaoTools.updateWallet;
 
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
  */
-public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCallback, OnImportPrivateKeyCallback, View.OnClickListener, OnSimulateTimeConsume {
+public class ModifyWalletActivity extends AbsBaseActivity implements
+        OnBalanceCallback,
+        OnImportPrivateKeyCallback,
+        View.OnClickListener,
+        OnSimulateTimeConsume {
 
 
     WalletBean mWallet;
@@ -96,7 +100,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
             walletNameEt.setText(mWallet.getName());
         }
 
-        Web3jHelper.getInstance().getAccountBalance(mWallet, this);
+        IONCWalletSDK.getInstance().getAccountBalance(mWallet, this);
 
     }
 
@@ -161,7 +165,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                 if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
                     dialog.dismiss();
                     showProgress("正在导出请稍候");
-                    Web3jHelper.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
+                    IONCWalletSDK.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
                 } else {
                     ToastUtil.showToastLonger("请检查密码是否正确！");
                 }
@@ -221,7 +225,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                             return;
                         }
 
-                        Web3jHelper.getInstance().deleteWallet(mWallet);
+                        IONCWalletSDK.getInstance().deleteWallet(mWallet);
 
                         finish();
                     }
@@ -291,7 +295,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                         if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
                             dialog.dismiss();
                             showProgress("正在导出请稍候");
-                            Web3jHelper.simulateTimeConsuming(ModifyWalletActivity.this);
+                            IONCWalletSDK.getInstance().simulateTimeConsuming(ModifyWalletActivity.this);
                         } else {
 
                             ToastUtil.showToastLonger("请检查密码是否正确！");
@@ -318,7 +322,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements OnBalanceCa
                         if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
                             dialog1.dismiss();
                             showProgress("正在导出请稍候");
-                            Web3jHelper.simulateTimeConsuming(ModifyWalletActivity.this);
+                            IONCWalletSDK.getInstance().simulateTimeConsuming(ModifyWalletActivity.this);
                         } else {
                             ToastUtil.showToastLonger("请检查密码是否正确！");
                         }

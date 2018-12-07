@@ -6,8 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ionc.wallet.sdk.utils.StringUtils;
+
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.utils.StringUtils;
 
 /**
  * USER: binny

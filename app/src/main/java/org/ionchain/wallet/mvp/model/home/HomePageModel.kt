@@ -1,6 +1,6 @@
 package org.ionchain.wallet.mvp.model.home
 
-import android.util.Log
+import com.ionc.wallet.sdk.bean.WalletBean
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.model.Response
@@ -8,7 +8,6 @@ import com.lzy.okgo.request.base.Request
 import com.orhanobut.logger.Logger
 import org.ionchain.wallet.bean.DeviceBean
 import org.ionchain.wallet.bean.DeviceListBean
-import org.ionchain.wallet.bean.WalletBean
 import org.ionchain.wallet.constant.ConstantUrl.*
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback
 import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback

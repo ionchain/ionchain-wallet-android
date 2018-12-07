@@ -3,16 +3,17 @@ package org.ionchain.wallet.mvp.view.activity.transaction
 import android.content.Intent
 import android.view.View
 import android.widget.ListView
+import com.ionc.wallet.sdk.bean.TxRecoderBean
+import com.ionc.wallet.sdk.callback.OnTxRecoderCallback
 import org.ionchain.wallet.R
 import org.ionchain.wallet.adapter.CommonAdapter
 import org.ionchain.wallet.adapter.txrecoder.TxRecoderViewHelper
-import org.ionchain.wallet.bean.TxRecoderBean
-import org.ionchain.wallet.mvp.callback.OnTxRecoderCallback
+import org.ionchain.wallet.mvp.callback.OnLoadingView
 import org.ionchain.wallet.mvp.presenter.Presenter
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity
 import org.ionchain.wallet.utils.ToastUtil
 
-class TxRecoderActivity : AbsBaseActivity(), OnTxRecoderCallback {
+class TxRecoderActivity : AbsBaseActivity(), OnTxRecoderCallback,OnLoadingView {
     override fun onTxRecoderSuccess(beans: ArrayList<TxRecoderBean.DataBean.ItemBean>) {
         itemBeans.addAll(beans)
         adapterLv!!.notifyDataSetChanged()

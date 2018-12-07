@@ -15,24 +15,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ionc.wallet.sdk.IONCWalletSDK;
+import com.ionc.wallet.sdk.bean.WalletBean;
+import com.ionc.wallet.sdk.callback.OnCreateWalletCallback;
+import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
+import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.mvp.callback.OnCreateWalletCallback;
-import org.ionchain.wallet.mvp.callback.OnUpdatePasswordCallback;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.qrcode.android.CaptureActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
+import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
-import static org.ionchain.wallet.utils.RandomUntil.getNum;
-import static org.ionchain.wallet.utils.StringUtils.check;
 
 public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdatePasswordCallback {
 
@@ -133,7 +133,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                 }
                 newPassword = pass;
                 showProgress("正在导入钱包请稍候");
-                Web3jHelper.getInstance()
+                IONCWalletSDK.getInstance()
                         .importPrivateKey(private_key, pass, ImportByPriKeyActivity.this);
             }
         });
@@ -227,7 +227,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            Web3jHelper.updatePasswordAndKeyStore(wallet, newPassword, ImportByPriKeyActivity.this);
+                            IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByPriKeyActivity.this);
                         }
                     })
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {

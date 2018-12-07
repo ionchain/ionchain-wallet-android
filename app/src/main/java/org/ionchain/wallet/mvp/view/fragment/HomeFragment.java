@@ -15,6 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ionc.wallet.sdk.IONCWalletSDK;
+import com.ionc.wallet.sdk.bean.WalletBean;
+import com.ionc.wallet.sdk.callback.OnBalanceCallback;
+import com.ionc.wallet.sdk.dao.WalletDaoTools;
+import com.ionc.wallet.sdk.utils.StringUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -25,9 +30,6 @@ import org.ionchain.wallet.adapter.CommonAdapter;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
-import org.ionchain.wallet.bean.WalletBean;
-import org.ionchain.wallet.dao.WalletDaoTools;
-import org.ionchain.wallet.mvp.callback.OnBalanceCallback;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
@@ -40,11 +42,9 @@ import org.ionchain.wallet.mvp.view.activity.transaction.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-import org.ionchain.wallet.myweb3j.Web3jHelper;
 import org.ionchain.wallet.qrcode.android.CaptureActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
-import org.ionchain.wallet.utils.StringUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogBindDevice;
 import org.ionchain.wallet.widget.PopupWindowBuilder;
@@ -155,7 +155,7 @@ public class HomeFragment extends AbsBaseFragment implements
         }
         int id = mCurrentWallet.getMIconIdex();
         wallet_logo.setImageResource(App.sRandomHeader[id]);
-        Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, this);
+        IONCWalletSDK.getInstance().getAccountBalance(mCurrentWallet, this);
         getDeviceList();
     }
 
@@ -385,7 +385,7 @@ public class HomeFragment extends AbsBaseFragment implements
                 int ids = mCurrentWallet.getMIconIdex();
                 wallet_logo.setImageResource(App.sRandomHeader[ids]);
 //                SPUtils.put(getActivity(), "current_wallet_name", mCurrentWallet.getName());
-                Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
+                IONCWalletSDK.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 getDeviceList();
@@ -410,7 +410,7 @@ public class HomeFragment extends AbsBaseFragment implements
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        Web3jHelper.getInstance().getAccountBalance(mCurrentWallet, this);
+        IONCWalletSDK.getInstance().getAccountBalance(mCurrentWallet, this);
         getDeviceList();
     }
 
