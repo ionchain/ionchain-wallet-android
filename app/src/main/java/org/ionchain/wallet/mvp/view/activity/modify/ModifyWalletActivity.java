@@ -356,7 +356,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                         public void onClick(View v) {
                             //复制
                             StringUtils.copy(ModifyWalletActivity.this, mWallet.getMnemonic());
-                            ToastUtil.showToastLonger("已复制私钥");
+                            ToastUtil.showToastLonger("已复制助记词");
                         }
                     }).show();
         } else if (importFlag == 1) {
