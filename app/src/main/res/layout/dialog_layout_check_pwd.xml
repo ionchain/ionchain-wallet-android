@@ -25,6 +25,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:focusedByDefault="true"
+        android:singleLine="true"
         android:background="@drawable/dialog_import_private_key_et"
         android:hint="密码" />
 
