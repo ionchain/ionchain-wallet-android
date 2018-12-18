@@ -14,6 +14,7 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.mvp.view.fragment.DevicesFragment;
 import org.ionchain.wallet.mvp.view.fragment.HomeFragment;
 import org.ionchain.wallet.mvp.view.fragment.MineFragment;
+import org.ionchain.wallet.mvp.view.fragment.ShopFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
     private HomeFragment mAssetFragment;
     private MineFragment mMineFragment;
     private DevicesFragment mDevicesFragment;
+    private ShopFragment mShopFragment;
+
     private List<Fragment> mFragments = new ArrayList<>();
 
     private FragmentManager mFragmentManager;
@@ -43,8 +46,10 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
         mAssetFragment = new HomeFragment();
         mMineFragment = new MineFragment();
         mDevicesFragment = new DevicesFragment();
+        mShopFragment = new ShopFragment();
         mFragments.add(mAssetFragment);
         mFragments.add(mDevicesFragment);
+        mFragments.add(mShopFragment);
         mFragments.add(mMineFragment);
 
         mFragmentManager = getSupportFragmentManager();
@@ -97,8 +102,11 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
             case R.id.rb_devices:
                 mPostion = 1;
                 break;
-            case R.id.rb_mine:
+            case R.id.rb_shop:
                 mPostion = 2;
+                break;
+            case R.id.rb_mine:
+                mPostion = 3;
                 break;
         }
         showNext();
