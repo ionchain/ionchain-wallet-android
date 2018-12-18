@@ -15,8 +15,8 @@ import com.ionc.wallet.sdk.IONCWalletSDK
 import com.ionc.wallet.sdk.bean.WalletBean
 import com.ionc.wallet.sdk.callback.OnCreateWalletCallback
 import com.ionc.wallet.sdk.dao.WalletDaoTools
+import com.ionc.wallet.sdk.utils.Logger
 import com.ionc.wallet.sdk.utils.RandomUntil.getNum
-import com.orhanobut.logger.Logger
 import org.ionchain.wallet.R
 import org.ionchain.wallet.constant.ConstantParams.FROM_SCAN
 import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE

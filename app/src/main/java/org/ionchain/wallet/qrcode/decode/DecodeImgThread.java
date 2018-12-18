@@ -11,7 +11,7 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.orhanobut.logger.Logger;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import java.util.Hashtable;
 import java.util.Vector;
@@ -84,7 +84,7 @@ public class DecodeImgThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
             //  Log.i("解析的图片结果","失败");
-            Logger.e("解析失败"+e.getMessage());
+            Logger.e("解析失败",e.getMessage());
         }
 
         if (rawResult != null) {

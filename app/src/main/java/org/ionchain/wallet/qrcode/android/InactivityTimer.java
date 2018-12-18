@@ -26,6 +26,8 @@ import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.util.Log;
 
+import com.ionc.wallet.sdk.utils.Logger;
+
 /**
  * 
  * Finishes an activity after a period of inactivity if the device is on battery
@@ -65,13 +67,13 @@ public final class InactivityTimer {
 			activity.unregisterReceiver(powerStatusReceiver);
 			registered = false;
 		} else {
-			Log.w(TAG, "PowerStatusReceiver was never registered?");
+			Logger.w(TAG, "PowerStatusReceiver was never registered?");
 		}
 	}
 
 	public synchronized void onResume() {
 		if (registered) {
-			Log.w(TAG, "PowerStatusReceiver was already registered?");
+			Logger.w(TAG, "PowerStatusReceiver was already registered?");
 		} else {
 			activity.registerReceiver(powerStatusReceiver, new IntentFilter(
 					Intent.ACTION_BATTERY_CHANGED));
@@ -124,7 +126,7 @@ public final class InactivityTimer {
 		protected Object doInBackground(Object... objects) {
 			try {
 				Thread.sleep(INACTIVITY_DELAY_MS);
-				Log.i(TAG, "Finishing activity due to inactivity");
+				Logger.i(TAG, "Finishing activity due to inactivity");
 				activity.finish();
 			} catch (InterruptedException e) {
 				// continue without killing

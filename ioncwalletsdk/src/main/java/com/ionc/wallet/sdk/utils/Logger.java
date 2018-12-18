@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.RejectedExecutionException;
 
 
 /**
@@ -16,7 +17,7 @@ import java.util.Set;
  * 描    述：日志的工具类
  * ================================================
  */
-public class JJLogger {
+public class Logger {
 
     private static final char TOP_LEFT_CORNER = '╔';
     private static final char BOTTOM_LEFT_CORNER = '╚';
@@ -35,6 +36,7 @@ public class JJLogger {
      * 是否打印堆栈信息
      */
     private static boolean sbStackTrace = false;
+
     /**
      * isEnable 是否开启调试日志
      * true 开启；
@@ -43,6 +45,7 @@ public class JJLogger {
     public static void debug(boolean isEnable) {
         isDebug = isEnable;
     }
+
     /**
      * isEnable 是否打印调试日志的堆栈信息
      * true 开启；
@@ -52,6 +55,7 @@ public class JJLogger {
         isDebug = isEnable;
         sbStackTrace = isEnable;
     }
+
     /**
      * 打印MAp
      */
@@ -80,7 +84,7 @@ public class JJLogger {
      * @param tag     标志
      * @param jsonStr jsonString
      */
-    public static void json(String tag, String jsonStr) {
+    public static void j(String jsonStr, String... tag) {
         if (isDebug) {
             String message;
             try {
@@ -100,7 +104,7 @@ public class JJLogger {
 
             message = LINE_SEPARATOR + message;
             String[] lines = message.split(LINE_SEPARATOR);
-            printLog(I, tag, lines);
+            printLog(I, tag[0], lines);
         }
     }
 
@@ -110,10 +114,10 @@ public class JJLogger {
      * @param tag 级别
      * @param msg 信息
      */
-    public static void logInfo(String tag, String msg) {
-        Log.i(tag, "logInfo: "+msg);
+    public static void i(String msg, String... tag) {
+        Log.i(tag[0], "logInfo: " + msg);
         if (isDebug) {
-            printLog(I, tag, msg);
+            printLog(I, tag[0], msg);
         }
     }
 
@@ -123,15 +127,15 @@ public class JJLogger {
      * @param errorCode 错误码
      * @param msg       错误码的伴随信息：描述信息错误码
      */
-    public static void logError(String errorCode, String msg) {
+    public static void e(String msg, String... errorCode) {
         if (isDebug) {
-            if (TextUtils.isEmpty(errorCode)) {
+            if (TextUtils.isEmpty(errorCode[0])) {
                 printLog(E, "inner_error", "错误信息 : " + msg);
             } else {
                 if (sbStackTrace) {
-                    printLog(E, "inner_error", "错误码 ：" + errorCode + " 信息描述 ：" + msg);
+                    printLog(E, "inner_error", "错误码 ：" + errorCode[0] + " 信息描述 ：" + msg);
                 } else {
-                    printLog(E, "inner_error", "错误码 ：" + errorCode);
+                    printLog(E, "inner_error", "错误码 ：" + errorCode[0]);
                 }
             }
         }
@@ -146,10 +150,10 @@ public class JJLogger {
     private static void printer(char type, String tag, String msg) {
         switch (type) {
             case I:
-                Log.i(tag, msg);
+                Log.i(tag + " ", msg);
                 break;
             case E:
-                Log.e(tag, msg);
+                Log.e(tag + " ", msg);
                 break;
         }
     }
@@ -169,7 +173,7 @@ public class JJLogger {
         int i = 0;
         for (StackTraceElement e : stack) {
             String name = e.getClassName();
-            if (!name.equals(JJLogger.class.getName())) {
+            if (!name.equals(Logger.class.getName())) {
                 i++;
             } else {
                 break;
@@ -215,4 +219,10 @@ public class JJLogger {
         }
         printer(type, tag, BOTTOM_BORDER);
     }
+
+    public static void w(String tag, String s) {
+        e(s,tag);
+    }
+
+
 }

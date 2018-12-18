@@ -1,7 +1,5 @@
 package org.ionchain.wallet.utils;
 
-import android.app.Activity;
-import android.content.Context;
 import android.widget.Toast;
 
 import org.ionchain.wallet.App;

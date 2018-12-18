@@ -105,8 +105,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     //    适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
-    //    日志
-    implementation 'com.orhanobut:logger:2.2.0'
+  
     //    动态权限申请
     implementation 'pub.devrel:easypermissions:2.0.0'
     //    图片加载

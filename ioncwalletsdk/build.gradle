@@ -32,11 +32,6 @@ dependencies {
     implementation 'org.web3j:core:3.3.1-android'
     implementation 'org.bitcoinj:bitcoinj-core:0.14.7'
 
-
-    //    日志
-    implementation 'com.orhanobut:logger:2.2.0'
-
-
     //    数据库管理
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'org.greenrobot:greendao-generator:3.2.2'

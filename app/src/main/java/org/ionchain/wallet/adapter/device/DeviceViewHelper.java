@@ -2,7 +2,6 @@ package org.ionchain.wallet.adapter.device;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;

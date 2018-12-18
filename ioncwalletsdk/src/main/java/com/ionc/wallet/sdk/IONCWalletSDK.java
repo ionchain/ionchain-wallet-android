@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-
 import com.ionc.wallet.sdk.bean.KeystoreBean;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnBalanceCallback;
@@ -20,11 +19,11 @@ import com.ionc.wallet.sdk.callback.OnTransationCallback;
 import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
 import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.ionc.wallet.sdk.utils.GsonUtils;
+import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.MnemonicUtils;
 import com.ionc.wallet.sdk.utils.RandomUntil;
 import com.ionc.wallet.sdk.utils.SecureRandomUtils;
 import com.ionc.wallet.sdk.utils.StringUtils;
-import com.orhanobut.logger.Logger;
 
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
@@ -32,7 +31,6 @@ import org.bitcoinj.crypto.HDKeyDerivation;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
-
 import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;

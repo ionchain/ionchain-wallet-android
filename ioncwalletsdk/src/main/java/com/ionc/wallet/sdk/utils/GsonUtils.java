@@ -2,7 +2,6 @@ package com.ionc.wallet.sdk.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.orhanobut.logger.Logger;
 
 public class GsonUtils {
 

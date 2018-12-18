@@ -15,8 +15,8 @@ import com.ionc.wallet.sdk.callback.OnBalanceCallback;
 import com.ionc.wallet.sdk.callback.OnImportPrivateKeyCallback;
 import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
 import com.ionc.wallet.sdk.dao.WalletDaoTools;
+import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.StringUtils;
-import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;

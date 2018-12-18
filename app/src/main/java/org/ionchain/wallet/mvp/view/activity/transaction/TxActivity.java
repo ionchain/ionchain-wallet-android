@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnTransationCallback;
+import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.StringUtils;
-import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;

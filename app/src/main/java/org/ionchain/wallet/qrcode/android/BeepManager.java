@@ -25,6 +25,8 @@ import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.util.Log;
 
+import com.ionc.wallet.sdk.utils.Logger;
+
 import org.ionchain.wallet.R;
 
 import java.io.Closeable;
@@ -118,7 +120,7 @@ public final class BeepManager implements MediaPlayer.OnCompletionListener,
             mediaPlayer.prepare();
             return mediaPlayer;
         } catch (IOException ioe) {
-            Log.w(TAG, ioe);
+            Logger.e(ioe.getMessage(),TAG);
             mediaPlayer.release();
             return null;
         }

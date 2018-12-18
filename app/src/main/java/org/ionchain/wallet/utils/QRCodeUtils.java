@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.google.zxing.WriterException;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
@@ -22,10 +23,11 @@ public class QRCodeUtils {
 //    public static Bitmap generateQRCode(String msg) {
 ////        return QRCodeEncoder.syncEncodeQRCode(msg, BGAQRCodeUtil.dp2px(App.Companion.getMContext(), 80));
 //    }
+
     /**
      * @param msg 二维码包含的信息
      */
-    public static Bitmap generateQRCode(String msg,int size_px) {
+    public static Bitmap generateQRCode(String msg, int size_px) {
         Bitmap bitmap = null;
         try {
             /*
@@ -38,11 +40,12 @@ public class QRCodeUtils {
             Bitmap logo = BitmapFactory.decodeResource(App.mContext.getResources(), R.mipmap.ic_launcher);
             bitmap = CodeCreator.createQRCode(msg, size_px, size_px, null);
         } catch (WriterException e) {
-            com.orhanobut.logger.Logger.e(e.getMessage());
+            Logger.e(e.getMessage());
         }
         return bitmap;
     }
-    public static final void setQR(Intent intent){
+
+    public static final void setQR(Intent intent) {
         ZxingConfig config = new ZxingConfig();
         config.setPlayBeep(true);//是否播放扫描声音 默认为true
         config.setShake(true);//是否震动  默认为true

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.qrcode.bean.ZxingConfig;
@@ -102,7 +103,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
             config = (ZxingConfig) getIntent().getExtras().get(INTENT_ZXING_CONFIG);
         } catch (Exception e) {
 
-            Log.i("config", e.toString());
+            Logger.i( e.toString(),"config");
         }
 
         if (config == null) {
@@ -260,10 +261,10 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
                 handler = new CaptureActivityHandler(this, cameraManager);
             }
         } catch (IOException ioe) {
-            Log.w(TAG, ioe);
+            Logger.e(ioe.getMessage(),TAG);
             displayFrameworkBugMessageAndExit();
         } catch (RuntimeException e) {
-            Log.w(TAG, "Unexpected error initializing camera", e);
+            Logger.e( "Unexpected error initializing camera", e.getMessage());
             displayFrameworkBugMessageAndExit();
         }
     }

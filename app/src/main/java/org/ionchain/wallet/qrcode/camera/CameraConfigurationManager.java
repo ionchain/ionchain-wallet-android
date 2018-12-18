@@ -23,6 +23,8 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.ionc.wallet.sdk.utils.Logger;
+
 import java.util.regex.Pattern;
 
 final class CameraConfigurationManager {
@@ -50,7 +52,7 @@ final class CameraConfigurationManager {
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
         screenResolution = new Point(display.getWidth(), display.getHeight());
-        Log.d(TAG, "Screen resolution: " + screenResolution);
+        Logger.w(TAG, "Screen resolution: " + screenResolution);
 
         Point screenResolutionForCamera = new Point();
         screenResolutionForCamera.x = screenResolution.x;
@@ -70,7 +72,7 @@ final class CameraConfigurationManager {
 
     void setDesiredCameraParameters(Camera camera) {
         Camera.Parameters parameters = camera.getParameters();
-        Log.d(TAG, "Setting preview size: " + cameraResolution);
+        Logger.i(TAG, "Setting preview size: " + cameraResolution);
         parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
 
         setZoom(parameters);
@@ -100,7 +102,7 @@ final class CameraConfigurationManager {
         Point cameraResolution = null;
 
         if (previewSizeValueString != null) {
-            Log.d(TAG, "preview-size-values parameter: " + previewSizeValueString);
+            Logger.i(TAG, "preview-size-values parameter: " + previewSizeValueString);
             cameraResolution = findBestPreviewSizeValue(previewSizeValueString, screenResolution);
         }
 
@@ -123,7 +125,7 @@ final class CameraConfigurationManager {
             previewSize = previewSize.trim();
             int dimPosition = previewSize.indexOf('x');
             if (dimPosition < 0) {
-                Log.w(TAG, "Bad preview-size: " + previewSize);
+                Logger.w(TAG, "Bad preview-size: " + previewSize);
                 continue;
             }
 
@@ -133,7 +135,7 @@ final class CameraConfigurationManager {
                 newX = Integer.parseInt(previewSize.substring(0, dimPosition));
                 newY = Integer.parseInt(previewSize.substring(dimPosition + 1));
             } catch (NumberFormatException nfe) {
-                Log.w(TAG, "Bad preview-size: " + previewSize);
+                Logger.w(TAG, "Bad preview-size: " + previewSize);
                 continue;
             }
 
@@ -194,7 +196,7 @@ final class CameraConfigurationManager {
                     tenDesiredZoom = tenMaxZoom;
                 }
             } catch (NumberFormatException nfe) {
-                Log.w(TAG, "Bad max-zoom: " + maxZoomString);
+                Logger.w(TAG, "Bad max-zoom: " + maxZoomString);
             }
         }
 
@@ -206,7 +208,7 @@ final class CameraConfigurationManager {
                     tenDesiredZoom = tenMaxZoom;
                 }
             } catch (NumberFormatException nfe) {
-                Log.w(TAG, "Bad taking-picture-zoom-max: " + takingPictureZoomMaxString);
+                Logger.w(TAG, "Bad taking-picture-zoom-max: " + takingPictureZoomMaxString);
             }
         }
 

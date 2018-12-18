@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ionc.wallet.sdk" />
+<manifest package="com.ionc.wallet.sdk" />

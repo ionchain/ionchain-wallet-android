@@ -3,9 +3,9 @@ package org.ionchain.wallet.utils;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
-import android.util.Log;
 
-import com.orhanobut.logger.Logger;
+
+import com.ionc.wallet.sdk.utils.Logger;
 
 import java.io.File;
 
@@ -53,7 +53,7 @@ public class AppFilePath {
         Wallet_DIR = getExternalPrivatePath("iocntoken");
         Wallet_Tmp_DIR = getExternalPrivatePath("wallettmp");
         picture = getExternalPrivatePath("picture");
-        Logger.d("Ville", "DataPath = [" + DATA_ROOT_DIR + "] \n" +
+        Logger.i("","Ville", "DataPath = [" + DATA_ROOT_DIR + "] \n" +
                 "DBPath = [" + DB_ROOT_DIR + "] \n" +
                 "DataPathOuter = [" + DATA_ROOT_DIR_OUTER + "]");
 

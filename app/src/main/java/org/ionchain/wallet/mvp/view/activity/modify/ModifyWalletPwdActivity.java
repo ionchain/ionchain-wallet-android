@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnModifyWalletPassWordCallback;
-import com.orhanobut.logger.Logger;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;

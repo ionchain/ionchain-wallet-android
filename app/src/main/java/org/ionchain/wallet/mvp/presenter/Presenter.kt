@@ -2,7 +2,10 @@ package org.ionchain.wallet.mvp.presenter
 
 import com.ionc.wallet.sdk.bean.WalletBean
 import com.ionc.wallet.sdk.callback.OnTxRecoderCallback
-import org.ionchain.wallet.mvp.callback.*
+import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback
+import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback
+import org.ionchain.wallet.mvp.callback.OnDeviceListCallback
+import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback
 import org.ionchain.wallet.mvp.model.home.HomePageModel
 import org.ionchain.wallet.mvp.model.txrecoder.TxRecoderModel
 

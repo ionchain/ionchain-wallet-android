@@ -27,7 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.orhanobut.logger.Logger;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

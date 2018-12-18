@@ -20,7 +20,7 @@ import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnCreateWalletCallback;
 import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
 import com.ionc.wallet.sdk.dao.WalletDaoTools;
-import com.orhanobut.logger.Logger;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;

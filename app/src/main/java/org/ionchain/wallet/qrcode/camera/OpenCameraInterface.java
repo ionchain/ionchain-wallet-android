@@ -20,6 +20,8 @@ import android.annotation.SuppressLint;
 import android.hardware.Camera;
 import android.util.Log;
 
+import com.ionc.wallet.sdk.utils.Logger;
+
 public final class OpenCameraInterface {
 
   private static final String TAG = OpenCameraInterface.class.getName();
@@ -62,14 +64,14 @@ public static Camera open(int cameraId) {
 
     Camera camera;
     if (cameraId < numCameras) {
-      Log.i(TAG, "Opening camera #" + cameraId);
+        Logger.i(TAG, "Opening camera #" + cameraId);
       camera = Camera.open(cameraId);
     } else {
       if (explicitRequest) {
-        Log.w(TAG, "Requested camera does not exist: " + cameraId);
+          Logger.i(TAG, "Requested camera does not exist: " + cameraId);
         camera = null;
       } else {
-        Log.i(TAG, "No camera facing back; returning camera #0");
+          Logger.i(TAG, "No camera facing back; returning camera #0");
         camera = Camera.open(0);
       }
     }

@@ -2,6 +2,7 @@ package org.ionchain.wallet.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.ionc.wallet.sdk.utils.Logger;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
@@ -10,7 +11,6 @@ import com.lzy.okgo.request.GetRequest;
 import com.lzy.okserver.OkDownload;
 import com.lzy.okserver.download.DownloadListener;
 import com.lzy.okserver.download.DownloadTask;
-import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
 

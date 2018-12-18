@@ -19,6 +19,7 @@ import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnBalanceCallback;
 import com.ionc.wallet.sdk.dao.WalletDaoTools;
+import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.StringUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -35,12 +36,12 @@ import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.presenter.Presenter;
-import org.ionchain.wallet.mvp.view.activity.modify.ModifyWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
-import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
-import org.ionchain.wallet.mvp.view.activity.transaction.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
+import org.ionchain.wallet.mvp.view.activity.modify.ModifyWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
+import org.ionchain.wallet.mvp.view.activity.transaction.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.qrcode.android.CaptureActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
@@ -320,7 +321,7 @@ public class HomeFragment extends AbsBaseFragment implements
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == 10) {
             final String result = data.getStringExtra("result");
-            Log.i("result", result);
+            Logger.i("result", result);
             mDialogBindCardWithWallet = new DialogBindDevice(getActivity());
             mDialogBindCardWithWallet.setMessageText(result);
             mDialogBindCardWithWallet.setLeftBtnClickedListener(new View.OnClickListener() {
@@ -372,7 +373,7 @@ public class HomeFragment extends AbsBaseFragment implements
         mMoreWalletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i(TAG, "onItemClick: ");
+                Logger.i(TAG, "onItemClick: ");
                 mCurrentWallet = mMoreWallets.get(position);
                 WalletDaoTools.setShowWallet(mCurrentWallet);
                 walletNameTx.setText(mCurrentWallet.getName());
@@ -398,12 +399,12 @@ public class HomeFragment extends AbsBaseFragment implements
 
     @Override
     public void onLoadStart() {
-        Log.i(TAG, "onLoadStart: ");
+        Logger.i(TAG, "onLoadStart: ");
     }
 
     @Override
     public void onLoadFinish() {
-        Log.i(TAG, "onLoadFinish: ");
+        Logger.i(TAG, "onLoadFinish: ");
         mRefresh.finishRefresh();
     }
 
@@ -436,7 +437,7 @@ public class HomeFragment extends AbsBaseFragment implements
      */
     @Override
     public void onBindFailure(String result) {
-        Log.i(TAG, "onBindFailure: " + result);
+        Logger.i(TAG, "onBindFailure: " + result);
     }
 
     /**
@@ -444,7 +445,7 @@ public class HomeFragment extends AbsBaseFragment implements
      */
     @Override
     public void onDeviceListSuccess(List<DeviceBean.DataBean> list) {
-        Log.i(TAG, "onDeviceListSuccess: " + list.toString());
+        Logger.i(TAG, "onDeviceListSuccess: " + list.toString());
         mDataBeans.clear();
         mDataBeans.addAll(list);
         mAdapterDeviceLv.notifyDataSetChanged();
@@ -455,7 +456,7 @@ public class HomeFragment extends AbsBaseFragment implements
      */
     @Override
     public void onDeviceListFailure(String errorMessage) {
-        Log.i(TAG, "onDeviceListFailure: " + errorMessage);
+        Logger.i(TAG, "onDeviceListFailure: " + errorMessage);
     }
 
     /**
@@ -466,7 +467,7 @@ public class HomeFragment extends AbsBaseFragment implements
      */
     @Override
     public void onUnbindButtonClick(final String cksn, int position) {
-        Log.i(TAG, "onUnbindButtonClick: " + cksn);
+        Logger.i(TAG, "onUnbindButtonClick: " + cksn);
         mUnbindPos = position;
         mDialogBindCardWithWallet = new DialogBindDevice(getActivity());
         mDialogBindCardWithWallet.setMessageText(cksn);
@@ -503,7 +504,7 @@ public class HomeFragment extends AbsBaseFragment implements
      */
     @Override
     public void onUnbindFailure(String result) {
-        Log.i(TAG, "onUnbindFailure: " + result);
+        Logger.i(TAG, "onUnbindFailure: " + result);
     }
 
     /**
@@ -511,7 +512,7 @@ public class HomeFragment extends AbsBaseFragment implements
      */
     @Override
     public void onBalanceSuccess(WalletBean walletBean) {
-        Log.i(TAG, "onBalanceSuccess: " + walletBean.getBalance());
+        Logger.i(TAG, "onBalanceSuccess: " + walletBean.getBalance());
         walletBalanceTx.setText(mCurrentWallet.getBalance());
     }
 
@@ -520,7 +521,7 @@ public class HomeFragment extends AbsBaseFragment implements
      */
     @Override
     public void onBalanceFailure(String error) {
-        Log.i(TAG, "onCreateFailure: " + error);
+        Logger.i(TAG, "onCreateFailure: " + error);
         ToastUtil.showToastLonger(error);
     }
 

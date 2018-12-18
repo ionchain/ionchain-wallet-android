@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.dao.WalletDaoTools;
+import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.StringUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -126,7 +127,7 @@ public class DevicesFragment extends AbsBaseFragment implements SwipeRefreshLayo
 
     @Override
     public void onUnbindButtonClick(String cksn, int position) {
-        Log.i(TAG, "onUnbindButtonClick: " + cksn);
+        Logger.i(TAG, "onUnbindButtonClick: " + cksn);
 
     }
 }

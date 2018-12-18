@@ -26,10 +26,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.qrcode.android.CaptureActivityHandler;
 import org.ionchain.wallet.qrcode.bean.ZxingConfig;
-
 
 import java.io.IOException;
 
@@ -126,9 +126,9 @@ public final class CameraManager {
             configManager.setDesiredCameraParameters(theCamera);
         } catch (RuntimeException re) {
             // Driver failed
-            Log.w(TAG,
+            Logger.w(TAG,
                     "Camera rejected parameters. Setting only minimal safe-mode parameters");
-            Log.i(TAG, "Resetting to saved camera params: "
+            Logger.i(TAG, "Resetting to saved camera params: "
                     + parametersFlattened);
             // Reset:
             if (parametersFlattened != null) {
@@ -139,7 +139,7 @@ public final class CameraManager {
                     configManager.setDesiredCameraParameters(theCamera);
                 } catch (RuntimeException re2) {
                     // Well, darn. Give up
-                    Log.w(TAG,
+                    Logger.w(TAG,
                             "Camera rejected even safe-mode parameters! No configuration");
                 }
             }
@@ -262,7 +262,7 @@ public final class CameraManager {
 
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
                     topOffset + height);
-            Log.d(TAG, "Calculated framing rect: " + framingRect);
+            Logger.i(TAG, "Calculated framing rect: " + framingRect);
         }
         return framingRect;
     }
@@ -330,7 +330,7 @@ public final class CameraManager {
             int topOffset = (screenResolution.y - height) / 2;
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
                     topOffset + height);
-            Log.d(TAG, "Calculated manual framing rect: " + framingRect);
+            Logger.i(TAG, "Calculated manual framing rect: " + framingRect);
             framingRectInPreview = null;
         } else {
             requestedFramingRectWidth = width;

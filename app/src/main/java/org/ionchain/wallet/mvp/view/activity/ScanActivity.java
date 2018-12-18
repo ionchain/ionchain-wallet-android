@@ -8,19 +8,16 @@ import android.text.TextUtils;
 import android.view.View;
 
 
-import com.orhanobut.logger.Logger;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
 
-
-public class ScanActivity extends AbsBaseActivity{
+public class ScanActivity extends AbsBaseActivity {
 
     private static final int REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY = 666;
-
-
 
 
     @Override
@@ -51,31 +48,28 @@ public class ScanActivity extends AbsBaseActivity{
     }
 
 
-
-
     private void vibrate() {
         Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(200);
     }
 
 
+    void scanSuccess(String result, String msg) {
+        try {
 
-    void scanSuccess(String result,String msg){
-        try{
-
-            if(!TextUtils.isEmpty(result)){
+            if (!TextUtils.isEmpty(result)) {
                 Logger.i(result);
                 Intent intent = new Intent();
-                intent.putExtra("result",result);
-                setResult(RESULT_OK,intent);
-            }else{
+                intent.putExtra("result", result);
+                setResult(RESULT_OK, intent);
+            } else {
                 ToastUtil.showShortToast(msg);
             }
 
             finish();
 
-        }catch (Throwable e){
-            Logger.e(e, getTAG());
+        } catch (Throwable e) {
+            Logger.e(e.getMessage() + getTAG());
         }
     }
 

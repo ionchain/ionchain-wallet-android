@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.facebook.stetho.Stetho;
+import com.ionc.wallet.sdk.utils.Logger;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -13,8 +14,7 @@ import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.DBCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
-import com.orhanobut.logger.Logger;
-import  com.orhanobut.logger.AndroidLogAdapter;
+
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -40,7 +40,7 @@ public class App extends Application {
         Stetho.initializeWithDefaults(this);
         OkGo.getInstance().init(this);
         initOKGO();
-        Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.debugWithStackTrace(true);
     }
 
     private void initOKGO() {

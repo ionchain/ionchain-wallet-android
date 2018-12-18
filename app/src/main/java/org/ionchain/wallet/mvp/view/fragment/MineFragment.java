@@ -9,17 +9,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
+import com.ionc.wallet.sdk.utils.Logger;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okserver.download.DownloadListener;
 import com.lzy.okserver.download.DownloadTask;
-import com.orhanobut.logger.Logger;
 
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.activity.MessageCenterActivity;
 import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.MessageCenterActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.NetUtils;
 import org.ionchain.wallet.utils.ToastUtil;

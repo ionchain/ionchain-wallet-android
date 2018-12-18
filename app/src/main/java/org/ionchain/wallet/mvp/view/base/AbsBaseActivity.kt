@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_KEY
-import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE
 import org.ionchain.wallet.helper.ActivityHelper
 import org.ionchain.wallet.immersionbar.ImmersionBar
 import org.ionchain.wallet.mvp.view.activity.WebActivity

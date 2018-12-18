@@ -2,14 +2,13 @@ package org.ionchain.wallet.mvp.model.txrecoder
 
 import com.ionc.wallet.sdk.bean.TxRecoderBean
 import com.ionc.wallet.sdk.callback.OnTxRecoderCallback
+import com.ionc.wallet.sdk.utils.Logger
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
-import com.orhanobut.logger.Logger
 import org.ionchain.wallet.constant.ConstantUrl.TX_RECODER_URL_GET
-import org.ionchain.wallet.mvp.callback.OnLoadingView
 import org.ionchain.wallet.utils.NetUtils
 
 /**

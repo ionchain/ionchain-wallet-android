@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.orhanobut.logger.Logger;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 
@@ -164,7 +164,7 @@ public abstract class AbsBaseFragment extends Fragment {
             intent.putExtra(params, obj);
             startActivityForResult(intent, 0);
         } catch (Throwable e) {
-            Logger.e(e, TAG);
+            Logger.e( e.getMessage());
         }
     }
 

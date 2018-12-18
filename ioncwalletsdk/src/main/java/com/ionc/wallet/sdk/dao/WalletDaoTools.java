@@ -3,7 +3,7 @@ package com.ionc.wallet.sdk.dao;
 
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.greendao.WalletBeanDao;
-import com.orhanobut.logger.Logger;
+import com.ionc.wallet.sdk.utils.Logger;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -56,7 +56,7 @@ public class WalletDaoTools {
 //            walletList.add(0,getWalletTop());//将第一个添加到首位
 //            walletList.remove(walletList.size()-1);
         } catch (Throwable e) {
-            Logger.e(e, "getAllWallet");
+            Logger.e("e", e.getMessage());
         }
         return walletList;
 
@@ -72,7 +72,7 @@ public class WalletDaoTools {
 //            wallet.setPrivateKey("");
             EntityManager.getInstance().getWalletDao().update(wallet);
         } catch (Throwable e) {
-            Logger.e(e, "getAllWallet");
+            Logger.e("e", "getAllWallet");
         }
     }
 

@@ -21,6 +21,8 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.ionc.wallet.sdk.utils.Logger;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.RejectedExecutionException;
@@ -70,7 +72,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                 newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 outstandingTask = newTask;
             } catch (RejectedExecutionException ree) {
-                Log.w(TAG, "Could not request auto focus", ree);
+                Logger.w(TAG, "Could not request auto focus");
             }
         }
     }
@@ -84,7 +86,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                     focusing = true;
                 } catch (RuntimeException re) {
                     // Have heard RuntimeException reported in Android 4.0.x+; continue?
-                    Log.w(TAG, "Unexpected exception while focusing", re);
+                    Logger.w(TAG, "Unexpected exception while focusing");
                     // Try again later to keep cycle going
                     autoFocusAgainLater();
                 }
@@ -110,7 +112,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                 camera.cancelAutoFocus();
             } catch (RuntimeException re) {
                 // Have heard RuntimeException reported in Android 4.0.x+; continue?
-                Log.w(TAG, "Unexpected exception while cancelling focusing", re);
+                Logger.w(TAG, "Unexpected exception while cancelling focusing");
             }
         }
     }

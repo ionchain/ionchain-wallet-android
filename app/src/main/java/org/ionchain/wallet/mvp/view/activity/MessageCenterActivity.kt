@@ -4,11 +4,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
-
 import org.ionchain.wallet.R
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity
-
-import java.util.ArrayList
+import java.util.*
 
 class MessageCenterActivity : AbsBaseActivity() {
 
