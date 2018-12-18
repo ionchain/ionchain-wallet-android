@@ -718,7 +718,7 @@ public class IONCWalletSDK {
         if (file.exists()) {
             file.delete();
         }
-        WalletDaoTools.deleteWallet(walletBean.getId());
+        WalletDaoTools.deleteWallet(walletBean);
     }
 
     /**

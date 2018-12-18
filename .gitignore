@@ -2,10 +2,13 @@
 .DS_Store
 .gradle/
 app/app.iml
-app/ionchain_android/
 local.properties
 .gitignore
 build/
 .idea/
-app/.DS_Store
-/.gitignore
+ionchain.iml.iml
+ionchain.iml
+ioncwalletsdk/ioncwalletsdk.iml
+
+ioncwalletsdk.iml
+src/main/res/drawable/

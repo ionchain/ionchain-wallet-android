@@ -82,6 +82,9 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
         if (!bShowKSRl) {
             import_key_store_layout.setVisibility(View.GONE);
         }
+        if (WalletDaoTools.getAllWallet().size() == 1) {
+            delBtn.setVisibility(View.GONE);
+        }
         import_mnemonic_layout.setOnClickListener(this);
         delBtn.setOnClickListener(this);
         modifyPwdLayout.setOnClickListener(this);
@@ -129,12 +132,15 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
         ioncTitleBar.setRightTextCLickedListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!StringUtils.isEmpty(walletNameEt.getText().toString())) {
+                if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
                     mWallet.setName(walletNameEt.getText().toString());
                     ioncTitleBar.setTitle(walletNameEt.getText().toString());
                     SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
                     updateWallet(mWallet);
+                } else {
+                    ToastUtil.showShort("名字不能为空！");
                 }
+
             }
         });
     }
@@ -150,6 +156,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
      */
     private void showEditTextDialog() {
         final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
+        dialog.setTitleText("导出私钥");
         dialog.setLeftBtnClickedListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,7 +188,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
      */
     private void showImportPrivateKeyDialog(final String privateKey) {
 
-        new DialogImport(this).setMessage(privateKey)
+        new DialogImport(this).setTitle("导出私钥").setMessage(privateKey)
                 .setCopyBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -220,10 +227,10 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                             ToastUtil.showToastLonger("你输入的密码有误！");
                             return;
                         }
-                        if (WalletDaoTools.getAllWallet().size() == 1) {
-                            ToastUtil.showToastLonger("不能删除该钱包，您必须至少有一个钱包");
-                            return;
-                        }
+//                        if (WalletDaoTools.getAllWallet().size() == 1) {
+//                            ToastUtil.showToastLonger("不能删除该钱包，您必须至少有一个钱包");
+//                            return;
+//                        }
 
                         IONCWalletSDK.getInstance().deleteWallet(mWallet);
 
@@ -374,7 +381,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                             public void onClick(View v) {
                                 //复制
                                 StringUtils.copy(ModifyWalletActivity.this, json);
-                                ToastUtil.showToastLonger("已复制私钥");
+                                ToastUtil.showToastLonger("已复制 KeyStory");
                             }
                         }).show();
             } catch (IOException e) {

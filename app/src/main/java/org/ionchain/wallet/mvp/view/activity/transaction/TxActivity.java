@@ -192,7 +192,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
 
     @Override
     public void onTxFailure(String error) {
-        ToastUtil.showToastLonger(error);
+        ToastUtil.showToastLonger("交易失败！");
         Logger.e(getTAG(), "onTxFailure: "+error);
         dialogPasswordCheck.dismiss();
     }
