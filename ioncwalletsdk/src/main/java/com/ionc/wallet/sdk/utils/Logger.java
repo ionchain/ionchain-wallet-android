@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.RejectedExecutionException;
 
 
 /**
@@ -115,9 +114,8 @@ public class Logger {
      * @param msg 信息
      */
     public static void i(String msg, String... tag) {
-        Log.i(tag[0], "logInfo: " + msg);
         if (isDebug) {
-            printLog(I, tag[0], msg);
+            printLog(I, "info", msg);
         }
     }
 

@@ -578,13 +578,14 @@ public class IONCWalletSDK {
     /**
      * 钱包转账
      *
+     * @param password        钱包密码
      * @param from            转出地址
      * @param to              转入地址
      * @param currentGasPrice gasPrice
-     * @param privateKey      钱包私钥
+     * @param keystore
      * @param account         转账金额
      */
-    public void transaction(final String from, final String to, final BigDecimal currentGasPrice, final String privateKey, final double account, final OnTransationCallback callback) {
+    public void transaction(final String from, final String to, final BigDecimal currentGasPrice, final String password, final String keystore, final double account, final OnTransationCallback callback) {
         new Thread() {
             @SuppressWarnings("UnnecessaryLocalVariable")
             @Override
@@ -616,6 +617,9 @@ public class IONCWalletSDK {
                 byte chainId = ChainId.NONE;
                 String signedData;
                 try {
+                    Credentials credentials = null;
+                    credentials = WalletUtils.loadCredentials(password, keystore);
+                    final String privateKey = credentials.getEcKeyPair().getPrivateKey().toString(16);
                     signedData = signTransaction(nonce, gasPrice, gasLimit, toAddress, value, data, chainId, privateKey);
                     EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();
                     final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
@@ -634,7 +638,7 @@ public class IONCWalletSDK {
                             }
                         });
                     }
-                } catch (final IOException e) {
+                } catch (final IOException |CipherException e) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {

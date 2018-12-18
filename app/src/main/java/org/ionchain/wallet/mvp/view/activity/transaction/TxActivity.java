@@ -85,7 +85,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                             ToastUtil.showToastLonger("请输入的正确的密码！");
                             return;
                         }
-                        IONCWalletSDK.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice, mCurrentWallet.getPrivateKey(), Double.parseDouble(txAccount), TxActivity.this);
+                        IONCWalletSDK.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice, mCurrentWallet.getPassword(), mCurrentWallet.getKeystore(), Double.parseDouble(txAccount), TxActivity.this);
                     }
                 }).show();
 
@@ -193,7 +193,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     @Override
     public void onTxFailure(String error) {
         ToastUtil.showToastLonger("交易失败！");
-        Logger.e(getTAG(), "onTxFailure: "+error);
+        Logger.e("onTxFailure: " + error,getTAG() );
         dialogPasswordCheck.dismiss();
     }
 }
