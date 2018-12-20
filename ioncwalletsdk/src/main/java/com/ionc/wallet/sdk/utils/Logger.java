@@ -139,6 +139,16 @@ public class Logger {
         }
     }
 
+    /**
+     * 用于打印错误信息
+     *
+     * @param msg       错误码的伴随信息：描述信息错误码
+     */
+    public static void e(String msg) {
+        if (isDebug) {
+            printLog(E, "inner_error", "错误信息 : " + msg);
+        }
+    }
 
     /**
      * @param type 打印类型

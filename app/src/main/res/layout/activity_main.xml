@@ -52,6 +52,7 @@
         <RadioButton
             android:id="@+id/rb_shop"
             android:text="商店"
+            android:visibility="gone"
             android:textColor="@drawable/tab_text_color"
             android:drawableTop="@drawable/tab_devices_selector"
             android:button="@null"

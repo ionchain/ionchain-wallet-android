@@ -2,7 +2,6 @@ package org.ionchain.wallet.mvp.view.fragment;
 
 import android.content.Intent;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +66,6 @@ public class HomeFragment extends AbsBaseFragment implements
         OnBalanceCallback {
 
 
-    private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
     private SmartRefreshLayout mRefresh;
     private WalletBean mCurrentWallet;
     private TextView walletNameTx;
