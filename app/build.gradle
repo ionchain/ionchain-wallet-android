@@ -3,9 +3,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply from:'../version.gradle'
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion extCompileSdkVersion
+    buildToolsVersion extBuildToolsVersion
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -13,10 +14,10 @@ android {
     }
     defaultConfig {
         applicationId "org.ionchain.wallet"
-        minSdkVersion 19
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0.1"
+        minSdkVersion extMinSdkVersion
+        targetSdkVersion extTargetSdkVersion
+        versionCode appVersionCode
+        versionName "${appVersionName}"//appVersionName
         multiDexEnabled true //需要将dex 分包  false 则不分
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
