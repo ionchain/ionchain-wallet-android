@@ -7,11 +7,7 @@ apply from:'../version.gradle'
 android {
     compileSdkVersion extCompileSdkVersion
     buildToolsVersion extBuildToolsVersion
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
+
     defaultConfig {
         applicationId "org.ionchain.wallet"
         minSdkVersion extMinSdkVersion
@@ -121,20 +117,6 @@ dependencies {
     implementation project(':ioncwalletsdk')
 }
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-    maven {
-        url "https://jitpack.io"
-    }
-
-    mavenCentral()
-    google()
-    jcenter()
-
-
-}
 apply plugin: 'org.greenrobot.greendao'
 
 buildscript {

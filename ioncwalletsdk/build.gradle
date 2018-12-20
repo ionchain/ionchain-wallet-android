@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao'
+
 apply from:'../version.gradle'
 android {
     compileSdkVersion extCompileSdkVersion
@@ -37,21 +39,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-    maven {
-        url "https://jitpack.io"
-    }
 
-    mavenCentral()
-    google()
-    jcenter()
-
-
-}
-apply plugin: 'org.greenrobot.greendao'
 
 buildscript {
     repositories {
@@ -72,9 +60,17 @@ task clearJar(type: Delete) {
     delete 'jar'
 }
 task makeJar(type:Copy) {
-    from('build/intermediates/packaged-classes/release/')
+    group='customTask'
+    from('build/intermediates/intermediate-jars/debug/')
     into('../app/libs/')
     include('classes.jar')
     rename('classes.jar','ionchain_wallet_sdk.jar')
+}
+
+makeJar.doFirst{
+    println '完毕'
+}
+makeJar.doLast{
+    println '执行完毕'
 }
 makeJar.dependsOn(clearJar)
