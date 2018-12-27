@@ -34,14 +34,14 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.key
-            manifestPlaceholders = ["app_name": "ionchain_debug"]
+            buildConfigField('boolean', 'LOG_DEBUG', 'true')
         }
         release {
             minifyEnabled false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.key
-            manifestPlaceholders = ["app_name": "ionchain_release"]
+            buildConfigField('boolean', 'LOG_DEBUG', 'false')
         }
     }
 

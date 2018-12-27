@@ -3,8 +3,6 @@ package com.ionc.wallet.sdk.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.ionc.wallet.sdk.BuildConfig;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +29,12 @@ public class Logger {
 
     private static String LINE_SEPARATOR = System.getProperty("line.separator"); //等价于"\n\r"
 
-    private static boolean isDebug = BuildConfig.LOG_DEBUG;
+    private static boolean isDebug = false;
+
+
+    public static void initLogger(boolean debug) {
+        isDebug = debug;
+    }
 
 
     /**
@@ -117,7 +120,7 @@ public class Logger {
     /**
      * 用于打印错误信息
      *
-     * @param msg       错误码的伴随信息：描述信息错误码
+     * @param msg 错误码的伴随信息：描述信息错误码
      */
     public static void e(String msg) {
         if (isDebug) {
@@ -200,7 +203,7 @@ public class Logger {
     }
 
     public static void w(String tag, String s) {
-        e(s,tag);
+        e(s, tag);
     }
 
 

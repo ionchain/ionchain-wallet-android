@@ -20,11 +20,10 @@ android {
         release {
             minifyEnabled false
             zipAlignEnabled true
-            buildConfigField('boolean','LOG_DEBUG','false')
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug{
-            buildConfigField('boolean','LOG_DEBUG','true')
+
         }
     }
 

@@ -19,6 +19,9 @@ import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 
+import static com.ionc.wallet.sdk.utils.Logger.initLogger;
+import static org.ionchain.wallet.BuildConfig.LOG_DEBUG;
+
 /**
  * Created by binny on 2018/11/29.
  */
@@ -39,6 +42,7 @@ public class App extends Application {
         Stetho.initializeWithDefaults(this);
         OkGo.getInstance().init(this);
         initOKGO();
+        initLogger(LOG_DEBUG);
     }
 
     private void initOKGO() {
