@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.R;
@@ -36,8 +37,9 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
     private Button btn_sure;
     private String address = "";
     private String keyStore = "";
+    private String sum = "0.0000";
 
-    public IONCAllWalletDialogSDK(@NonNull Context context, List<WalletBean> walletBeans,OnTxResultCallback callback) {
+    public IONCAllWalletDialogSDK(@NonNull Context context, List<WalletBean> walletBeans, OnTxResultCallback callback) {
         super(context);
         mContext = context;
         mWalletBeanList = walletBeans;
@@ -56,7 +58,9 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
 //            window.setAttributes(params);
 //        }
     }
+
     DialogPasswordCheckSDK dialogPasswordCheckSDK;
+
     @Override
     protected void initView() {
         all_wallet_lv = findViewById(R.id.all_wallet_lv);
@@ -68,8 +72,13 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
         btn_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //判断金额是否大于0
+                if ("0.0000".equals(sum)) {
+                    Toast.makeText(mContext, "该钱包余额为0", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //支付
-                dialogPasswordCheckSDK= new DialogPasswordCheckSDK(mContext);
+                dialogPasswordCheckSDK = new DialogPasswordCheckSDK(mContext);
                 dialogPasswordCheckSDK.setAddress(address).setBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -104,9 +113,10 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
     }
 
     @Override
-    public void onResult(String address, String keyStore) {
+    public void onResult(String address, String keyStore, String sum) {
         this.address = address;
         this.keyStore = keyStore;
+        this.sum = sum;
     }
 
     @Override
