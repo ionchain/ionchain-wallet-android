@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.ionc.wallet.sdk.adapter.CommonAdapter;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -11,7 +12,6 @@ import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapter.CommonAdapter;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;

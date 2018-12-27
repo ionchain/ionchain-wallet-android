@@ -1,4 +1,4 @@
-package com.ionc.wallet.sdk.greendao;
+package com.ionc.wallet.sdk.greendaogen;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

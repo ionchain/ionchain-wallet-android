@@ -3,11 +3,11 @@ package org.ionchain.wallet.adapter.txrecoder;
 import android.content.Context;
 import android.view.View;
 
+import com.ionc.wallet.sdk.adapter.IViewHolder;
+import com.ionc.wallet.sdk.adapter.IViewHolderHelper;
 import com.ionc.wallet.sdk.bean.TxRecoderBean;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapter.iinterface.IViewHolder;
-import org.ionchain.wallet.adapter.iinterface.IViewHolderHelper;
 
 import java.util.List;
 

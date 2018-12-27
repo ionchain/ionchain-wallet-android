@@ -2,7 +2,7 @@ package com.ionc.wallet.sdk.dao;
 
 
 import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.greendao.WalletBeanDao;
+import com.ionc.wallet.sdk.greendaogen.WalletBeanDao;
 import com.ionc.wallet.sdk.utils.Logger;
 
 import org.greenrobot.greendao.query.QueryBuilder;

@@ -38,8 +38,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     private WalletBean mCurrentWallet;
     private SeekBar txSeekBarIndex;
 
-    private double mSeekBarMaxValue;//seekbar 表示的最大值
-    private double mSeekBarMinValue;
+    private double mSeekBarMaxValue = 0.0006;//seekbar 意义上最大值
+    private int mSeekBarMaxProgress = 200;//seekbar 本身的最大值
+    private double mSeekBarMinValue = 0.00003;
     private double mTotalValue;//seekbar所所代表的总长度 0.006-0.0003
 
     private BigDecimal mCurrentGasPrice;
@@ -81,7 +82,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                     @Override
                     public void onClick(View v) {
                         //检查密码是否正确
-                        if (!dialogPasswordCheck.getPasswordEt().getText().toString().equals(mCurrentWallet.getPassword())) {
+                        String pwd1 = dialogPasswordCheck.getPasswordEt().getText().toString();
+                        String pwd2 = mCurrentWallet.getPassword();
+                        if (!pwd1.equals(pwd2)) {
                             ToastUtil.showToastLonger("请输入的正确的密码！");
                             return;
                         }
@@ -95,7 +98,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
             @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                double dynamicValue = mSeekBarMinValue + mTotalValue * progress / IONCWalletSDK.getInstance().getSeekBarMaxValue();
+                double dynamicValue = mSeekBarMinValue + mTotalValue * progress / mSeekBarMaxProgress;
                 DecimalFormat df = new DecimalFormat("0.00000000");
                 txCostTv.setText("旷工费 " + df.format(dynamicValue) + " IONC");
                 BigDecimal bigDecimal = Convert.toWei(String.valueOf(dynamicValue), Convert.Unit.ETHER);
@@ -118,47 +121,25 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
 
     @Override
     protected void initData() {
-        mSeekBarMaxValue = IONCWalletSDK.getInstance().getMaxFee().doubleValue();//0.006
-        mSeekBarMinValue = IONCWalletSDK.getInstance().getMinFee().doubleValue();//0.0003
         mTotalValue = mSeekBarMaxValue - mSeekBarMinValue;//0.006-0.0003
 
-        double default_value;
-        try {
-            default_value = IONCWalletSDK.getInstance().getDefaultPrice().doubleValue();//默认值 0.00009
-        } catch (NullPointerException e) {
-            default_value = 0.00009;//默认值 0.00009
-        }
-        if (default_value == 0) {
-            default_value = 0.00009;
-        }
-        double min_value = IONCWalletSDK.getInstance().getMinFee().doubleValue();//最小值 0.0003
-        double value = default_value - min_value;//0.0006
-        double max_fee = IONCWalletSDK.getInstance().getMaxFee().doubleValue();
+        double default_value =0.00009;
+        double value = default_value - mSeekBarMinValue;//0.00006
+        double max_fee = 0.0006;
 
-        if (value == 0) {
-            value = 0.00006;
-        }
         DecimalFormat df = new DecimalFormat("0.00000000");
         txCostTv.setText("旷工费 " + df.format(value) + " IONC");
 
-        int max = IONCWalletSDK.getInstance().getSeekBarMaxValue();
-        Logger.i(getTAG(), "max: " + max);
-        txSeekBarIndex.setMax(max);// 200
+        txSeekBarIndex.setMax(mSeekBarMaxProgress);// 200
         double v1 = value / max_fee;
-        double progress = (v1 * IONCWalletSDK.getInstance().getSeekBarMaxValue());
+        double progress = (v1 * mSeekBarMaxProgress);
         txSeekBarIndex.setProgress((int) progress);// 200
         mCurrentGasPrice = toGasPrice(default_value);
-        Logger.i(getTAG(), "initData: " + mCurrentGasPrice);
-        Logger.i(getTAG(), "default_value: " + default_value);
-        Logger.i(getTAG(), "min_value: " + min_value);
-        Logger.i(getTAG(), "value: " + value);
-        Logger.i(getTAG(), "max_fee: " + max_fee);
-        Logger.i(getTAG(), "v1: " + progress);
     }
 
     private BigDecimal toGasPrice(double progress) {
         BigDecimal price;
-        double value = mSeekBarMinValue + mTotalValue * progress / IONCWalletSDK.getInstance().getSeekBarMaxValue();
+        double value = mSeekBarMinValue + mTotalValue * progress / mSeekBarMaxProgress;
         DecimalFormat df = new DecimalFormat("0.00000000");
         BigDecimal bigDecimal = Convert.toWei(String.valueOf(value), Convert.Unit.ETHER);
         double d = bigDecimal.doubleValue() / 30000;

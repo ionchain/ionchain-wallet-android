@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.ionc.wallet.sdk.bean.KeystoreBean;
 import com.ionc.wallet.sdk.bean.WalletBean;
@@ -77,9 +76,6 @@ public class IONCWalletSDK {
     private Handler mHandler;
     private final String TAG = this.getClass().getSimpleName();
 
-    public final static int GWEI_MAX_VALUE = 20;
-    public final static int GWEI_MIN_VALUE = 1;
-
     public final static BigInteger GAS_LIMIT = BigInteger.valueOf(30000);
     /**
      * 通用的以太坊基于bip44协议的助记词路径 （imtoken jaxx Metamask myetherwallet）
@@ -112,13 +108,6 @@ public class IONCWalletSDK {
         return maxFee;
     }
 
-    /**
-     * @return seekbar的最大值
-     */
-    public int getSeekBarMaxValue() {
-        return GWEI_MAX_VALUE * 5;
-    }
-
     private IONCWalletSDK() {
 
     }
@@ -149,20 +138,13 @@ public class IONCWalletSDK {
         try {
             mMnemonicCode = new MnemonicCode(mContext.getAssets().open("en-mnemonic-word-list.txt"), null);
             keystoreDir = context.getExternalCacheDir() + "/ionchain/keystore";
-            Log.i(TAG, "initWeb3j: 文件创建成功 keystoreDir = " + keystoreDir);
+            Logger.i(TAG, "initWeb3j: 文件创建成功 keystoreDir = " + keystoreDir);
             //创建keystore路径
             File file = new File(keystoreDir);
             if (!file.exists()) {
                 boolean crate = file.mkdirs();
             }
-
-            Log.i(TAG, "initWeb3j: 文件创建成功file =" + file.getPath());
-            minFee = Convert.fromWei(Convert.toWei(String.valueOf(GWEI_MIN_VALUE), Convert.Unit.GWEI).multiply(BigDecimal.valueOf(30000)), Convert.Unit.ETHER);
-            maxFee = Convert.fromWei(Convert.toWei(String.valueOf(GWEI_MAX_VALUE), Convert.Unit.GWEI).multiply(BigDecimal.valueOf(30000)), Convert.Unit.ETHER);
-            Log.i(TAG, "minFee: " + minFee);
-            Log.i(TAG, "maxFee: " + maxFee);
-
-
+            Logger.i(TAG, "initWeb3j: 文件创建成功file =" + file.getPath());
         } catch (IOException e) {
             Logger.i(e.getMessage());
         }
@@ -175,11 +157,11 @@ public class IONCWalletSDK {
                 try {
                     BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
                     BigInteger fee = gasPrice.multiply(GAS_LIMIT);
-                    Log.i(TAG, "run:fee " + fee);
+                    Logger.i(TAG, "run:fee " + fee);
                     mDefaultPrice = Convert.fromWei(String.valueOf(fee), Convert.Unit.ETHER);
-                    Log.i(TAG, "run:mDefaultPrice-eth " + mDefaultPrice);
+                    Logger.i(TAG, "run:mDefaultPrice-eth " + mDefaultPrice);
                 } catch (IOException e) {
-                    Log.i(TAG, "run: " + e.getMessage());
+                    Logger.i(TAG, "run: " + e.getMessage());
                     mDefaultPrice = Convert.toWei(Convert.toWei(String.valueOf(3), Convert.Unit.GWEI), Convert.Unit.ETHER);
                 }
 
@@ -353,7 +335,7 @@ public class IONCWalletSDK {
 
         //生成助记词
         String mnemonic = generateMnemonic(initialEntropy);
-        Log.i("mnemonic", "generateBip39Wallet: " + mnemonic);
+        Logger.i("mnemonic", "generateBip39Wallet: " + mnemonic);
         //根据助记词生成种子
         byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
         //根据种子生成秘钥对

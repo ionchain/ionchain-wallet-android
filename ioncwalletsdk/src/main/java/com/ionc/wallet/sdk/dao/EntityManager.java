@@ -1,7 +1,7 @@
 package com.ionc.wallet.sdk.dao;
 
 
-import com.ionc.wallet.sdk.greendao.WalletBeanDao;
+import com.ionc.wallet.sdk.greendaogen.WalletBeanDao;
 
 public class EntityManager {
     private static EntityManager entityManager;

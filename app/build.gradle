@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
-apply from:'../version.gradle'
+apply from: '../version.gradle'
 android {
     compileSdkVersion extCompileSdkVersion
     buildToolsVersion extBuildToolsVersion
@@ -34,15 +34,47 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.key
-            manifestPlaceholders = ["app_name": "IonChain"]
+            manifestPlaceholders = ["app_name": "ionchain_debug"]
         }
-
-
         release {
             minifyEnabled false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.key
+            manifestPlaceholders = ["app_name": "ionchain_release"]
+        }
+    }
+
+    flavorDimensions "ionchain"
+    productFlavors {
+        ionchain {
+            dimension "ionchain"
+        }
+        xiaomi {
+            dimension "ionchain"
+            applicationIdSuffix ".demo"
+            versionNameSuffix "-demo"
+        }
+        huawei {
+            dimension "ionchain"
+            applicationIdSuffix ".full"
+            versionNameSuffix "-full"
+        }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            variant.productFlavors.each { flavor ->
+                def project = "ionchain"
+                def separator = "_"
+                def buildType = variant.variantData.variantConfiguration.buildType.name
+                def versionName = variant.versionName
+                def versionCode = variant.versionCode
+                def date = new Date()
+                def formattedDate = date.format('yyyyMMdd')
+
+                def apkName = project + separator + "v" + versionName + separator + versionCode + separator + buildType + separator + flavor.name + separator + formattedDate + ".apk"
+                output.outputFileName = apkName
+            }
         }
     }
 
@@ -60,16 +92,6 @@ android {
         // true--所有warning当做error
         warningsAsErrors false
         disable 'GoogleAppIndexingWarning'
-    }
-    flavorDimensions "versionCode"
-
-    productFlavors {
-        // Main android app markets  百度，应用宝，360，小米，豌豆荚，华为，OPPO，GooglePlay，VIVO
-        //添加pre是因为flavor命名不支持数字开头，编译的时候会做处理
-        ionchain{
-            manifestPlaceholders = [CHANNEL_NAME: "android"]
-            minSdkVersion 19
-        }
     }
     packagingOptions {
         exclude 'lib/x86_64/darwin/libscrypt.dylib'
@@ -102,7 +124,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     //    适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
-  
+
     //    动态权限申请
     implementation 'pub.devrel:easypermissions:2.0.0'
     //    图片加载

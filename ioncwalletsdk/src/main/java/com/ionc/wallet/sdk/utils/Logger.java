@@ -3,6 +3,8 @@ package com.ionc.wallet.sdk.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.ionc.wallet.sdk.BuildConfig;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,31 +31,8 @@ public class Logger {
 
     private static String LINE_SEPARATOR = System.getProperty("line.separator"); //等价于"\n\r"
 
-    private static boolean isDebug = false;
+    private static boolean isDebug = BuildConfig.LOG_DEBUG;
 
-    /**
-     * 是否打印堆栈信息
-     */
-    private static boolean sbStackTrace = false;
-
-    /**
-     * isEnable 是否开启调试日志
-     * true 开启；
-     * false 关闭；
-     */
-    public static void debug(boolean isEnable) {
-        isDebug = isEnable;
-    }
-
-    /**
-     * isEnable 是否打印调试日志的堆栈信息
-     * true 开启；
-     * false 关闭；
-     */
-    public static void debugWithStackTrace(boolean isEnable) {
-        isDebug = isEnable;
-        sbStackTrace = isEnable;
-    }
 
     /**
      * 打印MAp
@@ -130,11 +109,7 @@ public class Logger {
             if (TextUtils.isEmpty(errorCode[0])) {
                 printLog(E, "inner_error", "错误信息 : " + msg);
             } else {
-                if (sbStackTrace) {
-                    printLog(E, "inner_error", "错误码 ：" + errorCode[0] + " 信息描述 ：" + msg);
-                } else {
-                    printLog(E, "inner_error", "错误码 ：" + errorCode[0]);
-                }
+                printLog(E, "inner_error", "错误码 ：" + errorCode[0] + " 信息描述 ：" + msg);
             }
         }
     }
@@ -220,11 +195,7 @@ public class Logger {
             return;
         }
         printer(type, tag, TOP_BORDER);
-        if (sbStackTrace) {
-            printLocation(type, tag, msg);
-        } else {
-            printMsg(type, tag, msg);
-        }
+        printLocation(type, tag, msg);
         printer(type, tag, BOTTOM_BORDER);
     }
 

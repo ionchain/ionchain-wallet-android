@@ -8,7 +8,7 @@ import java.util.List;
  * <p>
  * TIME 2018/11/12 15:25
  */
-public class TxRecoderBean  implements Serializable {
+public class TxRecoderBean implements Serializable {
 
     /**
      * code : 0

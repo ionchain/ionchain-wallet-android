@@ -72,8 +72,8 @@ public class WalletBean implements Serializable {
 
     @Generated(hash = 514129665)
     public WalletBean(Long id, String privateKey, String name, String address,
-            String publickey, String balance, String keystore, String password,
-            int mIconIdex, String mnemonic, boolean isShowWallet) {
+                      String publickey, String balance, String keystore, String password,
+                      int mIconIdex, String mnemonic, boolean isShowWallet) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;

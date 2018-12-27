@@ -7,10 +7,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ionc.wallet.sdk.adapter.IViewHolder;
+import com.ionc.wallet.sdk.adapter.IViewHolderHelper;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapter.iinterface.IViewHolder;
-import org.ionchain.wallet.adapter.iinterface.IViewHolderHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 

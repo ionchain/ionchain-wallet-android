@@ -1,4 +1,4 @@
-package org.ionchain.wallet.adapter.iinterface;
+package com.ionc.wallet.sdk.adapter;
 
 import android.content.Context;
 import android.view.View;

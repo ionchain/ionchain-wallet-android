@@ -10,7 +10,7 @@ android {
         minSdkVersion extMinSdkVersion
         targetSdkVersion extTargetSdkVersion
         versionCode appVersionCode
-        versionName "${appVersionName}"//appVersionName
+        versionName "${appVersionName}"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -19,7 +19,12 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            zipAlignEnabled true
+            buildConfigField('boolean','LOG_DEBUG','false')
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            buildConfigField('boolean','LOG_DEBUG','true')
         }
     }
 
@@ -52,7 +57,7 @@ buildscript {
 
 greendao {
     schemaVersion 1
-    daoPackage 'com.ionc.wallet.sdk.greendao'
+    daoPackage 'com.ionc.wallet.sdk.greendaogen'
     targetGenDir 'src/main/java'
 }
 

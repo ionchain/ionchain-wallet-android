@@ -1,13 +1,10 @@
-package org.ionchain.wallet.adapter;
+package com.ionc.wallet.sdk.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
-import org.ionchain.wallet.adapter.iinterface.IViewHolder;
-import org.ionchain.wallet.adapter.iinterface.IViewHolderHelper;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,27 +1,27 @@
-package org.ionchain.wallet.widget;
+package com.ionc.wallet.sdk.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ionc.wallet.sdk.R;
 import com.ionc.wallet.sdk.utils.StringUtils;
-import com.ionc.wallet.sdk.widget.BaseDialog;
 
-import org.ionchain.wallet.R;
 
 /*
- * 导出私钥对话框
+ * 支付对话框
  * 、*/
-public class DialogPasswordCheck extends BaseDialog {
+public class DialogPasswordCheckSDK extends BaseDialog {
 
     private View.OnClickListener leftBtnClickedListener;
     private View.OnClickListener rightBtnClickedListener;
 
 
-    public DialogPasswordCheck(@NonNull Context context) {
+    public DialogPasswordCheckSDK(@NonNull Context context) {
         super(context);
     }
 
@@ -39,10 +39,13 @@ public class DialogPasswordCheck extends BaseDialog {
 
     @Override
     protected int getLayout() {
-        return R.layout.dialog_layout_check_pwd;
+        return R.layout.sdk_dialog_layout_check_pwd;
     }
 
     private TextView title;
+    private EditText account_money_tx;
+    private TextView from;
+    private TextView to;
     private EditText passwordEt;
     private Button leftBtn;
     private Button rightBtn;
@@ -51,11 +54,18 @@ public class DialogPasswordCheck extends BaseDialog {
     private String rightBtnText;
     private String titleText;
 
+    private String address;
+
+    public DialogPasswordCheckSDK setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
     public String getLeftBtnText() {
         return leftBtnText;
     }
 
-    public DialogPasswordCheck setLeftBtnText(String leftBtnText) {
+    public DialogPasswordCheckSDK setLeftBtnText(String leftBtnText) {
         this.leftBtnText = leftBtnText;
         return this;
     }
@@ -64,7 +74,7 @@ public class DialogPasswordCheck extends BaseDialog {
         return rightBtnText;
     }
 
-    public DialogPasswordCheck setRightBtnText(String rightBtnText) {
+    public DialogPasswordCheckSDK setRightBtnText(String rightBtnText) {
         this.rightBtnText = rightBtnText;
         return this;
     }
@@ -73,7 +83,7 @@ public class DialogPasswordCheck extends BaseDialog {
         return titleText;
     }
 
-    public DialogPasswordCheck setTitleText(String titleText) {
+    public DialogPasswordCheckSDK setTitleText(String titleText) {
         this.titleText = titleText;
         return this;
     }
@@ -82,7 +92,7 @@ public class DialogPasswordCheck extends BaseDialog {
         return title;
     }
 
-    public DialogPasswordCheck setTitle(TextView title) {
+    public DialogPasswordCheckSDK setTitle(TextView title) {
         this.title = title;
         return this;
     }
@@ -91,7 +101,7 @@ public class DialogPasswordCheck extends BaseDialog {
         return passwordEt;
     }
 
-    public DialogPasswordCheck setPasswordEt(EditText passwordEt) {
+    public DialogPasswordCheckSDK setPasswordEt(EditText passwordEt) {
         this.passwordEt = passwordEt;
         return this;
     }
@@ -100,7 +110,7 @@ public class DialogPasswordCheck extends BaseDialog {
         return leftBtn;
     }
 
-    public DialogPasswordCheck setLeftBtn(Button leftBtn) {
+    public DialogPasswordCheckSDK setLeftBtn(Button leftBtn) {
         this.leftBtn = leftBtn;
         return this;
     }
@@ -109,7 +119,7 @@ public class DialogPasswordCheck extends BaseDialog {
         return rightBtn;
     }
 
-    public DialogPasswordCheck setRightBtn(Button rightBtn) {
+    public DialogPasswordCheckSDK setRightBtn(Button rightBtn) {
         this.rightBtn = rightBtn;
         return this;
     }
@@ -122,6 +132,9 @@ public class DialogPasswordCheck extends BaseDialog {
      */
     private void findViews() {
         title = (TextView) findViewById(R.id.title);
+        account_money_tx = (EditText) findViewById(R.id.account_money_tx);
+        from = (TextView) findViewById(R.id.from_account);
+        to = (TextView) findViewById(R.id.to_account);
         passwordEt = (EditText) findViewById(R.id.password_et);
         leftBtn = (Button) findViewById(R.id.left_btn);
         rightBtn = (Button) findViewById(R.id.right_btn);
@@ -134,12 +147,28 @@ public class DialogPasswordCheck extends BaseDialog {
         if (!StringUtils.isEmpty(rightBtnText)) {
             rightBtn.setText(rightBtnText);
         }
+        if (!StringUtils.isEmpty(address)) {
+            from.setText("转出：" + address);
+        }
+        if (!StringUtils.isEmpty(address)) {
+//            to.setText("转入：0x10cDB745720e2A1A60dB812183AbC901975d101c");
+            to.setText("转入：旺链");
+        }
+
+    }
+
+    public Double getAccountMoney() {
+        String value = account_money_tx.getText().toString();
+        if (TextUtils.isEmpty(value)) {
+            return Double.valueOf(100);
+        }
+        return Double.valueOf(value);
     }
 
     /**
      * 设置左侧按钮点击事件
      */
-    public DialogPasswordCheck setLeftBtnClickedListener(View.OnClickListener leftBtnClickedListener) {
+    public DialogPasswordCheckSDK setLeftBtnClickedListener(View.OnClickListener leftBtnClickedListener) {
         this.leftBtnClickedListener = leftBtnClickedListener;
         return this;
     }
@@ -147,12 +176,12 @@ public class DialogPasswordCheck extends BaseDialog {
     /**
      * 设置右侧按钮点击事件
      */
-    public DialogPasswordCheck setRightBtnClickedListener(View.OnClickListener rightBtnClickedListener) {
+    public DialogPasswordCheckSDK setRightBtnClickedListener(View.OnClickListener rightBtnClickedListener) {
         this.rightBtnClickedListener = rightBtnClickedListener;
         return this;
     }
 
-    public DialogPasswordCheck setBtnClickedListener(View.OnClickListener leftBtnClickedListener,View.OnClickListener rightBtnClickedListener) {
+    public DialogPasswordCheckSDK setBtnClickedListener(View.OnClickListener leftBtnClickedListener, View.OnClickListener rightBtnClickedListener) {
         this.leftBtnClickedListener = leftBtnClickedListener;
         this.rightBtnClickedListener = rightBtnClickedListener;
         return this;

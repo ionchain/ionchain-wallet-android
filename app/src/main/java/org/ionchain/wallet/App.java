@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.facebook.stetho.Stetho;
-import com.ionc.wallet.sdk.utils.Logger;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -40,7 +39,6 @@ public class App extends Application {
         Stetho.initializeWithDefaults(this);
         OkGo.getInstance().init(this);
         initOKGO();
-        Logger.debugWithStackTrace(true);
     }
 
     private void initOKGO() {

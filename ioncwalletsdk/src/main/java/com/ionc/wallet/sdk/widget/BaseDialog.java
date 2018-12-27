@@ -1,16 +1,13 @@
-package org.ionchain.wallet.widget;
+package com.ionc.wallet.sdk.widget;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.Window;
-import android.view.WindowManager;
 
-import org.ionchain.wallet.R;
+import com.ionc.wallet.sdk.R;
+
 
 public abstract class BaseDialog extends Dialog {
     protected Activity mActivity;
@@ -24,6 +21,8 @@ public abstract class BaseDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        setCanceledOnTouchOutside(false);
+        initDialog();
         initView();
     }
 
@@ -38,14 +37,6 @@ public abstract class BaseDialog extends Dialog {
     protected abstract int getLayout();
 
     protected void initDialog() {
-        Window window = this.getWindow();
-        if (window != null) {
-            window.setGravity(Gravity.CENTER);
-            DisplayMetrics dm = mActivity.getResources().getDisplayMetrics();
-            WindowManager.LayoutParams params = window.getAttributes();
-            params.width = dm.widthPixels*6/7;
-            params.height = dm.widthPixels*3/5;
-            window.setAttributes(params);
-        }
+
     }
 }

@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ionc.wallet.sdk.utils.StringUtils;
+import com.ionc.wallet.sdk.widget.BaseDialog;
 
 import org.ionchain.wallet.R;
 
@@ -15,7 +16,7 @@ import org.ionchain.wallet.R;
  * DATE: 2018/9/13
  * 描述:
  */
-public class DialogBindDevice extends BaseDialog{
+public class DialogBindDevice extends BaseDialog {
     public DialogBindDevice(@NonNull Context context) {
         super(context);
     }

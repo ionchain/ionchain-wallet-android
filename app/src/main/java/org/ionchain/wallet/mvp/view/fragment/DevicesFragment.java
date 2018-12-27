@@ -1,10 +1,10 @@
 package org.ionchain.wallet.mvp.view.fragment;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.ionc.wallet.sdk.adapter.CommonAdapter;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.ionc.wallet.sdk.utils.Logger;
@@ -15,7 +15,6 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapter.CommonAdapter;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.DeviceListBean;

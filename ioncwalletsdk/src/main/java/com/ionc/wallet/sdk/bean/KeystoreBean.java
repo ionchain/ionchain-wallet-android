@@ -2,7 +2,7 @@ package com.ionc.wallet.sdk.bean;
 
 import java.io.Serializable;
 
-public class KeystoreBean implements Serializable{
+public class KeystoreBean implements Serializable {
 
     /**
      * address : 58e49e04b60d62f15240b62b488ace310fd63eef

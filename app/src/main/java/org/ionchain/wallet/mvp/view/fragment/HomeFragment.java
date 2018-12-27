@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ionc.wallet.sdk.IONCWalletSDK;
+import com.ionc.wallet.sdk.adapter.CommonAdapter;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnBalanceCallback;
 import com.ionc.wallet.sdk.dao.WalletDaoTools;
@@ -26,7 +27,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapter.CommonAdapter;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;

@@ -2,8 +2,8 @@ package com.ionc.wallet.sdk.dao;
 
 
 import com.ionc.wallet.sdk.IONCWalletSDK;
-import com.ionc.wallet.sdk.greendao.DaoMaster;
-import com.ionc.wallet.sdk.greendao.DaoSession;
+import com.ionc.wallet.sdk.greendaogen.DaoMaster;
+import com.ionc.wallet.sdk.greendaogen.DaoSession;
 
 import static com.ionc.wallet.sdk.constant.ConstanParams.DB_NAME;
 
