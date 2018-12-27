@@ -46,13 +46,13 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
         viewHolder.all_wallet_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onResult(iBaseBeanList.get(position).getName(), iBaseBeanList.get(position).getKeystore());
+                mListener.onResult(iBaseBeanList.get(position).getName(), iBaseBeanList.get(position).getKeystore(),iBaseBeanList.get(position).getBalance());
             }
         });
 
     }
 
     public interface OnAllWalletItemClickedListener {
-        void onResult(String address, String ketstroy);
+        void onResult(String address, String ketstroy,String sum);
     }
 }
