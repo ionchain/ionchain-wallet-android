@@ -46,6 +46,5 @@
         android:layout_marginRight="10dp"
         android:ellipsize="middle"
         android:singleLine="true"
-        android:text="0x10cDB745720e2A1A60dB812183sdsadaddasdadaAbC901975d"
-        android:visibility="gone" />
+        android:text="" />
 </LinearLayout>

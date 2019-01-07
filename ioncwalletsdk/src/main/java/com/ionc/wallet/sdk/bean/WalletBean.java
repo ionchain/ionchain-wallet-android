@@ -61,6 +61,18 @@ public class WalletBean implements Serializable {
 
     private boolean isShowWallet;
 
+    /**
+     * 是否被选中，再支付的时候
+     * */
+    private boolean choosen;
+
+    public boolean isChoosen() {
+        return choosen;
+    }
+
+    public void setChoosen(boolean choosen) {
+        this.choosen = choosen;
+    }
 
     public String getMnemonic() {
         return mnemonic;
@@ -70,10 +82,10 @@ public class WalletBean implements Serializable {
         this.mnemonic = mnemonic;
     }
 
-    @Generated(hash = 514129665)
+    @Generated(hash = 102786167)
     public WalletBean(Long id, String privateKey, String name, String address,
-                      String publickey, String balance, String keystore, String password,
-                      int mIconIdex, String mnemonic, boolean isShowWallet) {
+            String publickey, String balance, String keystore, String password, int mIconIdex,
+            String mnemonic, boolean isShowWallet, boolean choosen) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -85,6 +97,7 @@ public class WalletBean implements Serializable {
         this.mIconIdex = mIconIdex;
         this.mnemonic = mnemonic;
         this.isShowWallet = isShowWallet;
+        this.choosen = choosen;
     }
 
     @Generated(hash = 1814219826)
@@ -185,5 +198,9 @@ public class WalletBean implements Serializable {
 
     public void setIsShowWallet(boolean isShowWallet) {
         this.isShowWallet = isShowWallet;
+    }
+
+    public boolean getChoosen() {
+        return this.choosen;
     }
 }

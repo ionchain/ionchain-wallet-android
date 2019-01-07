@@ -35,6 +35,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         public final static Property MIconIdex = new Property(8, int.class, "mIconIdex", false, "M_ICON_IDEX");
         public final static Property Mnemonic = new Property(9, String.class, "mnemonic", false, "MNEMONIC");
         public final static Property IsShowWallet = new Property(10, boolean.class, "isShowWallet", false, "IS_SHOW_WALLET");
+        public final static Property Choosen = new Property(11, boolean.class, "choosen", false, "CHOOSEN");
     }
 
 
@@ -60,7 +61,8 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
                 "\"PASSWORD\" TEXT," + // 7: password
                 "\"M_ICON_IDEX\" INTEGER NOT NULL ," + // 8: mIconIdex
                 "\"MNEMONIC\" TEXT," + // 9: mnemonic
-                "\"IS_SHOW_WALLET\" INTEGER NOT NULL );"); // 10: isShowWallet
+                "\"IS_SHOW_WALLET\" INTEGER NOT NULL ," + // 10: isShowWallet
+                "\"CHOOSEN\" INTEGER NOT NULL );"); // 11: choosen
     }
 
     /** Drops the underlying database table. */
@@ -119,6 +121,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
             stmt.bindString(10, mnemonic);
         }
         stmt.bindLong(11, entity.getIsShowWallet() ? 1L: 0L);
+        stmt.bindLong(12, entity.getChoosen() ? 1L: 0L);
     }
 
     @Override
@@ -171,6 +174,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
             stmt.bindString(10, mnemonic);
         }
         stmt.bindLong(11, entity.getIsShowWallet() ? 1L: 0L);
+        stmt.bindLong(12, entity.getChoosen() ? 1L: 0L);
     }
 
     @Override
@@ -191,7 +195,8 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // password
             cursor.getInt(offset + 8), // mIconIdex
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // mnemonic
-            cursor.getShort(offset + 10) != 0 // isShowWallet
+            cursor.getShort(offset + 10) != 0, // isShowWallet
+            cursor.getShort(offset + 11) != 0 // choosen
         );
         return entity;
     }
@@ -209,6 +214,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         entity.setMIconIdex(cursor.getInt(offset + 8));
         entity.setMnemonic(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setIsShowWallet(cursor.getShort(offset + 10) != 0);
+        entity.setChoosen(cursor.getShort(offset + 11) != 0);
      }
     
     @Override

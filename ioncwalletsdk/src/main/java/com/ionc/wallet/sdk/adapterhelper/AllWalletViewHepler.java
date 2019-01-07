@@ -36,23 +36,42 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
 
     @Override
     public void bindListDataToView(Context context, final List<WalletBean> iBaseBeanList, AllWalletViewHolder viewHolder, final int position) {
-        Logger.i(iBaseBeanList.get(position).getName() + "ffffffff");
+        Logger.i("position" + iBaseBeanList.get(position).getName() + "ffffffff");
         viewHolder.mName.setText(iBaseBeanList.get(position).getName());
         if (!TextUtils.isEmpty(iBaseBeanList.get(position).getBalance())) {
             viewHolder.count.setText(iBaseBeanList.get(position).getBalance());
 
         }
+        if (iBaseBeanList.get(position).getChoosen()) {
+            Logger.i("position 0 = " + position);
+            viewHolder.all_wallet_ll.setBackgroundColor(context.getResources().getColor(R.color.chosen_color));
+        } else {
+            Logger.i("position 1 = " + position);
+            viewHolder.all_wallet_ll.setBackgroundColor(context.getResources().getColor(R.color.white));
+        }
         viewHolder.mAddress.setText(iBaseBeanList.get(position).getAddress());
         viewHolder.all_wallet_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onResult(iBaseBeanList.get(position).getAddress(), iBaseBeanList.get(position).getKeystore(),iBaseBeanList.get(position).getBalance());
+                int size = iBaseBeanList.size();
+                for (int i = 0; i < size; i++) {
+                    if (i == position) {
+                        Logger.i("position 2 = " + position);
+                        iBaseBeanList.get(i).setChoosen(true);
+
+                    } else {
+                        Logger.i("position 3 = " + position);
+
+                        iBaseBeanList.get(i).setChoosen(false);
+                    }
+                }
+                mListener.onItemClick(iBaseBeanList.get(position));
             }
         });
 
     }
 
     public interface OnAllWalletItemClickedListener {
-        void onResult(String address, String ketstroy,String sum);
+        void onItemClick(WalletBean walletBean);
     }
 }

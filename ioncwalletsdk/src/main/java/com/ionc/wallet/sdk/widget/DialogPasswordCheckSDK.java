@@ -54,10 +54,10 @@ public class DialogPasswordCheckSDK extends BaseDialog {
     private String rightBtnText;
     private String titleText;
 
-    private String address;
+    private String name;
 
-    public DialogPasswordCheckSDK setAddress(String address) {
-        this.address = address;
+    public DialogPasswordCheckSDK setName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -147,10 +147,10 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         if (!StringUtils.isEmpty(rightBtnText)) {
             rightBtn.setText(rightBtnText);
         }
-        if (!StringUtils.isEmpty(address)) {
-            from.setText("转出：" + address);
+        if (!StringUtils.isEmpty(name)) {
+            from.setText("转出：" + name);
         }
-        if (!StringUtils.isEmpty(address)) {
+        if (!StringUtils.isEmpty(name)) {
 //            to.setText("转入：0x10cDB745720e2A1A60dB812183AbC901975d101c");
             to.setText("转入：旺链");
         }
