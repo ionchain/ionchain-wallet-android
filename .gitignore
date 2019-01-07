@@ -12,3 +12,4 @@ ioncwalletsdk/ioncwalletsdk.iml
 
 ioncwalletsdk.iml
 src/main/res/drawable/
+app/ionchain/release/output.json

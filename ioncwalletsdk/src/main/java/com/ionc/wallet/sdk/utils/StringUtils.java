@@ -4,9 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Created by long on 2016/10/18.
  */
@@ -39,8 +36,9 @@ public final class StringUtils {
      * @return 是否匹配
      */
     public static boolean check(String value) {
-        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$");
-        Matcher m = p.matcher(value);
-        return m.matches();
+//        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$");
+//        Matcher m = p.matcher(value);
+//        return m.matches();
+        return true;
     }
 }

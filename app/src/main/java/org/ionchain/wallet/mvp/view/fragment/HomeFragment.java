@@ -18,7 +18,6 @@ import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.adapter.CommonAdapter;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnBalanceCallback;
-import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.StringUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -53,6 +52,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.ionc.wallet.sdk.IONCWalletSDK.getAllWallet;
+import static com.ionc.wallet.sdk.IONCWalletSDK.getShowWallet;
+import static com.ionc.wallet.sdk.IONCWalletSDK.setShowWallet;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 
 
@@ -131,7 +133,7 @@ public class HomeFragment extends AbsBaseFragment implements
     public void onResume() {
         super.onResume();
         SoftKeyboardUtil.hideSoftKeyboard(getActivity());
-        mMoreWalletsTemp = WalletDaoTools.getAllWallet();
+        mMoreWalletsTemp = getAllWallet();
         if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
             mMoreWallets.clear();
             mMoreWallets.addAll(mMoreWalletsTemp);
@@ -141,7 +143,7 @@ public class HomeFragment extends AbsBaseFragment implements
     }
 
     private void getCurrentWalletInfo() {
-        mCurrentWallet = WalletDaoTools.getShowWallet();//第一个作为首页展示钱包
+        mCurrentWallet = getShowWallet();//第一个作为首页展示钱包
         if (mCurrentWallet == null) {
             return;
         }
@@ -343,7 +345,7 @@ public class HomeFragment extends AbsBaseFragment implements
     @SuppressWarnings("unchecked")
     @Override
     public void initItems(final PopupWindow instance, View contentView) {
-        mMoreWalletsTemp = WalletDaoTools.getAllWallet();
+        mMoreWalletsTemp = getAllWallet();
         if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
             mMoreWallets.clear();
 //            Collections.reverse(mMoreWalletsTemp);
@@ -373,7 +375,7 @@ public class HomeFragment extends AbsBaseFragment implements
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Logger.i(TAG, "onItemClick: ");
                 mCurrentWallet = mMoreWallets.get(position);
-                WalletDaoTools.setShowWallet(mCurrentWallet);
+                setShowWallet(mCurrentWallet);
                 walletNameTx.setText(mCurrentWallet.getName());
                 walletAddressTx.setText(mCurrentWallet.getAddress());
                 if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {

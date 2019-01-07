@@ -20,7 +20,6 @@ import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnImportMnemonicCallback;
 import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
-import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.ionc.wallet.sdk.utils.StringUtils;
 
 import org.ionchain.wallet.R;
@@ -30,6 +29,9 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Arrays;
 
+import static com.ionc.wallet.sdk.IONCWalletSDK.getWalletByAddress;
+import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
+import static com.ionc.wallet.sdk.IONCWalletSDK.updateWallet;
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
@@ -191,7 +193,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     @Override
     public void onImportMnemonicSuccess(WalletBean walletBean) {
-        final WalletBean wallet = WalletDaoTools.getWalletByAddress(walletBean.getAddress());
+        final WalletBean wallet = getWalletByAddress(walletBean.getAddress());
         Log.i(getTAG(), "onCreateSuccess: " + walletBean.toString());
 
         if (null != wallet) {
@@ -218,14 +220,14 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     .show();
         }else {
             walletBean.setMIconIdex(getNum(7));
-            WalletDaoTools.saveWallet(walletBean);
+             saveWallet(walletBean);
             ToastUtil.showToastLonger("导入成功啦!");
             if (isWelcome) {
                 walletBean.setIsShowWallet(true);
             } else {
                 walletBean.setIsShowWallet(false);
             }
-            WalletDaoTools.saveWallet(walletBean);
+             saveWallet(walletBean);
             skip(MainActivity.class);
         }
         hideProgress();
@@ -240,7 +242,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
-        WalletDaoTools.updateWallet(wallet);
+        updateWallet(wallet);
         ToastUtil.showToastLonger("更新成功啦!");
         skip(MainActivity.class);
     }

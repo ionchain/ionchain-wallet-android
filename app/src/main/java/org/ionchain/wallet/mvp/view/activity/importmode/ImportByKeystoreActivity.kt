@@ -12,9 +12,9 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import com.ionc.wallet.sdk.IONCWalletSDK
+import com.ionc.wallet.sdk.IONCWalletSDK.saveWallet
 import com.ionc.wallet.sdk.bean.WalletBean
 import com.ionc.wallet.sdk.callback.OnCreateWalletCallback
-import com.ionc.wallet.sdk.dao.WalletDaoTools
 import com.ionc.wallet.sdk.utils.Logger
 import com.ionc.wallet.sdk.utils.RandomUntil.getNum
 import org.ionchain.wallet.R
@@ -65,7 +65,7 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
         hideProgress()
         walletBean.mIconIdex = getNum(7)
         walletBean.isShowWallet = isWelcome
-        WalletDaoTools.saveWallet(walletBean)
+        saveWallet(walletBean)
         ToastUtil.showToastLonger("导入成功啦!")
         skip(MainActivity::class.java)
     }

@@ -6,7 +6,6 @@ import android.widget.ListView;
 
 import com.ionc.wallet.sdk.adapter.CommonAdapter;
 import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -21,6 +20,7 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ionc.wallet.sdk.IONCWalletSDK.getAllWallet;
 import static org.ionchain.wallet.constant.ConstantParams.JUMP_PARM_ISADDMODE;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 
@@ -45,7 +45,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     @SuppressWarnings("unchecked")
     @Override
     protected void initData() {
-        mWalletBeans = WalletDaoTools.getAllWallet();
+        mWalletBeans = getAllWallet();
         mAdapter = new CommonAdapter(this, mWalletBeans, R.layout.item_wallet_manager_layout, new ManagerWalletHelper(this));
         listview.setAdapter(mAdapter);
     }
@@ -99,7 +99,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     public void onRefresh(RefreshLayout refreshlayout) {
         srl.finishRefresh();
         mWalletBeans.clear();
-        mWalletBeans.addAll( WalletDaoTools.getAllWallet());
+        mWalletBeans.addAll(getAllWallet());
         mAdapter.notifyDataSetChanged();
     }
 

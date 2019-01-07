@@ -19,7 +19,6 @@ import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnCreateWalletCallback;
 import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
-import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.R;
@@ -28,6 +27,9 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.qrcode.android.CaptureActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import static com.ionc.wallet.sdk.IONCWalletSDK.getWalletByAddress;
+import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
+import static com.ionc.wallet.sdk.IONCWalletSDK.updateWallet;
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
@@ -216,7 +218,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     public void onCreateSuccess(final WalletBean walletBean) {
         Logger.i(walletBean.toString());
         hideProgress();
-        final WalletBean wallet = WalletDaoTools.getWalletByAddress(walletBean.getAddress());
+        final WalletBean wallet = getWalletByAddress(walletBean.getAddress());
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
@@ -239,14 +241,14 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     .show();
         } else {
             walletBean.setMIconIdex(getNum(7));
-            WalletDaoTools.saveWallet(walletBean);
+            saveWallet(walletBean);
             ToastUtil.showToastLonger("导入成功啦!");
             if (isWelcome) {
                 walletBean.setIsShowWallet(true);
             } else {
                 walletBean.setIsShowWallet(false);
             }
-            WalletDaoTools.saveWallet(walletBean);
+            saveWallet(walletBean);
             skip(MainActivity.class);
         }
 
@@ -261,7 +263,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
-        WalletDaoTools.updateWallet(wallet);
+        updateWallet(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger("更新成功啦!");
         skip(MainActivity.class);

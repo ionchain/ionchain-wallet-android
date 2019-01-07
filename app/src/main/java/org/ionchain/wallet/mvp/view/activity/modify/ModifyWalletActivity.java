@@ -14,7 +14,6 @@ import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnBalanceCallback;
 import com.ionc.wallet.sdk.callback.OnImportPrivateKeyCallback;
 import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
-import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.StringUtils;
 
@@ -30,7 +29,7 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ionc.wallet.sdk.dao.WalletDaoTools.updateWallet;
+import static com.ionc.wallet.sdk.IONCWalletSDK.updateWallet;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
@@ -82,7 +81,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
         if (!bShowKSRl) {
             import_key_store_layout.setVisibility(View.GONE);
         }
-        if (WalletDaoTools.getAllWallet().size() == 1) {
+        if (IONCWalletSDK.getAllWallet().size() == 1) {
             delBtn.setVisibility(View.GONE);
         }
         import_mnemonic_layout.setOnClickListener(this);

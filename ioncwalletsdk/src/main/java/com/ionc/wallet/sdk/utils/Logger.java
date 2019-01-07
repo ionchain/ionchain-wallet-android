@@ -29,11 +29,11 @@ public class Logger {
 
     private static String LINE_SEPARATOR = System.getProperty("line.separator"); //等价于"\n\r"
 
-    private static boolean isDebug = false;
+    private static boolean isDebug = true;
 
 
     public static void initLogger(boolean debug) {
-        isDebug = debug;
+        isDebug = true;
     }
 
 

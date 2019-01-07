@@ -90,7 +90,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
                     public void onClick(View v) {
                         //调用支付接口
                         String pwd = dialogPasswordCheckSDK.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().transaction(address, "0x10cDB745720e2A1A60dB812183AbC901975d101c", BigDecimal.valueOf(0.0003),
+                        IONCWalletSDK.getInstance().transaction(address, "0x3d5e2c4232ff01388c288fd392cd955cbd177e2d", BigDecimal.valueOf(0.0003),
                                 pwd,
                                 keyStore,
                                 dialogPasswordCheckSDK.getAccountMoney(), IONCAllWalletDialogSDK.this);

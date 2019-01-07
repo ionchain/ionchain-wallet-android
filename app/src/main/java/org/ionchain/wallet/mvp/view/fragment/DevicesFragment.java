@@ -6,7 +6,6 @@ import android.widget.ListView;
 
 import com.ionc.wallet.sdk.adapter.CommonAdapter;
 import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.dao.WalletDaoTools;
 import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.StringUtils;
 import com.lzy.okgo.OkGo;
@@ -25,6 +24,7 @@ import org.ionchain.wallet.utils.NetUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ionc.wallet.sdk.IONCWalletSDK.getAllWallet;
 import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_GET;
 
 /**
@@ -83,7 +83,7 @@ public class DevicesFragment extends AbsBaseFragment implements SwipeRefreshLayo
     }
 
     private void getDeviceList() {
-        List<WalletBean> list = WalletDaoTools.getAllWallet();
+        List<WalletBean> list = getAllWallet();
         if (list == null || list.size() == 0) {
             return;
         }
