@@ -52,13 +52,13 @@ android {
         }
         xiaomi {
             dimension "ionchain"
-            applicationIdSuffix ".demo"
-            versionNameSuffix "-demo"
+//            applicationIdSuffix ".demo"
+//            versionNameSuffix "-demo"
         }
         huawei {
             dimension "ionchain"
-            applicationIdSuffix ".full"
-            versionNameSuffix "-full"
+//            applicationIdSuffix ".full"
+//            versionNameSuffix "-full"
         }
     }
     android.applicationVariants.all { variant ->

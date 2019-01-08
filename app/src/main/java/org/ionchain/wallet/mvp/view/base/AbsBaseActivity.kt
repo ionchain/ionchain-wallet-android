@@ -173,6 +173,5 @@ abstract class AbsBaseActivity : AppCompatActivity() {
     companion object {
 
         private const val REQUEST_CODE_QRCODE_PERMISSIONS = 1
-        private val REQUEST_CODE_IMPORT_PERMISSIONS = 2
     }
 }

@@ -68,7 +68,7 @@ import static org.web3j.crypto.Hash.sha256;
 public class IONCWalletSDK {
     private volatile static IONCWalletSDK mInstance;
     private static Web3j web3j;
-    private Context mContext;
+    public static Context AppContext;
     private static String keystoreDir;
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
 
@@ -127,19 +127,19 @@ public class IONCWalletSDK {
     }
 
     public Context getContext() {
-        return mContext;
+        return AppContext;
     }
 
     /**
      * 初始化钱包
      */
     public void initIONCWalletSDK(Context context) {
-        mContext = context.getApplicationContext();
+        AppContext = context.getApplicationContext();
         web3j = Web3jFactory.build(new HttpService(IONC_CHAIN_NODE));
-        mContext = context;
-        mHandler = new Handler(mContext.getMainLooper());
+        AppContext = context;
+        mHandler = new Handler(AppContext.getMainLooper());
         try {
-            mMnemonicCode = new MnemonicCode(mContext.getAssets().open("en-mnemonic-word-list.txt"), null);
+            mMnemonicCode = new MnemonicCode(AppContext.getAssets().open("en-mnemonic-word-list.txt"), null);
             keystoreDir = context.getExternalCacheDir() + "/ionchain/keystore";
             Logger.i(TAG, "initIONCWalletSDK: 文件创建成功 keystoreDir = " + keystoreDir);
             //创建keystore路径

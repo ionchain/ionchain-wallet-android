@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.ionc.wallet.sdk.activity.newwallet.NewWalletByMnemonicActivity;
+
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
@@ -50,8 +52,8 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     public void onClick(View v) {
         if (v == byMnemonic) {
-            Intent intent = new Intent(getMActivity(), ImportByMnemonicActivity.class);
-            intent.putExtra(FROM_WELCOME, isWelcome);
+            Intent intent = new Intent(getMActivity(), NewWalletByMnemonicActivity.class);
+//            intent.putExtra(FROM_WELCOME, isWelcome);
             startActivity(intent);
         } else if (v == byPrivateKey) {
             Intent intent = new Intent(getMActivity(), ImportByPriKeyActivity.class);

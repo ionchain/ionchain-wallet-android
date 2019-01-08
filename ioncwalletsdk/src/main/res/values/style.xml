@@ -13,4 +13,12 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="common_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/blue_top</item>
+    </style>
 </resources>

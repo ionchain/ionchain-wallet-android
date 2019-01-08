@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'org.greenrobot.greendao'
 
-apply from:'../version.gradle'
+apply from: '../version.gradle'
 android {
     compileSdkVersion extCompileSdkVersion
     buildToolsVersion extBuildToolsVersion
@@ -22,7 +22,7 @@ android {
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
 
         }
     }
@@ -42,6 +42,7 @@ dependencies {
     implementation 'org.greenrobot:greendao-generator:3.2.2'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
 
 
@@ -63,18 +64,18 @@ greendao {
 task clearJar(type: Delete) {
     delete 'jar'
 }
-task 生成jar(type:Copy) {
-    group='自定义任务'
+task 生成jar(type: Copy) {
+    group = '自定义任务'
     from('build/intermediates/intermediate-jars/debug/')
     into('../app/libs/')
     include('classes.jar')
-    rename('classes.jar','ionchain_wallet_sdk.jar')
+    rename('classes.jar', 'ionchain_wallet_sdk.jar')
 }
 
-生成jar.doFirst{
+生成jar.doFirst {
     println '完毕'
 }
-生成jar.doLast{
+生成jar.doLast {
     println '执行完毕'
 }
 生成jar.dependsOn(clearJar)

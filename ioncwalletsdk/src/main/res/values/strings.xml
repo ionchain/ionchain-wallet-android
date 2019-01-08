@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ioncwalletsdk</string>
+    <string name="wallet_create_respwd">重复密码</string>
 </resources>

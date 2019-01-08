@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import com.ionc.wallet.sdk.activity.newwallet.NewWalletByCreateActivity;
+
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -52,7 +54,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                     ToastUtil.showLong("请先阅读并同意服务及协议");
                     return;
                 }
-                Intent intent = new Intent(getMActivity(),CreateWalletActivity.class);
+                Intent intent = new Intent(getMActivity(),NewWalletByCreateActivity.class);
                 intent.putExtra(FROM_WELCOME,isWelcome);
                 startActivity(intent);
             }
