@@ -4,7 +4,9 @@
 
     <application>
         <activity android:name=".activity.newwallet.NewWalletByCreateActivity" />
-        <activity android:name=".activity.newwallet.NewWalletByMnemonicActivity"></activity>
+        <activity android:name=".activity.newwallet.NewWalletByMnemonicActivity" />
+        <activity android:name=".activity.newwallet.NewWalletByPriKeyActivity" />
+        <activity android:name=".activity.newwallet.ByKeystoreActivity"></activity>
     </application>
 
 </manifest>

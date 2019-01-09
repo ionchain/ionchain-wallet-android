@@ -73,8 +73,6 @@ public class IONCWalletSDK {
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
 
     private BigDecimal mDefaultPrice;
-    private BigDecimal minFee;
-    private BigDecimal maxFee;
 
     private Handler mHandler;
     private final String TAG = this.getClass().getSimpleName();
@@ -95,20 +93,6 @@ public class IONCWalletSDK {
      */
     public BigDecimal getDefaultPrice() {
         return mDefaultPrice;
-    }
-
-    /**
-     * @return 最小矿工费
-     */
-    public BigDecimal getMinFee() {
-        return minFee;
-    }
-
-    /**
-     * @return 最大旷矿工给
-     */
-    public BigDecimal getMaxFee() {
-        return maxFee;
     }
 
     private IONCWalletSDK() {

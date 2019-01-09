@@ -18,9 +18,10 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:text="请输入助记词"
+            android:gravity="center"
+            android:text="导入私钥"
             android:textColor="@color/blue_top"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
@@ -32,7 +33,7 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/mnemonic"
+            android:id="@+id/contentEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_size_16dp"
@@ -40,23 +41,24 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@drawable/comm_imput_bg"
             android:gravity="left"
-            android:hint="助记词,用空格分割"
+            android:hint="明文私钥"
             android:minLines="5"
-            android:padding="@dimen/padding_size_16dp"
-            android:text="" />
+            android:padding="@dimen/h5"
+            android:text=""
+            android:textSize="14sp" />
 
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/pwdEt"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/h50"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:gravity="left|center_vertical"
-            android:textSize="14sp"
             android:hint="数字、大小写字母与特殊符号混合，且不少于8位"
-            android:padding="@dimen/h5" />
+            android:padding="@dimen/h5"
+            android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/repwdEt"
@@ -66,9 +68,9 @@
             android:layout_marginTop="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:gravity="left|center_vertical"
-            android:textSize="14sp"
             android:hint="@string/wallet_create_respwd"
-            android:padding="@dimen/h5" />
+            android:padding="@dimen/h5"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -84,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
-                android:checked="false"
+                android:checked="true"
                 android:drawableLeft="@drawable/check_blue"
                 android:drawablePadding="@dimen/h5"
                 android:text="我已经仔细阅读并 "
@@ -114,6 +116,8 @@
             android:enabled="false"
             android:text="开始导入"
             android:textColor="@color/white" />
+
+
     </LinearLayout>
 
 </RelativeLayout>

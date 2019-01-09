@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.ionc.wallet.sdk.activity.newwallet.NewWalletByMnemonicActivity;
+import com.ionc.wallet.sdk.activity.newwallet.NewWalletByPriKeyActivity;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -56,7 +57,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
 //            intent.putExtra(FROM_WELCOME, isWelcome);
             startActivity(intent);
         } else if (v == byPrivateKey) {
-            Intent intent = new Intent(getMActivity(), ImportByPriKeyActivity.class);
+            Intent intent = new Intent(getMActivity(), NewWalletByPriKeyActivity.class);
             intent.putExtra(FROM_WELCOME, isWelcome);
             startActivity(intent);
         } else if (v == byKeystore) {
