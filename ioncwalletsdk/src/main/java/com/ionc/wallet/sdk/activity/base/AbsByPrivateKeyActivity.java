@@ -1,4 +1,4 @@
-package com.ionc.wallet.sdk.activity.newwallet;
+package com.ionc.wallet.sdk.activity.base;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,15 +9,12 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.R;
-import com.ionc.wallet.sdk.activity.BaseActivity;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnCreateWalletCallback;
 import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
@@ -30,14 +27,15 @@ import static com.ionc.wallet.sdk.IONCWalletSDK.updateWallet;
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 
-public class NewWalletByPriKeyActivity extends BaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdatePasswordCallback {
+/**
+ * 之所以设计成抽象的，是因为有个回调要用户自己实现
+ */
+public abstract class AbsByPrivateKeyActivity extends BaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdatePasswordCallback {
 
     private AppCompatEditText mPrivateKey;
     private AppCompatEditText pwdEt;
     private AppCompatEditText repwdEt;
     private Button importBtn;
-    private boolean isWelcome;
-    private CheckBox checkbox;
     private String private_key;
     private String newPassword;
 
@@ -54,28 +52,7 @@ public class NewWalletByPriKeyActivity extends BaseActivity implements TextWatch
         mPrivateKey = (AppCompatEditText) findViewById(R.id.contentEt);
         pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
         repwdEt = (AppCompatEditText) findViewById(R.id.repwdEt);
-        TextView linkUrlTv = (TextView) findViewById(R.id.linkUrlTv);
         importBtn = (Button) findViewById(R.id.importBtn);
-        checkbox = (CheckBox) findViewById(R.id.checkbox);
-
-        checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPrivateKey.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
-                    String content = mPrivateKey.getText().toString().trim();
-                    String pwdstr = pwdEt.getText().toString().trim();
-                    String resetpwdstr = repwdEt.getText().toString().trim();
-
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
-                        importBtn.setEnabled(true);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
-                    } else {
-                        importBtn.setEnabled(false);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-                    }
-                }
-            }
-        });
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +94,7 @@ public class NewWalletByPriKeyActivity extends BaseActivity implements TextWatch
                 newPassword = pass;
                 showProgress("正在导入钱包请稍候");
                 IONCWalletSDK.getInstance()
-                        .importPrivateKey(private_key, pass, NewWalletByPriKeyActivity.this);
+                        .importPrivateKey(private_key, pass, AbsByPrivateKeyActivity.this);
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +104,6 @@ public class NewWalletByPriKeyActivity extends BaseActivity implements TextWatch
             }
         });
     }
-
 
 
     @Override
@@ -149,7 +125,7 @@ public class NewWalletByPriKeyActivity extends BaseActivity implements TextWatch
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_new_wallet_by_pri_key;
+        return R.layout.activity_by_pri_key;
     }
 
 
@@ -196,7 +172,7 @@ public class NewWalletByPriKeyActivity extends BaseActivity implements TextWatch
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, NewWalletByPriKeyActivity.this);
+                            IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, AbsByPrivateKeyActivity.this);
                         }
                     })
                     .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -210,22 +186,19 @@ public class NewWalletByPriKeyActivity extends BaseActivity implements TextWatch
             walletBean.setMIconIdex(getNum(7));
             saveWallet(walletBean);
             ToastUtil.showToastLonger("导入成功啦!");
-            if (isWelcome) {
-                walletBean.setIsShowWallet(true);
-            } else {
-                walletBean.setIsShowWallet(false);
-            }
+            walletBean.setIsShowWallet(true);
             saveWallet(walletBean);
-//            skip(MainActivity.class);
+            onSDKCreateSuccess(walletBean);
         }
-
     }
 
     @Override
     public void onCreateFailure(String result) {
         hideProgress();
         ToastUtil.showToastLonger("导入成失败");
-        Logger.e( "onCreateFailure: " + result);
+        Logger.e("onCreateFailure: " + result);
+        onSDKCreateFailure(result);
+
     }
 
     @Override
@@ -233,16 +206,15 @@ public class NewWalletByPriKeyActivity extends BaseActivity implements TextWatch
         updateWallet(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger("更新成功啦!");
-//        skip(MainActivity.class);
+        onSDKCreateSuccess(wallet);
     }
 
     @Override
     public void onUpdatePasswordFailure(String error) {
         ToastUtil.showToastLonger(error);
         Logger.e("导入失败 " + error);
+        onSDKCreateFailure(error);
     }
 
-    public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
 }

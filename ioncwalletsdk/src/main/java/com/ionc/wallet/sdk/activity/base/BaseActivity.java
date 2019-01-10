@@ -1,4 +1,4 @@
-package com.ionc.wallet.sdk.activity;
+package com.ionc.wallet.sdk.activity.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -6,14 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.ionc.wallet.sdk.activity.OnCreateCallback;
+
 /**
  * user: binny
  * date:2019/1/8
  * description：
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements OnCreateCallback {
     protected Activity mActivity = this;
     private ProgressDialog dialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,4 +83,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this,clz);
         startActivity(intent);
     }
+
 }

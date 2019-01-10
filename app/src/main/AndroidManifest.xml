@@ -106,6 +106,13 @@
         <activity android:name=".qrcode.android.CaptureActivity" />
         <activity android:name=".mvp.view.activity.transaction.TxRecoderActivity" />
         <activity android:name=".mvp.view.activity.WebActivity"></activity>
+
+
+        <activity android:name=".mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity"/>
+        <activity android:name=".mvp.view.activity.sdk.SDKCreateActivity"/>
+        <activity android:name=".mvp.view.activity.sdk.SDKKeyStoreActivity"/>
+        <activity android:name=".mvp.view.activity.sdk.SDKMnemonicActivity"/>
+        <activity android:name=".mvp.view.activity.sdk.SDKPrivateKeyActivity"/>
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity.createwallet;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -14,10 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import com.ionc.wallet.sdk.activity.newwallet.NewWalletByCreateActivity;
-
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
+import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
@@ -27,7 +25,7 @@ import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 /**
  * 创建钱包。导入钱包，第一次安装时，由启动页跳转过来
  */
-public class CreateWalletSelectActivity extends AbsBaseActivity {
+public class CreateWalletSelectActivity extends AbsBaseActivity   {
 
 
 
@@ -54,7 +52,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                     ToastUtil.showLong("请先阅读并同意服务及协议");
                     return;
                 }
-                Intent intent = new Intent(getMActivity(),NewWalletByCreateActivity.class);
+                Intent intent = new Intent(getMActivity(),SDKCreateActivity.class);
                 intent.putExtra(FROM_WELCOME,isWelcome);
                 startActivity(intent);
             }
@@ -74,17 +72,6 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        getMImmersionBar()
-                .statusBarDarkFont(false)
-                .transparentStatusBar()
-                .navigationBarColor(R.color.black,0.5f)
-                .fitsSystemWindows(false)
-                .execute();
-    }
 
     @Override
     protected void initData() {
@@ -111,13 +98,18 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
         checkBox.setText(builder);
         checkBox.setMovementMethod(LinkMovementMethod.getInstance());//加上这句话才有效果
         checkBox.setHighlightColor(ContextCompat.getColor(this,R.color.transparent));//去掉点击后的背景颜色为透明
+
     }
-
-
 
     @Override
     protected void initView() {
         findViews();
+        getMImmersionBar()
+                .statusBarDarkFont(false)
+                .transparentStatusBar()
+                .navigationBarColor(R.color.black,0.5f)
+                .fitsSystemWindows(false)
+                .execute();
     }
 
     @Override
@@ -130,5 +122,6 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
         super.handleIntent(intent);
         isWelcome = intent.getBooleanExtra(FROM_WELCOME,false);
     }
+
 
 }

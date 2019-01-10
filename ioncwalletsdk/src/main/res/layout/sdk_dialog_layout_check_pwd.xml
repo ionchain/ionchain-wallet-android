@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="253dp"
     android:background="@drawable/dialog_import_private_key"
@@ -26,29 +27,49 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/from_account"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:text="转出" />
+            android:layout_height="1px"
+            android:background="#E4E4E4" />
+       <TextView
+           android:id="@+id/from_account"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"
+           android:gravity="center_vertical"
+           android:singleLine="true"
+           android:ellipsize="middle"
+           android:layout_height="35dp">
+       </TextView>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#E4E4E4" />
-
-        <TextView
-            android:id="@+id/to_account"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:text="转入" />
+            android:layout_height="35dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:gravity="center"
+                android:text="转入：" />
+            <EditText
+                android:id="@+id/to_account"
+                android:layout_width="match_parent"
+                android:background="@null"
+                android:layout_height="35dp"
+                android:singleLine="true"
+                android:hint="请输入转入地址"
+                android:ellipsize="middle"
+                android:gravity="center|left"
+                tools:ignore="RtlHardcoded" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -63,7 +84,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/dialog_import_private_key_et"
             android:focusedByDefault="true"
-            android:gravity="center"
+            android:gravity="center|left"
             android:hint="请输入金额，默认值100"
             android:singleLine="true" />
         <EditText
@@ -74,7 +95,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/dialog_import_private_key_et"
             android:focusedByDefault="true"
-            android:gravity="center"
+            android:gravity="center|left"
             android:hint="请输入转出钱包的密码"
             android:singleLine="true" />
 

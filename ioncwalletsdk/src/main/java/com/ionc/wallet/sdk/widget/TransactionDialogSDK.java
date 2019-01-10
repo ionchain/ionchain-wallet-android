@@ -10,18 +10,18 @@ import android.widget.TextView;
 
 import com.ionc.wallet.sdk.R;
 import com.ionc.wallet.sdk.utils.StringUtils;
+import com.ionc.wallet.sdk.utils.ToastUtil;
 
 
 /*
  * 支付对话框
  * 、*/
-public class DialogPasswordCheckSDK extends BaseDialog {
+public class TransactionDialogSDK extends BaseDialog {
 
-    private View.OnClickListener leftBtnClickedListener;
-    private View.OnClickListener rightBtnClickedListener;
+    private OnTransactionBtnClickedListener txBtnClickedListener;
 
 
-    public DialogPasswordCheckSDK(@NonNull Context context) {
+    public TransactionDialogSDK(@NonNull Context context) {
         super(context);
     }
 
@@ -29,13 +29,8 @@ public class DialogPasswordCheckSDK extends BaseDialog {
     protected void initView() {
         findViews();
         setCanceledOnTouchOutside(false);
-        initListener();
     }
 
-    private void initListener() {
-        leftBtn.setOnClickListener(leftBtnClickedListener);
-        rightBtn.setOnClickListener(rightBtnClickedListener);
-    }
 
     @Override
     protected int getLayout() {
@@ -45,7 +40,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
     private TextView title;
     private EditText account_money_tx;
     private TextView from;
-    private TextView to;
+    private EditText to;
     private EditText passwordEt;
     private Button leftBtn;
     private Button rightBtn;
@@ -56,7 +51,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
 
     private String name;
 
-    public DialogPasswordCheckSDK setName(String name) {
+    public TransactionDialogSDK setName(String name) {
         this.name = name;
         return this;
     }
@@ -65,7 +60,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         return leftBtnText;
     }
 
-    public DialogPasswordCheckSDK setLeftBtnText(String leftBtnText) {
+    public TransactionDialogSDK setLeftBtnText(String leftBtnText) {
         this.leftBtnText = leftBtnText;
         return this;
     }
@@ -74,7 +69,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         return rightBtnText;
     }
 
-    public DialogPasswordCheckSDK setRightBtnText(String rightBtnText) {
+    public TransactionDialogSDK setRightBtnText(String rightBtnText) {
         this.rightBtnText = rightBtnText;
         return this;
     }
@@ -83,7 +78,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         return titleText;
     }
 
-    public DialogPasswordCheckSDK setTitleText(String titleText) {
+    public TransactionDialogSDK setTitleText(String titleText) {
         this.titleText = titleText;
         return this;
     }
@@ -92,7 +87,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         return title;
     }
 
-    public DialogPasswordCheckSDK setTitle(TextView title) {
+    public TransactionDialogSDK setTitle(TextView title) {
         this.title = title;
         return this;
     }
@@ -101,7 +96,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         return passwordEt;
     }
 
-    public DialogPasswordCheckSDK setPasswordEt(EditText passwordEt) {
+    public TransactionDialogSDK setPasswordEt(EditText passwordEt) {
         this.passwordEt = passwordEt;
         return this;
     }
@@ -110,7 +105,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         return leftBtn;
     }
 
-    public DialogPasswordCheckSDK setLeftBtn(Button leftBtn) {
+    public TransactionDialogSDK setLeftBtn(Button leftBtn) {
         this.leftBtn = leftBtn;
         return this;
     }
@@ -119,7 +114,7 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         return rightBtn;
     }
 
-    public DialogPasswordCheckSDK setRightBtn(Button rightBtn) {
+    public TransactionDialogSDK setRightBtn(Button rightBtn) {
         this.rightBtn = rightBtn;
         return this;
     }
@@ -134,10 +129,30 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         title = (TextView) findViewById(R.id.title);
         account_money_tx = (EditText) findViewById(R.id.account_money_tx);
         from = (TextView) findViewById(R.id.from_account);
-        to = (TextView) findViewById(R.id.to_account);
+        to = (EditText) findViewById(R.id.to_account);
         passwordEt = (EditText) findViewById(R.id.password_et);
         leftBtn = (Button) findViewById(R.id.left_btn);
         rightBtn = (Button) findViewById(R.id.right_btn);
+
+        leftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                txBtnClickedListener.onCancel();
+            }
+        });
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //判断转出地址是否为空
+                if (to.getText() != null && !StringUtils.isEmpty(to.getText().toString())) {
+                    dismiss();
+                    txBtnClickedListener.onSure(to.getText().toString());
+                } else {
+                    ToastUtil.showLong("请输入转出地址！");
+                }
+            }
+        });
         if (!StringUtils.isEmpty(titleText)) {
             title.setText(titleText);
         }
@@ -150,10 +165,6 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         if (!StringUtils.isEmpty(name)) {
             from.setText("转出：" + name);
         }
-        if (!StringUtils.isEmpty(name)) {
-//            to.setText("转入：0x10cDB745720e2A1A60dB812183AbC901975d101c");
-            to.setText("转入：旺链");
-        }
 
     }
 
@@ -165,25 +176,15 @@ public class DialogPasswordCheckSDK extends BaseDialog {
         return Double.valueOf(value);
     }
 
-    /**
-     * 设置左侧按钮点击事件
-     */
-    public DialogPasswordCheckSDK setLeftBtnClickedListener(View.OnClickListener leftBtnClickedListener) {
-        this.leftBtnClickedListener = leftBtnClickedListener;
+
+    public TransactionDialogSDK setBtnClickedListener(OnTransactionBtnClickedListener onTransactionBtnClickedListener) {
+        this.txBtnClickedListener = onTransactionBtnClickedListener;
         return this;
     }
 
-    /**
-     * 设置右侧按钮点击事件
-     */
-    public DialogPasswordCheckSDK setRightBtnClickedListener(View.OnClickListener rightBtnClickedListener) {
-        this.rightBtnClickedListener = rightBtnClickedListener;
-        return this;
-    }
+    public interface OnTransactionBtnClickedListener {
+        void onSure(String toAddress);
 
-    public DialogPasswordCheckSDK setBtnClickedListener(View.OnClickListener leftBtnClickedListener, View.OnClickListener rightBtnClickedListener) {
-        this.leftBtnClickedListener = leftBtnClickedListener;
-        this.rightBtnClickedListener = rightBtnClickedListener;
-        return this;
+        void onCancel();
     }
 }

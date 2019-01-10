@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.facebook.stetho.Stetho;
+import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -43,6 +44,8 @@ public class App extends Application {
         OkGo.getInstance().init(this);
         initOKGO();
         initLogger(LOG_DEBUG);
+        IONCWalletSDK.getInstance().initIONCWalletSDK(this);
+
     }
 
     private void initOKGO() {

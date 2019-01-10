@@ -1,5 +1,6 @@
 package com.ionc.wallet.sdk.widget;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -27,7 +28,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
     private ListView all_wallet_lv;
 
     private CommonAdapter mAdapter;
-
+    private ProgressDialog dialog;
     private OnTxResultCallback mOnTxResultCallback;
     private List<WalletBean> mWalletBeanList;
 
@@ -36,7 +37,28 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
     private Button btn_sure;
     private String sum = "0.0000";
     private WalletBean walletBean;
+    /**
+     * 显示进度提示窗
+     *
+     * @param msg 显示信息
+     */
+    protected void showProgress(String msg) {
+        dialog = new ProgressDialog(mContext);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
+        dialog.setCancelable(false);// 设置是否可以通过点击Back键取消
+        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        dialog.setMessage(msg);
+        dialog.show();
 
+    }
+    /**
+     * 隐藏进度弹窗
+     */
+    protected void hideProgress() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
     public IONCAllWalletDialogSDK(@NonNull Context context, List<WalletBean> walletBeans, OnTxResultCallback callback) {
         super(context);
         mContext = context;
@@ -57,7 +79,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
 //        }
     }
 
-    DialogPasswordCheckSDK dialogPasswordCheckSDK;
+    TransactionDialogSDK dialogPasswordCheckSDK;
 
     @Override
     protected void initView() {
@@ -80,23 +102,22 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
                     return;
                 }
                 //支付
-                dialogPasswordCheckSDK = new DialogPasswordCheckSDK(mContext);
-                dialogPasswordCheckSDK.setName(walletBean.getName()).setBtnClickedListener(new View.OnClickListener() {
+                dialogPasswordCheckSDK = new TransactionDialogSDK(mContext);
+                dialogPasswordCheckSDK.setName(walletBean.getName()).setBtnClickedListener(new TransactionDialogSDK.OnTransactionBtnClickedListener() {
                     @Override
-                    public void onClick(View v) {
-                        //取消
-                        dialogPasswordCheckSDK.dismiss();
-
-                    }
-                }, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    public void onSure(String toAddress) {
                         //调用支付接口
                         String pwd = dialogPasswordCheckSDK.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().transaction(walletBean.getAddress(), "0x3d5e2c4232ff01388c288fd392cd955cbd177e2d", BigDecimal.valueOf(0.0003),
+                        IONCWalletSDK.getInstance().transaction(walletBean.getAddress(), toAddress, BigDecimal.valueOf(0.0003),
                                 pwd,
                                 walletBean.getKeystore(),
                                 dialogPasswordCheckSDK.getAccountMoney(), IONCAllWalletDialogSDK.this);
+                        showProgress("请稍后……");
+                    }
+
+                    @Override
+                    public void onCancel() {
+//                        dialogPasswordCheckSDK.dismiss();
                     }
                 });
                 dialogPasswordCheckSDK.show();
@@ -125,11 +146,14 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
     public void OnTxSuccess(String hashTx) {
         dialogPasswordCheckSDK.dismiss();
         this.dismiss();
+        hideProgress();
         mOnTxResultCallback.OnTxSuccess(hashTx);
     }
 
     @Override
     public void onTxFailure(String error) {
+        hideProgress();
+
         mOnTxResultCallback.onTxFailure(error);
     }
 

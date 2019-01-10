@@ -35,9 +35,9 @@ import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
-import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
@@ -366,7 +366,7 @@ public class HomeFragment extends AbsBaseFragment implements
         new_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(CreateWalletActivity.class);
+                skip(SDKCreateActivity.class);
                 instance.dismiss();
             }
         });

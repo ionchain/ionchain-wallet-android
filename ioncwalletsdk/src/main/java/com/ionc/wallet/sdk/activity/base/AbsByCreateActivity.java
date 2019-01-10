@@ -1,4 +1,4 @@
-package com.ionc.wallet.sdk.activity.newwallet;
+package com.ionc.wallet.sdk.activity.base;
 
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -6,15 +6,12 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.R;
-import com.ionc.wallet.sdk.activity.BaseActivity;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnImportMnemonicCallback;
 import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
@@ -26,17 +23,14 @@ import static com.ionc.wallet.sdk.IONCWalletSDK.getWalletByName;
 import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 
-public class NewWalletByCreateActivity extends BaseActivity implements View.OnClickListener, TextWatcher, OnSimulateTimeConsume, OnImportMnemonicCallback {
+public abstract class AbsByCreateActivity extends BaseActivity implements View.OnClickListener, TextWatcher, OnSimulateTimeConsume, OnImportMnemonicCallback {
 
     private RelativeLayout header;
     private ImageView back;
     private AppCompatEditText walletNameEt;
     private AppCompatEditText pwdEt;
     private AppCompatEditText resetPwdEt;
-    private CheckBox checkbox;
-    private TextView linkUrlTv;
     private Button createBtn;
-    private TextView importBtn;
 
 
     private String walletnamestr;
@@ -66,38 +60,17 @@ public class NewWalletByCreateActivity extends BaseActivity implements View.OnCl
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        header = (RelativeLayout)findViewById( R.id.header );
-        back = (ImageView)findViewById( R.id.back );
-        walletNameEt = (AppCompatEditText)findViewById( R.id.walletNameEt );
-        pwdEt = (AppCompatEditText)findViewById( R.id.pwdEt );
-        resetPwdEt = (AppCompatEditText)findViewById( R.id.resetPwdEt );
-        checkbox = (CheckBox)findViewById( R.id.checkbox );
-        linkUrlTv = (TextView)findViewById( R.id.linkUrlTv );
-        createBtn = (Button)findViewById( R.id.createBtn );
-        importBtn = (TextView)findViewById( R.id.importBtn );
+        header = (RelativeLayout) findViewById(R.id.header);
+        back = (ImageView) findViewById(R.id.back);
+        walletNameEt = (AppCompatEditText) findViewById(R.id.walletNameEt);
+        pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
+        resetPwdEt = (AppCompatEditText) findViewById(R.id.resetPwdEt);
+        createBtn = (Button) findViewById(R.id.createBtn);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-        checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (walletNameEt.getText() != null && pwdEt.getText() != null && resetPwdEt.getText() != null) {
-                    String content = walletNameEt.getText().toString().trim();
-                    String pwdstr = pwdEt.getText().toString().trim();
-                    String pass2 = resetPwdEt.getText().toString().trim();
-
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(pass2) && checkbox.isChecked()) {
-                        createBtn.setEnabled(true);
-                        createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
-                    } else {
-                        createBtn.setEnabled(false);
-                        createBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-                    }
-                }
             }
         });
         createBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +80,7 @@ public class NewWalletByCreateActivity extends BaseActivity implements View.OnCl
                 /*
                  * 从数据库比对，重复检查
                  * */
-                if (null !=  getWalletByName(walletnamestr)) {
+                if (null != getWalletByName(walletnamestr)) {
                     Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -123,26 +96,14 @@ public class NewWalletByCreateActivity extends BaseActivity implements View.OnCl
                 }
 
                 showProgress("正在创建钱包……");
-                IONCWalletSDK.getInstance().simulateTimeConsuming(NewWalletByCreateActivity.this);
+                IONCWalletSDK.getInstance().simulateTimeConsuming(AbsByCreateActivity.this);
 
-            }
-        });
-        importBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                skip(SelectImportModeActivity.class);
-            }
-        });
-        linkUrlTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                skipWeb(SERVER_PROTOCOL_VALUE);
             }
         });
         walletNameEt.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
         resetPwdEt.addTextChangedListener(this);
-        createBtn.setOnClickListener( this );
+        createBtn.setOnClickListener(this);
     }
 
     /**
@@ -153,11 +114,11 @@ public class NewWalletByCreateActivity extends BaseActivity implements View.OnCl
      */
     @Override
     public void onClick(View v) {
-        if ( v == createBtn ) {
+        if (v == createBtn) {
             /*
              * 从数据库比对，重复检查
              * */
-            if (null !=  getWalletByName(walletnamestr)) {
+            if (null != getWalletByName(walletnamestr)) {
                 Toast.makeText(getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -173,7 +134,7 @@ public class NewWalletByCreateActivity extends BaseActivity implements View.OnCl
             }
 
             showProgress("正在创建钱包……");
-            IONCWalletSDK.getInstance().simulateTimeConsuming(NewWalletByCreateActivity.this);
+            IONCWalletSDK.getInstance().simulateTimeConsuming(AbsByCreateActivity.this);
 
         }
     }
@@ -217,8 +178,7 @@ public class NewWalletByCreateActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onSimulateFinish() {
-        IONCWalletSDK.getInstance().createBip39Wallet(walletnamestr, pass, NewWalletByCreateActivity.this);
-
+        IONCWalletSDK.getInstance().createBip39Wallet(walletnamestr, pass, AbsByCreateActivity.this);
     }
 
     @Override
@@ -228,7 +188,7 @@ public class NewWalletByCreateActivity extends BaseActivity implements View.OnCl
         walletBean.setIsShowWallet(false);
         saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
-//        skip(MainActivity.class);
+        onSDKCreateSuccess(walletBean);
     }
 
     @Override
@@ -236,5 +196,6 @@ public class NewWalletByCreateActivity extends BaseActivity implements View.OnCl
         hideProgress();
         ToastUtil.showToastLonger(error);
         SoftKeyboardUtil.hideSoftKeyboard(this);
+        onSDKCreateFailure(error);
     }
 }

@@ -22,7 +22,7 @@
             style="@style/common_title"
             android:layout_centerInParent="true"
             android:textSize="16dp"
-            android:text="时代大厦多所所多所" />
+            android:text="创建钱包" />
     </RelativeLayout>
 
     <LinearLayout
@@ -43,14 +43,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="act_wallet_create_notify1"
+                android:text="密码用于保护私钥，强度非常重要"
                 android:textColor="@color/main_blue"
                 android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="act_wallet_create_notify2"
+                android:text="不储存密码，密码丢失将无法找回，请务必牢记"
                 android:textColor="@color/main_blue"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -84,43 +84,9 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:hint="wallet_create_respwd"
+            android:hint="请再次输入密码"
             android:textColor="@color/library_33"
             android:textSize="14sp" />
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:checked="true"
-                android:drawableLeft="@drawable/check_blue"
-                android:drawablePadding="16dp"
-                android:text="我已经仔细阅读并 "
-                android:textColor="@color/library_33"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/linkUrlTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:autoLink="web"
-                android:text="服务及隐私条款"
-                android:textColor="@color/qmui_config_color_blue"
-                android:textSize="16dp" />
-        </LinearLayout>
-
 
         <Button
             android:id="@+id/createBtn"
@@ -134,15 +100,6 @@
             android:enabled="false"
             android:text="创建钱包" />
 
-        <TextView
-            android:id="@+id/importBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="16dp"
-            android:text="导入钱包"
-            android:textColor="@color/main_blue"
-            />
     </LinearLayout>
 
 </RelativeLayout>

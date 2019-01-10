@@ -12,7 +12,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ionc.wallet.sdk.IONCWalletSDK;
-import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -21,8 +20,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-
-import java.util.List;
 
 /**
  * user: binny
@@ -142,8 +139,7 @@ public class ShopFragment extends AbsBaseFragment implements IONCAllWalletDialog
     public class TestSDK {
         @JavascriptInterface
         public void getAllWallet() {
-            List<WalletBean> beans = IONCWalletSDK.getAllWallet();
-            new IONCAllWalletDialogSDK(mActivity, beans, ShopFragment.this).show();
+            IONCWalletSDK.transactionDialog(mActivity,ShopFragment.this);
         }
 
     }

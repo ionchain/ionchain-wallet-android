@@ -1,6 +1,7 @@
 package com.ionc.wallet.sdk;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -25,6 +26,8 @@ import com.ionc.wallet.sdk.utils.MnemonicUtils;
 import com.ionc.wallet.sdk.utils.RandomUntil;
 import com.ionc.wallet.sdk.utils.SecureRandomUtils;
 import com.ionc.wallet.sdk.utils.StringUtils;
+import com.ionc.wallet.sdk.utils.ToastUtil;
+import com.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
 
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
@@ -466,7 +469,8 @@ public class IONCWalletSDK {
                 }
             });
         }
-    }    /*
+    }
+    /*
      * * 更新密码和key_store，该方法在导入私钥的时候，遇到钱包已存在的情况下调用
      * <p>
      * 从私钥可以得到公钥，然后进一步得到账户地址，而反之则无效。
@@ -838,7 +842,7 @@ public class IONCWalletSDK {
     public static void updateWallet(WalletBean wallet) {
 
         try {
-//            wallet.setPrivateKey("");
+            wallet.setPrivateKey("");
             EntityManager.getInstance().getWalletDao().update(wallet);
         } catch (Throwable e) {
             Logger.e("e", "getAllWallet");
@@ -847,9 +851,8 @@ public class IONCWalletSDK {
 
     public static long saveWallet(WalletBean wallet) {
         //私钥不存储于数据库中
-//        wallet.setPrivateKey("");
-        long id = EntityManager.getInstance().getWalletDao().insertOrReplace(wallet);
-        return id;
+        wallet.setPrivateKey("");
+        return EntityManager.getInstance().getWalletDao().insertOrReplace(wallet);
     }
 
     public static void deleteWallet(WalletBean wallet) {
@@ -915,5 +918,14 @@ public class IONCWalletSDK {
             updateWallet(w);
         }
 
+    }
+
+    public static void transactionDialog(Activity activity, IONCAllWalletDialogSDK.OnTxResultCallback callback) {
+        List<WalletBean> beans = IONCWalletSDK.getAllWallet();
+        if (beans == null || beans.size() <= 0) {
+            ToastUtil.showLong("钱包为空！");
+            return;
+        }
+        new IONCAllWalletDialogSDK(activity, beans, callback).show();
     }
 }

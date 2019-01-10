@@ -72,39 +72,6 @@
             android:padding="@dimen/h5"
             android:textSize="14sp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:checked="true"
-                android:drawableLeft="@drawable/check_blue"
-                android:drawablePadding="@dimen/h5"
-                android:text="我已经仔细阅读并 "
-                android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_microsize" />
-
-            <TextView
-                android:id="@+id/linkUrlTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/h10"
-                android:autoLink="web"
-                android:text="服务及隐私条款"
-                android:textColor="@color/qmui_config_color_blue"
-                android:textSize="@dimen/txt_microsize" />
-        </LinearLayout>
-
-
         <Button
             android:id="@+id/importBtn"
             android:layout_width="match_parent"

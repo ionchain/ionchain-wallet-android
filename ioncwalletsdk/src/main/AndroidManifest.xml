@@ -3,10 +3,11 @@
     package="com.ionc.wallet.sdk">
 
     <application>
-        <activity android:name=".activity.newwallet.NewWalletByCreateActivity" />
-        <activity android:name=".activity.newwallet.NewWalletByMnemonicActivity" />
-        <activity android:name=".activity.newwallet.NewWalletByPriKeyActivity" />
-        <activity android:name=".activity.newwallet.ByKeystoreActivity"></activity>
+        <activity android:name=".activity.base.AbsByCreateActivity" />
+        <activity android:name=".activity.base.AbsByMnemonicActivity" />
+        <activity android:name=".activity.base.AbsByPrivateKeyActivity" />
+        <activity android:name=".activity.base.AbsByKeystoreActivity" />
+        <activity android:name=".activity.base.AbsSelectCreateModeWalletActivity"></activity>
     </application>
 
 </manifest>
