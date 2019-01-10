@@ -920,6 +920,10 @@ public class IONCWalletSDK {
 
     }
 
+    /** 支付
+     * @param activity
+     * @param callback
+     */
     public static void transactionDialog(Activity activity, IONCAllWalletDialogSDK.OnTxResultCallback callback) {
         List<WalletBean> beans = IONCWalletSDK.getAllWallet();
         if (beans == null || beans.size() <= 0) {
