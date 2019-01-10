@@ -214,4 +214,5 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
         onSDKCreateFailure(error);
 
     }
+
 }

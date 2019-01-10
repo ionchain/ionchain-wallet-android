@@ -216,5 +216,4 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
         onSDKCreateFailure(error);
     }
 
-
 }

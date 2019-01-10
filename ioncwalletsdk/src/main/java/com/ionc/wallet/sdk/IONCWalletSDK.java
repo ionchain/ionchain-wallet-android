@@ -91,12 +91,6 @@ public class IONCWalletSDK {
 
     private MnemonicCode mMnemonicCode = null;
 
-    /**
-     * @return 显示的默认矿工费
-     */
-    public BigDecimal getDefaultPrice() {
-        return mDefaultPrice;
-    }
 
     private IONCWalletSDK() {
 
@@ -113,9 +107,6 @@ public class IONCWalletSDK {
         return mInstance;
     }
 
-    public Context getContext() {
-        return AppContext;
-    }
 
     /**
      * 初始化钱包

@@ -33,7 +33,7 @@ public class Logger {
 
 
     public static void initLogger(boolean debug) {
-        isDebug = true;
+        isDebug = debug;
     }
 
 
