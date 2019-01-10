@@ -15,8 +15,6 @@ import com.ionc.wallet.sdk.callback.OnCreateWalletCallback;
 import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.ToastUtil;
 
-import static com.ionc.wallet.sdk.IONCWalletSDK.getWalletByAddress;
-import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
 
 public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCreateWalletCallback, TextWatcher {
@@ -105,7 +103,7 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
 //        saveWallet(walletBean);
 //        ToastUtil.showToastLonger("导入成功啦!");
 //        onSDKCreateSuccess();
-        final WalletBean wallet = getWalletByAddress(walletBean.getAddress());
+        final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         Logger.i("onCreateSuccess: " + walletBean.toString());
         hideProgress();
 
@@ -113,10 +111,9 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
             ToastUtil.showLong("该钱包已存在，钱包名为 ： " + wallet.getName());
         } else {
             walletBean.setMIconIdex(getNum(7));
-            saveWallet(walletBean);
+            IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger("导入成功啦!");
             walletBean.setIsShowWallet(true);
-            saveWallet(walletBean);
             onSDKCreateSuccess(walletBean);
         }
     }

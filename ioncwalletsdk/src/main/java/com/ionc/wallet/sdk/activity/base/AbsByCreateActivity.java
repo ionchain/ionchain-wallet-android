@@ -19,8 +19,6 @@ import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.SoftKeyboardUtil;
 import com.ionc.wallet.sdk.utils.ToastUtil;
 
-import static com.ionc.wallet.sdk.IONCWalletSDK.getWalletByName;
-import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 
 public abstract class AbsByCreateActivity extends BaseActivity implements View.OnClickListener, TextWatcher, OnSimulateTimeConsume, OnImportMnemonicCallback {
@@ -80,7 +78,7 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
                 /*
                  * 从数据库比对，重复检查
                  * */
-                if (null != getWalletByName(walletnamestr)) {
+                if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
                     Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -118,7 +116,7 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
             /*
              * 从数据库比对，重复检查
              * */
-            if (null != getWalletByName(walletnamestr)) {
+            if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
                 Toast.makeText(getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -186,7 +184,7 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
         Logger.i("onCreateSuccess: " + walletBean);
         hideProgress();
         walletBean.setIsShowWallet(false);
-        saveWallet(walletBean);
+        IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
         onSDKCreateSuccess(walletBean);
     }

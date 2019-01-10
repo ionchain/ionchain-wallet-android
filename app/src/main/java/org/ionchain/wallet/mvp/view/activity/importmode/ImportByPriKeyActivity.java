@@ -27,9 +27,6 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.qrcode.android.CaptureActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
-import static com.ionc.wallet.sdk.IONCWalletSDK.getWalletByAddress;
-import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
-import static com.ionc.wallet.sdk.IONCWalletSDK.updateWallet;
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
@@ -218,7 +215,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     public void onCreateSuccess(final WalletBean walletBean) {
         Logger.i(walletBean.toString());
         hideProgress();
-        final WalletBean wallet = getWalletByAddress(walletBean.getAddress());
+        final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
@@ -241,14 +238,13 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     .show();
         } else {
             walletBean.setMIconIdex(getNum(7));
-            saveWallet(walletBean);
-            ToastUtil.showToastLonger("导入成功啦!");
             if (isWelcome) {
                 walletBean.setIsShowWallet(true);
             } else {
                 walletBean.setIsShowWallet(false);
             }
-            saveWallet(walletBean);
+            IONCWalletSDK.getInstance().saveWallet(walletBean);
+            ToastUtil.showToastLonger("导入成功啦!");
             skip(MainActivity.class);
         }
 
@@ -263,7 +259,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
-        updateWallet(wallet);
+        IONCWalletSDK.getInstance().updateWallet(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger("更新成功啦!");
         skip(MainActivity.class);

@@ -29,9 +29,6 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Arrays;
 
-import static com.ionc.wallet.sdk.IONCWalletSDK.getWalletByAddress;
-import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
-import static com.ionc.wallet.sdk.IONCWalletSDK.updateWallet;
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
@@ -193,7 +190,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     @Override
     public void onImportMnemonicSuccess(WalletBean walletBean) {
-        final WalletBean wallet = getWalletByAddress(walletBean.getAddress());
+        final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         Log.i(getTAG(), "onCreateSuccess: " + walletBean.toString());
 
         if (null != wallet) {
@@ -220,14 +217,13 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     .show();
         }else {
             walletBean.setMIconIdex(getNum(7));
-             saveWallet(walletBean);
             ToastUtil.showToastLonger("导入成功啦!");
             if (isWelcome) {
                 walletBean.setIsShowWallet(true);
             } else {
                 walletBean.setIsShowWallet(false);
             }
-             saveWallet(walletBean);
+            IONCWalletSDK.getInstance().saveWallet(walletBean);
             skip(MainActivity.class);
         }
         hideProgress();
@@ -242,7 +238,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
-        updateWallet(wallet);
+        IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger("更新成功啦!");
         skip(MainActivity.class);
     }

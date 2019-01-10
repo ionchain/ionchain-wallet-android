@@ -29,7 +29,6 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ionc.wallet.sdk.IONCWalletSDK.updateWallet;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
@@ -81,7 +80,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
         if (!bShowKSRl) {
             import_key_store_layout.setVisibility(View.GONE);
         }
-        if (IONCWalletSDK.getAllWallet().size() == 1) {
+        if (IONCWalletSDK.getInstance().getAllWallet().size() == 1) {
             delBtn.setVisibility(View.GONE);
         }
         import_mnemonic_layout.setOnClickListener(this);
@@ -135,7 +134,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                     mWallet.setName(walletNameEt.getText().toString());
                     ioncTitleBar.setTitle(walletNameEt.getText().toString());
                     SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
-                    updateWallet(mWallet);
+                    IONCWalletSDK.getInstance().updateWallet(mWallet);
                 } else {
                     ToastUtil.showShort("名字不能为空！");
                 }

@@ -27,8 +27,6 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
-import static com.ionc.wallet.sdk.IONCWalletSDK.getWalletByName;
-import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
@@ -98,7 +96,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                 /*
                  * 从数据库比对，重复检查
                  * */
-                if (null !=  getWalletByName(walletnamestr)) {
+                if (null !=  IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
                     Toast.makeText(getMActivity().getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -205,7 +203,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         } else {
             walletBean.setIsShowWallet(false);
         }
-        saveWallet(walletBean);
+        IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
         skip(MainActivity.class);
     }

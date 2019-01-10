@@ -7,7 +7,6 @@ import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
-import static com.ionc.wallet.sdk.IONCWalletSDK.saveWallet;
 
 /**
  * user: binny

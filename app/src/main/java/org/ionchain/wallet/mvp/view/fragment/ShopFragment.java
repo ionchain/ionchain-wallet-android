@@ -139,7 +139,7 @@ public class ShopFragment extends AbsBaseFragment implements IONCAllWalletDialog
     public class TestSDK {
         @JavascriptInterface
         public void getAllWallet() {
-            IONCWalletSDK.transactionDialog(mActivity,ShopFragment.this);
+            IONCWalletSDK.getInstance().transactionDialog(mActivity,ShopFragment.this);
         }
 
     }
