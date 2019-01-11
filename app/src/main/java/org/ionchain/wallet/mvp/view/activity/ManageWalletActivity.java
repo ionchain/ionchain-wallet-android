@@ -11,11 +11,14 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
+import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
+import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
 import java.util.ArrayList;
@@ -56,14 +59,22 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(SDKCreateActivity.class, JUMP_PARM_ISADDMODE, true);
+                if (App.SDK_Debug) {
+                    skip(SDKCreateActivity.class, JUMP_PARM_ISADDMODE, true);//
+                } else {
+                    skip(CreateWalletActivity.class, JUMP_PARM_ISADDMODE, true);
+                }
             }
         });
 
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(SelectImportModeActivity.class);
+                if (App.SDK_Debug) {
+                    skip(SDKSelectCreateModeWalletActivity.class);
+                }else {
+                    skip(SelectImportModeActivity.class);//
+                }
             }
         });
 

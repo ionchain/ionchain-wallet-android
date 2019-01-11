@@ -20,9 +20,11 @@ import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnImportMnemonicCallback;
 import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
 
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
+import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -119,7 +121,11 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(SelectImportModeActivity.class);
+                if (App.SDK_Debug) {
+                    skip(SDKSelectCreateModeWalletActivity.class);
+                }else {
+                    skip(SelectImportModeActivity.class);//
+                }
             }
         });
         linkUrlTv.setOnClickListener(new View.OnClickListener() {

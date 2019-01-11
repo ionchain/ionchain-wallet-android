@@ -35,9 +35,11 @@ import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
+import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
+import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
@@ -52,6 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 
 
@@ -264,6 +267,10 @@ public class HomeFragment extends AbsBaseFragment implements
         tx_out_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (StringUtils.isEmpty(mCurrentWallet.getBalance())||"0.0000".equals(mCurrentWallet.getBalance())) {
+                    ToastUtil.showLong("此钱包余不足！");
+                    return;
+                }
                 skip(TxActivity.class, "wallet", mCurrentWallet);
             }
         });
@@ -356,14 +363,22 @@ public class HomeFragment extends AbsBaseFragment implements
         scan_popu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(SelectImportModeActivity.class);
+                if (App.SDK_Debug) {
+                    skip(SDKSelectCreateModeWalletActivity.class);
+                } else {
+                    skip(SelectImportModeActivity.class);//
+                }
                 instance.dismiss();
             }
         });
         new_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(SDKCreateActivity.class);
+                if (SDK_Debug) {
+                    skip(SDKCreateActivity.class);//
+                } else {
+                    skip(CreateWalletActivity.class);
+                }
                 instance.dismiss();
             }
         });

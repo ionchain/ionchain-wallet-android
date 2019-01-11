@@ -13,20 +13,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
+import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
 /**
  * 创建钱包。导入钱包，第一次安装时，由启动页跳转过来
  */
-public class CreateWalletSelectActivity extends AbsBaseActivity   {
-
+public class CreateWalletSelectActivity extends AbsBaseActivity {
 
 
     private Button createBtn;
@@ -42,8 +44,8 @@ public class CreateWalletSelectActivity extends AbsBaseActivity   {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        createBtn = findViewById( R.id.createBtn );
-        importBtn = findViewById( R.id.importBtn );
+        createBtn = findViewById(R.id.createBtn);
+        importBtn = findViewById(R.id.importBtn);
         checkBox = findViewById(R.id.checkbox);
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,8 +54,13 @@ public class CreateWalletSelectActivity extends AbsBaseActivity   {
                     ToastUtil.showLong("请先阅读并同意服务及协议");
                     return;
                 }
-                Intent intent = new Intent(getMActivity(),SDKCreateActivity.class);
-                intent.putExtra(FROM_WELCOME,isWelcome);
+                Intent intent = null;
+                if (SDK_Debug) {
+                    intent = new Intent(getMActivity(), SDKCreateActivity.class);//
+                } else {
+                    intent = new Intent(getMActivity(), CreateWalletActivity.class);
+                }
+                intent.putExtra(FROM_WELCOME, isWelcome);
                 startActivity(intent);
             }
         });
@@ -64,13 +71,17 @@ public class CreateWalletSelectActivity extends AbsBaseActivity   {
                     ToastUtil.showLong("请先阅读并同意服务及协议");
                     return;
                 }
-                Intent intent = new Intent(getMActivity(),SelectImportModeActivity.class);
-                intent.putExtra(FROM_WELCOME,isWelcome);
+                Intent intent = null;
+                if (App.SDK_Debug) {
+                    intent = new Intent(getMActivity(), SDKSelectCreateModeWalletActivity.class);
+                }else {
+                    intent = new Intent(getMActivity(), SelectImportModeActivity.class);//
+                    intent.putExtra(FROM_WELCOME, isWelcome);
+                }
                 startActivity(intent);
             }
         });
     }
-
 
 
     @Override
@@ -82,7 +93,6 @@ public class CreateWalletSelectActivity extends AbsBaseActivity   {
         builder.append(sp1);
 
 
-
         String s2 = "服务及协议";
         SpannableString sp2 = new SpannableString(s2);
         sp2.setSpan(new ClickableSpan() {
@@ -91,13 +101,13 @@ public class CreateWalletSelectActivity extends AbsBaseActivity   {
                 skipWeb(SERVER_PROTOCOL_VALUE);
             }
         }, 0, sp2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ForegroundColorSpan fcs2 = new ForegroundColorSpan(ContextCompat.getColor(this,R.color.bga_pp_btn_confirm_pressed));
-        sp2.setSpan(fcs2,0,sp2.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体的颜色
+        ForegroundColorSpan fcs2 = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.bga_pp_btn_confirm_pressed));
+        sp2.setSpan(fcs2, 0, sp2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体的颜色
         builder.append(sp2);
 
         checkBox.setText(builder);
         checkBox.setMovementMethod(LinkMovementMethod.getInstance());//加上这句话才有效果
-        checkBox.setHighlightColor(ContextCompat.getColor(this,R.color.transparent));//去掉点击后的背景颜色为透明
+        checkBox.setHighlightColor(ContextCompat.getColor(this, R.color.transparent));//去掉点击后的背景颜色为透明
 
     }
 
@@ -107,7 +117,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity   {
         getMImmersionBar()
                 .statusBarDarkFont(false)
                 .transparentStatusBar()
-                .navigationBarColor(R.color.black,0.5f)
+                .navigationBarColor(R.color.black, 0.5f)
                 .fitsSystemWindows(false)
                 .execute();
     }
@@ -120,7 +130,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity   {
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
-        isWelcome = intent.getBooleanExtra(FROM_WELCOME,false);
+        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }
 
 

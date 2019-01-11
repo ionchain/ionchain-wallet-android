@@ -12,6 +12,7 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKMnemonicActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKPrivateKeyActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
+import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 
 public class SelectImportModeActivity extends AbsBaseActivity implements View.OnClickListener {
@@ -52,21 +53,35 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
      */
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         if (v == byMnemonic) {
-            Intent intent = new Intent(getMActivity(), SDKMnemonicActivity.class);
-//            intent.putExtra(FROM_WELCOME, isWelcome);
+            if (SDK_Debug) {
+                intent = new Intent(getMActivity(), SDKMnemonicActivity.class);
+            }else {
+                intent = new Intent(getMActivity(), ImportByMnemonicActivity.class);
+                intent.putExtra(FROM_WELCOME, isWelcome);
+            }
             startActivity(intent);
         } else if (v == byPrivateKey) {
-            Intent intent = new Intent(getMActivity(), SDKPrivateKeyActivity.class);
-            intent.putExtra(FROM_WELCOME, isWelcome);
+            if (SDK_Debug) {
+                intent = new Intent(getMActivity(), SDKPrivateKeyActivity.class);
+            }else {
+                intent = new Intent(getMActivity(), ImportByPriKeyActivity.class);
+                intent.putExtra(FROM_WELCOME, isWelcome);
+            }
             startActivity(intent);
         } else if (v == byKeystore) {
-            Intent intent = new Intent(getMActivity(), SDKKeyStoreActivity.class);
-            intent.putExtra(FROM_WELCOME, isWelcome);
+            if (SDK_Debug) {
+                intent = new Intent(getMActivity(), SDKKeyStoreActivity.class);
+            }else {
+                intent = new Intent(getMActivity(), ImportByKeystoreActivity.class);
+                intent.putExtra(FROM_WELCOME, isWelcome);
+            }
             startActivity(intent);
         } else if (v == back) {
             finish();
         }
+
     }
 
     @Override
