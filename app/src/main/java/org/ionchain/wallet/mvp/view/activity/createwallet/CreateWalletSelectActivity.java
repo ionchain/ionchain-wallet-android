@@ -129,6 +129,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
 
     @Override
     protected void handleIntent(Intent intent) {
+        requestCodeQRCodePermissions();
         super.handleIntent(intent);
         isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }

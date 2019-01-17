@@ -50,6 +50,7 @@
             android:layout_width="1px"
             android:layout_height="match_parent"/>
         <RadioButton
+            android:visibility="gone"
             android:id="@+id/rb_shop"
             android:text="商店"
             android:textColor="@drawable/tab_text_color"
