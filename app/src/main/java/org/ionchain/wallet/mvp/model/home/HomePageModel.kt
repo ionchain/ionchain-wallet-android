@@ -51,7 +51,11 @@ class HomePageModel : IHomePageModel {
 
             override fun onError(response: Response<String>) {
                 super.onError(response)
-                callback.onDeviceListFailure(response.body())
+                if (response.body() == null) {
+                    callback.onDeviceListFailure("谁被列表服务器出错！")
+                }else{
+                    callback.onDeviceListFailure(response.body())
+                }
             }
 
             override fun onFinish() {
