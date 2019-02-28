@@ -77,6 +77,7 @@
         android:layout_marginRight="@dimen/h20"
         android:layout_marginTop="@dimen/h15"
         android:hint="转账金额"
+        android:inputType="numberDecimal"
         android:text=""
         android:textColor="#666666"
         android:theme="@style/MyEditText" />

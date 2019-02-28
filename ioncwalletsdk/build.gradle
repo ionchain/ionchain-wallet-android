@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'org.greenrobot.greendao'
 
-apply from: '../version.gradle'
+
 android {
     compileSdkVersion extCompileSdkVersion
     buildToolsVersion extBuildToolsVersion

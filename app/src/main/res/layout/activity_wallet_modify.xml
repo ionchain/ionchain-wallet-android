@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/app_bar"
+            android:background="@drawable/app_bar"
             android:orientation="vertical"
             android:paddingTop="@dimen/h10"
             android:paddingBottom="@dimen/h10">
