@@ -341,6 +341,15 @@ public class IONCWalletSDK {
                 super.run();
                 try {
                     KeystoreBean keystoreBean = GsonUtils.gsonToBean(keystoreContent, KeystoreBean.class);
+                    if (keystoreBean == null) {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onCreateFailure("请输入正确的keystore!");
+                            }
+                        });
+                        return;
+                    }
                     final WalletBean bean = new WalletBean();
 
                     String path = keystoreDir + "/" + getWalletFileName(keystoreBean.getAddress());
@@ -370,7 +379,7 @@ public class IONCWalletSDK {
                             callback.onCreateSuccess(bean);
                         }
                     });
-                } catch (IOException | CipherException e) {
+                } catch (IOException | CipherException | NullPointerException e) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {

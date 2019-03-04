@@ -19,6 +19,7 @@ import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnImportMnemonicCallback;
 import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
+import com.ionc.wallet.sdk.utils.StringUtils;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
@@ -95,6 +96,23 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
             @Override
             public void onClick(View v) {
 
+
+                /*
+                * 检查钱包名字是否符规则
+                * */
+
+                if (TextUtils.isEmpty(walletnamestr)) {
+                    ToastUtil.showShort("请输入钱包名字");
+                    return;
+                }
+                if (!StringUtils.isNumENCN(walletnamestr)) {
+                    ToastUtil.showToastLonger("名字不符合规则!");
+                    return;
+                }
+                if (walletnamestr.length()>=8) {
+                    ToastUtil.showLong("名字字数不能超过8个");
+                    return;
+                }
                 /*
                  * 从数据库比对，重复检查
                  * */

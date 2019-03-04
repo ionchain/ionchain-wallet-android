@@ -71,7 +71,7 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
 
     override fun onCreateFailure(result: String) {
         hideProgress()
-        ToastUtil.showToastLonger("导入成失败")
+        ToastUtil.showToastLonger("导入成失败!\n$result")
         Logger.e(TAG, "onCreateFailure: $result")
     }
 

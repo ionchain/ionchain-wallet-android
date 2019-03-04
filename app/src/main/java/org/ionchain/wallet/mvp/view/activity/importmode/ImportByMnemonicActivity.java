@@ -34,7 +34,7 @@ import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
-public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback,OnUpdatePasswordCallback {
+public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnUpdatePasswordCallback {
     private RelativeLayout importHeader;
     private ImageView back;
     private AppCompatEditText mnemonic;
@@ -101,6 +101,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     ToastUtil.showToastLonger("助记词不能为空！");
                     return;
                 }
+
                 if (pwdEt.getText() == null) {
                     ToastUtil.showToastLonger("密码不能为空！");
                     return;
@@ -109,11 +110,19 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     ToastUtil.showToastLonger("重复密码不能为空！");
                     return;
                 }
-                String content = mnemonic.getText().toString().trim();
+                String content = mnemonic.getText().toString();
+
+
                 String resetpass = pwdEt.getText().toString().trim();
                 String pass = repwdEt.getText().toString().trim();
                 if (StringUtils.isEmpty(content)) {
-                    ToastUtil.showToastLonger("请输入正确的助记词！");
+                    ToastUtil.showToastLonger("助记词不能为空！");
+                    return;
+                }
+                String con_temp = content.trim();
+                String [] array_str =content.split(" ");
+                if (!StringUtils.isEN(con_temp) || array_str.length < 12) {
+                    ToastUtil.showLong("助记词不正确");
                     return;
                 }
                 if (!check(resetpass) || !check(pass)) {
@@ -204,7 +213,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                         public void onClick(DialogInterface dialog, int which) {
 
                             dialog.dismiss();
-                            IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet,newPassword,ImportByMnemonicActivity.this);
+                            IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByMnemonicActivity.this);
 
                         }
                     })
@@ -215,7 +224,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                         }
                     })
                     .show();
-        }else {
+        } else {
             walletBean.setMIconIdex(getNum(7));
             ToastUtil.showToastLonger("导入成功啦!");
             if (isWelcome) {

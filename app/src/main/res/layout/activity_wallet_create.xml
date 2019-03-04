@@ -65,7 +65,8 @@
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h6"
-            android:hint="钱包名称"
+            android:singleLine="true"
+            android:hint="名字不能包含特殊字符,且长度不超过8位"
             android:textColor="@color/library_33"
             android:textSize="14sp" />
 
@@ -76,6 +77,7 @@
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h6"
+            android:singleLine="true"
             android:hint="数字、大小写字母与特殊符号混合，且不少于8位"
             android:textColor="@color/library_33"
             android:textSize="14sp" />
@@ -88,6 +90,7 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h6"
             android:hint="@string/wallet_create_respwd"
+            android:singleLine="true"
             android:textColor="@color/library_33"
             android:textSize="14sp" />
 
@@ -97,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/margin_top__size_40dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -109,7 +112,7 @@
                 android:checked="true"
                 android:drawableLeft="@drawable/check_blue"
                 android:drawablePadding="@dimen/h5"
-                android:text="我已经仔细阅读并 "
+                android:text="我已经仔细阅读并同意"
                 android:textColor="@color/library_33"
                 android:textSize="@dimen/txt_microsize" />
 
@@ -119,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/h10"
                 android:autoLink="web"
-                android:text="服务及隐私条款"
+                android:text="服务及协议"
                 android:textColor="@color/qmui_config_color_blue"
                 android:textSize="@dimen/txt_microsize" />
         </LinearLayout>
@@ -131,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/margin_top__size_40dp"
             android:textColor="@color/white"
             android:background="@color/grey"
             android:enabled="false"
@@ -143,10 +146,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:padding="@dimen/h20"
+            android:layout_margin="@dimen/h20"
+            android:padding="@dimen/dp_10"
+            android:background="@color/main_blue"
             android:text="导入钱包"
-            android:textColor="@color/main_blue"
-
+            android:textColor="@color/white"
             />
 
 

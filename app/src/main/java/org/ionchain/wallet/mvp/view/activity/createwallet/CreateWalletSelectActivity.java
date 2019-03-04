@@ -87,7 +87,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     @Override
     protected void initData() {
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        String s1 = "开始使用本产品及表示同意";
+        String s1 = "开始使用本产品即表示同意";
         SpannableString sp1 = new SpannableString(s1);
         sp1.setSpan(null, 9, sp1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append(sp1);
