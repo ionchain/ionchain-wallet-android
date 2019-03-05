@@ -45,4 +45,5 @@ public final class ConstantParams {
 
     public static final String SERVER_PROTOCOL_KEY = "title_name";
     public static final String SERVER_PROTOCOL_VALUE = "离子链钱包服务协议";
+    public static final String PICTURE_FILE_NAME = "ionchainAddress";
 }

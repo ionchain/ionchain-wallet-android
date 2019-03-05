@@ -141,10 +141,9 @@ dependencies {
     implementation 'org.greenrobot:greendao-generator:3.2.2'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-        implementation project(':ioncwalletsdk')
-//    implementation (name:'ioncwalletsdk-debug',ext:'aar')
-    implementation 'cn.yipianfengye.android:zxing-library:2.2'
-
+    implementation project(':ioncwalletsdk')
+    //    implementation (name:'ioncwalletsdk-debug',ext:'aar')
+    implementation project(':lib-zxing')
 }
 
 apply plugin: 'org.greenrobot.greendao'

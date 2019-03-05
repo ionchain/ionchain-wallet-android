@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
-                android:checked="true"
+                android:checked="false"
                 android:drawableLeft="@drawable/check_blue"
                 android:drawablePadding="@dimen/h5"
                 android:text="@string/protocol_hint"

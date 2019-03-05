@@ -10,7 +10,10 @@ import com.ionc.wallet.sdk.utils.StringUtils;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.utils.BitmapUtils;
 import org.ionchain.wallet.utils.QRCodeUtils;
+
+import static org.ionchain.wallet.constant.ConstantParams.PICTURE_FILE_NAME;
 
 public class ShowAddressActivity extends AbsBaseActivity {
     private ImageView back;
@@ -68,7 +71,14 @@ public class ShowAddressActivity extends AbsBaseActivity {
     protected void initView() {
         findViews();
         getMImmersionBar().titleView(R.id.show_title).statusBarDarkFont(false).execute();
-
+        showQrImg.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                BitmapUtils.savePicture(QRCodeUtils.generateQRCode(msg, 200), PICTURE_FILE_NAME, msg+".jpg");
+                Toast.makeText(mActivity, "保存成功！", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
     }
 
     @Override

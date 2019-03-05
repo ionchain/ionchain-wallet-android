@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.view.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import com.ionc.wallet.sdk.utils.StringUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
@@ -43,7 +46,6 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivi
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-import org.ionchain.wallet.qrcode.android.CaptureActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -255,7 +257,6 @@ public class HomeFragment extends AbsBaseFragment implements
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                QRCodeUtils.setQR(intent);
                 startActivityForResult(intent, 10);
 
             }
@@ -326,23 +327,41 @@ public class HomeFragment extends AbsBaseFragment implements
         if (resultCode == RESULT_OK && requestCode == 10) {
             final String result = data.getStringExtra("result");
             Logger.i("result", result);
-            mDialogBindCardWithWallet = new DialogBindDevice(getActivity());
-            mDialogBindCardWithWallet.setMessageText(result);
-            mDialogBindCardWithWallet.setLeftBtnClickedListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialogBindCardWithWallet.dismiss();
+
+        }
+        /**
+         * 处理二维码扫描结果
+         */
+        if (requestCode == 10) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
                 }
-            });
-            mDialogBindCardWithWallet.setRightBtnClickedListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialogBindCardWithWallet.dismiss();
-                    String address = mCurrentWallet.getAddress();
-                    mPresenter.bindDeviceToWallet(address, result, HomeFragment.this);
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    final String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    mDialogBindCardWithWallet = new DialogBindDevice(getActivity());
+                    mDialogBindCardWithWallet.setMessageText(result);
+                    mDialogBindCardWithWallet.setLeftBtnClickedListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialogBindCardWithWallet.dismiss();
+                        }
+                    });
+                    mDialogBindCardWithWallet.setRightBtnClickedListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialogBindCardWithWallet.dismiss();
+                            String address = mCurrentWallet.getAddress();
+                            mPresenter.bindDeviceToWallet(address, result, HomeFragment.this);
+                        }
+                    });
+                    mDialogBindCardWithWallet.show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    ToastUtil.showLong("解析二维码失败");
                 }
-            });
-            mDialogBindCardWithWallet.show();
+            }
         }
     }
 

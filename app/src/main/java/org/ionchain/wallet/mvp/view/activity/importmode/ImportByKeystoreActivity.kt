@@ -16,13 +16,17 @@ import com.ionc.wallet.sdk.bean.WalletBean
 import com.ionc.wallet.sdk.callback.OnCreateWalletCallback
 import com.ionc.wallet.sdk.utils.Logger
 import com.ionc.wallet.sdk.utils.RandomUntil.getNum
+import com.uuzuche.lib_zxing.activity.CaptureActivity
 import org.ionchain.wallet.R
 import org.ionchain.wallet.constant.ConstantParams.FROM_SCAN
 import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE
 import org.ionchain.wallet.mvp.view.activity.MainActivity
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity
-import org.ionchain.wallet.qrcode.android.CaptureActivity
 import org.ionchain.wallet.utils.ToastUtil
+import android.widget.Toast
+import com.uuzuche.lib_zxing.activity.CodeUtils
+import android.support.v4.app.NotificationCompat.getExtras
+import android.os.Bundle
 
 
 class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, TextWatcher {
@@ -52,7 +56,7 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-       Logger.i(s.toString())
+        Logger.i(s.toString())
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -99,11 +103,11 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
         mKeystore!!.addTextChangedListener(this)
         pwdEt!!.addTextChangedListener(this)
         checkbox = findViewById<View>(R.id.checkbox) as CheckBox
-        checkbox!!.setOnClickListener{
-            if (mKeystore!!.text!!.isNotEmpty()&&pwdEt!!.text!!.isNotEmpty()&&checkbox!!.isChecked) {
+        checkbox!!.setOnClickListener {
+            if (mKeystore!!.text!!.isNotEmpty() && pwdEt!!.text!!.isNotEmpty() && checkbox!!.isChecked) {
                 importBtn!!.setEnabled(true)
                 importBtn!!.setBackgroundColor(resources.getColor(R.color.blue_top))
-            }else{
+            } else {
                 importBtn!!.setEnabled(false)
                 importBtn!!.setBackgroundColor(resources.getColor(R.color.grey))
             }
@@ -111,12 +115,12 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
 
         linkUrlTv = findViewById<View>(R.id.linkUrlTv) as TextView
         importBtn = findViewById<View>(R.id.importBtn) as Button
-        importBtn!!.setOnClickListener{
+        importBtn!!.setOnClickListener {
             keystoreStr = mKeystore!!.text.toString()
             Logger.i(keystoreStr!!)
             //读取keystore密码
-            var  pass = pwdEt!!.text.toString()
-           //生成keystory文件
+            var pass = pwdEt!!.text.toString()
+            //生成keystory文件
             showProgress("正在导入钱包请稍候")
             IONCWalletSDK.getInstance().importWalletByKeyStore(pass, keystoreStr, this)
         }
@@ -127,11 +131,23 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == FROM_SCAN) {
-            val result = data!!.getStringExtra("result")
-            mKeystore!!.setText(result)
-            keystoreStr = result
-            Logger.i(result)
+
+        /**
+         * 处理二维码扫描结果
+         */
+        if (requestCode == FROM_SCAN) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                val bundle = data.extras ?: return
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    val result = bundle.getString(CodeUtils.RESULT_STRING)
+                    mKeystore!!.setText(result)
+                    keystoreStr = result
+                    Logger.i(result)
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    ToastUtil.showLong("解析二维码失败");
+                }
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package org.ionchain.wallet.mvp.view.activity.importmode;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -20,11 +21,12 @@ import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnCreateWalletCallback;
 import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
 import com.ionc.wallet.sdk.utils.Logger;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.qrcode.android.CaptureActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
@@ -149,10 +151,24 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == FROM_SCAN) {
-            String result = data.getStringExtra("result");
-            mPrivateKey.setText(result);
-            private_key = result;
+        /**
+         * 处理二维码扫描结果
+         */
+        if (requestCode == FROM_SCAN) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    mPrivateKey.setText(result);
+                    private_key = result;
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    ToastUtil.showLong("解析二维码失败");
+                }
+            }
         }
     }
 
@@ -200,7 +216,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
             String pwdstr = pwdEt.getText().toString().trim();
             String resetpwdstr = repwdEt.getText().toString().trim();
 
-            if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)&&checkbox.isChecked()) {
+            if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
             } else {
