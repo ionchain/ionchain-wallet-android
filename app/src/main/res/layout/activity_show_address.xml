@@ -10,18 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"/>
     <RelativeLayout
+        android:background="@drawable/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/app_bar"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/wallet_logo" />
+
         <ImageView
             android:id="@+id/back"
+            android:paddingLeft="@dimen/dp_10"
             android:layout_width="wrap_content"
             android:layout_height="?actionBarSize"
-            android:layout_marginLeft="@dimen/h10"
             android:src="@mipmap/arrow_back_white" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"

@@ -155,7 +155,9 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     @Override
     protected void initData() {
-
+        getMImmersionBar().titleView(R.id.import_header)
+                .statusBarDarkFont(true)
+                .execute();
     }
 
     @Override

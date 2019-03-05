@@ -37,8 +37,9 @@ android {
             buildConfigField('boolean', 'LOG_DEBUG', 'true')
         }
         release {
-            minifyEnabled false
             debuggable false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.key
             buildConfigField('boolean', 'LOG_DEBUG', 'false')
@@ -142,6 +143,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
         implementation project(':ioncwalletsdk')
 //    implementation (name:'ioncwalletsdk-debug',ext:'aar')
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+
 }
 
 apply plugin: 'org.greenrobot.greendao'

@@ -14,6 +14,7 @@ import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.DBCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -46,6 +47,7 @@ public class App extends Application {
         initOKGO();
         initLogger(LOG_DEBUG);
         IONCWalletSDK.getInstance().initIONCWalletSDK(this);
+        ZXingLibrary.initDisplayOpinion(this);
 
     }
 
