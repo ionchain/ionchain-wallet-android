@@ -22,7 +22,7 @@
             style="@style/common_title"
             android:layout_centerInParent="true"
             android:textSize="16dp"
-            android:text="创建钱包" />
+            android:text="@string/activity_create_wallet" />
     </RelativeLayout>
 
     <LinearLayout
@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="密码用于保护私钥，强度非常重要"
+                android:text="@string/act_wallet_create_notify1"
                 android:textColor="@color/main_blue"
                 android:textSize="12sp" />
 
@@ -98,7 +98,7 @@
             android:textColor="@color/white"
             android:background="@color/grey"
             android:enabled="false"
-            android:text="创建钱包" />
+            android:text="@string/activity_create_wallet" />
 
     </LinearLayout>
 

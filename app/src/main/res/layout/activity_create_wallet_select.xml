@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="IONCToKen"
+                android:text="IONCToken"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_largesize"
                 android:lineSpacingExtra="@dimen/h5"
@@ -38,7 +38,7 @@
                 android:id="@+id/createBtn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h50"
-                android:text="创建钱包"
+                android:text="@string/activity_create_wallet"
                 android:textColor="@color/main_blue"
                 android:textSize="@dimen/txt_smallmediumsize"
                 android:layout_marginLeft="@dimen/padding_size_16dp"

@@ -21,8 +21,6 @@
 
     <string name="activity_test">Test</string>
 
-    <string name="activity_create_wallet_protocol_title">IONToKen服务协议</string>
-    <string name="activity_create_wallet">创建钱包</string>
     <string name="activity_import_wallet">导入私钥</string>
     <string name="menu_import_scan">扫一扫</string>
 
@@ -39,14 +37,8 @@
 
     <string name="activity_setting_title">设置</string>
 
-    <string name="act_wallet_create_notify1">密码用于保护私钥，强度非常重要</string>
-    <string name="act_wallet_create_notify2">IONCToken不储存密码，也无法帮你找回，请务必牢记</string>
-    <string name="act_wallet_manager_native_title">IONCToKen</string>
-    <string name="act_wallet_manager_native_name">分布式智能数字钱包</string>
-    <string name="act_wallet_manager_native_create">创建钱包</string>
-    <string name="act_wallet_manager_native_import">导入钱包</string>
+
     <string name="act_wallet_edit_del">删除钱包</string>
-    <string name="act_secretpass_pass">我已仔细阅读并同意以上条款。</string>
 
     <string name="wallet_create_nick">钱包名称</string>
     <string name="wallet_create_password">密码</string>
@@ -68,6 +60,9 @@
     <string name="button_ok">退出</string>
     <string name="viewfinderview_status_text1">将二维码/条码放入取景框内</string>
     <string name="viewfinderview_status_text2">即可自动扫描</string>
+    <string name="protocol_title">离子链钱包服务及协议</string>
+    <string name="protocol_hint">我已经仔细阅读并同意</string>
+    <string name="password_rule">数字、大小写字母与特殊符号混合(空白和下划线除外)，且长度为8~12位</string>
 
 
 </resources>

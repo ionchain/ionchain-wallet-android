@@ -93,7 +93,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
         builder.append(sp1);
 
 
-        String s2 = "服务及协议";
+        String s2 = "服务协议";
         SpannableString sp2 = new SpannableString(s2);
         sp2.setSpan(new ClickableSpan() {
             @Override

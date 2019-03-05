@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="请输入助记词"
+            android:text="导入助记词"
             android:textColor="@color/blue_top"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
@@ -54,8 +54,9 @@
             android:layout_marginTop="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:gravity="left|center_vertical"
-            android:textSize="14sp"
-            android:hint="数字、大小写字母与特殊符号混合，且不少于8位"
+            android:textSize="@dimen/hint_text_size"
+            android:singleLine="true"
+            android:hint="@string/password_rule"
             android:padding="@dimen/h5" />
 
         <android.support.v7.widget.AppCompatEditText
@@ -66,7 +67,8 @@
             android:layout_marginTop="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:gravity="left|center_vertical"
-            android:textSize="14sp"
+            android:singleLine="true"
+            android:textSize="@dimen/hint_text_size"
             android:hint="@string/wallet_create_respwd"
             android:padding="@dimen/h5" />
 
@@ -87,7 +89,7 @@
                 android:checked="true"
                 android:drawableLeft="@drawable/check_blue"
                 android:drawablePadding="@dimen/h5"
-                android:text="我已经仔细阅读并同意 "
+                android:text="@string/protocol_hint"
                 android:textColor="@color/library_33"
                 android:textSize="@dimen/txt_microsize" />
 
@@ -97,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/h10"
                 android:autoLink="web"
-                android:text="服务及协议"
+                android:text="@string/protocol_title"
                 android:textColor="@color/qmui_config_color_blue"
                 android:textSize="@dimen/txt_microsize" />
         </LinearLayout>

@@ -136,7 +136,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                     SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
                     IONCWalletSDK.getInstance().updateWallet(mWallet);
                 } else {
-                    ToastUtil.showShort("名字不能为空！");
+                    ToastUtil.showShort("钱包名称不可为空！");
                 }
 
             }
@@ -222,7 +222,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                         }
                         Logger.i(getTAG(), "onClick: " + mWallet.getPassword());
                         if (!dialogPasswordCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
-                            ToastUtil.showToastLonger("你输入的密码有误！");
+                            ToastUtil.showToastLonger("您输入的密码有误！");
                             return;
                         }
 //                        if (WalletDaoTools.getAllWallet().size() == 1) {

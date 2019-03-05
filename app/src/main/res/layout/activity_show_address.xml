@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/show_address_top_bg"/>
+            android:background="@drawable/app_bar"/>
         <ImageView
             android:id="@+id/back"
             android:layout_width="wrap_content"
@@ -29,12 +29,6 @@
             android:text="收款码"
             android:textColor="@color/white"
             android:textSize="20sp" />
-        <ImageView
-            android:layout_marginTop="120dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/random_header_more_1" />
     </RelativeLayout>
 
     <TextView

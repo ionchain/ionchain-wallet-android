@@ -183,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="导出keystore" />
+                android:text="导出Keystore" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h1"

@@ -29,7 +29,7 @@ public final class StringUtils {
     }
 
     /**
-     * 至少8字符
+     * 8-12字符
      * 至少1数字字符
      * 至少1小写字母
      * 至少1大写字母
@@ -39,7 +39,7 @@ public final class StringUtils {
      * @return 是否匹配
      */
     public static boolean check(String value) {
-        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,}$");
+        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,12}$");
         Matcher m = p.matcher(value);
         return m.matches();
     }

@@ -109,7 +109,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
                     ToastUtil.showToastLonger("名字不符合规则!");
                     return;
                 }
-                if (walletnamestr.length()>=8) {
+                if (walletnamestr.length()>8) {
                     ToastUtil.showLong("名字字数不能超过8个");
                     return;
                 }
