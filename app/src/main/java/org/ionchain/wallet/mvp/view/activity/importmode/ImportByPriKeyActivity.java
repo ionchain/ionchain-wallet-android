@@ -254,11 +254,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     .show();
         } else {
             walletBean.setMIconIdex(getNum(7));
-            if (isWelcome) {
-                walletBean.setIsShowWallet(true);
-            } else {
-                walletBean.setIsShowWallet(false);
-            }
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger("导入成功啦!");
             skip(MainActivity.class);

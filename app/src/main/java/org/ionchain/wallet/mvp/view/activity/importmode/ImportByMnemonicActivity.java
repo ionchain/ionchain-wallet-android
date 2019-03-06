@@ -119,7 +119,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     ToastUtil.showToastLonger("助记词不能为空！");
                     return;
                 }
-                String con_temp = content.trim();
+                String con_temp = content.replace(" ","");
                 String [] array_str =content.split(" ");
                 if (!StringUtils.isEN(con_temp) || array_str.length < 12) {
                     ToastUtil.showLong("助记词不正确");
@@ -228,13 +228,9 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     .show();
         } else {
             walletBean.setMIconIdex(getNum(7));
-            ToastUtil.showToastLonger("导入成功啦!");
-            if (isWelcome) {
-                walletBean.setIsShowWallet(true);
-            } else {
-                walletBean.setIsShowWallet(false);
-            }
+
             IONCWalletSDK.getInstance().saveWallet(walletBean);
+            ToastUtil.showToastLonger("导入成功啦!");
             skip(MainActivity.class);
         }
         hideProgress();

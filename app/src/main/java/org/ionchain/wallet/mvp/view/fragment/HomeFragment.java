@@ -86,13 +86,11 @@ public class HomeFragment extends AbsBaseFragment implements
     private CommonAdapter mAdapterMore;
     private List<WalletBean> mMoreWallets = new ArrayList<>();
     private List<WalletBean> mMoreWalletsTemp = new ArrayList<>();
-    private ListView mDevicesLv;//设备列表
     private ListView mMoreWalletListView;//更过钱包
 
     private CommonAdapter mAdapterDeviceLv;
 
     private List<DeviceBean.DataBean> mDataBeans = new ArrayList<>();
-    private View lvHeader;//lv头部
 
     private Presenter mPresenter;
 
@@ -135,18 +133,11 @@ public class HomeFragment extends AbsBaseFragment implements
     public void onResume() {
         super.onResume();
         SoftKeyboardUtil.hideSoftKeyboard(getActivity());
-        mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWallet();
-        if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
-            mMoreWallets.clear();
-            mMoreWallets.addAll(mMoreWalletsTemp);
-            mAdapterMore.notifyDataSetChanged();
-        }
-        getCurrentWalletInfo();
-    }
-
-    private void getCurrentWalletInfo() {
-        mCurrentWallet = IONCWalletSDK.getInstance().getShowWallet();//第一个作为首页展示钱包
+        mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         if (mCurrentWallet == null) {
+            ToastUtil.showLong("您还没有钱包,请您先创建或导入钱包");
+//            跳转到钱包创建或者导入界面
+
             return;
         }
         walletNameTx.setText(mCurrentWallet.getName());
@@ -162,6 +153,7 @@ public class HomeFragment extends AbsBaseFragment implements
         getDeviceList();
     }
 
+
     @Override
     protected int getFragmentLayout() {
         return R.layout.fragment_home;
@@ -174,8 +166,10 @@ public class HomeFragment extends AbsBaseFragment implements
     @SuppressWarnings("unchecked")
     protected void initView(View view) {
 
-        mDevicesLv = (ListView) view.findViewById(R.id.devices_items);
-        lvHeader = LayoutInflater.from(getActivity()).inflate(R.layout.header_lv_home_page, null);
+        //设备列表
+        ListView mDevicesLv = (ListView) view.findViewById(R.id.devices_items);
+        //lv头部
+        View lvHeader = LayoutInflater.from(getActivity()).inflate(R.layout.header_lv_home_page, null);
         initListViewHeaderViews(lvHeader);
 
         mDevicesLv.addHeaderView(lvHeader);
@@ -237,6 +231,13 @@ public class HomeFragment extends AbsBaseFragment implements
                         .build()
                         .show();
                 mMoreWalletListView.smoothScrollToPosition(0);
+
+                mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWallet();
+                if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
+                    mMoreWallets.clear();
+                    mMoreWallets.addAll(mMoreWalletsTemp);
+                    mAdapterMore.notifyDataSetChanged();
+                }
 
             }
 
@@ -406,7 +407,6 @@ public class HomeFragment extends AbsBaseFragment implements
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Logger.i(TAG, "onItemClick: ");
                 mCurrentWallet = mMoreWallets.get(position);
-                IONCWalletSDK.getInstance().setShowWallet(mCurrentWallet);
                 walletNameTx.setText(mCurrentWallet.getName());
                 walletAddressTx.setText(mCurrentWallet.getAddress());
                 if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {

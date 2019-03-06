@@ -59,33 +59,23 @@ public class WalletBean implements Serializable {
      */
     private String mnemonic;
 
-    private boolean isShowWallet;
 
     /**
-     * 是否被选中，再支付的时候
+     * 是否被选中，在支付的时候
      * */
     private boolean choosen;
 
-    public boolean isChoosen() {
-        return choosen;
-    }
 
-    public void setChoosen(boolean choosen) {
-        this.choosen = choosen;
-    }
+    /**
+     * 是否是要展示的主钱包,删除主钱包,则钱包列表中的第一个钱包作为主钱包,如果没有,则删除后跳转到创建钱包界面
+     */
+    private boolean isMainWallet;
 
-    public String getMnemonic() {
-        return mnemonic;
-    }
 
-    public void setMnemonic(String mnemonic) {
-        this.mnemonic = mnemonic;
-    }
-
-    @Generated(hash = 102786167)
+    @Generated(hash = 1550670516)
     public WalletBean(Long id, String privateKey, String name, String address,
-            String publickey, String balance, String keystore, String password, int mIconIdex,
-            String mnemonic, boolean isShowWallet, boolean choosen) {
+            String publickey, String balance, String keystore, String password,
+            int mIconIdex, String mnemonic, boolean choosen, boolean isMainWallet) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -96,111 +86,133 @@ public class WalletBean implements Serializable {
         this.password = password;
         this.mIconIdex = mIconIdex;
         this.mnemonic = mnemonic;
-        this.isShowWallet = isShowWallet;
         this.choosen = choosen;
+        this.isMainWallet = isMainWallet;
     }
+
 
     @Generated(hash = 1814219826)
     public WalletBean() {
     }
 
+
     public Long getId() {
         return this.id;
     }
+
 
     public void setId(Long id) {
         this.id = id;
     }
 
+
     public String getPrivateKey() {
         return this.privateKey;
     }
+
 
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
     }
 
+
     public String getName() {
         return this.name;
     }
+
 
     public void setName(String name) {
         this.name = name;
     }
 
+
     public String getAddress() {
         return this.address;
     }
+
 
     public void setAddress(String address) {
         this.address = address;
     }
 
+
     public String getPublickey() {
         return this.publickey;
     }
+
 
     public void setPublickey(String publickey) {
         this.publickey = publickey;
     }
 
+
     public String getBalance() {
         return this.balance;
     }
+
 
     public void setBalance(String balance) {
         this.balance = balance;
     }
 
+
     public String getKeystore() {
         return this.keystore;
     }
+
 
     public void setKeystore(String keystore) {
         this.keystore = keystore;
     }
 
+
     public String getPassword() {
         return this.password;
     }
 
+
     public void setPassword(String password) {
-        this.password = password;//保存时，加密保存
+        this.password = password;
     }
+
 
     public int getMIconIdex() {
         return this.mIconIdex;
     }
 
+
     public void setMIconIdex(int mIconIdex) {
         this.mIconIdex = mIconIdex;
     }
 
-    @Override
-    public String toString() {
-        return "WalletBean{" +
-                "id=" + id +
-                ", privateKey='" + privateKey + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", publickey='" + publickey + '\'' +
-                ", balance='" + balance + '\'' +
-                ", keystore='" + keystore + '\'' +
-                ", password='" + password + '\'' +
-                ", mIconIdex=" + mIconIdex +
-                ", mnemonic='" + mnemonic + '\'' +
-                '}';
+
+    public String getMnemonic() {
+        return this.mnemonic;
     }
 
-    public boolean getIsShowWallet() {
-        return this.isShowWallet;
+
+    public void setMnemonic(String mnemonic) {
+        this.mnemonic = mnemonic;
     }
 
-    public void setIsShowWallet(boolean isShowWallet) {
-        this.isShowWallet = isShowWallet;
-    }
 
     public boolean getChoosen() {
         return this.choosen;
     }
+
+
+    public void setChoosen(boolean choosen) {
+        this.choosen = choosen;
+    }
+
+
+    public boolean getIsMainWallet() {
+        return this.isMainWallet;
+    }
+
+
+    public void setIsMainWallet(boolean isMainWallet) {
+        this.isMainWallet = isMainWallet;
+    }
+
 }

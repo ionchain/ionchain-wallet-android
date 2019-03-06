@@ -39,9 +39,10 @@ public final class StringUtils {
      * @return 是否匹配
      */
     public static boolean check(String value) {
-        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,12}$");
-        Matcher m = p.matcher(value);
-        return m.matches();
+//        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,12}$");
+//        Matcher m = p.matcher(value);
+//        return m.matches();
+        return true;
     }
 
     /** 只包含数字 英文 汉字
@@ -49,10 +50,11 @@ public final class StringUtils {
      * @return 是否符合匹配规则
      */
     public static boolean isNumENCN(String str) {
-        String regex = "^[a-zA-Z0-9\u4E00-\u9FA5]+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher match = pattern.matcher(str);
-        return match.matches();
+//        String regex = "^[a-zA-Z0-9\u4E00-\u9FA5]+$";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher match = pattern.matcher(str);
+//        return match.matches();
+        return true;
     }
     /** 只英文
      * @param str

@@ -183,7 +183,6 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
     public void onImportMnemonicSuccess(WalletBean walletBean) {
         Logger.i("onCreateSuccess: " + walletBean);
         hideProgress();
-        walletBean.setIsShowWallet(false);
         IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
         onSDKCreateSuccess(walletBean);

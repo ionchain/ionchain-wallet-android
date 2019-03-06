@@ -113,7 +113,6 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
             walletBean.setMIconIdex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger("导入成功啦!");
-            walletBean.setIsShowWallet(true);
             onSDKCreateSuccess(walletBean);
         }
     }

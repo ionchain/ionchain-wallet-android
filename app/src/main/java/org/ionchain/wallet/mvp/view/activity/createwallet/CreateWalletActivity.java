@@ -68,6 +68,18 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         createBtn = findViewById(R.id.createBtn);
         importBtn = findViewById(R.id.importBtn);
 
+    }
+
+    @Override
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
+    }
+
+    @Override
+    protected void initView() {
+        findViews();
+        getMImmersionBar().titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +110,8 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
 
 
                 /*
-                * 检查钱包名字是否符规则
-                * */
+                 * 检查钱包名字是否符规则
+                 * */
 
                 if (TextUtils.isEmpty(walletnamestr)) {
                     ToastUtil.showShort("请输入钱包名字");
@@ -158,18 +170,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     }
 
     @Override
-    protected void handleIntent(Intent intent) {
-        super.handleIntent(intent);
-        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
-    }
-
-    @Override
-    protected void initView() {
-        findViews();
-        getMImmersionBar().titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
-    }
-
-    @Override
     protected int getLayoutId() {
         return R.layout.activity_wallet_create;
     }
@@ -208,7 +208,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
         pass = pwdEt.getText().toString().trim();
         resetpass = resetPwdEt.getText().toString().trim();
 
-        if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(resetpass)) {
+        if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(resetpass)&&checkbox.isChecked()) {
             createBtn.setEnabled(true);
             createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
         } else {
@@ -222,11 +222,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     public void onImportMnemonicSuccess(@NonNull WalletBean walletBean) {
         Log.i(getTAG(), "onCreateSuccess: " + walletBean);
         hideProgress();
-        if (isWelcome) {
-            walletBean.setIsShowWallet(true);
-        } else {
-            walletBean.setIsShowWallet(false);
-        }
         IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
         skip(MainActivity.class);

@@ -12,12 +12,14 @@ import android.widget.TextView;
 import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.bean.WalletBean;
 import com.ionc.wallet.sdk.callback.OnBalanceCallback;
+import com.ionc.wallet.sdk.callback.OnDeletefinishCallback;
 import com.ionc.wallet.sdk.callback.OnImportPrivateKeyCallback;
 import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
 import com.ionc.wallet.sdk.utils.Logger;
 import com.ionc.wallet.sdk.utils.StringUtils;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletSelectActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -29,6 +31,7 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
+import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
@@ -40,7 +43,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
         OnBalanceCallback,
         OnImportPrivateKeyCallback,
         View.OnClickListener,
-        OnSimulateTimeConsume {
+        OnSimulateTimeConsume, OnDeletefinishCallback {
 
 
     WalletBean mWallet;
@@ -230,7 +233,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
 //                            return;
 //                        }
 
-                        IONCWalletSDK.getInstance().deleteWallet(mWallet);
+                        IONCWalletSDK.getInstance().deleteWallet(mWallet,ModifyWalletActivity.this);
 
                         finish();
                     }
@@ -388,5 +391,22 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
 
         }
 
+    }
+
+    /**
+     * 删除完成:检查数据库是否还有钱包,如果有将数据库第一个钱包设置为首页展示钱包
+     */
+    @Override
+    public void onDeleteFinish() {
+        //检查是否还有钱包
+        if (IONCWalletSDK.getInstance().getAllWallet() == null || IONCWalletSDK.getInstance().getAllWallet().size() > 0) {
+            IONCWalletSDK.getInstance().getAllWallet().get(0).setIsMainWallet(true);
+            IONCWalletSDK.getInstance().saveWallet(IONCWalletSDK.getInstance().getAllWallet().get(0));
+        }else {
+            //去创建钱包
+            Intent intent1 = new Intent(this, CreateWalletSelectActivity.class);
+            startActivity(intent1);
+            finish();
+        }
     }
 }

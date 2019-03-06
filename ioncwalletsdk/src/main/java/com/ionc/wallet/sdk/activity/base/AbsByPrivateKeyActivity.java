@@ -182,7 +182,6 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
         } else {
             walletBean.setMIconIdex(getNum(7));
             ToastUtil.showToastLonger("导入成功啦!");
-            walletBean.setIsShowWallet(true);
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             onSDKCreateSuccess(walletBean);
         }

@@ -67,7 +67,6 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
         Logger.i(walletBean.toString())
         hideProgress()
         walletBean.mIconIdex = getNum(7)
-        walletBean.isShowWallet = isWelcome
         IONCWalletSDK.getInstance().saveWallet(walletBean)
         ToastUtil.showToastLonger("导入成功啦!")
         skip(MainActivity::class.java)
