@@ -26,6 +26,7 @@ import java.util.List;
 
 import static org.ionchain.wallet.constant.ConstantParams.JUMP_PARM_ISADDMODE;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
+import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLoadmoreListener, ManagerWalletHelper.OnWalletManagerItemClickedListener {
 
@@ -59,6 +60,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setViewAlphaAnimation(createBtn);
                 if (App.SDK_Debug) {
                     skip(SDKCreateActivity.class, JUMP_PARM_ISADDMODE, true);//
                 } else {
@@ -70,6 +72,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setViewAlphaAnimation(importBtn);
                 if (App.SDK_Debug) {
                     skip(SDKSelectCreateModeWalletActivity.class);
                 }else {

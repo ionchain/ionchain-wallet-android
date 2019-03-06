@@ -103,7 +103,8 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                 txCostTv.setText("旷工费 " + df.format(dynamicValue) + " IONC");
                 BigDecimal bigDecimal = Convert.toWei(String.valueOf(dynamicValue), Convert.Unit.ETHER);
                 double d = bigDecimal.doubleValue() / 30000;
-                mCurrentGasPrice = Convert.fromWei(String.valueOf(d), Convert.Unit.GWEI);
+                mCurrentGasPrice = Convert.toWei(String.valueOf(d), Convert.Unit.GWEI);
+//                mCurrentGasPrice = Convert.fromWei(String.valueOf(d), Convert.Unit.GWEI);
                 Logger.i(getTAG(), "mCurrentGasPrice: " + mCurrentGasPrice);
             }
 

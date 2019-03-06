@@ -16,7 +16,7 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import java.util.Objects;
 
 import static org.ionchain.wallet.App.SDK_Debug;
-import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
+import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class SelectImportModeActivity extends AbsBaseActivity implements View.OnClickListener {
 
@@ -55,6 +55,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
      */
     @Override
     public void onClick(View v) {
+        setViewAlphaAnimation(v);
         Intent intent = null;
         if (v == byMnemonic) {
             if (SDK_Debug) {

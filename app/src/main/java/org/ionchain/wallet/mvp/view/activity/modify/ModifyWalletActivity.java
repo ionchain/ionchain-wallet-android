@@ -31,10 +31,10 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
-import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
+import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
@@ -265,6 +265,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
     @Override
     public void onClick(View v) {
         Intent intent;
+        setViewAlphaAnimation(v);
         switch (v.getId()) {
 
 

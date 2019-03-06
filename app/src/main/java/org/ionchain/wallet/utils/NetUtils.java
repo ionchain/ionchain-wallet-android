@@ -37,6 +37,19 @@ public class NetUtils {
     }
 
     /**
+     * get请求获取数据
+     *
+     * @param url
+     */
+    public static void get(String url, StringCallback callback, Object cancelTag) {
+        OkGo.<String>get(url)
+                .tag(cancelTag)// 请求的 tag, 主要用于取消对应的请求
+                .cacheKey("cacheKey")            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
+                .execute(callback);
+    }
+
+    /**
      * post 请求获取数据
      *
      * @param url

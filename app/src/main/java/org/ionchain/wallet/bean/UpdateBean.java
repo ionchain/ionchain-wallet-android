@@ -1,6 +1,7 @@
 package org.ionchain.wallet.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by binny on 2018/11/29.
@@ -9,74 +10,104 @@ public class UpdateBean implements Serializable {
 
 
     /**
-     * success : 0
-     * message : ok
-     * data : {"platform":"Android","version":"1.1.2","changelog":"初始化app","url":"http://www.baidu.com"}
+     * code : 0
+     * msg : 操作成功!
+     * data : [{"id":"1a1f18d6faf0fasdfas","has_new_version":"1","must_update":null,"version_number":"1.2.2","version_code":109,"update_info":"1111","url":"1212121212fsadf"}]
      */
 
-    private int success;
-    private String message;
-    private DataBean data;
+    private int code;
+    private String msg;
+    private List<DataBean> data;
 
-    public int getSuccess() {
-        return success;
+    public int getCode() {
+        return code;
     }
 
-    public void setSuccess(int success) {
-        this.success = success;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public DataBean getData() {
+    public List<DataBean> getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(List<DataBean> data) {
         this.data = data;
     }
 
     public static class DataBean implements Serializable {
         /**
-         * platform : Android
-         * version : 1.1.2
-         * changelog : 初始化app
-         * url : http://www.baidu.com
+         * id : 1a1f18d6faf0fasdfas
+         * has_new_version : 1
+         * must_update : null
+         * version_number : 1.2.2
+         * version_code : 109
+         * update_info : 1111
+         * url : 1212121212fsadf
          */
 
-        private String platform;
-        private String version;
-        private String changelog;
+        private String id;
+        private String has_new_version;
+        private Object must_update;
+        private String version_number;
+        private int version_code;
+        private String update_info;
         private String url;
 
-        public String getPlatform() {
-            return platform;
+        public String getId() {
+            return id;
         }
 
-        public void setPlatform(String platform) {
-            this.platform = platform;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public String getVersion() {
-            return version;
+        public String getHas_new_version() {
+            return has_new_version;
         }
 
-        public void setVersion(String version) {
-            this.version = version;
+        public void setHas_new_version(String has_new_version) {
+            this.has_new_version = has_new_version;
         }
 
-        public String getChangelog() {
-            return changelog;
+        public Object getMust_update() {
+            return must_update;
         }
 
-        public void setChangelog(String changelog) {
-            this.changelog = changelog;
+        public void setMust_update(Object must_update) {
+            this.must_update = must_update;
+        }
+
+        public String getVersion_number() {
+            return version_number;
+        }
+
+        public void setVersion_number(String version_number) {
+            this.version_number = version_number;
+        }
+
+        public int getVersion_code() {
+            return version_code;
+        }
+
+        public void setVersion_code(int version_code) {
+            this.version_code = version_code;
+        }
+
+        public String getUpdate_info() {
+            return update_info;
+        }
+
+        public void setUpdate_info(String update_info) {
+            this.update_info = update_info;
         }
 
         public String getUrl() {

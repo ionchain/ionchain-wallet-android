@@ -32,8 +32,8 @@ import java.util.Arrays;
 
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
-import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
+import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnUpdatePasswordCallback {
     private RelativeLayout importHeader;
@@ -97,6 +97,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setViewAlphaAnimation(importBtn);
                 if (mnemonic.getText() == null) {
                     ToastUtil.showToastLonger("助记词不能为空！");
                     return;

@@ -1,6 +1,5 @@
 package org.ionchain.wallet.mvp.view.activity.importmode
 
-import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.AppCompatEditText
 import android.text.Editable
@@ -17,16 +16,14 @@ import com.ionc.wallet.sdk.callback.OnCreateWalletCallback
 import com.ionc.wallet.sdk.utils.Logger
 import com.ionc.wallet.sdk.utils.RandomUntil.getNum
 import com.uuzuche.lib_zxing.activity.CaptureActivity
+import com.uuzuche.lib_zxing.activity.CodeUtils
 import org.ionchain.wallet.R
 import org.ionchain.wallet.constant.ConstantParams.FROM_SCAN
 import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE
 import org.ionchain.wallet.mvp.view.activity.MainActivity
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity
+import org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation
 import org.ionchain.wallet.utils.ToastUtil
-import android.widget.Toast
-import com.uuzuche.lib_zxing.activity.CodeUtils
-import android.support.v4.app.NotificationCompat.getExtras
-import android.os.Bundle
 
 
 class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, TextWatcher {
@@ -63,18 +60,26 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
     }
 
     override fun onCreateSuccess(walletBean: WalletBean) {
+        val wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.address)
         Logger.i(walletBean.toString())
+        if (null != wallet) {
+            ToastUtil.showLong("该钱包已存在");
+        } else {
+            walletBean.mIconIdex = getNum(7)
+            IONCWalletSDK.getInstance().saveWallet(walletBean)
+            ToastUtil.showToastLonger("导入成功啦!")
+            skip(MainActivity::class.java)
+        }
         hideProgress()
-        walletBean.mIconIdex = getNum(7)
-        IONCWalletSDK.getInstance().saveWallet(walletBean)
-        ToastUtil.showToastLonger("导入成功啦!")
-        skip(MainActivity::class.java)
     }
 
     override fun onCreateFailure(result: String) {
         hideProgress()
-        ToastUtil.showToastLonger("导入成失败!\n$result")
-        Logger.e(TAG, "onCreateFailure: $result")
+        if ("Invalid password provided".equals(result)) {
+            ToastUtil.showToastLonger("无效密码!")
+        } else {
+            ToastUtil.showToastLonger("导入成失败!\n$result")
+        }
     }
 
 
@@ -114,6 +119,7 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
         linkUrlTv = findViewById<View>(R.id.linkUrlTv) as TextView
         importBtn = findViewById<View>(R.id.importBtn) as Button
         importBtn!!.setOnClickListener {
+            setViewAlphaAnimation(importBtn)
             keystoreStr = mKeystore!!.text.toString()
             Logger.i(keystoreStr!!)
             //读取keystore密码

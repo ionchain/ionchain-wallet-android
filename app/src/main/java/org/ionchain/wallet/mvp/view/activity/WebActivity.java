@@ -111,7 +111,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                if (NET_ERR_INTERNET_DISCONNECTED.equals(error.getDescription())) {
+                if (NET_ERR_INTERNET_DISCONNECTED.contentEquals(error.getDescription())) {
                     load_error = true;
                 }
             }
@@ -125,7 +125,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                smartRefreshLayout.finishRefresh();
+                smartRefreshLayout.finishRefresh(500);
                 if (!load_error) {
                     mWebView.setVisibility(View.VISIBLE);
                     no_net_error_hint_page.setVisibility(View.GONE);

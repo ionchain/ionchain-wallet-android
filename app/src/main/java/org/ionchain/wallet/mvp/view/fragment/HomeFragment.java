@@ -46,7 +46,6 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivi
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecoderActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogBindDevice;
@@ -405,6 +404,15 @@ public class HomeFragment extends AbsBaseFragment implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Logger.i(TAG, "onItemClick: ");
+
+                for (int i = 0; i < mMoreWallets.size(); i++) {
+                    if (i!=position) {
+                        mMoreWallets.get(i).setIsMainWallet(false);
+                    }else {
+                        mMoreWallets.get(i).setIsMainWallet(true);
+                    }
+                    IONCWalletSDK.getInstance().saveWallet(mMoreWallets.get(i));
+                }
                 mCurrentWallet = mMoreWallets.get(position);
                 walletNameTx.setText(mCurrentWallet.getName());
                 walletAddressTx.setText(mCurrentWallet.getAddress());
@@ -415,7 +423,6 @@ public class HomeFragment extends AbsBaseFragment implements
                 }
                 int ids = mCurrentWallet.getMIconIdex();
                 wallet_logo.setImageResource(App.sRandomHeader[ids]);
-//                SPUtils.put(getActivity(), "current_wallet_name", mCurrentWallet.getName());
                 IONCWalletSDK.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
