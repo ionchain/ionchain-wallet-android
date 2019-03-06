@@ -137,9 +137,10 @@ public class HomeFragment extends AbsBaseFragment implements
         if (mCurrentWallet == null) {
             ToastUtil.showLong("您还没有钱包,请您先创建或导入钱包");
 //            跳转到钱包创建或者导入界面
-
             return;
         }
+        WalletBean s=null;
+        s.getAddress();
         walletNameTx.setText(mCurrentWallet.getName());
         walletAddressTx.setText(mCurrentWallet.getAddress());
         if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {

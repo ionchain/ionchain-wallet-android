@@ -92,12 +92,10 @@ public class ActivityHelper {
      * 退出应用程序 
      */  
     @SuppressWarnings("deprecation")  
-    public void AppExit(Context context) {  
+    public void AppExit() {
         try {  
             finishAllActivity();  
-            android.app.ActivityManager activityManager = (android.app.ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            System.exit(0);
-        } catch (Exception e) {  
+        } catch (Exception e) {
             e.printStackTrace();  
         }  
     }  

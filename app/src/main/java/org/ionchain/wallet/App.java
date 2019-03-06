@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.ionc.wallet.sdk.IONCWalletSDK;
@@ -15,6 +16,8 @@ import com.lzy.okgo.cookie.store.DBCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+
+import org.ionchain.wallet.crasher.CrashHandler;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -48,7 +51,14 @@ public class App extends Application {
         initLogger(LOG_DEBUG);
         IONCWalletSDK.getInstance().initIONCWalletSDK(this);
         ZXingLibrary.initDisplayOpinion(this);
+        CrashHandler.getInstance().init(this);
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initOKGO() {
