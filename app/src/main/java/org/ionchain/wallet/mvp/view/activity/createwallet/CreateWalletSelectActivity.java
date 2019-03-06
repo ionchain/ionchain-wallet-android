@@ -34,9 +34,6 @@ import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 public class CreateWalletSelectActivity extends AbsBaseActivity {
 
 
-    private Button createBtn;
-    private Button importBtn;
-
     private CheckBox checkBox;
 
     /**
@@ -46,8 +43,8 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        createBtn = findViewById(R.id.createBtn);
-        importBtn = findViewById(R.id.importBtn);
+        Button createBtn = findViewById(R.id.createBtn);
+        Button importBtn = findViewById(R.id.importBtn);
         checkBox = findViewById(R.id.checkbox);
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override

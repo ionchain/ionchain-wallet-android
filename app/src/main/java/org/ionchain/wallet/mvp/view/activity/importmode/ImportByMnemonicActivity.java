@@ -2,6 +2,7 @@ package org.ionchain.wallet.mvp.view.activity.importmode;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -147,7 +148,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     }
 
     @Override
-    protected void handleIntent(Intent intent) {
+    protected void handleIntent(@NonNull Intent intent) {
         super.handleIntent(intent);
     }
 

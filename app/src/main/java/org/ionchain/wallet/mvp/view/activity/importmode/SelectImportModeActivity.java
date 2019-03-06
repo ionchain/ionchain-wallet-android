@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity.importmode;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKKeyStoreActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKMnemonicActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKPrivateKeyActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+
+import java.util.Objects;
 
 import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
@@ -81,7 +84,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     }
 
     @Override
-    protected void handleIntent(Intent intent) {
+    protected void handleIntent(@NonNull Intent intent) {
         super.handleIntent(intent);
     }
 
@@ -93,7 +96,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleView(R.id.header_top).statusBarDarkFont(true).execute();
+        Objects.requireNonNull(getMImmersionBar()).titleView(R.id.header_top).statusBarDarkFont(true).execute();
     }
 
     @Override

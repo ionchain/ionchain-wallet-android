@@ -30,6 +30,8 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import java.util.Objects;
+
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
@@ -70,14 +72,14 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     }
 
     @Override
-    protected void handleIntent(Intent intent) {
+    protected void handleIntent(@NonNull Intent intent) {
         super.handleIntent(intent);
     }
 
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
+        Objects.requireNonNull(getMImmersionBar()).titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
