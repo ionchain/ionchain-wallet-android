@@ -3,6 +3,7 @@ package org.ionchain.wallet.mvp.view.activity.importmode;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -29,6 +30,8 @@ import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import java.util.Objects;
+
 import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
 import static com.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
@@ -41,7 +44,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     private AppCompatEditText pwdEt;
     private AppCompatEditText repwdEt;
     private Button importBtn;
-    private boolean isWelcome;
     private CheckBox checkbox;
     private String private_key;
     private String newPassword;
@@ -151,9 +153,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        /**
-         * 处理二维码扫描结果
-         */
         if (requestCode == FROM_SCAN) {
             //处理扫描结果（在界面上显示）
             if (null != data) {
@@ -175,14 +174,13 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     protected void initData() {
-        getMImmersionBar().titleView(R.id.import_header)
+        Objects.requireNonNull(getMImmersionBar()).titleView(R.id.import_header)
                 .statusBarDarkFont(true)
                 .execute();
     }
 
     @Override
-    protected void handleIntent(Intent intent) {
-        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
+    protected void handleIntent(@NonNull Intent intent) {
     }
 
     @Override

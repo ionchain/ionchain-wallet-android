@@ -33,7 +33,6 @@ class ImportByKeystoreActivity : AbsBaseActivity(), OnCreateWalletCallback, Text
     private var mKeystore: AppCompatEditText? = null
     private var pwdEt: AppCompatEditText? = null
     private var importBtn: Button? = null
-    private var isWelcome: Boolean = false
     private var checkbox: CheckBox? = null
     private var linkUrlTv: TextView? = null
     private var keystoreStr: String? = null

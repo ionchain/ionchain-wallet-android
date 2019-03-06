@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity.createwallet;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -21,6 +22,8 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivi
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import java.util.Objects;
+
 import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
@@ -33,7 +36,6 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
 
     private Button createBtn;
     private Button importBtn;
-    private boolean isWelcome;
 
     private CheckBox checkBox;
 
@@ -60,7 +62,6 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                 } else {
                     intent = new Intent(getMActivity(), CreateWalletActivity.class);
                 }
-                intent.putExtra(FROM_WELCOME, isWelcome);
                 startActivity(intent);
             }
         });
@@ -76,7 +77,6 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                     intent = new Intent(getMActivity(), SDKSelectCreateModeWalletActivity.class);
                 }else {
                     intent = new Intent(getMActivity(), SelectImportModeActivity.class);//
-                    intent.putExtra(FROM_WELCOME, isWelcome);
                 }
                 startActivity(intent);
             }
@@ -114,7 +114,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar()
+        Objects.requireNonNull(getMImmersionBar())
                 .statusBarDarkFont(false)
                 .transparentStatusBar()
                 .navigationBarColor(R.color.black, 0.5f)
@@ -128,10 +128,9 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     }
 
     @Override
-    protected void handleIntent(Intent intent) {
+    protected void handleIntent(@NonNull Intent intent) {
         requestCodeQRCodePermissions();
         super.handleIntent(intent);
-        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }
 
 

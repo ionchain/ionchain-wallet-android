@@ -23,7 +23,6 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     private Button byPrivateKey;
     private Button byKeystore;
 
-    private boolean isWelcome;
 
     /**
      * Find the Views in the layout<br />
@@ -59,7 +58,6 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
                 intent = new Intent(getMActivity(), SDKMnemonicActivity.class);
             }else {
                 intent = new Intent(getMActivity(), ImportByMnemonicActivity.class);
-                intent.putExtra(FROM_WELCOME, isWelcome);
             }
             startActivity(intent);
         } else if (v == byPrivateKey) {
@@ -67,7 +65,6 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
                 intent = new Intent(getMActivity(), SDKPrivateKeyActivity.class);
             }else {
                 intent = new Intent(getMActivity(), ImportByPriKeyActivity.class);
-                intent.putExtra(FROM_WELCOME, isWelcome);
             }
             startActivity(intent);
         } else if (v == byKeystore) {
@@ -75,7 +72,6 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
                 intent = new Intent(getMActivity(), SDKKeyStoreActivity.class);
             }else {
                 intent = new Intent(getMActivity(), ImportByKeystoreActivity.class);
-                intent.putExtra(FROM_WELCOME, isWelcome);
             }
             startActivity(intent);
         } else if (v == back) {
@@ -87,7 +83,6 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
-        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }
 
     @Override

@@ -46,7 +46,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     private Button createBtn;
     private TextView importBtn;
 
-    private boolean isWelcome;
     private String walletnamestr;
     private String pass;
     private String resetpass;
@@ -73,7 +72,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
-        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }
 
     @Override

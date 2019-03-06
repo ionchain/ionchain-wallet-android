@@ -43,7 +43,6 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     private CheckBox checkbox;
     private TextView linkUrlTv;
     private Button importBtn;
-    private boolean isWelcome;
     private String newPassword;
 
     /**
@@ -150,7 +149,6 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
-        isWelcome = intent.getBooleanExtra(FROM_WELCOME, false);
     }
 
     @Override
