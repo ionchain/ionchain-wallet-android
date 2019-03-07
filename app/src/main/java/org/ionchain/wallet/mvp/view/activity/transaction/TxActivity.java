@@ -82,13 +82,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                     @Override
                     public void onClick(View v) {
                         //检查密码是否正确
-                        String pwd1 = dialogPasswordCheck.getPasswordEt().getText().toString();
-                        String pwd2 = mCurrentWallet.getPassword();
-                        if (!pwd1.equals(pwd2)) {
+                        String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
+                        String pwd_dao = mCurrentWallet.getPassword();
+                        if (StringUtils.chechPwd(pwd_dao,pwd_input)) {
+                            IONCWalletSDK.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice, mCurrentWallet.getPassword(), mCurrentWallet.getKeystore(), Double.parseDouble(txAccount), TxActivity.this);
+                        }else {
                             ToastUtil.showToastLonger("请输入的正确的密码！");
-                            return;
                         }
-                        IONCWalletSDK.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice, mCurrentWallet.getPassword(), mCurrentWallet.getKeystore(), Double.parseDouble(txAccount), TxActivity.this);
                     }
                 }).show();
 
@@ -103,8 +103,8 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                 txCostTv.setText("旷工费 " + df.format(dynamicValue) + " IONC");
                 BigDecimal bigDecimal = Convert.toWei(String.valueOf(dynamicValue), Convert.Unit.ETHER);
                 double d = bigDecimal.doubleValue() / 30000;
-                mCurrentGasPrice = Convert.toWei(String.valueOf(d), Convert.Unit.GWEI);
-//                mCurrentGasPrice = Convert.fromWei(String.valueOf(d), Convert.Unit.GWEI);
+//                mCurrentGasPrice = Convert.toWei(String.valueOf(d), Convert.Unit.GWEI);
+                mCurrentGasPrice = Convert.fromWei(String.valueOf(d), Convert.Unit.GWEI);
                 Logger.i(getTAG(), "mCurrentGasPrice: " + mCurrentGasPrice);
             }
 

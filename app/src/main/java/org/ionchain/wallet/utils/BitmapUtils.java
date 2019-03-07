@@ -4,10 +4,11 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ionc.wallet.sdk.utils.Logger;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -23,24 +24,23 @@ public class BitmapUtils {
     /**
      * @说明： 保存图片到本地
      */
-    public static String rootDir = Environment.getExternalStorageDirectory() .getAbsolutePath()+ File.separator;
+    public static String rootDir = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
 
-    public static void savePicture(Bitmap bitmap, String fileName,String imageName){
-        String pathName = rootDir  + fileName + File.separator;
+    public static void savePicture(Bitmap bitmap, String fileName, String imageName) {
+        String pathName = rootDir + fileName + File.separator;
 
         File myDir = new File(pathName);//目录
         if (!myDir.exists()) {
             myDir.mkdirs();
         }
-        File image = new File(myDir,imageName);//文件
+        File image = new File(myDir, imageName);//文件
 
         Log.i("TAG", "savePicture: ");
         FileOutputStream out;
         if (image.exists()) {
             image.delete();
         }
-        try
-        {
+        try {
             image.createNewFile();
             out = new FileOutputStream(image);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -48,21 +48,16 @@ public class BitmapUtils {
             out.close();
 
 
-        } catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            Log.i("qqqq", "savePicture: ");
-            e.printStackTrace();
-        }
+        } catch (IOException e) {
+            Logger.e("qqqq", "savePicture: " + e.getMessage());
 
+        }
     }
+
     /**
      * 建立HTTP请求，并获取Bitmap对象。
      *
-     * @param urlString
-     *            图片的URL地址
+     * @param urlString 图片的URL地址
      * @return 解析后的Bitmap对象
      */
     public static boolean downloadUrlToStream(String urlString, OutputStream outputStream) {
@@ -81,7 +76,7 @@ public class BitmapUtils {
             }
             return true;
         } catch (final IOException e) {
-            e.printStackTrace();
+            Logger.e("qqqq", "savePicture: " + e.getMessage());
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -94,7 +89,7 @@ public class BitmapUtils {
                     in.close();
                 }
             } catch (final IOException e) {
-                e.printStackTrace();
+                Logger.e("qqqq", "savePicture: " + e.getMessage());
             }
         }
         return false;

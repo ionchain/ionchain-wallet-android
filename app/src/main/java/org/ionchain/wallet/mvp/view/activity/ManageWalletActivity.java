@@ -16,7 +16,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
-import org.ionchain.wallet.mvp.view.activity.modify.ModifyWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -129,6 +129,6 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     @Override
     public void onItemClicked(int position) {
         WalletBean wallet = (WalletBean) mAdapter.getItem(position);
-        skip(ModifyWalletActivity.class, SERIALIZABLE_DATA, wallet);
+        skip(ModifyAndExportWalletActivity.class, SERIALIZABLE_DATA, wallet);
     }
 }

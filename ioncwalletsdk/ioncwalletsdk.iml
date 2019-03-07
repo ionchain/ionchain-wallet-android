@@ -143,6 +143,7 @@
     <orderEntry type="library" name="Gradle: org.greenrobot:greendao:3.2.2@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm:5.0.3@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.jnr:jnr-ffi:2.1.2@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:/Users/binny/AndroidStudioProjects/ionchain/ioncwalletsdk/libs/commons-codec-1.11.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-vector-drawable:28.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-core-utils:28.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: io.reactivex:rxjava:1.2.4@jar" level="project" />

@@ -198,7 +198,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
 
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
-        IONCWalletSDK.getInstance().updateWallet(wallet);
+        IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger("更新成功啦!");
         onSDKCreateSuccess(wallet);

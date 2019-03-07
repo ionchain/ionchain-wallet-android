@@ -132,7 +132,7 @@ public class WalletBean implements Serializable {
 
 
     public void setAddress(String address) {
-        this.address = address;
+        this.address = address.toLowerCase();
     }
 
 

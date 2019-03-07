@@ -198,7 +198,7 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
 
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
-        IONCWalletSDK.getInstance().updateWallet(wallet);
+        IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
         ToastUtil.showToastLonger("更新成功啦!");
         onSDKCreateSuccess(wallet);
 

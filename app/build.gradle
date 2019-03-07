@@ -145,6 +145,7 @@ dependencies {
     //    implementation (name:'ioncwalletsdk-debug',ext:'aar')
     implementation project(':lib-zxing')
     implementation 'com.android.support:multidex:1.0.3'
+    implementation files('/Users/binny/AndroidStudioProjects/ionchain/ioncwalletsdk/libs/commons-codec-1.11.jar')
 }
 
 apply plugin: 'org.greenrobot.greendao'

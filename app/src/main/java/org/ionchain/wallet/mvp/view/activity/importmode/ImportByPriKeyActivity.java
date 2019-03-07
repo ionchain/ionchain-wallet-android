@@ -268,7 +268,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
-        IONCWalletSDK.getInstance().updateWallet(wallet);
+        IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger("更新成功啦!");
         skip(MainActivity.class);

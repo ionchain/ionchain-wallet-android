@@ -31,6 +31,7 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
+import static com.ionc.wallet.sdk.utils.StringUtils.chechPwd;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
@@ -39,7 +40,7 @@ import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
  */
-public class ModifyWalletActivity extends AbsBaseActivity implements
+public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         OnBalanceCallback,
         OnImportPrivateKeyCallback,
         View.OnClickListener,
@@ -126,7 +127,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
         ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
+                SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
                 finish();
             }
         });
@@ -136,8 +137,8 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                 if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
                     mWallet.setName(walletNameEt.getText().toString());
                     ioncTitleBar.setTitle(walletNameEt.getText().toString());
-                    SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
-                    IONCWalletSDK.getInstance().updateWallet(mWallet);
+                    SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
+                    IONCWalletSDK.getInstance().removeWalletPrivateKey(mWallet);
                 } else {
                     ToastUtil.showShort("钱包名称不可为空！");
                 }
@@ -152,35 +153,6 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
     }
 
 
-    /**
-     * 输入密码,导出私钥
-     */
-    private void showEditTextDialog() {
-        final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
-        dialog.setTitleText("导出私钥");
-        dialog.setLeftBtnClickedListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setRightBtnClickedListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*比对密码是否正确*/
-                String pwd = mWallet.getPassword();
-                String pwd1 = dialog.getPasswordEt().getText().toString();
-                if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
-                    dialog.dismiss();
-                    showProgress("正在导出请稍候");
-                    IONCWalletSDK.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd, ModifyWalletActivity.this);
-                } else {
-                    ToastUtil.showToastLonger("请检查密码是否正确！");
-                }
-            }
-        });
-        dialog.show();
-    }
 
     /**
      * 导出私钥
@@ -194,7 +166,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                     @Override
                     public void onClick(View v) {
                         //复制
-                        StringUtils.copy(ModifyWalletActivity.this, privateKey);
+                        StringUtils.copy(ModifyAndExportWalletActivity.this, privateKey);
                         ToastUtil.showToastLonger("已复制私钥");
                     }
                 }).show();
@@ -224,7 +196,9 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                             return;
                         }
                         Logger.i(getTAG(), "onClick: " + mWallet.getPassword());
-                        if (!dialogPasswordCheck.getPasswordEt().getText().toString().equals(mWallet.getPassword())) {
+                        String p_dao = mWallet.getPassword();
+                        String p_input = dialogPasswordCheck.getPasswordEt().getText().toString();
+                        if (chechPwd(p_dao,p_input)) {
                             ToastUtil.showToastLonger("您输入的密码有误！");
                             return;
                         }
@@ -233,7 +207,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
 //                            return;
 //                        }
 
-                        IONCWalletSDK.getInstance().deleteWallet(mWallet,ModifyWalletActivity.this);
+                        IONCWalletSDK.getInstance().deleteWallet(mWallet, ModifyAndExportWalletActivity.this);
 
                         finish();
                     }
@@ -266,9 +240,9 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
     public void onClick(View v) {
         Intent intent;
         setViewAlphaAnimation(v);
+        final DialogPasswordCheck d = new DialogPasswordCheck(this);
+
         switch (v.getId()) {
-
-
             case R.id.copyBtn://复制
                 StringUtils.copy(this, mWallet.getPrivateKey());
                 ToastUtil.showShortToast("已复制到剪切板");
@@ -282,36 +256,55 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                 startActivityForResult(intent, REQUEST_MODIFY_WALLET_PWD);
                 break;
             case R.id.import_pri_layout://导出私钥
-                showEditTextDialog();
-                break;
-            case R.id.import_mnemonic_layout://导出助记词
-                importFlag = 0;
-                final DialogPasswordCheck dialog = new DialogPasswordCheck(this);
-                dialog.setLeftBtnClickedListener(new View.OnClickListener() {
+
+                d.setTitleText("导出私钥");
+                d.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+                        d.dismiss();
                     }
                 });
-                dialog.setRightBtnClickedListener(new View.OnClickListener() {
+                d.setRightBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         /*比对密码是否正确*/
-                        String pwd = mWallet.getPassword();
-                        String pwd1 = dialog.getPasswordEt().getText().toString();
-                        Logger.i("pwd = " + pwd);
-                        Logger.i("pwd1 = " + pwd1);
-                        if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
-                            dialog.dismiss();
+                        String pwd_dao = mWallet.getPassword();
+                        String pwd1 = d.getPasswordEt().getText().toString();
+                        if (StringUtils.chechPwd(pwd_dao,pwd1)) {
+                            d.dismiss();
                             showProgress("正在导出请稍候");
-                            IONCWalletSDK.getInstance().simulateTimeConsuming(ModifyWalletActivity.this);
+                            IONCWalletSDK.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd_dao, ModifyAndExportWalletActivity.this);
                         } else {
-
                             ToastUtil.showToastLonger("请检查密码是否正确！");
                         }
                     }
                 });
-                dialog.show();
+                d.show();
+                break;
+            case R.id.import_mnemonic_layout://导出助记词
+                importFlag = 0;
+                d.setLeftBtnClickedListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        d.dismiss();
+                    }
+                });
+                d.setRightBtnClickedListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        /*比对密码是否正确*/
+                        String pwd = mWallet.getPassword();//保存的密码
+                        String pwd1 = d.getPasswordEt().getText().toString();//输入的密码
+                        if (chechPwd(pwd,pwd1)) {
+                            d.dismiss();
+                            showProgress("正在导出请稍候");
+                            IONCWalletSDK.getInstance().simulateTimeConsuming(ModifyAndExportWalletActivity.this);
+                        } else {
+                            ToastUtil.showToastLonger("请检查密码是否正确！");
+                        }
+                    }
+                });
+                d.show();
                 break;
             case R.id.import_key_store_layout://导出KS
                 importFlag = 1;
@@ -328,10 +321,10 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                         /*比对密码是否正确*/
                         String pwd = mWallet.getPassword();
                         String pwd1 = dialog1.getPasswordEt().getText().toString();
-                        if (!StringUtils.isEmpty(pwd) && pwd.equals(pwd1)) {
+                        if (chechPwd(pwd,pwd1)) {
                             dialog1.dismiss();
                             showProgress("正在导出请稍候");
-                            IONCWalletSDK.getInstance().simulateTimeConsuming(ModifyWalletActivity.this);
+                            IONCWalletSDK.getInstance().simulateTimeConsuming(ModifyAndExportWalletActivity.this);
                         } else {
                             ToastUtil.showToastLonger("请检查密码是否正确！");
                         }
@@ -364,7 +357,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                         @Override
                         public void onClick(View v) {
                             //复制
-                            StringUtils.copy(ModifyWalletActivity.this, mWallet.getMnemonic());
+                            StringUtils.copy(ModifyAndExportWalletActivity.this, mWallet.getMnemonic());
                             ToastUtil.showToastLonger("已复制助记词");
                         }
                     }).show();
@@ -382,7 +375,7 @@ public class ModifyWalletActivity extends AbsBaseActivity implements
                             @Override
                             public void onClick(View v) {
                                 //复制
-                                StringUtils.copy(ModifyWalletActivity.this, json);
+                                StringUtils.copy(ModifyAndExportWalletActivity.this, json);
                                 ToastUtil.showToastLonger("已复制 KeyStory");
                             }
                         }).show();

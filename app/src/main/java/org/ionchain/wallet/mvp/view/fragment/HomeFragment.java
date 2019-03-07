@@ -40,7 +40,7 @@ import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
-import org.ionchain.wallet.mvp.view.activity.modify.ModifyWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
@@ -246,7 +246,7 @@ public class HomeFragment extends AbsBaseFragment implements
         modifyWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(ModifyWalletActivity.class, SERIALIZABLE_DATA, mCurrentWallet);
+                skip(ModifyAndExportWalletActivity.class, SERIALIZABLE_DATA, mCurrentWallet);
             }
         });
         /*
