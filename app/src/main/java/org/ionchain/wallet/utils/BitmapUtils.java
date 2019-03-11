@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 
-import com.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.utils.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

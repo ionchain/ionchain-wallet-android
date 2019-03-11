@@ -9,14 +9,14 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ionc.wallet.sdk.IONCWalletSDK;
-import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.callback.OnBalanceCallback;
-import com.ionc.wallet.sdk.callback.OnDeletefinishCallback;
-import com.ionc.wallet.sdk.callback.OnImportPrivateKeyCallback;
-import com.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
-import com.ionc.wallet.sdk.utils.Logger;
-import com.ionc.wallet.sdk.utils.StringUtils;
+import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.callback.OnBalanceCallback;
+import org.ionc.wallet.sdk.callback.OnDeletefinishCallback;
+import org.ionc.wallet.sdk.callback.OnImportPrivateKeyCallback;
+import org.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
+import org.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.utils.StringUtils;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletSelectActivity;
@@ -31,7 +31,7 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
-import static com.ionc.wallet.sdk.utils.StringUtils.chechPwd;
+import static org.ionc.wallet.sdk.utils.StringUtils.chechPwd;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
@@ -198,7 +198,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                         Logger.i(getTAG(), "onClick: " + mWallet.getPassword());
                         String p_dao = mWallet.getPassword();
                         String p_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                        if (chechPwd(p_dao,p_input)) {
+                        if (!chechPwd(p_dao,p_input)) {
                             ToastUtil.showToastLonger("您输入的密码有误！");
                             return;
                         }

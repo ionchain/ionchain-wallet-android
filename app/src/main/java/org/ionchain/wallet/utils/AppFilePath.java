@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Environment;
 
 
-import com.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.utils.Logger;
 
 import java.io.File;
 

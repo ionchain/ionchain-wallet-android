@@ -1,7 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity.sdk;
 
-import com.ionc.wallet.sdk.activity.base.AbsByCreateActivity;
-import com.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.activity.base.AbsByCreateActivity;
+import org.ionc.wallet.sdk.bean.WalletBean;
 
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;

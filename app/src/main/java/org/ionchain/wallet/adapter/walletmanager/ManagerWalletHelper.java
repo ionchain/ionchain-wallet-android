@@ -4,9 +4,9 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
-import com.ionc.wallet.sdk.adapter.IViewHolder;
-import com.ionc.wallet.sdk.adapter.IViewHolderHelper;
-import com.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.adapter.IViewHolder;
+import org.ionc.wallet.sdk.adapter.IViewHolderHelper;
+import org.ionc.wallet.sdk.bean.WalletBean;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;

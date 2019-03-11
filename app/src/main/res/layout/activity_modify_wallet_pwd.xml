@@ -56,14 +56,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/act_wallet_create_notify1"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/txt_smallsize" />
+                android:textSize="@dimen/hint_text_size" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/act_wallet_create_notify2"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/txt_smallsize" />
+                android:textSize="@dimen/hint_text_size" />
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatEditText
@@ -74,9 +74,10 @@
             android:layout_marginTop="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:hint="当前密码"
+            android:maxLength="@integer/max_length_pwd"
             android:singleLine="true"
             android:textColor="@color/library_33"
-            android:textSize="14sp" />
+            android:textSize="@dimen/hint_text_size" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/newPwdEt"
@@ -85,10 +86,11 @@
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
-            android:hint="数字、大小写字母与特殊符号混合，且不少于8位"
+            android:hint="@string/password_rule"
             android:singleLine="true"
+            android:maxLength="@integer/max_length_pwd"
             android:textColor="@color/library_33"
-            android:textSize="14sp" />
+            android:textSize="@dimen/hint_text_size" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/resetNewPwdEt"
@@ -99,8 +101,9 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:hint="@string/wallet_create_respwd"
             android:singleLine="true"
+            android:maxLength="@integer/max_length_pwd"
             android:textColor="@color/library_33"
-            android:textSize="14sp" />
+            android:textSize="@dimen/hint_text_size" />
 
     </LinearLayout>
 

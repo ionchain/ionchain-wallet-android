@@ -4,11 +4,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ListView;
 
-import com.ionc.wallet.sdk.IONCWalletSDK;
-import com.ionc.wallet.sdk.adapter.CommonAdapter;
-import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.utils.Logger;
-import com.ionc.wallet.sdk.utils.StringUtils;
+import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.adapter.CommonAdapter;
+import org.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.utils.StringUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;

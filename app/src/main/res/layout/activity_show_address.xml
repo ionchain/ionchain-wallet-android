@@ -42,13 +42,14 @@
             android:layout_height="200dp"
             android:layout_centerInParent="true" />
 
-        <TextView
+         <TextView
             android:id="@+id/hint_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/show_qr_img"
             android:gravity="center"
             android:text="长按收款码可保存到本地" />
+
 
         <TextView
             android:layout_above="@id/hint_address"

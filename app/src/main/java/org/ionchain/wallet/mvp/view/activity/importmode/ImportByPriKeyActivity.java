@@ -17,11 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ionc.wallet.sdk.IONCWalletSDK;
-import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.callback.OnCreateWalletCallback;
-import com.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
-import com.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.callback.OnCreateWalletCallback;
+import org.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.sdk.utils.Logger;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -32,8 +32,8 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Objects;
 
-import static com.ionc.wallet.sdk.utils.RandomUntil.getNum;
-import static com.ionc.wallet.sdk.utils.StringUtils.check;
+import static org.ionc.wallet.sdk.utils.RandomUntil.getNum;
+import static org.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;

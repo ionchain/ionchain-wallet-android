@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.support.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
-import com.ionc.wallet.sdk.IONCWalletSDK;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -17,6 +16,7 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionchain.wallet.crasher.CrashHandler;
 
 import java.util.concurrent.TimeUnit;
@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 
-import static com.ionc.wallet.sdk.utils.Logger.initLogger;
+import static org.ionc.wallet.sdk.utils.Logger.initLogger;
 import static org.ionchain.wallet.BuildConfig.LOG_DEBUG;
 
 /**
@@ -72,9 +72,9 @@ public class App extends Application {
         //builder.addInterceptor(new ChuckInterceptor(this));
 
         //超时时间设置，默认60秒
-        builder.readTimeout(15000, TimeUnit.MILLISECONDS);      //全局的读取超时时间
+        builder.readTimeout(5000, TimeUnit.MILLISECONDS);      //全局的读取超时时间
         builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);     //全局的写入超时时间
-        builder.connectTimeout(15000, TimeUnit.MILLISECONDS);   //全局的连接超时时间
+        builder.connectTimeout(5000, TimeUnit.MILLISECONDS);   //全局的连接超时时间
 
         //自动管理cookie（或者叫session的保持），以下几种任选其一就行
         //builder.cookieJar(new CookieJarImpl(new SPCookieStore(this)));            //使用sp保持cookie，如果cookie不过期，则一直有效

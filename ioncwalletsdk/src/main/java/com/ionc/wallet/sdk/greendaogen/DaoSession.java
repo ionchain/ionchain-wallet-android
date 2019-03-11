@@ -8,7 +8,7 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
-import com.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.bean.WalletBean;
 
 import com.ionc.wallet.sdk.greendaogen.WalletBeanDao;
 

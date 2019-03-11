@@ -3,7 +3,7 @@ package org.ionchain.wallet.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.utils.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

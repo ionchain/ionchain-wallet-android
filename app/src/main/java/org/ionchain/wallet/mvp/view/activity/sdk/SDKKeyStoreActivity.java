@@ -1,8 +1,8 @@
 package org.ionchain.wallet.mvp.view.activity.sdk;
 
-import com.ionc.wallet.sdk.activity.base.AbsByKeystoreActivity;
-import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.activity.base.AbsByKeystoreActivity;
+import org.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.utils.Logger;
 
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 

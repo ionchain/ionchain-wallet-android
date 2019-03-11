@@ -11,9 +11,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.ionc.wallet.sdk.IONCWalletSDK;
-import com.ionc.wallet.sdk.utils.Logger;
-import com.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
+import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;

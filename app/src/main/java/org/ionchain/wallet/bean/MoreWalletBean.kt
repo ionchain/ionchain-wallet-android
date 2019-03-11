@@ -1,6 +1,6 @@
 package org.ionchain.wallet.bean
 
-import com.ionc.wallet.sdk.bean.WalletBean
+import org.ionc.wallet.sdk.bean.WalletBean
 import java.io.Serializable
 
 /**

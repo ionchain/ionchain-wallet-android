@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ionc.wallet.sdk.IONCWalletSDK;
-import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.callback.OnModifyWalletPassWordCallback;
-import com.ionc.wallet.sdk.utils.Logger;
-import com.ionc.wallet.sdk.utils.StringUtils;
+import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.callback.OnModifyWalletPassWordCallback;
+import org.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.utils.StringUtils;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -21,7 +21,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Objects;
 
-import static com.ionc.wallet.sdk.utils.StringUtils.check;
+import static org.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
 

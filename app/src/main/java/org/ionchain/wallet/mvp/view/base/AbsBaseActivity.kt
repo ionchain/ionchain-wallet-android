@@ -137,7 +137,7 @@ abstract class AbsBaseActivity : AppCompatActivity() {
     protected fun requestCodeQRCodePermissions() {
         val perms = arrayOf(Manifest.permission.CAMERA, Manifest.permission.VIBRATE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (!EasyPermissions.hasPermissions(this, *perms)) {
-            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, *perms)
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和闪光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, *perms)
         }
     }
 

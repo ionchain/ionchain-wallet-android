@@ -4,7 +4,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ionc.wallet.sdk.adapter.IViewHolder;
+import org.ionc.wallet.sdk.adapter.IViewHolder;
 
 
 public class ManagerWalletHolder implements IViewHolder {

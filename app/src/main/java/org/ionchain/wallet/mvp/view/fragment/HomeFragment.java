@@ -15,12 +15,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ionc.wallet.sdk.IONCWalletSDK;
-import com.ionc.wallet.sdk.adapter.CommonAdapter;
-import com.ionc.wallet.sdk.bean.WalletBean;
-import com.ionc.wallet.sdk.callback.OnBalanceCallback;
-import com.ionc.wallet.sdk.utils.Logger;
-import com.ionc.wallet.sdk.utils.StringUtils;
+import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.adapter.CommonAdapter;
+import org.ionc.wallet.sdk.bean.WalletBean;
+import org.ionc.wallet.sdk.callback.OnBalanceCallback;
+import org.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.utils.StringUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;

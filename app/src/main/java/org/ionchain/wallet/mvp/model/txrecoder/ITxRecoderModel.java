@@ -1,7 +1,7 @@
 package org.ionchain.wallet.mvp.model.txrecoder;
 
 
-import com.ionc.wallet.sdk.callback.OnTxRecoderCallback;
+import org.ionc.wallet.sdk.callback.OnTxRecoderCallback;
 
 /**
  * AUTHOR binny

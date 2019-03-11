@@ -64,6 +64,7 @@
             android:layout_marginTop="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:singleLine="true"
+            android:maxLength="12"
             android:gravity="left|center_vertical"
             android:hint="@string/password_rule"
             android:padding="@dimen/h5"
@@ -79,6 +80,7 @@
             android:gravity="left|center_vertical"
             android:singleLine="true"
             android:hint="@string/wallet_create_respwd"
+            android:maxLength="12"
             android:padding="@dimen/h5"
             android:textSize="@dimen/hint_text_size" />
 

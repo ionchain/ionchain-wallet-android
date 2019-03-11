@@ -2,7 +2,7 @@ package org.ionchain.wallet.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.sdk.utils.Logger;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
