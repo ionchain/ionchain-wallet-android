@@ -9,15 +9,18 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.binny.ioncdialog.modify.ModifyDialog;
+import com.binny.ioncdialog.modify.OnModifyPasswordCallback;
+
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.sdk.bean.WalletBean;
 import org.ionc.wallet.sdk.callback.OnBalanceCallback;
 import org.ionc.wallet.sdk.callback.OnDeletefinishCallback;
 import org.ionc.wallet.sdk.callback.OnImportPrivateKeyCallback;
+import org.ionc.wallet.sdk.callback.OnModifyWalletPassWordCallback;
 import org.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
 import org.ionc.wallet.sdk.utils.Logger;
 import org.ionc.wallet.sdk.utils.StringUtils;
-
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletSelectActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -32,9 +35,8 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.ionc.wallet.sdk.utils.StringUtils.chechPwd;
-import static org.ionchain.wallet.constant.ConstantParams.REQUEST_MODIFY_WALLET_PWD;
+import static org.ionc.wallet.sdk.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
-import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 /**
@@ -44,7 +46,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         OnBalanceCallback,
         OnImportPrivateKeyCallback,
         View.OnClickListener,
-        OnSimulateTimeConsume, OnDeletefinishCallback {
+        OnSimulateTimeConsume, OnDeletefinishCallback, OnModifyPasswordCallback, OnModifyWalletPassWordCallback {
 
 
     WalletBean mWallet;
@@ -62,6 +64,8 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     private boolean bShowKSRl;//是否显示导出keystore
 
     private int importFlag = 0;//默认导出助记词
+
+    private ModifyDialog modifyDialog;
 
     /**
      * Find the Views in the layout<br />
@@ -153,7 +157,6 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     }
 
 
-
     /**
      * 导出私钥
      *
@@ -198,7 +201,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                         Logger.i(getTAG(), "onClick: " + mWallet.getPassword());
                         String p_dao = mWallet.getPassword();
                         String p_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                        if (!chechPwd(p_dao,p_input)) {
+                        if (!chechPwd(p_dao, p_input)) {
                             ToastUtil.showToastLonger("您输入的密码有误！");
                             return;
                         }
@@ -251,9 +254,11 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 delwallet();
                 break;
             case R.id.modifyPwdLayout://修改密码
-                intent = new Intent(getMActivity(), ModifyWalletPwdActivity.class);
-                intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, mWallet);
-                startActivityForResult(intent, REQUEST_MODIFY_WALLET_PWD);
+//                intent = new Intent(getMActivity(), ModifyWalletPwdActivity.class);
+//                intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, mWallet);
+//                startActivityForResult(intent, REQUEST_MODIFY_WALLET_PWD);
+                modifyDialog = new ModifyDialog(this, this);
+                modifyDialog.show();
                 break;
             case R.id.import_pri_layout://导出私钥
 
@@ -270,7 +275,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                         /*比对密码是否正确*/
                         String pwd_dao = mWallet.getPassword();
                         String pwd1 = d.getPasswordEt().getText().toString();
-                        if (StringUtils.chechPwd(pwd_dao,pwd1)) {
+                        if (StringUtils.chechPwd(pwd_dao, pwd1)) {
                             d.dismiss();
                             showProgress("正在导出请稍候");
                             IONCWalletSDK.getInstance().exportPrivateKey(mWallet.getKeystore(), pwd_dao, ModifyAndExportWalletActivity.this);
@@ -295,7 +300,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                         /*比对密码是否正确*/
                         String pwd = mWallet.getPassword();//保存的密码
                         String pwd1 = d.getPasswordEt().getText().toString();//输入的密码
-                        if (chechPwd(pwd,pwd1)) {
+                        if (chechPwd(pwd, pwd1)) {
                             d.dismiss();
                             showProgress("正在导出请稍候");
                             IONCWalletSDK.getInstance().simulateTimeConsuming(ModifyAndExportWalletActivity.this);
@@ -321,7 +326,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                         /*比对密码是否正确*/
                         String pwd = mWallet.getPassword();
                         String pwd1 = dialog1.getPasswordEt().getText().toString();
-                        if (chechPwd(pwd,pwd1)) {
+                        if (chechPwd(pwd, pwd1)) {
                             dialog1.dismiss();
                             showProgress("正在导出请稍候");
                             IONCWalletSDK.getInstance().simulateTimeConsuming(ModifyAndExportWalletActivity.this);
@@ -335,16 +340,16 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
         }
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.i(getTAG(), "onActivityResult1: " + mWallet.getKeystore());
-        if (requestCode == REQUEST_MODIFY_WALLET_PWD && data != null) {
-            mWallet = (WalletBean) data.getSerializableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
-        }
-        Log.i(getTAG(), "onActivityResult2: " + mWallet.getKeystore());
-    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Log.i(getTAG(), "onActivityResult1: " + mWallet.getKeystore());
+//        if (requestCode == REQUEST_MODIFY_WALLET_PWD && data != null) {
+//            mWallet = (WalletBean) data.getSerializableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
+//        }
+//        Log.i(getTAG(), "onActivityResult2: " + mWallet.getKeystore());
+//    }
 
     @Override
     public void onSimulateFinish() {
@@ -396,11 +401,43 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         if (IONCWalletSDK.getInstance().getAllWallet() == null || IONCWalletSDK.getInstance().getAllWallet().size() > 0) {
             IONCWalletSDK.getInstance().getAllWallet().get(0).setIsMainWallet(true);
             IONCWalletSDK.getInstance().saveWallet(IONCWalletSDK.getInstance().getAllWallet().get(0));
-        }else {
+        } else {
             //去创建钱包
             Intent intent1 = new Intent(this, CreateWalletSelectActivity.class);
             startActivity(intent1);
             finish();
         }
+    }
+
+    @Override
+    public void onSure(String currentPassword, String newPassword, String newPasswordAgain) {
+        currentPassword = StringUtils.getSHA(currentPassword);
+        String pwd_dao = mWallet.getPassword();
+        if (!pwd_dao.equals(currentPassword)) {
+            Log.i(getTAG(), "旧密码错误: " + pwd_dao);
+            ToastUtil.showShortToast("旧密码错误");
+            return;
+        }
+        if (!check(newPassword) || !check(newPasswordAgain)) {
+            ToastUtil.showToastLonger("新密码不符合要求！");
+            return;
+        }
+        modifyDialog.dismiss();
+        IONCWalletSDK.getInstance()
+                .modifyPassWord(mWallet, newPassword, this);
+        showProgress("正在修改密码");
+    }
+
+    @Override
+    public void onModifySuccess(WalletBean walletBean) {
+        mWallet = walletBean;
+        hideProgress();
+    }
+
+    @Override
+    public void onModifyFailure(String error) {
+        Logger.e(getTAG(), "onModifyFailure: " + error);
+        ToastUtil.showShortToast("修改密码失败");
+        hideProgress();
     }
 }
