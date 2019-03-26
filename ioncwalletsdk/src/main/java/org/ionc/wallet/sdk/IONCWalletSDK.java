@@ -64,7 +64,6 @@ import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import static org.ionc.wallet.sdk.constant.ConstanParams.GAS_MIN;
 import static org.ionc.wallet.sdk.constant.ConstantUrl.IONC_CHAIN_NODE;
@@ -78,12 +77,10 @@ public class IONCWalletSDK {
     private static String keystoreDir;
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
 
-    private BigDecimal mDefaultPrice;
 
     private Handler mHandler;
     private final String TAG = this.getClass().getSimpleName();
 
-    private final BigInteger GAS_LIMIT = BigInteger.valueOf(30000);
     private BigInteger gas = GAS_MIN;
 
     /**
@@ -178,7 +175,6 @@ public class IONCWalletSDK {
 
                 } catch (IOException e) {
                     Logger.i(TAG, "run: " + e.getMessage());
-                    mDefaultPrice = Convert.toWei(Convert.toWei(String.valueOf(3), Convert.Unit.GWEI), Convert.Unit.ETHER);
                 }
 
             }
@@ -542,35 +538,6 @@ public class IONCWalletSDK {
         return walletName;
     }
 
-//    private static String convertMnemonicList(List<String> mnemonics) {
-//        StringBuilder sb = new StringBuilder();
-//        for (String mnemonic : mnemonics
-//                ) {
-//            sb.append(mnemonic);
-//            sb.append(" ");
-//        }
-//        Logger.i("助记词 1=== " + sb.toString());
-//
-//        return sb.toString();
-//    }
-
-
-//    /**
-//     * 创建 keystore
-//     *
-//     * @param pwd
-//     * @param ecKeyPair
-//     * @return
-//     * @throws CipherException
-//     * @throws IOException
-//     */
-//    private  String getKeystorePath(String pwd, ECKeyPair ecKeyPair) throws CipherException, IOException {
-//        String keystore = WalletUtils.generateWalletFile(pwd, ecKeyPair, new File(keystoreDir), false);
-//        keystore = keystoreDir + "/" + keystore;
-//        return keystore;
-//    }
-
-
     private static boolean createParentDir(File file) {
         //判断目标文件所在的目录是否存在
         if (!file.getParentFile().exists()) {
@@ -772,7 +739,7 @@ public class IONCWalletSDK {
      * @param password 钱包密码
      * @param from     转出地址
      * @param to       转入地址
-     * @param gasPrice 交易费用
+     * @param gasPrice 交易费用单价
      * @param keystore keystore
      * @param value    转账金额
      */
@@ -786,49 +753,14 @@ public class IONCWalletSDK {
             @Override
             public void run() {
                 super.run();
-
-                EthGetTransactionCount ethGetTransactionCount = null;
                 try {
-                    ethGetTransactionCount = web3j.ethGetTransactionCount(from, DefaultBlockParameterName.PENDING).send();
-                } catch (final IOException e) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.onTxFailure(e.getMessage());
-                        }
-                    });
-                    return;
-                }
-                if (ethGetTransactionCount == null) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.onTxFailure("null......");
-                        }
-                    });
-                    return;
-                }
-                BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-//                BigInteger gasPrice = Convert.toWei(BigDecimal.valueOf(3), Convert.Unit.GWEI).toBigInteger();
-//                BigInteger gasLimit = BigInteger.valueOf(30000);
-
-                String toAddress = to.toLowerCase();
-                String data = "";
-                String signedData;
-                try {
-//                    ECKeyPair ecKeyPair = ECKeyPair.create(new BigInteger(privateKey, 16));
-//                    Credentials credentials = Credentials.create(ecKeyPair);
-
+                    EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(from, DefaultBlockParameterName.PENDING).send();
+                    BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+                    String toAddress = to.toLowerCase();
                     Credentials credentials = WalletUtils.loadCredentials(password, keystore);
-                    String privateKey = credentials.getEcKeyPair().getPrivateKey().toString(16);
-                    byte[] signedMessage;
-
-
                     RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, toAddress, value);
-                    signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
-                    signedData = Numeric.toHexString(signedMessage);
-
-
+                    byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+                    String signedData = Numeric.toHexString(signedMessage);
                     EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();
                     final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
                     if (!TextUtils.isEmpty(hashTx)) {
@@ -842,11 +774,11 @@ public class IONCWalletSDK {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                callback.onTxFailure("null......");
+                                callback.onTxFailure("交易失败");
                             }
                         });
                     }
-                } catch (final IOException | CipherException e) {
+                } catch (final IOException | CipherException |NullPointerException e) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -1032,43 +964,7 @@ public class IONCWalletSDK {
         return walletBean;
     }
 
-    public void ethTransfer(String fromAddress, String toAddress, String privateKey) {
-
-
-        EthGetTransactionCount ethGetTransactionCount = null;
-        try {
-            ethGetTransactionCount = web3j.ethGetTransactionCount(
-                    fromAddress, DefaultBlockParameterName.LATEST).sendAsync().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-        Credentials credentials = Credentials.create(privateKey);
-        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
-                nonce, Convert.toWei("18", Convert.Unit.GWEI).toBigInteger(),
-                Convert.toWei("45000", Convert.Unit.WEI).toBigInteger(), toAddress, new BigInteger("3000000000000000000"));
-        byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
-        String hexValue = Numeric.toHexString(signedMessage);
-
-        EthSendTransaction ethSendTransaction = null;
-        try {
-            ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        if (ethSendTransaction != null) {
-            if (ethSendTransaction.hasError()) {
-                Log.e("+++transfer error:", ethSendTransaction.getError().getMessage());
-            } else {
-                String transactionHash = ethSendTransaction.getTransactionHash();
-                Log.e("+++transactionHash:", "" + transactionHash);
-            }
-        }
-
+    public void release() {
+        mInstance = null;
     }
 }

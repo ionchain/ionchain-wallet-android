@@ -8,7 +8,7 @@ import org.ionc.wallet.sdk.adapter.IViewHolder;
 
 
 /**
- * USER: binny
+ * USER: binny  596928539@qq.com
  * DATE: 2018/9/12
  * 描述:
  */

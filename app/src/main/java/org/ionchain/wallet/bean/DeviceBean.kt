@@ -3,7 +3,7 @@ package org.ionchain.wallet.bean
 import java.io.Serializable
 
 /**
- * USER: binny
+ * USER: binny  596928539@qq.com
  * DATE: 2018/9/13
  * 描述: 设备信息
  */

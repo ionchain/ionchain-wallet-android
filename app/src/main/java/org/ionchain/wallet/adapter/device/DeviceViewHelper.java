@@ -17,7 +17,7 @@ import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import java.util.List;
 
 /**
- * USER: binny
+ * USER: binny  596928539@qq.com
  * DATE: 2018/9/12
  * 描述: 辅助类 绑定数据
  */

@@ -1,7 +1,6 @@
 package org.ionchain.wallet.helper;
 
 import android.app.Activity;
-import android.content.Context;
 
 import java.util.Stack;
 

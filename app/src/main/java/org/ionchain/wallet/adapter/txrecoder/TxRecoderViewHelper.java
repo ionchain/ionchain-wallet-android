@@ -1,5 +1,6 @@
 package org.ionchain.wallet.adapter.txrecoder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 
@@ -30,6 +31,7 @@ public class TxRecoderViewHelper implements IViewHolderHelper<TxRecorderViewHold
         return viewHolder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void bindListDataToView(Context context, List<TxRecoderBean.DataBean.ItemBean> iBaseBeanList, TxRecorderViewHolder viewHolder, int position) {
         viewHolder.txHash.setText("交易哈希 : " + iBaseBeanList.get(position).getHash());

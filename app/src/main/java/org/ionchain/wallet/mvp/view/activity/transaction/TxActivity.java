@@ -23,9 +23,12 @@ import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DecimalFormat;
+
+import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_101_GWEI;
+import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 
 /**
+ * 596928539@qq.com
  * 转账
  */
 public class TxActivity extends AbsBaseActivity implements OnTransationCallback {
@@ -38,10 +41,6 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     private WalletBean mCurrentWallet;
     private SeekBar txSeekBarIndex;
 
-
-    private int mSeekBarMaxValue101Gwei = 100;//seekbar 本身的最大值 Gwei
-    private int mSeekBarMinValue1Gwei = 1;
-    private double mTotalValue;//seekbar所所代表的总长度 0.006-0.0003
 
     private BigDecimal mCurrentGasPrice;
     private DialogPasswordCheck dialogPasswordCheck;
@@ -107,16 +106,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
             @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                double dynamicValue = mSeekBarMinValue1Gwei + mTotalValue * progress / mSeekBarMaxValue101Gwei;
-                DecimalFormat df = new DecimalFormat("0.00000000");
-
-                BigDecimal bigDecimal = Convert.toWei(String.valueOf(dynamicValue), Convert.Unit.ETHER);
-                double d = bigDecimal.doubleValue() / 30000;
-//                mCurrentGasPrice = Convert.toWei(String.valueOf(d), Convert.Unit.GWEI);
                 if (progress == 0) {
-                    progress = 1;
+                    progress = SEEK_BAR_MIN_VALUE_1_GWEI;
                 }
-
                 mCurrentGasPrice = Convert.toWei(String.valueOf(progress), Convert.Unit.GWEI);
                 txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(progress).toPlainString() + " IONC");
             }
@@ -133,29 +125,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
         });
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-        txSeekBarIndex.setMax(mSeekBarMaxValue101Gwei);
-
-        mTotalValue = mSeekBarMaxValue101Gwei - mSeekBarMinValue1Gwei;//100
-
+        txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_101_GWEI);
         int currentProgress = 30;
         txSeekBarIndex.setProgress(currentProgress);
-
         txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(currentProgress).toPlainString() + " IONC");
-        double default_value = 0.00009;
-        double value = default_value - mSeekBarMinValue1Gwei;//0.00006
-        double max_fee = 0.0006;
-    }
-
-    private BigDecimal toGasPrice(double progress) {
-        BigDecimal price;
-        double value = mSeekBarMinValue1Gwei + mTotalValue * progress / mSeekBarMaxValue101Gwei;
-        DecimalFormat df = new DecimalFormat("0.00000000");
-        BigDecimal bigDecimal = Convert.toWei(String.valueOf(value), Convert.Unit.ETHER);
-        double d = bigDecimal.doubleValue() / 30000;
-        price = Convert.fromWei(String.valueOf(d), Convert.Unit.GWEI);
-        return price;
     }
 
     @Override

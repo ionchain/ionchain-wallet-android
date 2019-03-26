@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * 596928539@qq.com
+ *
  * Created by binny on 2018/11/29.
  */
 public class UpdateBean implements Serializable {

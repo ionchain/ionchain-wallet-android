@@ -46,4 +46,8 @@ public final class ConstantParams {
     public static final String SERVER_PROTOCOL_KEY = "title_name";
     public static final String SERVER_PROTOCOL_VALUE = "离子链钱包服务协议";
     public static final String PICTURE_FILE_NAME = "ionchainAddress";
+
+
+    public static final int SEEK_BAR_MAX_VALUE_101_GWEI = 100;//seekbar 本身的最大值 Gwei
+    public static final int SEEK_BAR_MIN_VALUE_1_GWEI = 1;
 }

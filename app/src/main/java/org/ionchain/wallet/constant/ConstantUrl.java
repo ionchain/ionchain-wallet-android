@@ -1,7 +1,7 @@
 package org.ionchain.wallet.constant;
 
 /**
- * USER: binny
+ * USER: binny 596928539@qq.com
  * DATE: 2018/9/13
  * 描述: 链接
  */
