@@ -37,9 +37,9 @@ public class TxRecoderViewHelper implements IViewHolderHelper<TxRecorderViewHold
         viewHolder.txHash.setText("交易哈希 : " + iBaseBeanList.get(position).getHash());
         viewHolder.block.setText("交易区块 : " + iBaseBeanList.get(position).getBlockNumber());
         viewHolder.from.setText("转出地址 : " + iBaseBeanList.get(position).getTx_from());
-        viewHolder.to.setText("转入地址 ： " + iBaseBeanList.get(position).getTx_to());
+        viewHolder.to.setText("转入地址 : " + iBaseBeanList.get(position).getTx_to());
         viewHolder.value.setText("转账金额 : " + Convert.fromWei(iBaseBeanList.get(position).getValue(), Convert.Unit.ETHER) + " IONC");
-        viewHolder.txFee.setText("交易费 : " + iBaseBeanList.get(position).getTxFee() + " IONC");
+        viewHolder.txFee.setText("交易费用 : " + iBaseBeanList.get(position).getTxFee() + " IONC");
     }
 
 
