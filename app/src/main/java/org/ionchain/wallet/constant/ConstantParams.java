@@ -48,6 +48,7 @@ public final class ConstantParams {
     public static final String PICTURE_FILE_NAME = "ionchainAddress";
 
 
-    public static final int SEEK_BAR_MAX_VALUE_101_GWEI = 100;//seekbar 本身的最大值 Gwei
-    public static final int SEEK_BAR_MIN_VALUE_1_GWEI = 1;
+    public static final int SEEK_BAR_MAX_VALUE_100_GWEI = 100;//seekbar 本身的最大值 Gwei
+    public static final int SEEK_BAR_MIN_VALUE_1_GWEI = 1;//最小值
+    public static final int SEEK_BAR_SRART_VALUE = 30;//进度条的起始值
 }

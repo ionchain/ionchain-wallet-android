@@ -13,19 +13,19 @@ import android.widget.TextView;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.sdk.bean.WalletBean;
 import org.ionc.wallet.sdk.callback.OnTransationCallback;
+import org.ionc.wallet.sdk.transaction.TransactionHelper;
 import org.ionc.wallet.sdk.utils.Logger;
 import org.ionc.wallet.sdk.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogPasswordCheck;
-import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
-import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_101_GWEI;
+import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
+import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
 
 /**
  * 596928539@qq.com
@@ -44,6 +44,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
 
     private BigDecimal mCurrentGasPrice;
     private DialogPasswordCheck dialogPasswordCheck;
+    private int mProgress = SEEK_BAR_SRART_VALUE;//进度值,起始值为 30 ,最大值为100
 
     private void findViews() {
         header = findViewById(R.id.header);
@@ -84,11 +85,12 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                         String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
                         String pwd_dao = mCurrentWallet.getPassword();
                         if (StringUtils.chechPwd(pwd_dao, pwd_input)) {
-                            //转账金额
-                            BigInteger value = Convert.toWei(BigDecimal.valueOf(Double.parseDouble(txAccount)), Convert.Unit.ETHER).toBigInteger();
-
-                            IONCWalletSDK.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice.toBigInteger(),
-                                    mCurrentWallet.getPassword(), mCurrentWallet.getKeystore(), value, TxActivity.this);
+                            TransactionHelper helper = new TransactionHelper()
+                                    .setGasPrice(mProgress)
+                                    .setToAddress(toAddress)
+                                    .setTxValue(txAccount)
+                                    .setWalletBeanTx(mCurrentWallet);
+                            IONCWalletSDK.getInstance().transaction(helper, TxActivity.this);
                         } else {
                             ToastUtil.showToastLonger("请输入的正确的密码！");
                         }
@@ -109,8 +111,8 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                 if (progress == 0) {
                     progress = SEEK_BAR_MIN_VALUE_1_GWEI;
                 }
-                mCurrentGasPrice = Convert.toWei(String.valueOf(progress), Convert.Unit.GWEI);
-                txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(progress).toPlainString() + " IONC");
+                mProgress = progress;
+                txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
             }
 
             @Override
@@ -128,10 +130,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-        txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_101_GWEI);
-        int currentProgress = 30;
-        txSeekBarIndex.setProgress(currentProgress);
-        txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(currentProgress).toPlainString() + " IONC");
+        txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
+        txSeekBarIndex.setProgress(mProgress);
+        txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
     }
 
     @Override

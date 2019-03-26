@@ -29,6 +29,7 @@ import org.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
 import org.ionc.wallet.sdk.dao.DaoManager;
 import org.ionc.wallet.sdk.dao.EntityManager;
 import org.ionc.wallet.sdk.greendaogen.WalletBeanDao;
+import org.ionc.wallet.sdk.transaction.TransactionHelper;
 import org.ionc.wallet.sdk.utils.GsonUtils;
 import org.ionc.wallet.sdk.utils.Logger;
 import org.ionc.wallet.sdk.utils.MnemonicUtils;
@@ -93,7 +94,7 @@ public class IONCWalletSDK {
 
     private MnemonicCode mMnemonicCode = null;
     private final BigInteger gasLimit = Convert.toWei("21000", Convert.Unit.WEI).toBigInteger();
-    private BigInteger gasPrice = BigInteger.valueOf(1);
+    private BigInteger gasPriceDefault = BigInteger.valueOf(1);
 
 
     private IONCWalletSDK() {
@@ -123,11 +124,6 @@ public class IONCWalletSDK {
     public BigInteger getGas() {
         return gas;
     }
-
-    public BigInteger getGasPrice() {
-        return gasPrice;
-    }
-
 
     /**
      * 初始化钱包
@@ -166,12 +162,12 @@ public class IONCWalletSDK {
                         Logger.e(e.getMessage());
                     }
                     /*
-                     * gasPrice
+                     * gasPriceDefault
                      *
                      * 1 Gwei = 1e9wei = 1000000000 wei
                      * 1 ETH = 1000000000 GWei
                      * */
-                    gasPrice = web3j.ethGasPrice().send().getGasPrice();//Returns the current gas price in wei
+                    gasPriceDefault = web3j.ethGasPrice().send().getGasPrice();//Returns the current gas price in wei
 
                 } catch (IOException e) {
                     Logger.i(TAG, "run: " + e.getMessage());
@@ -179,17 +175,6 @@ public class IONCWalletSDK {
 
             }
         }.start();
-    }
-
-
-    /**
-     * 获取最小费用
-     *
-     * @return
-     */
-    public BigDecimal getMinFee() {
-        BigInteger fee = gas.multiply(gasPrice);
-        return Convert.fromWei(String.valueOf(fee), Convert.Unit.ETHER);
     }
 
     /**
@@ -202,7 +187,7 @@ public class IONCWalletSDK {
         BigInteger fee = gas.multiply(BigInteger.valueOf(currentProgress));
         Log.i(TAG, "getCurrentFee: " + fee);
         /*
-         * 从wei到ether
+         * 从Gwei到wei,再从wei到ether
          * */
         return Convert.fromWei(Convert.toWei(String.valueOf(fee), Convert.Unit.GWEI), Convert.Unit.ETHER);
     }
@@ -648,6 +633,7 @@ public class IONCWalletSDK {
      * @param keystore keystore
      * @param account  转账金额
      */
+    @Deprecated
     public void transaction(final String from, final String to, final BigDecimal txPrice, final String password,
                             final String keystore, final double account, final OnTransationCallback callback) {
         new Thread() {
@@ -681,7 +667,7 @@ public class IONCWalletSDK {
                     return;
                 }
                 BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-//                BigInteger gasPrice = Convert.toWei(BigDecimal.valueOf(3), Convert.Unit.GWEI).toBigInteger();
+//                BigInteger gasPriceDefault = Convert.toWei(BigDecimal.valueOf(3), Convert.Unit.GWEI).toBigInteger();
 //                BigInteger gasLimit = BigInteger.valueOf(30000);
 
                 BigInteger gasPrice = txPrice.toBigInteger();
@@ -743,6 +729,7 @@ public class IONCWalletSDK {
      * @param keystore keystore
      * @param value    转账金额
      */
+    @Deprecated
     public void transaction(final String from, final String to, final BigInteger gasPrice, final String password,
                             final String keystore, final BigInteger value, final OnTransationCallback callback) {
         new Thread() {
@@ -779,6 +766,57 @@ public class IONCWalletSDK {
                         });
                     }
                 } catch (final IOException | CipherException |NullPointerException e) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onTxFailure(e.getMessage());
+                        }
+                    });
+                }
+            }
+        }
+                .start();
+    }
+
+    /** 转账
+     * @param helper 转账辅助类
+     * @param callback 转账结果
+     */
+    public void transaction(final TransactionHelper helper, final OnTransationCallback callback) {
+        new Thread() {
+            /**
+             * BigInteger value = Convert.toWei(BigDecimal.valueOf(account), Convert.Unit.ETHER).toBigInteger();
+             */
+            @SuppressWarnings("UnnecessaryLocalVariable")
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(helper.getWalletBeanTx().getAddress(), DefaultBlockParameterName.PENDING).send();
+                    BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+                    String toAddress = helper.getToAddress().toLowerCase();
+                    Credentials credentials = WalletUtils.loadCredentials(helper.getWalletBeanTx().getPassword(), helper.getWalletBeanTx().getKeystore());
+                    RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, helper.getGasPrice(), gasLimit, toAddress, helper.getTxValue());
+                    byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+                    String signedData = Numeric.toHexString(signedMessage);
+                    EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();
+                    final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
+                    if (!TextUtils.isEmpty(hashTx)) {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.OnTxSuccess(hashTx);
+                            }
+                        });
+                    } else {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onTxFailure("交易失败");
+                            }
+                        });
+                    }
+                } catch (final IOException | CipherException | NullPointerException e) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
