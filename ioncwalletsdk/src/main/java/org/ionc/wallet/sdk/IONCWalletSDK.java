@@ -6,7 +6,15 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
+import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.crypto.HDKeyDerivation;
+import org.bitcoinj.crypto.MnemonicCode;
+import org.bitcoinj.crypto.MnemonicException;
+import org.bitcoinj.wallet.DeterministicSeed;
+import org.greenrobot.greendao.query.QueryBuilder;
 import org.ionc.wallet.sdk.bean.KeystoreBean;
 import org.ionc.wallet.sdk.bean.WalletBean;
 import org.ionc.wallet.sdk.callback.OnBalanceCallback;
@@ -29,14 +37,6 @@ import org.ionc.wallet.sdk.utils.SecureRandomUtils;
 import org.ionc.wallet.sdk.utils.StringUtils;
 import org.ionc.wallet.sdk.utils.ToastUtil;
 import org.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
-
-import org.bitcoinj.crypto.ChildNumber;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.crypto.HDKeyDerivation;
-import org.bitcoinj.crypto.MnemonicCode;
-import org.bitcoinj.crypto.MnemonicException;
-import org.bitcoinj.wallet.DeterministicSeed;
-import org.greenrobot.greendao.query.QueryBuilder;
 import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -64,7 +64,9 @@ import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import static org.ionc.wallet.sdk.constant.ConstanParams.GAS_MIN;
 import static org.ionc.wallet.sdk.constant.ConstantUrl.IONC_CHAIN_NODE;
 import static org.ionc.wallet.sdk.utils.MnemonicUtils.generateMnemonic;
 import static org.web3j.crypto.Hash.sha256;
@@ -81,7 +83,9 @@ public class IONCWalletSDK {
     private Handler mHandler;
     private final String TAG = this.getClass().getSimpleName();
 
-    private final static BigInteger GAS_LIMIT = BigInteger.valueOf(30000);
+    private final BigInteger GAS_LIMIT = BigInteger.valueOf(30000);
+    private BigInteger gas = GAS_MIN;
+
     /**
      * 通用的以太坊基于bip44协议的助记词路径 （imtoken jaxx Metamask myetherwallet）
      */
@@ -91,6 +95,8 @@ public class IONCWalletSDK {
 
 
     private MnemonicCode mMnemonicCode = null;
+    private final BigInteger gasLimit = Convert.toWei("21000", Convert.Unit.WEI).toBigInteger();
+    private BigInteger gasPrice = BigInteger.valueOf(1);
 
 
     private IONCWalletSDK() {
@@ -106,6 +112,23 @@ public class IONCWalletSDK {
             }
         }
         return mInstance;
+    }
+
+    /**
+     * 自定义gas
+     *
+     * @param gas
+     */
+    public void setGas(BigInteger gas) {
+        this.gas = gas;
+    }
+
+    public BigInteger getGas() {
+        return gas;
+    }
+
+    public BigInteger getGasPrice() {
+        return gasPrice;
     }
 
 
@@ -133,15 +156,26 @@ public class IONCWalletSDK {
 
 
         new Thread() {
+            /**
+             *
+             */
             @Override
             public void run() {
                 super.run();
                 try {
-                    BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
-                    BigInteger fee = gasPrice.multiply(GAS_LIMIT);
-                    Logger.i(TAG, "run:fee " + fee);
-                    mDefaultPrice = Convert.fromWei(String.valueOf(fee), Convert.Unit.ETHER);
-                    Logger.i(TAG, "run:mDefaultPrice-eth " + mDefaultPrice);
+                    try {
+                        Logger.i("web3jversion :" + web3j.web3ClientVersion().send().getWeb3ClientVersion());
+                    } catch (IOException e) {
+                        Logger.e(e.getMessage());
+                    }
+                    /*
+                     * gasPrice
+                     *
+                     * 1 Gwei = 1e9wei = 1000000000 wei
+                     * 1 ETH = 1000000000 GWei
+                     * */
+                    gasPrice = web3j.ethGasPrice().send().getGasPrice();//Returns the current gas price in wei
+
                 } catch (IOException e) {
                     Logger.i(TAG, "run: " + e.getMessage());
                     mDefaultPrice = Convert.toWei(Convert.toWei(String.valueOf(3), Convert.Unit.GWEI), Convert.Unit.ETHER);
@@ -151,6 +185,31 @@ public class IONCWalletSDK {
         }.start();
     }
 
+
+    /**
+     * 获取最小费用
+     *
+     * @return
+     */
+    public BigDecimal getMinFee() {
+        BigInteger fee = gas.multiply(gasPrice);
+        return Convert.fromWei(String.valueOf(fee), Convert.Unit.ETHER);
+    }
+
+    /**
+     * 获取当前进度条下的费用
+     *
+     * @param currentProgress
+     * @return
+     */
+    public BigDecimal getCurrentFee(int currentProgress) {
+        BigInteger fee = gas.multiply(BigInteger.valueOf(currentProgress));
+        Log.i(TAG, "getCurrentFee: " + fee);
+        /*
+         * 从wei到ether
+         * */
+        return Convert.fromWei(Convert.toWei(String.valueOf(fee), Convert.Unit.GWEI), Convert.Unit.ETHER);
+    }
 
     //创建钱包---借助  importWalletByMnemonicCode
     public void createBip39Wallet(String walletName, String password, final OnImportMnemonicCallback callback) {
@@ -469,6 +528,7 @@ public class IONCWalletSDK {
             }
         }.start();
     }
+
     @NonNull
     private String generateNewWalletName() {
         char letter1 = (char) (int) (Math.random() * 26 + 97);
@@ -614,20 +674,24 @@ public class IONCWalletSDK {
     /**
      * 钱包转账
      *
-     * @param password        钱包密码
-     * @param from            转出地址
-     * @param to              转入地址
-     * @param currentGasPrice gasPrice
-     * @param keystore
-     * @param account         转账金额
+     * @param password 钱包密码
+     * @param from     转出地址
+     * @param to       转入地址
+     * @param txPrice  交易费用
+     * @param keystore keystore
+     * @param account  转账金额
      */
-    public void transaction(final String from, final String to, final BigDecimal currentGasPrice, final String password, final String keystore, final double account, final OnTransationCallback callback) {
+    public void transaction(final String from, final String to, final BigDecimal txPrice, final String password,
+                            final String keystore, final double account, final OnTransationCallback callback) {
         new Thread() {
+            /**
+             *
+             */
             @SuppressWarnings("UnnecessaryLocalVariable")
             @Override
             public void run() {
                 super.run();
-                BigInteger nonce;
+
                 EthGetTransactionCount ethGetTransactionCount = null;
                 try {
                     ethGetTransactionCount = web3j.ethGetTransactionCount(from, DefaultBlockParameterName.PENDING).send();
@@ -640,23 +704,131 @@ public class IONCWalletSDK {
                     });
                     return;
                 }
-                if (ethGetTransactionCount == null) return;
-                nonce = ethGetTransactionCount.getTransactionCount();
+                if (ethGetTransactionCount == null) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onTxFailure("null......");
+                        }
+                    });
+                    return;
+                }
+                BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 //                BigInteger gasPrice = Convert.toWei(BigDecimal.valueOf(3), Convert.Unit.GWEI).toBigInteger();
 //                BigInteger gasLimit = BigInteger.valueOf(30000);
 
-                BigInteger gasPrice = currentGasPrice.toBigInteger();
-                BigInteger gasLimit = GAS_LIMIT;
+                BigInteger gasPrice = txPrice.toBigInteger();
                 String toAddress = to.toLowerCase();
                 BigInteger value = Convert.toWei(BigDecimal.valueOf(account), Convert.Unit.ETHER).toBigInteger();
                 String data = "";
-                byte chainId = ChainId.NONE;
                 String signedData;
                 try {
-                    Credentials credentials = null;
-                    credentials = WalletUtils.loadCredentials(password, keystore);
-                    final String privateKey = credentials.getEcKeyPair().getPrivateKey().toString(16);
-                    signedData = signTransaction(nonce, gasPrice, gasLimit, toAddress, value, data, chainId, privateKey);
+//                    ECKeyPair ecKeyPair = ECKeyPair.create(new BigInteger(privateKey, 16));
+//                    Credentials credentials = Credentials.create(ecKeyPair);
+
+                    Credentials credentials = WalletUtils.loadCredentials(password, keystore);
+                    String privateKey = credentials.getEcKeyPair().getPrivateKey().toString(16);
+                    byte[] signedMessage;
+
+
+                    RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, toAddress, value);
+                    signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+                    signedData = Numeric.toHexString(signedMessage);
+
+
+                    EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();
+                    final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
+                    if (!TextUtils.isEmpty(hashTx)) {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.OnTxSuccess(hashTx);
+                            }
+                        });
+                    } else {
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onTxFailure("null......");
+                            }
+                        });
+                    }
+                } catch (final IOException | CipherException e) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onTxFailure(e.getMessage());
+                        }
+                    });
+                }
+            }
+        }
+                .start();
+    }
+
+    /**
+     * 钱包转账
+     *
+     * @param password 钱包密码
+     * @param from     转出地址
+     * @param to       转入地址
+     * @param gasPrice 交易费用
+     * @param keystore keystore
+     * @param value    转账金额
+     */
+    public void transaction(final String from, final String to, final BigInteger gasPrice, final String password,
+                            final String keystore, final BigInteger value, final OnTransationCallback callback) {
+        new Thread() {
+            /**
+             * BigInteger value = Convert.toWei(BigDecimal.valueOf(account), Convert.Unit.ETHER).toBigInteger();
+             */
+            @SuppressWarnings("UnnecessaryLocalVariable")
+            @Override
+            public void run() {
+                super.run();
+
+                EthGetTransactionCount ethGetTransactionCount = null;
+                try {
+                    ethGetTransactionCount = web3j.ethGetTransactionCount(from, DefaultBlockParameterName.PENDING).send();
+                } catch (final IOException e) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onTxFailure(e.getMessage());
+                        }
+                    });
+                    return;
+                }
+                if (ethGetTransactionCount == null) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onTxFailure("null......");
+                        }
+                    });
+                    return;
+                }
+                BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+//                BigInteger gasPrice = Convert.toWei(BigDecimal.valueOf(3), Convert.Unit.GWEI).toBigInteger();
+//                BigInteger gasLimit = BigInteger.valueOf(30000);
+
+                String toAddress = to.toLowerCase();
+                String data = "";
+                String signedData;
+                try {
+//                    ECKeyPair ecKeyPair = ECKeyPair.create(new BigInteger(privateKey, 16));
+//                    Credentials credentials = Credentials.create(ecKeyPair);
+
+                    Credentials credentials = WalletUtils.loadCredentials(password, keystore);
+                    String privateKey = credentials.getEcKeyPair().getPrivateKey().toString(16);
+                    byte[] signedMessage;
+
+
+                    RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, toAddress, value);
+                    signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+                    signedData = Numeric.toHexString(signedMessage);
+
+
                     EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();
                     final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
                     if (!TextUtils.isEmpty(hashTx)) {
@@ -715,8 +887,6 @@ public class IONCWalletSDK {
 
         return Numeric.toHexString(signedMessage);
     }
-
-
 
 
     /**
@@ -860,5 +1030,45 @@ public class IONCWalletSDK {
             }
         }
         return walletBean;
+    }
+
+    public void ethTransfer(String fromAddress, String toAddress, String privateKey) {
+
+
+        EthGetTransactionCount ethGetTransactionCount = null;
+        try {
+            ethGetTransactionCount = web3j.ethGetTransactionCount(
+                    fromAddress, DefaultBlockParameterName.LATEST).sendAsync().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+        Credentials credentials = Credentials.create(privateKey);
+        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
+                nonce, Convert.toWei("18", Convert.Unit.GWEI).toBigInteger(),
+                Convert.toWei("45000", Convert.Unit.WEI).toBigInteger(), toAddress, new BigInteger("3000000000000000000"));
+        byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+        String hexValue = Numeric.toHexString(signedMessage);
+
+        EthSendTransaction ethSendTransaction = null;
+        try {
+            ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if (ethSendTransaction != null) {
+            if (ethSendTransaction.hasError()) {
+                Log.e("+++transfer error:", ethSendTransaction.getError().getMessage());
+            } else {
+                String transactionHash = ethSendTransaction.getTransactionHash();
+                Log.e("+++transactionHash:", "" + transactionHash);
+            }
+        }
+
     }
 }

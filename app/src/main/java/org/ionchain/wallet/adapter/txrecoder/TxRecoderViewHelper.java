@@ -8,6 +8,7 @@ import org.ionc.wallet.sdk.adapter.IViewHolderHelper;
 import org.ionc.wallet.sdk.bean.TxRecoderBean;
 
 import org.ionchain.wallet.R;
+import org.web3j.utils.Convert;
 
 import java.util.List;
 
@@ -31,12 +32,12 @@ public class TxRecoderViewHelper implements IViewHolderHelper<TxRecorderViewHold
 
     @Override
     public void bindListDataToView(Context context, List<TxRecoderBean.DataBean.ItemBean> iBaseBeanList, TxRecorderViewHolder viewHolder, int position) {
-        viewHolder.txHash.setText("TxHash : " + iBaseBeanList.get(position).getHash());
-        viewHolder.block.setText("Block : " + iBaseBeanList.get(position).getBlockNumber());
-        viewHolder.from.setText("From : " + iBaseBeanList.get(position).getTx_from());
-        viewHolder.to.setText("To ： " + iBaseBeanList.get(position).getTx_to());
-        viewHolder.value.setText("Value : " + iBaseBeanList.get(position).getValue() + " IONC");
-        viewHolder.txFee.setText("TxFee : " + iBaseBeanList.get(position).getTxFee() + " IONC");
+        viewHolder.txHash.setText("交易哈希 : " + iBaseBeanList.get(position).getHash());
+        viewHolder.block.setText("交易区块 : " + iBaseBeanList.get(position).getBlockNumber());
+        viewHolder.from.setText("转出地址 : " + iBaseBeanList.get(position).getTx_from());
+        viewHolder.to.setText("转入地址 ： " + iBaseBeanList.get(position).getTx_to());
+        viewHolder.value.setText("转账金额 : " + Convert.fromWei(iBaseBeanList.get(position).getValue(), Convert.Unit.ETHER) + " IONC");
+        viewHolder.txFee.setText("交易费 : " + iBaseBeanList.get(position).getTxFee() + " IONC");
     }
 
 

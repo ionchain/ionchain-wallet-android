@@ -15,7 +15,6 @@ import org.ionc.wallet.sdk.bean.WalletBean;
 import org.ionc.wallet.sdk.callback.OnTransationCallback;
 import org.ionc.wallet.sdk.utils.Logger;
 import org.ionc.wallet.sdk.utils.StringUtils;
-
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -23,6 +22,7 @@ import org.ionchain.wallet.widget.DialogPasswordCheck;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 /**
@@ -38,9 +38,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     private WalletBean mCurrentWallet;
     private SeekBar txSeekBarIndex;
 
-    private double mSeekBarMaxValue = 0.0006;//seekbar 意义上最大值
-    private int mSeekBarMaxProgress = 200;//seekbar 本身的最大值
-    private double mSeekBarMinValue = 0.00003;
+
+    private int mSeekBarMaxValue101Gwei = 100;//seekbar 本身的最大值 Gwei
+    private int mSeekBarMinValue1Gwei = 1;
     private double mTotalValue;//seekbar所所代表的总长度 0.006-0.0003
 
     private BigDecimal mCurrentGasPrice;
@@ -84,9 +84,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                         //检查密码是否正确
                         String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
                         String pwd_dao = mCurrentWallet.getPassword();
-                        if (StringUtils.chechPwd(pwd_dao,pwd_input)) {
-                            IONCWalletSDK.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice, mCurrentWallet.getPassword(), mCurrentWallet.getKeystore(), Double.parseDouble(txAccount), TxActivity.this);
-                        }else {
+                        if (StringUtils.chechPwd(pwd_dao, pwd_input)) {
+                            //转账金额
+                            BigInteger value = Convert.toWei(BigDecimal.valueOf(Double.parseDouble(txAccount)), Convert.Unit.ETHER).toBigInteger();
+
+                            IONCWalletSDK.getInstance().transaction(mCurrentWallet.getAddress(), toAddress, mCurrentGasPrice.toBigInteger(),
+                                    mCurrentWallet.getPassword(), mCurrentWallet.getKeystore(), value, TxActivity.this);
+                        } else {
                             ToastUtil.showToastLonger("请输入的正确的密码！");
                         }
                     }
@@ -95,17 +99,26 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
             }
         });
         txSeekBarIndex.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            /**
+             * @param seekBar
+             * @param progress  Gwei
+             * @param fromUser
+             */
             @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                double dynamicValue = mSeekBarMinValue + mTotalValue * progress / mSeekBarMaxProgress;
+                double dynamicValue = mSeekBarMinValue1Gwei + mTotalValue * progress / mSeekBarMaxValue101Gwei;
                 DecimalFormat df = new DecimalFormat("0.00000000");
-                txCostTv.setText("旷工费 " + df.format(dynamicValue) + " IONC");
+
                 BigDecimal bigDecimal = Convert.toWei(String.valueOf(dynamicValue), Convert.Unit.ETHER);
                 double d = bigDecimal.doubleValue() / 30000;
 //                mCurrentGasPrice = Convert.toWei(String.valueOf(d), Convert.Unit.GWEI);
-                mCurrentGasPrice = Convert.fromWei(String.valueOf(d), Convert.Unit.GWEI);
-                Logger.i(getTAG(), "mCurrentGasPrice: " + mCurrentGasPrice);
+                if (progress == 0) {
+                    progress = 1;
+                }
+
+                mCurrentGasPrice = Convert.toWei(String.valueOf(progress), Convert.Unit.GWEI);
+                txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(progress).toPlainString() + " IONC");
             }
 
             @Override
@@ -122,25 +135,22 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
 
     @Override
     protected void initData() {
-        mTotalValue = mSeekBarMaxValue - mSeekBarMinValue;//0.006-0.0003
+        txSeekBarIndex.setMax(mSeekBarMaxValue101Gwei);
 
-        double default_value =0.00009;
-        double value = default_value - mSeekBarMinValue;//0.00006
+        mTotalValue = mSeekBarMaxValue101Gwei - mSeekBarMinValue1Gwei;//100
+
+        int currentProgress = 30;
+        txSeekBarIndex.setProgress(currentProgress);
+
+        txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(currentProgress).toPlainString() + " IONC");
+        double default_value = 0.00009;
+        double value = default_value - mSeekBarMinValue1Gwei;//0.00006
         double max_fee = 0.0006;
-
-        DecimalFormat df = new DecimalFormat("0.00000000");
-        txCostTv.setText("旷工费 " + df.format(value) + " IONC");
-
-        txSeekBarIndex.setMax(mSeekBarMaxProgress);// 200
-        double v1 = value / max_fee;
-        double progress = (v1 * mSeekBarMaxProgress);
-        txSeekBarIndex.setProgress((int) progress);// 200
-        mCurrentGasPrice = toGasPrice(default_value);
     }
 
     private BigDecimal toGasPrice(double progress) {
         BigDecimal price;
-        double value = mSeekBarMinValue + mTotalValue * progress / mSeekBarMaxProgress;
+        double value = mSeekBarMinValue1Gwei + mTotalValue * progress / mSeekBarMaxValue101Gwei;
         DecimalFormat df = new DecimalFormat("0.00000000");
         BigDecimal bigDecimal = Convert.toWei(String.valueOf(value), Convert.Unit.ETHER);
         double d = bigDecimal.doubleValue() / 30000;
@@ -175,7 +185,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
     @Override
     public void onTxFailure(String error) {
         ToastUtil.showToastLonger("交易失败！");
-        Logger.e("onTxFailure: " + error,getTAG() );
+        Logger.e("onTxFailure: " + error, getTAG());
         dialogPasswordCheck.dismiss();
     }
 }
