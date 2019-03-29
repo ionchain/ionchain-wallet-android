@@ -133,7 +133,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':ioncwalletsdk')
-    implementation project(':lib-zxing')
+    implementation project(':qrcode')
     implementation 'com.android.support:multidex:1.0.3'
     implementation project(':ioncdialog')
 }

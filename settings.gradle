@@ -1,5 +1,7 @@
-include ':app', ':lib-zxing'
+include ':app'
 include ':ioncdialog'
 project(':ioncdialog').projectDir = new File(rootDir,'../IONChainDialog/ioncdialog')
 include ':ioncwalletsdk'
 project(':ioncwalletsdk').projectDir = new File(rootDir, '../IONChainSDK/ioncwalletsdk')
+include ':qrcode'
+project(':qrcode').projectDir = new File(rootDir, '../IONChainQRCode/qrcode')
