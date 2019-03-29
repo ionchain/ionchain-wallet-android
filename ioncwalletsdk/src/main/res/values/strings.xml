@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">ioncwalletsdk</string>
-    <string name="wallet_create_respwd">重复密码</string>
-    <string name="activity_create_wallet">创建钱包</string>
-    <string name="act_wallet_create_notify1">密码用于保护私钥，强度非常重要</string>
-    <string name="act_wallet_create_notify2">IONCToken不储存密码，也无法帮你找回，请务必牢记</string>
-</resources>

@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common_app to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.11'
+    ext.kotlin_version = '1.3.21'
     repositories {
         mavenCentral()
         google()
@@ -15,9 +15,10 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
+/*所有工程引用,该项目同级的版本配置脚本
+* */
 subprojects{
-    apply from: '../version.gradle'
+    apply from: '../../version.gradle'
 }
 allprojects {
     repositories {
