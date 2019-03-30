@@ -160,6 +160,7 @@
             android:id="@+id/import_mnemonic_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
+            android:visibility="gone"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp">
 
