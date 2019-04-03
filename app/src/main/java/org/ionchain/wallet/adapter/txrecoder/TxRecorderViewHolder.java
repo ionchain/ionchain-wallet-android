@@ -2,7 +2,7 @@ package org.ionchain.wallet.adapter.txrecoder;
 
 import android.widget.TextView;
 
-import org.ionc.wallet.sdk.adapter.IViewHolder;
+import org.ionc.wallet.adapter.IViewHolder;
 
 
 /**

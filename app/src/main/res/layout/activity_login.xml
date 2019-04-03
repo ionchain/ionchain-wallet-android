@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="还没有IONCToken账号？"
             android:textColor="@color/library_99"
-            android:textSize="@dimen/txt_smallmediumsize"/>
+            android:textSize="@dimen/txt_16sp"/>
 
         <TextView
             android:id="@+id/regTv"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="注册"
             android:textColor="@color/main_blue"
-            android:textSize="@dimen/txt_smallmediumsize"/>
+            android:textSize="@dimen/txt_16sp"/>
 
     </LinearLayout>
 
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h60"
                 android:hint="手机号码"
-                android:textSize="@dimen/txt_mediumsize"
+                android:textSize="@dimen/txt_18sp"
                 android:textColor="@color/library_33"
                 android:inputType="phone"
                 android:background="@color/transparent"
@@ -106,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h50"
                 android:hint="密码"
-                android:textSize="@dimen/txt_mediumsize"
+                android:textSize="@dimen/txt_18sp"
                 android:textColor="@color/library_33"
                 android:inputType="textPassword"
                 android:background="@color/transparent"
@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/main_blue"
             android:text="忘记密码?"
-            android:textSize="@dimen/txt_mediumsize"
+            android:textSize="@dimen/txt_18sp"
             android:paddingTop="@dimen/padding_size_16dp"
             android:paddingBottom="@dimen/padding_size_16dp"/>
 

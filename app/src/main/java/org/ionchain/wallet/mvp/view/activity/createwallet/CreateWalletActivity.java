@@ -16,10 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.sdk.bean.WalletBean;
-import org.ionc.wallet.sdk.callback.OnImportMnemonicCallback;
-import org.ionc.wallet.sdk.callback.OnSimulateTimeConsume;
-import org.ionc.wallet.sdk.utils.StringUtils;
+import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.callback.OnImportMnemonicCallback;
+import org.ionc.wallet.callback.OnSimulateTimeConsume;
+import org.ionc.wallet.utils.StringUtils;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
@@ -32,7 +32,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Objects;
 
-import static org.ionc.wallet.sdk.utils.StringUtils.check;
+import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
 public class CreateWalletActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnSimulateTimeConsume {

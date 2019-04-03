@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 
-import org.ionc.wallet.sdk.adapter.IViewHolder;
-import org.ionc.wallet.sdk.adapter.IViewHolderHelper;
-import org.ionc.wallet.sdk.bean.TxRecoderBean;
+import org.ionc.wallet.adapter.IViewHolder;
+import org.ionc.wallet.adapter.IViewHolderHelper;
+import org.ionc.wallet.bean.TxRecoderBean;
 
 import org.ionchain.wallet.R;
 import org.web3j.utils.Convert;

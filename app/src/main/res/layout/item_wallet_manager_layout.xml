@@ -25,7 +25,7 @@
         android:layout_toRightOf="@id/manager_wallet_img"
         android:text="My Wallet"
         android:textColor="@color/library_66"
-        android:textSize="@dimen/txt_mediumsize" />
+        android:textSize="@dimen/txt_18sp" />
 
     <ImageView
         android:layout_width="wrap_content"

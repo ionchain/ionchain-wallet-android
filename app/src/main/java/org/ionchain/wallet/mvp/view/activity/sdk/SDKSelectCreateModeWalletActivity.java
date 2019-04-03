@@ -2,7 +2,7 @@ package org.ionchain.wallet.mvp.view.activity.sdk;
 
 import android.content.Intent;
 
-import org.ionc.wallet.sdk.activity.base.AbsSelectCreateModeWalletActivity;
+import org.ionc.wallet.activity.base.AbsSelectCreateModeWalletActivity;
 
 /**
  * user: binny

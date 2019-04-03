@@ -18,10 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.sdk.bean.WalletBean;
-import org.ionc.wallet.sdk.callback.OnImportMnemonicCallback;
-import org.ionc.wallet.sdk.callback.OnUpdatePasswordCallback;
-import org.ionc.wallet.sdk.utils.StringUtils;
+import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.callback.OnImportMnemonicCallback;
+import org.ionc.wallet.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.utils.StringUtils;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
@@ -30,8 +30,8 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Arrays;
 
-import static org.ionc.wallet.sdk.utils.RandomUntil.getNum;
-import static org.ionc.wallet.sdk.utils.StringUtils.check;
+import static org.ionc.wallet.utils.RandomUntil.getNum;
+import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 

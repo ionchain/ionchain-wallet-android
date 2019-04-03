@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:text="IONCToken"
                 android:textColor="@color/white"
-                android:textSize="@dimen/txt_largesize"
+                android:textSize="@dimen/txt_22sp"
                 android:lineSpacingExtra="@dimen/h5"
                 android:textScaleX="1"
                 />
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="分布式智能数字钱包"
                 android:textColor="@color/white"
-                android:textSize="@dimen/txt_largesize"
+                android:textSize="@dimen/txt_22sp"
                 android:layout_marginTop="@dimen/padding_size_16dp"/>
 
 
@@ -40,7 +40,7 @@
                 android:layout_height="@dimen/h50"
                 android:text="@string/activity_create_wallet"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/txt_smallmediumsize"
+                android:textSize="@dimen/txt_16sp"
                 android:layout_marginLeft="@dimen/padding_size_16dp"
                 android:layout_marginRight="@dimen/padding_size_16dp"
                 android:layout_marginTop="@dimen/padding_size_16dp"
@@ -52,7 +52,7 @@
                 android:layout_height="@dimen/h50"
                 android:text="导入钱包"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/txt_smallmediumsize"
+                android:textSize="@dimen/txt_16sp"
                 android:layout_marginLeft="@dimen/padding_size_16dp"
                 android:layout_marginRight="@dimen/padding_size_16dp"
                 android:layout_marginTop="@dimen/padding_size_16dp"
@@ -70,7 +70,7 @@
             android:button="@null"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_smallsize"
+            android:textSize="@dimen/txt_14sp"
             android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"

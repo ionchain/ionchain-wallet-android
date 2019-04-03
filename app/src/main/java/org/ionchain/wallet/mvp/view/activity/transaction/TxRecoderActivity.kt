@@ -3,9 +3,9 @@ package org.ionchain.wallet.mvp.view.activity.transaction
 import android.content.Intent
 import android.view.View
 import android.widget.ListView
-import org.ionc.wallet.sdk.adapter.CommonAdapter
-import org.ionc.wallet.sdk.bean.TxRecoderBean
-import org.ionc.wallet.sdk.callback.OnTxRecoderCallback
+import org.ionc.wallet.adapter.CommonAdapter
+import org.ionc.wallet.bean.TxRecoderBean
+import org.ionc.wallet.callback.OnTxRecoderCallback
 import org.ionchain.wallet.R
 import org.ionchain.wallet.adapter.txrecoder.TxRecoderViewHelper
 import org.ionchain.wallet.mvp.callback.OnLoadingView

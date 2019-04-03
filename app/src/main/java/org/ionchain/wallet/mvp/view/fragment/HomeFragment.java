@@ -13,20 +13,19 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.sdk.adapter.CommonAdapter;
-import org.ionc.wallet.sdk.bean.WalletBean;
-import org.ionc.wallet.sdk.callback.OnBalanceCallback;
-import org.ionc.wallet.sdk.utils.Logger;
-import org.ionc.wallet.sdk.utils.StringUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
+import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.adapter.CommonAdapter;
+import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.callback.OnBalanceCallback;
+import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
@@ -55,6 +54,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
+import static org.ionc.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
 import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 
@@ -75,9 +76,8 @@ public class HomeFragment extends AbsBaseFragment implements
     private ImageView moreWallet;
     private RelativeLayout modifyWallet;
     private TextView walletBalanceTx;
+    private TextView walletBalanceTxETH;
     private TextView tx_recoder;
-    private RelativeLayout walletAddressLayout;
-    private TextView walletAddressTx;//钱包地址
     private PopupWindowBuilder mBuilder;
     private ImageView addDevice;
     private ImageView wallet_logo;
@@ -104,16 +104,13 @@ public class HomeFragment extends AbsBaseFragment implements
         walletNameTx = rootView.findViewById(R.id.wallet_name_tv);
         moreWallet = rootView.findViewById(R.id.wallet_list);
         modifyWallet = rootView.findViewById(R.id.modify_wallet);
-        walletBalanceTx = rootView.findViewById(R.id.walletBalanceTx);
-        walletAddressLayout = rootView.findViewById(R.id.wallet_address_layout);
+        walletBalanceTx = rootView.findViewById(R.id.wallet_balance_tx);
+        walletBalanceTxETH = rootView.findViewById(R.id.wallet_balance_tx_eth);
         addDevice = rootView.findViewById(R.id.add_device);
         wallet_logo = rootView.findViewById(R.id.wallet_logo);
-        walletAddressTx = rootView.findViewById(R.id.wallet_address_tv);
-        walletAddressTx = rootView.findViewById(R.id.wallet_address_tv);
         tx_in_ll = rootView.findViewById(R.id.tx_in_ll);
         tx_out_ll = rootView.findViewById(R.id.tx_out_ll);
         tx_recoder = rootView.findViewById(R.id.tx_recoder_tv);
-
     }
 
 
@@ -139,18 +136,16 @@ public class HomeFragment extends AbsBaseFragment implements
             return;
         }
         walletNameTx.setText(mCurrentWallet.getName());
-        walletAddressTx.setText(mCurrentWallet.getAddress());
-        if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {
-            walletBalanceTx.setText(mCurrentWallet.getBalance());// 钱包金额
-        } else {
-            walletBalanceTx.setText("0.0000");// 钱包金额
-        }
+//        if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {
+//            walletBalanceTx.setText(mCurrentWallet.getBalance());// 钱包金额
+//        } else {
+//            walletBalanceTx.setText("0.0000");// 钱包金额
+//        }
         int id = mCurrentWallet.getMIconIdex();
         wallet_logo.setImageResource(App.sRandomHeader[id]);
-        IONCWalletSDK.getInstance().getAccountBalance(mCurrentWallet, this);
+        IONCWalletSDK.getInstance().getDoubleWalletBalance(mCurrentWallet.getAddress(), this);
         getDeviceList();
     }
-
 
     @Override
     protected int getFragmentLayout() {
@@ -180,37 +175,6 @@ public class HomeFragment extends AbsBaseFragment implements
         mDevicesLv.setAdapter(mAdapterDeviceLv);
 
 
-
-        /*
-         * 长按复制
-         * */
-        walletAddressTx.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                StringUtils.copy(getActivity(), walletAddressTx.getText().toString());
-                Toast.makeText(getActivity(), "已复制地址", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
-        /*
-         * 显示地址信息
-         * */
-        walletAddressLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
-                intent.putExtra("msg", mCurrentWallet.getAddress());
-                skip(intent);
-            }
-        });
-        walletAddressTx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
-                intent.putExtra("msg", mCurrentWallet.getAddress());
-                skip(intent);
-            }
-        });
 
         /*
          * 更多钱包
@@ -243,7 +207,7 @@ public class HomeFragment extends AbsBaseFragment implements
         /*
          * 修改钱包
          * */
-        modifyWallet.setOnClickListener(new View.OnClickListener() {
+        wallet_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 skip(ModifyAndExportWalletActivity.class, SERIALIZABLE_DATA, mCurrentWallet);
@@ -415,15 +379,14 @@ public class HomeFragment extends AbsBaseFragment implements
                 }
                 mCurrentWallet = mMoreWallets.get(position);
                 walletNameTx.setText(mCurrentWallet.getName());
-                walletAddressTx.setText(mCurrentWallet.getAddress());
-                if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {
-                    walletBalanceTx.setText(mCurrentWallet.getBalance());// 钱包金额
-                } else {
-                    walletBalanceTx.setText("0.0000");// 钱包金额
-                }
+//                if (!StringUtils.isEmpty(mCurrentWallet.getBalance())) {
+//                    walletBalanceTx.setText(mCurrentWallet.getBalance());// 钱包金额
+//                } else {
+//                    walletBalanceTx.setText("0.0000");// 钱包金额
+//                }
                 int ids = mCurrentWallet.getMIconIdex();
                 wallet_logo.setImageResource(App.sRandomHeader[ids]);
-                IONCWalletSDK.getInstance().getAccountBalance(mCurrentWallet, HomeFragment.this);
+                IONCWalletSDK.getInstance().getDoubleWalletBalance(mCurrentWallet.getAddress(), HomeFragment.this);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 getDeviceList();
@@ -448,7 +411,7 @@ public class HomeFragment extends AbsBaseFragment implements
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        IONCWalletSDK.getInstance().getAccountBalance(mCurrentWallet, this);
+        IONCWalletSDK.getInstance().getDoubleWalletBalance(mCurrentWallet.getAddress(), HomeFragment.this);
         getDeviceList();
     }
 
@@ -545,12 +508,19 @@ public class HomeFragment extends AbsBaseFragment implements
     }
 
     /**
-     * @param walletBean 余额 获取成功
+     * @param ballance 余额 获取成功
+     * @param nodeUrlTag
      */
     @Override
-    public void onBalanceSuccess(WalletBean walletBean) {
-        Logger.i(TAG, "onBalanceSuccess: " + walletBean.getBalance());
-        walletBalanceTx.setText(mCurrentWallet.getBalance());
+    public void onBalanceSuccess(String ballance, String nodeUrlTag) {
+        switch (nodeUrlTag){
+            case IONC_CHAIN_NODE:
+                walletBalanceTx.setText(ballance);
+                break;
+            case ETH_CHAIN_NODE:
+                walletBalanceTxETH.setText(ballance);
+                break;
+        }
     }
 
     /**

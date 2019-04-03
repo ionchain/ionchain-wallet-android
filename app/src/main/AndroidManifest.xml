@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.ionchain.wallet">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,6 +24,7 @@
         android:label="IONCToken"
         android:roundIcon="@mipmap/login_logo"
         android:supportsRtl="true"
+        tools:replace="android:label"
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"

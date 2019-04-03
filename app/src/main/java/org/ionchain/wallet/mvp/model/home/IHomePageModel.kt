@@ -1,6 +1,6 @@
 package org.ionchain.wallet.mvp.model.home
 
-import org.ionc.wallet.sdk.bean.WalletBean
+import org.ionc.wallet.bean.WalletBean
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback
 import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback

@@ -27,7 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import org.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.utils.Logger;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

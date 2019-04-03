@@ -46,7 +46,7 @@
                     android:gravity="center"
                     android:text="0.0000"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/txt_biglargesize"
+                    android:textSize="@dimen/txt_28sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -56,7 +56,7 @@
                     android:gravity="bottom"
                     android:text="IONC"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/txt_microsize"
+                    android:textSize="@dimen/txt_12sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:text="钱包地址"
                     android:textColor="#B3BFD0"
-                    android:textSize="@dimen/txt_smallsize" />
+                    android:textSize="@dimen/txt_14sp" />
 
                 <TextView
                     android:id="@+id/walletAddressTv"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="#B3BFD0"
-                    android:textSize="@dimen/txt_smallsize" />
+                    android:textSize="@dimen/txt_14sp" />
 
             </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:layout_marginTop="@dimen/h10"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:text="钱包名"
-            android:textSize="@dimen/txt_mediumsize" />
+            android:textSize="@dimen/txt_18sp" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/walletNameEt"

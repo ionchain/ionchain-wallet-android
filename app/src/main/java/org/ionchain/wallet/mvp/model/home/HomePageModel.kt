@@ -1,7 +1,7 @@
 package org.ionchain.wallet.mvp.model.home
 
-import org.ionc.wallet.sdk.bean.WalletBean
-import org.ionc.wallet.sdk.utils.Logger
+import org.ionc.wallet.bean.WalletBean
+import org.ionc.wallet.utils.Logger
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.model.Response

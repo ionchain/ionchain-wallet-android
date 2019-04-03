@@ -63,6 +63,11 @@
     <string name="protocol_title">离子链钱包服务及协议</string>
     <string name="protocol_hint">我已经仔细阅读并同意</string>
     <string name="password_rule">数字、大小写字母与特殊符号混合(空白和下划线除外)，且长度为8~12位</string>
+    <string name="wallet_icon">钱包icon</string>
+    <string name="tx_in">转入</string>
+    <string name="tx_out">转出</string>
+    <string name="tx_recorder">交易记录</string>
+    <string name="header_back">背景</string>
 
 
 </resources>

@@ -45,7 +45,7 @@
             android:paddingRight="@dimen/h20"
             android:text="@string/act_wallet_create_notify1"
             android:textColor="@color/main_blue"
-            android:textSize="@dimen/txt_smallsize" />
+            android:textSize="@dimen/txt_14sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:paddingLeft="@dimen/h20"
             android:text="@string/act_wallet_create_notify2"
             android:textColor="@color/main_blue"
-            android:textSize="@dimen/txt_smallsize" />
+            android:textSize="@dimen/txt_14sp" />
     </LinearLayout>
 
     <EditText

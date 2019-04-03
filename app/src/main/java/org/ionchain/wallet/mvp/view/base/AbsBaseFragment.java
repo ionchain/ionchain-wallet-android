@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import org.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.utils.Logger;
 
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 

@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 
-import static org.ionc.wallet.sdk.utils.Logger.initLogger;
+import static org.ionc.wallet.utils.Logger.initLogger;
 import static org.ionchain.wallet.BuildConfig.LOG_DEBUG;
 
 /**

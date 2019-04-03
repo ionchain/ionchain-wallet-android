@@ -13,10 +13,10 @@ import android.widget.TextView
 import com.uuzuche.lib_zxing.activity.CaptureActivity
 import com.uuzuche.lib_zxing.activity.CodeUtils
 import org.ionc.wallet.sdk.IONCWalletSDK
-import org.ionc.wallet.sdk.bean.WalletBean
-import org.ionc.wallet.sdk.callback.OnCreateWalletCallback
-import org.ionc.wallet.sdk.utils.Logger
-import org.ionc.wallet.sdk.utils.RandomUntil.getNum
+import org.ionc.wallet.bean.WalletBean
+import org.ionc.wallet.callback.OnCreateWalletCallback
+import org.ionc.wallet.utils.Logger
+import org.ionc.wallet.utils.RandomUntil.getNum
 import org.ionchain.wallet.R
 import org.ionchain.wallet.constant.ConstantParams.FROM_SCAN
 import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE

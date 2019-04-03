@@ -7,8 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.ionc.wallet.sdk.utils.StringUtils;
-import org.ionc.wallet.sdk.widget.BaseDialog;
+import org.ionc.wallet.utils.StringUtils;
+import org.ionc.wallet.widget.BaseDialog;
 
 import org.ionchain.wallet.R;
 

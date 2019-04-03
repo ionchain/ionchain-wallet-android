@@ -11,11 +11,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.sdk.bean.WalletBean;
-import org.ionc.wallet.sdk.callback.OnTransationCallback;
-import org.ionc.wallet.sdk.transaction.TransactionHelper;
-import org.ionc.wallet.sdk.utils.Logger;
-import org.ionc.wallet.sdk.utils.StringUtils;
+import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.callback.OnTransationCallback;
+import org.ionc.wallet.transaction.TransactionHelper;
+import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;

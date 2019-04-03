@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="导出私钥"
             android:textColor="@color/library_66"
-            android:textSize="@dimen/txt_smallsize"
+            android:textSize="@dimen/txt_14sp"
             android:layout_marginTop="@dimen/h20"
             />
 

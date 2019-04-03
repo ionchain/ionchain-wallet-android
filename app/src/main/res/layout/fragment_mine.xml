@@ -26,7 +26,7 @@
             android:layout_marginLeft="@dimen/h10"
             android:text="注册/登陆  >"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_largesize" />
+            android:textSize="@dimen/txt_22sp" />
 
     </LinearLayout>
 
@@ -50,7 +50,7 @@
                 android:layout_centerVertical="true"
                 android:text="钱包管理"
                 android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_mediumsize" />
+                android:textSize="@dimen/txt_18sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                 android:layout_centerVertical="true"
                 android:text="消息中心"
                 android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_mediumsize" />
+                android:textSize="@dimen/txt_18sp" />
 
             <ImageView
                 android:id="@+id/arrowIv"
@@ -105,7 +105,7 @@
                 android:gravity="center"
                 android:text=""
                 android:textColor="@color/white"
-                android:textSize="@dimen/txt_microsize" />
+                android:textSize="@dimen/txt_12sp" />
 
 
             <View
@@ -128,7 +128,7 @@
                 android:layout_centerVertical="true"
                 android:text="关于我们"
                 android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_mediumsize" />
+                android:textSize="@dimen/txt_18sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                 android:layout_centerVertical="true"
                 android:text="清除缓存"
                 android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_mediumsize" />
+                android:textSize="@dimen/txt_18sp" />
 
             <ImageView
                 android:id="@+id/arrowIv1"
@@ -177,7 +177,7 @@
                 android:layout_toLeftOf="@id/arrowIv1"
                 android:text="0 M"
                 android:textColor="#BABABA"
-                android:textSize="@dimen/txt_mediumsize" />
+                android:textSize="@dimen/txt_18sp" />
 
 
             <View

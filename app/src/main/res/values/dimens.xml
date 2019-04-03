@@ -3,48 +3,26 @@
 
     <dimen name="ButtonCornerSize">5dp</dimen>
     <dimen name="title_size">22sp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="display4">112sp</dimen>
-    <dimen name="display3">56sp</dimen>
-    <dimen name="display2">45sp</dimen>
-    <dimen name="display1">34sp</dimen>
-    <dimen name="headline">24sp</dimen>
+
     <dimen name="title">20sp</dimen>
     <dimen name="subheading">16sp</dimen>
     <dimen name="body">14sp</dimen>
     <dimen name="caption">12sp</dimen>
     <dimen name="button">14sp</dimen>
 
-    <dimen name="actionBarSize">50dp</dimen>
-    <dimen name="toolbar_title">18sp</dimen>
+
+    <dimen name="txt_12sp">12sp</dimen>
+    <dimen name="txt_14sp">14sp</dimen>
+    <dimen name="txt_16sp">16sp</dimen>
+    <dimen name="txt_18sp">18sp</dimen>
+    <dimen name="txt_22sp">22sp</dimen>
+    <dimen name="txt_28sp">28sp</dimen>
 
 
-    <dimen name="txt_small_micro_size">9sp</dimen>
-    <dimen name="txt_microsize">12sp</dimen>
-    <dimen name="txt_smallsize">14sp</dimen>
-    <dimen name="txt_smallmediumsize">16sp</dimen>
-    <dimen name="txt_mediumsize">18sp</dimen>
-    <dimen name="txt_largesize">22sp</dimen>
-    <dimen name="txt_biglargesize">28sp</dimen>
 
-
-    <dimen name="indicator_right_padding">10dp</dimen>
-    <dimen name="indicator_corner_radius">12dp</dimen>
-    <dimen name="indicator_internal_padding">4dp</dimen>
-    <dimen name="header_footer_left_right_padding">24dp</dimen>
-    <dimen name="header_footer_top_bottom_padding">12dp</dimen>
-
-
-    <dimen name="h01">0.1dp</dimen>
-    <dimen name="h02">0.2dp</dimen>
-    <dimen name="h03">0.3dp</dimen>
-    <dimen name="h04">0.4dp</dimen>
     <dimen name="h05">0.5dp</dimen>
-    <dimen name="h06">0.6dp</dimen>
-    <dimen name="h07">0.7dp</dimen>
-    <dimen name="h08">0.8dp</dimen>
-    <dimen name="h09">0.9dp</dimen>
+
     <dimen name="h1">1dp</dimen>
     <dimen name="h2">2dp</dimen>
     <dimen name="h3">3dp</dimen>

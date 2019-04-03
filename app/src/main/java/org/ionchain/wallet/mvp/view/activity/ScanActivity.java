@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 
-import org.ionc.wallet.sdk.utils.Logger;
+import org.ionc.wallet.utils.Logger;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
