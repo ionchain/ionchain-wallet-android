@@ -17,8 +17,8 @@ buildscript {
 }
 /*所有工程引用,该项目同级的版本配置脚本
 * */
-subprojects{
-    apply from: '../../version.gradle'
+subprojects {
+    apply from: '../version.gradle'
 }
 allprojects {
     repositories {
@@ -32,5 +32,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-

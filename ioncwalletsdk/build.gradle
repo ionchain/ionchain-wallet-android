@@ -1,0 +1,80 @@
+apply plugin: 'com.android.library'
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion extCompileSdkVersion
+    buildToolsVersion extBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion extMinSdkVersion
+        targetSdkVersion extTargetSdkVersion
+        versionCode appVersionCode
+        versionName "${appVersionName}"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+
+        }
+    }
+
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    api "com.android.support:appcompat-v7:$extAppCompactVersion"
+    //    数字钱包
+    api 'org.web3j:core:3.3.1-android'
+    api 'org.bitcoinj:bitcoinj-core:0.14.7'
+
+    //    数据库管理
+    api 'org.greenrobot:greendao:3.2.2'
+    api 'org.greenrobot:greendao-generator:3.2.2'
+    api 'com.google.code.gson:gson:2.8.5'
+    api 'com.android.support.constraint:constraint-layout:1.1.3'
+
+}
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+    }
+}
+
+greendao {
+    schemaVersion 1
+    daoPackage 'org.ionc.wallet.greendaogen'
+    targetGenDir 'src/main/java'
+}
+
+task clearJar(type: Delete) {
+    delete 'jar'
+}
+task 生成jar(type: Copy) {
+    group = '自定义任务'
+    from('build/intermediates/intermediate-jars/debug/')
+    into('../app/libs/')
+    include('classes.jar')
+    rename('classes.jar', 'ionchain_wallet_sdk.jar')
+}
+
+生成jar.doFirst {
+    println '完毕'
+}
+生成jar.doLast {
+    println '执行完毕'
+}
+生成jar.dependsOn(clearJar)

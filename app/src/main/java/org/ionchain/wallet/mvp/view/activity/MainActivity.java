@@ -11,7 +11,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.mvp.view.fragment.DevicesFragment;
-import org.ionchain.wallet.mvp.view.fragment.HomeFragment;
+import org.ionchain.wallet.mvp.view.fragment.AssetFragment;
 import org.ionchain.wallet.mvp.view.fragment.MineFragment;
 import org.ionchain.wallet.mvp.view.fragment.ShopFragment;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -26,7 +26,7 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
     private RadioGroup mRadioGroup;
 
 
-    private HomeFragment mAssetFragment;
+    private AssetFragment mAssetFragment;
     private MineFragment mMineFragment;
     private DevicesFragment mDevicesFragment;
     private ShopFragment mShopFragment;
@@ -43,7 +43,7 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
     @Override
     protected void initData() {
         //初始化 fragment
-        mAssetFragment = new HomeFragment();
+        mAssetFragment = new AssetFragment();
         mMineFragment = new MineFragment();
         mDevicesFragment = new DevicesFragment();
         mShopFragment = new ShopFragment();

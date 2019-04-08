@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.uuzuche.lib_zxing">
+
+    <application
+        android:allowBackup="true"
+        >
+
+        <activity
+            android:configChanges="orientation|keyboardHidden"
+            android:name="org.ionc.qrcode.activity.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+    </application>
+
+</manifest>

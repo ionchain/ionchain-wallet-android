@@ -10,19 +10,23 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.dialog.check.DialogPasswordCheck;
 import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.callback.OnBalanceCallback;
+import org.ionc.wallet.callback.OnCheckPasswordCallback;
 import org.ionc.wallet.callback.OnTransationCallback;
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.transaction.TransactionHelper;
 import org.ionc.wallet.utils.Logger;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
-import org.ionchain.wallet.widget.DialogPasswordCheck;
 
 import java.math.BigDecimal;
 
+import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
+import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
@@ -31,16 +35,18 @@ import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
  * 596928539@qq.com
  * 转账
  */
-public class TxActivity extends AbsBaseActivity implements OnTransationCallback {
+public class TxActivity extends AbsBaseActivity implements OnTransationCallback, OnBalanceCallback, OnCheckPasswordCallback {
 
     private RelativeLayout header;
     private EditText txToAddressEt;
     private EditText txAccountEt;
     private TextView txCostTv;
+    private TextView balance_tv;
 
-    private WalletBean mCurrentWallet;
     private SeekBar txSeekBarIndex;
 
+    private String mAddress;//当前钱包的地址
+    private String mKsPath;//钱包的ksp
 
     private BigDecimal mCurrentGasPrice;
     private DialogPasswordCheck dialogPasswordCheck;
@@ -51,6 +57,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
         txToAddressEt = findViewById(R.id.tx_to_address);
         txAccountEt = findViewById(R.id.tx_account);
         txCostTv = findViewById(R.id.tx_cost);
+        balance_tv = findViewById(R.id.balance_tv);
         txSeekBarIndex = findViewById(R.id.tx_seek_bar_index);
         Button txNext = findViewById(R.id.tx_next);
         ImageView back = findViewById(R.id.back);
@@ -71,7 +78,6 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                     ToastUtil.showToastLonger("请检查转帐地址或金额是否全部输入！");
                     return;
                 }
-
                 dialogPasswordCheck = new DialogPasswordCheck(getMActivity());
                 dialogPasswordCheck.setBtnClickedListener(new View.OnClickListener() {
                     @Override
@@ -83,17 +89,8 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
                     public void onClick(View v) {
                         //检查密码是否正确
                         String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                        String pwd_dao = mCurrentWallet.getPassword();
-                        if (StringUtils.chechPwd(pwd_dao, pwd_input)) {
-                            TransactionHelper helper = new TransactionHelper()
-                                    .setGasPrice(mProgress)
-                                    .setToAddress(toAddress)
-                                    .setTxValue(txAccount)
-                                    .setWalletBeanTx(mCurrentWallet);
-                            IONCWalletSDK.getInstance().transaction(helper, TxActivity.this);
-                        } else {
-                            ToastUtil.showToastLonger("请输入的正确的密码！");
-                        }
+                        IONCWalletSDK.getInstance().checkPassword(pwd_input,mKsPath,TxActivity.this);
+
                     }
                 }).show();
 
@@ -137,7 +134,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
 
     @Override
     protected void handleIntent(Intent intent) {
-        mCurrentWallet = (WalletBean) getIntent().getSerializableExtra("wallet");
+        mAddress = getIntent().getStringExtra(CURRENT_ADDRESS);
+        mKsPath = getIntent().getStringExtra(CURRENT_KSP);
+        IONCWalletSDK.getInstance().getIONCWalletBalance("转账", mAddress, this);
     }
 
     @Override
@@ -164,5 +163,32 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback 
         ToastUtil.showToastLonger("交易失败！");
         Logger.e("onTxFailure: " + error, getTAG());
         dialogPasswordCheck.dismiss();
+    }
+
+    @Override
+    public void onBalanceSuccess(String ballance, String nodeUrlTag) {
+        balance_tv.setText("余额: " + ballance);
+    }
+
+    @Override
+    public void onBalanceFailure(String error) {
+        balance_tv.setText("获取余额失败: ");
+    }
+
+    @Override
+    public void onPasswordRight(WalletBean bean) {
+        final String toAddress = txToAddressEt.getText().toString();
+        final String txAccount = txAccountEt.getText().toString();
+        TransactionHelper helper = new TransactionHelper()
+                .setGasPrice(mProgress)
+                .setToAddress(toAddress)
+                .setTxValue(txAccount)
+                .setWalletBeanTx(bean);
+        IONCWalletSDK.getInstance().transaction(helper, TxActivity.this);
+    }
+
+    @Override
+    public void onPasswordWrong(String errorMsg) {
+        ToastUtil.showToastLonger("请输入的正确的密码！");
     }
 }

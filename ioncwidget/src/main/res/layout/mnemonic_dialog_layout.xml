@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/backup_mnemonic_title"
+        android:gravity="center"
+        android:text="备份助记词"
+        android:textColor="#ffffff" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backup_mnemonic_word_rl"
+        android:layout_below="@id/title">
+        <TextView
+            android:id="@+id/hint"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/mnemonic_hint"
+            android:textColor="#ff0000" />
+        <View
+            android:id="@+id/line1"
+            android:layout_below="@id/hint"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"/>
+        <org.ionc.flowlayout.FlowLayout
+            android:layout_below="@id/line1"
+            android:id="@+id/backup_mnemonic_word"
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/mmnemonic1"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic2"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic3"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic4"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic5"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic6"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic7"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic8"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic9"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic10"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic11"
+                style="@style/mnnemonic_tv_style" />
+
+            <TextView
+                android:id="@+id/mmnemonic12"
+                style="@style/mnnemonic_tv_style" />
+        </org.ionc.flowlayout.FlowLayout>
+        <View
+            android:id="@+id/line2"
+            android:layout_below="@id/backup_mnemonic_word"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"/>
+        <Button
+            android:layout_marginTop="5dp"
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/line2"
+            android:text="@string/next_to_texst" />
+    </RelativeLayout>
+
+</RelativeLayout>

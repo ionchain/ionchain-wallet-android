@@ -10,8 +10,8 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import com.uuzuche.lib_zxing.activity.CaptureActivity
-import com.uuzuche.lib_zxing.activity.CodeUtils
+import org.ionc.qrcode.activity.CaptureActivity
+import org.ionc.qrcode.activity.CodeUtils
 import org.ionc.wallet.sdk.IONCWalletSDK
 import org.ionc.wallet.bean.WalletBean
 import org.ionc.wallet.callback.OnCreateWalletCallback

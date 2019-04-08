@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".qrcode.android.CaptureActivity">
+    tools:context="org.ionc.qrcode.activity.CaptureActivity">
     <!-- 整体透明画布 -->
 
 

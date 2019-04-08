@@ -22,8 +22,8 @@ import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnUpdatePasswordCallback;
 import org.ionc.wallet.utils.Logger;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
+import org.ionc.qrcode.activity.CaptureActivity;
+import org.ionc.qrcode.activity.CodeUtils;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;

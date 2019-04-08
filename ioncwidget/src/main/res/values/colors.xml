@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="title_blue">#3574FA</color>
+    <color name="modify_dialog_notice_red">#ff0000</color>
+    <color name="pink">#FF4BE9</color>
+    <color name="grey">#999999</color>
+    <color name="white">#ffffff</color>
+    <color name="blue_top">#3574FA</color>
+    <color name="library_66">#666666</color>
+    <color name="black">#000000</color>
+    <color name="red">#ff0000</color>
+
+</resources>

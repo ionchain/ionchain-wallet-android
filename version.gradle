@@ -1,0 +1,17 @@
+/*
+* 版本信息
+* */
+ext{
+    appVersionName = '1.0.0'
+    appVersionCode = 102
+
+    extMinSdkVersion = 19
+    extTargetSdkVersion = 26
+    extCompileSdkVersion = 28
+    extBuildToolsVersion = '28.0.3'
+
+    extAppCompactVersion = '28.0.0'
+    extRecycleViewVersion = '28.0.0'
+    extDesignVersion = '28.0.0'
+    extConstraintLayoutVersion = '1.1.3'
+}

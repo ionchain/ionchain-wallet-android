@@ -1,10 +1,9 @@
 package org.ionchain.wallet.utils;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.uuzuche.lib_zxing.activity.CodeUtils;
+import org.ionc.qrcode.activity.CodeUtils;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;

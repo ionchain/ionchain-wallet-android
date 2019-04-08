@@ -9,15 +9,14 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:paddingLeft="@dimen/h20"
-        android:paddingRight="@dimen/h20">
+        android:layout_height="?actionBarSize">
 
         <ImageView
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/h20"
             android:src="@mipmap/arrow_back_blue" />
 
         <TextView
@@ -26,44 +25,26 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="转  账"
-            android:textSize="@dimen/title_size"
-            android:textColor="@color/blue_top" />
+            android:textColor="@color/blue_top"
+            android:textSize="@dimen/title_size" />
     </RelativeLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/balance_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/comm_toast_bg"
-        android:orientation="vertical">
-
-        <TextView
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="@dimen/h20"
-            android:paddingRight="@dimen/h20"
-            android:text="@string/act_wallet_create_notify1"
-            android:textColor="@color/main_blue"
-            android:textSize="@dimen/txt_14sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/h10"
-            android:paddingLeft="@dimen/h20"
-            android:text="@string/act_wallet_create_notify2"
-            android:textColor="@color/main_blue"
-            android:textSize="@dimen/txt_14sp" />
-    </LinearLayout>
+        android:layout_height="@dimen/h60"
+        android:gravity="center"
+        android:text="余 额"
+        android:textColor="#666666"
+        android:textSize="@dimen/size_level5" />
 
     <EditText
         android:id="@+id/tx_to_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/h20"
-        android:layout_marginRight="@dimen/h20"
         android:layout_marginTop="@dimen/h15"
+        android:layout_marginRight="@dimen/h20"
         android:hint="收款人地址"
         android:text=""
         android:textColor="#666666"
@@ -74,8 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/h20"
-        android:layout_marginRight="@dimen/h20"
         android:layout_marginTop="@dimen/h15"
+        android:layout_marginRight="@dimen/h20"
         android:hint="转账金额"
         android:inputType="numberDecimal"
         android:text=""
@@ -87,11 +68,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/h20"
-        android:layout_marginRight="@dimen/h20"
         android:layout_marginTop="@dimen/h15"
+        android:layout_marginRight="@dimen/h20"
+        android:clickable="false"
         android:text="旷工费"
         android:textColor="#666666"
-        android:clickable="false"
         android:textSize="15sp"
         android:theme="@style/MyEditTextNUll" />
 
@@ -102,6 +83,7 @@
         android:layout_marginLeft="@dimen/h20"
         android:layout_marginRight="@dimen/h20"
         android:thumb="@mipmap/progress_index" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,12 +107,12 @@
     </RelativeLayout>
 
     <Button
-        android:textColor="@color/white"
-        android:background="@color/blue_top"
         android:id="@+id/tx_next"
         android:layout_width="324dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
-        android:text="下一步" />
+        android:background="@color/blue_top"
+        android:text="下一步"
+        android:textColor="@color/white" />
 </LinearLayout>

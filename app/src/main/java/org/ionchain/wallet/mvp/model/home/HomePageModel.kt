@@ -1,11 +1,11 @@
 package org.ionchain.wallet.mvp.model.home
 
-import org.ionc.wallet.bean.WalletBean
-import org.ionc.wallet.utils.Logger
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
+import org.ionc.wallet.bean.WalletBean
+import org.ionc.wallet.utils.Logger
 import org.ionchain.wallet.bean.DeviceBean
 import org.ionchain.wallet.bean.DeviceListBean
 import org.ionchain.wallet.constant.ConstantUrl.*
@@ -39,7 +39,7 @@ class HomePageModel : IHomePageModel {
 
             override fun onSuccess(response: Response<String>) {
                 val json = response.body()
-                Logger.j("onCreateSuccess: $json",TAG)
+                Logger.j(TAG,"onCreateSuccess: $json")
                 val bean = NetUtils.gsonToBean(json, DeviceListBean::class.java)
                 if (bean?.data == null) {
                     callback.onLoadFinish()
@@ -52,7 +52,7 @@ class HomePageModel : IHomePageModel {
             override fun onError(response: Response<String>) {
                 super.onError(response)
                 if (response.body() == null) {
-                    callback.onDeviceListFailure("谁被列表服务器出错！")
+                    callback.onDeviceListFailure("设备列表服务器出错！")
                 }else{
                     callback.onDeviceListFailure(response.body())
                 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_size_16dp">16dp</dimen>
+    <dimen name="title_size">22dp</dimen>
+    <dimen name="dimens_header_height">56dp</dimen>
+    <dimen name="h50">50dp</dimen>
+    <dimen name="h5">5dp</dimen>
+    <dimen name="h10">10dp</dimen>
+    <dimen name="txt_12sp">12sp</dimen>
+    <dimen name="h1">1dp</dimen>
+    <dimen name="h2">2dp</dimen>
+</resources>
