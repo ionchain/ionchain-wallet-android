@@ -20,7 +20,7 @@ import org.ionc.dialog.base.AbsBaseDialog;
  * @author 596928539@qq.com
  * @date 2019/04/04
  */
-public class MnemonicDialog extends AbsBaseDialog {
+public class DialogMnemonic extends AbsBaseDialog {
     private TextView mmnemonic1;
     private TextView mmnemonic2;
     private TextView mmnemonic3;
@@ -35,6 +35,7 @@ public class MnemonicDialog extends AbsBaseDialog {
     private TextView mmnemonic12;
     private String[] mmnemonicArray;
     private Button mClose;
+    private Button next_sure;
     private OnSavedMnemonicCallback callback;
 
     /**
@@ -57,9 +58,10 @@ public class MnemonicDialog extends AbsBaseDialog {
         mmnemonic11 = findViewById(R.id.mmnemonic11);
         mmnemonic12 = findViewById(R.id.mmnemonic12);
         mClose = findViewById(R.id.close);
+        next_sure = findViewById(R.id.next_sure);
     }
 
-    public MnemonicDialog(@NonNull Context context, String[] mmnemonicList,OnSavedMnemonicCallback callback) {
+    public DialogMnemonic(@NonNull Context context, String[] mmnemonicList, OnSavedMnemonicCallback callback) {
         super(context);
         this.mmnemonicArray = mmnemonicList;
         this.callback = callback;
@@ -67,10 +69,16 @@ public class MnemonicDialog extends AbsBaseDialog {
 
     @Override
     protected void initData() {
-        mClose.setOnClickListener(new View.OnClickListener() {
+        next_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callback.onToSaved();
+            }
+        });
+        mClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onCancel(DialogMnemonic.this);
             }
         });
     }
@@ -104,5 +112,8 @@ public class MnemonicDialog extends AbsBaseDialog {
 
     public interface OnSavedMnemonicCallback {
         void onToSaved();
+
+        void onCancel(DialogMnemonic dialogMnemonic);
+
     }
 }

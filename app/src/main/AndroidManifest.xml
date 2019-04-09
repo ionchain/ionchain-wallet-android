@@ -62,6 +62,7 @@
         <activity
             android:name=".mvp.view.activity.createwallet.CreateWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.ScanActivity"
@@ -78,6 +79,7 @@
         <activity
             android:name=".mvp.view.activity.ManageWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.MessageCenterActivity"
@@ -102,9 +104,9 @@
             android:name=".mvp.view.activity.importmode.ImportByKeystoreActivity"
             android:label="@string/title_activity_import_by_keystore"
             android:theme="@style/AppTheme" />
-        <activity android:name=".qrcode.android.CaptureActivity" />
+        <activity android:name="org.ionc.qrcode.activity.CaptureActivity" />
         <activity android:name=".mvp.view.activity.transaction.TxRecoderActivity" />
-        <activity android:name=".mvp.view.activity.WebActivity"></activity>
+        <activity android:name=".mvp.view.activity.WebActivity" />
 
 
         <activity android:name=".mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity"/>

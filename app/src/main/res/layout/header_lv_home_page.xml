@@ -92,9 +92,10 @@
                 android:padding="@dimen/h3"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:textSize="10sp"
                 android:drawableLeft="@drawable/exclamation"
                 android:background="@drawable/please_backup_wallet"
-                android:text="  请备份  "/>
+                android:text=" 使用前,请备份 "/>
             <TextView
                 android:id="@+id/tx_recoder_tv"
                 android:layout_width="wrap_content"

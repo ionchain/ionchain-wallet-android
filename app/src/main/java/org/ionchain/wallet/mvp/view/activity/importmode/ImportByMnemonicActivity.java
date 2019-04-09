@@ -201,6 +201,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     @Override
     public void onImportMnemonicSuccess(WalletBean walletBean) {
+        walletBean.setMnemonic("");
         final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         Log.i(getTAG(), "onCreateSuccess: " + walletBean.toString());
 

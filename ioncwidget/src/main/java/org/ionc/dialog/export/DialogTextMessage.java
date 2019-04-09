@@ -34,6 +34,7 @@ public class DialogTextMessage extends AbsBaseDialog {
     private String tag;//用来划分处理逻辑
 
     private OnBtnClickedListener onBtnClickedListener;
+
     public DialogTextMessage setTitle(String title) {
         this.title = title;
         return this;
@@ -71,7 +72,7 @@ public class DialogTextMessage extends AbsBaseDialog {
 
     @Override
     protected void initDialog() {
-
+        setCancelable(false);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class DialogTextMessage extends AbsBaseDialog {
         if (!TextUtils.isEmpty(btn_text)) {
             copyBtn.setText(btn_text);
         }
-        if (hint_msg_txt!=null) {
+        if (hint_msg_txt != null) {
             hint_msg.setText(hint_msg_txt);
         }
         if (TextUtils.isEmpty(hint_msg_txt)) {
@@ -121,7 +122,8 @@ public class DialogTextMessage extends AbsBaseDialog {
         this.message = message;
         return this;
     }
-    public interface OnBtnClickedListener{
+
+    public interface OnBtnClickedListener {
         void onBtnClick(DialogTextMessage dialogTextMessage);
     }
 }

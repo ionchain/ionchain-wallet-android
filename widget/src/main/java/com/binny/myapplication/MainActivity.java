@@ -2,16 +2,16 @@ package com.binny.myapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
+import android.support.v7.widget.AppCompatEditText;
 
 import org.ionc.dialog.callback.OnStringCallbcak;
 import org.ionc.dialog.check.DialogCheckMnemonic;
 import org.ionc.dialog.export.DialogTextMessage;
-import org.ionc.dialog.mnemonic.MnemonicDialog;
+import org.ionc.dialog.mnemonic.DialogMnemonic;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MnemonicDialog.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
+public class MainActivity extends AppCompatActivity implements DialogMnemonic.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements MnemonicDialog.On
                 "qweqwe"
 
         };
-        MnemonicDialog mnemonicDialog = new MnemonicDialog(this,mnemonics,this);
-        mnemonicDialog.show();
+        DialogMnemonic dialogMnemonic = new DialogMnemonic(this,mnemonics,this);
+        dialogMnemonic.show();
     }
 
     @Override
@@ -46,12 +46,17 @@ public class MainActivity extends AppCompatActivity implements MnemonicDialog.On
     }
 
     @Override
+    public void onCancel(DialogMnemonic dialogMnemonic) {
+
+    }
+
+    @Override
     public void onBtnClick(DialogTextMessage dialogTextMessage) {
         new DialogCheckMnemonic(this, this).show();
     }
 
     @Override
-    public void onString(String[] s, List<EditText> editTextList) {
+    public void onString(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
 
     }
 }

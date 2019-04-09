@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <solid android:color="@color/title_blue" />
-    <corners android:radius="@dimen/dialog_sure_btn_radius" />
+    <corners android:radius="@dimen/dialog_btn_radius" />
 </shape>

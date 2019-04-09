@@ -12,14 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ionc.dialog.callback.OnStringCallbcak;
 import org.ionc.dialog.check.DialogCheckMnemonic;
 import org.ionc.dialog.export.DialogTextMessage;
-import org.ionc.dialog.mnemonic.MnemonicDialog;
+import org.ionc.dialog.mnemonic.DialogMnemonic;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
@@ -45,10 +44,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         TextWatcher,
         OnImportMnemonicCallback,
         OnSimulateTimeConsume,
-        MnemonicDialog.OnSavedMnemonicCallback,
+        DialogMnemonic.OnSavedMnemonicCallback,
         DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
 
-    private RelativeLayout toolbarlayout;
     private ImageView back;
     private AppCompatEditText walletNameEt;
     private AppCompatEditText pwdEt;
@@ -61,9 +59,8 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     private String walletnamestr;
     private String pass;
     private String resetpass;
-    private MnemonicDialog mnemonicDialog;
+    private DialogMnemonic dialogMnemonic;
     WalletBean walletBean;
-    private final String TO_SAVE = "to_save";
 
     /**
      * Find the Views in the layout<br />
@@ -72,7 +69,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        toolbarlayout = findViewById(R.id.toolbarlayout);
         back = findViewById(R.id.back);
         walletNameEt = findViewById(R.id.walletNameEt);
         pwdEt = findViewById(R.id.pwdEt);
@@ -239,10 +235,10 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         SoftKeyboardUtil.hideSoftKeyboard(this);
         walletBean.setMIconIdex(getNum(7));
         this.walletBean = walletBean;
-        //首先备份助记词 todo
+        //首先备份助记词
         String[] mnemonics = walletBean.getMnemonic().split(" ");
-        mnemonicDialog = new MnemonicDialog(this, mnemonics, this);
-        mnemonicDialog.show();
+        dialogMnemonic = new DialogMnemonic(this, mnemonics, this);
+        dialogMnemonic.show();
     }
 
     @Override
@@ -263,6 +259,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
      */
     @Override
     public void onToSaved() {
+        String TO_SAVE = "to_save";
         new DialogTextMessage(this).setTitle("注意")
                 .setMessage("请务必妥善保管您的助记词,一旦丢失,你的财产可能面临重大损失!")
                 .setBtnText("我已知晓并保存")
@@ -271,10 +268,16 @@ public class CreateWalletActivity extends AbsBaseActivity implements
                 .setCopyBtnClickedListener(this).show();
     }
 
+    @Override
+    public void onCancel(DialogMnemonic dialogMnemonic) {
+        dialogMnemonic.dismiss();
+        skip(MainActivity.class);
+    }
+
 
     @Override
     public void onBtnClick(DialogTextMessage dialogTextMessage) {
-        mnemonicDialog.dismiss();
+        dialogMnemonic.dismiss();
         dialogTextMessage.dismiss();
         //保存准状态
         //去测试一下助记词

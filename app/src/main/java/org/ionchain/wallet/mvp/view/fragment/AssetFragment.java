@@ -24,7 +24,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.ionc.dialog.callback.OnStringCallbcak;
 import org.ionc.dialog.check.DialogCheckMnemonic;
 import org.ionc.dialog.export.DialogTextMessage;
-import org.ionc.dialog.mnemonic.MnemonicDialog;
+import org.ionc.dialog.mnemonic.DialogMnemonic;
 import org.ionc.qrcode.activity.CaptureActivity;
 import org.ionc.qrcode.activity.CodeUtils;
 import org.ionc.wallet.adapter.CommonAdapter;
@@ -59,6 +59,7 @@ import org.ionchain.wallet.widget.PopupWindowBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
@@ -76,7 +77,7 @@ public class AssetFragment extends AbsBaseFragment implements
         OnDeviceListCallback,
         OnUnbindDeviceButtonClickedListener,
         OnUnbindDeviceCallback,
-        OnBalanceCallback, MnemonicDialog.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
+        OnBalanceCallback, DialogMnemonic.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
 
 
     private SmartRefreshLayout mRefresh;
@@ -109,7 +110,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     private DialogBindDevice mDialogBindCardWithWallet;//绑定设备的弹窗
     private int mUnbindPos = 0;
-    private MnemonicDialog mnemonicDialog;
+    private DialogMnemonic dialogMnemonic;
 
     private void initListViewHeaderViews(View rootView) {
         walletNameTx = rootView.findViewById(R.id.wallet_name_tv);
@@ -140,7 +141,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        SoftKeyboardUtil.hideSoftKeyboard(getActivity());
+        SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         if (mCurrentWallet == null) {
             ToastUtil.showLong("您还没有钱包,请您先创建或导入钱包");
@@ -204,7 +205,7 @@ public class AssetFragment extends AbsBaseFragment implements
             @Override
             public void onClick(View v) {
                 DisplayMetrics metrics = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
                 int screenHeight = metrics.heightPixels;
                 int screenWidth = metrics.widthPixels;
                 mBuilder.setAnimationStyle(R.style.push_left_in_out)
@@ -231,6 +232,7 @@ public class AssetFragment extends AbsBaseFragment implements
         wallet_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (plesaeBackupWallet()) return;
                 skip(ModifyAndExportWalletActivity.class, SERIALIZABLE_DATA, mCurrentWallet);
             }
         });
@@ -240,6 +242,7 @@ public class AssetFragment extends AbsBaseFragment implements
         addDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (plesaeBackupWallet()) return;
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
                 startActivityForResult(intent, 10);
 
@@ -252,6 +255,7 @@ public class AssetFragment extends AbsBaseFragment implements
         tx_out_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (plesaeBackupWallet()) return;
                 Intent intent = new Intent(getActivity(), TxActivity.class);
                 intent.putExtra(CURRENT_ADDRESS, mCurrentWallet.getAddress());
                 intent.putExtra(CURRENT_KSP, mCurrentWallet.getKeystore());
@@ -264,6 +268,7 @@ public class AssetFragment extends AbsBaseFragment implements
         tx_in_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (plesaeBackupWallet()) return;
                 Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
                 intent.putExtra("msg", mCurrentWallet.getAddress());
                 skip(intent);
@@ -275,6 +280,7 @@ public class AssetFragment extends AbsBaseFragment implements
         tx_recoder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (plesaeBackupWallet()) return;
                 Intent intent = new Intent(getActivity(), TxRecoderActivity.class);
                 intent.putExtra("address", mCurrentWallet.getAddress());
                 skip(intent);
@@ -284,11 +290,23 @@ public class AssetFragment extends AbsBaseFragment implements
             @Override
             public void onClick(View v) {
                 String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
-                mnemonicDialog = new MnemonicDialog(getActivity(), mnemonics, AssetFragment.this);
-                mnemonicDialog.show();
+                dialogMnemonic = new DialogMnemonic(getActivity(), mnemonics, AssetFragment.this);
+                dialogMnemonic.show();
             }
         });
 
+    }
+
+    /**
+     * 钱包没有备份,则提示用户去备份钱包
+     * @return ..
+     */
+    private boolean plesaeBackupWallet() {
+        if (please_backup_wallet.getVisibility()== View.VISIBLE) {
+            ToastUtil.showToastLonger("请先备份钱包!");
+            return true;
+        }
+        return false;
     }
 
 
@@ -300,7 +318,7 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     private void getDeviceList() {
-        mPresenter.getCurrentWalletDevicesList(mCurrentWallet, this);
+//        mPresenter.getCurrentWalletDevicesList(mCurrentWallet, this);
     }
 
 
@@ -572,8 +590,13 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     @Override
+    public void onCancel(DialogMnemonic dialogMnemonic) {
+        dialogMnemonic.dismiss();
+    }
+
+    @Override
     public void onBtnClick(DialogTextMessage dialogTextMessage) {
-        mnemonicDialog.dismiss();
+        dialogMnemonic.dismiss();
         dialogTextMessage.dismiss();
         //保存准状态
         //去测试一下助记词
