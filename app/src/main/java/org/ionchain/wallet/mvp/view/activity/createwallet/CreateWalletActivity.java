@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity.createwallet;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -15,8 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.ionc.dialog.callback.OnStringCallbcak;
+import org.ionc.dialog.check.DialogCheckMnemonic;
 import org.ionc.dialog.export.DialogTextMessage;
-import org.ionc.dialog.flow.MnemonicDialog;
+import org.ionc.dialog.mnemonic.MnemonicDialog;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
@@ -24,14 +27,17 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import java.util.List;
 import java.util.Objects;
 
+import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
@@ -40,7 +46,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         OnImportMnemonicCallback,
         OnSimulateTimeConsume,
         MnemonicDialog.OnSavedMnemonicCallback,
-        DialogTextMessage.OnBtnClickedListener {
+        DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
 
     private RelativeLayout toolbarlayout;
     private ImageView back;
@@ -57,6 +63,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     private String resetpass;
     private MnemonicDialog mnemonicDialog;
     WalletBean walletBean;
+    private final String TO_SAVE = "to_save";
 
     /**
      * Find the Views in the layout<br />
@@ -230,12 +237,12 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         hideProgress();
         IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
+        walletBean.setMIconIdex(getNum(7));
         this.walletBean = walletBean;
         //首先备份助记词 todo
         String[] mnemonics = walletBean.getMnemonic().split(" ");
         mnemonicDialog = new MnemonicDialog(this, mnemonics, this);
         mnemonicDialog.show();
-//        skip(MainActivity.class);
     }
 
     @Override
@@ -257,9 +264,10 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     public void onToSaved() {
         new DialogTextMessage(this).setTitle("注意")
-                .setMessage("请务必妥善保管您的助记词,一旦丢失你,你的财产可能面临重大损失")
+                .setMessage("请务必妥善保管您的助记词,一旦丢失,你的财产可能面临重大损失!")
                 .setBtnText("我已知晓并保存")
                 .setHintMsg("")
+                .setTag(TO_SAVE)
                 .setCopyBtnClickedListener(this).show();
     }
 
@@ -269,8 +277,41 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         mnemonicDialog.dismiss();
         dialogTextMessage.dismiss();
         //保存准状态
-        IONCWalletSDK.getInstance().updateWallet(walletBean);
         //去测试一下助记词
+        new DialogCheckMnemonic(this, this).show();
+    }
 
+
+    /**
+     * 助记词检测结果,失败
+     * <p>
+     * 让用户输入密码,重新保存助记词,
+     * 若密码输入错误则该钱包对用户来说,极大可能是不可用的,可以提示用户删除该钱包,
+     * 此时删除钱包则无需密码,直接删除
+     *  @param s 助记词
+     * @param editTextList
+     * @param dialogCheckMnemonic
+     */
+
+    @Override
+    public void onString(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
+        String[] mnemonics = walletBean.getMnemonic().split(" ");
+        if (s.length != mnemonics.length) {
+            ToastUtil.showToastLonger("您输入的助记词有误");
+            return;
+        }
+        int count = mnemonics.length;
+        for (int i = 0; i < count; i++) {
+            if (!mnemonics[i].equals(s[i])) {
+                ToastUtil.showToastLonger("您输入的第" + (i + 1) + "个助记词有误");
+                editTextList.get(i).setTextColor(Color.RED);
+                return;
+            }
+        }
+        //更新
+        walletBean.setMnemonic("");
+        IONCWalletSDK.getInstance().updateWallet(walletBean);
+        ToastUtil.showToastLonger("验证成功!");
+        skip(MainActivity.class);
     }
 }

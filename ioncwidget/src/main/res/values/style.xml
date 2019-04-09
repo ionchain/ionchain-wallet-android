@@ -76,4 +76,15 @@
         <item name="android:padding">5dp</item>
     </style>
 
+    <style name="mnemonic_edit_text">
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:maxLength">12</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/dialog_import_private_key_et</item>
+    </style>
+
 </resources>

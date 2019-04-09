@@ -71,13 +71,11 @@ public class WalletBean implements Serializable {
      */
     private boolean isMainWallet;
 
-    private boolean isSavedMnemonic;
 
-    @Generated(hash = 1439474956)
+    @Generated(hash = 1550670516)
     public WalletBean(Long id, String privateKey, String name, String address,
             String publickey, String balance, String keystore, String password,
-            int mIconIdex, String mnemonic, boolean choosen, boolean isMainWallet,
-            boolean isSavedMnemonic) {
+            int mIconIdex, String mnemonic, boolean choosen, boolean isMainWallet) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -90,114 +88,131 @@ public class WalletBean implements Serializable {
         this.mnemonic = mnemonic;
         this.choosen = choosen;
         this.isMainWallet = isMainWallet;
-        this.isSavedMnemonic = isSavedMnemonic;
     }
+
 
     @Generated(hash = 1814219826)
     public WalletBean() {
     }
 
+
     public Long getId() {
         return this.id;
     }
+
 
     public void setId(Long id) {
         this.id = id;
     }
 
+
     public String getPrivateKey() {
         return this.privateKey;
     }
+
 
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
     }
 
+
     public String getName() {
         return this.name;
     }
+
 
     public void setName(String name) {
         this.name = name;
     }
 
+
     public String getAddress() {
         return this.address;
     }
+
 
     public void setAddress(String address) {
         this.address = address;
     }
 
+
     public String getPublickey() {
         return this.publickey;
     }
+
 
     public void setPublickey(String publickey) {
         this.publickey = publickey;
     }
 
+
     public String getBalance() {
         return this.balance;
     }
+
 
     public void setBalance(String balance) {
         this.balance = balance;
     }
 
+
     public String getKeystore() {
         return this.keystore;
     }
+
 
     public void setKeystore(String keystore) {
         this.keystore = keystore;
     }
 
+
     public String getPassword() {
         return this.password;
     }
+
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+
     public int getMIconIdex() {
         return this.mIconIdex;
     }
+
 
     public void setMIconIdex(int mIconIdex) {
         this.mIconIdex = mIconIdex;
     }
 
+
     public String getMnemonic() {
         return this.mnemonic;
     }
+
 
     public void setMnemonic(String mnemonic) {
         this.mnemonic = mnemonic;
     }
 
+
     public boolean getChoosen() {
         return this.choosen;
     }
+
 
     public void setChoosen(boolean choosen) {
         this.choosen = choosen;
     }
 
+
     public boolean getIsMainWallet() {
         return this.isMainWallet;
     }
+
 
     public void setIsMainWallet(boolean isMainWallet) {
         this.isMainWallet = isMainWallet;
     }
 
-    public boolean getIsSavedMnemonic() {
-        return this.isSavedMnemonic;
-    }
-
-    public void setIsSavedMnemonic(boolean isSavedMnemonic) {
-        this.isSavedMnemonic = isSavedMnemonic;
-    }
 }

@@ -17,7 +17,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
-import org.ionc.wallet.widget.IONCAllWalletDialogSDK;
+import org.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 

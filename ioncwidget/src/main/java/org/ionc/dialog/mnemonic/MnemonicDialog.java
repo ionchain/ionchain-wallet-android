@@ -1,4 +1,4 @@
-package org.ionc.dialog.flow;
+package org.ionc.dialog.mnemonic;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import org.ionc.dialog.check.DialogPasswordCheck;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnBalanceCallback;
-import org.ionc.wallet.callback.OnCheckPasswordCallback;
+import org.ionc.wallet.callback.OnCheckCallback;
 import org.ionc.wallet.callback.OnTransationCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.transaction.TransactionHelper;
@@ -35,7 +35,7 @@ import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
  * 596928539@qq.com
  * 转账
  */
-public class TxActivity extends AbsBaseActivity implements OnTransationCallback, OnBalanceCallback, OnCheckPasswordCallback {
+public class TxActivity extends AbsBaseActivity implements OnTransationCallback, OnBalanceCallback, OnCheckCallback {
 
     private RelativeLayout header;
     private EditText txToAddressEt;
@@ -176,7 +176,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     }
 
     @Override
-    public void onPasswordRight(WalletBean bean) {
+    public void onCheckSuccess(WalletBean bean) {
         final String toAddress = txToAddressEt.getText().toString();
         final String txAccount = txAccountEt.getText().toString();
         TransactionHelper helper = new TransactionHelper()
@@ -188,7 +188,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     }
 
     @Override
-    public void onPasswordWrong(String errorMsg) {
+    public void onCheckFailure(String errorMsg) {
         ToastUtil.showToastLonger("请输入的正确的密码！");
     }
 }

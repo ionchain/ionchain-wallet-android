@@ -3,6 +3,7 @@ package org.ionchain.wallet.mvp.view.base
 import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_KEY
@@ -30,6 +31,7 @@ abstract class AbsBaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         if (intent.flags and Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT != 0) {
             finish()
             return

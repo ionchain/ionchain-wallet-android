@@ -4,7 +4,7 @@
     <dimen name="modify_dialog_current_password_et">40dp</dimen>
     <dimen name="modify_dialog_gap_left_right">10dp</dimen>
     <dimen name="modify_dialog_gap_top">5dp</dimen>
-    <dimen name="modify_password_dialog_btn">10dp</dimen>
+    <dimen name="dialog_sure_btn_radius">5dp</dimen>
     <dimen name="modify_dialog_btn_text_size">20sp</dimen>
     <dimen name="modify_dialog_btn_height">50dp</dimen>
     <dimen name="modify_dialog_btn_width">90dp</dimen>

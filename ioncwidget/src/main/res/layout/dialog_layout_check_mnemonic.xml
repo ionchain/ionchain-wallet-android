@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="400dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_import_private_key"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:text="请按顺序输入您所保存的助记词"
+        android:textColor="@color/red"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic1"
+            style="@style/mnemonic_edit_text"
+            android:hint="1" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic2"
+            style="@style/mnemonic_edit_text"
+            android:hint="2" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic3"
+            style="@style/mnemonic_edit_text"
+            android:hint="3" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic4"
+            style="@style/mnemonic_edit_text"
+            android:hint="4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic5"
+            style="@style/mnemonic_edit_text"
+            android:hint="5" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic6"
+            style="@style/mnemonic_edit_text"
+            android:hint="6" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic7"
+            style="@style/mnemonic_edit_text"
+            android:hint="7" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic8"
+            style="@style/mnemonic_edit_text"
+            android:hint="8" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic9"
+            style="@style/mnemonic_edit_text"
+            android:hint="9" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic10"
+            style="@style/mnemonic_edit_text"
+            android:hint="10" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic11"
+            style="@style/mnemonic_edit_text"
+            android:hint="11" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/mnemonic12"
+            style="@style/mnemonic_edit_text"
+            android:hint="12" />
+    </LinearLayout>
+
+
+    <Button
+        android:layout_margin="@dimen/h10"
+        android:id="@+id/right_btn"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/dialog_sure_btn"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/btn_sure_text"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</LinearLayout>

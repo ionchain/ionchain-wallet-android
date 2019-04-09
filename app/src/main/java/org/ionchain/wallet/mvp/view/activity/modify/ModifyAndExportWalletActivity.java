@@ -14,7 +14,7 @@ import org.ionc.dialog.modify.ModifyDialog;
 import org.ionc.dialog.modify.OnModifyPasswordCallback;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnBalanceCallback;
-import org.ionc.wallet.callback.OnCheckPasswordCallback;
+import org.ionc.wallet.callback.OnCheckCallback;
 import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
 import org.ionc.wallet.callback.OnModifyWalletPassWordCallback;
@@ -41,7 +41,7 @@ import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         OnBalanceCallback,
         OnImportPrivateKeyCallback,
-        View.OnClickListener, OnDeletefinishCallback, OnModifyPasswordCallback, OnModifyWalletPassWordCallback, OnCheckPasswordCallback, DialogTextMessage.OnBtnClickedListener {
+        View.OnClickListener, OnDeletefinishCallback, OnModifyPasswordCallback, OnModifyWalletPassWordCallback, OnCheckCallback, DialogTextMessage.OnBtnClickedListener {
 
 
     WalletBean mWallet;
@@ -328,7 +328,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onPasswordRight(WalletBean bean) {
+    public void onCheckSuccess(WalletBean bean) {
         passwordCheck.dismiss();
         switch (flag) {
             case FLAG_DELETE_WALLET:
@@ -363,7 +363,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onPasswordWrong(String errorMsg) {
+    public void onCheckFailure(String errorMsg) {
         Logger.e(errorMsg);
         ToastUtil.showToastLonger("请检查密码是否正确！");
         if (modifyDialog != null) {

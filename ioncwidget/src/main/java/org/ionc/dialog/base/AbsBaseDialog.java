@@ -27,8 +27,14 @@ public abstract class AbsBaseDialog extends Dialog {
         initData();
     }
 
-    protected abstract void initData();
+    /**
+     * @return 布局id
+     */
+    protected abstract int getLayout();
 
+    /**
+     * 初始化 弹窗数据
+     */
     protected abstract void initDialog();
 
     /**
@@ -37,10 +43,8 @@ public abstract class AbsBaseDialog extends Dialog {
     protected abstract void initView();
 
     /**
-     * @return 布局id
+     * 初始化 数据
      */
-    protected abstract int getLayout();
-
-
+    protected abstract void initData();
 
 }

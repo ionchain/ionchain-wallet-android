@@ -43,10 +43,10 @@ public final class StringUtils {
      * @return 是否匹配
      */
     public static boolean check(String value) {
-        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,12}$");
-        Matcher m = p.matcher(value);
-        return m.matches();
-//        return true;
+//        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,12}$");
+//        Matcher m = p.matcher(value);
+//        return m.matches();
+        return true;
     }
 
     /**

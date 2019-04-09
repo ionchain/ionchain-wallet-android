@@ -31,12 +31,22 @@ public class DialogTextMessage extends AbsBaseDialog {
     private Button copyBtn;
     private TextView titleTv;
     private TextView hint_msg;
+    private String tag;//用来划分处理逻辑
 
     private OnBtnClickedListener onBtnClickedListener;
     public DialogTextMessage setTitle(String title) {
         this.title = title;
         return this;
 
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public DialogTextMessage setTag(String tag) {
+        this.tag = tag;
+        return this;
     }
 
     public DialogTextMessage setBtnText(String btn_text) {

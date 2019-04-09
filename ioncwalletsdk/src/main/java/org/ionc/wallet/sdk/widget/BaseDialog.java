@@ -1,4 +1,4 @@
-package org.ionc.wallet.widget;
+package org.ionc.wallet.sdk.widget;
 
 import android.app.Activity;
 import android.app.Dialog;

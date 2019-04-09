@@ -85,6 +85,17 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/please_backup_wallet"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/h3"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:drawableLeft="@drawable/exclamation"
+                android:background="@drawable/please_backup_wallet"
+                android:text="  请备份  "/>
+            <TextView
                 android:id="@+id/tx_recoder_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
