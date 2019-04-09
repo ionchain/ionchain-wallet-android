@@ -68,6 +68,9 @@
     <string name="tx_out">转出</string>
     <string name="tx_recorder">交易记录</string>
     <string name="header_back">背景</string>
+    <string name="name_hint">名字不能包含特殊字符,且长度不超过8位</string>
+    <string name="import_wallet_text">导入钱包</string>
+    <string name="back_arrow">返回</string>
 
 
 </resources>

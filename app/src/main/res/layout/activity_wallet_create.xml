@@ -19,8 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:src="@mipmap/arrow_back_blue" />
+            android:layout_marginStart="@dimen/padding_size_16dp"
+            android:src="@mipmap/arrow_back_blue"
+            android:contentDescription="@string/back_arrow" />
 
         <TextView
             style="@style/common_title"
@@ -66,7 +67,7 @@
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h6"
             android:layout_marginRight="@dimen/padding_size_16dp"
-            android:hint="名字不能包含特殊字符,且长度不超过8位"
+            android:hint="@string/name_hint"
             android:singleLine="true"
             android:maxLength="8"
             android:textColor="@color/library_33"
@@ -115,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:checked="false"
-                android:drawableLeft="@drawable/check_blue"
+                android:drawableStart="@drawable/check_blue"
                 android:drawablePadding="@dimen/h5"
                 android:text="@string/protocol_hint"
                 android:textColor="@color/library_33"
@@ -125,7 +126,7 @@
                 android:id="@+id/linkUrlTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/h10"
+                android:layout_marginStart="@dimen/h10"
                 android:autoLink="web"
                 android:text="@string/protocol_title"
                 android:textColor="@color/qmui_config_color_blue"
@@ -153,7 +154,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/h20"
             android:padding="@dimen/dp_10"
-            android:text="导入钱包"
+            android:text="@string/import_wallet_text"
             android:textColor="@color/main_blue" />
 
 
