@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/padding_size_16dp"
-            android:src="@mipmap/arrow_back_blue"
-            android:contentDescription="@string/back_arrow" />
+            android:contentDescription="@string/back_arrow"
+            android:src="@mipmap/arrow_back_blue" />
 
         <TextView
             style="@style/common_title"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/act_wallet_create_notify1"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/hint_text_size"/>
+                android:textSize="@dimen/hint_text_size" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,8 +68,8 @@
             android:layout_marginTop="@dimen/h6"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:hint="@string/name_hint"
-            android:singleLine="true"
             android:maxLength="8"
+            android:singleLine="true"
             android:textColor="@color/library_33"
             android:textSize="@dimen/hint_text_size" />
 
@@ -80,8 +80,8 @@
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h6"
             android:layout_marginRight="@dimen/padding_size_16dp"
-            android:maxLength="12"
             android:hint="@string/password_rule"
+            android:maxLength="12"
             android:singleLine="true"
             android:textColor="@color/library_33"
             android:textSize="@dimen/hint_text_size"
@@ -93,9 +93,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h6"
-            android:maxLength="12"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:hint="@string/wallet_create_respwd"
+            android:maxLength="12"
             android:singleLine="true"
             android:textColor="@color/library_33"
             android:textSize="@dimen/hint_text_size" />
