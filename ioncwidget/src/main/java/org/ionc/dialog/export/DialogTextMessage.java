@@ -19,6 +19,7 @@ public class DialogTextMessage extends AbsBaseDialog {
     private String message;
     private String title;
     private String btn_text;
+    private boolean cancelByBackKey = false;
 
     public DialogTextMessage setHintMsg(String hint_msg_txt) {
         this.hint_msg_txt = hint_msg_txt;
@@ -60,6 +61,10 @@ public class DialogTextMessage extends AbsBaseDialog {
         return this;
     }
 
+    public DialogTextMessage setCancelByBackKey(boolean cancelByBackKey){
+        this.cancelByBackKey = cancelByBackKey;
+        return this;
+    }
 
     public DialogTextMessage(@NonNull Context context) {
         super(context);
@@ -72,7 +77,6 @@ public class DialogTextMessage extends AbsBaseDialog {
 
     @Override
     protected void initDialog() {
-        setCancelable(false);
     }
 
     @Override
@@ -91,6 +95,7 @@ public class DialogTextMessage extends AbsBaseDialog {
         if (TextUtils.isEmpty(hint_msg_txt)) {
             hint_msg.setVisibility(View.GONE);
         }
+        setCancelable(cancelByBackKey);
     }
 
     @Override

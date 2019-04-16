@@ -585,6 +585,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 .setMessage("请务必妥善保管您的助记词,一旦丢失,你的财产可能面临重大损失!")
                 .setBtnText("我已知晓并保存")
                 .setHintMsg("")
+                .setCancelByBackKey(true)
                 .setTag("")
                 .setCopyBtnClickedListener(AssetFragment.this).show();
     }

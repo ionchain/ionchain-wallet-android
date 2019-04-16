@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="modify_password_dialog_radius">20dp</dimen>
+    <dimen name="modify_password_dialog_radius">10dp</dimen>
     <dimen name="modify_dialog_current_password_et">40dp</dimen>
     <dimen name="modify_dialog_gap_left_right">10dp</dimen>
     <dimen name="modify_dialog_gap_top">5dp</dimen>
