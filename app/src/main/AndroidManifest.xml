@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="org.ionchain.wallet.fileProvider"
+            android:authorities="$provider_authirities"
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data

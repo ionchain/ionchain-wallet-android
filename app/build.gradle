@@ -48,15 +48,18 @@ android {
     productFlavors {
         ionchain {
             dimension "ionchain"
+            manifestPlaceholders.put("provider_authirities","org.ionchain.wallet.fileProvider")
         }
         xiaomi {
             dimension "ionchain"
-//            applicationIdSuffix ".demo"
+            applicationIdSuffix ".xiaomi"
+            manifestPlaceholders.put("provider_authirities","org.wallet.xiaomi.fileProvider")
 //            versionNameSuffix "-demo"
         }
         huawei {
             dimension "ionchain"
-//            applicationIdSuffix ".full"
+            applicationIdSuffix ".huawei"
+            manifestPlaceholders.put("provider_authirities","org.wallet.huawei.fileProvider")
 //            versionNameSuffix "-full"
         }
     }
@@ -67,11 +70,10 @@ android {
                 def separator = "_"
                 def buildType = variant.variantData.variantConfiguration.buildType.name
                 def versionName = variant.versionName
-                def versionCode = variant.versionCode
                 def date = new Date()
                 def formattedDate = date.format('yyyyMMdd')
 
-                def apkName = project + separator + "v" + versionName + separator + versionCode + separator + buildType + separator + flavor.name + separator + formattedDate + ".apk"
+                def apkName = project + separator + "v" + versionName + separator + buildType + separator + flavor.name + separator + formattedDate + ".apk"
                 output.outputFileName = apkName
             }
         }

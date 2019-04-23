@@ -53,7 +53,6 @@ import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
-import org.web3j.protocol.exceptions.ClientConnectionException;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.ChainId;
 import org.web3j.utils.Convert;
@@ -69,6 +68,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_CODE_BALANCE_ETH;
+import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_CODE_BALANCE_IONC;
 import static org.ionc.wallet.constant.ConstanParams.GAS_MIN;
 import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
 import static org.ionc.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
@@ -91,8 +92,6 @@ public class IONCWalletSDK {
      * 通用的以太坊基于bip44协议的助记词路径 （imtoken jaxx Metamask myetherwallet）
      */
     private static String ETH_JAXX_TYPE = "m/44'/60'/0'/0/0";
-    public static String ETH_LEDGER_TYPE = "m/44'/60'/0'/0";
-    public static String ETH_CUSTOM_TYPE = "m/44'/60'/1'/0/0";
 
 
     private MnemonicCode mMnemonicCode = null;
@@ -578,12 +577,12 @@ public class IONCWalletSDK {
     /**
      * 获取 离子币余额
      *
-     * @param tag
-     * @param address
-     * @param callback
+     * @param node  节点,现在有两个,一个是离子链的,一个是以太坊的
+     * @param address    钱包地址
+     * @param callback      回调
      */
-    public void getIONCWalletBalance(String tag, String address, OnBalanceCallback callback) {
-        balance(tag, IONC_CHAIN_NODE, address, callback);
+    public void getIONCWalletBalance(String node, String address, OnBalanceCallback callback) {
+        balance(node, address, callback);
     }
 
     /**
@@ -594,21 +593,21 @@ public class IONCWalletSDK {
      * @param callback
      */
     public void getETHWalletBalance(String tag, String address, OnBalanceCallback callback) {
-        balance(tag, ETH_CHAIN_NODE, address, callback);
+        balance(ETH_CHAIN_NODE, address, callback);
     }
 
     /**
-     * @param tag     查询余额的用途  转账 或者 只是展示
-     * @param nodeUrl 区块节点
+     * @param node 区块节点
      * @param address 钱包地址
+     * @param callback 回调
      */
-    private void balance(final String tag, final String nodeUrl, final String address, final OnBalanceCallback callback) {
+    private void balance(final String node, final String address, final OnBalanceCallback callback) {
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 try {
-                    Web3j web3j = Web3jFactory.build(new HttpService(nodeUrl));
+                    Web3j web3j = Web3jFactory.build(new HttpService(node));
                     BigInteger balance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance();//获取余额
 
                     BigDecimal balacneTemp = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
@@ -618,15 +617,16 @@ public class IONCWalletSDK {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onBalanceSuccess(String.valueOf(finalBalacneTemp), tag);
+                            callback.onBalanceSuccess(String.valueOf(finalBalacneTemp), node);
                         }
                     });
-                } catch (final ClientConnectionException | IOException e) {
+                } catch (final IOException e) {
                     Logger.e("client", e.getMessage());
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onBalanceFailure(e.getMessage());
+                            Logger.e(e.getMessage());
+                            callback.onBalanceFailure(node.equals(IONC_CHAIN_NODE)?ERROR_CODE_BALANCE_IONC:ERROR_CODE_BALANCE_ETH);
                         }
                     });
                 }

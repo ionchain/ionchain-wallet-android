@@ -479,7 +479,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onBindFailure(String result) {
-        Logger.i(TAG, "onBindFailure: " + result);
+        ToastUtil.showLong(result);
     }
 
     /**
