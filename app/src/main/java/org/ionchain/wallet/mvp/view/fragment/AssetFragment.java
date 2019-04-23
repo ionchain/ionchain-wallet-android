@@ -454,7 +454,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
         IONCWalletSDK.getInstance().getIONCWalletBalance(IONC_CHAIN_NODE, mCurrentWallet.getAddress(), AssetFragment.this);
-        getDeviceList();
+//        getDeviceList();
     }
 
 
@@ -491,6 +491,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mDataBeans.clear();
         mDataBeans.addAll(list);
         mAdapterDeviceLv.notifyDataSetChanged();
+        mRefresh.finishRefresh();
     }
 
     /**
@@ -499,6 +500,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onDeviceListFailure(String errorMessage) {
         Logger.i(TAG, "onDeviceListFailure: " + errorMessage);
+        mRefresh.finishRefresh();
     }
 
     /**
@@ -555,6 +557,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onBalanceSuccess(String ballance, String nodeUrlTag) {
+
         switch (nodeUrlTag) {
             case IONC_CHAIN_NODE:
                 walletBalanceTx.setText(ballance);
@@ -563,6 +566,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 walletBalanceTxETH.setText(ballance);
                 break;
         }
+        mRefresh.finishRefresh();
     }
 
     /**
@@ -571,6 +575,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onBalanceFailure(String error) {
         ToastUtil.showToastLonger(error);
+        mRefresh.finishRefresh();
     }
 
     @Override
