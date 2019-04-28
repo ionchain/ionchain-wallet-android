@@ -95,14 +95,12 @@
 
         <activity
             android:name=".mvp.view.activity.ShowAddressActivity"
-            android:label="@string/title_activity_show_address"
             android:theme="@style/AppTheme" />
         <activity android:name=".mvp.view.activity.transaction.TxActivity" />
         <activity android:name=".mvp.view.activity.importmode.SelectImportModeActivity" />
         <activity android:name=".mvp.view.activity.importmode.ImportByMnemonicActivity" />
         <activity
             android:name=".mvp.view.activity.importmode.ImportByKeystoreActivity"
-            android:label="@string/title_activity_import_by_keystore"
             android:theme="@style/AppTheme" />
         <activity android:name="org.ionc.qrcode.activity.CaptureActivity" />
         <activity android:name=".mvp.view.activity.transaction.TxRecoderActivity" />
