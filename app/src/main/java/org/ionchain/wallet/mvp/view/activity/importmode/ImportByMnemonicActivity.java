@@ -8,7 +8,6 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,12 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.StringUtils;
-
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -131,7 +129,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     return;
                 }
                 if (!resetpass.equals(pass)) {
-                    Toast.makeText(getMActivity().getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 newPassword = pass;
@@ -155,7 +153,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     @Override
     protected void initData() {
-        getMImmersionBar().titleView(R.id.import_header)
+        mImmersionBar.titleView(R.id.import_header)
                 .statusBarDarkFont(true)
                 .execute();
     }
@@ -203,7 +201,6 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     public void onImportMnemonicSuccess(WalletBean walletBean) {
         walletBean.setMnemonic("");
         final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
-        Log.i(getTAG(), "onCreateSuccess: " + walletBean.toString());
 
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
@@ -241,7 +238,6 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     public void onImportMnemonicFailure(String error) {
         hideProgress();
         ToastUtil.showToastLonger("导入成失败");
-        Log.i(getTAG(), "onCreateFailure: " + error);
     }
 
     @Override

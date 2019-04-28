@@ -81,10 +81,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".mvp.view.activity.MessageCenterActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait" />
+
 
         <!-- <meta-data -->
         <!-- android:name="UMENG_APPKEY" -->
@@ -103,7 +100,7 @@
             android:name=".mvp.view.activity.importmode.ImportByKeystoreActivity"
             android:theme="@style/AppTheme" />
         <activity android:name="org.ionc.qrcode.activity.CaptureActivity" />
-        <activity android:name=".mvp.view.activity.transaction.TxRecoderActivity" />
+        <activity android:name=".mvp.view.activity.transaction.TxRecordActivity" />
         <activity android:name=".mvp.view.activity.WebActivity" />
 
 

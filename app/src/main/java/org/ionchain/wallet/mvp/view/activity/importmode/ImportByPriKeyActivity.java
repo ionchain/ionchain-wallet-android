@@ -17,20 +17,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.qrcode.activity.CaptureActivity;
+import org.ionc.qrcode.activity.CodeUtils;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
-import org.ionc.qrcode.activity.CaptureActivity;
-import org.ionc.qrcode.activity.CodeUtils;
-
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
-
-import java.util.Objects;
 
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
@@ -131,7 +128,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                 }
 
                 if (!pass2.equals(pass)) {
-                    Toast.makeText(getMActivity().getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 newPassword = pass;
@@ -174,7 +171,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     protected void initData() {
-        Objects.requireNonNull(getMImmersionBar()).titleView(R.id.import_header)
+        mImmersionBar.titleView(R.id.import_header)
                 .statusBarDarkFont(true)
                 .execute();
     }
@@ -263,7 +260,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     public void onCreateFailure(String result) {
         hideProgress();
         ToastUtil.showToastLonger("导入成失败");
-        Logger.e(getTAG(), "onCreateFailure: " + result);
+        Logger.e(TAG, "onCreateFailure: " + result);
     }
 
     @Override

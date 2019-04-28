@@ -71,7 +71,7 @@ public class ShowAddressActivity extends AbsBaseActivity {
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleView(R.id.show_title).statusBarDarkFont(false).execute();
+        mImmersionBar.titleView(R.id.show_title).statusBarDarkFont(false).execute();
         showQrImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

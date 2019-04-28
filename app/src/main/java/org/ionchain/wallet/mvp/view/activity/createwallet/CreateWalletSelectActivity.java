@@ -55,9 +55,9 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                 }
                 Intent intent = null;
                 if (SDK_Debug) {
-                    intent = new Intent(getMActivity(), SDKCreateActivity.class);//
+                    intent = new Intent(mActivity, SDKCreateActivity.class);//
                 } else {
-                    intent = new Intent(getMActivity(), CreateWalletActivity.class);
+                    intent = new Intent(mActivity, CreateWalletActivity.class);
                 }
                 startActivity(intent);
             }
@@ -71,9 +71,9 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                 }
                 Intent intent = null;
                 if (App.SDK_Debug) {
-                    intent = new Intent(getMActivity(), SDKSelectCreateModeWalletActivity.class);
-                }else {
-                    intent = new Intent(getMActivity(), SelectImportModeActivity.class);//
+                    intent = new Intent(mActivity, SDKSelectCreateModeWalletActivity.class);
+                } else {
+                    intent = new Intent(mActivity, SelectImportModeActivity.class);//
                 }
                 startActivity(intent);
             }
@@ -111,7 +111,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     @Override
     protected void initView() {
         findViews();
-        Objects.requireNonNull(getMImmersionBar())
+        mImmersionBar
                 .statusBarDarkFont(false)
                 .transparentStatusBar()
                 .navigationBarColor(R.color.black, 0.5f)

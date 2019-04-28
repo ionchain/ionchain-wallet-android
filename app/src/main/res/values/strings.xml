@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">IONC Wallet</string>
     <string name="menu_import_scan">扫一扫</string>
     <string name="menu_scan_album">相册</string>
     <string name="menu_main_add">添加</string>
@@ -17,4 +18,5 @@
     <string name="name_hint">名字不能包含特殊字符,且长度不超过8位</string>
     <string name="import_wallet_text">导入钱包</string>
     <string name="back_arrow">返回</string>
+    <string name="language_setting">语言设置</string>
 </resources>

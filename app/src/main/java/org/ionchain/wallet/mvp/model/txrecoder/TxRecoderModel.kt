@@ -1,13 +1,14 @@
 package org.ionchain.wallet.mvp.model.txrecoder
 
-import org.ionc.wallet.bean.TxRecoderBean
-import org.ionc.wallet.callback.OnTxRecoderCallback
-import org.ionc.wallet.utils.Logger
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.HttpParams
 import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
+import org.ionc.wallet.bean.TxRecoderBean
+import org.ionc.wallet.callback.OnTxRecoderCallback
+import org.ionc.wallet.utils.Logger
+import org.ionchain.wallet.constant.ConstantErrorCode
 import org.ionchain.wallet.constant.ConstantUrl.TX_RECODER_URL_GET
 import org.ionchain.wallet.utils.NetUtils
 
@@ -31,11 +32,11 @@ class TxRecoderModel : ITxRecoderModel {
                 Logger.i(json)
                 val txRecoderBean = NetUtils.gsonToBean(json, TxRecoderBean::class.java)
                 if (txRecoderBean == null || txRecoderBean.data == null||txRecoderBean.data.data==null) {
-                    callback.onTxRecoderFailure("解析数据失败！")
+                    callback.onTxRecordFailure("解析数据失败！")
                     return
                 }
                 val beans = txRecoderBean.data.data
-                callback.onTxRecoderSuccess(beans as ArrayList<TxRecoderBean.DataBean.ItemBean>)
+                callback.onTxRecordSuccess(beans as ArrayList<TxRecoderBean.DataBean.ItemBean>)
             }
 
             override fun onFinish() {
@@ -53,7 +54,7 @@ class TxRecoderModel : ITxRecoderModel {
             override fun onError(response: Response<String>?) {
                 super.onError(response)
                 if (response != null) {
-                    callback.onTxRecoderFailure(response.body().toString())
+                    callback.onTxRecordFailure("错误码:" + ConstantErrorCode.ERROR_CODE_NET_WORK_ERROR_TXRECORD)
                 }
             }
 

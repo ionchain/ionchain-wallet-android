@@ -12,5 +12,5 @@ public class ConstantErrorCode {
     public static final String ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND_NULL = "1012";//设备绑数据解析错误
     public static final String ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND_NULL = "1013";//设备解除绑数据解析错误
 
-
+    public static final String ERROR_CODE_NET_WORK_ERROR_TXRECORD = "1020";//交易记录请求失败
 }

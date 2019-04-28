@@ -13,11 +13,11 @@ public interface OnTxRecoderCallback {
     /**
      * 请求成功
      */
-    void onTxRecoderSuccess(ArrayList<TxRecoderBean.DataBean.ItemBean> beans);
+    void onTxRecordSuccess(ArrayList<TxRecoderBean.DataBean.ItemBean> beans);
 
 
     /**
      * 请求失败
      */
-    void onTxRecoderFailure(String error);
+    void onTxRecordFailure(String error);
 }

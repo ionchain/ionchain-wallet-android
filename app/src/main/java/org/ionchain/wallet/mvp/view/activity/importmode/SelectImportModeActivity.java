@@ -13,8 +13,6 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKMnemonicActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKPrivateKeyActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
-import java.util.Objects;
-
 import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
@@ -59,23 +57,23 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
         Intent intent = null;
         if (v == byMnemonic) {
             if (SDK_Debug) {
-                intent = new Intent(getMActivity(), SDKMnemonicActivity.class);
+                intent = new Intent(mActivity, SDKMnemonicActivity.class);
             }else {
-                intent = new Intent(getMActivity(), ImportByMnemonicActivity.class);
+                intent = new Intent(mActivity, ImportByMnemonicActivity.class);
             }
             startActivity(intent);
         } else if (v == byPrivateKey) {
             if (SDK_Debug) {
-                intent = new Intent(getMActivity(), SDKPrivateKeyActivity.class);
+                intent = new Intent(mActivity, SDKPrivateKeyActivity.class);
             }else {
-                intent = new Intent(getMActivity(), ImportByPriKeyActivity.class);
+                intent = new Intent(mActivity, ImportByPriKeyActivity.class);
             }
             startActivity(intent);
         } else if (v == byKeystore) {
             if (SDK_Debug) {
-                intent = new Intent(getMActivity(), SDKKeyStoreActivity.class);
+                intent = new Intent(mActivity, SDKKeyStoreActivity.class);
             }else {
-                intent = new Intent(getMActivity(), ImportByKeystoreActivity.class);
+                intent = new Intent(mActivity, ImportByKeystoreActivity.class);
             }
             startActivity(intent);
         } else if (v == back) {
@@ -97,7 +95,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     protected void initView() {
         findViews();
-        Objects.requireNonNull(getMImmersionBar()).titleView(R.id.header_top).statusBarDarkFont(true).execute();
+        mImmersionBar.titleView(R.id.header_top).statusBarDarkFont(true).execute();
     }
 
     @Override

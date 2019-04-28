@@ -17,7 +17,6 @@ import org.ionc.wallet.callback.OnCheckCallback;
 import org.ionc.wallet.callback.OnTransationCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.transaction.TransactionHelper;
-import org.ionc.wallet.utils.Logger;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -78,7 +77,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                     ToastUtil.showToastLonger("请检查转帐地址或金额是否全部输入！");
                     return;
                 }
-                dialogPasswordCheck = new DialogPasswordCheck(getMActivity());
+                dialogPasswordCheck = new DialogPasswordCheck(mActivity);
                 dialogPasswordCheck.setBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -142,7 +141,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleView(header).statusBarDarkFont(true).execute();
+        mImmersionBar.titleView(header).statusBarDarkFont(true).execute();
     }
 
 
@@ -155,13 +154,11 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     public void OnTxSuccess(String hashTx) {
         ToastUtil.showToastLonger("提交成功！");
         dialogPasswordCheck.dismiss();
-        Logger.i(getTAG(), "OnTxSuccess: " + hashTx);
     }
 
     @Override
     public void onTxFailure(String error) {
         ToastUtil.showToastLonger("交易失败！");
-        Logger.e("onTxFailure: " + error, getTAG());
         dialogPasswordCheck.dismiss();
     }
 

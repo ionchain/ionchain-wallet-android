@@ -19,7 +19,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.utils.ToastUtil;
 
 public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
 
@@ -41,7 +40,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
 
     @Override
     protected void initView() {
-        getMImmersionBar().titleView(R.id.toolbarlayout)
+        mImmersionBar.titleView(R.id.toolbarlayout)
                 .statusBarDarkFont(true)
                 .execute();
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {

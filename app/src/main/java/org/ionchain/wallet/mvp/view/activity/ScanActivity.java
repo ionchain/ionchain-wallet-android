@@ -32,7 +32,7 @@ public class ScanActivity extends AbsBaseActivity {
 
     @Override
     protected void initView() {
-        getMImmersionBar().titleView(findViewById(R.id.header)).statusBarDarkFont(true).execute();
+        mImmersionBar.titleView(findViewById(R.id.header)).statusBarDarkFont(true).execute();
 
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class ScanActivity extends AbsBaseActivity {
             finish();
 
         } catch (Throwable e) {
-            Logger.e(e.getMessage() + getTAG());
+            Logger.e(e.getMessage() + TAG);
         }
     }
 

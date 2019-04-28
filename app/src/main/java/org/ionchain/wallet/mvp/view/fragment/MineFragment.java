@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.MessageCenterActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 
@@ -51,7 +50,7 @@ public class MineFragment extends AbsBaseFragment {
         messageCenterRLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(MessageCenterActivity.class);
+//                skip(MessageCenterActivity.class);
             }
         });
 

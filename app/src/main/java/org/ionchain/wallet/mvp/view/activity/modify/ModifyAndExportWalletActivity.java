@@ -129,7 +129,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     protected void initView() {
         findViews();
         final IONCTitleBar ioncTitleBar = findViewById(R.id.ionc_title_bar);
-        getMImmersionBar().titleView(ioncTitleBar).statusBarDarkFont(true).execute();
+        mImmersionBar.titleView(ioncTitleBar).statusBarDarkFont(true).execute();
         ioncTitleBar.setTitle(mWallet.getName());
         ioncTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
         ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
@@ -322,7 +322,6 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
     @Override
     public void onModifyFailure(String error) {
-        Logger.e(getTAG(), "onModifyFailure: " + error);
         ToastUtil.showShortToast("修改密码失败");
         hideProgress();
     }
@@ -343,6 +342,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                     DialogTextMessage d = new DialogTextMessage(this);
                     d.setMessage(json);
                     d.setTitle("导出KeyStory");
+                    d.setCancelByBackKey(true);
                     d.setCopyBtnClickedListener(this);
                     d.show();
                 } catch (IOException e) {

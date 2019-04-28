@@ -50,7 +50,7 @@ import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivit
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
-import org.ionchain.wallet.mvp.view.activity.transaction.TxRecoderActivity;
+import org.ionchain.wallet.mvp.view.activity.transaction.TxRecordActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -281,7 +281,7 @@ public class AssetFragment extends AbsBaseFragment implements
             @Override
             public void onClick(View v) {
                 if (plesaeBackupWallet()) return;
-                Intent intent = new Intent(getActivity(), TxRecoderActivity.class);
+                Intent intent = new Intent(getActivity(), TxRecordActivity.class);
                 intent.putExtra("address", mCurrentWallet.getAddress());
                 skip(intent);
             }

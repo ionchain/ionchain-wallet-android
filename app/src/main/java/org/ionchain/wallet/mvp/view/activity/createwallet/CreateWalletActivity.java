@@ -88,7 +88,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     protected void initView() {
         findViews();
-        Objects.requireNonNull(getMImmersionBar()).titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
+       mImmersionBar.titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +138,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
                  * 从数据库比对，重复检查
                  * */
                 if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
-                    Toast.makeText(getMActivity().getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -229,7 +229,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
 
     @Override
     public void onImportMnemonicSuccess(@NonNull WalletBean walletBean) {
-        Log.i(getTAG(), "onCreateSuccess: " + walletBean);
+        Log.i(TAG, "onCreateSuccess: " + walletBean);
         hideProgress();
         IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);

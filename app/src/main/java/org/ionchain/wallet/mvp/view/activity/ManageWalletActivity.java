@@ -4,13 +4,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.bean.WalletBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import org.ionc.wallet.adapter.CommonAdapter;
+import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
@@ -86,7 +86,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     @Override
     protected void initView() {
         findViews();
-        getMImmersionBar().titleView(R.id.toolbarlayout)
+        mImmersionBar.titleView(R.id.toolbarlayout)
                 .statusBarDarkFont(true)
                 .execute();
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
