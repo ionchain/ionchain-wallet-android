@@ -67,7 +67,7 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:gravity="left|center_vertical"
             android:textSize="14sp"
-            android:hint="@string/wallet_create_respwd"
+            android:hint="@string/wallet_create_password_again"
             android:padding="@dimen/h5" />
 
         <Button

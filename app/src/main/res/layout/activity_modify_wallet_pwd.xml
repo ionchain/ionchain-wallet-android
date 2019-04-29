@@ -99,7 +99,7 @@
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
-            android:hint="@string/wallet_create_respwd"
+            android:hint="@string/wallet_create_password_again"
             android:singleLine="true"
             android:maxLength="@integer/max_length_pwd"
             android:textColor="@color/library_33"

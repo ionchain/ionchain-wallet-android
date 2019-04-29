@@ -71,7 +71,7 @@
             android:singleLine="true"
             android:textSize="@dimen/hint_text_size"
             android:maxLength="12"
-            android:hint="@string/wallet_create_respwd"
+            android:hint="@string/wallet_create_password_again"
             android:padding="@dimen/h5" />
 
         <LinearLayout

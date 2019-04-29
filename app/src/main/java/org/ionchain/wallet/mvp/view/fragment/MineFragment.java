@@ -1,23 +1,18 @@
 package org.ionchain.wallet.mvp.view.fragment;
 
+import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.SettingLanguageActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-import org.ionchain.wallet.utils.ToastUtil;
 
 public class MineFragment extends AbsBaseFragment {
 
-    private TextView loginRegTv;
     private RelativeLayout walletManageRLayout;
-    private RelativeLayout messageCenterRLayout;
-    private ImageView arrowIv;
-    private TextView hintMessageNum;
-    private ImageView arrowIv1;
+    private RelativeLayout language_setting;
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -25,41 +20,27 @@ public class MineFragment extends AbsBaseFragment {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews(View rootView) {
-        loginRegTv = rootView.findViewById(R.id.loginRegTv);
         walletManageRLayout = rootView.findViewById(R.id.walletManageRLayout);
-        messageCenterRLayout = rootView.findViewById(R.id.messageCenterRLayout);
-        arrowIv = rootView.findViewById(R.id.arrowIv);
-        hintMessageNum = rootView.findViewById(R.id.hint_message_num);
-        arrowIv1 = rootView.findViewById(R.id.arrowIv1);
+        language_setting = rootView.findViewById(R.id.language_setting);
     }
 
     @Override
     protected void setListener() {
-        loginRegTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showToastLonger("暂不需要登录，不影响钱包的使用");
-            }
-        });
+
         walletManageRLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 skip(ManageWalletActivity.class);
             }
         });
-        messageCenterRLayout.setOnClickListener(new View.OnClickListener() {
+        language_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                skip(MessageCenterActivity.class);
+                startActivity(new Intent(mActivity, SettingLanguageActivity.class));
             }
         });
 
-        hintMessageNum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
     }
 

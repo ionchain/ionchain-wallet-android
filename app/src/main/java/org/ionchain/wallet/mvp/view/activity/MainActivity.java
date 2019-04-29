@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -141,5 +142,9 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
             mFragmentTransaction.show(mFragments.get(mPostion));
         }
     }
-
+    public static void reStart(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 }

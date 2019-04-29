@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">IONC Wallet</string>
+    <string name="menu_import_scan">scan</string>
+    <string name="menu_scan_album">Album</string>
+    <string name="menu_main_add">add</string>
+    <string name="menu_wallet_modify_save">save</string>
+    <string name="menu_wallet_modify_complete">done</string>
+    <string name="wallet_create_password_again">again</string>
+    <string name="exit_app">Press exit twice!</string>
+    <string name="protocol_title">Ion chain wallet services and protocols</string>
+    <string name="protocol_hint">I have read it carefully and agree</string>
+    <string name="password_rule">Numbers, upper and lower case letters mixed with special symbols (except blank and underscore), and the length of 8 to 12 bits</string>
+    <string name="wallet_icon">wallet_icon</string>
+    <string name="tx_in">in</string>
+    <string name="tx_out">out</string>
+    <string name="tx_recorder">Transfer_record</string>
+    <string name="header_back">background</string>
+    <string name="name_hint">Names cannot contain special characters and are no longer than 8 bits long</string>
+    <string name="import_wallet_text">import the wallet</string>
+    <string name="back_arrow">back</string>
+    <string name="language_setting">语言设置</string>
+    <string name="language_cn">中文</string>
+    <string name="language_en">ENGLISH</string>
+    <string name="language_auto">Auto</string>
+    <string name="language_traditional">繁体</string>
+    <string name="language_select">Currently selected language:  %s</string>
+    <string name="user_select_language">Current user selects language: %s</string>
+    <string name="mine">mine</string>
+    <string name="wallet_management">Wallet Management</string>
+</resources>

@@ -48,18 +48,18 @@ android {
     productFlavors {
         ionchain {
             dimension "ionchain"
-            manifestPlaceholders.put("provider_authirities","org.ionchain.wallet.fileProvider")
+            manifestPlaceholders.put("provider_authirities", "org.ionchain.wallet.fileProvider")
         }
         xiaomi {
             dimension "ionchain"
             applicationIdSuffix ".xiaomi"
-            manifestPlaceholders.put("provider_authirities","org.wallet.xiaomi.fileProvider")
+            manifestPlaceholders.put("provider_authirities", "org.wallet.xiaomi.fileProvider")
 //            versionNameSuffix "-demo"
         }
         huawei {
             dimension "ionchain"
             applicationIdSuffix ".huawei"
-            manifestPlaceholders.put("provider_authirities","org.wallet.huawei.fileProvider")
+            manifestPlaceholders.put("provider_authirities", "org.wallet.huawei.fileProvider")
 //            versionNameSuffix "-full"
         }
     }
@@ -137,4 +137,3 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation project(':ioncwidget')
 }
-

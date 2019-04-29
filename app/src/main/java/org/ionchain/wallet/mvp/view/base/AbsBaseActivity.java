@@ -2,6 +2,7 @@ package org.ionchain.wallet.mvp.view.base;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 import org.ionchain.wallet.mvp.view.activity.WebActivity;
+import org.ionchain.wallet.utils.LocalManageUtil;
 
 import java.io.Serializable;
 
@@ -27,6 +29,11 @@ public abstract class AbsBaseActivity extends AppCompatActivity {
     protected String TAG = this.getClass().getSimpleName();
     private ProgressDialog dialog;
 
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocalManageUtil.setLocal(newBase));
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
