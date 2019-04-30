@@ -19,8 +19,7 @@ public class SettingLanguageActivity extends AbsBaseActivity implements View.OnC
     @Override
     protected void initView() {
         mUserSelect = findViewById(R.id.tv_user_select);
-        mUserSelect.setText(getString(R.string.user_select_language,
-                LocalManageUtil.getSelectLanguage(this)));
+        mUserSelect.setText(getString(R.string.language_select,LocalManageUtil.getSelectLanguage(this)));
         findViewById(R.id.btn_auto).setOnClickListener(this);
         findViewById(R.id.btn_cn).setOnClickListener(this);
         findViewById(R.id.btn_en).setOnClickListener(this);

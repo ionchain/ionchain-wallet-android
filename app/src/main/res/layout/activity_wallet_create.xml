@@ -26,7 +26,7 @@
         <TextView
             style="@style/common_title"
             android:layout_centerInParent="true"
-            android:text="@string/activity_create_wallet"
+            android:text="@string/activity_create_wallet_app"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
 
@@ -48,14 +48,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/act_wallet_create_notify1"
+                android:text="@string/act_wallet_create_notify1_app"
                 android:textColor="@color/main_blue"
                 android:textSize="@dimen/hint_text_size" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/act_wallet_create_notify2"
+                android:text="@string/act_wallet_create_notify2_app"
                 android:textColor="@color/main_blue"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -143,7 +143,7 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@color/grey"
             android:enabled="false"
-            android:text="@string/activity_create_wallet"
+            android:text="@string/activity_create_wallet_app"
             android:textColor="@color/white" />
 
 

@@ -22,10 +22,7 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivi
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
-import java.util.Objects;
-
 import static org.ionchain.wallet.App.SDK_Debug;
-import static org.ionchain.wallet.constant.ConstantParams.FROM_WELCOME;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
 /**
@@ -50,7 +47,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
             @Override
             public void onClick(View v) {
                 if (!checkBox.isChecked()) {
-                    ToastUtil.showLong("请先阅读并同意服务及协议");
+                    ToastUtil.showLong(getResources().getString(R.string.agree_protocol));
                     return;
                 }
                 Intent intent = null;
@@ -66,7 +63,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
             @Override
             public void onClick(View v) {
                 if (!checkBox.isChecked()) {
-                    ToastUtil.showLong("请先阅读并同意服务及协议");
+                    ToastUtil.showLong(getResources().getString(R.string.agree_protocol));
                     return;
                 }
                 Intent intent = null;
@@ -84,13 +81,13 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     @Override
     protected void initData() {
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        String s1 = "开始使用本产品即表示同意";
+        String s1 = getResources().getString(R.string.protocol_first);
         SpannableString sp1 = new SpannableString(s1);
         sp1.setSpan(null, 9, sp1.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.append(sp1);
 
 
-        String s2 = "服务协议";
+        String s2 = getResources().getString(R.string.service_agreement);
         SpannableString sp2 = new SpannableString(s2);
         sp2.setSpan(new ClickableSpan() {
             @Override

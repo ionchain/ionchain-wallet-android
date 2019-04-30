@@ -31,7 +31,7 @@
             android:layout_height="?actionBarSize"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="请选择导入方式"
+            android:text="@string/select_import_title"
             android:textColor="@color/blue_top"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
@@ -42,7 +42,7 @@
         android:layout_height="?actionBarSize"
         android:layout_margin="20dp"
         android:background="@color/blue_top"
-        android:text="私   钥"
+        android:text="@string/import_m_pri"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size" />
 
@@ -52,7 +52,7 @@
         android:layout_height="?actionBarSize"
         android:layout_margin="20dp"
         android:background="@color/blue_top"
-        android:text="助   记   词"
+        android:text="@string/import_m_mnemonics"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size" />
 
@@ -62,7 +62,7 @@
         android:layout_height="?actionBarSize"
         android:layout_margin="20dp"
         android:background="@color/blue_top"
-        android:text="Keystore"
+        android:text="@string/keystore"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size" />
 

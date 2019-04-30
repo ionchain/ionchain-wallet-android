@@ -100,22 +100,22 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                 String pass2;
                 setViewAlphaAnimation(importBtn);
                 if (mPrivateKey.getText() == null) {
-                    ToastUtil.showToastLonger("私钥不能为空！");
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
                     return;
                 }
                 if (pwdEt.getText() == null) {
-                    ToastUtil.showToastLonger("密码不能为空！");
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
                     return;
                 }
                 if (repwdEt.getText() == null) {
-                    ToastUtil.showToastLonger("重复密码不能为空！");
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_re_password_null));
                     return;
                 }
                 private_key = mPrivateKey.getText().toString().trim();
                 pass2 = repwdEt.getText().toString().trim();
                 pass = pwdEt.getText().toString().trim();
                 if (!check(pass2) || !check(pass)) {
-                    ToastUtil.showToastLonger("密码不符合要求！");
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
                     return;
                 }
 
@@ -123,16 +123,16 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     private_key = private_key.substring(2);
                 }
                 if (private_key.length() != 64) {
-                    ToastUtil.showToastLonger("无效私钥！");
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key));
                     return;
                 }
 
                 if (!pass2.equals(pass)) {
-                    Toast.makeText(mActivity.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 newPassword = pass;
-                showProgress("正在导入钱包请稍候");
+                showProgress(getString(R.string.importing_wallet));
                 IONCWalletSDK.getInstance()
                         .importPrivateKey(private_key, pass, ImportByPriKeyActivity.this);
             }
@@ -162,7 +162,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     mPrivateKey.setText(result);
                     private_key = result;
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong("解析二维码失败");
+                    ToastUtil.showLong(getString(R.string.qr_code_error));
                 }
             }
         }
@@ -231,16 +231,16 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("该钱包已存在")
-                    .setMessage("是否继续导入？\n继续导入则会更新钱包密码!")
-                    .setPositiveButton("继续", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.wallet_exist))
+                    .setMessage(getString(R.string.import_and_update_password))
+                    .setPositiveButton(R.string.continue_go_on, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByPriKeyActivity.this);
                         }
                     })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -250,7 +250,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         } else {
             walletBean.setMIconIdex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
-            ToastUtil.showToastLonger("导入成功啦!");
+            ToastUtil.showToastLonger(getResources().getString(R.string.import_success));
             skip(MainActivity.class);
         }
 
@@ -259,7 +259,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     @Override
     public void onCreateFailure(String result) {
         hideProgress();
-        ToastUtil.showToastLonger("导入成失败");
+        ToastUtil.showToastLonger(getResources().getString(R.string.import_error));
         Logger.e(TAG, "onCreateFailure: " + result);
     }
 
@@ -267,7 +267,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     public void onUpdatePasswordSuccess(WalletBean wallet) {
         IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
-        ToastUtil.showToastLonger("更新成功啦!");
+        ToastUtil.showToastLonger(getResources().getString(R.string.update_succwss));
         skip(MainActivity.class);
     }
 

@@ -34,7 +34,6 @@ import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.List;
-import java.util.Objects;
 
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
@@ -88,7 +87,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     protected void initView() {
         findViews();
-       mImmersionBar.titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
+        mImmersionBar.titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,36 +122,36 @@ public class CreateWalletActivity extends AbsBaseActivity implements
                  * */
 
                 if (TextUtils.isEmpty(walletnamestr)) {
-                    ToastUtil.showShort("请输入钱包名字");
+                    ToastUtil.showShort(getResources().getString(R.string.please_input_wallet_name));
                     return;
                 }
                 if (!StringUtils.isNumENCN(walletnamestr)) {
-                    ToastUtil.showToastLonger("名字不符合规则!");
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
                     return;
                 }
                 if (walletnamestr.length() > 8) {
-                    ToastUtil.showLong("名字字数不能超过8个");
+                    ToastUtil.showLong(getResources().getString(R.string.illegal_name_length));
                     return;
                 }
                 /*
                  * 从数据库比对，重复检查
                  * */
                 if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
-                    Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_exist), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
 
                 if (!check(resetpass) || !check(pass)) {
-                    ToastUtil.showToastLonger("密码不符合要求！");
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
                     return;
                 }
                 if (!resetpass.equals(pass)) {
-                    ToastUtil.showShortToast("密码和重复密码必须相同");
+                    ToastUtil.showShortToast(getResources().getString(R.string.illegal_password_must_equal));
                     return;
                 }
 
-                showProgress("正在创建钱包……");
+                showProgress(getResources().getString(R.string.creating_wallet));
                 IONCWalletSDK.getInstance().simulateTimeConsuming(CreateWalletActivity.this);
 
             }
@@ -202,15 +201,15 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     public void afterTextChanged(Editable s) {
         if (walletNameEt.getText() == null) {
-            ToastUtil.showToastLonger("请输入钱包名字");
+            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_name));
             return;
         }
         if (pwdEt.getText() == null) {
-            ToastUtil.showToastLonger("请输入钱包密码");
+            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_password));
             return;
         }
         if (resetPwdEt.getText() == null) {
-            ToastUtil.showToastLonger("请输入钱包重复密码");
+            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_password_again));
             return;
         }
         walletnamestr = walletNameEt.getText().toString().trim();
@@ -260,9 +259,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     public void onToSaved() {
         String TO_SAVE = "to_save";
-        new DialogTextMessage(this).setTitle("注意")
-                .setMessage("请务必妥善保管您的助记词,一旦丢失,你的财产可能面临重大损失!")
-                .setBtnText("我已知晓并保存")
+        new DialogTextMessage(this).setTitle(getResources().getString(R.string.attention))
+                .setMessage(getResources().getString(R.string.save_key_stroe))
+                .setBtnText(getResources().getString(R.string.i_know))
                 .setHintMsg("")
                 .setCancelByBackKey(true)
                 .setTag(TO_SAVE)
@@ -292,7 +291,8 @@ public class CreateWalletActivity extends AbsBaseActivity implements
      * 让用户输入密码,重新保存助记词,
      * 若密码输入错误则该钱包对用户来说,极大可能是不可用的,可以提示用户删除该钱包,
      * 此时删除钱包则无需密码,直接删除
-     *  @param s 助记词
+     *
+     * @param s                   助记词
      * @param editTextList
      * @param dialogCheckMnemonic
      */
@@ -301,13 +301,14 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     public void onString(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
         String[] mnemonics = walletBean.getMnemonic().split(" ");
         if (s.length != mnemonics.length) {
-            ToastUtil.showToastLonger("您输入的助记词有误");
+            ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error));
             return;
         }
         int count = mnemonics.length;
         for (int i = 0; i < count; i++) {
             if (!mnemonics[i].equals(s[i])) {
-                ToastUtil.showToastLonger("您输入的第" + (i + 1) + "个助记词有误");
+                String index = String.valueOf((i + 1));
+                ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error_index, index));
                 editTextList.get(i).setTextColor(Color.RED);
                 return;
             }
@@ -315,7 +316,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         //更新
         walletBean.setMnemonic("");
         IONCWalletSDK.getInstance().updateWallet(walletBean);
-        ToastUtil.showToastLonger("验证成功!");
+        ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         skip(MainActivity.class);
     }
 }
