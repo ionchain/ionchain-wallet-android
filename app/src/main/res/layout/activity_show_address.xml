@@ -56,7 +56,7 @@
             android:id="@+id/walletAddressTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/h20"
+            android:layout_margin="@dimen/margin_h20"
             android:gravity="center"
             android:maxLines="2"
             android:text=" "

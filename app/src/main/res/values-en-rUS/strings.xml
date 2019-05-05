@@ -24,11 +24,11 @@
     <string name="language_en">ENGLISH</string>
     <string name="language_auto">Auto</string>
     <string name="language_select">Currently selected language:  %s</string>
-    <string name="nav_mine">mine</string>
+    <string name="nav_mine">Mine</string>
     <string name="wallet_management">Wallet Management</string>
     <string name="version">Version：%s</string>
     <string name="updating">checking for update ……</string>
-    <string name="error_code">error_code: %s</string>
+    <string name="error_code">" %s"</string>
     <string name="update_msg_title">New version ：%s ，please update！</string>
     <string name="download">download</string>
     <string name="download_cancel">cacnel</string>
@@ -75,4 +75,6 @@
     <string name="import_private_key">Import the private key</string>
     <string name="explicit_private_key">explicit private key</string>
     <string name="start_to_import">Start importing</string>
+    <string name="version_info">Version Info</string>
+    <string name="about_us">About Us</string>
 </resources>

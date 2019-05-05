@@ -15,6 +15,7 @@ import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import org.ionc.qrcode.activity.ZXingLibrary;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionchain.wallet.crasher.CrashHandler;
+import org.ionchain.wallet.utils.LocalManageUtil;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -54,7 +55,7 @@ public class App extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+        super.attachBaseContext(LocalManageUtil.setLocal(base));
         MultiDex.install(this);
     }
 

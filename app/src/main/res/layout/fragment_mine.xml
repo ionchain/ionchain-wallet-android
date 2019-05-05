@@ -5,12 +5,12 @@
     android:background="@color/white">
 
     <TextView
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="@color/blue_top"
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="center"
+        android:background="@color/blue_top"
+        android:gravity="center"
         android:text="@string/nav_mine"
         android:textColor="@color/white"
         android:textSize="@dimen/txt_22sp" />
@@ -26,8 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
             android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp">
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,8 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
             android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp">
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,18 +83,20 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/line" />
         </RelativeLayout>
+
         <RelativeLayout
+            android:id="@+id/version_info"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60"
             android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp">
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="关于我们"
+                android:text="@string/version_info"
                 android:textColor="@color/library_33"
                 android:textSize="@dimen/txt_18sp" />
 
@@ -113,7 +115,36 @@
                 android:background="@color/line" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/about_us"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h60"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/about_us"
+                android:textColor="@color/library_33"
+                android:textSize="@dimen/txt_18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_keyboard_arrow_right" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h05"
+                android:layout_alignParentBottom="true"
+                android:background="@color/line" />
+        </RelativeLayout>
 
 
     </LinearLayout>

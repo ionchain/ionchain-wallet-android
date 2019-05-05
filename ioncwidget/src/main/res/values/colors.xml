@@ -4,6 +4,7 @@
     <color name="modify_dialog_notice_red">#ff0000</color>
     <color name="pink">#FF4BE9</color>
     <color name="grey">#999999</color>
+    <color name="grey_cccccc">#cccccc</color>
     <color name="white">#ffffff</color>
     <color name="blue_top">#3574FA</color>
     <color name="library_66">#666666</color>

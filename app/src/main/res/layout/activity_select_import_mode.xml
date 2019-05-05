@@ -16,8 +16,8 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:paddingLeft="@dimen/h20"
-        android:paddingRight="@dimen/h20">
+        android:paddingLeft="@dimen/margin_h20"
+        android:paddingRight="@dimen/margin_h20">
 
         <ImageView
             android:id="@+id/back"

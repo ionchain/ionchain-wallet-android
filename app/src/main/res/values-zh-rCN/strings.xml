@@ -27,7 +27,7 @@
     <string name="wallet_management">钱包管理</string>
     <string name="version">当前版本：%s</string>
     <string name="updating">正在检查更新,请稍后……</string>
-    <string name="error_code">更新错误码: %s</string>
+    <string name="error_code">%s</string>
     <string name="update_msg_title">新版本 ：%s ，请更新后使用！</string>
     <string name="download">下载</string>
     <string name="download_cancel">取消</string>
@@ -74,4 +74,6 @@
     <string name="import_private_key">导入私钥</string>
     <string name="explicit_private_key">明文私钥</string>
     <string name="start_to_import">开始导入</string>
+    <string name="version_info">版本信息</string>
+    <string name="about_us">关于我们</string>
 </resources>

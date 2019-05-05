@@ -70,13 +70,8 @@ public class LocalManageUtil {
 
         Resources res = context.getResources();
         Configuration config = new Configuration(res.getConfiguration());
-        if (Build.VERSION.SDK_INT >= 17) {
-            config.setLocale(locale);
-            context = context.createConfigurationContext(config);
-        } else {
-            config.locale = locale;
-            res.updateConfiguration(config, res.getDisplayMetrics());
-        }
+        config.setLocale(locale);
+        context = context.createConfigurationContext(config);
         return context;
     }
 

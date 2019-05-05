@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/h20"
+            android:paddingLeft="@dimen/margin_h20"
             android:src="@mipmap/arrow_back_blue" />
 
         <TextView
@@ -42,9 +42,9 @@
         android:id="@+id/tx_to_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/h20"
+        android:layout_marginLeft="@dimen/margin_h20"
         android:layout_marginTop="@dimen/h15"
-        android:layout_marginRight="@dimen/h20"
+        android:layout_marginRight="@dimen/margin_h20"
         android:hint="收款人地址"
         android:text=""
         android:textColor="#666666"
@@ -54,9 +54,9 @@
         android:id="@+id/tx_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/h20"
+        android:layout_marginLeft="@dimen/margin_h20"
         android:layout_marginTop="@dimen/h15"
-        android:layout_marginRight="@dimen/h20"
+        android:layout_marginRight="@dimen/margin_h20"
         android:hint="转账金额"
         android:inputType="numberDecimal"
         android:text=""
@@ -67,9 +67,9 @@
         android:id="@+id/tx_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/h20"
+        android:layout_marginLeft="@dimen/margin_h20"
         android:layout_marginTop="@dimen/h15"
-        android:layout_marginRight="@dimen/h20"
+        android:layout_marginRight="@dimen/margin_h20"
         android:clickable="false"
         android:text="旷工费"
         android:textColor="#666666"
@@ -80,15 +80,15 @@
         android:id="@+id/tx_seek_bar_index"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/h20"
-        android:layout_marginRight="@dimen/h20"
+        android:layout_marginLeft="@dimen/margin_h20"
+        android:layout_marginRight="@dimen/margin_h20"
         android:thumb="@mipmap/progress_index" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/h20"
-        android:layout_marginRight="@dimen/h20"
+        android:layout_marginLeft="@dimen/margin_h20"
+        android:layout_marginRight="@dimen/margin_h20"
         android:orientation="horizontal">
 
         <TextView
