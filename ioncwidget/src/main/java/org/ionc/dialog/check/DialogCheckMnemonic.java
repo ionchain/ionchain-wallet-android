@@ -1,6 +1,6 @@
 package org.ionc.dialog.check;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -30,7 +30,7 @@ public class DialogCheckMnemonic extends AbsBaseDialog implements View.OnClickLi
 
     private OnStringCallbcak stringCallbcak;
 
-    public DialogCheckMnemonic(@NonNull Context context, OnStringCallbcak stringCallbcak) {
+    public DialogCheckMnemonic(@NonNull Activity context, OnStringCallbcak stringCallbcak) {
         super(context);
         this.stringCallbcak = stringCallbcak;
     }

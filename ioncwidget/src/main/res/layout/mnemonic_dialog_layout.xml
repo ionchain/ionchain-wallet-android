@@ -101,7 +101,7 @@
             android:layout_height="30dp"
             android:layout_alignParentStart="true"
             android:layout_below="@id/line2"
-            android:background="@drawable/dialog_cancle_btn"
+            android:background="@drawable/dialog_cancel_btn"
             android:text="@string/not_now" />
 
         <Button

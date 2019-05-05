@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity.importmode;
+package org.ionchain.wallet.mvp.view.activity.imports;
 
 import android.content.DialogInterface;
 import android.content.Intent;

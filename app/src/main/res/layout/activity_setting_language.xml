@@ -20,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textStyle="bold"
         android:text="@string/language_auto" />
 
     <Button
@@ -27,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textStyle="bold"
         android:text="@string/language_cn" />
 
     <Button
@@ -34,5 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:textAllCaps="false"
+        android:textStyle="bold"
         android:text="@string/language_en" />
 </LinearLayout>

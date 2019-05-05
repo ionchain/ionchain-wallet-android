@@ -44,8 +44,8 @@ import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
-import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
+import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
@@ -144,7 +144,7 @@ public class AssetFragment extends AbsBaseFragment implements
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         if (mCurrentWallet == null) {
-            ToastUtil.showLong("您还没有钱包,请您先创建或导入钱包");
+            ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
 //            跳转到钱包创建或者导入界面
             return;
         }
@@ -171,7 +171,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     protected int getFragmentLayout() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_asset;
     }
 
     /**
@@ -303,7 +303,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     private boolean plesaeBackupWallet() {
         if (please_backup_wallet.getVisibility()== View.VISIBLE) {
-            ToastUtil.showToastLonger("请先备份钱包!");
+            ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
             return true;
         }
         return false;
@@ -368,7 +368,7 @@ public class AssetFragment extends AbsBaseFragment implements
                     });
                     mDialogBindCardWithWallet.show();
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong("解析二维码失败");
+                    ToastUtil.showLong(getResources().getString(R.string.toast_qr_code_error));
                 }
             }
         }
@@ -515,7 +515,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mUnbindPos = position;
         mDialogBindCardWithWallet = new DialogBindDevice(getActivity());
         mDialogBindCardWithWallet.setMessageText(cksn);
-        mDialogBindCardWithWallet.setTitleText("确定解绑设备?");
+        mDialogBindCardWithWallet.setTitleText(getResources().getString(R.string.sure_to_bind_device));
         mDialogBindCardWithWallet.setLeftBtnClickedListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -586,9 +586,9 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onToSaved() {
-        new DialogTextMessage(getActivity()).setTitle("注意")
-                .setMessage("请务必妥善保管您的助记词,一旦丢失,你的财产可能面临重大损失!")
-                .setBtnText("我已知晓并保存")
+        new DialogTextMessage(Objects.requireNonNull(getActivity())).setTitle(getResources().getString(R.string.attention))
+                .setMessage(getResources().getString(R.string.key_store_to_save))
+                .setBtnText(getResources().getString(R.string.i_know))
                 .setHintMsg("")
                 .setCancelByBackKey(true)
                 .setTag("")
@@ -613,13 +613,14 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onString(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
         String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
         if (s.length != mnemonics.length) {
-            ToastUtil.showToastLonger("您输入的助记词有误");
+            ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error));
             return;
         }
         int count = mnemonics.length;
         for (int i = 0; i < count; i++) {
             if (!mnemonics[i].equals(s[i])) {
-                ToastUtil.showToastLonger("您输入的第" + (i + 1) + "个助记词有误");
+                String index = String.valueOf((i + 1));
+                ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error_index, index));
                 editTextList.get(i).setTextColor(Color.RED);
                 return;
             }
@@ -627,7 +628,7 @@ public class AssetFragment extends AbsBaseFragment implements
         //更新
         mCurrentWallet.setMnemonic("");
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
-        ToastUtil.showToastLonger("验证成功!");
+        ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
         skip(MainActivity.class);
     }

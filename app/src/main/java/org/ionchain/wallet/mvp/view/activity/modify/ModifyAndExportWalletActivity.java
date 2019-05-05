@@ -22,7 +22,7 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.activity.createwallet.CreateWalletSelectActivity;
+import org.ionchain.wallet.mvp.view.activity.create.CreateWalletSelectActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;

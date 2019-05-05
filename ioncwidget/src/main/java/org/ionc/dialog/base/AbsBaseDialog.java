@@ -5,8 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Display;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.ionc.dialog.R;
+
+import org.ionc.LogUtils;
 
 
 public abstract class AbsBaseDialog extends Dialog {
@@ -46,5 +51,28 @@ public abstract class AbsBaseDialog extends Dialog {
      * 初始化 数据
      */
     protected abstract void initData();
+    protected void initDialogDefault(){
+        /*
+         * 获取圣诞框的窗口对象及参数对象以修改对话框的布局设置,
+         * 可以直接调用getWindow(),表示获得这个Activity的Window
+         * 对象,这样这可以以同样的方式改变这个Activity的属性.
+         */
+        Window dialogWindow = getWindow();
+
+        /*
+         * 将对话框的大小按屏幕大小的百分比设置
+         */
+        WindowManager m = mActivity.getWindowManager();
+        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
+        WindowManager.LayoutParams p; // 获取对话框当前的参数值
+        if (dialogWindow != null) {
+            p = dialogWindow.getAttributes();
+//            p.height = (int) (d.getHeight() * 0.6); // 高度设置为屏幕的0.6
+            p.width = (int) (d.getWidth() * 0.9); // 宽度设置为屏幕的0.65
+            dialogWindow.setAttributes(p);
+        } else {
+            LogUtils.e("设置对话框带下大小失败");
+        }
+    }
 
 }

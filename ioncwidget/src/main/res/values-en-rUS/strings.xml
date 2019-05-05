@@ -15,4 +15,6 @@
     <string name="dialog_version_info">If you would like to let the administrators of  this website know that you\'ve seen this page instead of the page you expected, you should send them e-mail. In general, mail sent to the name webmaster and directed to the website\'s domain should reach the appropriate person.</string>
     <string name="btn_close">close</string>
     <string name="btn_update">update</string>
+    <string name="v_info">版本信息</string>
+    <string name="download_progress_tv">下载进度 %s</string>
 </resources>

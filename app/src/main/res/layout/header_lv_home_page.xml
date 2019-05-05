@@ -32,7 +32,7 @@
             android:layout_below="@id/wallet_logo"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="钱包"
+            android:text="@string/wallet"
             android:textColor="@color/white"
             android:textSize="@dimen/txt_22sp" />
 
@@ -95,14 +95,14 @@
                 android:textSize="10sp"
                 android:drawableLeft="@drawable/exclamation"
                 android:background="@drawable/please_backup_wallet"
-                android:text=" 使用前,请备份 "/>
+                android:text="@string/before_use_backup"/>
             <TextView
                 android:id="@+id/tx_recoder_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
-                android:text="交易记录"
+                android:text="@string/record"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_18sp"
                 android:textStyle="bold" />
@@ -231,7 +231,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="我的设备"
+            android:text="@string/my_devices"
             android:textColor="#333333"
             android:textSize="14sp" />
 

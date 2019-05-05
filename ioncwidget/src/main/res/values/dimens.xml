@@ -16,6 +16,6 @@
     <dimen name="txt_14sp">14sp</dimen>
     <dimen name="h3">3dp</dimen>
     <dimen name="h1">1dp</dimen>
-    <dimen name="btn_height">40dp</dimen>
-    <dimen name="btn_width_60">60dp</dimen>
+    <dimen name="dialog_btn_height">40dp</dimen>
+    <dimen name="dialog_btn_width_60">60dp</dimen>
 </resources>

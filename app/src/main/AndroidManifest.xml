@@ -20,21 +20,21 @@
     <application
         android:name=".App"
         android:icon="@mipmap/login_logo"
-        android:label="@string/app_name"
+        android:label="${app_name}"
         android:roundIcon="@mipmap/login_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".mvp.view.activity.SettingLanguageActivity"></activity>
+        <activity android:name=".mvp.view.activity.SettingLanguageActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="$provider_authirities"
+            android:authorities="${appId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="${file_paths}" />
         </provider>
 
         <activity
@@ -56,12 +56,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".mvp.view.activity.createwallet.CreateWalletSelectActivity"
+            android:name=".mvp.view.activity.create.CreateWalletSelectActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".mvp.view.activity.createwallet.CreateWalletActivity"
+            android:name=".mvp.view.activity.create.CreateWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
@@ -70,7 +70,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.view.activity.importmode.ImportByPriKeyActivity"
+            android:name=".mvp.view.activity.imports.ImportByPriKeyActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -81,20 +81,16 @@
             android:name=".mvp.view.activity.ManageWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" /> <!-- <meta-data -->
-        <!-- android:name="UMENG_APPKEY" -->
-        <!-- android:value="5b0f99c9f43e483e64000033" /> -->
-        <!-- <meta-data -->
-        <!-- android:name="UMENG_MESSAGE_SECRET" -->
-        <!-- android:value="85cab502850c3752c3b26615477e4dc8" /> -->
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".mvp.view.activity.ShowAddressActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".mvp.view.activity.transaction.TxActivity" />
-        <activity android:name=".mvp.view.activity.importmode.SelectImportModeActivity" />
-        <activity android:name=".mvp.view.activity.importmode.ImportByMnemonicActivity" />
+        <activity android:name=".mvp.view.activity.imports.SelectImportModeActivity" />
+        <activity android:name=".mvp.view.activity.imports.ImportByMnemonicActivity" />
         <activity
-            android:name=".mvp.view.activity.importmode.ImportByKeystoreActivity"
+            android:name=".mvp.view.activity.imports.ImportByKeystoreActivity"
             android:theme="@style/AppTheme" />
         <activity android:name="org.ionc.qrcode.activity.CaptureActivity" />
         <activity android:name=".mvp.view.activity.transaction.TxRecordActivity" />

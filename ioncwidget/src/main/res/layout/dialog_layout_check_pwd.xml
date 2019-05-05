@@ -4,7 +4,7 @@
     android:layout_width="280dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/dialog_import_private_key"
+    android:background="@drawable/dialog_layout_background"
     android:layout_gravity="center"
     android:layout_height="150dp">
 

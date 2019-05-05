@@ -32,7 +32,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnTxRecoderCall
     @Override
     protected void initData() {
         presenter = new Presenter();
-        presenter.getTxRedocer("3", address, "1", "10", this);
+        presenter.getTxRecord("3", address, "1", "10", this);
     }
 
     @Override

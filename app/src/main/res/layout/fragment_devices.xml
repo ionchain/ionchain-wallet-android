@@ -17,7 +17,7 @@
           android:layout_centerInParent="true"
           android:textColor="@color/white"
           android:textSize="@dimen/title_size"
-          android:text="我的设备" />
+          android:text="@string/my_devices" />
 
       <ListView
           android:id="@+id/devices_lv"

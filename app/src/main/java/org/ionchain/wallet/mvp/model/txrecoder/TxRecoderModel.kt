@@ -9,7 +9,7 @@ import org.ionc.wallet.bean.TxRecoderBean
 import org.ionc.wallet.callback.OnTxRecoderCallback
 import org.ionc.wallet.utils.Logger
 import org.ionchain.wallet.constant.ConstantErrorCode
-import org.ionchain.wallet.constant.ConstantUrl.TX_RECODER_URL_GET
+import org.ionchain.wallet.constant.ConstantUrl.TX_RECORD_URL_GET
 import org.ionchain.wallet.utils.NetUtils
 
 /**
@@ -26,7 +26,7 @@ class TxRecoderModel : ITxRecoderModel {
         params.put("key", key)
         params.put("pageNumber", pageNumber)
         params.put("pageSize", pageSize)
-        NetUtils.get(TX_RECODER_URL_GET, params, object : StringCallback() {
+        NetUtils.get(TX_RECORD_URL_GET, params, object : StringCallback() {
             override fun onSuccess(response: Response<String>?) {
                 val json = response!!.body()
                 Logger.i(json)

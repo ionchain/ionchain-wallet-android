@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="导入钱包"
+            android:text="@string/app_import_wallet"
             android:textColor="#3574FA" />
     </LinearLayout>
 
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="@string/activity_create_wallet"
+            android:text="@string/app_create_wallet"
             android:textColor="#3574FA" />
     </LinearLayout>
 

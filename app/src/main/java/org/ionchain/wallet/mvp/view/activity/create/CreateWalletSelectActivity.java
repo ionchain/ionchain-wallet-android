@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity.createwallet;
+package org.ionchain.wallet.mvp.view.activity.create;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -16,7 +16,7 @@ import android.widget.CheckBox;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
+import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -123,7 +123,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
 
     @Override
     protected void handleIntent(@NonNull Intent intent) {
-        requestCodeQRCodePermissions();
+        requestCameraPermissions();
         super.handleIntent(intent);
     }
 

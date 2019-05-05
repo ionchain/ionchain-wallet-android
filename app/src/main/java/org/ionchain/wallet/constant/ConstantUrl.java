@@ -29,9 +29,10 @@ public class ConstantUrl {
     public final static String DEVICES_UNBIND_POST = DEVICES_HOST + "/api/wallet/v1/devices/unbind";
 
 
-    public final static String TX_RECODER_URL_GET = "http://explorer.blockchainbrother.com/v1/transaction";
-//    public final static String TX_RECODER_URL_GET = "http://192.168.23.164:3001/v1/transaction";//测试
+    public final static String TX_RECORD_URL_GET = "http://explorer.blockchainbrother.com/v1/transaction";
+//    public final static String TX_RECORD_URL_GET = "http://192.168.23.164:3001/v1/transaction";//测试
 
-    public final static String UPDATE_APK = "http://walletapi.ionchain.org/api/version";
+//    public final static String UPDATE_APK = "http://walletapi.ionchain.org/api/version";
+    public final static String UPDATE_APK = "http://192.168.23.142:3002/version";   //test
 
 }

@@ -54,4 +54,7 @@ public final class ConstantParams {
 
     public static final String CURRENT_ADDRESS = "address";
     public static final String CURRENT_KSP = "ksp";
+
+    public static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
+    public static final int REQUEST_STORAGE_PERMISSIONS = 2;
 }

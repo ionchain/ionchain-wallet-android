@@ -5,11 +5,11 @@
     android:paddingLeft="@dimen/margin_h20"
     android:paddingRight="@dimen/margin_h20"
     android:paddingBottom="@dimen/margin_h20"
-    android:background="@drawable/dialog_import_private_key">
+    android:background="@drawable/dialog_layout_background">
 
     <TextView
         android:id="@+id/version_info_title"
-        android:text="版本信息"
+        android:text="@string/v_info"
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="@dimen/txt_14sp"
@@ -32,11 +32,11 @@
         android:text="@string/dialog_version_info"/>
     <Button
         android:text="@string/btn_close"
-        android:background="@drawable/dialog_cancle_btn"
+        android:background="@drawable/dialog_cancel_btn"
         android:layout_below="@id/version_info_content"
         android:id="@+id/version_info_btn_cancel"
-        android:layout_width="@dimen/btn_width_60"
-        android:layout_height="@dimen/btn_height" />
+        android:layout_width="@dimen/dialog_btn_width_60"
+        android:layout_height="@dimen/dialog_btn_height" />
 
     <Button
         android:text="@string/btn_update"
@@ -44,7 +44,7 @@
         android:background="@drawable/dialog_sure_btn"
         android:layout_alignParentEnd="true"
         android:id="@+id/version_info_btn_update"
-        android:layout_width="@dimen/btn_width_60"
-        android:layout_height="@dimen/btn_height"
+        android:layout_width="@dimen/dialog_btn_width_60"
+        android:layout_height="@dimen/dialog_btn_height"
         android:layout_below="@id/version_info_content" />
 </RelativeLayout>

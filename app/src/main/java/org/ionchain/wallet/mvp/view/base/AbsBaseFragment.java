@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,20 +12,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import org.ionc.wallet.utils.Logger;
-
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 
 import java.io.Serializable;
+import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
+import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
+import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
 
 
 /**
  * author  binny
  * date 5/9
  */
-public abstract class AbsBaseFragment extends Fragment {
+public abstract class AbsBaseFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
 
+    protected AbsBaseFragment mFragment = this;
     protected AbsBaseActivity mActivity;
     protected final String TAG;
     protected View mContainerView;
@@ -167,6 +175,55 @@ public abstract class AbsBaseFragment extends Fragment {
             Logger.e( e.getMessage());
         }
     }
+    /**
+     * 请求相机权限
+     * @return 是否开启了权限
+     */
+    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
+    protected boolean requestCameraPermissions() {
+        String[] perms = new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE};
+        if (!EasyPermissions.hasPermissions(App.mContext, perms)) {
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和震动的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
+            return false;
+        } else {
+            return true;
+        }
+    }
 
+    /**
+     * 请求存储权限
+     * @return 是否开启了权限
+     */
+    @AfterPermissionGranted(REQUEST_STORAGE_PERMISSIONS)
+    protected boolean requestStoragePermissions() {
+        if (!EasyPermissions.hasPermissions(App.mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            EasyPermissions.requestPermissions(this, "需要打开存储的权限", REQUEST_STORAGE_PERMISSIONS, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            return false;
+        } else {
+            return true;
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        // Some permissions have been granted
+        // ...
+    }
 
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        // Some permissions have been denied
+        // ...
+    }
+    protected void showProgress(String msg){
+        mActivity.showProgress(msg);
+    }
+
+    protected void hideProgress() {
+        mActivity.hideProgress();
+    }
 }

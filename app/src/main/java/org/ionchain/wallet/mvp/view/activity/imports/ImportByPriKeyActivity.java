@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity.importmode;
+package org.ionchain.wallet.mvp.view.activity.imports;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +28,8 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
+
+import java.util.List;
 
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
@@ -90,7 +92,9 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(CaptureActivity.class, FROM_SCAN);
+                if (requestCameraPermissions()) {
+                    skip(CaptureActivity.class, FROM_SCAN);
+                }
             }
         });
         importBtn.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +149,11 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         });
     }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        super.onPermissionsGranted(requestCode, list);
+        skip(CaptureActivity.class, FROM_SCAN);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -162,7 +171,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     mPrivateKey.setText(result);
                     private_key = result;
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong(getString(R.string.qr_code_error));
+                    ToastUtil.showLong(getString(R.string.toast_qr_code_error));
                 }
             }
         }

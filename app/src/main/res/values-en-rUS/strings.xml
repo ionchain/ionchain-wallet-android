@@ -20,8 +20,8 @@
     <string name="import_wallet_text">import the wallet</string>
     <string name="back_arrow">back</string>
     <string name="language_setting">Language Settings</string>
-    <string name="language_cn">中文</string>
-    <string name="language_en">ENGLISH</string>
+    <string name="language_cn">简体中文</string>
+    <string name="language_en">English</string>
     <string name="language_auto">Auto</string>
     <string name="language_select">Currently selected language:  %s</string>
     <string name="nav_mine">Mine</string>
@@ -36,8 +36,8 @@
     <string name="agree_protocol">Please read and agree to the service and agreement first</string>
     <string name="protocol_first">"Agreement    "</string>
     <string name="service_agreement">The service agreement</string>
-    <string name="activity_create_wallet_app">Create the wallet</string>
-    <string name="activity_import_wallet_app">Import the wallet</string>
+    <string name="app_create_wallet">Create the wallet</string>
+    <string name="app_import_wallet">Import the wallet</string>
     <string name="distributed_intelligent_digital_wallet">" Distributed Intelligent Digital Wallet"</string>
     <string name="please_input_wallet_name">Please enter your wallet name</string>
     <string name="illegal_name">Illegal name</string>
@@ -50,7 +50,7 @@
     <string name="please_input_wallet_password_again">Please enter your wallet duplicate password</string>
     <string name="attention">Attention</string>
     <string name="i_know">I know and keep</string>
-    <string name="save_key_stroe">Please be sure to keep your mnemonic, once lost, your property may face significant losses!</string>
+    <string name="key_store_to_save">Please be sure to keep your mnemonic, once lost, your property may face significant losses!</string>
     <string name="mnemonics_error">The mnemonic word you entered is incorrect</string>
     <string name="mnemonics_error_index">The %s mnemonic you entered is incorrect</string>
     <string name="authentication_successful">Authentication successful !</string>
@@ -65,7 +65,7 @@
     <string name="illegal_private_key">Invalid private key!</string>
     <string name="illegal_private_key_null">The private key cannot be empty！</string>
     <string name="importing_wallet">Please wait while importing the wallet</string>
-    <string name="qr_code_error">Qr code parsing failed</string>
+    <string name="toast_qr_code_error">Qr code parsing failed</string>
     <string name="import_and_update_password">Do you want to continue importing? Continue to import will update the wallet password!</string>
     <string name="continue_go_on">continue</string>
     <string name="cancel">cancel</string>
@@ -77,4 +77,15 @@
     <string name="start_to_import">Start importing</string>
     <string name="version_info">Version Info</string>
     <string name="about_us">About Us</string>
+    <string name="my_devices">Devices</string>
+    <string name="tab_device">device</string>
+    <string name="tab_mine">Mine</string>
+    <string name="tab_asset">asset</string>
+    <string name="wallet_null_toast">You do not have a wallet, please create or import the wallet</string>
+    <string name="toast_please_backup_wallet">Please backup your wallet first</string>
+    <string name="sure_to_bind_device">Determine the unbundling device?</string>
+    <string name="wallet">wallet</string>
+    <string name="before_use_backup">Please backup before use</string>
+    <string name="record">record</string>
+    <string name="app_update_no">已是最新版本,不需要更新</string>
 </resources>

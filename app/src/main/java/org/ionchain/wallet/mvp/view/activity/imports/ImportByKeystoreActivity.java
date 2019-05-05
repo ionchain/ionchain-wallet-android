@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity.importmode;
+package org.ionchain.wallet.mvp.view.activity.imports;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +23,8 @@ import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+
+import java.util.List;
 
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
@@ -64,7 +66,9 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(CaptureActivity.class, FROM_SCAN);
+                if (requestCameraPermissions()) {
+                    skip(CaptureActivity.class, FROM_SCAN);
+                }
             }
         });
         mKeystore = findViewById(R.id.mnemonic);
@@ -195,4 +199,11 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
             }
         }
     }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        super.onPermissionsGranted(requestCode, list);
+        skip(CaptureActivity.class, FROM_SCAN);
+    }
+
 }

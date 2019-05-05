@@ -17,6 +17,7 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.utils.LocalManageUtil;
 
+import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -84,5 +85,15 @@ public class App extends Application {
                 .setRetryCount(0);                            //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
 
 
+    }
+    /**
+     * 保留两位小数 四舍五入
+     *
+     * @param f 原始浮点型数
+     * @return 两位小数
+     */
+    public static float scale(float f) {
+        BigDecimal b = new BigDecimal(f);
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
     }
 }

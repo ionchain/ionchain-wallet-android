@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity.createwallet;
+package org.ionchain.wallet.mvp.view.activity.create;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,7 +27,7 @@ import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.activity.importmode.SelectImportModeActivity;
+import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
@@ -260,7 +260,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     public void onToSaved() {
         String TO_SAVE = "to_save";
         new DialogTextMessage(this).setTitle(getResources().getString(R.string.attention))
-                .setMessage(getResources().getString(R.string.save_key_stroe))
+                .setMessage(getResources().getString(R.string.key_store_to_save))
                 .setBtnText(getResources().getString(R.string.i_know))
                 .setHintMsg("")
                 .setCancelByBackKey(true)

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <external
+            name="files_root"
+            path="Android/data/org.ionchain.wallet.huawei/" />
+        <external
+            name="external_storage_root"
+            path="." />
+    </paths>
+</resources>

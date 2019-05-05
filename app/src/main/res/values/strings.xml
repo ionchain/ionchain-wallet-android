@@ -20,8 +20,8 @@
     <string name="back_arrow">返回</string>
     <string name="language_setting">语言设置</string>
     <string name="language_cn">中文</string>
-    <string name="language_en">ENGLISH</string>
-    <string name="language_auto">自動</string>
+    <string name="language_en">English</string>
+    <string name="language_auto">自动</string>
     <string name="language_select">当前选择的语言: %s</string>
     <string name="nav_mine">我的</string>
     <string name="wallet_management">钱包管理</string>
@@ -35,8 +35,8 @@
     <string name="agree_protocol">请先阅读并同意服务及协议</string>
     <string name="protocol_first">开始使用本产品即表示同意</string>
     <string name="service_agreement">服务协议</string>
-    <string name="activity_create_wallet_app">创建钱包</string>
-    <string name="activity_import_wallet_app">导入钱包</string>
+    <string name="app_create_wallet">创建钱包</string>
+    <string name="app_import_wallet">导入钱包</string>
     <string name="distributed_intelligent_digital_wallet">分布式智能数字钱包</string>
     <string name="please_input_wallet_name">请输入钱包名字</string>
     <string name="illegal_name">名字不符合规则!</string>
@@ -49,7 +49,7 @@
     <string name="please_input_wallet_password_again">请输入钱包重复密码</string>
     <string name="attention">注意</string>
     <string name="i_know">我已知晓并保存</string>
-    <string name="save_key_stroe">请务必妥善保管您的助记词,一旦丢失,你的财产可能面临重大损失!</string>
+    <string name="key_store_to_save">请务必妥善保管您的助记词,一旦丢失,你的财产可能面临重大损失!</string>
     <string name="mnemonics_error">您输入的助记词有误</string>
     <string name="mnemonics_error_index">您输入的第 %s 个助记词有误</string>
     <string name="authentication_successful">验证成功!</string>
@@ -64,7 +64,7 @@
     <string name="illegal_private_key">无效私钥！</string>
     <string name="illegal_private_key_null">私钥不能为空！</string>
     <string name="importing_wallet">正在导入钱包请稍候</string>
-    <string name="qr_code_error">解析二维码失败</string>
+    <string name="toast_qr_code_error">解析二维码失败</string>
     <string name="import_and_update_password">是否继续导入？ 继续导入则会更新钱包密码!</string>
     <string name="continue_go_on">继续</string>
     <string name="cancel">取消</string>
@@ -76,4 +76,15 @@
     <string name="start_to_import">开始导入</string>
     <string name="version_info">版本信息</string>
     <string name="about_us">关于我们</string>
+    <string name="my_devices">我的设备</string>
+    <string name="tab_device">设备</string>
+    <string name="tab_mine">我的</string>
+    <string name="tab_asset">资产</string>
+    <string name="wallet_null_toast">您还没有钱包,请您先创建或导入钱包</string>
+    <string name="toast_please_backup_wallet">请先备份钱包!</string>
+    <string name="sure_to_bind_device">确定解绑设备?</string>
+    <string name="wallet">钱包</string>
+    <string name="before_use_backup">使用前,请备份</string>
+    <string name="record">交易记录</string>
+    <string name="app_update_no">已是最新版本,不需要更新</string>
 </resources>
