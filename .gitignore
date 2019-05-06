@@ -2,7 +2,6 @@
 .gradle/
 .idea/
 app/app.iml
-app/build/
 ionchain.iml
 ioncwalletsdk/.gitignore
 ioncwidget/.gitignore
@@ -10,3 +9,5 @@ local.properties
 qrcode/.gitignore
 qrcode/build/
 widget/.gitignore
+gradle.properties
+build/
