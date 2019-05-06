@@ -60,9 +60,9 @@ public class ShowAddressActivity extends AbsBaseActivity {
             public void onClick(View v) {
                 if (!StringUtils.isEmpty(walletAddressTv.getText().toString())) {
                     StringUtils.copy(ShowAddressActivity.this, walletAddressTv.getText().toString());
-                    Toast.makeText(ShowAddressActivity.this, "已复制地址", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShowAddressActivity.this, getAppString(R.string.copy_done_addr), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ShowAddressActivity.this, "复制失败", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShowAddressActivity.this, getAppString(R.string.copy_error), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -76,7 +76,7 @@ public class ShowAddressActivity extends AbsBaseActivity {
             @Override
             public boolean onLongClick(View v) {
                 BitmapUtils.savePicture(QRCodeUtils.generateQRCode(msg, 200), PICTURE_FILE_NAME, msg+".jpg");
-                ToastUtil.showLong("保存成功！\n保存路径: SD卡根目录的 ionchainAddress 文件夹下");
+                ToastUtil.showLong(getAppString(R.string.save_pos));
                 return true;
             }
         });

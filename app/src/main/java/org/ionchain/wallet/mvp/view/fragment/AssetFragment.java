@@ -21,10 +21,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.dialog.callback.OnStringCallbcak;
-import org.ionc.dialog.check.DialogCheckMnemonic;
-import org.ionc.dialog.export.DialogTextMessage;
-import org.ionc.dialog.mnemonic.DialogMnemonic;
 import org.ionc.qrcode.activity.CaptureActivity;
 import org.ionc.qrcode.activity.CodeUtils;
 import org.ionc.wallet.adapter.CommonAdapter;
@@ -42,7 +38,6 @@ import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.presenter.Presenter;
-import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
@@ -56,6 +51,10 @@ import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogBindDevice;
 import org.ionchain.wallet.widget.PopupWindowBuilder;
+import org.ionchain.wallet.widget.dialog.callback.OnStringCallbcak;
+import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
+import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
+import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +156,7 @@ public class AssetFragment extends AbsBaseFragment implements
 //        }
         int id = mCurrentWallet.getMIconIdex();
         wallet_logo.setImageResource(App.sRandomHeader[id]);
-        IONCWalletSDK.getInstance().getIONCWalletBalance(IONC_CHAIN_NODE, mCurrentWallet.getAddress(), this);
+        IONCWalletSDK.getInstance().getIONCWalletBalance( mCurrentWallet.getAddress(), this);
         getDeviceList();
     }
 
@@ -368,7 +367,7 @@ public class AssetFragment extends AbsBaseFragment implements
                     });
                     mDialogBindCardWithWallet.show();
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong(getResources().getString(R.string.toast_qr_code_error));
+                    ToastUtil.showLong(getResources().getString(R.string.toast_qr_code_parase_error));
                 }
             }
         }
@@ -405,7 +404,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 if (SDK_Debug) {
                     skip(SDKCreateActivity.class);//
                 } else {
-                    skip(CreateWalletActivity.class);
+                    skip(CreateWalletActivity.class,"from","0");
                 }
                 instance.dismiss();
             }
@@ -428,7 +427,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 setBackupTag();
                 int ids = mCurrentWallet.getMIconIdex();
                 wallet_logo.setImageResource(App.sRandomHeader[ids]);
-                IONCWalletSDK.getInstance().getIONCWalletBalance(IONC_CHAIN_NODE, mCurrentWallet.getAddress(), AssetFragment.this);
+                IONCWalletSDK.getInstance().getIONCWalletBalance( mCurrentWallet.getAddress(), AssetFragment.this);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 getDeviceList();
@@ -453,7 +452,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        IONCWalletSDK.getInstance().getIONCWalletBalance(IONC_CHAIN_NODE, mCurrentWallet.getAddress(), AssetFragment.this);
+        IONCWalletSDK.getInstance().getIONCWalletBalance( mCurrentWallet.getAddress(), AssetFragment.this);
 //        getDeviceList();
     }
 
@@ -585,7 +584,7 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     @Override
-    public void onToSaved() {
+    public void onToKeepMnemonic() {
         new DialogTextMessage(Objects.requireNonNull(getActivity())).setTitle(getResources().getString(R.string.attention))
                 .setMessage(getResources().getString(R.string.key_store_to_save))
                 .setBtnText(getResources().getString(R.string.i_know))
@@ -596,12 +595,12 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     @Override
-    public void onCancel(DialogMnemonic dialogMnemonic) {
+    public void onCancelKeepMnemonic(DialogMnemonic dialogMnemonic) {
         dialogMnemonic.dismiss();
     }
 
     @Override
-    public void onBtnClick(DialogTextMessage dialogTextMessage) {
+    public void onDialogTextMessageBtnClicked(DialogTextMessage dialogTextMessage) {
         dialogMnemonic.dismiss();
         dialogTextMessage.dismiss();
         //保存准状态
@@ -630,6 +629,8 @@ public class AssetFragment extends AbsBaseFragment implements
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
-        skip(MainActivity.class);
+//        skip(MainActivity.class);
+        //隐藏备份提示布局
+        please_backup_wallet.setVisibility(View.GONE);
     }
 }

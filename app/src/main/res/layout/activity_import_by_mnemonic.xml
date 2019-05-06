@@ -40,7 +40,7 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@drawable/comm_imput_bg"
             android:gravity="left"
-            android:hint="助记词,用空格分割"
+            android:hint="@string/mnemonics_rule"
             android:minLines="5"
             android:padding="@dimen/h5"
             android:text="" />
@@ -116,7 +116,7 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@color/grey"
             android:enabled="false"
-            android:text="开始导入"
+            android:text="@string/import_btn"
             android:textColor="@color/white" />
     </LinearLayout>
 

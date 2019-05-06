@@ -8,16 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.R;
+
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
-import org.ionc.wallet.utils.ToastUtil;
-
 import org.ionc.wallet.utils.RandomUntil;
-
-import static org.ionc.wallet.utils.RandomUntil.getNum;
+import org.ionc.wallet.utils.ToastUtil;
 
 public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCreateWalletCallback, TextWatcher {
     private AppCompatEditText mKeystore;
@@ -54,10 +52,10 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
                     String pass = pwdEt.getText().toString();
                     //生成keystory文件
                     newPassword = pass;
-                    showProgress("正在导入钱包请稍候");
+                    showProgress(getAppString(R.string.importing_please_wait));
                     IONCWalletSDK.getInstance().importWalletByKeyStore(pass, keystoreStr, AbsByKeystoreActivity.this);
                 } else {
-                    ToastUtil.showLong("请检查输入是否正确！");
+                    ToastUtil.showLong(getAppString(R.string.please_chech_input));
 
                 }
             }
@@ -110,11 +108,11 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
         hideProgress();
 
         if (null != wallet) {
-            ToastUtil.showLong("该钱包已存在，钱包名为 ： " + wallet.getName());
+            ToastUtil.showLong(getAppString(R.string.wallet_exist_name_is) + wallet.getName());
         } else {
             walletBean.setMIconIdex(RandomUntil.getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
-            ToastUtil.showToastLonger("导入成功啦!");
+            ToastUtil.showToastLonger(getAppString(R.string.import_success));
             onSDKCreateSuccess(walletBean);
         }
     }
@@ -122,7 +120,7 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
     @Override
     public void onCreateFailure(String error) {
         hideProgress();
-        ToastUtil.showToastLonger("导入成失败");
+        ToastUtil.showToastLonger(getAppString(R.string.import_failure));
         ToastUtil.showLong("onCreateFailure: $result");
         onSDKCreateFailure(error);
 

@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.ionc.wallet.utils.Logger;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
+import org.ionchain.wallet.R;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 import org.ionchain.wallet.mvp.view.activity.WebActivity;
@@ -122,7 +123,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     protected boolean requestCameraPermissions() {
         String[] perms = new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE};
         if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和震动的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
+            EasyPermissions.requestPermissions(this, getAppString(R.string.permission_camera), REQUEST_CODE_QRCODE_PERMISSIONS, perms);
             return false;
         } else {
             return true;
@@ -136,7 +137,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     @AfterPermissionGranted(REQUEST_STORAGE_PERMISSIONS)
     protected boolean requestStoragePermissions() {
         if (!EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            EasyPermissions.requestPermissions(this, "需要打开存储的权限", REQUEST_STORAGE_PERMISSIONS, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            EasyPermissions.requestPermissions(this, getAppString(R.string.permission_storage), REQUEST_STORAGE_PERMISSIONS, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             return false;
         } else {
             return true;
@@ -154,7 +155,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     public void onPermissionsDenied(int requestCode, List<String> list) {
         // Some permissions have been denied
         // ...
-        ToastUtil.showToastLonger("请先授予相关权限!");
+        ToastUtil.showToastLonger(getAppString(R.string.permission_request));
         Logger.i("拒绝" + list.toString());
     }
 
@@ -221,5 +222,28 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         intent.putExtra(params1, obj1);
         intent.putExtra(params2, obj2);
         startActivityForResult(intent, requestCode);
+    }
+    /**
+     * @param id 多语言环境中的
+     * @return 字符串
+     */
+    public String getAppString(int id) {
+        return getResources().getString(id);
+    }
+ /**
+     * @param id 多语言环境中的
+     * @return color
+     */
+    public int getAppColor(int id) {
+        return getResources().getColor(id);
+    }
+
+    /**
+     * @param id  多语言环境中的
+     * @param obj
+     * @return 字符串
+     */
+    public String getAppString(int id, Object obj) {
+        return getResources().getString(id, obj);
     }
 }

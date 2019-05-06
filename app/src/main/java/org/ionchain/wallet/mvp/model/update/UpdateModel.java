@@ -14,25 +14,25 @@ import static org.ionchain.wallet.constant.ConstantUrl.UPDATE_APK;
 
 public class UpdateModel implements IUpdate {
     @Override
-    public void update(final OnUpdateInfoCallback callback) {
+    public void update(final OnCheckUpdateInfoCallback callback) {
         NetUtils.get(UPDATE_APK, new StringCallback() {
 
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
-                Logger.i("onStartCheckUpdate");
-                callback.onStartCheckUpdate();
+                Logger.i("onCheckForUpdateStart");
+                callback.onCheckForUpdateStart();
             }
 
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onErrorCheckUpdate();
+                callback.onCheckForUpdateError();
             }
 
             @Override
             public void onSuccess(Response<String> response) {
-                callback.onRequestSuccess();
+                callback.onCheckForUpdateSuccess();
                 String json = response.body();
                 UpdateBean updateBean = NetUtils.gsonToBean(json, UpdateBean.class);
                 if (updateBean != null && updateBean.getData() != null && updateBean.getData().get(0) != null) {
@@ -42,14 +42,14 @@ public class UpdateModel implements IUpdate {
                     if (new_code > old_code) {
                         //询问用户是否下载？
 
-                        callback.needUpdate(updateBean.getData().get(0).getUrl(), updateBean.getData().get(0).getUpdate_info(), String.valueOf(updateBean.getData().get(0).getVersion_code()));
+                        callback.onCheckForUpdateNeedUpdate(updateBean.getData().get(0).getUrl(), updateBean.getData().get(0).getUpdate_info(), String.valueOf(updateBean.getData().get(0).getVersion_code()));
                     } else {
-                        callback.noNewVersion();
+                        callback.onCheckForUpdateNoNewVersion();
                     }
                 } else {
-                    callback.noNewVersion();
+                    callback.onCheckForUpdateNoNewVersion();
                 }
             }
-        }, "update");
+        }, "checkForUpdate");
     }
 }

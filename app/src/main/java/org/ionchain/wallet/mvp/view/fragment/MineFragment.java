@@ -5,24 +5,20 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.lzy.okgo.model.Progress;
-
-import org.ionc.dialog.download.DownloadDialog;
-import org.ionc.dialog.version.VersionInfoDialog;
-import org.ionc.wallet.utils.Logger;
-import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.model.update.OnUpdateInfoCallback;
+import org.ionchain.wallet.constant.ConstantParams;
+import org.ionchain.wallet.mvp.model.update.OnCheckUpdateInfoCallback;
 import org.ionchain.wallet.mvp.presenter.Presenter;
 import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.SettingLanguageActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-import org.ionchain.wallet.utils.NetUtils;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.widget.dialog.download.DownloadDialog;
+import org.ionchain.wallet.widget.dialog.version.VersionInfoDialog;
 
 import java.util.Locale;
 
-public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.OnVersionDialogBtnClickedListener, OnUpdateInfoCallback, NetUtils.DownloadCallback {
+public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.OnVersionDialogBtnClickedListener, OnCheckUpdateInfoCallback {
 
     /**
      * 钱包管理
@@ -48,6 +44,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
      * 版本信息对话框
      */
     private VersionInfoDialog mVersionInfoDialog;
+
 
     /**
      * Find the Views in the layout<br />
@@ -81,21 +78,28 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
                 startActivity(new Intent(mActivity, SettingLanguageActivity.class));
             }
         });
+        /*
+         * 展示版本信息
+         * */
         version_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = "";
                 String info = "";
+                String btn_tx = "";
 
                 if ("zh_CN".equals(Locale.getDefault().toString())) {
                     title = "版本信息";
                     info = "中文信息";
+                    btn_tx = "检查更细";
                 } else {
                     title = "Version Info";
                     info = "英文信息";
+                    btn_tx = "update";
                 }
-                mVersionInfoDialog = new VersionInfoDialog(mActivity, MineFragment.this)
+                mVersionInfoDialog = new VersionInfoDialog(mActivity, "", MineFragment.this)
                         .setTitleName(title)
+                        .setSureBtnName(btn_tx)
                         .setVersionInfo(info);
                 mVersionInfoDialog.show();
             }
@@ -103,7 +107,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
         about_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NetUtils.downloadShowDialog(mActivity, "sasasasa", "dsadasadasd", NetUtils.downloadTask("http://192.168.1.3:8009/quzhizuo.apk", MineFragment.this));
+//                NetUtils.downloadShowDialog(mActivity, "sasasasa", "dsadasadasd", NetUtils.downloadTask("http://192.168.1.3:8009/quzhizuo.apk", MineFragment.this));
             }
         });
     }
@@ -126,68 +130,66 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
 
     /**
      * 检查更新
+     *
+     * @param dialog 对话框
+     * @param type   事件类型
+     * @param url    下载地址
      */
     @Override
-    public void onCheckUpdateBtnClicked() {
-        if (requestStoragePermissions()) {
-            new Presenter().update(this);
+    public void onVersionDialogRightBtnClicked(VersionInfoDialog dialog, char type, String url) {
+        dialog.dismiss();
+        if (type == ConstantParams.VERSION_TAG_CHECK_FOR_UPDATE) {
+            if (requestStoragePermissions()) {
+                new Presenter().checkForUpdate(this);
+            }
+        } else if (type == ConstantParams.VERSION_TAG_DOWNLOAD) {
+            //下载对话框
+            new DownloadDialog(mActivity, url).show();
         }
     }
 
     @Override
-    public void onCancel(VersionInfoDialog dialog) {
+    public void onVersionDialogLeftBtnClicked(VersionInfoDialog dialog) {
         dialog.dismiss();
     }
 
     @Override
-    public void onStartCheckUpdate() {
+    public void onCheckForUpdateStart() {
         showProgress(getString(R.string.updating));
     }
 
     @Override
-    public void onRequestSuccess() {
+    public void onCheckForUpdateSuccess() {
         hideProgress();
+        mVersionInfoDialog.dismiss();
     }
 
     @Override
-    public void onErrorCheckUpdate() {
+    public void onCheckForUpdateError() {
         hideProgress();
+        mVersionInfoDialog.dismiss();
+        ToastUtil.showShortToast(getAppString(R.string.app_update_error));
     }
 
     @Override
-    public void needUpdate(String url, String update_info, String v_code) {
-        NetUtils.downloadShowDialog(mActivity, update_info, v_code, NetUtils.downloadTask(url, this));
+    public void onCheckForUpdateNeedUpdate(String url, String update_info, String v_code) {
+        /*
+         * 更新当前版本信息对话框的展示内容
+         *
+         * */
+
+        mVersionInfoDialog = new VersionInfoDialog(mActivity, url, MineFragment.this)
+                .setTitleName(getResources().getString(R.string.v_info, v_code))
+                .setSureBtnName(getString(R.string.dialog_btn_download))
+                .setVersionInfo(update_info);
+        mVersionInfoDialog.setType(ConstantParams.VERSION_TAG_DOWNLOAD);
+        mVersionInfoDialog.show();
+//        NetUtils.downloadShowDialog(mActivity, url, update_info, v_code, this);
     }
 
     @Override
-    public void noNewVersion() {
+    public void onCheckForUpdateNoNewVersion() {
         ToastUtil.showLong(getString(R.string.app_update_no));
     }
 
-    @Override
-    public void onDownloadStart(Progress progress) {
-        //开始
-        Logger.i("开始下载......");
-
-        mDownloadDialog = new DownloadDialog(mActivity);
-        mDownloadDialog.show();
-    }
-
-    @Override
-    public void onDownloadProgress(Progress progress) {
-        int p = (int) App.scale(progress.fraction);
-        mDownloadDialog.updateProgress(p);
-        mDownloadDialog.updateProgresTvs(p + "%");
-    }
-
-    @Override
-    public void onDownloadError(Progress progress) {
-
-    }
-
-    @Override
-    public void onDownloadFinish(Progress progress) {
-        mDownloadDialog.dismiss();
-        NetUtils.downloader(mActivity, progress.filePath);
-    }
 }

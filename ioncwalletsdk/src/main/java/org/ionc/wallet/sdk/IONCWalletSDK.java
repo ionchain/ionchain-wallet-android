@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.ionc.wallet.sdk.R;
+
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
@@ -68,8 +70,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_CODE_BALANCE_ETH;
-import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_CODE_BALANCE_IONC;
 import static org.ionc.wallet.constant.ConstanParams.GAS_MIN;
 import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
 import static org.ionc.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
@@ -78,7 +78,7 @@ import static org.web3j.crypto.Hash.sha256;
 
 public class IONCWalletSDK {
     private volatile static IONCWalletSDK mInstance;
-    public static Context AppContext;
+    public static Context appContext;
     private static String keystoreDir;
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
 
@@ -116,9 +116,9 @@ public class IONCWalletSDK {
         String cachePath = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
-            cachePath = AppContext.getExternalCacheDir().getPath();
+            cachePath = appContext.getExternalCacheDir().getPath();
         } else {
-            cachePath = AppContext.getCacheDir().getPath();
+            cachePath = appContext.getCacheDir().getPath();
         }
         return cachePath;
     }
@@ -129,10 +129,10 @@ public class IONCWalletSDK {
      */
     public void initIONCWalletSDK(Context context) {
         try {
-            AppContext = context.getApplicationContext();
-            mHandler = new Handler(AppContext.getMainLooper());
-            mMnemonicCode = new MnemonicCode(AppContext.getAssets().open("en-mnemonic-word-list.txt"), null);
-            keystoreDir = AppContext.getCacheDir().getPath() + "/ionchain/keystore";
+            appContext = context.getApplicationContext();
+            mHandler = new Handler(appContext.getMainLooper());
+            mMnemonicCode = new MnemonicCode(appContext.getAssets().open("en-mnemonic-word-list.txt"), null);
+            keystoreDir = appContext.getCacheDir().getPath() + "/ionchain/keystore";
             Logger.i(TAG, "initIONCWalletSDK: 文件创建成功 keystoreDir = " + keystoreDir);
             //创建keystore路径
             File file = new File(keystoreDir);
@@ -249,7 +249,7 @@ public class IONCWalletSDK {
         //种子
         byte[] seedBytes = ds.getSeedBytes();
         if (seedBytes == null) {
-            callback.onCheckFailure("检测失败");
+            callback.onCheckFailure(appContext.getResources().getString(R.string.check_error));
             return;
         }
         DeterministicKey dkKey = HDKeyDerivation.createMasterPrivateKey(seedBytes);
@@ -271,7 +271,7 @@ public class IONCWalletSDK {
         if (pri.equals(privateKey)) {
             callback.onCheckSuccess(null);
         } else {
-            callback.onCheckFailure("助记词不正确!");
+            callback.onCheckFailure(appContext.getResources().getString(R.string.error_mnemonics));
         }
     }
 
@@ -287,7 +287,7 @@ public class IONCWalletSDK {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                callback.onCreateFailure("请输入正确的keystore!");
+                                callback.onCreateFailure(appContext.getResources().getString(R.string.error_key_story));
                             }
                         });
                         return;
@@ -308,7 +308,7 @@ public class IONCWalletSDK {
                     //创建钱包
                     Credentials credentials = WalletUtils.loadCredentials(password, path);
                     ECKeyPair keyPair = credentials.getEcKeyPair();
-                    String walletname = "新增钱包" + RandomUntil.getSmallLetter(3);
+                    String walletname = "new-wallet" + RandomUntil.getSmallLetter(3);
                     bean.setName(walletname);
                     bean.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
                     bean.setPublickey(keyPair.getPublicKey().toString(16));//公钥
@@ -340,7 +340,7 @@ public class IONCWalletSDK {
 
         try {
             final WalletBean wallet = new WalletBean();
-            String walletname = "新增钱包" + RandomUntil.getSmallLetter(3);
+            String walletname = "new-wallet" + RandomUntil.getSmallLetter(3);
             BigInteger key = new BigInteger(privateKey, 16);
             ECKeyPair keyPair = ECKeyPair.create(key);
             String private_key = keyPair.getPrivateKey().toString(16);
@@ -495,11 +495,11 @@ public class IONCWalletSDK {
     private String generateNewWalletName() {
         char letter1 = (char) (int) (Math.random() * 26 + 97);
         char letter2 = (char) (int) (Math.random() * 26 + 97);
-        String walletName = String.valueOf(letter1) + String.valueOf(letter2) + "-新钱包";
+        String walletName = String.valueOf(letter1) + String.valueOf(letter2) + "-new-wallet";
         while (getWalletByName(walletName) != null) {
             letter1 = (char) (int) (Math.random() * 26 + 97);
             letter2 = (char) (int) (Math.random() * 26 + 97);
-            walletName = String.valueOf(letter1) + String.valueOf(letter2) + "-新钱包";
+            walletName = String.valueOf(letter1) + String.valueOf(letter2) + "-new-wallet";
         }
         return walletName;
     }
@@ -570,7 +570,7 @@ public class IONCWalletSDK {
      * @param callback 结果
      */
     public void getDoubleWalletBalance(String address, OnBalanceCallback callback) {
-        getIONCWalletBalance(IONC_CHAIN_NODE, address, callback);
+        getIONCWalletBalance( address, callback);
         getETHWalletBalance(ETH_CHAIN_NODE, address, callback);
     }
 
@@ -581,8 +581,8 @@ public class IONCWalletSDK {
      * @param address    钱包地址
      * @param callback      回调
      */
-    public void getIONCWalletBalance(String node, String address, OnBalanceCallback callback) {
-        balance(node, address, callback);
+    public void getIONCWalletBalance( String address, OnBalanceCallback callback) {
+        balance(IONC_CHAIN_NODE, address, callback);
     }
 
     /**
@@ -626,7 +626,7 @@ public class IONCWalletSDK {
                         @Override
                         public void run() {
                             Logger.e(e.getMessage());
-                            callback.onBalanceFailure(node.equals(IONC_CHAIN_NODE)?ERROR_CODE_BALANCE_IONC:ERROR_CODE_BALANCE_ETH);
+                            callback.onBalanceFailure(node.equals(IONC_CHAIN_NODE)? appContext.getString(R.string.error_net_ionc):appContext.getString(R.string.error_net_eth));
                         }
                     });
                 }
@@ -672,7 +672,7 @@ public class IONCWalletSDK {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                callback.onTxFailure("交易失败");
+                                callback.onTxFailure(appContext.getString(R.string.transacton_failed));
                             }
                         });
                     }
@@ -850,7 +850,7 @@ public class IONCWalletSDK {
     public void transactionDialog(Activity activity, IONCAllWalletDialogSDK.OnTxResultCallback callback) {
         List<WalletBean> beans = getAllWallet();
         if (beans == null || beans.size() <= 0) {
-            ToastUtil.showLong("钱包为空！");
+            ToastUtil.showLong(activity.getResources().getString(R.string.wallet_empty));
             return;
         }
         new IONCAllWalletDialogSDK(activity, beans, callback).show();

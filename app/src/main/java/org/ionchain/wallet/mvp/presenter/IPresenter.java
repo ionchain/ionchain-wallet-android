@@ -6,7 +6,7 @@ import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
-import org.ionchain.wallet.mvp.model.update.OnUpdateInfoCallback;
+import org.ionchain.wallet.mvp.model.update.OnCheckUpdateInfoCallback;
 
 import java.util.List;
 
@@ -67,5 +67,5 @@ public interface IPresenter {
     /**
      * @param callback 检查APP更新 检查结果回调
      */
-    void update(OnUpdateInfoCallback callback);
+    void checkForUpdate(OnCheckUpdateInfoCallback callback);
 }

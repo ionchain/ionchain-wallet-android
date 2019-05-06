@@ -171,7 +171,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     mPrivateKey.setText(result);
                     private_key = result;
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong(getString(R.string.toast_qr_code_error));
+                    ToastUtil.showLong(getString(R.string.toast_qr_code_parase_error));
                 }
             }
         }
@@ -240,9 +240,9 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(getString(R.string.wallet_exist))
+            builder.setTitle(getString(R.string.wallet_name_exists))
                     .setMessage(getString(R.string.import_and_update_password))
-                    .setPositiveButton(R.string.continue_go_on, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.continues, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

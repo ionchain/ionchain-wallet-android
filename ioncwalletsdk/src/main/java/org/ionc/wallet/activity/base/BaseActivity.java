@@ -85,5 +85,27 @@ public abstract class BaseActivity extends AppCompatActivity implements OnCreate
         Intent intent = new Intent(this,clz);
         startActivity(intent);
     }
+    /**
+     * @param id 多语言环境中的
+     * @return 字符串
+     */
+    public String getAppString(int id) {
+        return getResources().getString(id);
+    }
+    /**
+     * @param id 多语言环境中的
+     * @return color
+     */
+    public int getAppColor(int id) {
+        return getResources().getColor(id);
+    }
 
+    /**
+     * @param id  多语言环境中的
+     * @param obj
+     * @return 字符串
+     */
+    public String getAppString(int id, Object obj) {
+        return getResources().getString(id, obj);
+    }
 }

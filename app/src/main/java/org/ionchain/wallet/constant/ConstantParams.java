@@ -57,4 +57,8 @@ public final class ConstantParams {
 
     public static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
     public static final int REQUEST_STORAGE_PERMISSIONS = 2;
+
+
+    public static char VERSION_TAG_CHECK_FOR_UPDATE = 0;
+    public static char VERSION_TAG_DOWNLOAD = 1;
 }

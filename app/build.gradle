@@ -141,5 +141,5 @@ dependencies {
     implementation project(':ioncwalletsdk')
     implementation project(':qrcode')
     implementation 'com.android.support:multidex:1.0.3'
-    implementation project(':ioncwidget')
+//    implementation project(':ioncwidget')
 }

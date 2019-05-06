@@ -126,7 +126,7 @@
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:background="@color/grey"
             android:enabled="false"
-            android:text="@string/start_to_import"
+            android:text="@string/import_btn"
             android:textColor="@color/white" />
 
 

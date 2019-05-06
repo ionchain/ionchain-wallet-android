@@ -13,17 +13,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
 import com.ionc.wallet.sdk.R;
+
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.ToastUtil;
 
-import org.ionc.wallet.utils.RandomUntil;
-
-import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
 
 /**
@@ -59,22 +58,22 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
                 String pass2;
 
                 if (mPrivateKey.getText() == null) {
-                    ToastUtil.showToastLonger("私钥不能为空！");
+                    ToastUtil.showToastLonger(getAppString(R.string.private_must_not_empty));
                     return;
                 }
                 if (pwdEt.getText() == null) {
-                    ToastUtil.showToastLonger("密码不能为空！");
+                    ToastUtil.showToastLonger(getAppString(R.string.password_illegal_empty));
                     return;
                 }
                 if (repwdEt.getText() == null) {
-                    ToastUtil.showToastLonger("重复密码不能为空！");
+                    ToastUtil.showToastLonger(getAppString(R.string.password_again_illegal_empty));
                     return;
                 }
                 private_key = mPrivateKey.getText().toString().trim();
                 pass2 = repwdEt.getText().toString().trim();
                 pass = pwdEt.getText().toString().trim();
                 if (!check(pass2) || !check(pass)) {
-                    ToastUtil.showToastLonger("密码不符合要求！");
+                    ToastUtil.showToastLonger(getAppString(R.string.password_illegal));
                     return;
                 }
 
@@ -82,16 +81,16 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
                     private_key = private_key.substring(2);
                 }
                 if (private_key.length() != 64) {
-                    ToastUtil.showToastLonger("无效私钥！");
+                    ToastUtil.showToastLonger(getAppString(R.string.illegal_private_key));
                     return;
                 }
 
                 if (!pass2.equals(pass)) {
-                    Toast.makeText(getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getAppString(R.string.password_twice_must_equal), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 newPassword = pass;
-                showProgress("正在导入钱包请稍候");
+                showProgress(getAppString(R.string.importing_please_wait));
                 IONCWalletSDK.getInstance()
                         .importPrivateKey(private_key, pass, AbsByPrivateKeyActivity.this);
             }
@@ -165,16 +164,16 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("该钱包已存在")
-                    .setMessage("是否继续导入？\n继续导入则会更新钱包密码!")
-                    .setPositiveButton("继续", new DialogInterface.OnClickListener() {
+            builder.setTitle(getAppString(R.string.wallet_exist))
+                    .setMessage(getAppString(R.string.import_and_update_password))
+                    .setPositiveButton(getAppString(R.string.continues), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, AbsByPrivateKeyActivity.this);
                         }
                     })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getAppString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -183,7 +182,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
                     .show();
         } else {
             walletBean.setMIconIdex(RandomUntil.getNum(7));
-            ToastUtil.showToastLonger("导入成功啦!");
+            ToastUtil.showToastLonger(getAppString(R.string.import_success));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             onSDKCreateSuccess(walletBean);
         }
@@ -192,7 +191,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
     @Override
     public void onCreateFailure(String result) {
         hideProgress();
-        ToastUtil.showToastLonger("导入成失败");
+        ToastUtil.showToastLonger(getAppString(R.string.import_failure));
         Logger.e("onCreateFailure: " + result);
         onSDKCreateFailure(result);
 
@@ -202,7 +201,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
     public void onUpdatePasswordSuccess(WalletBean wallet) {
         IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
-        ToastUtil.showToastLonger("更新成功啦!");
+        ToastUtil.showToastLonger(getAppString(R.string.update_success));
         onSDKCreateSuccess(wallet);
     }
 

@@ -34,12 +34,12 @@ public class TxRecoderViewHelper implements IViewHolderHelper<TxRecorderViewHold
     @SuppressLint("SetTextI18n")
     @Override
     public void bindListDataToView(Context context, List<TxRecoderBean.DataBean.ItemBean> iBaseBeanList, TxRecorderViewHolder viewHolder, int position) {
-        viewHolder.txHash.setText("交易哈希 : " + iBaseBeanList.get(position).getHash());
-        viewHolder.block.setText("交易区块 : " + iBaseBeanList.get(position).getBlockNumber());
-        viewHolder.from.setText("转出地址 : " + iBaseBeanList.get(position).getTx_from());
-        viewHolder.to.setText("转入地址 : " + iBaseBeanList.get(position).getTx_to());
-        viewHolder.value.setText("转账金额 : " + Convert.fromWei(iBaseBeanList.get(position).getValue(), Convert.Unit.ETHER) + " IONC");
-        viewHolder.txFee.setText("交易费用 : " + iBaseBeanList.get(position).getTxFee() + " IONC");
+        viewHolder.txHash.setText(context.getResources().getString(R.string.tx_hash) + iBaseBeanList.get(position).getHash());
+        viewHolder.block.setText(context.getResources().getString(R.string.tx_block) + iBaseBeanList.get(position).getBlockNumber());
+        viewHolder.from.setText(context.getResources().getString(R.string.tx_out_addr) + iBaseBeanList.get(position).getTx_from());
+        viewHolder.to.setText(context.getResources().getString(R.string.tx_in_addr) + iBaseBeanList.get(position).getTx_to());
+        viewHolder.value.setText(context.getResources().getString(R.string.tx_amount) + Convert.fromWei(iBaseBeanList.get(position).getValue(), Convert.Unit.ETHER) + " IONC");
+        viewHolder.txFee.setText(context.getResources().getString(R.string.tx_fee) + iBaseBeanList.get(position).getTxFee() + " IONC");
     }
 
 

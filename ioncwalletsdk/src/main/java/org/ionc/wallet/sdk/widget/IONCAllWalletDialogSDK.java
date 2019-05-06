@@ -97,7 +97,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
             public void onClick(View v) {
                 //判断金额是否大于0
                 if ("0.0000".equals(walletBean.getBalance()) || walletBean.getBalance() == null) {
-                    Toast.makeText(mContext, "该钱包余额为0", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.no_balance), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //支付
@@ -109,9 +109,9 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
 //                        String pwd = dialogPasswordCheckSDK.getPasswordEt().getText().toString();
 //                        IONCWalletSDK.getInstance().transaction(walletBean.getAddress(), toAddress, BigDecimal.valueOf(0.0003),
 //                                pwd,
-//                                walletBean.getKeystore(),
+//                                walletBean.getKeystore(),    请稍后
 //                                dialogPasswordCheckSDK.getAccountMoney(), IONCAllWalletDialogSDK.this);
-                        showProgress("请稍后……");
+                        showProgress(mContext.getResources().getString(R.string.please_wait));
                     }
 
                     @Override

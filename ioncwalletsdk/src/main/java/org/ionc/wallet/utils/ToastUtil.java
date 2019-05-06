@@ -13,7 +13,7 @@ public class ToastUtil {
 
 
     private static Context getContext(){
-        return IONCWalletSDK.AppContext;
+        return IONCWalletSDK.appContext;
     }
     public static void showShortToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();

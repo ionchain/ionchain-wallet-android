@@ -97,16 +97,16 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             public void onClick(View v) {
                 setViewAlphaAnimation(importBtn);
                 if (mnemonic.getText() == null) {
-                    ToastUtil.showToastLonger("助记词不能为空！");
+                    ToastUtil.showToastLonger(getAppString(R.string.mnemonics_error));
                     return;
                 }
 
                 if (pwdEt.getText() == null) {
-                    ToastUtil.showToastLonger("密码不能为空！");
+                    ToastUtil.showToastLonger(getAppString(R.string.illegal_password_null));
                     return;
                 }
                 if (repwdEt.getText() == null) {
-                    ToastUtil.showToastLonger("重复密码不能为空！");
+                    ToastUtil.showToastLonger(getAppString(R.string.illegal_re_password_null));
                     return;
                 }
                 String content = mnemonic.getText().toString();
@@ -115,25 +115,25 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                 String resetpass = pwdEt.getText().toString().trim();
                 String pass = repwdEt.getText().toString().trim();
                 if (StringUtils.isEmpty(content)) {
-                    ToastUtil.showToastLonger("助记词不能为空！");
+                    ToastUtil.showToastLonger(getAppString(R.string.mnemonics_error));
                     return;
                 }
                 String con_temp = content.replace(" ","");
                 String [] array_str =content.split(" ");
                 if (!StringUtils.isEN(con_temp) || array_str.length < 12) {
-                    ToastUtil.showLong("助记词不正确");
+                    ToastUtil.showLong(getAppString(R.string.mnemonics_error));
                     return;
                 }
                 if (!check(resetpass) || !check(pass)) {
-                    ToastUtil.showToastLonger("密码不符合要求！");
+                    ToastUtil.showToastLonger(getAppString(R.string.illegal_password));
                     return;
                 }
                 if (!resetpass.equals(pass)) {
-                    Toast.makeText(mActivity.getApplicationContext(), "密码和重复密码必须相同", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.getApplicationContext(), getAppString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 newPassword = pass;
-                showProgress("正在导入钱包请稍候");
+                showProgress(getAppString(R.string.importing_wallet));
                 IONCWalletSDK.getInstance()
                         .importWalletByMnemonicCode("", Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);
             }
@@ -206,9 +206,9 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("该钱包已存在")
-                    .setMessage("是否继续导入？/n继续导入则会更新钱包密码!")
-                    .setPositiveButton("继续", new DialogInterface.OnClickListener() {
+            builder.setTitle(getAppString(R.string.wallet_exists))
+                    .setMessage(getAppString(R.string.import_and_update_password))
+                    .setPositiveButton(getAppString(R.string.continues), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -217,7 +217,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
                         }
                     })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getAppString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -228,7 +228,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             walletBean.setMIconIdex(getNum(7));
 
             IONCWalletSDK.getInstance().saveWallet(walletBean);
-            ToastUtil.showToastLonger("导入成功啦!");
+            ToastUtil.showToastLonger(getAppString(R.string.import_success));
             skip(MainActivity.class);
         }
         hideProgress();
@@ -237,13 +237,13 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     @Override
     public void onImportMnemonicFailure(String error) {
         hideProgress();
-        ToastUtil.showToastLonger("导入成失败");
+        ToastUtil.showToastLonger(getAppString(R.string.import_error));
     }
 
     @Override
     public void onUpdatePasswordSuccess(WalletBean wallet) {
         IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
-        ToastUtil.showToastLonger("更新成功啦!");
+        ToastUtil.showToastLonger(getAppString(R.string.update_succwss));
         skip(MainActivity.class);
     }
 

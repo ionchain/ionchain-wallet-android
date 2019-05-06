@@ -1,5 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity;
 
+import android.graphics.Color;
+import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,15 +22,19 @@ import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivit
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.widget.dialog.callback.OnStringCallbcak;
+import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
+import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
+import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.ionchain.wallet.constant.ConstantParams.JUMP_PARM_ISADDMODE;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLoadmoreListener, ManagerWalletHelper.OnWalletManagerItemClickedListener {
+public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLoadmoreListener, ManagerWalletHelper.OnWalletManagerItemClickedListener, DialogMnemonic.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
 
 
     private SmartRefreshLayout srl;
@@ -37,6 +43,8 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     private Button createBtn;
     private CommonAdapter mAdapter;
     private List<WalletBean> mWalletBeans = new ArrayList<>();
+    private DialogMnemonic dialogMnemonic;
+    private WalletBean mCurrentWallet;
 
     private void findViews() {
         srl = (SmartRefreshLayout) findViewById(R.id.srl);
@@ -62,9 +70,9 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
             public void onClick(View v) {
                 setViewAlphaAnimation(createBtn);
                 if (App.SDK_Debug) {
-                    skip(SDKCreateActivity.class, JUMP_PARM_ISADDMODE, true);//
+                    skip(SDKCreateActivity.class, "from", "1");//
                 } else {
-                    skip(CreateWalletActivity.class, JUMP_PARM_ISADDMODE, true);
+                    skip(CreateWalletActivity.class, "from", "1");
                 }
             }
         });
@@ -120,15 +128,71 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     @Override
     protected void onResume() {
         super.onResume();
-//        mWalletBeans.clear();
-//        mWalletBeans = WalletDaoTools.getAllWallet();
-//        mAdapter.notifyDataSetChanged();
+        mWalletBeans.clear();
+        mWalletBeans.addAll(IONCWalletSDK.getInstance().getAllWallet());
+        mAdapter.notifyDataSetChanged();
     }
 
 
     @Override
     public void onItemClicked(int position) {
-        WalletBean wallet = (WalletBean) mAdapter.getItem(position);
-        skip(ModifyAndExportWalletActivity.class, SERIALIZABLE_DATA, wallet);
+        mCurrentWallet = (WalletBean) mAdapter.getItem(position);
+        if (!mCurrentWallet.getMnemonic().equals("")) {
+            ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
+            String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
+            dialogMnemonic = new DialogMnemonic(this, mnemonics, this);
+            dialogMnemonic.show();
+            return;
+        }
+        skip(ModifyAndExportWalletActivity.class, SERIALIZABLE_DATA, mCurrentWallet);
+    }
+
+    @Override
+    public void onToKeepMnemonic() {
+        new DialogTextMessage(this).setTitle(getResources().getString(R.string.attention))
+                .setMessage(getResources().getString(R.string.key_store_to_save))
+                .setBtnText(getResources().getString(R.string.i_know))
+                .setHintMsg("")
+                .setCancelByBackKey(true)
+                .setTag("")
+                .setCopyBtnClickedListener(this).show();
+    }
+
+    @Override
+    public void onCancelKeepMnemonic(DialogMnemonic dialogMnemonic) {
+        dialogMnemonic.dismiss();
+    }
+
+    @Override
+    public void onDialogTextMessageBtnClicked(DialogTextMessage dialogTextMessage) {
+        dialogMnemonic.dismiss();
+        dialogTextMessage.dismiss();
+        //保存准状态
+        //去测试一下助记词
+        new DialogCheckMnemonic(this, this).show();
+    }
+
+    @Override
+    public void onString(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
+        String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
+        if (s.length != mnemonics.length) {
+            ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error));
+            return;
+        }
+        int count = mnemonics.length;
+        for (int i = 0; i < count; i++) {
+            if (!mnemonics[i].equals(s[i])) {
+                String index = String.valueOf((i + 1));
+                ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error_index, index));
+                editTextList.get(i).setTextColor(Color.RED);
+                return;
+            }
+        }
+        //更新
+        mCurrentWallet.setMnemonic("");
+        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
+        ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
+        dialogCheckMnemonic.dismiss();
+//        skip(MainActivity.class);
     }
 }

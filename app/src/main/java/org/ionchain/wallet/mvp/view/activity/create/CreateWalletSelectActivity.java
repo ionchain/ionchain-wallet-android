@@ -47,7 +47,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
             @Override
             public void onClick(View v) {
                 if (!checkBox.isChecked()) {
-                    ToastUtil.showLong(getResources().getString(R.string.agree_protocol));
+                    ToastUtil.showLong(getResources().getString(R.string.protocol_please_read));
                     return;
                 }
                 Intent intent = null;
@@ -63,7 +63,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
             @Override
             public void onClick(View v) {
                 if (!checkBox.isChecked()) {
-                    ToastUtil.showLong(getResources().getString(R.string.agree_protocol));
+                    ToastUtil.showLong(getResources().getString(R.string.protocol_please_read));
                     return;
                 }
                 Intent intent = null;
@@ -87,7 +87,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
         builder.append(sp1);
 
 
-        String s2 = getResources().getString(R.string.service_agreement);
+        String s2 = getResources().getString(R.string.protocol_service_agreement);
         SpannableString sp2 = new SpannableString(s2);
         sp2.setSpan(new ClickableSpan() {
             @Override

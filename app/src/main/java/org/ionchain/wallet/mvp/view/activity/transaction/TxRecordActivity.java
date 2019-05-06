@@ -72,7 +72,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnTxRecoderCall
 
     @Override
     public void onLoadStart() {
-        showProgress("正在加载...");
+        showProgress(getAppString(R.string.being_loaded));
     }
 
     @Override

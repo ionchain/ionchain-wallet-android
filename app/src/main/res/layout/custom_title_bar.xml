@@ -22,7 +22,7 @@
         android:gravity="center"
         android:visibility="gone"
         android:textSize="@dimen/title_size"
-        android:text="返回" />
+        android:text="@string/back" />
 
     <TextView
         android:id="@+id/title"
@@ -31,7 +31,7 @@
         android:layout_centerInParent="true"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size"
-        android:text="标题" />
+        android:text="@string/title" />
 
     <ImageView
         android:visibility="gone"
@@ -52,5 +52,5 @@
         android:layout_marginRight="@dimen/h10"
         android:textSize="@dimen/title_right_size"
         android:textColor="@color/white"
-        android:text="保存" />
+        android:text="@string/save" />
 </org.ionchain.wallet.widget.IONCTitleBar>

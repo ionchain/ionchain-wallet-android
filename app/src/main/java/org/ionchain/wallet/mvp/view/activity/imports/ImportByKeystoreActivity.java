@@ -101,7 +101,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
                 //读取keystore密码
                 String pass = pwdEt.getText().toString();
                 //生成keystory文件
-                showProgress("正在导入钱包请稍候");
+                showProgress(getString(R.string.importing_wallet));
                 IONCWalletSDK.getInstance().importWalletByKeyStore(pass, keystoreStr, (OnCreateWalletCallback) mActivity);
             }
         });
@@ -154,11 +154,11 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
         WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         Logger.i(walletBean.toString());
         if (null != wallet) {
-            ToastUtil.showLong("该钱包已存在");
+            ToastUtil.showLong(getAppString(R.string.wallet_name_exists));
         } else {
             walletBean.setMIconIdex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
-            ToastUtil.showToastLonger("导入成功啦!");
+            ToastUtil.showToastLonger(getAppString(R.string.import_success));
             skip(MainActivity.class);
         }
         hideProgress();
@@ -168,9 +168,9 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
     public void onCreateFailure(String error) {
         hideProgress();
         if ("Invalid password provided".equals(error)) {
-            ToastUtil.showToastLonger("无效密码!");
+            ToastUtil.showToastLonger(getAppString(R.string.illegal_password));
         } else {
-            ToastUtil.showToastLonger("导入成失败!\n$result");
+            ToastUtil.showToastLonger(getAppString(R.string.import_error));
         }
     }
 
@@ -194,7 +194,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
                     keystoreStr = result;
                     Logger.i(result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong("解析二维码失败");
+                    ToastUtil.showLong(getAppString(R.string.toast_qr_code_parase_error));
                 }
             }
         }

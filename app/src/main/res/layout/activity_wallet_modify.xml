@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/padding_size_16dp"
         android:background="@color/blue_top"
-        android:text="删除钱包"
+        android:text="@string/delete_wallet"
         android:textColor="@color/white" />
 
     <LinearLayout
@@ -73,7 +73,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="钱包地址"
+                    android:text="@string/wallet_address"
                     android:textColor="#B3BFD0"
                     android:textSize="@dimen/txt_14sp" />
 
@@ -97,7 +97,7 @@
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginTop="@dimen/h10"
             android:layout_marginRight="@dimen/padding_size_16dp"
-            android:text="钱包名"
+            android:text="@string/wallet_name"
             android:textSize="@dimen/txt_18sp" />
 
         <android.support.v7.widget.AppCompatEditText
@@ -106,7 +106,7 @@
             android:layout_height="@dimen/h50"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
-            android:hint="钱包名称"
+            android:hint="@string/wallet_name"
             android:maxLength="8"
             android:singleLine="true"
             android:textColor="@color/library_33"
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/hint_text_size"
-                android:text="修改密码" />
+                android:text="@string/midify_password" />
 
             <View
                 android:layout_width="match_parent"
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/hint_text_size"
-                android:text="导出私钥" />
+                android:text="@string/export_private_key" />
 
             <View
                 android:layout_width="match_parent"
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/hint_text_size"
-                android:text="导出助记词" />
+                android:text="@string/export_mnemonics" />
 
             <View
                 android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/hint_text_size"
-                android:text="导出Keystore" />
+                android:text="@string/export_keystore" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h1"

@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import org.ionc.dialog.check.DialogPasswordCheck;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnCheckCallback;
@@ -21,6 +20,7 @@ import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
 
 import java.math.BigDecimal;
 
@@ -74,7 +74,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                 final String toAddress = txToAddressEt.getText().toString();
                 final String txAccount = txAccountEt.getText().toString();
                 if (StringUtils.isEmpty(toAddress) || StringUtils.isEmpty(txAccount)) {
-                    ToastUtil.showToastLonger("请检查转帐地址或金额是否全部输入！");
+                    ToastUtil.showToastLonger(getAppString(R.string.please_check_addr_amount));
                     return;
                 }
                 dialogPasswordCheck = new DialogPasswordCheck(mActivity);
@@ -108,7 +108,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                     progress = SEEK_BAR_MIN_VALUE_1_GWEI;
                 }
                 mProgress = progress;
-                txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
+                txCostTv.setText( getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
             }
 
             @Override
@@ -128,14 +128,14 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     protected void initData() {
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
-        txCostTv.setText("旷工费 " + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
+        txCostTv.setText(getAppString(R.string.tx_fee)+ IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
     }
 
     @Override
     protected void handleIntent(Intent intent) {
         mAddress = getIntent().getStringExtra(CURRENT_ADDRESS);
         mKsPath = getIntent().getStringExtra(CURRENT_KSP);
-        IONCWalletSDK.getInstance().getIONCWalletBalance("转账", mAddress, this);
+        IONCWalletSDK.getInstance().getIONCWalletBalance( mAddress, this);
     }
 
     @Override
@@ -152,24 +152,25 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void OnTxSuccess(String hashTx) {
-        ToastUtil.showToastLonger("提交成功！");
+        ToastUtil.showToastLonger(getAppString(R.string.submit_success));
         dialogPasswordCheck.dismiss();
     }
 
     @Override
     public void onTxFailure(String error) {
-        ToastUtil.showToastLonger("交易失败！");
+        ToastUtil.showToastLonger(getAppString(R.string.submit_failure));
         dialogPasswordCheck.dismiss();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBalanceSuccess(String ballance, String nodeUrlTag) {
-        balance_tv.setText("余额: " + ballance);
+    public void onBalanceSuccess(String balance, String nodeUrlTag) {
+        balance_tv.setText(getAppString(R.string.balance_) + balance);
     }
 
     @Override
     public void onBalanceFailure(String error) {
-        balance_tv.setText("获取余额失败: ");
+        balance_tv.setText(getAppString(R.string.get_balance_error));
     }
 
     @Override
@@ -186,6 +187,6 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onCheckFailure(String errorMsg) {
-        ToastUtil.showToastLonger("请输入的正确的密码！");
+        ToastUtil.showToastLonger(getAppString(R.string.input_password_error));
     }
 }

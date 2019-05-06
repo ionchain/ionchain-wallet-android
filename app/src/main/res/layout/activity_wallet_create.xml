@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/act_wallet_create_notify1_app"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/hint_text_size" />
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"

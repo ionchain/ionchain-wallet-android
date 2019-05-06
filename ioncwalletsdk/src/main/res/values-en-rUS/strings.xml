@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wallet_create_password_again">Repeat the password</string>
+    <string name="activity_create_wallet">Create a wallet</string>
+    <string name="act_wallet_create_notify1">Passwords are used to protect private keys, and strength is important</string>
+    <string name="act_wallet_create_notify2">IONCToken doesn\'t store passwords and won\'t help you retrieve them, so be sure to keep that in mind</string>
+    <string name="error_net_ionc">Failed to connect IONChain</string>
+    <string name="error_net_eth">Failed to connect ethereum</string>
+    <string name="wallet_empty">Empty purse!</string>
+    <string name="transacton_failed">Tx failure</string>
+    <string name="error_mnemonics">Mnemonic words are incorrect !</string>
+    <string name="error_key_story">Please enter the correct keystore!</string>
+    <string name="toast_wallet_exists">The name of the wallet already exists</string>
+    <string name="error_password_rule">The password does not meet the requirements</string>
+    <string name="error_password_equal">The password and duplicate password must be the same</string>
+    <string name="please_input_wallet_name">Please enter your wallet name</string>
+    <string name="please_input_wallet_passwors">Please enter your wallet password</string>
+    <string name="please_input_wallet_password_againe">Please enter your wallet duplicate password</string>
+    <string name="importing_please_wait">Please wait while importing the wallet</string>
+    <string name="please_chech_input">Please check the input is correct</string>
+    <string name="wallet_exist_name_is">The wallet already exists with the name:</string>
+    <string name="import_success">You\'ve imported it!</string>
+    <string name="import_failure">Import failed</string>
+    <string name="mnemonics_can_not_empty">Mnemonic words cannot be empty</string>
+    <string name="password_can_not_empty">The password cannot be empty</string>
+    <string name="passwors_again_can_not_empty">The duplicate password cannot be empty</string>
+    <string name="please_input_correct_mnemonics">Please enter the correct mnemonic word</string>
+    <string name="password_illegal_empty">密码不符合要求The password cannot be empty</string>
+    <string name="password_twice_must_equal">The password and duplicate password must be the same</string>
+    <string name="importing_wallet">Please wait while importing the wallet</string>
+    <string name="wallet_exist">The wallet already exists</string>
+    <string name="import_and_update_password">Do you want to continue importing? /n continue to import will update the wallet password!</string>
+    <string name="continues">Continue</string>
+    <string name="cancel">Cancel</string>
+    <string name="update_success">Updated successfully</string>
+    <string name="private_must_not_empty">The private key cannot be empty</string>
+    <string name="password_again_illegal_empty">getAppString(R.string.password_illegal)</string>
+    <string name="password_illegal">The password does not meet the requirements</string>
+    <string name="illegal_private_key">The private key is invalid！</string>
+    <string name="no_balance">The wallet has a balance of zero</string>
+    <string name="please_wait">Please later ...</string>
+    <string name="please_input_addr_out">Please enter the transaction-out address</string>
+    <string name="tx_out">Tx-out:</string>
+    <string name="check_error">Check Failure</string>
+</resources>

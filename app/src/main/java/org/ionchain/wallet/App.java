@@ -32,7 +32,7 @@ import static org.ionchain.wallet.BuildConfig.LOG_DEBUG;
 public class App extends Application {
     public static Context mContext;
     public static boolean SDK_Debug = false;
-    public static Handler mHandler = new  Handler(Looper.getMainLooper());
+    public static Handler mHandler = new Handler(Looper.getMainLooper());
     public static int[] sRandomHeader = {
             R.mipmap.random_header_more_1, R.mipmap.random_header_more_2, R.mipmap.random_header_more_3, R.mipmap.random_header_more_4, R.mipmap.random_header_more_5, R.mipmap.random_header_more_6, R.mipmap.random_header_more_7, R.mipmap.random_header_more_8
     };
@@ -86,6 +86,7 @@ public class App extends Application {
 
 
     }
+
     /**
      * 保留两位小数 四舍五入
      *
@@ -96,4 +97,6 @@ public class App extends Application {
         BigDecimal b = new BigDecimal(f);
         return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
     }
+
+
 }

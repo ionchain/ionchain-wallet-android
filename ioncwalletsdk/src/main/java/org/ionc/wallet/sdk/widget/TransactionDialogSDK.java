@@ -149,7 +149,7 @@ public class TransactionDialogSDK extends BaseDialog {
                     dismiss();
                     txBtnClickedListener.onSure(to.getText().toString());
                 } else {
-                    ToastUtil.showLong("请输入转出地址！");
+                    ToastUtil.showLong(mActivity.getResources().getString(R.string.please_input_addr_out));
                 }
             }
         });
@@ -163,7 +163,7 @@ public class TransactionDialogSDK extends BaseDialog {
             rightBtn.setText(rightBtnText);
         }
         if (!StringUtils.isEmpty(name)) {
-            from.setText("转出：" + name);
+            from.setText(mActivity.getString(R.string.tx_out) + name);
         }
 
     }

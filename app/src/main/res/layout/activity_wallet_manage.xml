@@ -20,7 +20,7 @@
         <TextView
             style="@style/common_title"
             android:layout_centerInParent="true"
-            android:text="钱包管理"
+            android:text="@string/title_manage_wallet"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
 
@@ -54,7 +54,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_button_0_50abf1"
             android:enabled="true"
-            android:text="导入钱包"
+            android:text="@string/import_wallet_text"
             android:textColor="@color/white" />
 
         <Button

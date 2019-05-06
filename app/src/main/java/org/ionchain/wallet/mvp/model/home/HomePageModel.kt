@@ -6,6 +6,8 @@ import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
 import org.ionc.wallet.bean.WalletBean
 import org.ionc.wallet.utils.Logger
+import org.ionchain.wallet.App
+import org.ionchain.wallet.R
 import org.ionchain.wallet.bean.DeviceBean
 import org.ionchain.wallet.bean.DeviceListBean
 import org.ionchain.wallet.constant.ConstantErrorCode.*
@@ -53,7 +55,7 @@ class HomePageModel : IHomePageModel {
             override fun onError(response: Response<String>) {
                 super.onError(response)
                 if (response.body() == null) {
-                    callback.onDeviceListFailure("设备列表服务器出错！")
+                    callback.onDeviceListFailure(App.mContext.resources.getString(R.string.device_service_error))
                 } else {
                     callback.onDeviceListFailure(response.body())
                 }
@@ -78,14 +80,14 @@ class HomePageModel : IHomePageModel {
         NetUtils.post(DEVICES_BIND_POST, params, object : StringCallback() {
             override fun onSuccess(response: Response<String>?) {
                 if (response == null) {
-                    ToastUtil.showToastLonger("错误码:"+ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND_NULL)
+                    ToastUtil.showToastLonger(ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND_NULL)
                     return
                 }
 
                 val json = response.body()
                 val bindBean = NetUtils.gsonToBean(json, DeviceBean::class.java)
                 if (bindBean == null || bindBean.data == null) {
-                    callback.onBindFailure("错误码:"+ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND_NULL)
+                    callback.onBindFailure(ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND_NULL)
                     return
                 }
                 if (bindBean.success != 0) {
@@ -103,7 +105,7 @@ class HomePageModel : IHomePageModel {
             override fun onError(response: Response<String>) {
                 super.onError(response)
                 Logger.i(response.exception.message.orEmpty())
-                callback.onBindFailure("错误码:" + ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND)
+                callback.onBindFailure( ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND)
             }
 
             override fun onFinish() {
@@ -122,14 +124,14 @@ class HomePageModel : IHomePageModel {
         NetUtils.post(DEVICES_UNBIND_POST, jsonObject, object : StringCallback() {
             override fun onSuccess(response: Response<String>?) {
                 if (response == null) {
-                    ToastUtil.showToastLonger("错误码:"+ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND_NULL)
+                    ToastUtil.showToastLonger(ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND_NULL)
                     return
                 }
 
                 val json = response.body()
                 val bindBean = NetUtils.gsonToBean(json, DeviceBean::class.java)
                 if (bindBean?.data == null) {
-                    callback.onUnbindFailure("错误码:"+ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND_NULL)
+                    callback.onUnbindFailure(ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND_NULL)
                     return
                 }
                 if (bindBean.success != 0) {
@@ -146,7 +148,7 @@ class HomePageModel : IHomePageModel {
 
             override fun onError(response: Response<String>) {
                 super.onError(response)
-                callback.onUnbindFailure("错误码:"+ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND)
+                callback.onUnbindFailure(ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND)
             }
 
             override fun onFinish() {

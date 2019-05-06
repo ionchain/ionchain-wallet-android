@@ -34,4 +34,9 @@
     <color name="react">#ffffff</color>
     <color name="scanLineColor">#ffffff</color>
     <color name="tx_recorder_text">#90C852</color>
+    <color name="title_blue">#3574FA</color>
+    <color name="modify_dialog_notice_red">#ff0000</color>
+    <color name="pink">#FF4BE9</color>
+    <color name="grey_cccccc">#cccccc</color>
+
 </resources>

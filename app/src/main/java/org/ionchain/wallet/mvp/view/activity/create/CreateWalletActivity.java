@@ -15,10 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ionc.dialog.callback.OnStringCallbcak;
-import org.ionc.dialog.check.DialogCheckMnemonic;
-import org.ionc.dialog.export.DialogTextMessage;
-import org.ionc.dialog.mnemonic.DialogMnemonic;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
@@ -32,6 +28,10 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivi
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.widget.dialog.callback.OnStringCallbcak;
+import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
+import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
+import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
 
 import java.util.List;
 
@@ -61,6 +61,8 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     private DialogMnemonic dialogMnemonic;
     WalletBean walletBean;
 
+    private String from = "0"; //来自main
+
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -82,6 +84,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     protected void handleIntent(@NonNull Intent intent) {
         super.handleIntent(intent);
+        from = intent.getStringExtra("from");
     }
 
     @Override
@@ -137,7 +140,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
                  * 从数据库比对，重复检查
                  * */
                 if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
-                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_exist), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -257,7 +260,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
      * 弹出提示助记词的重要性
      */
     @Override
-    public void onToSaved() {
+    public void onToKeepMnemonic() {
         String TO_SAVE = "to_save";
         new DialogTextMessage(this).setTitle(getResources().getString(R.string.attention))
                 .setMessage(getResources().getString(R.string.key_store_to_save))
@@ -269,14 +272,19 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onCancel(DialogMnemonic dialogMnemonic) {
+    public void onCancelKeepMnemonic(DialogMnemonic dialogMnemonic) {
         dialogMnemonic.dismiss();
-        skip(MainActivity.class);
+        if (from.equals("0")) {
+            skip(MainActivity.class);
+        } else {
+            finish();
+        }
+
     }
 
 
     @Override
-    public void onBtnClick(DialogTextMessage dialogTextMessage) {
+    public void onDialogTextMessageBtnClicked(DialogTextMessage dialogTextMessage) {
         dialogMnemonic.dismiss();
         dialogTextMessage.dismiss();
         //保存准状态

@@ -8,7 +8,7 @@ import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.model.home.HomePageModel;
 import org.ionchain.wallet.mvp.model.txrecoder.TxRecoderModel;
-import org.ionchain.wallet.mvp.model.update.OnUpdateInfoCallback;
+import org.ionchain.wallet.mvp.model.update.OnCheckUpdateInfoCallback;
 import org.ionchain.wallet.mvp.model.update.UpdateModel;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,7 +55,7 @@ public class Presenter implements IPresenter {
     }
 
     @Override
-    public void update(OnUpdateInfoCallback callback) {
+    public void checkForUpdate(OnCheckUpdateInfoCallback callback) {
        new UpdateModel().update(callback);
     }
 }

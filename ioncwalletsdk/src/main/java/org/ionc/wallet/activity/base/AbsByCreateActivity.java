@@ -80,17 +80,17 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
                  * 从数据库比对，重复检查
                  * */
                 if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
-                    Toast.makeText(mActivity.getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.toast_wallet_exists), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
 
                 if (!check(resetpass) || !check(pass)) {
-                    ToastUtil.showToastLonger("密码不符合要求！");
+                    ToastUtil.showToastLonger(getResources().getString(R.string.error_password_rule));
                     return;
                 }
                 if (!resetpass.equals(pass)) {
-                    ToastUtil.showShortToast("密码和重复密码必须相同");
+                    ToastUtil.showShortToast(getResources().getString(R.string.error_password_equal));
                     return;
                 }
 
@@ -118,17 +118,17 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
              * 从数据库比对，重复检查
              * */
             if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
-                Toast.makeText(getApplicationContext(), "该名称的钱包已经存在，请换一个钱包名称", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_wallet_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
 
 
             if (!check(resetpass) || !check(pass)) {
-                ToastUtil.showToastLonger("密码不符合要求！");
+                ToastUtil.showToastLonger(getResources().getString(R.string.error_password_rule));
                 return;
             }
             if (!resetpass.equals(pass)) {
-                ToastUtil.showShortToast("密码和重复密码必须相同");
+                ToastUtil.showShortToast(getResources().getString(R.string.error_password_equal));
                 return;
             }
 
@@ -151,15 +151,15 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
     @Override
     public void afterTextChanged(Editable s) {
         if (walletNameEt.getText() == null) {
-            ToastUtil.showToastLonger("请输入钱包名字");
+            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_name));
             return;
         }
         if (pwdEt.getText() == null) {
-            ToastUtil.showToastLonger("请输入钱包密码");
+            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_passwors));
             return;
         }
         if (resetPwdEt.getText() == null) {
-            ToastUtil.showToastLonger("请输入钱包重复密码");
+            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_password_againe));
             return;
         }
         walletnamestr = walletNameEt.getText().toString().trim();

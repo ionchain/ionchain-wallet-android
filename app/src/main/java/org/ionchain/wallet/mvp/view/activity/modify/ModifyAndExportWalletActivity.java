@@ -8,10 +8,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.ionc.dialog.check.DialogPasswordCheck;
-import org.ionc.dialog.export.DialogTextMessage;
-import org.ionc.dialog.modify.ModifyDialog;
-import org.ionc.dialog.modify.OnModifyPasswordCallback;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnCheckCallback;
@@ -27,6 +23,10 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.IONCTitleBar;
+import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
+import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
+import org.ionchain.wallet.widget.dialog.modify.ModifyDialog;
+import org.ionchain.wallet.widget.dialog.modify.OnModifyPasswordCallback;
 import org.web3j.utils.Files;
 
 import java.io.File;
@@ -148,7 +148,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                     SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
                     IONCWalletSDK.getInstance().removeWalletPrivateKey(mWallet);
                 } else {
-                    ToastUtil.showShort("钱包名称不可为空！");
+                    ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
                 }
 
             }
@@ -168,7 +168,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
      */
     private void showImportPrivateKeyDialog(final String privateKey) {
         this.privateKey = privateKey;
-        new DialogTextMessage(this).setTitle("导出私钥").setMessage(privateKey)
+        new DialogTextMessage(this).setTitle(getAppString(R.string.export_private_key)).setMessage(privateKey)
                 .setCopyBtnClickedListener(this).show();
 
     }
@@ -210,13 +210,13 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         switch (v.getId()) {
             case R.id.copyBtn://复制
                 StringUtils.copy(this, mWallet.getPrivateKey());
-                ToastUtil.showShortToast("已复制到剪切板");
+                ToastUtil.showShortToast(getAppString(R.string.copy_done));
                 break;
             case R.id.delBtn://删除钱包
                 flag = FLAG_DELETE_WALLET;
-                passwordCheck.setLeftBtnText("取消");
-                passwordCheck.setRightBtnText("确定");
-                passwordCheck.setTitleText("请输入该钱包的密码");
+                passwordCheck.setLeftBtnText(getAppString(R.string.cancel));
+                passwordCheck.setRightBtnText(getAppString(R.string.sure));
+                passwordCheck.setTitleText(getAppString(R.string.please_input_wallet_password));
                 passwordCheck.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -227,7 +227,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                     @Override
                     public void onClick(View v) {
                         if (StringUtils.isEmpty(passwordCheck.getPasswordEt().getText().toString())) {
-                            ToastUtil.showToastLonger("请输入密码！");
+                            ToastUtil.showToastLonger(getAppString(R.string.please_input_wallet_password));
                             return;
                         }
                         String p_input = passwordCheck.getPasswordEt().getText().toString();
@@ -243,7 +243,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 break;
             case R.id.import_pri_layout://导出私钥
                 flag = FLAG_EXPORT_PRIVATE;
-                passwordCheck.setTitleText("导出私钥");
+                passwordCheck.setTitleText(getAppString(R.string.export_private_key));
                 passwordCheck.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -317,12 +317,12 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     public void onModifySuccess(WalletBean walletBean) {
         mWallet = walletBean;
         hideProgress();
-        ToastUtil.showShortToast("修改密码成功");
+        ToastUtil.showShortToast(getAppString(R.string.modify_password_success));
     }
 
     @Override
     public void onModifyFailure(String error) {
-        ToastUtil.showShortToast("修改密码失败");
+        ToastUtil.showShortToast(getAppString(R.string.modify_password_failure));
         hideProgress();
     }
 
@@ -341,7 +341,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                     Logger.i(json);
                     DialogTextMessage d = new DialogTextMessage(this);
                     d.setMessage(json);
-                    d.setTitle("导出KeyStory");
+                    d.setTitle(getAppString(R.string.export_keystore));
                     d.setCancelByBackKey(true);
                     d.setCopyBtnClickedListener(this);
                     d.show();
@@ -356,7 +356,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 modifyDialog.dismiss();
                 IONCWalletSDK.getInstance()
                         .modifyPassWord(bean, newPassword, this);
-                showProgress("正在修改密码");
+                showProgress(getAppString(R.string.modifying_password));
                 break;
         }
 
@@ -365,7 +365,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     @Override
     public void onCheckFailure(String errorMsg) {
         Logger.e(errorMsg);
-        ToastUtil.showToastLonger("请检查密码是否正确！");
+        ToastUtil.showToastLonger(getAppString(R.string.please_check_password));
         if (modifyDialog != null) {
             modifyDialog.dismiss();
         }
@@ -375,16 +375,16 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onBtnClick(DialogTextMessage dialogTextMessage) {
+    public void onDialogTextMessageBtnClicked(DialogTextMessage dialogTextMessage) {
         switch (flag) {
             case FLAG_EXPORT_PRIVATE:
                 //复制
                 StringUtils.copy(ModifyAndExportWalletActivity.this, privateKey);
-                ToastUtil.showToastLonger("已复制私钥");
+                ToastUtil.showToastLonger(getAppString(R.string.copy_done_private));
                 break;
             case FLAG_EXPORT_KS:
                 StringUtils.copy(ModifyAndExportWalletActivity.this, json);
-                ToastUtil.showToastLonger("已复制 KeyStory");
+                ToastUtil.showToastLonger(getAppString(R.string.copy_done_ks));
                 break;
         }
 

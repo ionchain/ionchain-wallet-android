@@ -18,11 +18,11 @@ import com.lzy.okserver.OkDownload;
 import com.lzy.okserver.download.DownloadListener;
 import com.lzy.okserver.download.DownloadTask;
 
-import org.ionc.dialog.version.VersionInfoDialog;
 import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.widget.dialog.version.VersionInfoDialog;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -159,7 +159,7 @@ public class NetUtils {
 //        void onDownloadRemove(Progress progress);
     }
 
-    public static void downloader(Activity activity, String path) {
+    public static void appInstaller(Activity activity, String path) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             /* Android N 写法*/
@@ -175,24 +175,19 @@ public class NetUtils {
         activity.startActivity(intent);
     }
 
-    public static void downloadShowDialog(Activity activity, String msg, String new_code, final DownloadTask task) {
-        VersionInfoDialog versionInfoDialog = new VersionInfoDialog(activity, new VersionInfoDialog.OnVersionDialogBtnClickedListener() {
-            @Override
-            public void onCheckUpdateBtnClicked() {
-                task.start();
-            }
-
-            @Override
-            public void onCancel(VersionInfoDialog dialog) {
-                dialog.dismiss();
-                task.remove();
-            }
-        });
-        versionInfoDialog.setTitleName(activity.getString(R.string.update_msg_title, new_code))  ;
-        versionInfoDialog.setSureBtnName(activity.getString(R.string.download))  ;
+    /**
+     * @param activity 上下文
+     * @param url
+     * @param msg      内容
+     * @param new_code 版本号
+     * @param listener 按钮事件
+     */
+    public static void downloadShowDialog(Activity activity, String url, String msg, String new_code, VersionInfoDialog.OnVersionDialogBtnClickedListener listener) {
+        VersionInfoDialog versionInfoDialog = new VersionInfoDialog(activity, url, listener);
+        versionInfoDialog.setTitleName(activity.getString(R.string.update_msg_title, new_code));
+        versionInfoDialog.setSureBtnName(activity.getString(R.string.dialog_btn_download));
         versionInfoDialog.setVersionInfo(msg);
         versionInfoDialog.setCancelable(false);
         versionInfoDialog.show();
-
     }
 }
