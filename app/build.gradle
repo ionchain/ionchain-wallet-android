@@ -22,11 +22,15 @@ android {
 
     signingConfigs {
         key {
-            storeFile file("ionchainwallet.keystore")//签名文件
-            storePassword "ionchainandroid"
-            keyAlias "ionchain"
-            keyPassword "ionchainandroid"//签名密码
-            v2SigningEnabled false
+            try{
+                storeFile file("ionchainwallet.keystore")//签名文件
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "ionchain"
+                keyPassword KEY_PASSWORD
+                v2SigningEnabled false
+            }  catch(ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
         }
     }
 
