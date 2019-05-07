@@ -13,8 +13,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.ionc.qrcode.activity.CaptureActivity;
-import org.ionc.qrcode.activity.CodeUtils;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -23,6 +21,8 @@ import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.qrcode.activity.CaptureActivity;
+import org.ionchain.wallet.qrcode.activity.CodeUtils;
 
 import java.util.List;
 

@@ -8,8 +8,6 @@ import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.model.device.DeviceModel;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 /**
  * 设别信息
  */
@@ -27,8 +25,8 @@ public class DevicePresenter implements IDevicePresenter {
     }
 
     @Override
-    public void getAllWalletDevicesList(List<WalletBean> walletBeans, OnDeviceListCallback callback) {
-
+    public void getAllWalletDevicesList(String address, OnDeviceListCallback callback) {
+          mDeviceModel.getAllWalletDeviceList(address,callback);
     }
 
     @Override

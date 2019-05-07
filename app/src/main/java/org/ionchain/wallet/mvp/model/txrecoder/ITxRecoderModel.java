@@ -1,7 +1,7 @@
 package org.ionchain.wallet.mvp.model.txrecoder;
 
 
-import org.ionc.wallet.callback.OnTxRecoderCallback;
+import org.ionchain.wallet.mvp.callback.OnTxRecordCallback;
 
 /**
  * AUTHOR binny
@@ -17,5 +17,5 @@ public interface ITxRecoderModel {
      * @param pageSize
      * @param callback
      */
-    void getTxRecoder(String type, String key, String pageNumber, String pageSize, OnTxRecoderCallback callback);
+    void getTxRecoder(String type, String key, String pageNumber, String pageSize, OnTxRecordCallback callback);
 }

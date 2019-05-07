@@ -143,7 +143,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:annotations:4.9.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31"
     implementation project(':ioncwalletsdk')
-    implementation project(':qrcode')
     implementation 'com.android.support:multidex:1.0.3'
-//    implementation project(':ioncwidget')
 }

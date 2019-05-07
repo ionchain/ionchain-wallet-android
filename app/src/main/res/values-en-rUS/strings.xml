@@ -160,4 +160,5 @@
     <string name="title_manage_wallet">Management Wallet</string>
     <string name="wallet_name_input">Please enter your wallet name</string>
     <string name="key_store_must_not_empty">KS 不能为空</string>
+    <string name="device_all_service_error">获取所有设备出错</string>
 </resources>

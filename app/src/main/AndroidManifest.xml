@@ -92,7 +92,6 @@
         <activity
             android:name=".mvp.view.activity.imports.ImportByKeystoreActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name="org.ionc.qrcode.activity.CaptureActivity" />
         <activity android:name=".mvp.view.activity.transaction.TxRecordActivity" />
         <activity android:name=".mvp.view.activity.WebActivity" />
         <activity android:name=".mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity" />
@@ -100,6 +99,13 @@
         <activity android:name=".mvp.view.activity.sdk.SDKKeyStoreActivity" />
         <activity android:name=".mvp.view.activity.sdk.SDKMnemonicActivity" />
         <activity android:name=".mvp.view.activity.sdk.SDKPrivateKeyActivity" />
+
+        <activity
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".qrcode.activity.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

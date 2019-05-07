@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.multidex.MultiDex;
+import android.util.DisplayMetrics;
 
 import com.facebook.stetho.Stetho;
 import com.lzy.okgo.OkGo;
@@ -12,9 +13,10 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
-import org.ionc.qrcode.activity.ZXingLibrary;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionchain.wallet.crasher.CrashHandler;
+import org.ionchain.wallet.qrcode.DisplayUtil;
+import org.ionchain.wallet.qrcode.activity.ZXingLibrary;
 import org.ionchain.wallet.utils.LocalManageUtil;
 
 import java.math.BigDecimal;
@@ -51,7 +53,7 @@ public class App extends Application {
         IONCWalletSDK.getInstance().initIONCWalletSDK(this);
         ZXingLibrary.initDisplayOpinion(this);
         CrashHandler.getInstance().init(this);
-
+        initDisplayOpinion();
     }
 
     @Override
@@ -59,7 +61,15 @@ public class App extends Application {
         super.attachBaseContext(LocalManageUtil.setLocal(base));
         MultiDex.install(this);
     }
-
+    private void initDisplayOpinion() {
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        DisplayUtil.density = dm.density;
+        DisplayUtil.densityDPI = dm.densityDpi;
+        DisplayUtil.screenWidthPx = dm.widthPixels;
+        DisplayUtil.screenhightPx = dm.heightPixels;
+        DisplayUtil.screenWidthDip = DisplayUtil.px2dip(getApplicationContext(), dm.widthPixels);
+        DisplayUtil.screenHightDip = DisplayUtil.px2dip(getApplicationContext(), dm.heightPixels);
+    }
     private void initOKGO() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //log相关

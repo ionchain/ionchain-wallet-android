@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.presenter.device;
+package org.ionchain.wallet.mvp.model.device;
 
 import org.ionc.wallet.bean.WalletBean;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
@@ -7,9 +7,11 @@ import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 
 /**
- * 设备信息
+ * USER: binny
+ * DATE: 2018/9/13
+ * 描述: 首页数据的业务类
  */
-public interface IDevicePresenter {
+interface IDeviceModel {
     /**
      * 获取用户当前钱包的设备列表
      *
@@ -21,10 +23,10 @@ public interface IDevicePresenter {
     /**
      * 获取用户所有钱包的相关的设备
      *
-     * @param address
+     * @param addressSet  所有设备的地址集合
      * @param callback    钱包数据集
      */
-    void getAllWalletDevicesList(String address, OnDeviceListCallback callback);
+    void getAllWalletDeviceList(String addressSet, OnDeviceListCallback callback);
 
     /**
      * 将设备与钱包绑定
@@ -38,8 +40,9 @@ public interface IDevicePresenter {
     /**
      * 将设备与钱包解绑定
      *
-     * @param address 钱包地址
-     * @param cksn    设备的唯一识别码
+     * @param address  钱包地址
+     * @param cksn     设备的唯一识别码
+     * @param callback
      */
     void unbindDeviceToWallet(String address, String cksn, OnUnbindDeviceCallback callback);
 
