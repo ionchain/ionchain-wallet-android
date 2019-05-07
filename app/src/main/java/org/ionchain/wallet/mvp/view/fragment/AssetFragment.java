@@ -21,8 +21,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.qrcode.activity.CaptureActivity;
-import org.ionc.qrcode.activity.CodeUtils;
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnBalanceCallback;
@@ -47,6 +45,8 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivi
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecordActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
+import org.ionchain.wallet.qrcode.activity.CaptureActivity;
+import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.DialogBindDevice;

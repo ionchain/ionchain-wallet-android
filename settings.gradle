@@ -1,1 +1,1 @@
-include ':app', ':qrcode', ':ioncwalletsdk'
+include ':app', ':ioncwalletsdk'

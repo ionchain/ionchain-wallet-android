@@ -1,41 +1,40 @@
 package org.ionchain.wallet.mvp.view.fragment;
 
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ListView;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
 import org.ionc.wallet.utils.StringUtils;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Response;
-
+import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
-import org.ionchain.wallet.bean.DeviceListBean;
+import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
+import org.ionchain.wallet.mvp.presenter.device.DevicePresenter;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-import org.ionchain.wallet.utils.NetUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_GET;
-
 /**
  * 我的设备
  */
-public class DevicesFragment extends AbsBaseFragment implements SwipeRefreshLayout.OnRefreshListener, OnUnbindDeviceButtonClickedListener {
+public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceButtonClickedListener, OnRefreshListener, OnDeviceListCallback {
     private ListView mListView;
     private CommonAdapter mAdapter;
 
-    private List<DeviceBean.DataBean> mDevicelistbeans = new ArrayList<>();
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private List<DeviceBean.DataBean> mDataBeanList = new ArrayList<>();
+    private SmartRefreshLayout mSwipeRefreshLayout;
+    private DevicePresenter mDevicePresenter;
 
     @Override
     protected int getFragmentLayout() {
@@ -46,12 +45,11 @@ public class DevicesFragment extends AbsBaseFragment implements SwipeRefreshLayo
     protected void initView(View view) {
 
         mSwipeRefreshLayout = view.findViewById(R.id.refresh_asset);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.blue);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mListView = view.findViewById(R.id.devices_lv);
 
-        mAdapter = new CommonAdapter(getActivity(), mDevicelistbeans, R.layout.item_devices_layout, new DeviceViewHelper(this));
+        mAdapter = new CommonAdapter(getActivity(), mDataBeanList, R.layout.item_devices_layout, new DeviceViewHelper(this));
         mListView.setAdapter(mAdapter);
 
 
@@ -59,7 +57,7 @@ public class DevicesFragment extends AbsBaseFragment implements SwipeRefreshLayo
 
     @Override
     protected void initData() {
-
+        mDevicePresenter = new DevicePresenter();
         getDeviceList();
     }
 
@@ -96,37 +94,44 @@ public class DevicesFragment extends AbsBaseFragment implements SwipeRefreshLayo
         if (StringUtils.isEmpty(address)) {
             return;
         }
-        OkGo.<String>get(DEVICES_GET)                            // 请求方式和请求url
-                .tag(this)// 请求的 tag, 主要用于取消对应的请求
-                .params("eth_address", address)
-                .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        isRefreshing = false;
+        mDevicePresenter.getAllWalletDevicesList(address, this);
 
-                        String json = response.body();
-                        DeviceListBean bean = NetUtils.gsonToBean(json, DeviceListBean.class);
-                        if (bean == null || bean.getData() == null) {
-                            return;
-                        }
-                        mDevicelistbeans.clear();
-                        mDevicelistbeans.addAll(bean.getData());
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
     }
 
-    @Override
-    public void onRefresh() {
-        isRefreshing = true;
-        getDeviceList();
-    }
 
     @Override
     public void onUnbindButtonClick(String cksn, int position) {
         Logger.i(TAG, "onUnbindButtonClick: " + cksn);
 
+    }
+
+    @Override
+    public void onRefresh(RefreshLayout refreshLayout) {
+        isRefreshing = true;
+        getDeviceList();
+    }
+
+    @Override
+    public void onDeviceListSuccess(@NotNull List<DeviceBean.DataBean> list) {
+//        mSwipeRefreshLayout.finishRefresh();
+        isRefreshing = false;
+        mDataBeanList.clear();
+        mDataBeanList.addAll(list);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDeviceListFailure(@NotNull String errorMessage) {
+        ToastUtil.showToastLonger(errorMessage);
+    }
+
+    @Override
+    public void onLoadStart() {
+//        showProgress(getAppString(R.string.being_loaded));
+    }
+
+    @Override
+    public void onLoadFinish() {
+        mSwipeRefreshLayout.finishRefresh();
     }
 }

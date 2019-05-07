@@ -3,11 +3,9 @@ package org.ionchain.wallet.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import org.ionc.qrcode.activity.CodeUtils;
-
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
-
+import org.ionchain.wallet.qrcode.activity.CodeUtils;
 
 
 public class QRCodeUtils {
