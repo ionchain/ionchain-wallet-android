@@ -104,6 +104,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
 
         mContainerView = inflater.inflate(getFragmentLayout(), container, false);
         initView(mContainerView);
+
         mImmersionBar = ImmersionBar.with(getActivity(), this);
         initImmersionBar();
         setListener();

@@ -93,7 +93,7 @@
     <string name="new_password_again">再次输入新密码</string>
     <string name="btn_cancel">取 消</string>
     <string name="btn_sure">确 定</string>
-    <string name="next_to_backup">下一步</string>
+    <string name="next_step">下一步</string>
     <string name="mnemonic_hint">助记词用于恢复钱包或重置钱包密码,将它准确抄写到纸上,并存放在只有您知道的安全的地方,系统不存储您的助记词</string>
     <string name="btn_sure_text">确定</string>
     <string name="not_now">以后</string>
@@ -160,4 +160,23 @@
     <string name="wallet_name_input">请输入钱包名字</string>
     <string name="key_store_must_not_empty">KS 不能为空</string>
     <string name="device_all_service_error">获取所有设备出错</string>
+    <string name="tx_recorder_get_error">交易记录请求失败</string>
+    <string name="device_unbind_data_parase_error">设备解除绑数据解析错误</string>
+    <string name="device_bind_data_parase_error">设备绑数据解析错误</string>
+    <string name="device_bind_net_error">设备绑定网络错误</string>
+    <string name="device_unbind_net_error">设备解除绑定网络错误</string>
+    <string name="check_update_net_error_code">检查更新网络错误</string>
+    <string name="tx_record">转账记录</string>
+    <string name="tx">转 账</string>
+    <string name="payee_address">收款人地址</string>
+    <string name="tx_amount_in_tx">转账金额</string>
+    <string name="slow">慢</string>
+    <string name="fast">快</string>
+    <string name="smart_refresh_header_pulldown">下拉可以刷新</string>
+    <string name="smart_refresh_header_refreshing">正在刷新...</string>
+    <string name="smart_refresh_header_loading">正在加载...</string>
+    <string name="smart_refresh_header_release">释放立即刷新</string>
+    <string name="smart_refresh_header_finish">刷新完成</string>
+    <string name="smart_refresh_header_failed">刷新失败</string>
+    <string name="smart_refresh_header_last_time">上次更新</string>
 </resources>

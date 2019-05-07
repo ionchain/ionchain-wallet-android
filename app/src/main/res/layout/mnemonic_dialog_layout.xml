@@ -113,7 +113,7 @@
             android:layout_margin="@dimen/h10"
             android:textColor="@color/white"
             android:background="@drawable/dialog_sure_btn"
-            android:text="@string/next_to_backup" />
+            android:text="@string/next_step" />
     </RelativeLayout>
 
 </RelativeLayout>

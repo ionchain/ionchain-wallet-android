@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+
 import org.ionc.wallet.utils.Logger;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
@@ -36,6 +38,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     protected String TAG = this.getClass().getSimpleName();
     private ProgressDialog dialog;
 
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocalManageUtil.setLocal(newBase));
@@ -50,12 +53,21 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         ActivityHelper.getHelper().addActivity(this);
         mImmersionBar = ImmersionBar.with(this);
         Intent intent = getIntent();
+
+
         if (intent != null) {
             handleIntent(intent);
         }
         initView();
         initData();
         setListener();
+        ClassicsHeader.REFRESH_HEADER_PULLDOWN = getAppString(R.string.smart_refresh_header_pulldown);
+        ClassicsHeader.REFRESH_HEADER_REFRESHING = getAppString(R.string.smart_refresh_header_refreshing);
+        ClassicsHeader.REFRESH_HEADER_LOADING = getAppString(R.string.smart_refresh_header_loading);
+        ClassicsHeader.REFRESH_HEADER_RELEASE = getAppString(R.string.smart_refresh_header_release);
+        ClassicsHeader.REFRESH_HEADER_FINISH = getAppString(R.string.smart_refresh_header_finish);
+        ClassicsHeader.REFRESH_HEADER_FAILED = getAppString(R.string.smart_refresh_header_failed);
+        ClassicsHeader.REFRESH_HEADER_LASTTIME = "'"+getAppString(R.string.smart_refresh_header_last_time)+"' M-d HH:mm";
     }
 
     protected void setListener() {

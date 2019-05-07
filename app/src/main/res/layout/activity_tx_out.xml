@@ -24,7 +24,7 @@
             android:layout_height="?actionBarSize"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="转  账"
+            android:text="@string/tx"
             android:textColor="@color/blue_top"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/h60"
         android:gravity="center"
-        android:text="余 额"
+        android:text="@string/balance_"
         android:textColor="#666666"
         android:textSize="@dimen/size_level5" />
 
@@ -45,7 +45,7 @@
         android:layout_marginLeft="@dimen/margin_h20"
         android:layout_marginTop="@dimen/h15"
         android:layout_marginRight="@dimen/margin_h20"
-        android:hint="收款人地址"
+        android:hint="@string/payee_address"
         android:text=""
         android:textColor="#666666"
         android:theme="@style/MyEditText" />
@@ -57,7 +57,7 @@
         android:layout_marginLeft="@dimen/margin_h20"
         android:layout_marginTop="@dimen/h15"
         android:layout_marginRight="@dimen/margin_h20"
-        android:hint="转账金额"
+        android:hint="@string/tx_amount_in_tx"
         android:inputType="numberDecimal"
         android:text=""
         android:textColor="#666666"
@@ -71,7 +71,7 @@
         android:layout_marginTop="@dimen/h15"
         android:layout_marginRight="@dimen/margin_h20"
         android:clickable="false"
-        android:text="旷工费"
+        android:text="@string/tx_fee"
         android:textColor="#666666"
         android:textSize="15sp"
         android:theme="@style/MyEditTextNUll" />
@@ -95,14 +95,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="慢"
+            android:text="@string/slow"
             android:textSize="10sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="快"
+            android:text="@string/fast"
             android:textSize="10sp" />
     </RelativeLayout>
 
@@ -113,6 +113,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
         android:background="@color/blue_top"
-        android:text="下一步"
+        android:text="@string/next_step"
         android:textColor="@color/white" />
 </LinearLayout>

@@ -75,7 +75,7 @@
     <string name="import_private_key">Import the private key</string>
     <string name="explicit_private_key">Explicit Private Key</string>
     <string name="version_info">Version Info</string>
-    <string name="about_us">About Us</string>
+    <string name="about_us">About us</string>
     <string name="my_devices">Devices</string>
     <string name="tab_device">Device</string>
     <string name="tab_mine">Mine</string>
@@ -94,7 +94,7 @@
     <string name="new_password_again">Enter the new password again</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_sure">Sure</string>
-    <string name="next_to_backup">The next step</string>
+    <string name="next_step">The next step</string>
     <string name="mnemonic_hint">The mnemonic word is used to restore the wallet or reset the wallet password, copy it exactly to the paper, and store it in a secure place only you know, and the system does not store your mnemonic word</string>
     <string name="btn_sure_text">Sure</string>
     <string name="not_now">Later</string>
@@ -159,6 +159,25 @@
     <string name="password_tx">Password</string>
     <string name="title_manage_wallet">Management Wallet</string>
     <string name="wallet_name_input">Please enter your wallet name</string>
-    <string name="key_store_must_not_empty">KS 不能为空</string>
-    <string name="device_all_service_error">获取所有设备出错</string>
+    <string name="key_store_must_not_empty">KS can\'t be empty</string>
+    <string name="device_all_service_error">Get all devices error</string>
+    <string name="tx_recorder_get_error">The transaction record request failed</string>
+    <string name="device_unbind_data_parase_error">Device unbound data parsing error</string>
+    <string name="device_bind_data_parase_error">Device bound data parsing error</string>
+    <string name="device_bind_net_error">Device binding network error</string>
+    <string name="device_unbind_net_error">Network error unbinding device</string>
+    <string name="check_update_net_error_code">Check update network error</string>
+    <string name="tx_record">Transaction records</string>
+    <string name="tx">Transfer</string>
+    <string name="payee_address">Payee`s address</string>
+    <string name="tx_amount_in_tx">Transfer amount</string>
+    <string name="slow">Slow</string>
+    <string name="fast">Fast</string>
+    <string name="smart_refresh_header_pulldown">Drop down to refresh</string>
+    <string name="smart_refresh_header_refreshing">Is refreshing…</string>
+    <string name="smart_refresh_header_loading">Loading…</string>
+    <string name="smart_refresh_header_release">Release refresh now</string>
+    <string name="smart_refresh_header_finish">Refresh to complete</string>
+    <string name="smart_refresh_header_failed">Refresh the failure</string>
+    <string name="smart_refresh_header_last_time">Last update</string>
 </resources>

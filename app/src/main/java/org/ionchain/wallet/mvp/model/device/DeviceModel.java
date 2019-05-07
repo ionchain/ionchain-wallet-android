@@ -22,10 +22,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static org.ionchain.wallet.constant.ConstantErrorCode.ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND;
-import static org.ionchain.wallet.constant.ConstantErrorCode.ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND_NULL;
-import static org.ionchain.wallet.constant.ConstantErrorCode.ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND;
-import static org.ionchain.wallet.constant.ConstantErrorCode.ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND_NULL;
 import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_BIND_POST;
 import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_GET;
 import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_UNBIND_POST;
@@ -116,9 +112,10 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onFinish() {
                 super.onFinish();
-                callback.onLoadFinish();;
+                callback.onLoadFinish();
+                ;
             }
-        },callback);
+        }, callback);
 
     }
 
@@ -131,14 +128,14 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {
-                    ToastUtil.showToastLonger(ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND_NULL);
+                    ToastUtil.showToastLonger(getString(R.string.device_bind_data_parase_error));
                     return;
                 }
 
                 String json = response.body();
                 DeviceBean bindBean = NetUtils.gsonToBean(json, DeviceBean.class);
                 if (bindBean == null || bindBean.getData() == null) {
-                    callback.onBindFailure(ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND_NULL);
+                    callback.onBindFailure(getString(R.string.device_bind_data_parase_error));
                     return;
                 }
                 if (bindBean.getSuccess() != 0) {
@@ -158,7 +155,7 @@ public class DeviceModel implements IDeviceModel {
             public void onError(Response<String> response) {
                 super.onError(response);
                 Logger.i(String.valueOf(response.getException().getMessage().isEmpty()));
-                callback.onBindFailure(ERROR_CODE_NET_WORK_ERROR_DEVICE_BIND);
+                callback.onBindFailure(getString(R.string.device_bind_net_error));
             }
 
             @Override
@@ -168,6 +165,10 @@ public class DeviceModel implements IDeviceModel {
             }
         }, callback);
 
+    }
+
+    private String getString(int id) {
+        return App.mContext.getString(id);
     }
 
     @Override
@@ -181,14 +182,14 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {
-                    ToastUtil.showToastLonger(ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND_NULL);
+                    ToastUtil.showToastLonger(App.mContext.getString(R.string.device_unbind_data_parase_error));
                     return;
                 }
 
                 String json = response.body();
                 DeviceBean bindBean = NetUtils.gsonToBean(json, DeviceBean.class);
                 if (Objects.requireNonNull(bindBean).getData() == null) {
-                    callback.onUnbindFailure(ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND_NULL);
+                    callback.onUnbindFailure(App.mContext.getString(R.string.device_unbind_data_parase_error));
                     return;
                 }
                 if (bindBean.getSuccess() != 0) {
@@ -207,7 +208,7 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onUnbindFailure(ERROR_CODE_NET_WORK_ERROR_DEVICE_UNBIND);
+                callback.onUnbindFailure(getString(R.string.device_unbind_net_error));
             }
 
             @Override

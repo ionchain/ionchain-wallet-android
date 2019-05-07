@@ -10,7 +10,6 @@ import org.ionc.wallet.bean.TxRecoderBean;
 import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.constant.ConstantErrorCode;
 import org.ionchain.wallet.mvp.callback.OnTxRecordCallback;
 import org.ionchain.wallet.utils.NetUtils;
 
@@ -64,7 +63,7 @@ public class TxRecoderModel implements ITxRecoderModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onTxRecordFailure(ConstantErrorCode.ERROR_CODE_NET_WORK_ERROR_TX_RECORD);
+                callback.onTxRecordFailure(App.mContext.getString(R.string.tx_recorder_get_error));
             }
         }, callback);
     }
