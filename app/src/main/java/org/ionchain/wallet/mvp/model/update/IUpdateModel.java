@@ -1,5 +1,5 @@
 package org.ionchain.wallet.mvp.model.update;
 
-public interface IUpdate {
+public interface IUpdateModel {
     void update(OnCheckUpdateInfoCallback callback);
 }

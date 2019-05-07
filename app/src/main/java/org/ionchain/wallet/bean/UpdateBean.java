@@ -14,7 +14,7 @@ public class UpdateBean implements Serializable {
     /**
      * code : 0
      * msg : 操作成功!
-     * data : [{"id":"1a1f18d6faf0fasdfas","has_new_version":"1","must_update":null,"version_number":"1.2.2","version_code":109,"update_info":"1111","url":"1212121212fsadf"}]
+     * data : [{"id":"1","has_new_version":"1","must_update":"1","version_number":"102","version_code":1,"update_info":"1","url":"1","language":"1"},{"id":"1a1f18d6faf0fasdfas","has_new_version":"1","must_update":"0","version_number":"1.0.2","version_code":104,"update_info":"http://169.254.118.214:8009/quzhi.apk","url":"http://169.254.118.214:8009/quzhi.apk","language":"1"}]
      */
 
     private int code;
@@ -47,22 +47,24 @@ public class UpdateBean implements Serializable {
 
     public static class DataBean implements Serializable {
         /**
-         * id : 1a1f18d6faf0fasdfas
+         * id : 1
          * has_new_version : 1
-         * must_update : null
-         * version_number : 1.2.2
-         * version_code : 109
-         * update_info : 1111
-         * url : 1212121212fsadf
+         * must_update : 1
+         * version_number : 102
+         * version_code : 1
+         * update_info : 1
+         * url : 1
+         * language : 1
          */
 
         private String id;
         private String has_new_version;
-        private Object must_update;
+        private String must_update;
         private String version_number;
         private int version_code;
         private String update_info;
         private String url;
+        private String language;
 
         public String getId() {
             return id;
@@ -80,11 +82,11 @@ public class UpdateBean implements Serializable {
             this.has_new_version = has_new_version;
         }
 
-        public Object getMust_update() {
+        public String getMust_update() {
             return must_update;
         }
 
-        public void setMust_update(Object must_update) {
+        public void setMust_update(String must_update) {
             this.must_update = must_update;
         }
 
@@ -118,6 +120,14 @@ public class UpdateBean implements Serializable {
 
         public void setUrl(String url) {
             this.url = url;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public void setLanguage(String language) {
+            this.language = language;
         }
     }
 }

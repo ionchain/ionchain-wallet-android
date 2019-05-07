@@ -31,6 +31,7 @@ import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
@@ -70,9 +71,9 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
             public void onClick(View v) {
                 setViewAlphaAnimation(createBtn);
                 if (App.SDK_Debug) {
-                    skip(SDKCreateActivity.class, "from", "1");//
+                    skip(SDKCreateActivity.class, INTENT_PARAME_TAG, "1");//
                 } else {
-                    skip(CreateWalletActivity.class, "from", "1");
+                    skip(CreateWalletActivity.class, INTENT_PARAME_TAG, "1");
                 }
             }
         });
@@ -82,9 +83,9 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
             public void onClick(View v) {
                 setViewAlphaAnimation(importBtn);
                 if (App.SDK_Debug) {
-                    skip(SDKSelectCreateModeWalletActivity.class);
+                    skip(SDKSelectCreateModeWalletActivity.class,INTENT_PARAME_TAG,"");
                 }else {
-                    skip(SelectImportModeActivity.class);//
+                    skip(SelectImportModeActivity.class,INTENT_PARAME_TAG,"");//
                 }
             }
         });

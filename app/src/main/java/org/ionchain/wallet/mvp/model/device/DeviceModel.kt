@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.model.home
+package org.ionchain.wallet.mvp.model.device
 
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.HttpParams
@@ -26,8 +26,8 @@ import java.util.*
  * DATE: 2018/9/13
  * 描述: 首页数据的业务类
  */
-class HomePageModel : IHomePageModel {
-    private val TAG = "HomePageModel"
+class DeviceModel : IDeviceModel {
+    private val TAG = "DeviceModel"
     private val params: HttpParams = HttpParams()
 
     override fun getCurrentWalletDevicesList(walletBean: WalletBean, callback: OnDeviceListCallback) {

@@ -36,7 +36,6 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     protected String TAG = this.getClass().getSimpleName();
     private ProgressDialog dialog;
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocalManageUtil.setLocal(newBase));
@@ -117,11 +116,12 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
 
     /**
      * 请求相机权限
+     *
      * @return 是否开启了权限
      */
     @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
     protected boolean requestCameraPermissions() {
-        String[] perms = new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE};
+        String[] perms = new String[]{Manifest.permission.CAMERA};
         if (!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, getAppString(R.string.permission_camera), REQUEST_CODE_QRCODE_PERMISSIONS, perms);
             return false;
@@ -132,6 +132,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
 
     /**
      * 请求存储权限
+     *
      * @return 是否开启了权限
      */
     @AfterPermissionGranted(REQUEST_STORAGE_PERMISSIONS)
@@ -223,6 +224,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         intent.putExtra(params2, obj2);
         startActivityForResult(intent, requestCode);
     }
+
     /**
      * @param id 多语言环境中的
      * @return 字符串
@@ -230,7 +232,8 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     public String getAppString(int id) {
         return getResources().getString(id);
     }
- /**
+
+    /**
      * @param id 多语言环境中的
      * @return color
      */

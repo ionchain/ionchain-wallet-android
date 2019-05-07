@@ -23,6 +23,8 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.App.SDK_Debug;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
 /**
@@ -56,6 +58,8 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                 } else {
                     intent = new Intent(mActivity, CreateWalletActivity.class);
                 }
+                intent.putExtra(INTENT_PARAME_TAG, INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY);
+
                 startActivity(intent);
             }
         });

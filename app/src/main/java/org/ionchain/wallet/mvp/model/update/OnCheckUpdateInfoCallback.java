@@ -1,5 +1,7 @@
 package org.ionchain.wallet.mvp.model.update;
 
+import org.ionchain.wallet.bean.UpdateBean;
+
 /**
  * 更新接口的回调信息
  */
@@ -16,16 +18,15 @@ public interface OnCheckUpdateInfoCallback {
 
     /**
      * 网络请求失败,用于结束进度条
+     * @param error
      */
-    void onCheckForUpdateError();
+    void onCheckForUpdateError(String error);
 
     /**
      * 需要更新
-     * @param url
-     * @param update_info
-     * @param v_code
+     * @param updateBean
      */
-    void onCheckForUpdateNeedUpdate(String url, String update_info, String v_code);
+    void onCheckForUpdateNeedUpdate(UpdateBean updateBean);
 
     /**
      * 不需要更新

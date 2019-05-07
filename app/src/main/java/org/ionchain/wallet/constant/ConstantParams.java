@@ -61,4 +61,14 @@ public final class ConstantParams {
 
     public static char VERSION_TAG_CHECK_FOR_UPDATE = 0;
     public static char VERSION_TAG_DOWNLOAD = 1;
+
+
+    /**
+     * 标识 activity 由那里启动的
+     */
+    public static String INTENT_PARAME_TAG = "intent_parame_flag";
+    public static String INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY = "Skip_To_MainActivity";
+    public static String INTENT_PARAME_TAG_SKIP_TO_MANAGER_ACTIVITY = "Skip_To_ManagerActivity";
+
+
 }

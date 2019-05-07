@@ -276,7 +276,7 @@ public class IONCWalletSDK {
     }
 
     //导入钱包--KS
-    public void importWalletByKeyStore(final String password, final String keystoreContent, final OnCreateWalletCallback callback) {
+    public void importWalletByKeyStore(final String namestr, final String password, final String keystoreContent, final OnCreateWalletCallback callback) {
         new Thread() {
             @Override
             public void run() {
@@ -308,8 +308,12 @@ public class IONCWalletSDK {
                     //创建钱包
                     Credentials credentials = WalletUtils.loadCredentials(password, path);
                     ECKeyPair keyPair = credentials.getEcKeyPair();
-                    String walletname = "new-wallet" + RandomUntil.getSmallLetter(3);
-                    bean.setName(walletname);
+                    String wallet_name = namestr;
+                    if (wallet_name.equals("")) {
+                        //兼容SDK
+                        wallet_name = "new-wallet" + RandomUntil.getSmallLetter(3);
+                    }
+                    bean.setName(wallet_name);
                     bean.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
                     bean.setPublickey(keyPair.getPublicKey().toString(16));//公钥
                     bean.setAddress("0x" + Keys.getAddress(keyPair)); //地址
@@ -336,11 +340,14 @@ public class IONCWalletSDK {
     }
 
     //导入钱包--私钥---产生KS
-    public void importPrivateKey(final String privateKey, final String password, final OnCreateWalletCallback callback) {
+    public void importPrivateKey(String namestr, final String privateKey, final String password, final OnCreateWalletCallback callback) {
 
         try {
             final WalletBean wallet = new WalletBean();
-            String walletname = "new-wallet" + RandomUntil.getSmallLetter(3);
+            String walletname = namestr;
+            if (walletname.equals("")) {
+                walletname = "new-wallet" + RandomUntil.getSmallLetter(3);
+            }
             BigInteger key = new BigInteger(privateKey, 16);
             ECKeyPair keyPair = ECKeyPair.create(key);
             String private_key = keyPair.getPrivateKey().toString(16);

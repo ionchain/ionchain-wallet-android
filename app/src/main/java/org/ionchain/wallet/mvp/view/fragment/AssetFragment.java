@@ -37,7 +37,7 @@ import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
-import org.ionchain.wallet.mvp.presenter.Presenter;
+import org.ionchain.wallet.mvp.presenter.device.DevicePresenter;
 import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
@@ -66,6 +66,8 @@ import static org.ionc.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
 import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 
 
@@ -101,7 +103,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     private List<DeviceBean.DataBean> mDataBeans = new ArrayList<>();
 
-    private Presenter mPresenter;
+    private DevicePresenter mDevicePresenter;
 
 
     private LinearLayout tx_out_ll;
@@ -311,13 +313,11 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     protected void initData() {
-        mPresenter = new Presenter();
-        mPresenter.initHomePageModel();
-
+        mDevicePresenter = new DevicePresenter();
     }
 
     private void getDeviceList() {
-//        mPresenter.getCurrentWalletDevicesList(mCurrentWallet, this);
+//        mDevicePresenter.getCurrentWalletDevicesList(mCurrentWallet, this);
     }
 
 
@@ -362,7 +362,7 @@ public class AssetFragment extends AbsBaseFragment implements
                         public void onClick(View v) {
                             mDialogBindCardWithWallet.dismiss();
                             String address = mCurrentWallet.getAddress();
-                            mPresenter.bindDeviceToWallet(address, result, AssetFragment.this);
+                            mDevicePresenter.bindDeviceToWallet(address, result, AssetFragment.this);
                         }
                     });
                     mDialogBindCardWithWallet.show();
@@ -390,23 +390,25 @@ public class AssetFragment extends AbsBaseFragment implements
         scan_popu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                instance.dismiss();
                 if (App.SDK_Debug) {
                     skip(SDKSelectCreateModeWalletActivity.class);
                 } else {
                     skip(SelectImportModeActivity.class);//
                 }
-                instance.dismiss();
+
             }
         });
         new_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                instance.dismiss();
                 if (SDK_Debug) {
                     skip(SDKCreateActivity.class);//
                 } else {
-                    skip(CreateWalletActivity.class,"from","0");
+                    skip(CreateWalletActivity.class,INTENT_PARAME_TAG,INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY);
                 }
-                instance.dismiss();
+
             }
         });
         mMoreWalletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -525,7 +527,7 @@ public class AssetFragment extends AbsBaseFragment implements
             @Override
             public void onClick(View v) {
                 mDialogBindCardWithWallet.dismiss();
-                mPresenter.unbindDeviceToWallet(mCurrentWallet.getAddress(), cksn, AssetFragment.this);
+                mDevicePresenter.unbindDeviceToWallet(mCurrentWallet.getAddress(), cksn, AssetFragment.this);
             }
         });
         mDialogBindCardWithWallet.show();

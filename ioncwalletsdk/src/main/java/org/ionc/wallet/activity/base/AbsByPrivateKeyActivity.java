@@ -92,7 +92,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
                 newPassword = pass;
                 showProgress(getAppString(R.string.importing_please_wait));
                 IONCWalletSDK.getInstance()
-                        .importPrivateKey(private_key, pass, AbsByPrivateKeyActivity.this);
+                        .importPrivateKey("", private_key, pass, AbsByPrivateKeyActivity.this);
             }
         });
         back.setOnClickListener(new View.OnClickListener() {

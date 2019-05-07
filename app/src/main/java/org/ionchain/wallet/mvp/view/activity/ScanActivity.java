@@ -17,8 +17,6 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 public class ScanActivity extends AbsBaseActivity {
 
-    private static final int REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY = 666;
-
 
     @Override
     protected void initData() {

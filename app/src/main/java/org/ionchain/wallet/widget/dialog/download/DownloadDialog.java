@@ -36,6 +36,8 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
 
     private DownloadTask task;
 
+    private DownloadCallback mDownloadCallback;
+
     private void findViews() {
         download_progress_tv = findViewById(R.id.download_progress_tv);
         mProgress = findViewById(R.id.download_progress_schedule);
@@ -61,12 +63,15 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
     public void onClick(View v) {
         if (v == mProgressBtn) {
             dismiss();
+            task.remove(true);
+            mDownloadCallback.onDownloadCancel();
         }
     }
 
-    public DownloadDialog(@NonNull Context context, String url) {
+    public DownloadDialog(@NonNull Context context, String url, DownloadCallback callback) {
         super(context);
         this.url = url;
+        mDownloadCallback = callback;
     }
 
     @Override
@@ -102,6 +107,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
 
         @Override
         public void onStart(Progress progress) {
+            mDownloadCallback.onDownloadStart(progress);
         }
 
         @Override
@@ -114,6 +120,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
         @Override
         public void onError(Progress progress) {
             dismiss();
+            mDownloadCallback.onDownloadError(progress);
         }
 
         @Override
@@ -138,6 +145,28 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
         public void onRemove(Progress progress) {
             dismiss();
         }
+    }
+
+    public interface DownloadCallback {
+        /**
+         * 开始下载
+         *
+         * @param progress
+         */
+        void onDownloadStart(Progress progress);
+
+        /**
+         * 下载出错
+         *
+         * @param progress
+         */
+        void onDownloadError(Progress progress);
+
+        /**
+         * 取消下载
+         *
+         */
+        void onDownloadCancel();
     }
 
     @Override

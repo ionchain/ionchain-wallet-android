@@ -41,11 +41,16 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     private AppCompatEditText mPrivateKey;
     private AppCompatEditText pwdEt;
+    private AppCompatEditText nameEt;
     private AppCompatEditText repwdEt;
     private Button importBtn;
     private CheckBox checkbox;
     private String private_key;
     private String newPassword;
+    private String nameStr;
+    private ImageView back;
+    private TextView linkUrlTv;
+    private ImageView scan;
 
     /**
      * Find the Views in the layout<br />
@@ -56,103 +61,29 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     private void findViews() {
         RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
-        ImageView back = (ImageView) findViewById(R.id.back);
-        ImageView scan = (ImageView) findViewById(R.id.scan);
+        back = (ImageView) findViewById(R.id.back);
+        scan = (ImageView) findViewById(R.id.scan);
         mPrivateKey = (AppCompatEditText) findViewById(R.id.contentEt);
         pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
+        nameEt = (AppCompatEditText) findViewById(R.id.nameEt);
         repwdEt = (AppCompatEditText) findViewById(R.id.repwdEt);
-        TextView linkUrlTv = (TextView) findViewById(R.id.linkUrlTv);
+        linkUrlTv = (TextView) findViewById(R.id.linkUrlTv);
         importBtn = (Button) findViewById(R.id.importBtn);
         checkbox = (CheckBox) findViewById(R.id.checkbox);
 
-        checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPrivateKey.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
-                    String content = mPrivateKey.getText().toString().trim();
-                    String pwdstr = pwdEt.getText().toString().trim();
-                    String resetpwdstr = repwdEt.getText().toString().trim();
 
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
-                        importBtn.setEnabled(true);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
-                    } else {
-                        importBtn.setEnabled(false);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-                    }
-                }
-            }
-        });
-        linkUrlTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skipWeb(SERVER_PROTOCOL_VALUE);
-            }
-        });
-        scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (requestCameraPermissions()) {
-                    skip(CaptureActivity.class, FROM_SCAN);
-                }
-            }
-        });
-        importBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String pass;//获取密码
-                String pass2;
-                setViewAlphaAnimation(importBtn);
-                if (mPrivateKey.getText() == null) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
-                    return;
-                }
-                if (pwdEt.getText() == null) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
-                    return;
-                }
-                if (repwdEt.getText() == null) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_re_password_null));
-                    return;
-                }
-                private_key = mPrivateKey.getText().toString().trim();
-                pass2 = repwdEt.getText().toString().trim();
-                pass = pwdEt.getText().toString().trim();
-                if (!check(pass2) || !check(pass)) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
-                    return;
-                }
-
-                if (private_key.startsWith("0x")) {
-                    private_key = private_key.substring(2);
-                }
-                if (private_key.length() != 64) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key));
-                    return;
-                }
-
-                if (!pass2.equals(pass)) {
-                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                newPassword = pass;
-                showProgress(getString(R.string.importing_wallet));
-                IONCWalletSDK.getInstance()
-                        .importPrivateKey(private_key, pass, ImportByPriKeyActivity.this);
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> list) {
         super.onPermissionsGranted(requestCode, list);
         skip(CaptureActivity.class, FROM_SCAN);
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        super.onPermissionsDenied(requestCode, list);
+        Logger.e("permission","拒绝");
     }
 
     @Override
@@ -198,6 +129,98 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     }
 
     @Override
+    protected void setListener() {
+        super.setListener();
+        checkbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mPrivateKey.getText() != null && nameEt.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
+                    String content = mPrivateKey.getText().toString().trim();
+                    String pwdstr = pwdEt.getText().toString().trim();
+                    nameStr = nameEt.getText().toString().trim();
+                    String resetpwdstr = repwdEt.getText().toString().trim();
+
+                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(nameStr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
+                        importBtn.setEnabled(true);
+                        importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                    } else {
+                        importBtn.setEnabled(false);
+                        importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+                    }
+                }
+            }
+        });
+        linkUrlTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skipWeb(SERVER_PROTOCOL_VALUE);
+            }
+        });
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (requestCameraPermissions()) {
+                    skip(CaptureActivity.class, FROM_SCAN);
+                }
+            }
+        });
+        importBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pass;//获取密码
+                String pass2;
+                setViewAlphaAnimation(importBtn);
+                if (mPrivateKey.getText() == null) {
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
+                    return;
+                }
+                if (nameEt.getText() == null) {
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
+                    return;
+                }
+                if (pwdEt.getText() == null) {
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
+                    return;
+                }
+                if (repwdEt.getText() == null) {
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_re_password_null));
+                    return;
+                }
+                private_key = mPrivateKey.getText().toString().trim();
+                pass2 = repwdEt.getText().toString().trim();
+                pass = pwdEt.getText().toString().trim();
+                if (!check(pass2) || !check(pass)) {
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
+                    return;
+                }
+
+                if (private_key.startsWith("0x")) {
+                    private_key = private_key.substring(2);
+                }
+                if (private_key.length() != 64) {
+                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key));
+                    return;
+                }
+
+                if (!pass2.equals(pass)) {
+                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                newPassword = pass;
+                showProgress(getString(R.string.importing_wallet));
+                IONCWalletSDK.getInstance()
+                        .importPrivateKey(nameStr, private_key, pass, ImportByPriKeyActivity.this);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_import_by_pri_key;
     }
@@ -215,12 +238,13 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (mPrivateKey.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
+        if (mPrivateKey.getText() != null && nameEt.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
             String contentstr = mPrivateKey.getText().toString().trim();
             String pwdstr = pwdEt.getText().toString().trim();
+            nameStr = pwdEt.getText().toString().trim();
             String resetpwdstr = repwdEt.getText().toString().trim();
 
-            if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
+            if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(nameStr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
             } else {
@@ -260,7 +284,9 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
             walletBean.setMIconIdex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getResources().getString(R.string.import_success));
-            skip(MainActivity.class);
+            if (IONCWalletSDK.getInstance().getAllWallet().size()==1) {
+                skip(MainActivity.class);
+            }
         }
 
     }
@@ -277,7 +303,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger(getResources().getString(R.string.update_succwss));
-        skip(MainActivity.class);
+//        skip(MainActivity.class);
     }
 
     @Override

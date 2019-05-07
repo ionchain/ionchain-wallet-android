@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.lzy.okgo.model.Progress;
+
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.bean.UpdateBean;
 import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.mvp.model.update.OnCheckUpdateInfoCallback;
-import org.ionchain.wallet.mvp.presenter.Presenter;
+import org.ionchain.wallet.mvp.presenter.update.UpdatePresenter;
 import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.SettingLanguageActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
@@ -17,8 +20,9 @@ import org.ionchain.wallet.widget.dialog.download.DownloadDialog;
 import org.ionchain.wallet.widget.dialog.version.VersionInfoDialog;
 
 import java.util.Locale;
+import java.util.Objects;
 
-public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.OnVersionDialogBtnClickedListener, OnCheckUpdateInfoCallback {
+public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.OnVersionDialogBtnClickedListener, OnCheckUpdateInfoCallback, DownloadDialog.DownloadCallback {
 
     /**
      * 钱包管理
@@ -43,7 +47,12 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     /**
      * 版本信息对话框
      */
-    private VersionInfoDialog mVersionInfoDialog;
+    private VersionInfoDialog mCurrentVersionInfoDialog;
+    /**
+     * 版本信息对话框
+     */
+    private VersionInfoDialog mLastedVersionInfoDialog;
+    private UpdatePresenter mUpdatePresenter;
 
 
     /**
@@ -97,11 +106,11 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
                     info = "英文信息";
                     btn_tx = "update";
                 }
-                mVersionInfoDialog = new VersionInfoDialog(mActivity, "", MineFragment.this)
+                mCurrentVersionInfoDialog = new VersionInfoDialog(mActivity, "", MineFragment.this)
                         .setTitleName(title)
                         .setSureBtnName(btn_tx)
                         .setVersionInfo(info);
-                mVersionInfoDialog.show();
+                mCurrentVersionInfoDialog.show();
             }
         });
         about_us.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +134,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
 
     @Override
     protected void initData() {
-
+        mUpdatePresenter = new UpdatePresenter();
     }
 
     /**
@@ -140,11 +149,12 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
         dialog.dismiss();
         if (type == ConstantParams.VERSION_TAG_CHECK_FOR_UPDATE) {
             if (requestStoragePermissions()) {
-                new Presenter().checkForUpdate(this);
+                mUpdatePresenter.checkForUpdate(this);
             }
         } else if (type == ConstantParams.VERSION_TAG_DOWNLOAD) {
             //下载对话框
-            new DownloadDialog(mActivity, url).show();
+            mLastedVersionInfoDialog.dismiss();
+            new DownloadDialog(mActivity, url, this).show();
         }
     }
 
@@ -161,29 +171,53 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     @Override
     public void onCheckForUpdateSuccess() {
         hideProgress();
-        mVersionInfoDialog.dismiss();
+        mCurrentVersionInfoDialog.dismiss();
     }
 
     @Override
-    public void onCheckForUpdateError() {
+    public void onCheckForUpdateError(String error) {
         hideProgress();
-        mVersionInfoDialog.dismiss();
+        mCurrentVersionInfoDialog.dismiss();
         ToastUtil.showShortToast(getAppString(R.string.app_update_error));
     }
 
     @Override
-    public void onCheckForUpdateNeedUpdate(String url, String update_info, String v_code) {
-        /*
-         * 更新当前版本信息对话框的展示内容
-         *
-         * */
+    public void onCheckForUpdateNeedUpdate(UpdateBean updateBean) {
+        try {
+            String update_info;
+            int v_code;
+            UpdateBean.DataBean dataBean_CN = null, dataBean_EN = null;
+            for (int i = 0; i < 2; i++) {
+                if (updateBean.getData().get(i).getLanguage().equals("0")) {
+                    //中文
+                    dataBean_CN = updateBean.getData().get(i);
+                } else {
+                    dataBean_EN = updateBean.getData().get(i);
+                }
+            }
+            if ("zh_CN".equals(Locale.getDefault().toString())) {
+                v_code = Objects.requireNonNull(dataBean_CN).getVersion_code();
+                update_info = dataBean_CN.getUpdate_info();
+            } else {
+                v_code = Objects.requireNonNull(dataBean_EN).getVersion_code();
+                update_info = dataBean_EN.getUpdate_info();
+            }
+            /*
+             * 更新当前版本信息对话框的展示内容
+             *
+             * */
+            mCurrentVersionInfoDialog.dismiss();
 
-        mVersionInfoDialog = new VersionInfoDialog(mActivity, url, MineFragment.this)
-                .setTitleName(getResources().getString(R.string.v_info, v_code))
-                .setSureBtnName(getString(R.string.dialog_btn_download))
-                .setVersionInfo(update_info);
-        mVersionInfoDialog.setType(ConstantParams.VERSION_TAG_DOWNLOAD);
-        mVersionInfoDialog.show();
+            mLastedVersionInfoDialog = new VersionInfoDialog(mActivity, updateBean.getData().get(0).getUrl(), MineFragment.this)
+                    .setTitleName(mActivity.getAppString(R.string.v_info, v_code))
+                    .setSureBtnName(getString(R.string.dialog_btn_download))
+                    .setVersionInfo(update_info);
+            mLastedVersionInfoDialog.setType(ConstantParams.VERSION_TAG_DOWNLOAD);
+            mLastedVersionInfoDialog.show();
+        } catch (NullPointerException e) {
+            ToastUtil.showToastLonger(mActivity.getAppString(R.string.data_parase_error));
+        }
+
 //        NetUtils.downloadShowDialog(mActivity, url, update_info, v_code, this);
     }
 
@@ -192,4 +226,28 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
         ToastUtil.showLong(getString(R.string.app_update_no));
     }
 
+    /**
+     * 开始下载
+     *
+     * @param progress 下载状态
+     */
+    @Override
+    public void onDownloadStart(Progress progress) {
+
+    }
+
+    /**
+     * 下载出错
+     *
+     * @param progress 下载状态
+     */
+    @Override
+    public void onDownloadError(Progress progress) {
+        ToastUtil.showToastLonger(getAppString(R.string.download_error));
+    }
+
+    @Override
+    public void onDownloadCancel() {
+        ToastUtil.showToastLonger(getAppString(R.string.download_cancel));
+    }
 }

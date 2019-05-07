@@ -55,7 +55,18 @@
             android:text=""
             android:textSize="14sp" />
 
-
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/nameEt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:singleLine="true"
+            android:gravity="left|center_vertical"
+            android:textSize="@dimen/hint_text_size"
+            android:hint="@string/wallet_name_input"
+            android:padding="@dimen/h5" />
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/pwdEt"
             android:layout_width="match_parent"

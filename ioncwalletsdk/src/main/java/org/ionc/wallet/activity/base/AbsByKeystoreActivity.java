@@ -53,7 +53,7 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
                     //生成keystory文件
                     newPassword = pass;
                     showProgress(getAppString(R.string.importing_please_wait));
-                    IONCWalletSDK.getInstance().importWalletByKeyStore(pass, keystoreStr, AbsByKeystoreActivity.this);
+                    IONCWalletSDK.getInstance().importWalletByKeyStore("", pass, keystoreStr, AbsByKeystoreActivity.this);
                 } else {
                     ToastUtil.showLong(getAppString(R.string.please_chech_input));
 

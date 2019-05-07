@@ -157,4 +157,6 @@
     <string name="copy_tx">复 制</string>
     <string name="password_tx">密码</string>
     <string name="title_manage_wallet">钱包管理</string>
+    <string name="wallet_name_input">请输入钱包名字</string>
+    <string name="key_store_must_not_empty">KS 不能为空</string>
 </resources>

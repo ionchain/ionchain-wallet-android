@@ -37,6 +37,8 @@ import java.util.List;
 
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
 public class CreateWalletActivity extends AbsBaseActivity implements
@@ -84,7 +86,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     protected void handleIntent(@NonNull Intent intent) {
         super.handleIntent(intent);
-        from = intent.getStringExtra("from");
+        from = intent.getStringExtra(INTENT_PARAME_TAG);
     }
 
     @Override
@@ -274,7 +276,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     public void onCancelKeepMnemonic(DialogMnemonic dialogMnemonic) {
         dialogMnemonic.dismiss();
-        if (from.equals("0")) {
+        if (from.equals(INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY)) {
             skip(MainActivity.class);
         } else {
             finish();

@@ -34,10 +34,12 @@ import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreateWalletCallback, TextWatcher {
     private AppCompatEditText mKeystore;
     private AppCompatEditText pwdEt;
+    private AppCompatEditText nameEt;
     private Button importBtn;
     private CheckBox checkbox;
     private TextView linkUrlTv;
     private String keystoreStr;
+    private String namestr;
 
     @Override
     protected void setListener() {
@@ -74,14 +76,15 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
         mKeystore = findViewById(R.id.mnemonic);
 
         pwdEt = findViewById(R.id.pwdEt);
+        nameEt = findViewById(R.id.nameEt);
         mKeystore.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
+        nameEt.addTextChangedListener(this);
         checkbox = findViewById(R.id.checkbox);
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mKeystore.getText() != null && pwdEt.getText() != null && checkbox.
-                        isChecked()) {
+                if (mKeystore.getText() != null && pwdEt.getText() != null && nameEt.getText() != null && checkbox.isChecked()) {
                     importBtn.setEnabled(true);
                     importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
                 } else {
@@ -97,12 +100,24 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
             @Override
             public void onClick(View v) {
                 setViewAlphaAnimation(importBtn);
+                if (nameEt.getText() == null) {
+                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_name));
+                    return;
+                }
+                if (pwdEt.getText() == null) {
+                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_password_null));
+                    return;
+                }
+                if (mKeystore.getText() == null) {
+                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
+                    return;
+                }
                 keystoreStr = mKeystore.getText().toString();
                 //读取keystore密码
                 String pass = pwdEt.getText().toString();
                 //生成keystory文件
                 showProgress(getString(R.string.importing_wallet));
-                IONCWalletSDK.getInstance().importWalletByKeyStore(pass, keystoreStr, (OnCreateWalletCallback) mActivity);
+                IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, keystoreStr, (OnCreateWalletCallback) mActivity);
             }
         });
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
@@ -135,11 +150,12 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (mKeystore.getText() != null && pwdEt.getText() != null && pwdEt.getText() != null) {
+        if (mKeystore.getText() != null && pwdEt.getText() != null && nameEt.getText() != null) {
             String content = mKeystore.getText().toString().trim();
             String pwdstr = pwdEt.getText().toString().trim();
+            namestr = nameEt.getText().toString().trim();
 
-            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && checkbox.isChecked()) {
+            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(namestr) && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
             } else {
@@ -159,7 +175,9 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
             walletBean.setMIconIdex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
-            skip(MainActivity.class);
+            if (IONCWalletSDK.getInstance().getAllWallet().size()==1) {
+                skip(MainActivity.class);
+            }
         }
         hideProgress();
     }
