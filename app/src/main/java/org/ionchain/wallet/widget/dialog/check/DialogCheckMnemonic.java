@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.widget.dialog.base.AbsBaseDialog;
-import org.ionchain.wallet.widget.dialog.callback.OnStringCallbcak;
+import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +28,9 @@ public class DialogCheckMnemonic extends AbsBaseDialog implements View.OnClickLi
     private Button rightBtn;
     private Button leftBtn;
 
-    private OnStringCallbcak stringCallbcak;
+    private OnDialogCheck12MnemonicCallbcak stringCallbcak;
 
-    public DialogCheckMnemonic(@NonNull Activity context, OnStringCallbcak stringCallbcak) {
+    public DialogCheckMnemonic(@NonNull Activity context, OnDialogCheck12MnemonicCallbcak stringCallbcak) {
         super(context);
         this.stringCallbcak = stringCallbcak;
     }
@@ -79,21 +79,21 @@ public class DialogCheckMnemonic extends AbsBaseDialog implements View.OnClickLi
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        title = (TextView) findViewById(R.id.title);
-        mnemonic1 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic1);
-        mnemonic2 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic2);
-        mnemonic3 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic3);
-        mnemonic4 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic4);
-        mnemonic5 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic5);
-        mnemonic6 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic6);
-        mnemonic7 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic7);
-        mnemonic8 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic8);
-        mnemonic9 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic9);
-        mnemonic10 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic10);
-        mnemonic11 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic11);
-        mnemonic12 = (android.support.v7.widget.AppCompatEditText) findViewById(R.id.mnemonic12);
-        rightBtn = (Button) findViewById(R.id.right_btn);
-        leftBtn = (Button) findViewById(R.id.left_btn);
+        title = findViewById(R.id.title);
+        mnemonic1 = findViewById(R.id.mnemonic1);
+        mnemonic2 = findViewById(R.id.mnemonic2);
+        mnemonic3 = findViewById(R.id.mnemonic3);
+        mnemonic4 = findViewById(R.id.mnemonic4);
+        mnemonic5 = findViewById(R.id.mnemonic5);
+        mnemonic6 = findViewById(R.id.mnemonic6);
+        mnemonic7 = findViewById(R.id.mnemonic7);
+        mnemonic8 = findViewById(R.id.mnemonic8);
+        mnemonic9 = findViewById(R.id.mnemonic9);
+        mnemonic10 = findViewById(R.id.mnemonic10);
+        mnemonic11 = findViewById(R.id.mnemonic11);
+        mnemonic12 = findViewById(R.id.mnemonic12);
+        rightBtn = findViewById(R.id.right_btn);
+        leftBtn = findViewById(R.id.left_btn);
         editTextList.add(mnemonic1);
         editTextList.add(mnemonic2);
 
@@ -168,7 +168,7 @@ public class DialogCheckMnemonic extends AbsBaseDialog implements View.OnClickLi
                     m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12
             };
 
-            stringCallbcak.onString(ms, editTextList, this);
+            stringCallbcak.onDialogCheckMnemonics12(ms, editTextList, this);
         } else if (v == leftBtn) {
             dismiss();
         }

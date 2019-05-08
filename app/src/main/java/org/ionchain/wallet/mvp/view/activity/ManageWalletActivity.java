@@ -23,7 +23,7 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
 import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
-import org.ionchain.wallet.widget.dialog.callback.OnStringCallbcak;
+import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
 import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
@@ -35,7 +35,7 @@ import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLoadmoreListener, ManagerWalletHelper.OnWalletManagerItemClickedListener, DialogMnemonic.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
+public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLoadmoreListener, ManagerWalletHelper.OnWalletManagerItemClickedListener, DialogMnemonic.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak {
 
 
     private SmartRefreshLayout srl;
@@ -174,7 +174,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     }
 
     @Override
-    public void onString(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
+    public void onDialogCheckMnemonics12(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
         String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
         if (s.length != mnemonics.length) {
             ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error));

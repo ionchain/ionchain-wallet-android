@@ -584,7 +584,6 @@ public class IONCWalletSDK {
     /**
      * 获取 离子币余额
      *
-     * @param node  节点,现在有两个,一个是离子链的,一个是以太坊的
      * @param address    钱包地址
      * @param callback      回调
      */
@@ -620,11 +619,11 @@ public class IONCWalletSDK {
                     BigDecimal balacneTemp = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
                     balacneTemp = balacneTemp.setScale(4, BigDecimal.ROUND_DOWN);
                     Logger.i("余额" + balacneTemp);
-                    final BigDecimal finalBalacneTemp = balacneTemp;
+                    final BigDecimal finalBalanceTemp = balacneTemp;
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onBalanceSuccess(String.valueOf(finalBalacneTemp), node);
+                            callback.onBalanceSuccess(String.valueOf(finalBalanceTemp), finalBalanceTemp,node);
                         }
                     });
                 } catch (final IOException e) {

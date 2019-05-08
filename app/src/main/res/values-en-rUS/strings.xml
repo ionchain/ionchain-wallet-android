@@ -180,4 +180,6 @@
     <string name="smart_refresh_header_finish">Refresh to complete</string>
     <string name="smart_refresh_header_failed">Refresh the failure</string>
     <string name="smart_refresh_header_last_time">Last update</string>
+    <string name="balance_usd">正在获取余额...</string>
+    <string name="balance_usd_rate_rmb">正在转换为人民币</string>
 </resources>

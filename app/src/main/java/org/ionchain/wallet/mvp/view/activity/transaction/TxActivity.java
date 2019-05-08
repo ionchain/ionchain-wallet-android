@@ -164,7 +164,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBalanceSuccess(String balance, String nodeUrlTag) {
+    public void onBalanceSuccess(String balance, BigDecimal balanceBigDecimal, String nodeUrlTag) {
         balance_tv.setText(getAppString(R.string.balance_) + balance);
     }
 

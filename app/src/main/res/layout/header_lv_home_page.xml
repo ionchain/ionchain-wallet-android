@@ -63,39 +63,70 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/wallet_balance_tx"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="0.0000"
-                android:textColor="@color/white"
-                android:textSize="@dimen/txt_28sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tag"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@id/wallet_balance_tx"
-                android:text="IONC"
-                android:textColor="@color/white"
-                android:textSize="@dimen/txt_12sp"
-                android:textStyle="bold" />
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/ionc_balance_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="10000000.0000"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tag_ionc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/ionc_balance_tx"
+                    android:layout_toRightOf="@id/ionc_balance_tx"
+                    android:text="    IONC"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_8sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rmb_balance_tx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ionc_balance_tx"
+                    android:gravity="center"
+                    android:text="10000000.0000"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rmb_ionc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/rmb_balance_tx"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toEndOf="@id/rmb_balance_tx"
+                    android:layout_toRightOf="@id/ionc_balance_tx"
+                    android:text="    RMB"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_8sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/please_backup_wallet"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/please_backup_wallet"
+                android:drawableLeft="@drawable/exclamation"
                 android:gravity="center"
                 android:padding="@dimen/h3"
-                android:layout_height="wrap_content"
+                android:text="@string/before_use_backup"
                 android:textColor="@color/colorAccent"
-                android:textSize="10sp"
-                android:drawableLeft="@drawable/exclamation"
-                android:background="@drawable/please_backup_wallet"
-                android:text="@string/before_use_backup"/>
+                android:textSize="10sp" />
+
             <TextView
                 android:id="@+id/tx_recoder_tv"
                 android:layout_width="wrap_content"
@@ -109,14 +140,14 @@
         </RelativeLayout>
         <!--28-->
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/modify_wallet_eth"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="@dimen/padding_size_16dp"
             android:layout_marginRight="@dimen/padding_size_16dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/wallet_balance_tx_eth"
@@ -152,13 +183,13 @@
 
         <!--转账 40-->
         <LinearLayout
-            android:layout_marginTop="@dimen/h10"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/h10"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/tx_out_ll"
@@ -179,19 +210,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/tx_out"
                     android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
                     android:gravity="center"
-                    android:textSize="@dimen/txt_18sp"
-                    android:textColor="@color/white" />
+                    android:text="@string/tx_out"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_18sp" />
             </LinearLayout>
+
             <View
-                android:background="@color/white"
                 android:layout_width="1dp"
-                android:layout_margin="@dimen/h10"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_height="match_parent"/>
+                android:layout_margin="@dimen/h10"
+                android:background="@color/white" />
+
             <LinearLayout
                 android:id="@+id/tx_in_ll"
                 android:layout_width="0dp"
@@ -211,8 +244,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="@string/tx_in"
-                    android:textSize="@dimen/txt_18sp"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_18sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

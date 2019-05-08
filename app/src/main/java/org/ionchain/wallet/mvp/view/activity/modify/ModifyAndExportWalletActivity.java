@@ -31,6 +31,7 @@ import org.web3j.utils.Files;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
@@ -175,14 +176,14 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
     /**
      * 删钱包
-     *
-     * @param ballance
+     *  @param ballance
+     * @param balanceBigDecimal
      * @param nodeUrlTag
      */
 
 
     @Override
-    public void onBalanceSuccess(String ballance, String nodeUrlTag) {
+    public void onBalanceSuccess(String ballance, BigDecimal balanceBigDecimal, String nodeUrlTag) {
 //        walletBalanceTv.setText(ballance.getBalance());
     }
 

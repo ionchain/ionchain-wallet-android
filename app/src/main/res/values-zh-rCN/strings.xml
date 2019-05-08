@@ -179,4 +179,6 @@
     <string name="smart_refresh_header_finish">刷新完成</string>
     <string name="smart_refresh_header_failed">刷新失败</string>
     <string name="smart_refresh_header_last_time">上次更新</string>
+    <string name="balance_usd">正在获取余额...</string>
+    <string name="balance_usd_rate_rmb">正在转换为人民币</string>
 </resources>

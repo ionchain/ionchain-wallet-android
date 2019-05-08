@@ -28,7 +28,7 @@ import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivi
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
-import org.ionchain.wallet.widget.dialog.callback.OnStringCallbcak;
+import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
 import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
@@ -45,7 +45,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         OnImportMnemonicCallback,
         OnSimulateTimeConsume,
         DialogMnemonic.OnSavedMnemonicCallback,
-        DialogTextMessage.OnBtnClickedListener, OnStringCallbcak {
+        DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak {
 
     private ImageView back;
     private AppCompatEditText walletNameEt;
@@ -307,7 +307,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
      */
 
     @Override
-    public void onString(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
+    public void onDialogCheckMnemonics12(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
         String[] mnemonics = walletBean.getMnemonic().split(" ");
         if (s.length != mnemonics.length) {
             ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error));

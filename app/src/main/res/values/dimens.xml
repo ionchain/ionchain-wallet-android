@@ -179,4 +179,5 @@
     <dimen name="dialog_btn_height_40dp">40dp</dimen>
     <dimen name="margin_h100">100dp</dimen>
     <dimen name="margin_h50">50dp</dimen>
+    <dimen name="txt_8sp">8sp</dimen>
 </resources>
