@@ -30,7 +30,6 @@ import java.util.Arrays;
 
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
-import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnUpdatePasswordCallback {
@@ -149,7 +148,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skipWeb(SERVER_PROTOCOL_VALUE);
+                skipWebProtocol();
             }
         });
     }

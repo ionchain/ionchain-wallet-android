@@ -39,7 +39,6 @@ import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
-import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
 public class CreateWalletActivity extends AbsBaseActivity implements
         TextWatcher,
@@ -174,7 +173,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skipWeb(SERVER_PROTOCOL_VALUE);
+                skipWebProtocol();
             }
         });
         walletNameEt.addTextChangedListener(this);

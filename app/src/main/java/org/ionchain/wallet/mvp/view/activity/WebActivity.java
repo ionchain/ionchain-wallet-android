@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
@@ -20,6 +21,10 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
+import static org.ionchain.wallet.App.isCurrentLanguageZN;
+import static org.ionchain.wallet.constant.ConstantParams.URL_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_PROTOCOL;
+
 public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
 
     private static final String NET_ERR_INTERNET_DISCONNECTED = "net::ERR_INTERNET_DISCONNECTED";
@@ -27,6 +32,18 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
     WebView mWebView;
     SmartRefreshLayout smartRefreshLayout;
     private boolean load_error = false;
+    private String mUrlProtocolCN = "https://www.ionchain.org/download/wallet-agreement.html";
+    private String mUrlProtocolEN = "https://www.baidu.com/";
+    private String mUrlAboutUsCN = "https://www.cnblogs.com/androidxufeng/p/4576765.html";
+    private String mUrlAboutUslEN = "https://www.tencent.com/zh-cn/index.html";
+
+    private char mUrlTag = URL_TAG_PROTOCOL;//
+
+    @Override
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        mUrlTag = intent.getCharExtra(URL_TAG, mUrlTag);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -35,25 +52,24 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
 
     @Override
     protected void initData() {
-
-    }
-
-    @Override
-    protected void initView() {
-        mImmersionBar.titleView(R.id.toolbarlayout)
-                .statusBarDarkFont(true)
-                .execute();
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        mWebView = findViewById(R.id.web_view);
-        no_net_error_hint_page = findViewById(R.id.no_net_error_hint_page);
-        smartRefreshLayout = findViewById(R.id.smart_refresh_layout);
         smartRefreshLayout.setOnRefreshListener(this);
-        mWebView.loadUrl("https://www.ionchain.org/download/wallet-agreement.html");
+        if (isCurrentLanguageZN()) {
+            if (mUrlTag == URL_TAG_PROTOCOL) {
+                mWebView.loadUrl(mUrlProtocolCN); //加载协议
+            } else {
+                mWebView.loadUrl(mUrlAboutUsCN); //加载关于我们
+            }
+
+        } else {
+            if (mUrlTag == URL_TAG_PROTOCOL) {
+                mWebView.loadUrl(mUrlProtocolEN); //加载协议
+
+            } else {
+                mWebView.loadUrl(mUrlAboutUslEN); //加载关于我们
+            }
+
+        }
+
         //不现实水平滚动条
         mWebView.setHorizontalScrollBarEnabled(false);
         //不现实垂直滚动条
@@ -91,6 +107,11 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
+    }
+
+    @Override
+    protected void setListener() {
+        super.setListener();
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -135,6 +156,24 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
                 load_error = false;
             }
         });
+    }
+
+    @Override
+    protected void initView() {
+        mImmersionBar.titleView(R.id.toolbarlayout)
+                .statusBarDarkFont(true)
+                .execute();
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mWebView = findViewById(R.id.web_view);
+        no_net_error_hint_page = findViewById(R.id.no_net_error_hint_page);
+        smartRefreshLayout = findViewById(R.id.smart_refresh_layout);
+
+
     }
 
     @Override

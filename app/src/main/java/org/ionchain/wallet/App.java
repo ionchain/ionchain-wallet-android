@@ -20,6 +20,7 @@ import org.ionchain.wallet.qrcode.activity.ZXingLibrary;
 import org.ionchain.wallet.utils.LocalManageUtil;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -61,6 +62,7 @@ public class App extends Application {
         super.attachBaseContext(LocalManageUtil.setLocal(base));
         MultiDex.install(this);
     }
+
     private void initDisplayOpinion() {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         DisplayUtil.density = dm.density;
@@ -70,6 +72,7 @@ public class App extends Application {
         DisplayUtil.screenWidthDip = DisplayUtil.px2dip(getApplicationContext(), dm.widthPixels);
         DisplayUtil.screenHightDip = DisplayUtil.px2dip(getApplicationContext(), dm.heightPixels);
     }
+
     private void initOKGO() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //log相关
@@ -108,5 +111,12 @@ public class App extends Application {
         return b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue() * 100;
     }
 
+
+    /**
+     * @return 当前语言环境
+     */
+    public static boolean isCurrentLanguageZN() {
+        return "zh_CN".equals(Locale.getDefault().toString());
+    }
 
 }

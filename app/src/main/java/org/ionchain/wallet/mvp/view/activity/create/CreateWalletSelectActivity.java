@@ -25,7 +25,6 @@ import org.ionchain.wallet.utils.ToastUtil;
 import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
-import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 
 /**
  * 创建钱包。导入钱包，第一次安装时，由启动页跳转过来
@@ -96,7 +95,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
         sp2.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                skipWeb(SERVER_PROTOCOL_VALUE);
+                skipWebProtocol();
             }
         }, 0, sp2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         ForegroundColorSpan fcs2 = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.bga_pp_btn_confirm_pressed));

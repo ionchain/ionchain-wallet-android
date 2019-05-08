@@ -34,7 +34,6 @@ import java.util.List;
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
-import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdatePasswordCallback {
@@ -153,7 +152,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skipWeb(SERVER_PROTOCOL_VALUE);
+                skipWebProtocol();
             }
         });
         scan.setOnClickListener(new View.OnClickListener() {

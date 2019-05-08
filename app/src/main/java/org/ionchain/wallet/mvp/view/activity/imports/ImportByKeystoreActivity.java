@@ -28,7 +28,6 @@ import java.util.List;
 
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
-import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_VALUE;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreateWalletCallback, TextWatcher {
@@ -123,7 +122,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skipWeb(SERVER_PROTOCOL_VALUE);
+                skipWebProtocol();
             }
         });
     }

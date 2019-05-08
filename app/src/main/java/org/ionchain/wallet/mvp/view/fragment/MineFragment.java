@@ -14,13 +14,17 @@ import org.ionchain.wallet.mvp.model.update.OnCheckUpdateInfoCallback;
 import org.ionchain.wallet.mvp.presenter.update.UpdatePresenter;
 import org.ionchain.wallet.mvp.view.activity.ManageWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.SettingLanguageActivity;
+import org.ionchain.wallet.mvp.view.activity.WebActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.download.DownloadDialog;
 import org.ionchain.wallet.widget.dialog.version.VersionInfoDialog;
 
-import java.util.Locale;
 import java.util.Objects;
+
+import static org.ionchain.wallet.App.isCurrentLanguageZN;
+import static org.ionchain.wallet.constant.ConstantParams.URL_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_ABOUT_US;
 
 public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.OnVersionDialogBtnClickedListener, OnCheckUpdateInfoCallback, DownloadDialog.DownloadCallback {
 
@@ -97,7 +101,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
                 String info = "";
                 String btn_tx = "";
 
-                if ("zh_CN".equals(Locale.getDefault().toString())) {
+                if (isCurrentLanguageZN()) {
                     title = "版本信息";
                     info = "中文信息";
                     btn_tx = "检查更细";
@@ -116,7 +120,9 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
         about_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                NetUtils.downloadShowDialog(mActivity, "sasasasa", "dsadasadasd", NetUtils.downloadTask("http://192.168.1.3:8009/quzhizuo.apk", MineFragment.this));
+                Intent intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra(URL_TAG, URL_TAG_ABOUT_US);
+                startActivity(intent);
             }
         });
     }
@@ -195,7 +201,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
                     dataBean_EN = updateBean.getData().get(i);
                 }
             }
-            if ("zh_CN".equals(Locale.getDefault().toString())) {
+            if (isCurrentLanguageZN()) {
                 v_code = Objects.requireNonNull(dataBean_CN).getVersion_code();
                 update_info = dataBean_CN.getUpdate_info();
             } else {

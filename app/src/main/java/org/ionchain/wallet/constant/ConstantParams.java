@@ -59,6 +59,9 @@ public final class ConstantParams {
     public static final int REQUEST_STORAGE_PERMISSIONS = 2;
 
 
+    /*
+    * 版本对话框的按钮事件
+    * */
     public static char VERSION_TAG_CHECK_FOR_UPDATE = 0;
     public static char VERSION_TAG_DOWNLOAD = 1;
 
@@ -70,5 +73,13 @@ public final class ConstantParams {
     public static String INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY = "Skip_To_MainActivity";
     public static String INTENT_PARAME_TAG_SKIP_TO_MANAGER_ACTIVITY = "Skip_To_ManagerActivity";
 
+
+    /**
+     * WEB 连接
+     */
+
+    public static String URL_TAG = "url_tag";//协议
+    public static char URL_TAG_PROTOCOL = 0;//协议
+    public static char URL_TAG_ABOUT_US = 1;//关于我们
 
 }

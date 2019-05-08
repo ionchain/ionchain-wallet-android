@@ -29,7 +29,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
-import static org.ionchain.wallet.constant.ConstantParams.SERVER_PROTOCOL_KEY;
+import static org.ionchain.wallet.constant.ConstantParams.URL_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_ABOUT_US;
+import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_PROTOCOL;
 
 public abstract class AbsBaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
@@ -178,11 +180,19 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     }
 
     /*
-     * 跳转到 web 页面
+     * 跳转到 协议一些页面
      * */
-    protected void skipWeb(String value) {
+    protected void skipWebProtocol() {
         Intent intent = new Intent(mActivity, WebActivity.class);
-        intent.putExtra(SERVER_PROTOCOL_KEY, value);
+        intent.putExtra(URL_TAG, URL_TAG_PROTOCOL);
+        startActivity(intent);
+    }
+   /*
+     * 跳转到 关于我们页面
+     * */
+    protected void skipWebAboutUs() {
+        Intent intent = new Intent(mActivity, WebActivity.class);
+        intent.putExtra(URL_TAG, URL_TAG_ABOUT_US);
         startActivity(intent);
     }
 

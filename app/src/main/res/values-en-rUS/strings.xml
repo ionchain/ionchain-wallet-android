@@ -77,7 +77,7 @@
     <string name="version_info">Version Info</string>
     <string name="about_us">About us</string>
     <string name="my_devices">Devices</string>
-    <string name="tab_device">Device</string>
+    <string name="tab_device">Devices</string>
     <string name="tab_mine">Mine</string>
     <string name="tab_asset">Asset</string>
     <string name="wallet_null_toast">You do not have a wallet, please create or import the wallet</string>
