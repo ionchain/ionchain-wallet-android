@@ -64,6 +64,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
+import static java.math.BigDecimal.ROUND_HALF_UP;
 import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
 import static org.ionc.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
 import static org.ionchain.wallet.App.SDK_Debug;
@@ -111,7 +112,14 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     private TextView ioncBalanceTx;
 
+    /**
+     * 离子比余额
+     */
     private BigDecimal mIONCBalance;
+    /**
+     * 离子比美元总价格
+     */
+    private BigDecimal mTotalUSDPrice;
     /**
      * 人民币余额
      */
@@ -656,20 +664,19 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     /**
-     * @param balanceString     余额 获取成功
      * @param balanceBigDecimal 原始形式
      * @param nodeUrlTag
      */
     @Override
-    public void onBalanceSuccess(String balanceString, BigDecimal balanceBigDecimal, String nodeUrlTag) {
+    public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
 
         switch (nodeUrlTag) {
             case IONC_CHAIN_NODE:
                 mIONCBalance = balanceBigDecimal;
-                ioncBalanceTx.setText(balanceString);
+                ioncBalanceTx.setText(balanceBigDecimal.toPlainString());
                 break;
             case ETH_CHAIN_NODE:
-                walletBalanceTxETH.setText(balanceString);
+                walletBalanceTxETH.setText(balanceBigDecimal.toPlainString());
                 break;
         }
         mRefresh.finishRefresh(); //
@@ -715,7 +722,7 @@ public class AssetFragment extends AbsBaseFragment implements
         dialogTextMessage.dismiss();
         //保存准状态
         //去测试一下助记词
-        new DialogCheckMnemonic(getActivity(), this).show();
+        new DialogCheckMnemonic(requireActivity(), this).show();
     }
 
     /**
@@ -751,14 +758,13 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onUSDPriceStart() {
-        showProgress(getAppString(R.string.balance_usd));
     }
 
     @Override
     public void onUSDPriceSuccess(double usdPrice) {
         mRefresh.finishRefresh();
-        hideProgress();
         //获取人民币汇率
+        mTotalUSDPrice =  mIONCBalance.multiply(BigDecimal.valueOf(usdPrice));
         mPricePresenter.getUSDExchangeRateRMB(this);
     }
 
@@ -767,31 +773,24 @@ public class AssetFragment extends AbsBaseFragment implements
         //获取人民币汇率
         mPricePresenter.getUSDExchangeRateRMB(this); //todo:delete
         mRefresh.finishRefresh();
-        hideProgress();
     }
 
     @Override
     public void onUSDExRateRMBStart() {
-        mRefresh.finishRefresh();
-        hideProgress();
-        showProgress(getAppString(R.string.balance_usd_rate_rmb));
     }
 
     @Override
     public void onUSDExRateRMBSuccess(double usdPrice) {
         //转换为人民币
         mRefresh.finishRefresh();
-        hideProgress();
-        BigDecimal rmb = mIONCBalance.multiply(BigDecimal.valueOf(0.00511));
-        rmb_balance_tx.setText(rmb.toPlainString());
+        BigDecimal rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(usdPrice));
+        rmb_balance_tx.setText(rmb.setScale(4,ROUND_HALF_UP).toPlainString());
     }
 
     @Override
     public void onUSDExRateRMBFailure(String error) {
         //转换为人民币
         mRefresh.finishRefresh();
-        hideProgress();
-        BigDecimal rmb = mIONCBalance.multiply(BigDecimal.valueOf(0.00511));//todo:delete
-        rmb_balance_tx.setText(rmb.toPlainString());
+
     }
 }

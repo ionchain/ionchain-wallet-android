@@ -22,9 +22,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_BIND_POST;
-import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_GET;
-import static org.ionchain.wallet.constant.ConstantUrl.DEVICES_UNBIND_POST;
+import static org.ionchain.wallet.constant.ConstantUrl.URL_DEVICES_BIND_POST;
+import static org.ionchain.wallet.constant.ConstantUrl.URL_DEVICES_GET;
+import static org.ionchain.wallet.constant.ConstantUrl.URL_DEVICES_UNBIND_POST;
 
 /**
  * USER: binny
@@ -40,7 +40,7 @@ public class DeviceModel implements IDeviceModel {
     public void getCurrentWalletDevicesList(WalletBean walletBean, final OnDeviceListCallback callback) {
         params.clear();
         params.put("eth_address", walletBean.getAddress());
-        NetUtils.get(DEVICES_GET, params, new StringCallback() {
+        NetUtils.get(URL_DEVICES_GET, params, new StringCallback() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
@@ -86,7 +86,7 @@ public class DeviceModel implements IDeviceModel {
     public void getAllWalletDeviceList(String addressSet, final OnDeviceListCallback callback) {
         params.clear();
         params.put("eth_address", addressSet);
-        NetUtils.get(DEVICES_GET, params, new StringCallback() {
+        NetUtils.get(URL_DEVICES_GET, params, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
@@ -124,7 +124,7 @@ public class DeviceModel implements IDeviceModel {
         params.clear();
         params.put("eth_address", address);
         params.put("cksn", cksn);
-        NetUtils.post(DEVICES_BIND_POST, params, new StringCallback() {
+        NetUtils.post(URL_DEVICES_BIND_POST, params, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {
@@ -178,7 +178,7 @@ public class DeviceModel implements IDeviceModel {
         params.put("cksn", cksn);
 
         JSONObject jsonObject = new JSONObject(params);
-        NetUtils.post(DEVICES_UNBIND_POST, jsonObject, new StringCallback() {
+        NetUtils.post(URL_DEVICES_UNBIND_POST, jsonObject, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {

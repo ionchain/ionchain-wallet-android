@@ -10,12 +10,12 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.UpdateBean;
 import org.ionchain.wallet.utils.NetUtils;
 
-import static org.ionchain.wallet.constant.ConstantUrl.UPDATE_APK;
+import static org.ionchain.wallet.constant.ConstantUrl.URL_UPDATE_APK;
 
 public class UpdateModelModel implements IUpdateModel {
     @Override
     public void update(final OnCheckUpdateInfoCallback callback) {
-        NetUtils.get(UPDATE_APK, new StringCallback() {
+        NetUtils.get(URL_UPDATE_APK, new StringCallback() {
 
             @Override
             public void onStart(Request<String, ? extends Request> request) {

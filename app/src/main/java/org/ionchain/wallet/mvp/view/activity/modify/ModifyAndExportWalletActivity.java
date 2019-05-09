@@ -176,14 +176,13 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
     /**
      * 删钱包
-     *  @param ballance
      * @param balanceBigDecimal
      * @param nodeUrlTag
      */
 
 
     @Override
-    public void onBalanceSuccess(String ballance, BigDecimal balanceBigDecimal, String nodeUrlTag) {
+    public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
 //        walletBalanceTv.setText(ballance.getBalance());
     }
 

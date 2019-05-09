@@ -15,7 +15,7 @@ import org.ionchain.wallet.utils.NetUtils;
 
 import java.util.List;
 
-import static org.ionchain.wallet.constant.ConstantUrl.TX_RECORD_URL_GET;
+import static org.ionchain.wallet.constant.ConstantUrl.URL_TX_RECORD_GET;
 
 /**
  * AUTHOR binny
@@ -34,7 +34,7 @@ public class TxRecoderModel implements ITxRecoderModel {
         params.put("key", key);
         params.put("pageNumber", pageNumber);
         params.put("pageSize", pageSize);
-        NetUtils.get(TX_RECORD_URL_GET, params, new StringCallback() {
+        NetUtils.get(URL_TX_RECORD_GET, params, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();

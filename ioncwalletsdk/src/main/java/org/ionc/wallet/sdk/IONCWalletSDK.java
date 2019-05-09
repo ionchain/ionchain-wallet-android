@@ -616,14 +616,14 @@ public class IONCWalletSDK {
                     Web3j web3j = Web3jFactory.build(new HttpService(node));
                     BigInteger balance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance();//获取余额
 
-                    BigDecimal balacneTemp = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
-                    balacneTemp = balacneTemp.setScale(4, BigDecimal.ROUND_DOWN);
-                    Logger.i("余额" + balacneTemp);
-                    final BigDecimal finalBalanceTemp = balacneTemp;
+                    BigDecimal balanceTemp = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
+                    balanceTemp = balanceTemp.setScale(4, BigDecimal.ROUND_DOWN);  //保留4位小数,四舍五入
+                    Logger.i("余额" + balanceTemp);
+                    final BigDecimal finalBalanceTemp = balanceTemp;
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onBalanceSuccess(String.valueOf(finalBalanceTemp), finalBalanceTemp,node);
+                            callback.onBalanceSuccess(finalBalanceTemp,node);
                         }
                     });
                 } catch (final IOException e) {
