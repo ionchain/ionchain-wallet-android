@@ -2,6 +2,8 @@ package org.ionchain.wallet.mvp.view.activity.transaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,8 @@ import org.ionc.wallet.transaction.TransactionHelper;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.qrcode.activity.CaptureActivity;
+import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
 
@@ -37,30 +41,42 @@ import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
 public class TxActivity extends AbsBaseActivity implements OnTransationCallback, OnBalanceCallback, OnCheckCallback {
 
     private RelativeLayout header;
+    /**
+     * 收款人地址
+     */
     private EditText txToAddressEt;
     private EditText txAccountEt;
     private TextView txCostTv;
     private TextView balance_tv;
+    private ImageView scan_address;
 
     private SeekBar txSeekBarIndex;
 
     private String mAddress;//当前钱包的地址
     private String mKsPath;//钱包的ksp
 
-    private BigDecimal mCurrentGasPrice;
     private DialogPasswordCheck dialogPasswordCheck;
     private int mProgress = SEEK_BAR_SRART_VALUE;//进度值,起始值为 30 ,最大值为100
+    private ImageView back;
+    private Button txNext;
 
     private void findViews() {
         header = findViewById(R.id.header);
         txToAddressEt = findViewById(R.id.tx_to_address);
         txAccountEt = findViewById(R.id.tx_account);
         txCostTv = findViewById(R.id.tx_cost);
+        scan_address = findViewById(R.id.scan_address);
         balance_tv = findViewById(R.id.balance_tv);
         txSeekBarIndex = findViewById(R.id.tx_seek_bar_index);
-        Button txNext = findViewById(R.id.tx_next);
-        ImageView back = findViewById(R.id.back);
+        txNext = findViewById(R.id.tx_next);
+        back = findViewById(R.id.back);
 
+
+    }
+
+    @Override
+    protected void setListener() {
+        super.setListener();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +104,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                     public void onClick(View v) {
                         //检查密码是否正确
                         String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(pwd_input,mKsPath,TxActivity.this);
+                        IONCWalletSDK.getInstance().checkPassword(pwd_input, mKsPath, TxActivity.this);
 
                     }
                 }).show();
@@ -97,9 +113,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         });
         txSeekBarIndex.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             /**
-             * @param seekBar
+             * @param seekBar ..
              * @param progress  Gwei
-             * @param fromUser
+             * @param fromUser   ...
              */
             @SuppressLint("SetTextI18n")
             @Override
@@ -108,7 +124,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                     progress = SEEK_BAR_MIN_VALUE_1_GWEI;
                 }
                 mProgress = progress;
-                txCostTv.setText( getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
+                txCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
             }
 
             @Override
@@ -121,6 +137,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
             }
         });
+        scan_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, CaptureActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -128,14 +151,14 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     protected void initData() {
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
-        txCostTv.setText(getAppString(R.string.tx_fee)+ IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
+        txCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
     }
 
     @Override
     protected void handleIntent(Intent intent) {
         mAddress = getIntent().getStringExtra(CURRENT_ADDRESS);
         mKsPath = getIntent().getStringExtra(CURRENT_KSP);
-        IONCWalletSDK.getInstance().getIONCWalletBalance( mAddress, this);
+        IONCWalletSDK.getInstance().getIONCWalletBalance(mAddress, this);
     }
 
     @Override
@@ -188,5 +211,23 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onCheckFailure(String errorMsg) {
         ToastUtil.showToastLonger(getAppString(R.string.input_password_error));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //处理扫描结果（在界面上显示）
+        if (null != data) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
+            }
+            if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                final String result = bundle.getString(CodeUtils.RESULT_STRING);
+                txToAddressEt.setText(result);
+            } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                ToastUtil.showLong(getResources().getString(R.string.toast_qr_code_parase_error));
+            }
+        }
     }
 }

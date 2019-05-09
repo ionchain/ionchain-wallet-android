@@ -72,6 +72,7 @@ import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
+import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
 
 
@@ -291,18 +292,18 @@ public class AssetFragment extends AbsBaseFragment implements
     protected void initView(View view) {
 
         //设备列表
-        ListView mDevicesLv = (ListView) view.findViewById(R.id.devices_items);
+        ListView mDevicesLv = view.findViewById(R.id.devices_items);
         //lv头部
-        View lvHeader = LayoutInflater.from(getActivity()).inflate(R.layout.header_lv_home_page, null);
+        View lvHeader = LayoutInflater.from(mActivity).inflate(R.layout.header_lv_home_page, null);
         initListViewHeaderViews(lvHeader);
 
         mDevicesLv.addHeaderView(lvHeader);
 
         mRefresh = view.findViewById(R.id.refresh_asset);
         mRefresh.setOnRefreshListener(this);
-        mBuilder = new PopupWindowBuilder(getActivity(), R.layout.item_popup_list_layout, this);
+        mBuilder = new PopupWindowBuilder(mActivity, R.layout.item_popup_list_layout, this);
 
-        mAdapterDeviceLv = new CommonAdapter(getActivity(), mDataBeans, R.layout.item_devices_layout, new DeviceViewHelper(this));
+        mAdapterDeviceLv = new CommonAdapter(mActivity, mDataBeans, R.layout.item_devices_layout, new DeviceViewHelper(this));
         mDevicesLv.setAdapter(mAdapterDeviceLv);
 
     }
@@ -356,7 +357,7 @@ public class AssetFragment extends AbsBaseFragment implements
             public void onClick(View v) {
                 if (pleaseBackupWallet()) return;
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                startActivityForResult(intent, 10);
+                startActivityForResult(intent, QRCODE_BIND_DEVICE);
 
             }
         });
@@ -375,7 +376,7 @@ public class AssetFragment extends AbsBaseFragment implements
             }
         });
         /*
-         * 转账
+         * 转入
          * */
         tx_in_ll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -398,11 +399,14 @@ public class AssetFragment extends AbsBaseFragment implements
                 skip(intent);
             }
         });
+        /*
+        * 备份钱包
+        * */
         please_backup_wallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
-                dialogMnemonic = new DialogMnemonic(getActivity(), mnemonics, AssetFragment.this);
+                dialogMnemonic = new DialogMnemonic(mActivity, mnemonics, AssetFragment.this);
                 dialogMnemonic.show();
             }
         });
@@ -443,7 +447,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 10) {
+        if (resultCode == RESULT_OK && requestCode == QRCODE_BIND_DEVICE) {
             final String result = data.getStringExtra("result");
             Logger.i("result", result);
 
@@ -451,7 +455,7 @@ public class AssetFragment extends AbsBaseFragment implements
         /**
          * 处理二维码扫描结果
          */
-        if (requestCode == 10) {
+        if (requestCode == QRCODE_BIND_DEVICE) {
             //处理扫描结果（在界面上显示）
             if (null != data) {
                 Bundle bundle = data.getExtras();
@@ -460,7 +464,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     final String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    mDialogBindCardWithWallet = new DialogBindDevice(getActivity());
+                    mDialogBindCardWithWallet = new DialogBindDevice(mActivity);
                     mDialogBindCardWithWallet.setMessageText(result);
                     mDialogBindCardWithWallet.setLeftBtnClickedListener(new View.OnClickListener() {
                         @Override
