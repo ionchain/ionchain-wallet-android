@@ -1,5 +1,6 @@
-package org.ionchain.wallet.mvp.view.activity;
+package org.ionchain.wallet.mvp.view.activity.address;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import org.ionchain.wallet.utils.BitmapUtils;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLTE_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PICTURE_FILE_NAME;
 
 public class ShowAddressActivity extends AbsBaseActivity {
@@ -22,7 +24,7 @@ public class ShowAddressActivity extends AbsBaseActivity {
     private ImageView showQrImg;
     private Button copyBtn;
 
-    private String msg = "";
+    private String address = "";
 
     /**
      * Find the Views in the layout<br />
@@ -31,15 +33,19 @@ public class ShowAddressActivity extends AbsBaseActivity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        back = (ImageView) findViewById(R.id.back);
-        walletAddressTv = (TextView) findViewById(R.id.walletAddressTv);
-        showQrImg = (ImageView) findViewById(R.id.show_qr_img);
-        copyBtn = (Button) findViewById(R.id.copyBtn);
-        msg = getIntent().getStringExtra("msg");
-        walletAddressTv.setText(msg);
-        showQrImg.setImageBitmap(QRCodeUtils.generateQRCode(msg, 200));
+        back = findViewById(R.id.back);
+        walletAddressTv = findViewById(R.id.walletAddressTv);
+        showQrImg = findViewById(R.id.show_qr_img);
+        copyBtn = findViewById(R.id.copyBtn);
+        walletAddressTv.setText(address);
+        showQrImg.setImageBitmap(QRCodeUtils.generateQRCode(address, 200));
     }
 
+    @Override
+    protected void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        address = intent.getStringExtra(INTENT_PARAME_WALLTE_ADDRESS);
+    }
 
     @Override
     protected void initData() {
@@ -75,7 +81,7 @@ public class ShowAddressActivity extends AbsBaseActivity {
         showQrImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                BitmapUtils.savePicture(QRCodeUtils.generateQRCode(msg, 200), PICTURE_FILE_NAME, msg+".jpg");
+                BitmapUtils.savePicture(QRCodeUtils.generateQRCode(address, 200), PICTURE_FILE_NAME, address +".jpg");
                 ToastUtil.showLong(getAppString(R.string.save_pos));
                 return true;
             }

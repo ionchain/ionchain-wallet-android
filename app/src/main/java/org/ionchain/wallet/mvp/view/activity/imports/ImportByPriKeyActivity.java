@@ -280,7 +280,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     })
                     .show();
         } else {
-            walletBean.setMIconIdex(getNum(7));
+            walletBean.setMIconIndex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getResources().getString(R.string.import_success));
             if (IONCWalletSDK.getInstance().getAllWallet().size()==1) {

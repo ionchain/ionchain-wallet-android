@@ -29,6 +29,6 @@ public class MoreWalletViewHelper implements IViewHolderHelper<MoreWalletViewHol
     @Override
     public void bindListDataToView(Context context, List<WalletBean> iBaseBeanList, MoreWalletViewHolder viewHolder, int pos) {
         viewHolder.mWalletName.setText(iBaseBeanList.get(pos).getName());
-        viewHolder.mWalletImg.setImageResource(App.sRandomHeaderMore[iBaseBeanList.get(pos).getMIconIdex()]);
+        viewHolder.mWalletImg.setImageResource(App.sRandomHeaderMore[iBaseBeanList.get(pos).getMIconIndex()]);
     }
 }

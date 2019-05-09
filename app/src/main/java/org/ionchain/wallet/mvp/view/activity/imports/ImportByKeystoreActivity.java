@@ -171,7 +171,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
         if (null != wallet) {
             ToastUtil.showLong(getAppString(R.string.wallet_name_exists));
         } else {
-            walletBean.setMIconIdex(getNum(7));
+            walletBean.setMIconIndex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
             if (IONCWalletSDK.getInstance().getAllWallet().size()==1) {

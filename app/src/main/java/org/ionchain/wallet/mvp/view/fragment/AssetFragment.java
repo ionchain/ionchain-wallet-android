@@ -38,7 +38,7 @@ import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDExRateRMBCallback;
 import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDPriceCallback;
 import org.ionchain.wallet.mvp.presenter.device.DevicePresenter;
 import org.ionchain.wallet.mvp.presenter.ioncrmb.PricePresenter;
-import org.ionchain.wallet.mvp.view.activity.ShowAddressActivity;
+import org.ionchain.wallet.mvp.view.activity.address.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
@@ -72,8 +72,9 @@ import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLTE_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
-import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
+import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 
 
 public class AssetFragment extends AbsBaseFragment implements
@@ -252,7 +253,7 @@ public class AssetFragment extends AbsBaseFragment implements
         }
         setBackupTag();
         walletNameTx.setText(mCurrentWallet.getName());
-        int id = mCurrentWallet.getMIconIdex();
+        int id = mCurrentWallet.getMIconIndex();
         wallet_logo.setImageResource(App.sRandomHeader[id]);
         getNetData(mCurrentWallet);
     }
@@ -340,13 +341,16 @@ public class AssetFragment extends AbsBaseFragment implements
 
         });
         /*
-         * 修改钱包
+         * 修改钱包   todo
          * */
         wallet_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (pleaseBackupWallet()) return;
-                skip(ModifyAndExportWalletActivity.class, SERIALIZABLE_DATA, mCurrentWallet);
+                /*
+                *  将币价信息携带过去
+                */
+                skip(ModifyAndExportWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
             }
         });
         /*
@@ -383,7 +387,7 @@ public class AssetFragment extends AbsBaseFragment implements
             public void onClick(View v) {
                 if (pleaseBackupWallet()) return;
                 Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
-                intent.putExtra("msg", mCurrentWallet.getAddress());
+                intent.putExtra(INTENT_PARAME_WALLTE_ADDRESS, mCurrentWallet.getAddress());
                 skip(intent);
             }
         });
@@ -542,7 +546,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 mCurrentWallet = mMoreWallets.get(position);
                 walletNameTx.setText(mCurrentWallet.getName());
                 setBackupTag();
-                int ids = mCurrentWallet.getMIconIdex();
+                int ids = mCurrentWallet.getMIconIndex();
                 wallet_logo.setImageResource(App.sRandomHeader[ids]);
                 getNetData(mCurrentWallet);
                 mDataBeans.clear();
@@ -683,10 +687,12 @@ public class AssetFragment extends AbsBaseFragment implements
                 walletBalanceTxETH.setText(balanceBigDecimal.toPlainString());
                 break;
         }
+        mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
         mRefresh.finishRefresh(); //
         //获取美元价格
         mPricePresenter = new PricePresenter();
         mPricePresenter.getUSDPrice(this);
+
     }
 
     /**
@@ -696,6 +702,8 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onBalanceFailure(String error) {
         ToastUtil.showToastLonger(error);
         mRefresh.finishRefresh();
+        ioncBalanceTx.setText(mCurrentWallet.getBalance());
+        rmb_balance_tx.setText(mCurrentWallet.getRmb());
     }
 
     @Override
@@ -789,6 +797,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mRefresh.finishRefresh();
         BigDecimal rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(usdPrice));
         rmb_balance_tx.setText(rmb.setScale(4,ROUND_HALF_UP).toPlainString());
+        mCurrentWallet.setRmb(rmb.setScale(4,ROUND_HALF_UP).toPlainString());
     }
 
     @Override

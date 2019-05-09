@@ -1,10 +1,11 @@
-package org.ionchain.wallet.mvp.view.activity;
+package org.ionchain.wallet.mvp.view.activity.setting;
 
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.LocalManageUtil;
 

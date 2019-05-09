@@ -236,7 +236,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         hideProgress();
         IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
-        walletBean.setMIconIdex(getNum(7));
+        walletBean.setMIconIndex(getNum(7));
         this.walletBean = walletBean;
         //首先备份助记词
         String[] mnemonics = walletBean.getMnemonic().split(" ");

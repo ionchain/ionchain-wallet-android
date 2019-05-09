@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".mvp.view.activity.SettingLanguageActivity" />
+        <activity android:name=".mvp.view.activity.setting.SettingLanguageActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -38,7 +38,7 @@
         </provider>
 
         <activity
-            android:name=".mvp.view.activity.WelcomeActivity"
+            android:name=".mvp.view.activity.welcome.WelcomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleFullscreen"
@@ -78,13 +78,13 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.view.activity.ManageWalletActivity"
+            android:name=".mvp.view.activity.manager.ManageWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".mvp.view.activity.ShowAddressActivity"
+            android:name=".mvp.view.activity.address.ShowAddressActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".mvp.view.activity.transaction.TxActivity" />
         <activity android:name=".mvp.view.activity.imports.SelectImportModeActivity" />
@@ -93,7 +93,7 @@
             android:name=".mvp.view.activity.imports.ImportByKeystoreActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".mvp.view.activity.transaction.TxRecordActivity" />
-        <activity android:name=".mvp.view.activity.WebActivity" />
+        <activity android:name=".mvp.view.activity.webview.WebActivity" />
         <activity android:name=".mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity" />
         <activity android:name=".mvp.view.activity.sdk.SDKCreateActivity" />
         <activity android:name=".mvp.view.activity.sdk.SDKKeyStoreActivity" />

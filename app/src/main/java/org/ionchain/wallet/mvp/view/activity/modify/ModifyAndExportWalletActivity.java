@@ -9,7 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ionc.wallet.bean.WalletBean;
-import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnCheckCallback;
 import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
@@ -31,18 +30,21 @@ import org.web3j.utils.Files;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 
-import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
+import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
  */
 public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
-        OnBalanceCallback,
         OnImportPrivateKeyCallback,
-        View.OnClickListener, OnDeletefinishCallback, OnModifyPasswordCallback, OnModifyWalletPassWordCallback, OnCheckCallback, DialogTextMessage.OnBtnClickedListener {
+        View.OnClickListener,
+        OnDeletefinishCallback,
+        OnModifyPasswordCallback,
+        OnModifyWalletPassWordCallback,
+        OnCheckCallback,
+        DialogTextMessage.OnBtnClickedListener {
 
 
     WalletBean mWallet;
@@ -50,6 +52,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
     private Button delBtn;
     private TextView walletBalanceTv;
+    private TextView rmbBalanceTv;
     private TextView walletAddressTv;
     private AppCompatEditText walletNameEt;
     private RelativeLayout modifyPwdLayout;
@@ -81,6 +84,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     private void findViews() {
         delBtn = (Button) findViewById(R.id.delBtn);
         walletBalanceTv = (TextView) findViewById(R.id.walletBalanceTv);
+        rmbBalanceTv = (TextView) findViewById(R.id.rmbBalanceTv);
         walletAddressTv = (TextView) findViewById(R.id.walletAddressTv);
         walletNameEt = (AppCompatEditText) findViewById(R.id.walletNameEt);
         modifyPwdLayout = (RelativeLayout) findViewById(R.id.modifyPwdLayout);
@@ -106,6 +110,9 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     @Override
     protected void initData() {
 
+        if (mWallet == null) {
+            return;
+        }
         if (!TextUtils.isEmpty(mWallet.getAddress())) {
             walletAddressTv.setText(mWallet.getAddress());
         }
@@ -113,15 +120,20 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         if (!TextUtils.isEmpty(mWallet.getName())) {
             walletNameEt.setText(mWallet.getName());
         }
+        if (!TextUtils.isEmpty(mWallet.getBalance())) {
+            walletBalanceTv.setText(mWallet.getBalance());
 
-//        IONCWalletSDK.getInstance().getAccountBalance(nodeUrl, mWallet, this);
+        }
+        if (!TextUtils.isEmpty(mWallet.getRmb())) {
+            rmbBalanceTv.setText(mWallet.getRmb());
+        }
 
     }
 
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
-        mWallet = (WalletBean) intent.getSerializableExtra(SERIALIZABLE_DATA);
+        mWallet = (WalletBean) intent.getParcelableExtra(PARCELABLE_WALLET_BEAN);
         bShowMnemonicRl = !StringUtils.isEmpty(mWallet.getMnemonic());
         bShowKSRl = !StringUtils.isEmpty(mWallet.getKeystore());
     }
@@ -174,22 +186,6 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
     }
 
-    /**
-     * 删钱包
-     * @param balanceBigDecimal
-     * @param nodeUrlTag
-     */
-
-
-    @Override
-    public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
-//        walletBalanceTv.setText(ballance.getBalance());
-    }
-
-    @Override
-    public void onBalanceFailure(String error) {
-        walletBalanceTv.setText("0.0000");
-    }
 
     @Override
     public void onImportPriKeySuccess(String privateKey) {

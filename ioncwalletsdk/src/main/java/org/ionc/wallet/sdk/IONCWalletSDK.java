@@ -206,7 +206,7 @@ public class IONCWalletSDK {
         String privateKey = ecKeyPair.getPrivateKey().toString(16);
         String publicKey = ecKeyPair.getPublicKey().toString(16);
         walletBean.setPrivateKey(privateKey);
-        walletBean.setPublickey(publicKey);
+        walletBean.setPublic_key(publicKey);
         Logger.i("私钥： " + privateKey);
         try {
             String keystore = WalletUtils.generateWalletFile(password, ecKeyPair, new File(keystoreDir), false);
@@ -315,7 +315,7 @@ public class IONCWalletSDK {
                     }
                     bean.setName(wallet_name);
                     bean.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
-                    bean.setPublickey(keyPair.getPublicKey().toString(16));//公钥
+                    bean.setPublic_key(keyPair.getPublicKey().toString(16));//公钥
                     bean.setAddress("0x" + Keys.getAddress(keyPair)); //地址
                     bean.setPassword(password); //密码
                     bean.setKeystore(path);
@@ -352,7 +352,7 @@ public class IONCWalletSDK {
             ECKeyPair keyPair = ECKeyPair.create(key);
             String private_key = keyPair.getPrivateKey().toString(16);
             wallet.setPrivateKey(private_key);
-            wallet.setPublickey(keyPair.getPublicKey().toString(16));
+            wallet.setPublic_key(keyPair.getPublicKey().toString(16));
             wallet.setAddress("0x" + Keys.getAddress(keyPair));
             wallet.setName(walletname);
             wallet.setMnemonic("");
@@ -896,7 +896,7 @@ public class IONCWalletSDK {
                     Credentials credentials = WalletUtils.loadCredentials(password, ksp);
                     ECKeyPair keyPair = credentials.getEcKeyPair();
                     bean.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
-                    bean.setPublickey(keyPair.getPublicKey().toString(16));//公钥
+                    bean.setPublic_key(keyPair.getPublicKey().toString(16));//公钥
                     bean.setAddress("0x" + Keys.getAddress(keyPair)); //地址
                     bean.setPassword(password); //密码
                     bean.setKeystore(ksp);

@@ -28,14 +28,15 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         public final static Property PrivateKey = new Property(1, String.class, "privateKey", false, "PRIVATE_KEY");
         public final static Property Name = new Property(2, String.class, "name", false, "NAME");
         public final static Property Address = new Property(3, String.class, "address", false, "ADDRESS");
-        public final static Property Publickey = new Property(4, String.class, "publickey", false, "PUBLICKEY");
+        public final static Property Public_key = new Property(4, String.class, "public_key", false, "PUBLIC_KEY");
         public final static Property Balance = new Property(5, String.class, "balance", false, "BALANCE");
         public final static Property Keystore = new Property(6, String.class, "keystore", false, "KEYSTORE");
         public final static Property Password = new Property(7, String.class, "password", false, "PASSWORD");
-        public final static Property MIconIdex = new Property(8, int.class, "mIconIdex", false, "M_ICON_IDEX");
+        public final static Property MIconIndex = new Property(8, int.class, "mIconIndex", false, "M_ICON_INDEX");
         public final static Property Mnemonic = new Property(9, String.class, "mnemonic", false, "MNEMONIC");
-        public final static Property Choosen = new Property(10, boolean.class, "choosen", false, "CHOOSEN");
+        public final static Property Chosen = new Property(10, boolean.class, "chosen", false, "CHOSEN");
         public final static Property IsMainWallet = new Property(11, boolean.class, "isMainWallet", false, "IS_MAIN_WALLET");
+        public final static Property Rmb = new Property(12, String.class, "rmb", false, "RMB");
     }
 
 
@@ -55,14 +56,15 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
                 "\"PRIVATE_KEY\" TEXT," + // 1: privateKey
                 "\"NAME\" TEXT," + // 2: name
                 "\"ADDRESS\" TEXT," + // 3: address
-                "\"PUBLICKEY\" TEXT," + // 4: publickey
+                "\"PUBLIC_KEY\" TEXT," + // 4: public_key
                 "\"BALANCE\" TEXT," + // 5: balance
                 "\"KEYSTORE\" TEXT," + // 6: keystore
                 "\"PASSWORD\" TEXT," + // 7: password
-                "\"M_ICON_IDEX\" INTEGER NOT NULL ," + // 8: mIconIdex
+                "\"M_ICON_INDEX\" INTEGER NOT NULL ," + // 8: mIconIndex
                 "\"MNEMONIC\" TEXT," + // 9: mnemonic
-                "\"CHOOSEN\" INTEGER NOT NULL ," + // 10: choosen
-                "\"IS_MAIN_WALLET\" INTEGER NOT NULL );"); // 11: isMainWallet
+                "\"CHOSEN\" INTEGER NOT NULL ," + // 10: chosen
+                "\"IS_MAIN_WALLET\" INTEGER NOT NULL ," + // 11: isMainWallet
+                "\"RMB\" TEXT);"); // 12: rmb
     }
 
     /** Drops the underlying database table. */
@@ -95,9 +97,9 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
             stmt.bindString(4, address);
         }
  
-        String publickey = entity.getPublickey();
-        if (publickey != null) {
-            stmt.bindString(5, publickey);
+        String public_key = entity.getPublic_key();
+        if (public_key != null) {
+            stmt.bindString(5, public_key);
         }
  
         String balance = entity.getBalance();
@@ -114,14 +116,19 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         if (password != null) {
             stmt.bindString(8, password);
         }
-        stmt.bindLong(9, entity.getMIconIdex());
+        stmt.bindLong(9, entity.getMIconIndex());
  
         String mnemonic = entity.getMnemonic();
         if (mnemonic != null) {
             stmt.bindString(10, mnemonic);
         }
-        stmt.bindLong(11, entity.getChoosen() ? 1L: 0L);
+        stmt.bindLong(11, entity.getChosen() ? 1L: 0L);
         stmt.bindLong(12, entity.getIsMainWallet() ? 1L: 0L);
+ 
+        String rmb = entity.getRmb();
+        if (rmb != null) {
+            stmt.bindString(13, rmb);
+        }
     }
 
     @Override
@@ -148,9 +155,9 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
             stmt.bindString(4, address);
         }
  
-        String publickey = entity.getPublickey();
-        if (publickey != null) {
-            stmt.bindString(5, publickey);
+        String public_key = entity.getPublic_key();
+        if (public_key != null) {
+            stmt.bindString(5, public_key);
         }
  
         String balance = entity.getBalance();
@@ -167,14 +174,19 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         if (password != null) {
             stmt.bindString(8, password);
         }
-        stmt.bindLong(9, entity.getMIconIdex());
+        stmt.bindLong(9, entity.getMIconIndex());
  
         String mnemonic = entity.getMnemonic();
         if (mnemonic != null) {
             stmt.bindString(10, mnemonic);
         }
-        stmt.bindLong(11, entity.getChoosen() ? 1L: 0L);
+        stmt.bindLong(11, entity.getChosen() ? 1L: 0L);
         stmt.bindLong(12, entity.getIsMainWallet() ? 1L: 0L);
+ 
+        String rmb = entity.getRmb();
+        if (rmb != null) {
+            stmt.bindString(13, rmb);
+        }
     }
 
     @Override
@@ -189,14 +201,15 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // privateKey
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // address
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // publickey
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // public_key
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // balance
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // keystore
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // password
-            cursor.getInt(offset + 8), // mIconIdex
+            cursor.getInt(offset + 8), // mIconIndex
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // mnemonic
-            cursor.getShort(offset + 10) != 0, // choosen
-            cursor.getShort(offset + 11) != 0 // isMainWallet
+            cursor.getShort(offset + 10) != 0, // chosen
+            cursor.getShort(offset + 11) != 0, // isMainWallet
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // rmb
         );
         return entity;
     }
@@ -207,14 +220,15 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         entity.setPrivateKey(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setAddress(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setPublickey(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setPublic_key(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setBalance(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setKeystore(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setPassword(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setMIconIdex(cursor.getInt(offset + 8));
+        entity.setMIconIndex(cursor.getInt(offset + 8));
         entity.setMnemonic(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setChoosen(cursor.getShort(offset + 10) != 0);
+        entity.setChosen(cursor.getShort(offset + 10) != 0);
         entity.setIsMainWallet(cursor.getShort(offset + 11) != 0);
+        entity.setRmb(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     @Override

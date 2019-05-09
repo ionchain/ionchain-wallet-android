@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,7 +41,8 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     protected View mContainerView;
     protected boolean mIsFirstBindData = true;
     protected ImmersionBar mImmersionBar;
-    protected boolean isRefreshing=false;//listview是否可用
+    protected boolean isRefreshing = false;//listview是否可用
+
     public AbsBaseFragment() {
         this.TAG = this.getClass().getSimpleName();
     }
@@ -175,18 +177,30 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
             intent.putExtra(params, obj);
             startActivityForResult(intent, 0);
         } catch (Throwable e) {
-            Logger.e( e.getMessage());
+            Logger.e(e.getMessage());
         }
     }
+
+    protected void skip(Class<?> clazz, String params, Parcelable obj) {
+        try {
+            Intent intent = new Intent(getActivity(), clazz);
+            intent.putExtra(params, obj);
+            startActivityForResult(intent, 0);
+        } catch (Throwable e) {
+            Logger.e(e.getMessage());
+        }
+    }
+
     /**
      * 请求相机权限
+     *
      * @return 是否开启了权限
      */
     @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
     protected boolean requestCameraPermissions() {
         String[] perms = new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE};
         if (!EasyPermissions.hasPermissions(App.mContext, perms)) {
-            EasyPermissions.requestPermissions(this,  getAppString(R.string.permission_camera), REQUEST_CODE_QRCODE_PERMISSIONS, perms);
+            EasyPermissions.requestPermissions(this, getAppString(R.string.permission_camera), REQUEST_CODE_QRCODE_PERMISSIONS, perms);
             return false;
         } else {
             return true;
@@ -195,6 +209,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
 
     /**
      * 请求存储权限
+     *
      * @return 是否开启了权限
      */
     @AfterPermissionGranted(REQUEST_STORAGE_PERMISSIONS)
@@ -206,11 +221,13 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
             return true;
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
+
     @Override
     public void onPermissionsGranted(int requestCode, List<String> list) {
         // Some permissions have been granted
@@ -224,13 +241,15 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
         ToastUtil.showToastLonger(getAppString(R.string.permission_request));
         Logger.i("拒绝" + list.toString());
     }
-    protected void showProgress(String msg){
+
+    protected void showProgress(String msg) {
         mActivity.showProgress(msg);
     }
 
     protected void hideProgress() {
         mActivity.hideProgress();
     }
+
     /**
      * @param id 多语言环境中的
      * @return 字符串
@@ -238,6 +257,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     public String getAppString(int id) {
         return getResources().getString(id);
     }
+
     /**
      * @param id 多语言环境中的
      * @return color

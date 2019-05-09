@@ -33,7 +33,7 @@ public class ManagerWalletHelper implements IViewHolderHelper<ManagerWalletHolde
     public void bindListDataToView(Context context, List<WalletBean> iBaseBeanList, ManagerWalletHolder viewHolder, final int position) {
         viewHolder.mWalletName.setText(iBaseBeanList.get(position).getName());
         Log.i("dddd", "bindListDataToView: " + iBaseBeanList.get(position).getName());
-        viewHolder.mWalletImg.setImageResource(App.sRandomHeader[iBaseBeanList.get(position).getMIconIdex()]);
+        viewHolder.mWalletImg.setImageResource(App.sRandomHeader[iBaseBeanList.get(position).getMIconIndex()]);
         viewHolder.mManagerWalletRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

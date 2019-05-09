@@ -87,7 +87,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
         btn_sure = findViewById(R.id.btn_sure);
         for (WalletBean w :
                 mWalletBeanList) {
-            w.setChoosen(false);
+            w.setChosen(false);
         }
         mAdapter = new CommonAdapter(mContext, mWalletBeanList, R.layout.item_all_wallet_layout, new AllWalletViewHepler(this));
         all_wallet_lv.setAdapter(mAdapter);

@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity;
+package org.ionchain.wallet.mvp.view.activity.webview;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

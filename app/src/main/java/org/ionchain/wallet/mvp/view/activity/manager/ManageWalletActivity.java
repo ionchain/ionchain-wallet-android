@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity;
+package org.ionchain.wallet.mvp.view.activity.manager;
 
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatEditText;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
-import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA;
+import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLoadmoreListener, ManagerWalletHelper.OnWalletManagerItemClickedListener, DialogMnemonic.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak {
@@ -48,10 +48,10 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     private WalletBean mCurrentWallet;
 
     private void findViews() {
-        srl = (SmartRefreshLayout) findViewById(R.id.srl);
-        listview = (ListView) findViewById(R.id.listview);
-        importBtn = (Button) findViewById(R.id.importBtn);
-        createBtn = (Button) findViewById(R.id.createBtn);
+        srl = findViewById(R.id.srl);
+        listview = findViewById(R.id.listview);
+        importBtn = findViewById(R.id.importBtn);
+        createBtn = findViewById(R.id.createBtn);
     }
 
 
@@ -145,7 +145,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
             dialogMnemonic.show();
             return;
         }
-        skip(ModifyAndExportWalletActivity.class, SERIALIZABLE_DATA, mCurrentWallet);
+        skip(ModifyAndExportWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
     }
 
     @Override

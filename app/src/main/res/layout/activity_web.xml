@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".mvp.view.activity.WebActivity">
+    tools:context=".mvp.view.activity.webview.WebActivity">
 
     <RelativeLayout
         android:id="@+id/toolbarlayout"

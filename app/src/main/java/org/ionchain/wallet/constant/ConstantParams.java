@@ -13,7 +13,10 @@ public final class ConstantParams {
     public static final int REQUEST_MODIFY_WALLET_PWD = 100;
 
 
-    public static final String SERIALIZABLE_DATA = "serializable_data";
+    /**
+     * 传递钱包对象
+     */
+    public static final String PARCELABLE_WALLET_BEAN = "parcelable_data";
     public static final String SERIALIZABLE_DATA1 = "serializable_data1";
 
     public static final String DB_NAME = "ionchainwallet";
@@ -67,11 +70,17 @@ public final class ConstantParams {
 
 
     /**
-     * 标识 activity 由那里启动的
+     * intent 参数
      */
     public static final String INTENT_PARAME_TAG = "intent_parame_flag";
     public static final String INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY = "Skip_To_MainActivity";
     public static final String INTENT_PARAME_TAG_SKIP_TO_MANAGER_ACTIVITY = "Skip_To_ManagerActivity";
+
+
+
+    public static final String INTENT_PARAME_WALLTE_ADDRESS = "msg";
+
+
 
 
     /**

@@ -44,7 +44,7 @@
         android:gravity="center"
         android:text="@string/balance_"
         android:textColor="#666666"
-        android:textSize="@dimen/size_level5" />
+        android:textSize="@dimen/textSize_14" />
 
     <EditText
         android:id="@+id/tx_to_address"

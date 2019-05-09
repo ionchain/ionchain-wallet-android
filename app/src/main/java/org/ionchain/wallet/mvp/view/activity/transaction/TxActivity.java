@@ -53,7 +53,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     private SeekBar txSeekBarIndex;
 
     private String mAddress;//当前钱包的地址
-    private String mKsPath;//钱包的ksp
+    private String mKsPath;//钱包的ksp ,用于密码检查
 
     private DialogPasswordCheck dialogPasswordCheck;
     private int mProgress = SEEK_BAR_SRART_VALUE;//进度值,起始值为 30 ,最大值为100
@@ -188,7 +188,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @SuppressLint("SetTextI18n")
     @Override
     public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
-        balance_tv.setText(getAppString(R.string.balance_) + balanceBigDecimal);
+        balance_tv.setText(getAppString(R.string.balance_) + balanceBigDecimal+" IONC");
     }
 
     @Override

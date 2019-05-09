@@ -29,14 +29,14 @@
 
             <include layout="@layout/custom_title_bar" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/h40"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_size_16dp"
                 android:layout_marginTop="@dimen/h10"
                 android:layout_marginRight="@dimen/padding_size_16dp"
-                android:gravity="center|bottom"
-                android:orientation="horizontal">
+                android:gravity="center"
+                >
 
                 <TextView
                     android:id="@+id/walletBalanceTv"
@@ -46,7 +46,31 @@
                     android:gravity="center"
                     android:text="0.0000"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/txt_28sp"
+                    android:textSize="@dimen/txt_16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:layout_toEndOf="@id/walletBalanceTv"
+                    android:gravity="bottom"
+                    android:layout_alignBaseline="@id/walletBalanceTv"
+                    android:text="IONC"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_below="@id/walletBalanceTv"
+                    android:id="@+id/rmbBalanceTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/h5"
+                    android:gravity="center"
+                    android:text="0.0000"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize_14"
                     android:textStyle="bold" />
 
                 <TextView
@@ -54,12 +78,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/h5"
                     android:gravity="bottom"
-                    android:text="IONC"
+                    android:layout_toEndOf="@id/rmbBalanceTv"
+                    android:text="RMB"
+                    android:layout_alignBaseline="@id/rmbBalanceTv"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/txt_12sp"
+                    android:textSize="@dimen/txt_8sp"
                     android:textStyle="bold" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
             <LinearLayout

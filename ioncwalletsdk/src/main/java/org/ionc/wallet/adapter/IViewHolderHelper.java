@@ -3,14 +3,13 @@ package org.ionc.wallet.adapter;
 import android.content.Context;
 import android.view.View;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * @param <VH> 泛型参数 （实现 IViewHolder 接口）
  * @param <BEAN> 泛型参数 （实现 Serializable 接口）
  */
-public interface IViewHolderHelper<VH extends IViewHolder, BEAN extends Serializable>  {
+public interface IViewHolderHelper<VH extends IViewHolder, BEAN >  {
         /** 用于初始化ViewHolder
          * @param viewHolder  item
          * @param convertView item View

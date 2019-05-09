@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
-import org.ionchain.wallet.mvp.view.activity.WebActivity;
+import org.ionchain.wallet.mvp.view.activity.webview.WebActivity;
 import org.ionchain.wallet.utils.LocalManageUtil;
 
 import java.io.Serializable;
@@ -203,6 +204,12 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
 
 
     protected void skip(Class<?> clazz, String params, Serializable obj) {
+        Intent intent = new Intent(this, clazz);
+        intent.putExtra(params, obj);
+        startActivity(intent);
+    }
+
+    protected void skip(Class<?> clazz, String params, Parcelable obj) {
         Intent intent = new Intent(this, clazz);
         intent.putExtra(params, obj);
         startActivity(intent);

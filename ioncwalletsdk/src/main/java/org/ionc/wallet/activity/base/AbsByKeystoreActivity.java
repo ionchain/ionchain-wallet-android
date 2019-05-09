@@ -110,7 +110,7 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
         if (null != wallet) {
             ToastUtil.showLong(getAppString(R.string.wallet_exist_name_is) + wallet.getName());
         } else {
-            walletBean.setMIconIdex(RandomUntil.getNum(7));
+            walletBean.setMIconIndex(RandomUntil.getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
             onSDKCreateSuccess(walletBean);

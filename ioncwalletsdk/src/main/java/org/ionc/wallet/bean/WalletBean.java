@@ -1,16 +1,15 @@
 package org.ionc.wallet.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
-import java.io.Serializable;
-
 @Entity
-public class WalletBean implements Serializable {
-
-
-    private static final long serialVersionUID = 8908676465356334947L;
+public class WalletBean implements Parcelable {
+    
     @Id
     private Long id;
     /**
@@ -32,7 +31,7 @@ public class WalletBean implements Serializable {
      * 公钥 我也不知道干嘛的
      * )
      */
-    private String publickey;
+    private String public_key;
     /**
      * 余额 ionchain的 精确到0.0000
      * )
@@ -52,7 +51,7 @@ public class WalletBean implements Serializable {
     /**
      * 钱包icon
      */
-    private int mIconIdex;
+    private int mIconIndex;
 
     /**
      * 助记词,用户备份后,置空
@@ -63,7 +62,7 @@ public class WalletBean implements Serializable {
     /**
      * 是否被选中，在支付的时候
      */
-    private boolean choosen;
+    private boolean chosen;
 
 
     /**
@@ -72,23 +71,30 @@ public class WalletBean implements Serializable {
     private boolean isMainWallet;
 
 
-    @Generated(hash = 1550670516)
-    public WalletBean(Long id, String privateKey, String name, String address,
-            String publickey, String balance, String keystore, String password,
-            int mIconIdex, String mnemonic, boolean choosen, boolean isMainWallet) {
+    private String rmb;
+    
+
+
+
+    @Generated(hash = 470537904)
+    public WalletBean(Long id, String privateKey, String name, String address, String public_key,
+            String balance, String keystore, String password, int mIconIndex, String mnemonic,
+            boolean chosen, boolean isMainWallet, String rmb) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
         this.address = address;
-        this.publickey = publickey;
+        this.public_key = public_key;
         this.balance = balance;
         this.keystore = keystore;
         this.password = password;
-        this.mIconIdex = mIconIdex;
+        this.mIconIndex = mIconIndex;
         this.mnemonic = mnemonic;
-        this.choosen = choosen;
+        this.chosen = chosen;
         this.isMainWallet = isMainWallet;
+        this.rmb = rmb;
     }
+
 
 
     @Generated(hash = 1814219826)
@@ -96,9 +102,11 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public Long getId() {
         return this.id;
     }
+
 
 
     public void setId(Long id) {
@@ -106,9 +114,11 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public String getPrivateKey() {
         return this.privateKey;
     }
+
 
 
     public void setPrivateKey(String privateKey) {
@@ -116,9 +126,11 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public String getName() {
         return this.name;
     }
+
 
 
     public void setName(String name) {
@@ -126,9 +138,11 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public String getAddress() {
         return this.address;
     }
+
 
 
     public void setAddress(String address) {
@@ -136,14 +150,17 @@ public class WalletBean implements Serializable {
     }
 
 
-    public String getPublickey() {
-        return this.publickey;
+
+    public String getPublic_key() {
+        return this.public_key;
     }
 
 
-    public void setPublickey(String publickey) {
-        this.publickey = publickey;
+
+    public void setPublic_key(String public_key) {
+        this.public_key = public_key;
     }
+
 
 
     public String getBalance() {
@@ -151,9 +168,11 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public void setBalance(String balance) {
         this.balance = balance;
     }
+
 
 
     public String getKeystore() {
@@ -161,9 +180,11 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public void setKeystore(String keystore) {
         this.keystore = keystore;
     }
+
 
 
     public String getPassword() {
@@ -171,19 +192,23 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public void setPassword(String password) {
         this.password = password;
     }
 
 
-    public int getMIconIdex() {
-        return this.mIconIdex;
+
+    public int getMIconIndex() {
+        return this.mIconIndex;
     }
 
 
-    public void setMIconIdex(int mIconIdex) {
-        this.mIconIdex = mIconIdex;
+
+    public void setMIconIndex(int mIconIndex) {
+        this.mIconIndex = mIconIndex;
     }
+
 
 
     public String getMnemonic() {
@@ -191,19 +216,23 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public void setMnemonic(String mnemonic) {
         this.mnemonic = mnemonic;
     }
 
 
-    public boolean getChoosen() {
-        return this.choosen;
+
+    public boolean getChosen() {
+        return this.chosen;
     }
 
 
-    public void setChoosen(boolean choosen) {
-        this.choosen = choosen;
+
+    public void setChosen(boolean chosen) {
+        this.chosen = chosen;
     }
+
 
 
     public boolean getIsMainWallet() {
@@ -211,8 +240,70 @@ public class WalletBean implements Serializable {
     }
 
 
+
     public void setIsMainWallet(boolean isMainWallet) {
         this.isMainWallet = isMainWallet;
     }
 
+
+
+    public String getRmb() {
+        return this.rmb;
+    }
+
+
+
+    public void setRmb(String rmb) {
+        this.rmb = rmb;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.privateKey);
+        dest.writeString(this.name);
+        dest.writeString(this.address);
+        dest.writeString(this.public_key);
+        dest.writeString(this.balance);
+        dest.writeString(this.keystore);
+        dest.writeString(this.password);
+        dest.writeInt(this.mIconIndex);
+        dest.writeString(this.mnemonic);
+        dest.writeByte(this.chosen ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isMainWallet ? (byte) 1 : (byte) 0);
+        dest.writeString(this.rmb);
+    }
+
+    protected WalletBean(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.privateKey = in.readString();
+        this.name = in.readString();
+        this.address = in.readString();
+        this.public_key = in.readString();
+        this.balance = in.readString();
+        this.keystore = in.readString();
+        this.password = in.readString();
+        this.mIconIndex = in.readInt();
+        this.mnemonic = in.readString();
+        this.chosen = in.readByte() != 0;
+        this.isMainWallet = in.readByte() != 0;
+        this.rmb = in.readString();
+    }
+
+    public static final Parcelable.Creator<WalletBean> CREATOR = new Parcelable.Creator<WalletBean>() {
+        @Override
+        public WalletBean createFromParcel(Parcel source) {
+            return new WalletBean(source);
+        }
+
+        @Override
+        public WalletBean[] newArray(int size) {
+            return new WalletBean[size];
+        }
+    };
 }

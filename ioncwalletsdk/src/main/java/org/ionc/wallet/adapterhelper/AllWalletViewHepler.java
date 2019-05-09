@@ -42,7 +42,7 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
             viewHolder.count.setText(iBaseBeanList.get(position).getBalance());
 
         }
-        if (iBaseBeanList.get(position).getChoosen()) {
+        if (iBaseBeanList.get(position).getChosen()) {
             Logger.i("position 0 = " + position);
             viewHolder.all_wallet_ll.setBackgroundColor(context.getResources().getColor(R.color.chosen_color));
         } else {
@@ -57,12 +57,12 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
                 for (int i = 0; i < size; i++) {
                     if (i == position) {
                         Logger.i("position 2 = " + position);
-                        iBaseBeanList.get(i).setChoosen(true);
+                        iBaseBeanList.get(i).setChosen(true);
 
                     } else {
                         Logger.i("position 3 = " + position);
 
-                        iBaseBeanList.get(i).setChoosen(false);
+                        iBaseBeanList.get(i).setChosen(false);
                     }
                 }
                 mListener.onItemClick(iBaseBeanList.get(position));
