@@ -30,120 +30,62 @@
             android:layout_marginRight="@dimen/padding_size_16dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/wallet_management"
-                android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_18sp" />
+                style="@style/A_Style_tab_mine"
+                android:text="@string/wallet_management" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                style="@style/A_Style_tab_mine_item_image"
                 android:src="@mipmap/ic_keyboard_arrow_right" />
-
-
             <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h05"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line" />
+
+                style="@style/A_Style_tab_mine_split_line" />
+
         </RelativeLayout>
 
 
         <RelativeLayout
             android:id="@+id/language_setting"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/h60"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp">
+            style="@style/A_Style_tab_mine_item_container">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/language_setting"
-                android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_18sp" />
+                style="@style/A_Style_tab_mine"
+                android:text="@string/language_setting" />
 
             <ImageView
-                android:id="@+id/arrowIv1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                style="@style/A_Style_tab_mine_item_image"
                 android:src="@mipmap/ic_keyboard_arrow_right" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h05"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line" />
+            <View style="@style/A_Style_tab_mine_split_line" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/version_info"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/h60"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp">
+            style="@style/A_Style_tab_mine_item_container">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/version_info"
-                android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_18sp" />
+                style="@style/A_Style_tab_mine"
+                android:text="@string/version_info" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                style="@style/A_Style_tab_mine_item_image"
                 android:src="@mipmap/ic_keyboard_arrow_right" />
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h05"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line" />
+            <View style="@style/A_Style_tab_mine_split_line" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/about_us"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/h60"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp">
+            style="@style/A_Style_tab_mine_item_container">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/about_us"
-                android:textColor="@color/library_33"
-                android:textSize="@dimen/txt_18sp" />
+                style="@style/A_Style_tab_mine"
+                android:text="@string/about_us" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                style="@style/A_Style_tab_mine_item_image"
                 android:src="@mipmap/ic_keyboard_arrow_right" />
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h05"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line" />
+            <View style="@style/A_Style_tab_mine_split_line" />
         </RelativeLayout>
 
 

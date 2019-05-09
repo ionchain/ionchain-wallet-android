@@ -153,12 +153,12 @@
     </style>
 
     <!--<style name="common_title">-->
-        <!--<item name="android:layout_width">wrap_content</item>-->
-        <!--<item name="android:layout_height">wrap_content</item>-->
-        <!--<item name="android:layout_centerVertical">true</item>-->
-        <!--<item name="android:layout_marginLeft">16dp</item>-->
-        <!--<item name="android:textSize">18sp</item>-->
-        <!--<item name="android:textColor">@color/title_blue</item>-->
+    <!--<item name="android:layout_width">wrap_content</item>-->
+    <!--<item name="android:layout_height">wrap_content</item>-->
+    <!--<item name="android:layout_centerVertical">true</item>-->
+    <!--<item name="android:layout_marginLeft">16dp</item>-->
+    <!--<item name="android:textSize">18sp</item>-->
+    <!--<item name="android:textColor">@color/title_blue</item>-->
     <!--</style>-->
     <!--修改密码的警示说明-->
     <style name="ModifyDialogNoticeTv">
@@ -224,5 +224,39 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/dialog_import_private_key_et</item>
     </style>
+
+    <!--我的界面的-->
+    <style name="A_Style_tab_mine">
+        <item name="android:textColor">@color/library_33</item>
+        <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="A_Style_tab_mine_split_line">
+        <item name="android:textColor">@color/library_33</item>
+        <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/h05</item>
+        <item name="android:background">@color/line</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <style name="A_Style_tab_mine_item_container">
+        <item name="android:layout_marginLeft">@dimen/padding_size_16dp</item>
+        <item name="android:layout_marginTop">@dimen/padding_size_16dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/h60</item>
+        <item name="android:layout_marginRight">@dimen/padding_size_16dp</item>
+    </style>
+
+    <style name="A_Style_tab_mine_item_image">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
 
 </resources>
