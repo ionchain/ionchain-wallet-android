@@ -52,11 +52,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/h5"
+                    android:layout_marginStart="@dimen/h5"
                     android:layout_toEndOf="@id/walletBalanceTv"
                     android:gravity="bottom"
                     android:layout_alignBaseline="@id/walletBalanceTv"
-                    android:text="IONC"
+                    android:text="@string/ionc_tag"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_12sp"
                     android:textStyle="bold" />

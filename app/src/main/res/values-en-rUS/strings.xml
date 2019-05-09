@@ -182,4 +182,5 @@
     <string name="smart_refresh_header_last_time">Last update</string>
     <string name="balance_usd">正在获取余额...</string>
     <string name="balance_usd_rate_rmb">正在转换为人民币</string>
+    <string name="ionc_tag">IONC</string>
 </resources>
