@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/h150"
     android:background="@drawable/dialog_download_layout_background"
     android:orientation="vertical">
 
@@ -27,6 +27,6 @@
         android:background="@drawable/dialog_cancel_btn"
         android:layout_gravity="center_horizontal"
         android:id="@+id/download_progress_btn_cancel"
-        android:layout_width="@dimen/dialog_btn_width_40"
+        android:layout_width="@dimen/dialog_btn_cancel_width_60dp"
         android:layout_height="40dp" />
 </LinearLayout>
