@@ -74,7 +74,7 @@
     <string name="update_succwss">Updated successfully!</string>
     <string name="import_private_key">Import the private key</string>
     <string name="explicit_private_key">Explicit Private Key</string>
-    <string name="version_info">Version Info</string>
+    <string name="version_info_item">Version Information</string>
     <string name="about_us">About us</string>
     <string name="my_devices">Devices</string>
     <string name="tab_device">Devices</string>
@@ -101,7 +101,7 @@
     <string name="dialog_version_info">If you would like to let the administrators of  this website know that you\'ve seen this page instead of the page you expected, you should send them e-mail. In general, mail sent to the name webmaster and directed to the website\'s domain should reach the appropriate person.</string>
     <string name="btn_close">Close</string>
     <string name="btn_update">Update</string>
-    <string name="v_info">Version Information:%s</string>
+    <string name="version_info_title">Version Information</string>
     <string name="download_progress_tv">Download Progress  %s</string>
     <string name="tx_hash">Tx hash:</string>
     <string name="tx_block">Tx Block</string>
@@ -132,7 +132,7 @@
     <string name="copy_done_addr">Copied Address</string>
     <string name="copy_error">Copied Failure</string>
     <string name="balance_">Balance</string>
-    <string name="save_pos">Saved successfully! \\n save path: SD card root directory ionchainAddress folder</string>
+    <string name="save_pos">Saved successfully! \n save path: SD card root directory ionchainAddress folder</string>
     <string name="permission_request">Please grant relevant permissions first!</string>
     <string name="permission_storage">You need to open storage permissions</string>
     <string name="permission_camera">Scanning the qr code requires permission to turn on the camera and vibrate</string>
@@ -183,4 +183,6 @@
     <string name="balance_usd">正在获取余额...</string>
     <string name="balance_usd_rate_rmb">正在转换为人民币</string>
     <string name="ionc_tag">IONC</string>
+    <string name="version_info_right_btn_text">Update</string>
+    <string name="version_info_massage">Version:v_1.0.0-alpha\n\nContent:\n\n1.Added according to the system language Settings to switch between Chinese and English. \n\n2.Optimizes the prompts given to users when they are not connected to the main network. \n\n3.New version information, automatic update and manual update function in App. Item n add IONC and RMB value relationship\n</string>
 </resources>

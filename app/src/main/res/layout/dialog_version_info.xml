@@ -1,50 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/dialog_layout_background"
     android:paddingLeft="@dimen/margin_h20"
     android:paddingRight="@dimen/margin_h20"
-    android:paddingBottom="@dimen/margin_h20"
-    android:background="@drawable/dialog_layout_background">
+    android:paddingBottom="@dimen/margin_h20">
 
     <TextView
         android:id="@+id/version_info_title"
-        android:text="@string/v_info"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="@dimen/txt_14sp"
-        android:textColor="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/version_info_title"
+        android:textColor="@color/black"
+        android:textSize="@dimen/txt_14sp"
+        android:textStyle="bold" />
+
     <View
-        android:layout_below="@id/version_info_title"
         android:id="@+id/version_first_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey_cccccc"/>
+        android:layout_below="@id/version_info_title"
+        android:background="@color/grey_cccccc" />
+
     <TextView
-        android:layout_below="@id/version_first_line"
         android:id="@+id/version_info_content"
-        android:padding="@dimen/margin_h20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="@string/dialog_version_info"/>
-    <Button
-        android:text="@string/btn_close"
-        android:background="@drawable/dialog_cancel_btn"
+        android:layout_below="@id/version_first_line"
+        android:padding="@dimen/margin_h20"
+        android:text="@string/dialog_version_info"
+        android:textColor="@color/black" />
+
+    <View
+        android:id="@+id/version_snd_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_below="@id/version_info_content"
-        android:id="@+id/version_info_btn_cancel"
-        android:layout_width="@dimen/dialog_btn_cancel_width_60dp"
-        android:layout_height="@dimen/dialog_btn_height_40dp" />
+        android:background="@color/grey_cccccc" />
 
     <Button
-        android:text="@string/btn_update"
-        android:textColor="@color/white"
-        android:background="@drawable/dialog_sure_btn"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/version_info_btn_update"
-        android:layout_width="@dimen/dialog_btn_sure_width_80dp"
+        android:id="@+id/version_info_btn_cancel"
+        android:layout_width="@dimen/dialog_btn_cancel_width_60dp"
         android:layout_height="@dimen/dialog_btn_height_40dp"
-        android:layout_below="@id/version_info_content" />
+        android:layout_below="@id/version_snd_line"
+        android:layout_marginTop="@dimen/h10"
+        android:background="@drawable/dialog_cancel_btn"
+        android:text="@string/btn_close" />
+
+    <Button
+        android:id="@+id/version_info_btn_update"
+        android:layout_width="@dimen/dialog_btn_cancel_width_60dp"
+        android:layout_height="@dimen/dialog_btn_height_40dp"
+        android:layout_below="@id/version_snd_line"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/h10"
+        android:background="@drawable/dialog_sure_btn"
+        android:text="@string/btn_update"
+        android:textColor="@color/white" />
 </RelativeLayout>

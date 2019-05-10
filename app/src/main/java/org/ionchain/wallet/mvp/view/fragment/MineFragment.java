@@ -111,9 +111,9 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
                     btn_tx = "update";
                 }
                 mCurrentVersionInfoDialog = new VersionInfoDialog(mActivity, "", MineFragment.this)
-                        .setTitleName(title)
-                        .setSureBtnName(btn_tx)
-                        .setVersionInfo(info);
+                        .setTitleName(getAppString(R.string.version_info_title))
+                        .setSureBtnName(getAppString(R.string.version_info_right_btn_text))
+                        .setVersionInfo(getAppString(R.string.version_info_massage));
                 mCurrentVersionInfoDialog.show();
             }
         });
@@ -171,12 +171,12 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
 
     @Override
     public void onCheckForUpdateStart() {
-        showProgress(getString(R.string.updating));
+//        showProgress(getString(R.string.updating));
     }
 
     @Override
     public void onCheckForUpdateSuccess() {
-        hideProgress();
+//        hideProgress();
         mCurrentVersionInfoDialog.dismiss();
     }
 
@@ -215,7 +215,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
             mCurrentVersionInfoDialog.dismiss();
 
             mLastedVersionInfoDialog = new VersionInfoDialog(mActivity, updateBean.getData().get(0).getUrl(), MineFragment.this)
-                    .setTitleName(mActivity.getAppString(R.string.v_info, v_code))
+                    .setTitleName(mActivity.getAppString(R.string.version_info_title))
                     .setSureBtnName(getString(R.string.dialog_btn_download))
                     .setVersionInfo(update_info);
             mLastedVersionInfoDialog.setType(ConstantParams.VERSION_TAG_DOWNLOAD);

@@ -57,6 +57,8 @@ android {
         ionchain {
             dimension "channel"
             manifestPlaceholders.put("appId", "org.ionchain.wallet")
+            manifestPlaceholders.put("file_paths", "@xml/file_paths")
+            manifestPlaceholders.put("app_name", appName)
         }
         xiaomi {
             dimension "channel"

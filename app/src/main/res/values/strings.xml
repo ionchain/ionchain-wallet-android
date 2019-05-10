@@ -73,7 +73,7 @@
     <string name="update_succwss">更新成功啦!</string>
     <string name="import_private_key">导入私钥</string>
     <string name="explicit_private_key">明文私钥</string>
-    <string name="version_info">版本信息</string>
+    <string name="version_info_item">版本信息</string>
     <string name="about_us">关于我们</string>
     <string name="my_devices">我的设备</string>
     <string name="tab_device">设备</string>
@@ -100,7 +100,7 @@
     <string name="dialog_version_info">If you would like to  let the administrators of  this website know that you\'ve seen this page instead of the page you expected, you should send them e-mail. In general, mail sent to the name webmaster and directed to the website\'s domain should reach the appropriate person.</string>
     <string name="btn_close">关闭</string>
     <string name="btn_update">检查更新</string>
-    <string name="v_info">版本信息:%s</string>
+    <string name="version_info_title">版本信息</string>
     <string name="download_progress_tv">下载进度 %s</string>
     <string name="tx_hash">交易哈希 :</string>
     <string name="tx_block">交易区块 :</string>
@@ -182,4 +182,6 @@
     <string name="balance_usd">正在获取余额...</string>
     <string name="balance_usd_rate_rmb">正在转换为人民币</string>
     <string name="ionc_tag">IONC</string>
+    <string name="version_info_right_btn_text">检查更新</string>
+    <string name="version_info_massage">"新增根据系统的语言设置切换中英文。\n\n优化连接不上主网的时候给用户的提示。\n\n 新增版本信息，自动更新和App里手动更新的功能。\n\n新增IONC和RMB价值关系\n"</string>
 </resources>

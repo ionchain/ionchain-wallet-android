@@ -9,7 +9,7 @@ import org.greenrobot.greendao.annotation.Id;
 
 @Entity
 public class WalletBean implements Parcelable {
-    
+
     @Id
     private Long id;
     /**
@@ -72,8 +72,6 @@ public class WalletBean implements Parcelable {
 
 
     private String rmb;
-    
-
 
 
     @Generated(hash = 470537904)
@@ -96,11 +94,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     @Generated(hash = 1814219826)
     public WalletBean() {
     }
-
 
 
     public Long getId() {
@@ -108,11 +104,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setId(Long id) {
         this.id = id;
     }
-
 
 
     public String getPrivateKey() {
@@ -120,11 +114,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
     }
-
 
 
     public String getName() {
@@ -132,11 +124,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setName(String name) {
         this.name = name;
     }
-
 
 
     public String getAddress() {
@@ -144,11 +134,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setAddress(String address) {
         this.address = address;
     }
-
 
 
     public String getPublic_key() {
@@ -156,11 +144,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setPublic_key(String public_key) {
         this.public_key = public_key;
     }
-
 
 
     public String getBalance() {
@@ -168,11 +154,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setBalance(String balance) {
         this.balance = balance;
     }
-
 
 
     public String getKeystore() {
@@ -180,11 +164,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setKeystore(String keystore) {
         this.keystore = keystore;
     }
-
 
 
     public String getPassword() {
@@ -192,11 +174,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 
     public int getMIconIndex() {
@@ -204,11 +184,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setMIconIndex(int mIconIndex) {
         this.mIconIndex = mIconIndex;
     }
-
 
 
     public String getMnemonic() {
@@ -216,11 +194,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setMnemonic(String mnemonic) {
         this.mnemonic = mnemonic;
     }
-
 
 
     public boolean getChosen() {
@@ -228,11 +204,9 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setChosen(boolean chosen) {
         this.chosen = chosen;
     }
-
 
 
     public boolean getIsMainWallet() {
@@ -240,17 +214,14 @@ public class WalletBean implements Parcelable {
     }
 
 
-
     public void setIsMainWallet(boolean isMainWallet) {
         this.isMainWallet = isMainWallet;
     }
 
 
-
     public String getRmb() {
         return this.rmb;
     }
-
 
 
     public void setRmb(String rmb) {
@@ -278,6 +249,7 @@ public class WalletBean implements Parcelable {
         dest.writeByte(this.isMainWallet ? (byte) 1 : (byte) 0);
         dest.writeString(this.rmb);
     }
+    
 
     protected WalletBean(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());

@@ -34,6 +34,7 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
         this.type = type;
         return this;
     }
+
     private OnVersionDialogBtnClickedListener callback;
 
     /**
@@ -82,9 +83,9 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
     }
 
     /**
-     * @param context 环境
+     * @param context  环境
      * @param url
-     * @param listener  检查更新的按钮点击事件
+     * @param listener 检查更新的按钮点击事件
      */
     public VersionInfoDialog(@NonNull Context context, String url, OnVersionDialogBtnClickedListener listener) {
         super(context);
@@ -94,10 +95,12 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
 
     /**
      * @param info 版本信息
-     * @return     对话框
+     * @return 对话框
+     * <p>
+     * 使用 & 表示换行
      */
     public VersionInfoDialog setVersionInfo(String info) {
-        version_info_content = info;
+        version_info_content = info.replace("&", "\n");
         return this;
     }
 
@@ -128,7 +131,7 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
         if (v == versionInfoBtnCancel) {
             callback.onVersionDialogLeftBtnClicked(this);
         } else if (v == versionInfoBtnUpdate) {
-            callback.onVersionDialogRightBtnClicked(this,type, url);
+            callback.onVersionDialogRightBtnClicked(this, type, url);
         }
     }
 
@@ -161,6 +164,7 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
     public interface OnVersionDialogBtnClickedListener {
         /**
          * 右侧按钮---确定,更新,下载
+         *
          * @param dialog
          * @param type
          * @param url
@@ -169,8 +173,8 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
 
         /**
          * 左侧按钮---取消
-         * @param dialog 对话框
          *
+         * @param dialog 对话框
          */
         void onVersionDialogLeftBtnClicked(VersionInfoDialog dialog);
     }

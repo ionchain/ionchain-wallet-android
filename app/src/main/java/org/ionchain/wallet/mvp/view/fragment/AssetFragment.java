@@ -551,7 +551,9 @@ public class AssetFragment extends AbsBaseFragment implements
                 getNetData(mCurrentWallet);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
-                getDeviceList();
+                ioncBalanceTx.setText(mCurrentWallet.getBalance());
+                rmb_balance_tx.setText(mCurrentWallet.getRmb());
+                getNetData(mCurrentWallet);
                 instance.dismiss();
             }
         });

@@ -32,10 +32,10 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
     WebView mWebView;
     SmartRefreshLayout smartRefreshLayout;
     private boolean load_error = false;
-    private String mUrlProtocolCN = "https://www.ionchain.org/download/wallet-agreement.html";
-    private String mUrlProtocolEN = "https://www.baidu.com/";
-    private String mUrlAboutUsCN = "https://www.cnblogs.com/androidxufeng/p/4576765.html";
-    private String mUrlAboutUslEN = "https://www.tencent.com/zh-cn/index.html";
+    private String mUrlProtocolCN = "https://www.ionchain.org/static-page/agreement-cn.html";
+    private String mUrlProtocolEN = "https://www.ionchain.org/static-page/agreement-en.html";
+    private String mUrlAboutUsCN = "https://www.ionchain.org/static-page/about-us-cn.html";
+    private String mUrlAboutUslEN = "https://www.ionchain.org/static-page/about-us-en.html";
 
     private char mUrlTag = URL_TAG_PROTOCOL;//
 
