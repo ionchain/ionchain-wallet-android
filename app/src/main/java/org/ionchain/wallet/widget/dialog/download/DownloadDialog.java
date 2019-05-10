@@ -115,6 +115,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
             int p = (int) App.scale(progress.fraction);
             updateProgress(p);
             updateProgressTv(p + "%");
+            Logger.i("onProgress = "+p + "%");
         }
 
         @Override

@@ -52,11 +52,12 @@ android {
     flavorDimensions "channel"
     productFlavors {
         def appName = "IONC Wallet"
+        def commonAppId = "org.ionchain.wallet"
         def appIdHuaWei = "org.ionchain.wallet.huawei"
         def appIdXiaoMi = "org.ionchain.wallet.xiaomi"
         ionchain {
             dimension "channel"
-            manifestPlaceholders.put("appId", "org.ionchain.wallet")
+            manifestPlaceholders.put("appId", commonAppId)
             manifestPlaceholders.put("file_paths", "@xml/file_paths")
             manifestPlaceholders.put("app_name", appName)
         }
