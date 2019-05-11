@@ -149,7 +149,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     }
 
     @Override
-    public void onToKeepMnemonic() {
+    public void onSaveMnemonicSure() {
         new DialogTextMessage(this).setTitle(getResources().getString(R.string.attention))
                 .setMessage(getResources().getString(R.string.key_store_to_save))
                 .setBtnText(getResources().getString(R.string.i_know))
@@ -160,7 +160,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     }
 
     @Override
-    public void onCancelKeepMnemonic(DialogMnemonic dialogMnemonic) {
+    public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
         dialogMnemonic.dismiss();
     }
 

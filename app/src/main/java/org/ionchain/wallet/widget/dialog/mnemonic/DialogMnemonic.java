@@ -71,13 +71,13 @@ public class DialogMnemonic extends AbsBaseDialog {
         next_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onToKeepMnemonic();
+                callback.onSaveMnemonicSure();
             }
         });
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.onCancelKeepMnemonic(DialogMnemonic.this);
+                callback.onSaveMnemonicCancel(DialogMnemonic.this);
             }
         });
     }
@@ -110,9 +110,9 @@ public class DialogMnemonic extends AbsBaseDialog {
     }
 
     public interface OnSavedMnemonicCallback {
-        void onToKeepMnemonic();
+        void onSaveMnemonicSure();
 
-        void onCancelKeepMnemonic(DialogMnemonic dialogMnemonic);
+        void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic);
 
     }
 }

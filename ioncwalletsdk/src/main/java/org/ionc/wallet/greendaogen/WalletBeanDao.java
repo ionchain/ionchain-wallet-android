@@ -32,7 +32,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         public final static Property Balance = new Property(5, String.class, "balance", false, "BALANCE");
         public final static Property Keystore = new Property(6, String.class, "keystore", false, "KEYSTORE");
         public final static Property Password = new Property(7, String.class, "password", false, "PASSWORD");
-        public final static Property MIconIndex = new Property(8, int.class, "mIconIndex", false, "M_ICON_INDEX");
+        public final static Property MIconIndex = new Property(8, Integer.class, "mIconIndex", false, "M_ICON_INDEX");
         public final static Property Mnemonic = new Property(9, String.class, "mnemonic", false, "MNEMONIC");
         public final static Property Chosen = new Property(10, boolean.class, "chosen", false, "CHOSEN");
         public final static Property IsMainWallet = new Property(11, boolean.class, "isMainWallet", false, "IS_MAIN_WALLET");
@@ -60,7 +60,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
                 "\"BALANCE\" TEXT," + // 5: balance
                 "\"KEYSTORE\" TEXT," + // 6: keystore
                 "\"PASSWORD\" TEXT," + // 7: password
-                "\"M_ICON_INDEX\" INTEGER NOT NULL ," + // 8: mIconIndex
+                "\"M_ICON_INDEX\" INTEGER," + // 8: mIconIndex
                 "\"MNEMONIC\" TEXT," + // 9: mnemonic
                 "\"CHOSEN\" INTEGER NOT NULL ," + // 10: chosen
                 "\"IS_MAIN_WALLET\" INTEGER NOT NULL ," + // 11: isMainWallet
@@ -116,7 +116,11 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         if (password != null) {
             stmt.bindString(8, password);
         }
-        stmt.bindLong(9, entity.getMIconIndex());
+ 
+        Integer mIconIndex = entity.getMIconIndex();
+        if (mIconIndex != null) {
+            stmt.bindLong(9, mIconIndex);
+        }
  
         String mnemonic = entity.getMnemonic();
         if (mnemonic != null) {
@@ -174,7 +178,11 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         if (password != null) {
             stmt.bindString(8, password);
         }
-        stmt.bindLong(9, entity.getMIconIndex());
+ 
+        Integer mIconIndex = entity.getMIconIndex();
+        if (mIconIndex != null) {
+            stmt.bindLong(9, mIconIndex);
+        }
  
         String mnemonic = entity.getMnemonic();
         if (mnemonic != null) {
@@ -205,7 +213,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // balance
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // keystore
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // password
-            cursor.getInt(offset + 8), // mIconIndex
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // mIconIndex
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // mnemonic
             cursor.getShort(offset + 10) != 0, // chosen
             cursor.getShort(offset + 11) != 0, // isMainWallet
@@ -224,7 +232,7 @@ public class WalletBeanDao extends AbstractDao<WalletBean, Long> {
         entity.setBalance(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setKeystore(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setPassword(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setMIconIndex(cursor.getInt(offset + 8));
+        entity.setMIconIndex(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
         entity.setMnemonic(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setChosen(cursor.getShort(offset + 10) != 0);
         entity.setIsMainWallet(cursor.getShort(offset + 11) != 0);

@@ -11,42 +11,76 @@ import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.StandardDatabase;
 import org.greenrobot.greendao.internal.DaoConfig;
+import org.ionc.wallet.utils.Logger;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MigrationHelper2 {
+/**
+ * 用于数据库升级时数据迁移
+ * from https://github.com/yuweiguocn/GreenDaoUpgradeHelper
+ * <p>
+ * please call {@link #migrate(SQLiteDatabase, Class[])} or {@link #migrate(Database, Class[])}
+ */
+public class MigrationHelper {
+
     public static boolean DEBUG = false;
-    private static String TAG = "MigrationHelper2";
+    private static final String TAG = MigrationHelper.class.getSimpleName();
     private static final String SQLITE_MASTER = "sqlite_master";
     private static final String SQLITE_TEMP_MASTER = "sqlite_temp_master";
- 
+
+    private static WeakReference<ReCreateAllTableListener> weakListener;
+
+    public interface ReCreateAllTableListener {
+        void onCreateAllTables(Database db, boolean ifNotExists);
+
+        void onDropAllTables(Database db, boolean ifExists);
+    }
+
     public static void migrate(SQLiteDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         printLog("【The Old Database Version】" + db.getVersion());
         Database database = new StandardDatabase(db);
         migrate(database, daoClasses);
     }
- 
+
+    public static void migrate(SQLiteDatabase db, MigrationHelper.ReCreateAllTableListener listener, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        weakListener = new WeakReference<>(listener);
+        migrate(db, daoClasses);
+    }
+
+    public static void migrate(Database database, MigrationHelper.ReCreateAllTableListener listener, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        weakListener = new WeakReference<>(listener);
+        migrate(database, daoClasses);
+    }
+
     public static void migrate(Database database, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         printLog("【Generate temp table】start");
         generateTempTables(database, daoClasses);
         printLog("【Generate temp table】complete");
- 
-        dropAllTables(database, true, daoClasses);
-        createAllTables(database, false, daoClasses);
- 
-        printLog("【Restore data】start");
+
+        MigrationHelper.ReCreateAllTableListener listener = weakListener.get();
+        if (listener != null) {
+            listener.onDropAllTables(database, true);
+            Logger.i("【Drop all table by listener】");
+            listener.onCreateAllTables(database, false);
+            Logger.i("【Create all table by listener】");
+        } else {
+            dropAllTables(database, true, daoClasses);
+            createAllTables(database, false, daoClasses);
+        }
+        Logger.i("【Restore data】start");
         restoreData(database, daoClasses);
-        printLog("【Restore data】complete");
+        Logger.i("【Restore data】complete");
     }
- 
+
     private static void generateTempTables(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         for (int i = 0; i < daoClasses.length; i++) {
             String tempTableName = null;
- 
+
             DaoConfig daoConfig = new DaoConfig(db, daoClasses[i]);
             String tableName = daoConfig.tablename;
             if (!isTableExists(db, false, tableName)) {
@@ -58,26 +92,26 @@ public class MigrationHelper2 {
                 StringBuilder dropTableStringBuilder = new StringBuilder();
                 dropTableStringBuilder.append("DROP TABLE IF EXISTS ").append(tempTableName).append(";");
                 db.execSQL(dropTableStringBuilder.toString());
- 
+
                 StringBuilder insertTableStringBuilder = new StringBuilder();
                 insertTableStringBuilder.append("CREATE TEMPORARY TABLE ").append(tempTableName);
                 insertTableStringBuilder.append(" AS SELECT * FROM ").append(tableName).append(";");
                 db.execSQL(insertTableStringBuilder.toString());
-                printLog("【Table】" + tableName +"\n ---Columns-->"+getColumnsStr(daoConfig));
+                printLog("【Table】" + tableName + "\n ---Columns-->" + getColumnsStr(daoConfig));
                 printLog("【Generate temp table】" + tempTableName);
             } catch (SQLException e) {
                 Log.e(TAG, "【Failed to generate temp table】" + tempTableName, e);
             }
         }
     }
- 
+
     private static boolean isTableExists(Database db, boolean isTemp, String tableName) {
         if (db == null || TextUtils.isEmpty(tableName)) {
             return false;
         }
         String dbName = isTemp ? SQLITE_TEMP_MASTER : SQLITE_MASTER;
         String sql = "SELECT COUNT(*) FROM " + dbName + " WHERE type = ? AND name = ?";
-        Cursor cursor=null;
+        Cursor cursor = null;
         int count = 0;
         try {
             cursor = db.rawQuery(sql, new String[]{"table", tableName});
@@ -93,8 +127,8 @@ public class MigrationHelper2 {
         }
         return count > 0;
     }
- 
- 
+
+
     private static String getColumnsStr(DaoConfig daoConfig) {
         if (daoConfig == null) {
             return "no columns";
@@ -109,18 +143,18 @@ public class MigrationHelper2 {
         }
         return builder.toString();
     }
- 
- 
-    private static void dropAllTables(Database db, boolean ifExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
+
+
+    public static void dropAllTables(Database db, boolean ifExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
         reflectMethod(db, "dropTable", ifExists, daoClasses);
-        printLog("【Drop all table】");
+        printLog("【Drop all table by reflect】");
     }
- 
-    private static void createAllTables(Database db, boolean ifNotExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
+
+    public static void createAllTables(Database db, boolean ifNotExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
         reflectMethod(db, "createTable", ifNotExists, daoClasses);
-        printLog("【Create all table】");
+        printLog("【Create all table by reflect】");
     }
- 
+
     /**
      * dao class already define the sql exec method, so just invoke it
      */
@@ -141,17 +175,17 @@ public class MigrationHelper2 {
             e.printStackTrace();
         }
     }
- 
+
     private static void restoreData(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         for (int i = 0; i < daoClasses.length; i++) {
             DaoConfig daoConfig = new DaoConfig(db, daoClasses[i]);
             String tableName = daoConfig.tablename;
             String tempTableName = daoConfig.tablename.concat("_TEMP");
- 
+
             if (!isTableExists(db, true, tempTableName)) {
                 continue;
             }
- 
+
             try {
                 // get all columns from tempTable, take careful to use the columns list
                 List<String> columns = getColumns(db, tempTableName);
@@ -164,7 +198,7 @@ public class MigrationHelper2 {
                 }
                 if (properties.size() > 0) {
                     final String columnSQL = TextUtils.join(",", properties);
- 
+
                     StringBuilder insertTableStringBuilder = new StringBuilder();
                     insertTableStringBuilder.append("INSERT INTO ").append(tableName).append(" (");
                     insertTableStringBuilder.append(columnSQL);
@@ -183,7 +217,7 @@ public class MigrationHelper2 {
             }
         }
     }
- 
+
     private static List<String> getColumns(Database db, String tableName) {
         List<String> columns = null;
         Cursor cursor = null;
@@ -202,11 +236,10 @@ public class MigrationHelper2 {
         }
         return columns;
     }
- 
-    private static void printLog(String info){
-        if(DEBUG){
+
+    private static void printLog(String info) {
+        if (DEBUG) {
             Log.d(TAG, info);
         }
     }
- 
 }

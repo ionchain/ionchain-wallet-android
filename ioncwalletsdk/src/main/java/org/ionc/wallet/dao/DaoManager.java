@@ -1,7 +1,7 @@
 package org.ionc.wallet.dao;
 
 
-import org.ionc.wallet.daohelper.MySQLiteOpenHelper;
+import org.ionc.wallet.daohelper.MyOpenHelper;
 import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -14,7 +14,7 @@ public class DaoManager {
     private DaoSession mDaoSession;
 
     private DaoManager() {
-        MySQLiteOpenHelper devOpenHelper = new MySQLiteOpenHelper(IONCWalletSDK.appContext, DB_NAME, null);
+        MyOpenHelper devOpenHelper = new MyOpenHelper(IONCWalletSDK.appContext, DB_NAME, null);
         DaoMaster mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         mDaoSession = mDaoMaster.newSession();
     }

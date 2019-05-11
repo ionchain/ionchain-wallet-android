@@ -261,7 +261,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
      * 弹出提示助记词的重要性
      */
     @Override
-    public void onToKeepMnemonic() {
+    public void onSaveMnemonicSure() {
         String TO_SAVE = "to_save";
         new DialogTextMessage(this).setTitle(getResources().getString(R.string.attention))
                 .setMessage(getResources().getString(R.string.key_store_to_save))
@@ -273,8 +273,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onCancelKeepMnemonic(DialogMnemonic dialogMnemonic) {
+    public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
         dialogMnemonic.dismiss();
+        IONCWalletSDK.getInstance().saveWallet(walletBean);
         if (from.equals(INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY)) {
             skip(MainActivity.class);
         } else {
