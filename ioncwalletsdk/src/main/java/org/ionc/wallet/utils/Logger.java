@@ -36,7 +36,7 @@ public class Logger {
      */
     public static void i(String tag, String msg) {
         if (isDebug) {
-            Log.i(tag, "msg: " + msg);
+            Log.i(tag, msg);
         }
     }
 
@@ -73,7 +73,6 @@ public class Logger {
             Log.e("default", "e: " + msg);
         }
     }
-
 
 
 }

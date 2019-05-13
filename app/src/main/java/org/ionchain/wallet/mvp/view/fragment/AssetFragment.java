@@ -552,7 +552,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 ioncBalanceTx.setText(mCurrentWallet.getBalance());
-                rmb_balance_tx.setText(mCurrentWallet.getRmb());
+                rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
                 getNetData(mCurrentWallet);
                 instance.dismiss();
             }
@@ -689,6 +689,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 walletBalanceTxETH.setText(balanceBigDecimal.toPlainString());
                 break;
         }
+        Logger.i("balance",balanceBigDecimal.toPlainString());
         mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
         mRefresh.finishRefresh(); //
         //获取美元价格
@@ -702,10 +703,11 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onBalanceFailure(String error) {
+        Logger.e(error);
         ToastUtil.showToastLonger(error);
         mRefresh.finishRefresh();
         ioncBalanceTx.setText(mCurrentWallet.getBalance());
-        rmb_balance_tx.setText(mCurrentWallet.getRmb());
+        rmb_balance_tx.setText(mCurrentWallet.getRmb());   //缓存
     }
 
     @Override
@@ -784,8 +786,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onUSDPriceFailure(String error) {
-        //获取人民币汇率
-        mPricePresenter.getUSDExchangeRateRMB(this); //todo:delete
+        Logger.e(error);
         mRefresh.finishRefresh();
     }
 
@@ -798,14 +799,14 @@ public class AssetFragment extends AbsBaseFragment implements
         //转换为人民币
         mRefresh.finishRefresh();
         BigDecimal rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(usdPrice));
-        rmb_balance_tx.setText(rmb.setScale(4,ROUND_HALF_UP).toPlainString());
+        Logger.i("balance = ", rmb.setScale(4,ROUND_HALF_UP).toPlainString());
         mCurrentWallet.setRmb(rmb.setScale(4,ROUND_HALF_UP).toPlainString());
+        rmb_balance_tx.setText(mCurrentWallet.getRmb()); //网络数据
     }
 
     @Override
     public void onUSDExRateRMBFailure(String error) {
-        //转换为人民币
+        Logger.e(error);
         mRefresh.finishRefresh();
-
     }
 }
