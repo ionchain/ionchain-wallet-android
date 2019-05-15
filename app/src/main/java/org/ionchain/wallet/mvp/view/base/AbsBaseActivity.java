@@ -30,7 +30,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
-import static org.ionchain.wallet.constant.ConstantParams.URL_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.URL_REQUEST_TYPE;
 import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_ABOUT_US;
 import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_PROTOCOL;
 
@@ -185,7 +185,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      * */
     protected void skipWebProtocol() {
         Intent intent = new Intent(mActivity, WebActivity.class);
-        intent.putExtra(URL_TAG, URL_TAG_PROTOCOL);
+        intent.putExtra(URL_REQUEST_TYPE, URL_TAG_PROTOCOL);
         startActivity(intent);
     }
    /*
@@ -193,7 +193,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      * */
     protected void skipWebAboutUs() {
         Intent intent = new Intent(mActivity, WebActivity.class);
-        intent.putExtra(URL_TAG, URL_TAG_ABOUT_US);
+        intent.putExtra(URL_REQUEST_TYPE, URL_TAG_ABOUT_US);
         startActivity(intent);
     }
 

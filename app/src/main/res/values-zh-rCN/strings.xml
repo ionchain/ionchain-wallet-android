@@ -127,7 +127,7 @@
     <string name="submit_failure">交易失败</string>
     <string name="get_balance_error">获取余额失败:</string>
     <string name="input_password_error">请输入的正确的密码</string>
-    <string name="being_loaded">正在加载…</string>
+    <string name="app_loading">正在加载…</string>
     <string name="copy_done_addr">已复制地址</string>
     <string name="copy_error">复制失败</string>
     <string name="balance_">余额:</string>
@@ -184,4 +184,7 @@
     <string name="ionc_tag">IONC</string>
     <string name="version_info_right_btn_text">检查更新</string>
     <string name="version_info_massage">当前版本:v_1.0.0-alpha\n\n更新内容:\n\n1.新增根据系统的语言设置切换中英文。 \n\n2.优化连接不上主网的时候给用户的提示。\n\n3.新增版本信息，自动更新和App里手动更新的功能。\n\n4.新增IONC和RMB价值关系\n</string>
+    <string name="app_net_error">网络请求失败</string>
+    <string name="forbidden_photo">请勿拍照或截屏，谨慎抄写您的助记词！</string>
+    <string name="restore_by_mnemonics_hint">通过助记词，可以恢复钱包，不需要原始密码,请妥善保管</string>
 </resources>

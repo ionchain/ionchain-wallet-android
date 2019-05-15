@@ -67,7 +67,7 @@
             android:background="@null"
             android:gravity="center"
             android:singleLine="true"
-            android:text="确定"
+            android:text="@string/btn_sure"
             android:textColor="@color/red"
             android:textSize="16sp" />
     </LinearLayout>

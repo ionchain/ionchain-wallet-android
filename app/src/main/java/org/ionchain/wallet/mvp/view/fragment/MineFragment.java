@@ -23,7 +23,7 @@ import org.ionchain.wallet.widget.dialog.version.VersionInfoDialog;
 import java.util.Objects;
 
 import static org.ionchain.wallet.App.isCurrentLanguageZN;
-import static org.ionchain.wallet.constant.ConstantParams.URL_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.URL_REQUEST_TYPE;
 import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_ABOUT_US;
 
 public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.OnVersionDialogBtnClickedListener, OnCheckUpdateInfoCallback, DownloadDialog.DownloadCallback {
@@ -121,7 +121,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, WebActivity.class);
-                intent.putExtra(URL_TAG, URL_TAG_ABOUT_US);
+                intent.putExtra(URL_REQUEST_TYPE, URL_TAG_ABOUT_US);
                 startActivity(intent);
             }
         });

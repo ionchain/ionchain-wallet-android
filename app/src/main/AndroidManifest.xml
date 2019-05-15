@@ -25,7 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".mvp.view.activity.setting.SettingLanguageActivity" />
+        <activity
+            android:name=".mvp.view.activity.setting.SettingLanguageActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -85,27 +87,49 @@
 
         <activity
             android:name=".mvp.view.activity.address.ShowAddressActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.view.activity.transaction.TxActivity" />
-        <activity android:name=".mvp.view.activity.imports.SelectImportModeActivity" />
-        <activity android:name=".mvp.view.activity.imports.ImportByMnemonicActivity" />
+        <activity
+            android:name=".mvp.view.activity.transaction.TxActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.imports.SelectImportModeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.imports.ImportByMnemonicActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.imports.ImportByKeystoreActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mvp.view.activity.transaction.TxRecordActivity" />
-        <activity android:name=".mvp.view.activity.webview.WebActivity" />
-        <activity android:name=".mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity" />
-        <activity android:name=".mvp.view.activity.sdk.SDKCreateActivity" />
-        <activity android:name=".mvp.view.activity.sdk.SDKKeyStoreActivity" />
-        <activity android:name=".mvp.view.activity.sdk.SDKMnemonicActivity" />
-        <activity android:name=".mvp.view.activity.sdk.SDKPrivateKeyActivity" />
+        <activity
+            android:name=".mvp.view.activity.transaction.TxRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.webview.WebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.sdk.SDKCreateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.sdk.SDKKeyStoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.sdk.SDKMnemonicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".mvp.view.activity.sdk.SDKPrivateKeyActivity"
+            android:screenOrientation="portrait" />
 
         <activity
-            android:configChanges="orientation|keyboardHidden"
             android:name=".qrcode.activity.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

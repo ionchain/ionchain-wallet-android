@@ -1,6 +1,7 @@
 package org.ionc.wallet.adapterhelper;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -44,10 +45,10 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
         }
         if (iBaseBeanList.get(position).getChosen()) {
             Logger.i("position 0 = " + position);
-            viewHolder.all_wallet_ll.setBackgroundColor(context.getResources().getColor(R.color.chosen_color));
+            viewHolder.all_wallet_ll.setBackgroundColor(context.getResources().getColor(R.color.chosen_wallet_color));
         } else {
             Logger.i("position 1 = " + position);
-            viewHolder.all_wallet_ll.setBackgroundColor(context.getResources().getColor(R.color.white));
+            viewHolder.all_wallet_ll.setBackgroundColor(Color.WHITE);
         }
         viewHolder.mAddress.setText(iBaseBeanList.get(position).getAddress());
         viewHolder.all_wallet_ll.setOnClickListener(new View.OnClickListener() {

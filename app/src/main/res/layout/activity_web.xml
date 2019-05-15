@@ -23,6 +23,7 @@
 
         <TextView
             style="@style/common_title"
+            android:id="@+id/web_title"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/protocol_title"
@@ -47,8 +48,9 @@
                 android:visibility="gone" />
 
             <RelativeLayout
-                android:id="@+id/no_net_error_hint_page"
+                android:id="@+id/net_error_hint_page_rl"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="match_parent">
 
                 <ImageView
@@ -63,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/no_net_error"
                     android:gravity="center"
-                    android:text="网络连接错误"
+                    android:text="@string/app_net_error"
                     android:textColor="@color/red" />
             </RelativeLayout>
         </RelativeLayout>

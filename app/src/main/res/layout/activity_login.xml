@@ -86,7 +86,7 @@
                 android:textSize="@dimen/txt_18sp"
                 android:textColor="@color/library_33"
                 android:inputType="phone"
-                android:background="@color/transparent"
+                android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 />
             <View
@@ -109,7 +109,7 @@
                 android:textSize="@dimen/txt_18sp"
                 android:textColor="@color/library_33"
                 android:inputType="textPassword"
-                android:background="@color/transparent"
+                android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 />
             <View

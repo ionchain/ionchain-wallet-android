@@ -87,7 +87,7 @@ public final class ConstantParams {
      * WEB 连接
      */
 
-    public static final String URL_TAG = "url_tag";//协议
+    public static final String URL_REQUEST_TYPE = "url_tag";//协议
     public static final char URL_TAG_PROTOCOL = 0;//协议
     public static final char URL_TAG_ABOUT_US = 1;//关于我们
 
