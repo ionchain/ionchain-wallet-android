@@ -13,3 +13,5 @@ gradle.properties
 build/
 /app/xiaomi/
 !/.gitignore
+.gitignore
+huawei/release/output.json

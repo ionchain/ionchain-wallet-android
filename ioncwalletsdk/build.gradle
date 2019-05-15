@@ -26,7 +26,15 @@ android {
             buildConfigField "String","IONC_NODE","\"${IONC_NODE}\""
         }
     }
-
+    lintOptions {
+        // true--错误发生后停止gradle构建
+        abortOnError false
+        // true--只报告error
+        ignoreWarnings false
+        // true--所有warning当做error
+        warningsAsErrors false
+        disable 'GoogleAppIndexingWarning'
+    }
 }
 
 dependencies {

@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="10000000.0000"
+                    android:text="****"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_16sp"
                     android:textStyle="bold" />
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ionc_balance_tx"
                     android:gravity="center"
-                    android:text="10000000.0000"
+                    android:text="****"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_16sp"
                     android:textStyle="bold" />

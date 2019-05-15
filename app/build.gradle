@@ -76,21 +76,21 @@ android {
             manifestPlaceholders.put("app_name", appName)
         }
     }
-    android.applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            variant.productFlavors.each { flavor ->
-                def project = "ionchain"
-                def separator = "_"
-                def buildType = variant.variantData.variantConfiguration.buildType.name
-                def versionName = variant.versionName
-                def date = new Date()
-                def formattedDate = date.format('yyyyMMdd')
-
-                def apkName = project + separator + "v" + versionName + separator + buildType + separator + flavor.name + separator + formattedDate + ".apk"
-                output.outputFileName = apkName
-            }
-        }
-    }
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            variant.productFlavors.each { flavor ->
+//                def project = "ionchain"
+//                def separator = "_"
+//                def buildType = variant.variantData.variantConfiguration.buildType.name
+//                def versionName = variant.versionName
+//                def date = new Date()
+//                def formattedDate = date.format('yyyyMMdd')
+//
+//                def apkName = project + separator + "v" + versionName + separator + buildType + separator + flavor.name + separator + formattedDate + ".apk"
+//                output.outputFileName = apkName
+//            }
+//        }
+//    }
 
 
     dexOptions {
