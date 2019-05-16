@@ -3,7 +3,7 @@
 * */
 ext{
     appVersionName = '1.0.1'
-    appVersionCode = 102
+    appVersionCode = 102//更新依赖
 
     extMinSdkVersion = 19
     extTargetSdkVersion = 26

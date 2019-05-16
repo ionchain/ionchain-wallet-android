@@ -8,6 +8,7 @@ import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.UpdateBean;
+import org.ionchain.wallet.utils.AppUtil;
 import org.ionchain.wallet.utils.NetUtils;
 
 import static org.ionchain.wallet.constant.ConstantUrl.URL_UPDATE_APK;
@@ -37,13 +38,18 @@ public class UpdateModelModel implements IUpdateModel {
                 UpdateBean updateBean = NetUtils.gsonToBean(json, UpdateBean.class);
                 if (updateBean != null && updateBean.getData() != null && updateBean.getData().get(0) != null) {
                     String v_code = updateBean.getData().get(0).getHas_new_version();
-                    switch (v_code){
+                    switch (v_code) {
                         case "0":  //无新版本
                             callback.onCheckForUpdateNoNewVersion();
                             break;
                         case "1":  //有新版本
                             //询问用户是否下载？
-                            callback.onCheckForUpdateNeedUpdate(updateBean);
+                            if (AppUtil.getVersionCode(App.mContext) < updateBean.getData().get(0).getVersion_code()) {
+                                callback.onCheckForUpdateNeedUpdate(updateBean);
+                            }else {
+                                callback.onCheckForUpdateNoNewVersion();
+                            }
+
                             break;
                     }
 
