@@ -38,4 +38,7 @@ public class ConstantUrl {
     public final static String URL_USD_PRICE = "http://192.168.23.142:3001/v1/version";   //test
     public final static String URL_USD_EX_RATE_RMB_PRICE = "http://192.168.23.142:3001/v1/currency";   //test
 
+
+    public final static String URL_NODE_LIST = "http://192.168.23.142:3002/version/node";   //test
+
 }

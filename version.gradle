@@ -2,7 +2,7 @@
 * 版本信息
 * */
 ext{
-    appVersionName = '1.0.0'
+    appVersionName = '1.0.1'
     appVersionCode = 102
 
     extMinSdkVersion = 19

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
-import org.ionc.wallet.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.R;
@@ -36,7 +36,7 @@ import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdatePasswordCallback {
+public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdateWalletCallback {
 
     private AppCompatEditText mPrivateKey;
     private AppCompatEditText pwdEt;
@@ -262,6 +262,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
+            wallet.setName(nameStr);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.wallet_name_exists))
                     .setMessage(getString(R.string.import_and_update_password))
@@ -298,15 +299,15 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     }
 
     @Override
-    public void onUpdatePasswordSuccess(WalletBean wallet) {
-        IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
+    public void onUpdateWalletSuccess(WalletBean wallet) {
+        IONCWalletSDK.getInstance().updateWallet(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger(getResources().getString(R.string.update_succwss));
 //        skip(MainActivity.class);
     }
 
     @Override
-    public void onUpdatePasswordFailure(String error) {
+    public void onUpdateWalletFailure(String error) {
         ToastUtil.showToastLonger(error);
         Logger.e("导入失败 " + error);
     }

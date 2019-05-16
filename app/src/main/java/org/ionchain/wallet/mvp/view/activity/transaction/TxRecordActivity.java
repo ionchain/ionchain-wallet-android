@@ -9,10 +9,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.bean.TxRecoderBean;
 import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.txrecoder.TxRecoderViewHelper;
+import org.ionchain.wallet.bean.TxRecoderBean;
 import org.ionchain.wallet.mvp.callback.OnLoadingView;
 import org.ionchain.wallet.mvp.callback.OnTxRecordCallback;
 import org.ionchain.wallet.mvp.presenter.transcation.TxRecordPresenter;

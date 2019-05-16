@@ -6,10 +6,10 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.ionc.wallet.bean.TxRecoderBean;
 import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.bean.TxRecoderBean;
 import org.ionchain.wallet.mvp.callback.OnTxRecordCallback;
 import org.ionchain.wallet.utils.NetUtils;
 

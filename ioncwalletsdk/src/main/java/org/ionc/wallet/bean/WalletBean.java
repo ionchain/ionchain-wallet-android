@@ -73,6 +73,7 @@ public class WalletBean implements Parcelable {
 
     private String rmb;
 
+
     @Override
     public int describeContents() {
         return 0;

@@ -17,7 +17,7 @@ import com.ionc.wallet.sdk.R;
 
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
-import org.ionc.wallet.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
 import org.ionc.wallet.utils.RandomUntil;
@@ -28,7 +28,7 @@ import java.util.Arrays;
 
 import static org.ionc.wallet.utils.StringUtils.check;
 
-public abstract class AbsByMnemonicActivity extends BaseActivity implements TextWatcher, OnImportMnemonicCallback, OnUpdatePasswordCallback {
+public abstract class AbsByMnemonicActivity extends BaseActivity implements TextWatcher, OnImportMnemonicCallback, OnUpdateWalletCallback {
 
 
     @Override
@@ -198,15 +198,15 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
     }
 
     @Override
-    public void onUpdatePasswordSuccess(WalletBean wallet) {
-        IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
+    public void onUpdateWalletSuccess(WalletBean wallet) {
+        IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger(getAppString(R.string.update_success));
         onSDKCreateSuccess(wallet);
 
     }
 
     @Override
-    public void onUpdatePasswordFailure(String error) {
+    public void onUpdateWalletFailure(String error) {
         ToastUtil.showToastLonger(error);
         onSDKCreateFailure(error);
 

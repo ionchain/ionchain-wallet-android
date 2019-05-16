@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.callback;
 
-import org.ionc.wallet.bean.TxRecoderBean;
+
+import org.ionchain.wallet.bean.TxRecoderBean;
 
 import java.util.List;
 

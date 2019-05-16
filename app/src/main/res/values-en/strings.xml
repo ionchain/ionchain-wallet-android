@@ -190,4 +190,6 @@
     <string name="restore_by_mnemonics_hint">Through mnemonic, can restore the wallet, do not need the original password, please properly keep</string>
     <string name="current_language_en">The current language is English, no need to switch</string>
     <string name="current_language_zn">The current language is Chinese, no need to switch</string>
+    <string name="net_node_error">Error fetching main chain node</string>
+    <string name="please_refresh">请先刷新</string>
 </resources>

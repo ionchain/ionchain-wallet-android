@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
-import org.ionc.wallet.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
@@ -32,7 +32,7 @@ import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnUpdatePasswordCallback {
+public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnUpdateWalletCallback {
     private RelativeLayout importHeader;
     private ImageView back;
     private AppCompatEditText mnemonic;
@@ -250,14 +250,14 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     }
 
     @Override
-    public void onUpdatePasswordSuccess(WalletBean wallet) {
-        IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
+    public void onUpdateWalletSuccess(WalletBean wallet) {
+        IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger(getAppString(R.string.update_succwss));
         skip(MainActivity.class);
     }
 
     @Override
-    public void onUpdatePasswordFailure(String error) {
+    public void onUpdateWalletFailure(String error) {
         ToastUtil.showToastLonger(error);
     }
 }

@@ -189,4 +189,6 @@
     <string name="restore_by_mnemonics_hint">通过助记词，可以恢复钱包，不需要原始密码,请妥善保管</string>
     <string name="current_language_en">当前语言为英语,无需切换</string>
     <string name="current_language_zn">当前语言为中文,无需切换</string>
+    <string name="net_node_error">获取主链节点出错</string>
+    <string name="please_refresh">请先刷新</string>
 </resources>

@@ -6,9 +6,8 @@ import android.view.View;
 
 import org.ionc.wallet.adapter.IViewHolder;
 import org.ionc.wallet.adapter.IViewHolderHelper;
-import org.ionc.wallet.bean.TxRecoderBean;
-
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.bean.TxRecoderBean;
 import org.web3j.utils.Convert;
 
 import java.util.List;

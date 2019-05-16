@@ -17,7 +17,7 @@ import com.ionc.wallet.sdk.R;
 
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
-import org.ionc.wallet.callback.OnUpdatePasswordCallback;
+import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
 import org.ionc.wallet.utils.RandomUntil;
@@ -28,7 +28,7 @@ import static org.ionc.wallet.utils.StringUtils.check;
 /**
  * 之所以设计成抽象的，是因为有个回调要用户自己实现
  */
-public abstract class AbsByPrivateKeyActivity extends BaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdatePasswordCallback {
+public abstract class AbsByPrivateKeyActivity extends BaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdateWalletCallback {
 
     private AppCompatEditText mPrivateKey;
     private AppCompatEditText pwdEt;
@@ -198,15 +198,15 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
     }
 
     @Override
-    public void onUpdatePasswordSuccess(WalletBean wallet) {
-        IONCWalletSDK.getInstance().removeWalletPrivateKey(wallet);
+    public void onUpdateWalletSuccess(WalletBean wallet) {
+        IONCWalletSDK.getInstance().updateWallet(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger(getAppString(R.string.update_success));
         onSDKCreateSuccess(wallet);
     }
 
     @Override
-    public void onUpdatePasswordFailure(String error) {
+    public void onUpdateWalletFailure(String error) {
         ToastUtil.showToastLonger(error);
         Logger.e("导入失败 " + error);
         onSDKCreateFailure(error);

@@ -85,7 +85,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
                 if (App.SDK_Debug) {
                     skip(SDKSelectCreateModeWalletActivity.class,INTENT_PARAME_TAG,"");
                 }else {
-                    skip(SelectImportModeActivity.class,INTENT_PARAME_TAG,"");//
+                    skip(SelectImportModeActivity.class,INTENT_PARAME_TAG,"1");//
                 }
             }
         });

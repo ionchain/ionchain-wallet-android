@@ -30,14 +30,17 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
+import org.ionchain.wallet.bean.NodeBean;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
+import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDExRateRMBCallback;
 import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDPriceCallback;
 import org.ionchain.wallet.mvp.presenter.device.DevicePresenter;
 import org.ionchain.wallet.mvp.presenter.ioncrmb.PricePresenter;
+import org.ionchain.wallet.mvp.presenter.node.IONCNodePresenter;
 import org.ionchain.wallet.mvp.view.activity.address.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
@@ -65,16 +68,15 @@ import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 import static java.math.BigDecimal.ROUND_HALF_UP;
-import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
-import static org.ionc.wallet.constant.ConstantUrl.IONC_CHAIN_NODE;
 import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLTE_ADDRESS;
-import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
+import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
+import static org.ionchain.wallet.constant.ConstantUrl.URL_NODE_LIST;
 
 
 public class AssetFragment extends AbsBaseFragment implements
@@ -89,7 +91,7 @@ public class AssetFragment extends AbsBaseFragment implements
         DialogTextMessage.OnBtnClickedListener,
         OnDialogCheck12MnemonicCallbcak,
         OnUSDPriceCallback,
-        OnUSDExRateRMBCallback {
+        OnUSDExRateRMBCallback, OnIONCNodeCallback {
 
 
     /**
@@ -210,6 +212,7 @@ public class AssetFragment extends AbsBaseFragment implements
      * 币价信息
      */
     private PricePresenter mPricePresenter;
+    private String mNodeIONC;
 
 
     /**
@@ -264,8 +267,8 @@ public class AssetFragment extends AbsBaseFragment implements
      * @param currentWallet 当前钱包
      */
     private void getNetData(WalletBean currentWallet) {
-        IONCWalletSDK.getInstance().getIONCWalletBalance(currentWallet.getAddress(), this);
-        getDeviceList();
+//        getDeviceList();
+        new IONCNodePresenter().getNodes(URL_NODE_LIST,this);
     }
 
     /**
@@ -680,15 +683,8 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
 
-        switch (nodeUrlTag) {
-            case IONC_CHAIN_NODE:
-                mIONCBalance = balanceBigDecimal;
-                ioncBalanceTx.setText(balanceBigDecimal.toPlainString());
-                break;
-            case ETH_CHAIN_NODE:
-                walletBalanceTxETH.setText(balanceBigDecimal.toPlainString());
-                break;
-        }
+        mIONCBalance = balanceBigDecimal;
+        ioncBalanceTx.setText(balanceBigDecimal.toPlainString());
         Logger.i("balance",balanceBigDecimal.toPlainString());
         mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
         mRefresh.finishRefresh(); //
@@ -703,7 +699,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onBalanceFailure(String error) {
-        Logger.e(error);
+        Logger.e("balance",error);
         ToastUtil.showToastLonger(error);
         mRefresh.finishRefresh();
         ioncBalanceTx.setText(mCurrentWallet.getBalance());
@@ -808,5 +804,29 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onUSDExRateRMBFailure(String error) {
         Logger.e(error);
         mRefresh.finishRefresh();
+    }
+
+    @Override
+    public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
+       //取出主链节点
+        mNodeIONC = dataBean.get(0).getIonc_node();
+        Logger.i("node",mNodeIONC);
+        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC,mCurrentWallet.getAddress(), this);
+
+    }
+
+    @Override
+    public void onIONCNodeError(String string) {
+
+    }
+
+    @Override
+    public void onIONCNodeStart() {
+
+    }
+
+    @Override
+    public void onIONCNodeFinish() {
+
     }
 }

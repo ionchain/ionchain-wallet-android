@@ -8,10 +8,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.bean.WalletBean;
-import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
-import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
@@ -47,6 +44,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         mSwipeRefreshLayout = view.findViewById(R.id.refresh_asset);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
+        mSwipeRefreshLayout.setEnableRefresh(false);
         mListView = view.findViewById(R.id.devices_lv);
 
         mAdapter = new CommonAdapter(getActivity(), mDataBeanList, R.layout.item_devices_layout, new DeviceViewHelper(this));
@@ -81,20 +79,20 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     }
 
     private void getDeviceList() {
-        List<WalletBean> list = IONCWalletSDK.getInstance().getAllWallet();
-        if (list == null || list.size() == 0) {
-            return;
-        }
-        int size = list.size();
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < size; i++) {
-            builder.append(list.get(i).getAddress() + ",");
-        }
-        String address = builder.toString();
-        if (StringUtils.isEmpty(address)) {
-            return;
-        }
-        mDevicePresenter.getAllWalletDevicesList(address, this);
+//        List<WalletBean> list = IONCWalletSDK.getInstance().getAllWallet();
+//        if (list == null || list.size() == 0) {
+//            return;
+//        }
+//        int size = list.size();
+//        StringBuilder builder = new StringBuilder();
+//        for (int i = 0; i < size; i++) {
+//            builder.append(list.get(i).getAddress() + ",");
+//        }
+//        String address = builder.toString();
+//        if (StringUtils.isEmpty(address)) {
+//            return;
+//        }
+//        mDevicePresenter.getAllWalletDevicesList(address, this);
 
     }
 

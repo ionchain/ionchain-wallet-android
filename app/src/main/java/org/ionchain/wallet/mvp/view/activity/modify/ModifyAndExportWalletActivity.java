@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.ionc.wallet.bean.WalletBean;
-import org.ionc.wallet.callback.OnCheckCallback;
+import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
 import org.ionc.wallet.callback.OnModifyWalletPassWordCallback;
@@ -43,7 +43,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         OnDeletefinishCallback,
         OnModifyPasswordCallback,
         OnModifyWalletPassWordCallback,
-        OnCheckCallback,
+        OnCheckWalletPasswordCallback,
         DialogTextMessage.OnBtnClickedListener {
 
 
@@ -159,7 +159,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                     mWallet.setName(walletNameEt.getText().toString());
                     ioncTitleBar.setTitle(walletNameEt.getText().toString());
                     SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
-                    IONCWalletSDK.getInstance().removeWalletPrivateKey(mWallet);
+                    IONCWalletSDK.getInstance().updateWallet(mWallet);
                 } else {
                     ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
                 }
@@ -181,7 +181,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
      */
     private void showImportPrivateKeyDialog(final String privateKey) {
         this.privateKey = privateKey;
-        new DialogTextMessage(this).setTitle(getAppString(R.string.export_private_key)).setMessage(privateKey)
+        new DialogTextMessage(this).setTitle(getAppString(R.string.export_private_key)).setCancelByBackKey(true).setMessage(privateKey)
                 .setCopyBtnClickedListener(this).show();
 
     }
@@ -323,7 +323,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onCheckSuccess(WalletBean bean) {
+    public void onCheckWalletPasswordSuccess(WalletBean bean) {
         passwordCheck.dismiss();
         switch (flag) {
             case FLAG_DELETE_WALLET:
@@ -359,7 +359,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onCheckFailure(String errorMsg) {
+    public void onCheckWalletPasswordFailure(String errorMsg) {
         Logger.e(errorMsg);
         ToastUtil.showToastLonger(getAppString(R.string.please_check_password));
         if (modifyDialog != null) {

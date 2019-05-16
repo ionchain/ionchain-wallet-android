@@ -51,7 +51,6 @@ public class App extends Application implements Application.ActivityLifecycleCal
     };
 
     public static String currentLanguage = "";
-    private boolean settingsChanged = false;
 
     @Override
     public void onCreate() {
