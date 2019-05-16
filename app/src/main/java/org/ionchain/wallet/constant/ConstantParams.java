@@ -78,7 +78,7 @@ public final class ConstantParams {
 
 
 
-    public static final String INTENT_PARAME_WALLTE_ADDRESS = "msg";
+    public static final String INTENT_PARAME_WALLET_ADDRESS = "msg";
 
 
 

@@ -126,14 +126,15 @@ public class App extends Application implements Application.ActivityLifecycleCal
      * @return 当前语言环境
      */
     public static boolean isCurrentLanguageZN() {
-        return "zh_CN".equals(Locale.getDefault().toString());
+        String language = Locale.getDefault().toString();
+        return language.contains("zh_CN");
     }
 
     /**
      * @return 当前语言环境
      */
     public static boolean isCurrentLanguageEN() {
-        return "en".equals(Locale.getDefault().toString());
+        return Locale.getDefault().toString().contains("en");
     }
 
     @Override

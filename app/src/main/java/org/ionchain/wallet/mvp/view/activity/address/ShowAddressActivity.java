@@ -15,7 +15,7 @@ import org.ionchain.wallet.utils.BitmapUtils;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 
-import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLTE_ADDRESS;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PICTURE_FILE_NAME;
 
 public class ShowAddressActivity extends AbsBaseActivity {
@@ -44,7 +44,7 @@ public class ShowAddressActivity extends AbsBaseActivity {
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
-        address = intent.getStringExtra(INTENT_PARAME_WALLTE_ADDRESS);
+        address = intent.getStringExtra(INTENT_PARAME_WALLET_ADDRESS);
     }
 
     @Override

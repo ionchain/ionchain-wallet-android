@@ -73,7 +73,7 @@ import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
-import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLTE_ADDRESS;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
 import static org.ionchain.wallet.constant.ConstantUrl.URL_NODE_LIST;
@@ -390,7 +390,7 @@ public class AssetFragment extends AbsBaseFragment implements
             public void onClick(View v) {
                 if (pleaseBackupWallet()) return;
                 Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
-                intent.putExtra(INTENT_PARAME_WALLTE_ADDRESS, mCurrentWallet.getAddress());
+                intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mCurrentWallet.getAddress());
                 skip(intent);
             }
         });
