@@ -21,7 +21,7 @@
     <string name="language_setting">语言设置</string>
     <string name="language_cn">简体中文</string>
     <string name="language_en">English</string>
-    <string name="language_auto">自动</string>
+    <string name="language_auto">默认</string>
     <string name="language_select">当前选择的语言: %s</string>
     <string name="nav_mine">我的</string>
     <string name="wallet_management">钱包管理</string>
@@ -187,4 +187,6 @@
     <string name="app_net_error">网络请求失败</string>
     <string name="forbidden_photo">请勿拍照或截屏，谨慎抄写您的助记词！</string>
     <string name="restore_by_mnemonics_hint">通过助记词，可以恢复钱包，不需要原始密码,请妥善保管</string>
+    <string name="current_language_en">当前语言为英语,无需切换</string>
+    <string name="current_language_zn">当前语言为中文,无需切换</string>
 </resources>

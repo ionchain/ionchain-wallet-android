@@ -64,7 +64,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
         //不现实水平滚动条
         mWebView.setHorizontalScrollBarEnabled(false);
         //不现实垂直滚动条
-        mWebView.setVerticalScrollBarEnabled(false);
+        mWebView.setVerticalScrollBarEnabled(true);
 
         //获取触摸焦点
         mWebView.requestFocusFromTouch();

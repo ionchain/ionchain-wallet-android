@@ -42,21 +42,16 @@
 
     <Button
         android:id="@+id/version_info_btn_cancel"
-        android:layout_width="@dimen/dialog_btn_cancel_width_60dp"
-        android:layout_height="@dimen/dialog_btn_height_40dp"
-        android:layout_below="@id/version_snd_line"
-        android:layout_marginTop="@dimen/h10"
+        style="@style/A_Style_Version_info_dialog_btn"
         android:background="@drawable/dialog_cancel_btn"
-        android:text="@string/btn_close" />
+        android:text="@string/btn_close"
+        />
 
     <Button
         android:id="@+id/version_info_btn_update"
-        android:layout_width="@dimen/dialog_btn_cancel_width_60dp"
-        android:layout_height="@dimen/dialog_btn_height_40dp"
-        android:layout_below="@id/version_snd_line"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/h10"
         android:background="@drawable/dialog_sure_btn"
         android:text="@string/btn_update"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        style="@style/A_Style_Version_info_dialog_btn"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

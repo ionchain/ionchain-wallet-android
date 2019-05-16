@@ -37,7 +37,6 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.key
-            buildConfigField('boolean', 'LOG_DEBUG', 'true')
             buildConfigField "String","URL_PROTOCOL_CN","\"${URL_PROTOCOL_CN}\""
             buildConfigField "String","URL_PROTOCOL_EN","\"${URL_PROTOCOL_EN}\""
             buildConfigField "String","URL_ABOUTUS_CN","\"${URL_ABOUTUS_CN}\""
@@ -48,8 +47,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.key
-            buildConfigField('boolean', 'LOG_DEBUG', 'false')
-            buildConfigField('boolean', 'LOG_DEBUG', 'true')
             buildConfigField "String","URL_PROTOCOL_CN","\"${URL_PROTOCOL_CN}\""
             buildConfigField "String","URL_PROTOCOL_EN","\"${URL_PROTOCOL_EN}\""
             buildConfigField "String","URL_ABOUTUS_CN","\"${URL_ABOUTUS_CN}\""

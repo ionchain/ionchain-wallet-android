@@ -2,6 +2,8 @@ package org.ionc.wallet.utils;
 
 import android.util.Log;
 
+import com.ionc.wallet.sdk.BuildConfig;
+
 
 /**
  * ================================================
@@ -10,7 +12,7 @@ import android.util.Log;
  */
 public class Logger {
 
-    private static boolean isDebug = true;
+    private static boolean isDebug = BuildConfig.DEBUG;
 
     public static void initLogger(boolean debug) {
         isDebug = debug;

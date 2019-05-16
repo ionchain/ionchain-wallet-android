@@ -1,7 +1,11 @@
 package org.ionchain.wallet;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.multidex.MultiDex;
@@ -14,7 +18,10 @@ import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
 import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.crasher.CrashHandler;
+import org.ionchain.wallet.helper.ActivityHelper;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.qrcode.DisplayUtil;
 import org.ionchain.wallet.qrcode.activity.ZXingLibrary;
 import org.ionchain.wallet.utils.LocalManageUtil;
@@ -26,13 +33,13 @@ import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 
+import static com.ionc.wallet.sdk.BuildConfig.DEBUG;
 import static org.ionc.wallet.utils.Logger.initLogger;
-import static org.ionchain.wallet.BuildConfig.LOG_DEBUG;
 
 /**
  * Created by binny on 2018/11/29.
  */
-public class App extends Application {
+public class App extends Application implements Application.ActivityLifecycleCallbacks {
     public static Context mContext;
     public static boolean SDK_Debug = false;
     public static Handler mHandler = new Handler(Looper.getMainLooper());
@@ -43,6 +50,9 @@ public class App extends Application {
             R.mipmap.random_header_1, R.mipmap.random_header_2, R.mipmap.random_header_3, R.mipmap.random_header_4, R.mipmap.random_header_5, R.mipmap.random_header_6, R.mipmap.random_header_7, R.mipmap.random_header_8
     };
 
+    public static String currentLanguage = "";
+    private boolean settingsChanged = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -50,11 +60,12 @@ public class App extends Application {
         Stetho.initializeWithDefaults(this);
         OkGo.getInstance().init(this);
         initOKGO();
-        initLogger(LOG_DEBUG);
+        initLogger(DEBUG);
         IONCWalletSDK.getInstance().initIONCWalletSDK(this);
         ZXingLibrary.initDisplayOpinion(this);
         CrashHandler.getInstance().init(this);
         initDisplayOpinion();
+        registerActivityLifecycleCallbacks(this);
     }
 
     @Override
@@ -119,4 +130,59 @@ public class App extends Application {
         return "zh_CN".equals(Locale.getDefault().toString());
     }
 
+    /**
+     * @return 当前语言环境
+     */
+    public static boolean isCurrentLanguageEN() {
+        return "en".equals(Locale.getDefault().toString());
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+    }
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityCreated");
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityStarted");
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityResumed");
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityPaused");
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityStopped");
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivitySaveInstanceState");
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityDestroyed");
+    }
+
+    public static void skipToMain() {
+        Intent intent = new Intent(ActivityHelper.getHelper().currentActivity(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        ActivityHelper.getHelper().currentActivity().startActivity(intent);
+    }
 }

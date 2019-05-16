@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/hint"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center_vertical"
             android:layout_marginStart="15dp"
@@ -97,8 +97,7 @@
         <Button
             android:layout_margin="@dimen/h10"
             android:id="@+id/close"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            style="@style/A_Style_Version_info_dialog_btn"
             android:layout_alignParentStart="true"
             android:layout_below="@id/line2"
             android:background="@drawable/dialog_cancel_btn"
@@ -106,8 +105,7 @@
 
         <Button
             android:id="@+id/next_sure"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
+            style="@style/A_Style_Version_info_dialog_btn"
             android:layout_below="@id/line2"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/h10"
