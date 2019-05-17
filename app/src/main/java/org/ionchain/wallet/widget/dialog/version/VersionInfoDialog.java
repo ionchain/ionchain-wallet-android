@@ -25,6 +25,7 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
 
     private char type;
     private String url;
+    private boolean cancelable;
 
     public char getType() {
         return type;
@@ -65,7 +66,7 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
     }
 
     /**
-     * @param name 确定按钮的文字
+     * @param title
      * @return 对话框
      */
     public VersionInfoDialog updateTitle(String title) {
@@ -74,7 +75,6 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
     }
 
     /**
-     * @param name 确定按钮的文字
      * @return 对话框
      */
     public VersionInfoDialog updateVersionInfoContent(String info) {
@@ -143,7 +143,7 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
 
     @Override
     protected void initDialog() {
-
+        setCancelable(cancelable);
     }
 
     @Override
@@ -158,16 +158,21 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
         versionInfoBtnUpdate.setText(btn_name);
     }
 
+    public VersionInfoDialog setCancelableBydBackKey(boolean cancelable) {
+        this.cancelable = cancelable;
+        return this;
+    }
+
     /**
      * 更新按钮点击事件监听函数
      */
     public interface OnVersionDialogBtnClickedListener {
         /**
          * 右侧按钮---确定,更新,下载
-         *
-         * @param dialog
-         * @param type
-         * @param url
+         * 欢迎页的 检查更新对话框
+         * @param dialog       信息展示对话框
+         * @param type         对话框的类型:下载,展示(展示对话框有检查更新文字)
+         * @param url 下载地址
          */
         void onVersionDialogRightBtnClicked(VersionInfoDialog dialog, char type, String url);
 

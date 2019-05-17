@@ -25,8 +25,9 @@ public interface OnCheckUpdateInfoCallback {
     /**
      * 需要更新
      * @param updateBean
+     * @param must_update
      */
-    void onCheckForUpdateNeedUpdate(UpdateBean updateBean);
+    void onCheckForUpdateNeedUpdate(UpdateBean updateBean, String must_update);
 
     /**
      * 不需要更新

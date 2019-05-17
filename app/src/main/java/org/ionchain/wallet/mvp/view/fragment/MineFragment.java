@@ -57,6 +57,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
      */
     private VersionInfoDialog mLastedVersionInfoDialog;
     private UpdatePresenter mUpdatePresenter;
+    private String must_update = "0";
 
 
     /**
@@ -160,13 +161,17 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
         } else if (type == ConstantParams.VERSION_TAG_DOWNLOAD) {
             //下载对话框
             mLastedVersionInfoDialog.dismiss();
-            new DownloadDialog(mActivity, url, this).show();
+            new DownloadDialog(mActivity, url, this, must_update).setCancelableBydBackKey(false).show();
         }
     }
 
     @Override
     public void onVersionDialogLeftBtnClicked(VersionInfoDialog dialog) {
-        dialog.dismiss();
+        if (must_update.equals("1")) {
+            ToastUtil.showShort(getAppString(R.string.must_update));
+        } else {
+            dialog.dismiss();
+        }
     }
 
     @Override
@@ -188,9 +193,10 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     }
 
     @Override
-    public void onCheckForUpdateNeedUpdate(UpdateBean updateBean) {
+    public void onCheckForUpdateNeedUpdate(UpdateBean updateBean, String must_update) {
         try {
             String update_info;
+            this.must_update = must_update;
             int v_code;
             UpdateBean.DataBean dataBean_CN = null, dataBean_EN = null;
             for (int i = 0; i < 2; i++) {

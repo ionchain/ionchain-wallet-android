@@ -191,4 +191,5 @@
     <string name="current_language_zn">当前语言为中文,无需切换</string>
     <string name="net_node_error">获取主链节点出错</string>
     <string name="please_refresh">请先刷新</string>
+    <string name="must_update">此版本为必须更新</string>
 </resources>

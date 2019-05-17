@@ -29,7 +29,7 @@ import java.io.File;
 public class DownloadDialog extends AbsBaseDialog implements View.OnClickListener {
     private TextView download_progress_tv;
     private ProgressBar mProgress;
-    private Button mProgressBtn;
+    private Button mBtnCacncel;
     private String url;
 
     private DL mDL;
@@ -37,12 +37,17 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
     private DownloadTask task;
 
     private DownloadCallback mDownloadCallback;
+    private String mMustUpdate;
+    private boolean cancelable;
 
     private void findViews() {
         download_progress_tv = findViewById(R.id.download_progress_tv);
         mProgress = findViewById(R.id.download_progress_schedule);
-        mProgressBtn = findViewById(R.id.download_progress_btn_cancel);
-        mProgressBtn.setOnClickListener(this);
+        mBtnCacncel = findViewById(R.id.download_progress_btn_cancel);
+        if ("1".equals(mMustUpdate)) {
+            mBtnCacncel.setVisibility(View.GONE);
+        }
+        mBtnCacncel.setOnClickListener(this);
     }
 
     /**
@@ -61,17 +66,24 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (v == mProgressBtn) {
+        if (v == mBtnCacncel) {
             dismiss();
             task.remove(true);
             mDownloadCallback.onDownloadCancel();
         }
     }
 
-    public DownloadDialog(@NonNull Context context, String url, DownloadCallback callback) {
+    /**
+     * @param context
+     * @param url
+     * @param callback
+     * @param must_update   用于隐藏取消下载按钮   在强制更新的时候用到
+     */
+    public DownloadDialog(@NonNull Context context, String url, DownloadCallback callback, String must_update) {
         super(context);
         this.url = url;
         mDownloadCallback = callback;
+        mMustUpdate = must_update;
     }
 
     @Override
@@ -82,6 +94,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
     @Override
     protected void initDialog() {
         initDialogDefault();
+        setCancelable(cancelable);
     }
 
     @Override
@@ -96,6 +109,11 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
         task = OkDownload.request("task_download_apk", request)
                 .save()
                 .register(mDL);
+    }
+
+    public DownloadDialog setCancelableBydBackKey(boolean cancelable) {
+        this.cancelable = cancelable;
+        return this;
     }
 
 
@@ -115,7 +133,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
             int p = (int) App.scale(progress.fraction);
             updateProgress(p);
             updateProgressTv(p + "%");
-            Logger.i("onProgress = "+p + "%");
+            Logger.i("onProgress = " + p + "%");
         }
 
         @Override
@@ -165,7 +183,6 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
 
         /**
          * 取消下载
-         *
          */
         void onDownloadCancel();
     }

@@ -192,4 +192,5 @@
     <string name="current_language_zn">The current language is Chinese, no need to switch</string>
     <string name="net_node_error">Error fetching main chain node</string>
     <string name="please_refresh">请先刷新</string>
+    <string name="must_update">This version must be updated</string>
 </resources>

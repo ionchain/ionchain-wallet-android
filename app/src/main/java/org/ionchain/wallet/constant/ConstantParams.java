@@ -94,4 +94,8 @@ public final class ConstantParams {
 
     public static final int QRCODE_BIND_DEVICE = 10;
 
+    public static final String DOWNLOAD_CANCELABLE_YES = "0";//  可以取消对话框
+    public static final String DOWNLOAD_CANCELABLE_NO = "1";//   不可取消
+
+
 }

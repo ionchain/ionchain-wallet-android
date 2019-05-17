@@ -39,7 +39,7 @@ public class UpdateModelModel implements IUpdateModel {
                 if (updateBean != null && updateBean.getData() != null && updateBean.getData().get(0) != null) {
                     //询问用户是否下载？
                     if (AppUtil.getVersionCode(App.mContext) < updateBean.getData().get(0).getVersion_code()) {
-                        callback.onCheckForUpdateNeedUpdate(updateBean);
+                        callback.onCheckForUpdateNeedUpdate(updateBean,updateBean.getData().get(0).getMust_update());
                     }else {
                         callback.onCheckForUpdateNoNewVersion();
                     }
