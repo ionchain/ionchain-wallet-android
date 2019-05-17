@@ -57,11 +57,11 @@ android {
 //    产品维度定义,此处定义一个渠道 channel
     flavorDimensions "channel"
     productFlavors {
-        def appName = "IONC Wallet"
+        def appName = "IONChainWallet"
         def commonAppId = "org.ionchain.wallet"
         def appIdHuaWei = "org.ionchain.wallet.huawei"
         def appIdXiaoMi = "org.ionchain.wallet.xiaomi"
-        ionchain {
+        IONChainWallet {
             dimension "channel"
             manifestPlaceholders.put("appId", commonAppId)
             manifestPlaceholders.put("file_paths", "@xml/file_paths")

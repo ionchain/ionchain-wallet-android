@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IONC Wallet</string>
+    <string name="app_name">IONChainWallet</string>
     <string name="menu_import_scan">扫一扫</string>
     <string name="menu_scan_album">相册</string>
     <string name="menu_main_add">添加</string>

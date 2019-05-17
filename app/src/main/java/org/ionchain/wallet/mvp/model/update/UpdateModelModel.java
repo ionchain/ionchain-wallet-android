@@ -37,20 +37,11 @@ public class UpdateModelModel implements IUpdateModel {
                 String json = response.body();
                 UpdateBean updateBean = NetUtils.gsonToBean(json, UpdateBean.class);
                 if (updateBean != null && updateBean.getData() != null && updateBean.getData().get(0) != null) {
-                    String v_code = updateBean.getData().get(0).getHas_new_version();
-                    switch (v_code) {
-                        case "0":  //无新版本
-                            callback.onCheckForUpdateNoNewVersion();
-                            break;
-                        case "1":  //有新版本
-                            //询问用户是否下载？
-                            if (AppUtil.getVersionCode(App.mContext) < updateBean.getData().get(0).getVersion_code()) {
-                                callback.onCheckForUpdateNeedUpdate(updateBean);
-                            }else {
-                                callback.onCheckForUpdateNoNewVersion();
-                            }
-
-                            break;
+                    //询问用户是否下载？
+                    if (AppUtil.getVersionCode(App.mContext) < updateBean.getData().get(0).getVersion_code()) {
+                        callback.onCheckForUpdateNeedUpdate(updateBean);
+                    }else {
+                        callback.onCheckForUpdateNoNewVersion();
                     }
 
                 } else {

@@ -13,6 +13,10 @@ import android.content.pm.PackageManager;
  *
  */
 public class AppUtil {
+    /**
+     * @param context 用于检查版本更新
+     * @return
+     */
     public static int getVersionCode(Context context) {
         PackageManager manager = context.getPackageManager();
         int code = 0;
@@ -26,6 +30,10 @@ public class AppUtil {
     }
 
 
+    /**
+     * @param context 用于展示给用户
+     * @return
+     */
     public static String getVersionName(Context context) {
         PackageManager manager = context.getPackageManager();
         String name = null;
