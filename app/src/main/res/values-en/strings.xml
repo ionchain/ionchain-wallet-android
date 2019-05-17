@@ -55,7 +55,7 @@
     <string name="mnemonics_error_index">The No. %s mnemonic you entered is incorrect</string>
     <string name="authentication_successful">Authentication successful !</string>
     <string name="act_wallet_create_notify1_app">Passwords are used to protect private keys, and strength is important</string>
-    <string name="act_wallet_create_notify2_app">IONCToken doesn\'t store passwords and won\'t help you retrieve them, so be sure to keep that in mind</string>
+    <string name="act_wallet_create_notify2_app">IONChainWallet doesn\'t store passwords and won\'t help you retrieve them, so be sure to keep that in mind</string>
     <string name="select_import_title">Please select import mode</string>
     <string name="import_m_pri">Private Key</string>
     <string name="import_m_mnemonics">Mnemonics</string>

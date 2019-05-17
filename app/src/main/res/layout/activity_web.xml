@@ -11,7 +11,7 @@
         android:id="@+id/toolbarlayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/white">
+        android:background="@color/blue_top">
 
         <ImageView
             android:id="@+id/back"
@@ -19,13 +19,14 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:src="@mipmap/arrow_back_blue" />
+            android:src="@mipmap/arrow_back_white" />
 
         <TextView
             style="@style/common_title"
             android:id="@+id/web_title"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="@string/protocol_title"
             android:textSize="@dimen/textSize_16" />
     </RelativeLayout>

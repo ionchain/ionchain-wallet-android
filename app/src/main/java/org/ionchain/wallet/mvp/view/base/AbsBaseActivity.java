@@ -278,4 +278,11 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     public String getAppString(int id, Object obj) {
         return getResources().getString(id, obj);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        hideProgress();
+    }
 }

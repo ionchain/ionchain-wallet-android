@@ -3,7 +3,7 @@
     <string name="wallet_create_password_again">Repeat the password</string>
     <string name="activity_create_wallet">Create a wallet</string>
     <string name="act_wallet_create_notify1">Passwords are used to protect private keys, and strength is important</string>
-    <string name="act_wallet_create_notify2">IONCToken doesn\'t store passwords and won\'t help you retrieve them, so be sure to keep that in mind</string>
+    <string name="act_wallet_create_notify2">IONChainWallet doesn\'t store passwords and won\'t help you retrieve them, so be sure to keep that in mind</string>
     <string name="error_net_ionc">Failed to connect IONChain</string>
     <string name="error_net_eth">Failed to connect ethereum</string>
     <string name="wallet_empty">Empty purse!</string>

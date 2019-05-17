@@ -61,7 +61,7 @@ buildscript {
 }
 
 greendao {
-    schemaVersion 2
+    schemaVersion extSchemaVersion
     daoPackage 'org.ionc.wallet.greendaogen'
     targetGenDir 'src/main/java'
 }
