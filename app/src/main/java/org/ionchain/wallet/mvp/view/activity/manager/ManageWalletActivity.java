@@ -11,7 +11,7 @@ import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
@@ -43,9 +43,9 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     private Button importBtn;
     private Button createBtn;
     private CommonAdapter mAdapter;
-    private List<WalletBean> mWalletBeans = new ArrayList<>();
+    private List<WalletBeanNew> mWalletBeans = new ArrayList<>();
     private DialogMnemonic dialogMnemonic;
-    private WalletBean mCurrentWallet;
+    private WalletBeanNew mCurrentWallet;
 
     private void findViews() {
         srl = findViewById(R.id.srl);
@@ -58,7 +58,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     @SuppressWarnings("unchecked")
     @Override
     protected void initData() {
-        mWalletBeans = IONCWalletSDK.getInstance().getAllWallet();
+        mWalletBeans = IONCWalletSDK.getInstance().getAllWalletNew();
         mAdapter = new CommonAdapter(this, mWalletBeans, R.layout.item_wallet_manager_layout, new ManagerWalletHelper(this));
         listview.setAdapter(mAdapter);
     }
@@ -122,7 +122,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     public void onRefresh(RefreshLayout refreshlayout) {
         srl.finishRefresh();
         mWalletBeans.clear();
-        mWalletBeans.addAll(IONCWalletSDK.getInstance().getAllWallet());
+        mWalletBeans.addAll(IONCWalletSDK.getInstance().getAllWalletNew());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -130,14 +130,14 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     protected void onResume() {
         super.onResume();
         mWalletBeans.clear();
-        mWalletBeans.addAll(IONCWalletSDK.getInstance().getAllWallet());
+        mWalletBeans.addAll(IONCWalletSDK.getInstance().getAllWalletNew());
         mAdapter.notifyDataSetChanged();
     }
 
 
     @Override
     public void onItemClicked(int position) {
-        mCurrentWallet = (WalletBean) mAdapter.getItem(position);
+        mCurrentWallet = (WalletBeanNew) mAdapter.getItem(position);
         if (!mCurrentWallet.getMnemonic().equals("")) {
             ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
             String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");

@@ -1,6 +1,6 @@
 package org.ionc.wallet.callback;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 /**
  * user: binny
@@ -8,7 +8,7 @@ import org.ionc.wallet.bean.WalletBean;
  * description：更新钱包
  */
 public interface OnUpdateWalletCallback {
-    void onUpdateWalletSuccess(WalletBean wallet);
+    void onUpdateWalletSuccess(WalletBeanNew wallet);
 
     void onUpdateWalletFailure(String error);
 }

@@ -5,7 +5,7 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
@@ -37,7 +37,7 @@ public class DeviceModel implements IDeviceModel {
 
 
     @Override
-    public void getCurrentWalletDevicesList(WalletBean walletBean, final OnDeviceListCallback callback) {
+    public void getCurrentWalletDevicesList(WalletBeanNew walletBean, final OnDeviceListCallback callback) {
         params.clear();
         params.put("eth_address", walletBean.getAddress());
         NetUtils.get(URL_DEVICES_GET, params, new StringCallback() {

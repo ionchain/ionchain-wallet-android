@@ -5,7 +5,7 @@ import android.view.View;
 
 import org.ionc.wallet.adapter.IViewHolder;
 import org.ionc.wallet.adapter.IViewHolderHelper;
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
@@ -17,7 +17,7 @@ import java.util.List;
  * DATE: 2018/9/12
  * 描述: 辅助类 绑定数据
  */
-public class MoreWalletViewHelper implements IViewHolderHelper<MoreWalletViewHolder, WalletBean> {
+public class MoreWalletViewHelper implements IViewHolderHelper<MoreWalletViewHolder, WalletBeanNew> {
     @Override
     public IViewHolder initItemViewHolder(MoreWalletViewHolder viewHolder, View convertView) {
         viewHolder = new MoreWalletViewHolder();
@@ -27,7 +27,7 @@ public class MoreWalletViewHelper implements IViewHolderHelper<MoreWalletViewHol
     }
 
     @Override
-    public void bindListDataToView(Context context, List<WalletBean> iBaseBeanList, MoreWalletViewHolder viewHolder, int pos) {
+    public void bindListDataToView(Context context, List<WalletBeanNew> iBaseBeanList, MoreWalletViewHolder viewHolder, int pos) {
         viewHolder.mWalletName.setText(iBaseBeanList.get(pos).getName());
         viewHolder.mWalletImg.setImageResource(App.sRandomHeaderMore[iBaseBeanList.get(pos).getMIconIndex()]);
     }

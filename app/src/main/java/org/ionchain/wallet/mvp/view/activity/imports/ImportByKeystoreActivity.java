@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
@@ -165,8 +165,8 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
     }
 
     @Override
-    public void onCreateSuccess(WalletBean walletBean) {
-        WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
+    public void onCreateSuccess(WalletBeanNew walletBean) {
+        WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         Logger.i(walletBean.toString());
         if (null != wallet) {
             ToastUtil.showLong(getAppString(R.string.wallet_name_exists));
@@ -174,7 +174,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
             walletBean.setMIconIndex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
-            if (IONCWalletSDK.getInstance().getAllWallet().size()==1) {
+            if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
                 skip(MainActivity.class);
             }
         }

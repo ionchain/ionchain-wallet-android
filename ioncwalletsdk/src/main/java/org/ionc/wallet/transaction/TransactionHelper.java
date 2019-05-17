@@ -1,6 +1,6 @@
 package org.ionc.wallet.transaction;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
@@ -17,7 +17,7 @@ public class TransactionHelper {
     /**
      * 转出钱包
      */
-    private WalletBean walletBeanTx;
+    private WalletBeanNew walletBeanTx;
     /**
      * 转入地址
      */
@@ -36,7 +36,7 @@ public class TransactionHelper {
      * @param walletBeanTx
      * @return
      */
-    public TransactionHelper setWalletBeanTx(WalletBean walletBeanTx) {
+    public TransactionHelper setWalletBeanTx(WalletBeanNew walletBeanTx) {
         this.walletBeanTx = walletBeanTx;
         return this;
     }
@@ -65,7 +65,7 @@ public class TransactionHelper {
         return this;
     }
 
-    public WalletBean getWalletBeanTx() {
+    public WalletBeanNew getWalletBeanTx() {
         return walletBeanTx;
     }
 

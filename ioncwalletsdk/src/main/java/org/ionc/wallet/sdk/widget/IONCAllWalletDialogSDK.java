@@ -12,7 +12,7 @@ import com.ionc.wallet.sdk.R;
 
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.adapterhelper.AllWalletViewHepler;
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTransationCallback;
 
 import java.util.List;
@@ -29,13 +29,13 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
     private CommonAdapter mAdapter;
     private ProgressDialog dialog;
     private OnTxResultCallback mOnTxResultCallback;
-    private List<WalletBean> mWalletBeanList;
+    private List<WalletBeanNew> mWalletBeanList;
 
     private Context mContext;
     private Button btn_cancel;
     private Button btn_sure;
     private String sum = "0.0000";
-    private WalletBean walletBean;
+    private WalletBeanNew walletBean;
     /**
      * 显示进度提示窗
      *
@@ -58,7 +58,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
             dialog.dismiss();
         }
     }
-    public IONCAllWalletDialogSDK(@NonNull Context context, List<WalletBean> walletBeans, OnTxResultCallback callback) {
+    public IONCAllWalletDialogSDK(@NonNull Context context, List<WalletBeanNew> walletBeans, OnTxResultCallback callback) {
         super(context);
         mContext = context;
         mWalletBeanList = walletBeans;
@@ -85,7 +85,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
         all_wallet_lv = findViewById(R.id.all_wallet_lv);
         btn_cancel = findViewById(R.id.btn_cancel);
         btn_sure = findViewById(R.id.btn_sure);
-        for (WalletBean w :
+        for (WalletBeanNew w :
                 mWalletBeanList) {
             w.setChosen(false);
         }
@@ -136,7 +136,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
     }
 
     @Override
-    public void onItemClick(WalletBean walletBean) {
+    public void onItemClick(WalletBeanNew walletBean) {
         this.walletBean = walletBean;
         mAdapter.notifyDataSetChanged();
     }

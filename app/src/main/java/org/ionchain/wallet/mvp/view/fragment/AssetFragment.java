@@ -21,7 +21,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
@@ -101,7 +101,7 @@ public class AssetFragment extends AbsBaseFragment implements
     /**
      * 当前展示的钱包
      */
-    private WalletBean mCurrentWallet;
+    private WalletBeanNew mCurrentWallet;
     /**
      * 钱包名字
      */
@@ -160,11 +160,11 @@ public class AssetFragment extends AbsBaseFragment implements
     /**
      * 更多钱包
      */
-    private List<WalletBean> mMoreWallets = new ArrayList<>();
+    private List<WalletBeanNew> mMoreWallets = new ArrayList<>();
     /**
      * 更过钱包缓存
      */
-    private List<WalletBean> mMoreWalletsTemp = new ArrayList<>();
+    private List<WalletBeanNew> mMoreWalletsTemp = new ArrayList<>();
     /**
      * 更多钱包列表
      */
@@ -266,7 +266,7 @@ public class AssetFragment extends AbsBaseFragment implements
      *
      * @param currentWallet 当前钱包
      */
-    private void getNetData(WalletBean currentWallet) {
+    private void getNetData(WalletBeanNew currentWallet) {
 //        getDeviceList();
         new IONCNodePresenter().getNodes(URL_NODE_LIST,this);
     }
@@ -333,7 +333,7 @@ public class AssetFragment extends AbsBaseFragment implements
                         .show();
                 mMoreWalletListView.smoothScrollToPosition(0);
 
-                mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWallet();
+                mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
                 if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
                     mMoreWallets.clear();
                     mMoreWallets.addAll(mMoreWalletsTemp);
@@ -498,7 +498,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @SuppressWarnings("unchecked")
     @Override
     public void initItems(final PopupWindow instance, View contentView) {
-        mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWallet();
+        mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
         if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
             mMoreWallets.clear();
 //            Collections.reverse(mMoreWalletsTemp);

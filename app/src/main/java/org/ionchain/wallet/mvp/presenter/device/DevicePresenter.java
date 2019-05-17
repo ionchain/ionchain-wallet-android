@@ -1,6 +1,6 @@
 package org.ionchain.wallet.mvp.presenter.device;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
@@ -20,7 +20,7 @@ public class DevicePresenter implements IDevicePresenter {
     }
 
     @Override
-    public void getCurrentWalletDevicesList(@NotNull WalletBean walletBean, @NotNull OnDeviceListCallback callback) {
+    public void getCurrentWalletDevicesList(@NotNull WalletBeanNew walletBean, @NotNull OnDeviceListCallback callback) {
         mDeviceModel.getCurrentWalletDevicesList(walletBean, callback);
     }
 

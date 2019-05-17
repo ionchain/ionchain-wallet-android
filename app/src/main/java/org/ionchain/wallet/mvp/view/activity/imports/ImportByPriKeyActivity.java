@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -255,10 +255,10 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     }
 
     @Override
-    public void onCreateSuccess(final WalletBean walletBean) {
+    public void onCreateSuccess(final WalletBeanNew walletBean) {
         Logger.i(walletBean.toString());
         hideProgress();
-        final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
+        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
@@ -284,7 +284,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
             walletBean.setMIconIndex(getNum(7));
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getResources().getString(R.string.import_success));
-            if (IONCWalletSDK.getInstance().getAllWallet().size()==1) {
+            if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
                 skip(MainActivity.class);
             }
         }
@@ -299,7 +299,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     }
 
     @Override
-    public void onUpdateWalletSuccess(WalletBean wallet) {
+    public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger(getResources().getString(R.string.update_succwss));

@@ -8,7 +8,7 @@ import android.view.View;
 import com.ionc.wallet.sdk.R;
 import org.ionc.wallet.adapter.IViewHolder;
 import org.ionc.wallet.adapter.IViewHolderHelper;
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.Logger;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * user: binny
  * date:2018/12/24
  */
-public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolder, WalletBean> {
+public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolder, WalletBeanNew> {
 
     private OnAllWalletItemClickedListener mListener;
 
@@ -36,7 +36,7 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
     }
 
     @Override
-    public void bindListDataToView(Context context, final List<WalletBean> iBaseBeanList, AllWalletViewHolder viewHolder, final int position) {
+    public void bindListDataToView(Context context, final List<WalletBeanNew> iBaseBeanList, AllWalletViewHolder viewHolder, final int position) {
         Logger.i("position" + iBaseBeanList.get(position).getName() + "ffffffff");
         viewHolder.mName.setText(iBaseBeanList.get(position).getName());
         if (!TextUtils.isEmpty(iBaseBeanList.get(position).getBalance())) {
@@ -73,6 +73,6 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
     }
 
     public interface OnAllWalletItemClickedListener {
-        void onItemClick(WalletBean walletBean);
+        void onItemClick(WalletBeanNew walletBean);
     }
 }

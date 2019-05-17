@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.ionc.wallet.sdk.R;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -181,7 +181,7 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
     }
 
     @Override
-    public void onImportMnemonicSuccess(WalletBean walletBean) {
+    public void onImportMnemonicSuccess(WalletBeanNew walletBean) {
         Logger.i("onCreateSuccess: " + walletBean);
         hideProgress();
         IONCWalletSDK.getInstance().saveWallet(walletBean);

@@ -1,6 +1,6 @@
 package org.ionchain.wallet.bean
 
-import org.ionc.wallet.bean.WalletBean
+import org.ionc.wallet.bean.WalletBeanNew
 import java.io.Serializable
 
 /**
@@ -9,7 +9,7 @@ import java.io.Serializable
  * 描述:
  */
 class MoreWalletBean : Serializable {
-    var wallets: List<WalletBean>? = null
+    var wallets: List<WalletBeanNew>? = null
 
     companion object {
 

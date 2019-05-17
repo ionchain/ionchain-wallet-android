@@ -6,14 +6,14 @@ import android.view.View;
 
 import org.ionc.wallet.adapter.IViewHolder;
 import org.ionc.wallet.adapter.IViewHolderHelper;
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 
 import java.util.List;
 
-public class ManagerWalletHelper implements IViewHolderHelper<ManagerWalletHolder, WalletBean> {
+public class ManagerWalletHelper implements IViewHolderHelper<ManagerWalletHolder, WalletBeanNew> {
     private OnWalletManagerItemClickedListener mOnClickListener;
 
     public ManagerWalletHelper(OnWalletManagerItemClickedListener onClickListener) {
@@ -30,7 +30,7 @@ public class ManagerWalletHelper implements IViewHolderHelper<ManagerWalletHolde
     }
 
     @Override
-    public void bindListDataToView(Context context, List<WalletBean> iBaseBeanList, ManagerWalletHolder viewHolder, final int position) {
+    public void bindListDataToView(Context context, List<WalletBeanNew> iBaseBeanList, ManagerWalletHolder viewHolder, final int position) {
         viewHolder.mWalletName.setText(iBaseBeanList.get(position).getName());
         Log.i("dddd", "bindListDataToView: " + iBaseBeanList.get(position).getName());
         viewHolder.mWalletImg.setImageResource(App.sRandomHeader[iBaseBeanList.get(position).getMIconIndex()]);

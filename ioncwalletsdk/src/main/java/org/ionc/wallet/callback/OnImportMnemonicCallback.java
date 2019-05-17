@@ -1,6 +1,6 @@
 package org.ionc.wallet.callback;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 /**
 *
@@ -13,7 +13,7 @@ public interface OnImportMnemonicCallback {
      *
      * @param walletBean 钱包
      */
-    void onImportMnemonicSuccess(WalletBean walletBean);
+    void onImportMnemonicSuccess(WalletBeanNew walletBean);
 
 
     /**

@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.ionc.wallet.sdk.R;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -156,10 +156,10 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
     }
 
     @Override
-    public void onCreateSuccess(final WalletBean walletBean) {
+    public void onCreateSuccess(final WalletBeanNew walletBean) {
         Logger.i(walletBean.toString());
         hideProgress();
-        final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
+        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
@@ -198,7 +198,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
     }
 
     @Override
-    public void onUpdateWalletSuccess(WalletBean wallet) {
+    public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger(getAppString(R.string.update_success));

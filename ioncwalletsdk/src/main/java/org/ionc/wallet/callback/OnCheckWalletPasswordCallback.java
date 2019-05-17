@@ -1,6 +1,6 @@
 package org.ionc.wallet.callback;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 /**
  * describe:
@@ -13,7 +13,7 @@ public interface OnCheckWalletPasswordCallback {
      * 密码正确
      * @param bean
      */
-    void onCheckWalletPasswordSuccess(WalletBean bean);
+    void onCheckWalletPasswordSuccess(WalletBeanNew bean);
 
     /**
      * 密码错误

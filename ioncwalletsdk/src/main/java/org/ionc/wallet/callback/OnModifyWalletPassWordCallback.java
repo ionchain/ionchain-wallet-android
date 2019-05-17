@@ -1,6 +1,6 @@
 package org.ionc.wallet.callback;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 /**
  * user: binny
@@ -11,7 +11,7 @@ public interface OnModifyWalletPassWordCallback {
     /**修改成功
      *
      */
-    void onModifySuccess(WalletBean walletBean);
+    void onModifySuccess(WalletBeanNew walletBean);
 
     void onModifyFailure(String error);
 }

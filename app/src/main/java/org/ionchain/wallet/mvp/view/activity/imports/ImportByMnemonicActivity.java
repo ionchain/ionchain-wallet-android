@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -205,9 +205,9 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
 
     @Override
-    public void onImportMnemonicSuccess(WalletBean walletBean) {
+    public void onImportMnemonicSuccess(WalletBeanNew walletBean) {
         walletBean.setMnemonic("");
-        final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
+        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
 
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
@@ -236,7 +236,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
-            if (IONCWalletSDK.getInstance().getAllWallet().size()==1) {
+            if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
                 skip(MainActivity.class);
             }
         }
@@ -250,7 +250,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     }
 
     @Override
-    public void onUpdateWalletSuccess(WalletBean wallet) {
+    public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger(getAppString(R.string.update_succwss));
         skip(MainActivity.class);

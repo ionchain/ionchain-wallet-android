@@ -16,7 +16,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnTransationCallback;
@@ -218,7 +218,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      * @param bean
      */
     @Override
-    public void onCheckWalletPasswordSuccess(WalletBean bean) {
+    public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
         final String toAddress = txToAddressEt.getText().toString();
         final String txAccount = txAccountEt.getText().toString();
         TransactionHelper helper = new TransactionHelper()

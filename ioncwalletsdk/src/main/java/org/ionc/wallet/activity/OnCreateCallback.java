@@ -1,6 +1,6 @@
 package org.ionc.wallet.activity;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 public interface OnCreateCallback {
     /**
@@ -8,7 +8,7 @@ public interface OnCreateCallback {
      *
      * @param walletBean
      */
-    void onSDKCreateSuccess(WalletBean walletBean);
+    void onSDKCreateSuccess(WalletBeanNew walletBean);
 
     /**
      * @param e 异常

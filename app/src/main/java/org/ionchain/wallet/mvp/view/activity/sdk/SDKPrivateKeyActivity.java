@@ -1,7 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity.sdk;
 
 import org.ionc.wallet.activity.base.AbsByPrivateKeyActivity;
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 
@@ -13,7 +13,7 @@ import org.ionchain.wallet.mvp.view.activity.MainActivity;
 public class SDKPrivateKeyActivity extends AbsByPrivateKeyActivity {
 
     @Override
-    public void onSDKCreateSuccess(WalletBean walletBean) {
+    public void onSDKCreateSuccess(WalletBeanNew walletBean) {
         skip(MainActivity.class);
     }
 

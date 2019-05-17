@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import org.greenrobot.greendao.database.Database;
 import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
+import org.ionc.wallet.greendaogen.WalletBeanNewDao;
 
 public class MyOpenHelper extends DaoMaster.OpenHelper {
     public MyOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {
@@ -27,6 +28,6 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
             public void onDropAllTables(Database db, boolean ifExists) {
                 DaoMaster.dropAllTables(db, ifExists);
             }
-        },  WalletBeanDao.class);
+        },  WalletBeanNewDao.class, WalletBeanDao.class);
     }
 }

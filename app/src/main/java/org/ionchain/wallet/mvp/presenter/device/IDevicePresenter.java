@@ -1,6 +1,6 @@
 package org.ionchain.wallet.mvp.presenter.device;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
@@ -16,7 +16,7 @@ public interface IDevicePresenter {
      * @param walletBean 钱包地址
      * @param callback   钱包数据集
      */
-    void getCurrentWalletDevicesList(WalletBean walletBean, OnDeviceListCallback callback);
+    void getCurrentWalletDevicesList(WalletBeanNew walletBean, OnDeviceListCallback callback);
 
     /**
      * 获取用户所有钱包的相关的设备

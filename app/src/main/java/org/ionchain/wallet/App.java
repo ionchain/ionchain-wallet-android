@@ -1,5 +1,6 @@
 package org.ionchain.wallet;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -17,6 +18,9 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
+import org.ionc.wallet.daohelper.MyOpenHelper;
+import org.ionc.wallet.greendaogen.DaoMaster;
+import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.crasher.CrashHandler;
@@ -34,12 +38,14 @@ import java.util.logging.Level;
 import okhttp3.OkHttpClient;
 
 import static com.ionc.wallet.sdk.BuildConfig.DEBUG;
+import static org.ionc.wallet.constant.ConstanParams.DB_NAME;
 import static org.ionc.wallet.utils.Logger.initLogger;
 
 /**
  * Created by binny on 2018/11/29.
  */
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
+    @SuppressLint("StaticFieldLeak")
     public static Context mContext;
     public static boolean SDK_Debug = false;
     public static Handler mHandler = new Handler(Looper.getMainLooper());
@@ -60,12 +66,22 @@ public class App extends Application implements Application.ActivityLifecycleCal
         OkGo.getInstance().init(this);
         initOKGO();
         initLogger(DEBUG);
-        IONCWalletSDK.getInstance().initIONCWalletSDK(this);
+        IONCWalletSDK.getInstance().initIONCWalletSDK(this,initDb());
         ZXingLibrary.initDisplayOpinion(this);
         CrashHandler.getInstance().init(this);
         initDisplayOpinion();
         registerActivityLifecycleCallbacks(this);
     }
+
+    /**
+     * @return 初始化数据库
+     */
+    private DaoSession initDb() {
+        MyOpenHelper devOpenHelper = new MyOpenHelper(this, DB_NAME, null);
+        DaoMaster mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        return mDaoMaster.newSession();
+    }
+
 
     @Override
     protected void attachBaseContext(Context base) {

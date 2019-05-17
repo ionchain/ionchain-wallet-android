@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.ionc.wallet.sdk.R;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -156,8 +156,8 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
 
 
     @Override
-    public void onImportMnemonicSuccess(WalletBean walletBean) {
-        final WalletBean wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
+    public void onImportMnemonicSuccess(WalletBeanNew walletBean) {
+        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         Logger.i("onCreateSuccess: " + walletBean.toString());
         hideProgress();
         if (null != wallet) {
@@ -198,7 +198,7 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
     }
 
     @Override
-    public void onUpdateWalletSuccess(WalletBean wallet) {
+    public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger(getAppString(R.string.update_success));
         onSDKCreateSuccess(wallet);

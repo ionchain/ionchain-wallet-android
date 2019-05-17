@@ -1,7 +1,7 @@
 package org.ionchain.wallet.mvp.view.activity.sdk;
 
 import org.ionc.wallet.activity.base.AbsByCreateActivity;
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
@@ -15,7 +15,7 @@ import org.ionchain.wallet.utils.ToastUtil;
  */
 public class SDKCreateActivity extends AbsByCreateActivity {
     @Override
-    public void onSDKCreateSuccess(WalletBean walletBean) {
+    public void onSDKCreateSuccess(WalletBeanNew walletBean) {
         hideProgress();
         skip(MainActivity.class);
     }

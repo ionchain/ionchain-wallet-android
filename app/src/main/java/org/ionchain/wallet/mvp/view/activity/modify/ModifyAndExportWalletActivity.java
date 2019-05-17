@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.ionc.wallet.bean.WalletBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
@@ -47,7 +47,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         DialogTextMessage.OnBtnClickedListener {
 
 
-    WalletBean mWallet;
+    WalletBeanNew mWallet;
 
 
     private Button delBtn;
@@ -97,7 +97,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         if (!bShowKSRl) {
             import_key_store_layout.setVisibility(View.GONE);
         }
-        if (IONCWalletSDK.getInstance().getAllWallet().size() == 1) {
+        if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
             delBtn.setVisibility(View.GONE);
         }
         import_mnemonic_layout.setOnClickListener(this);
@@ -133,7 +133,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     @Override
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
-        mWallet = (WalletBean) intent.getParcelableExtra(PARCELABLE_WALLET_BEAN);
+        mWallet = (WalletBeanNew) intent.getParcelableExtra(PARCELABLE_WALLET_BEAN);
         bShowMnemonicRl = !StringUtils.isEmpty(mWallet.getMnemonic());
         bShowKSRl = !StringUtils.isEmpty(mWallet.getKeystore());
     }
@@ -284,9 +284,9 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     @Override
     public void onDeleteFinish() {
         //检查是否还有钱包
-        if (IONCWalletSDK.getInstance().getAllWallet() == null || IONCWalletSDK.getInstance().getAllWallet().size() > 0) {
-            IONCWalletSDK.getInstance().getAllWallet().get(0).setIsMainWallet(true);
-            IONCWalletSDK.getInstance().saveWallet(IONCWalletSDK.getInstance().getAllWallet().get(0));
+        if (IONCWalletSDK.getInstance().getAllWalletNew() == null || IONCWalletSDK.getInstance().getAllWalletNew().size() > 0) {
+            IONCWalletSDK.getInstance().getAllWalletNew().get(0).setIsMainWallet(true);
+            IONCWalletSDK.getInstance().saveWallet(IONCWalletSDK.getInstance().getAllWalletNew().get(0));
         } else {
             //去创建钱包
             Intent intent1 = new Intent(this, CreateWalletSelectActivity.class);
@@ -310,7 +310,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onModifySuccess(WalletBean walletBean) {
+    public void onModifySuccess(WalletBeanNew walletBean) {
         mWallet = walletBean;
         hideProgress();
         ToastUtil.showShortToast(getAppString(R.string.modify_password_success));
@@ -323,7 +323,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
-    public void onCheckWalletPasswordSuccess(WalletBean bean) {
+    public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
         passwordCheck.dismiss();
         switch (flag) {
             case FLAG_DELETE_WALLET:
