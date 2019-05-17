@@ -20,10 +20,8 @@ android {
             minifyEnabled false
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String","IONC_NODE","\"${IONC_NODE}\""
         }
         debug {
-            buildConfigField "String","IONC_NODE","\"${IONC_NODE}\""
         }
     }
     lintOptions {

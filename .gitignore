@@ -9,7 +9,6 @@ local.properties
 qrcode/.gitignore
 qrcode/build/
 widget/.gitignore
-gradle.properties
 build/
 /app/xiaomi/
 !/.gitignore
