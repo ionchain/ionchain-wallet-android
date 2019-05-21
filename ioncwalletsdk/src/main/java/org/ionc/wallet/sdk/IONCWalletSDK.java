@@ -966,7 +966,11 @@ public class IONCWalletSDK {
             walletBeanNew.setPrivateKey(walletBeanOlds.get(i).getPrivateKey());
             walletBeanNew.setMnemonic(walletBeanOlds.get(i).getMnemonic());
             walletBeanNew.setPublic_key(walletBeanOlds.get(i).getPublickey());
-            walletBeanNew.setIsMainWallet(walletBeanOlds.get(i).getIsMainWallet());
+            if (count == 1) {
+                walletBeanNew.setIsMainWallet(true);
+            }else {
+                walletBeanNew.setIsMainWallet(walletBeanOlds.get(i).getIsMainWallet());
+            }
             walletBeanNew.setPassword(walletBeanOlds.get(i).getPassword());
             walletBeanNew.setRmb("0.000");
             EntityManager.getInstance().getWalletDaoNew(mDaoSession).insertOrReplace(walletBeanNew);
