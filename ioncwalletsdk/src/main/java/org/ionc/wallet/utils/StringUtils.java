@@ -4,6 +4,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 
+import com.ionc.wallet.sdk.BuildConfig;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -43,10 +45,13 @@ public final class StringUtils {
      * @return 是否匹配
      */
     public static boolean check(String value) {
-//        Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,12}$");
-//        Matcher m = p.matcher(value);
-//        return m.matches();
-        return true;
+        if (BuildConfig.DEBUG) {
+            return true;
+        } else {
+            Pattern p = Pattern.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\\w\\s]).{8,12}$");
+            Matcher m = p.matcher(value);
+            return m.matches();
+        }
     }
 
     /**
@@ -97,16 +102,5 @@ public final class StringUtils {
             sb.append(aB);
         }
         return sb.toString();
-    }
-
-    /** 密码检查
-     * @param old_in_db 保存的密码
-     * @param p_input 输入的密码
-     * @return
-     */
-    public static boolean chechPwd(String old_in_db, String p_input) {
-        String in_sha = getSHA(p_input);
-        boolean b = old_in_db.equals(in_sha) || old_in_db.equals(p_input);
-        return b;
     }
 }
