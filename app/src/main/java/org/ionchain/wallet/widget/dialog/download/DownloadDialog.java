@@ -26,6 +26,8 @@ import org.ionchain.wallet.widget.dialog.base.AbsBaseDialog;
 
 import java.io.File;
 
+import static org.ionchain.wallet.constant.ConstantParams.DOWNLOAD_MUST_UPDATE_YES;
+
 public class DownloadDialog extends AbsBaseDialog implements View.OnClickListener {
     private TextView download_progress_tv;
     private ProgressBar mProgress;
@@ -44,7 +46,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
         download_progress_tv = findViewById(R.id.download_progress_tv);
         mProgress = findViewById(R.id.download_progress_schedule);
         mBtnCacncel = findViewById(R.id.download_progress_btn_cancel);
-        if ("1".equals(mMustUpdate)) {
+        if (DOWNLOAD_MUST_UPDATE_YES.equals(mMustUpdate)) {
             mBtnCacncel.setVisibility(View.GONE);
         }
         mBtnCacncel.setOnClickListener(this);

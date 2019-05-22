@@ -180,7 +180,7 @@
     <string name="smart_refresh_header_finish">Refresh to complete</string>
     <string name="smart_refresh_header_failed">Refresh the failure</string>
     <string name="smart_refresh_header_last_time">Last update</string>
-    <string name="balance_usd">Acquiring balance...</string>
+    <string name="balance_usd">Acquiring balance…</string>
     <string name="balance_usd_rate_rmb">It is being converted into RMB</string>
     <string name="ionc_tag">IONC</string>
     <string name="version_info_right_btn_text">Update</string>
@@ -191,6 +191,6 @@
     <string name="current_language_en">The current language is English, no need to switch</string>
     <string name="current_language_zn">The current language is Chinese, no need to switch</string>
     <string name="net_node_error">Error fetching main chain node</string>
-    <string name="please_refresh">请先刷新</string>
+    <string name="please_refresh">Please refresh</string>
     <string name="must_update">This version must be updated</string>
 </resources>
