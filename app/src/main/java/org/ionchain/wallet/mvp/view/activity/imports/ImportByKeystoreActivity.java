@@ -115,7 +115,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
                 //读取keystore密码
                 String pass = pwdEt.getText().toString();
                 //生成keystory文件
-//                showProgress(getString(R.string.importing_wallet));
+                showProgress(getString(R.string.importing_wallet));
                 IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, keystoreStr, (OnCreateWalletCallback) mActivity);
             }
         });

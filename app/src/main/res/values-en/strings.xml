@@ -193,4 +193,7 @@
     <string name="net_node_error">Error fetching main chain node</string>
     <string name="please_refresh">Please refresh</string>
     <string name="must_update">This version must be updated</string>
+    <string name="balance_getting">Obtaining balance</string>
+    <string name="getting_rate_rmb">正在获取汇率信息</string>
+    <string name="getting_usd_error">获取美元价格失败</string>
 </resources>

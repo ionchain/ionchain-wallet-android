@@ -258,7 +258,7 @@ public class AssetFragment extends AbsBaseFragment implements
         walletNameTx.setText(mCurrentWallet.getName());
         Integer id = mCurrentWallet.getMIconIndex();
         wallet_logo.setImageResource(App.sRandomHeader[id]);
-        getNetData(mCurrentWallet);
+        getNetData(mCurrentWallet); //回到前台
     }
 
     /**
@@ -302,7 +302,6 @@ public class AssetFragment extends AbsBaseFragment implements
         initListViewHeaderViews(lvHeader);
 
         mDevicesLv.addHeaderView(lvHeader);
-
         mRefresh = view.findViewById(R.id.refresh_asset);
         mRefresh.setOnRefreshListener(this);
         mBuilder = new PopupWindowBuilder(mActivity, R.layout.item_popup_list_layout, this);
@@ -551,13 +550,12 @@ public class AssetFragment extends AbsBaseFragment implements
                 setBackupTag();
                 Integer ids = mCurrentWallet.getMIconIndex();
                 wallet_logo.setImageResource(App.sRandomHeader[ids]);
-                getNetData(mCurrentWallet);
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 ioncBalanceTx.setText(mCurrentWallet.getBalance());
                 rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
-                getNetData(mCurrentWallet);
                 instance.dismiss();
+                getNetData(mCurrentWallet); //切换钱包
             }
         });
 
@@ -578,7 +576,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        getNetData(mCurrentWallet);
+        getNetData(mCurrentWallet);  //刷新
 //        getDeviceList();
     }
 
@@ -638,7 +636,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onUnbindButtonClick(final String cksn, int position) {
         Logger.i(TAG, "onUnbindButtonClick: " + cksn);
         mUnbindPos = position;
-        mDialogBindCardWithWallet = new DialogBindDevice(getActivity());
+        mDialogBindCardWithWallet = new DialogBindDevice(mActivity);
         mDialogBindCardWithWallet.setMessageText(cksn);
         mDialogBindCardWithWallet.setTitleText(getResources().getString(R.string.sure_to_bind_device));
         mDialogBindCardWithWallet.setLeftBtnClickedListener(new View.OnClickListener() {
@@ -691,7 +689,6 @@ public class AssetFragment extends AbsBaseFragment implements
         //获取美元价格
         mPricePresenter = new PricePresenter();
         mPricePresenter.getUSDPrice(this);
-
     }
 
     /**
@@ -700,6 +697,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onBalanceFailure(String error) {
         Logger.e("balance",error);
+        ToastUtil.showToastLonger(getAppString(R.string.get_balance_error));
         ToastUtil.showToastLonger(error);
         mRefresh.finishRefresh();
         ioncBalanceTx.setText(mCurrentWallet.getBalance());
@@ -783,6 +781,8 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onUSDPriceFailure(String error) {
         Logger.e(error);
+        ToastUtil.showToastLonger(getAppString(R.string.getting_usd_error));
+
         mRefresh.finishRefresh();
     }
 
@@ -803,6 +803,8 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onUSDExRateRMBFailure(String error) {
         Logger.e(error);
+        ToastUtil.showToastLonger(getAppString(R.string.getting_rate_rmb_error));
+
         mRefresh.finishRefresh();
     }
 
@@ -811,22 +813,22 @@ public class AssetFragment extends AbsBaseFragment implements
        //取出主链节点
         mNodeIONC = dataBean.get(0).getIonc_node();
         Logger.i("node",mNodeIONC);
+        //获取主链成功后,获取余额
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC,mCurrentWallet.getAddress(), this);
 
     }
 
     @Override
     public void onIONCNodeError(String string) {
-
+        ToastUtil.showToastLonger(getAppString(R.string.net_node_error));
+        mRefresh.finishRefresh();
     }
 
     @Override
     public void onIONCNodeStart() {
-
     }
 
     @Override
     public void onIONCNodeFinish() {
-
     }
 }

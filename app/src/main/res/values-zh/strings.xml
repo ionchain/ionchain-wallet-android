@@ -192,4 +192,7 @@
     <string name="net_node_error">获取主链节点出错</string>
     <string name="please_refresh">请先刷新</string>
     <string name="must_update">此版本为必须更新</string>
+    <string name="balance_getting">正在获取余额</string>
+    <string name="getting_rate_rmb">正在获取汇率信息</string>
+    <string name="getting_usd_error">获取美元价格失败</string>
 </resources>
