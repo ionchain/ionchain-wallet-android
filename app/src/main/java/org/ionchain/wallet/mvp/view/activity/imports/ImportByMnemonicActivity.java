@@ -232,7 +232,6 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     })
                     .show();
         } else {
-            walletBean.setMIconIndex(getNum(7));
 
             IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));

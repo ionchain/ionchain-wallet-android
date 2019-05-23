@@ -234,9 +234,9 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     public void onImportMnemonicSuccess(@NonNull WalletBeanNew walletBean) {
         Log.i(TAG, "onCreateSuccess: " + walletBean);
         hideProgress();
+        walletBean.setMIconIndex(getNum(7));
         IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
-        walletBean.setMIconIndex(getNum(7));
         this.walletBean = walletBean;
         //首先备份助记词
         String[] mnemonics = walletBean.getMnemonic().split(" ");

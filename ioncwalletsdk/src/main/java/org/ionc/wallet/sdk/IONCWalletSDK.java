@@ -75,6 +75,7 @@ import java.util.List;
 import static org.ionc.wallet.constant.ConstanParams.GAS_MIN;
 import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
 import static org.ionc.wallet.utils.MnemonicUtils.generateMnemonic;
+import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.web3j.crypto.Hash.sha256;
 
 public class IONCWalletSDK {
@@ -237,6 +238,7 @@ public class IONCWalletSDK {
             Logger.i("助记词 === " + sb.toString());
             String mnemonicWord = sb.toString();
             walletBean.setMnemonic(mnemonicWord);
+            walletBean.setMIconIndex(getNum(7));
             callback.onImportMnemonicSuccess(walletBean);
         } catch (CipherException | IOException e) {
             callback.onImportMnemonicFailure(e.getMessage());
@@ -323,6 +325,7 @@ public class IONCWalletSDK {
                     bean.setAddress("0x" + Keys.getAddress(keyPair)); //地址
                     bean.setPassword(password); //密码
                     bean.setKeystore(path);
+                    bean.setMIconIndex(getNum(7));
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -364,7 +367,7 @@ public class IONCWalletSDK {
             String keystore = WalletUtils.generateWalletFile(password, keyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
-
+            wallet.setMIconIndex(getNum(7));
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -392,7 +395,7 @@ public class IONCWalletSDK {
             keystore = keystoreDir + "/" + keystore;
             wallet.setKeystore(keystore);
             wallet.setPassword("");
-
+            wallet.setMIconIndex(getNum(7));
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
