@@ -111,7 +111,6 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
         dialog.setMessage(msg);
         dialog.show();
-
     }
 
     /**

@@ -92,7 +92,8 @@ public class IONCWalletSDK {
     /**
      * 通用的以太坊基于bip44协议的助记词路径 （imtoken jaxx Metamask myetherwallet）
      */
-    private static String ETH_JAXX_TYPE = "m/44'/60'/0'/0/0";
+    private static String BTC_TYPE = "m/44'/0'/0'/0/0";  //比特币
+    private static String ETH_TYPE = "m/44'/60'/0'/0/0";   //以太坊
 
 
     private MnemonicCode mMnemonicCode = null;
@@ -177,7 +178,7 @@ public class IONCWalletSDK {
 
     //导入钱包--助记词---KS
     public void importWalletByMnemonicCode(String walletName, List<String> mnemonicCode, String password, OnImportMnemonicCallback callback) {
-        String[] pathArray = ETH_JAXX_TYPE.split("/");
+        String[] pathArray = ETH_TYPE.split("/");
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
         DeterministicSeed ds = new DeterministicSeed(mnemonicCode, null, passphrase, creationTimeSeconds);
@@ -245,7 +246,7 @@ public class IONCWalletSDK {
 
     //检察--助记词---KS
     public void checkMnemonicCode(String pri, List<String> mnemonicCode, OnCheckWalletPasswordCallback callback) {
-        String[] pathArray = ETH_JAXX_TYPE.split("/");
+        String[] pathArray = ETH_TYPE.split("/");
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
         DeterministicSeed ds = new DeterministicSeed(mnemonicCode, null, passphrase, creationTimeSeconds);
@@ -309,7 +310,7 @@ public class IONCWalletSDK {
 //                out.write(sb.toString().getBytes("utf-8"));//注意需要转换对应的字符集
                     out.close();
                     //创建钱包
-                    Credentials credentials = WalletUtils.loadCredentials(password, path);
+                    Credentials credentials = MyWalletUtils.loadCredentials(password, file);
                     ECKeyPair keyPair = credentials.getEcKeyPair();
                     String wallet_name = namestr;
                     if (wallet_name.equals("")) {
@@ -328,7 +329,7 @@ public class IONCWalletSDK {
                             callback.onCreateSuccess(bean);
                         }
                     });
-                } catch (IOException | CipherException | NullPointerException e) {
+                } catch (IOException | CipherException | NullPointerException |OutOfMemoryError e) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
