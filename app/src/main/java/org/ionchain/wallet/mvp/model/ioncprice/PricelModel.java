@@ -34,7 +34,12 @@ public class PricelModel implements IPriceModel {
                 String json = response.body();
                 Logger.j(TAG, "onCreateSuccess: $json" + json);
                 USDPriceBean updateBean = NetUtils.gsonToBean(json, USDPriceBean.class);
-                usdPriceCallback.onUSDPriceSuccess(Objects.requireNonNull(updateBean).getData().getMarketinfo().getPrice());
+                try {
+                    usdPriceCallback.onUSDPriceSuccess(Objects.requireNonNull(updateBean).getData().getMarketinfo().getPrice());
+
+                }  catch (NullPointerException e){
+                    usdPriceCallback.onUSDPriceFailure(e.getMessage());
+                }
             }
 
             @Override

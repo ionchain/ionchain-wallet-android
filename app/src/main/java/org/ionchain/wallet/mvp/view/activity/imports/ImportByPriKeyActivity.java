@@ -302,7 +302,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
 //        wallet.setPrivateKey("");//不保存私钥
-        ToastUtil.showToastLonger(getResources().getString(R.string.update_succwss));
+        ToastUtil.showToastLonger(getResources().getString(R.string.update_success));
 //        skip(MainActivity.class);
     }
 

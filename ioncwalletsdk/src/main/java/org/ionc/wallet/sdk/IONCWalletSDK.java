@@ -138,13 +138,13 @@ public class IONCWalletSDK {
             mHandler = new Handler(appContext.getMainLooper());
             mMnemonicCode = new MnemonicCode(appContext.getAssets().open("en-mnemonic-word-list.txt"), null);
             keystoreDir = appContext.getCacheDir().getPath() + "/ionchain/keystore";
-            Logger.i(TAG, "initIONCWalletSDK: 文件创建成功 keystoreDir = " + keystoreDir);
+            Logger.i("ksp", "initIONCWalletSDK: 文件创建成功 keystoreDir = " + keystoreDir);
             //创建keystore路径
             File file = new File(keystoreDir);
             if (!file.exists()) {
                 boolean crate = file.mkdirs();
             }
-            Logger.i(TAG, "initIONCWalletSDK: 文件创建成功file =" + file.getPath());
+            Logger.i("ksp", "initIONCWalletSDK: 文件创建成功file =" + file.getPath());
         } catch (IOException e) {
             Logger.i(e.getMessage());
         }

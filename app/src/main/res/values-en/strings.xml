@@ -69,9 +69,9 @@
     <string name="import_and_update_password">Do you want to continue importing? Continue to import will update the wallet password!</string>
     <string name="continues">Continue</string>
     <string name="cancel">Cancel</string>
-    <string name="import_success">Imported successfull</string>
+    <string name="import_success">Imported successfully</string>
     <string name="import_error">Import failed</string>
-    <string name="update_succwss">Updated successfully!</string>
+    <string name="update_success">Updated successfully!</string>
     <string name="import_private_key">Import the private key</string>
     <string name="explicit_private_key">Explicit Private Key</string>
     <string name="version_info_item">Version Information</string>
@@ -194,6 +194,7 @@
     <string name="please_refresh">Please refresh</string>
     <string name="must_update">This version must be updated</string>
     <string name="balance_getting">Obtaining balance</string>
-    <string name="getting_rate_rmb">正在获取汇率信息</string>
-    <string name="getting_usd_error">获取美元价格失败</string>
+    <string name="getting_rate_rmb">"Obtaining exchange rate "</string>
+    <string name="getting_usd_error">Failed to obtain dollar price</string>
+    <string name="getting_rate_rmb_error">Failed to obtain exchange rate</string>
 </resources>

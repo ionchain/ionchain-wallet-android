@@ -251,7 +251,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     @Override
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
-        ToastUtil.showToastLonger(getAppString(R.string.update_succwss));
+        ToastUtil.showToastLonger(getAppString(R.string.update_success));
         skip(MainActivity.class);
     }
 
