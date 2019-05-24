@@ -22,11 +22,11 @@ public class LocalManageUtil {
      * @return Locale对象
      */
     public static Locale getSystemLocale(Context context) {
-        return LanguageSPUtil.getInstance(context).getSystemCurrentLocal();
+        return SPUtils.getInstance().getSystemCurrentLocal();
     }
 
     public static String getSelectLanguage(Context context) {
-        switch (LanguageSPUtil.getInstance(context).getSelectLanguage()) {
+        switch (SPUtils.getInstance().getSelectLanguage()) {
             case 0:
                 return context.getString(R.string.language_auto);
             case 1:
@@ -45,7 +45,7 @@ public class LocalManageUtil {
      */
     public static Locale getSetLanguageLocale(Context context) {
 
-        switch (LanguageSPUtil.getInstance(context).getSelectLanguage()) {
+        switch (SPUtils.getInstance().getSelectLanguage()) {
             case 0:
                 return getSystemLocale(context);
             case 1:
@@ -57,7 +57,7 @@ public class LocalManageUtil {
     }
 
     public static void saveSelectLanguage(Context context, int select) {
-        LanguageSPUtil.getInstance(context).saveLanguage(select);
+        SPUtils.getInstance().saveLanguage(select);
         setApplicationLanguage(context);
     }
 
@@ -102,7 +102,7 @@ public class LocalManageUtil {
             locale = Locale.getDefault();
         }
         Log.d(TAG, locale.getLanguage());
-        LanguageSPUtil.getInstance(context).setSystemCurrentLocal(locale);
+        SPUtils.getInstance().setSystemCurrentLocal(locale);
     }
 
     public static void onConfigurationChanged(Context context) {

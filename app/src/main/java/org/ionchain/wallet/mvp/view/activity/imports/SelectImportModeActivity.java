@@ -1,7 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity.imports;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +9,7 @@ import android.widget.RelativeLayout;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class SelectImportModeActivity extends AbsBaseActivity implements View.OnClickListener {
@@ -51,23 +51,15 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
         setViewAlphaAnimation(v);
         Intent intent = null;
         if (v == byMnemonic) {
-            intent = new Intent(mActivity, ImportByMnemonicActivity.class);
-            startActivity(intent);
+            skip(ImportByMnemonicActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
         } else if (v == byPrivateKey) {
-            intent = new Intent(mActivity, ImportByPriKeyActivity.class);
-            startActivity(intent);
+            skip(ImportByPriKeyActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
         } else if (v == byKeystore) {
-            intent = new Intent(mActivity, ImportByKeystoreActivity.class);
-            startActivity(intent);
+            skip(ImportByKeystoreActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
         } else if (v == back) {
             finish();
         }
 
-    }
-
-    @Override
-    protected void handleIntent(@NonNull Intent intent) {
-        super.handleIntent(intent);
     }
 
     @Override

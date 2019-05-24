@@ -33,6 +33,10 @@ android {
         warningsAsErrors false
         disable 'GoogleAppIndexingWarning'
     }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
 }
 
 dependencies {

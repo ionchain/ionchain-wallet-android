@@ -1800,14 +1800,14 @@ public class ImmersionBar {
             } else {
                 if (mBarParams.titleBarHeight == 0) {
                     mBarParams.titleBarHeight = layoutParams.height + mConfig.getStatusBarHeight();
-                    LoggerUtils.i("mConfig.getStatusBarHeight() = " + mConfig.getStatusBarHeight());//3dp  72
-                    LoggerUtils.i("layoutParams.height = " + layoutParams.height);// 168
-                    LoggerUtils.i("mBarParams.titleBarHeight = " + mBarParams.titleBarHeight);// 240
+//                    LoggerUtils.i("mConfig.getStatusBarHeight() = " + mConfig.getStatusBarHeight());//3dp  72
+//                    LoggerUtils.i("layoutParams.height = " + layoutParams.height);// 168
+//                    LoggerUtils.i("mBarParams.titleBarHeight = " + mBarParams.titleBarHeight);// 240
                 }
                 if (mBarParams.titleBarPaddingTopHeight == 0) {
                     mBarParams.titleBarPaddingTopHeight = mBarParams.titleBarView.getPaddingTop() + mConfig.getStatusBarHeight();
                 }
-                LoggerUtils.i("mBarParams.titleBarPaddingTopHeight = " + mBarParams.titleBarPaddingTopHeight);
+//                LoggerUtils.i("mBarParams.titleBarPaddingTopHeight = " + mBarParams.titleBarPaddingTopHeight);
                 layoutParams.height = mBarParams.titleBarHeight;
                 mBarParams.titleBarView.setPadding(mBarParams.titleBarView.getPaddingLeft(),
                         mBarParams.titleBarPaddingTopHeight,

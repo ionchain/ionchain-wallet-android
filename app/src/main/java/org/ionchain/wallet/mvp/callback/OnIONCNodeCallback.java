@@ -10,7 +10,7 @@ public interface OnIONCNodeCallback {
      */
     void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean);
 
-    void onIONCNodeError(String string);
+    void onIONCNodeError(String error);
 
     void onIONCNodeStart();
 

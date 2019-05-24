@@ -1,17 +1,17 @@
 package org.ionchain.wallet.mvp.presenter.node;
 
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
-import org.ionchain.wallet.mvp.model.node.NodeMOdel;
+import org.ionchain.wallet.mvp.model.node.NodeModel;
 
 public class IONCNodePresenter implements INodePresenter {
-    private NodeMOdel mNodeMOdel;
+    private NodeModel mNodeModel;
 
     public IONCNodePresenter() {
-        mNodeMOdel = new NodeMOdel();
+        mNodeModel = new NodeModel();
     }
 
     @Override
     public void getNodes(String url, OnIONCNodeCallback callback) {
-        mNodeMOdel.getNodes(url,callback);
+        mNodeModel.getNodes(url,callback);
     }
 }

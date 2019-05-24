@@ -42,7 +42,37 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
 
     @Override
     protected void setListener() {
-
+        importBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setViewAlphaAnimation(importBtn);
+                if (nameEt.getText() == null) {
+                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_name));
+                    return;
+                }
+                if (pwdEt.getText() == null) {
+                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_password_null));
+                    return;
+                }
+                if (mKeystore.getText() == null) {
+                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
+                    return;
+                }
+                keystoreStr = mKeystore.getText().toString();
+                //读取keystore密码
+                String pass = pwdEt.getText().toString();
+                //生成keystory文件
+                showProgress(getString(R.string.importing_wallet));
+                LoggerUtils.i("正在导入KS......");
+                IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, keystoreStr, ImportByKeystoreActivity.this);
+            }
+        });
+        linkUrlTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skipWebProtocol();
+            }
+        });
     }
 
     @Override
@@ -95,36 +125,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
 
         linkUrlTv = findViewById(R.id.linkUrlTv);
         importBtn = findViewById(R.id.importBtn);
-        importBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewAlphaAnimation(importBtn);
-                if (nameEt.getText() == null) {
-                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_name));
-                    return;
-                }
-                if (pwdEt.getText() == null) {
-                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_password_null));
-                    return;
-                }
-                if (mKeystore.getText() == null) {
-                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
-                    return;
-                }
-                keystoreStr = mKeystore.getText().toString();
-                //读取keystore密码
-                String pass = pwdEt.getText().toString();
-                //生成keystory文件
-                showProgress(getString(R.string.importing_wallet));
-                IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, keystoreStr, (OnCreateWalletCallback) mActivity);
-            }
-        });
-        linkUrlTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skipWebProtocol();
-            }
-        });
+
     }
 
     @Override
@@ -168,15 +169,17 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
     public void onCreateSuccess(WalletBeanNew walletBean) {
         hideProgress();
         WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
-        LoggerUtils.i(walletBean.toString());
+        LoggerUtils.i("KS导入成功:" + walletBean.toString());
         if (null != wallet) {
-            ToastUtil.showLong(getAppString(R.string.wallet_name_exists));
+            ToastUtil.showLong(getAppString(R.string.wallet_exists));
         } else {
+            IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
             walletBean.setMIconIndex(getNum(7));
-            IONCWalletSDK.getInstance().saveWallet(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
-            if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
+            if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
                 skip(MainActivity.class);
+            } else {
+                skipToBack();
             }
         }
     }
@@ -184,6 +187,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
     @Override
     public void onCreateFailure(String error) {
         hideProgress();
+        LoggerUtils.e("KS导入失败:" + error);
         if ("Invalid password provided".equals(error)) {
             ToastUtil.showToastLonger(getAppString(R.string.illegal_password));
         } else {

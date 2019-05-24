@@ -13,7 +13,7 @@ import org.greenrobot.greendao.annotation.Id;
 @Entity
 public class WalletBeanNew implements Parcelable {
 
-    @Id
+    @Id(autoincrement = true)
     private Long id;
     /**
      * 私钥 最重要的唯一凭证丢了 你就哭吧
@@ -252,4 +252,23 @@ public class WalletBeanNew implements Parcelable {
             return new WalletBeanNew[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "WalletBeanNew{" +
+                "id=" + id +
+                ", privateKey='" + privateKey + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", public_key='" + public_key + '\'' +
+                ", balance='" + balance + '\'' +
+                ", keystore='" + keystore + '\'' +
+                ", password='" + password + '\'' +
+                ", mIconIndex=" + mIconIndex +
+                ", mnemonic='" + mnemonic + '\'' +
+                ", chosen=" + chosen +
+                ", isMainWallet=" + isMainWallet +
+                ", rmb='" + rmb + '\'' +
+                '}';
+    }
 }

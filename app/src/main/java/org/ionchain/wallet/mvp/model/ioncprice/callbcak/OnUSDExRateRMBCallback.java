@@ -17,4 +17,9 @@ public interface OnUSDExRateRMBCallback {
      * @param error 请求usd价格失败
      */
     void onUSDExRateRMBFailure(String error);
+
+
+    void onUSDExRateRMBFinish();
+
+
 }

@@ -19,7 +19,6 @@ import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.ionc.wallet.bean.KeystoreBean;
-import org.ionc.wallet.bean.NodeBeanLocal;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
@@ -70,6 +69,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -139,13 +139,12 @@ public class IONCWalletSDK {
             mHandler = new Handler(appContext.getMainLooper());
             mMnemonicCode = new MnemonicCode(appContext.getAssets().open("en-mnemonic-word-list.txt"), null);
             keystoreDir = appContext.getCacheDir().getPath() + "/ionchain/keystore";
-            LoggerUtils.i("ksp", "initIONCWalletSDK: 文件创建成功 keystoreDir = " + keystoreDir);
             //创建keystore路径
             File file = new File(keystoreDir);
             if (!file.exists()) {
                 boolean crate = file.mkdirs();
             }
-            LoggerUtils.i("ksp", "initIONCWalletSDK: 文件创建成功file =" + file.getPath());
+            LoggerUtils.i("文件创建成功file =" + file.getPath());
         } catch (IOException e) {
             LoggerUtils.i(e.getMessage());
         }
@@ -180,6 +179,17 @@ public class IONCWalletSDK {
 
     //导入钱包--助记词---KS
     public void importWalletByMnemonicCode(String walletName, List<String> mnemonicCode, String password, OnImportMnemonicCallback callback) {
+//        try {
+//            MnemonicValidator.ofWordList(English.INSTANCE).validate(mnemonics);
+//        } catch (InvalidChecksumException e) {
+//            e.printStackTrace();
+//        } catch (InvalidWordCountException e) {
+//            e.printStackTrace();
+//        } catch (WordNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (UnexpectedWhiteSpaceException e) {
+//            e.printStackTrace();
+//        }
         String[] pathArray = ETH_TYPE.split("/");
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
@@ -247,41 +257,6 @@ public class IONCWalletSDK {
 
     }
 
-    //检察--助记词---KS
-    public void checkMnemonicCode(String pri, List<String> mnemonicCode, OnCheckWalletPasswordCallback callback) {
-        String[] pathArray = ETH_TYPE.split("/");
-        String passphrase = "";
-        long creationTimeSeconds = System.currentTimeMillis() / 1000;
-        DeterministicSeed ds = new DeterministicSeed(mnemonicCode, null, passphrase, creationTimeSeconds);
-        //种子
-        byte[] seedBytes = ds.getSeedBytes();
-        if (seedBytes == null) {
-            callback.onCheckWalletPasswordFailure(appContext.getResources().getString(R.string.check_error));
-            return;
-        }
-        DeterministicKey dkKey = HDKeyDerivation.createMasterPrivateKey(seedBytes);
-        for (int i = 1; i < pathArray.length; i++) {
-            ChildNumber childNumber;
-            if (pathArray[i].endsWith("'")) {
-                int number = Integer.parseInt(pathArray[i].substring(0,
-                        pathArray[i].length() - 1));
-                childNumber = new ChildNumber(number, true);
-            } else {
-                int number = Integer.parseInt(pathArray[i]);
-                childNumber = new ChildNumber(number, false);
-            }
-            dkKey = HDKeyDerivation.deriveChildKey(dkKey, childNumber);
-        }
-
-        ECKeyPair ecKeyPair = ECKeyPair.create(dkKey.getPrivKeyBytes());
-        String privateKey = ecKeyPair.getPrivateKey().toString(16);
-        if (pri.equals(privateKey)) {
-            callback.onCheckWalletPasswordSuccess(null);
-        } else {
-            callback.onCheckWalletPasswordFailure(appContext.getResources().getString(R.string.error_mnemonics));
-        }
-    }
-
     //导入钱包--KS
     public void importWalletByKeyStore(final String namestr, final String password, final String keystoreContent, final OnCreateWalletCallback callback) {
         new Thread() {
@@ -313,7 +288,7 @@ public class IONCWalletSDK {
 //                out.write(sb.toString().getBytes("utf-8"));//注意需要转换对应的字符集
                     out.close();
                     //创建钱包
-                    Credentials credentials = MyWalletUtils.loadCredentials(password, file);
+                    Credentials credentials = WalletUtils.loadCredentials(password, file);
                     ECKeyPair keyPair = credentials.getEcKeyPair();
                     String wallet_name = namestr;
                     if (wallet_name.equals("")) {
@@ -333,7 +308,7 @@ public class IONCWalletSDK {
                             callback.onCreateSuccess(bean);
                         }
                     });
-                } catch (IOException | CipherException | NullPointerException |OutOfMemoryError e) {
+                } catch (IOException | CipherException | NullPointerException | OutOfMemoryError e) {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -435,14 +410,12 @@ public class IONCWalletSDK {
                     LoggerUtils.i("new keystore ==>" + keystore);
 
                     //发生更换了
-                    if (null != wallet.getKeystore() && !wallet.getKeystore().equals(keystore)) {
-                        String old = wallet.getKeystore();
-                        LoggerUtils.i("old keystore ==>" + old);
-                        //删除旧的keystore
-                        File file = new File(old);
-                        if (file.exists()) {
-                            file.delete();
-                        }
+                    String old = wallet.getKeystore();
+                    LoggerUtils.i("old keystore ==>" + old);
+                    //删除旧的keystore
+                    File file = new File(old);
+                    if (file.exists()) {
+                        file.delete();
                     }
                     wallet.setKeystore(keystore);
                     wallet.setPassword("");
@@ -610,7 +583,6 @@ public class IONCWalletSDK {
 
                     BigDecimal balanceTemp = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
                     balanceTemp = balanceTemp.setScale(4, BigDecimal.ROUND_DOWN);  //保留4位小数,四舍五入
-                    LoggerUtils.i("余额" + balanceTemp);
                     final BigDecimal finalBalanceTemp = balanceTemp;
                     mHandler.post(new Runnable() {
                         @Override
@@ -773,7 +745,7 @@ public class IONCWalletSDK {
      * 查询 所有的钱包
      */
     public List<WalletBeanNew> getAllWalletNew() {
-        List<WalletBeanNew> walletList = null;
+        List<WalletBeanNew> walletList = new ArrayList<>();
         try {
             QueryBuilder.LOG_SQL = true;
             QueryBuilder.LOG_VALUES = true;
@@ -783,6 +755,25 @@ public class IONCWalletSDK {
             return walletList;
         }
         return walletList;
+    }
+
+    /**
+     * @param walletBeanNew 将此钱包设置为主钱包
+     * @return
+     */
+    public void changeMainWalletAndSave(WalletBeanNew walletBeanNew) {
+        List<WalletBeanNew> walletList;
+        QueryBuilder.LOG_SQL = true;
+        QueryBuilder.LOG_VALUES = true;
+        QueryBuilder<WalletBeanNew> qb = EntityManager.getInstance().getWalletDaoNew(mDaoSession).queryBuilder();
+        walletList = qb.orderDesc(WalletBeanNewDao.Properties.Id).list();
+        int count = walletList.size();
+        for (int i = 0; i < count; i++) {
+            walletList.get(i).setIsMainWallet(false);
+            saveWallet(walletList.get(i));
+        }
+        walletBeanNew.setIsMainWallet(true);
+        saveWallet(walletBeanNew);
     }
 
     /**
@@ -815,38 +806,24 @@ public class IONCWalletSDK {
         //私钥不存储于数据库中
 
         wallet.setPrivateKey("");
-        wallet.setPassword("");
+//        wallet.setPassword("");
         return EntityManager.getInstance().getWalletDaoNew(mDaoSession).insertOrReplace(wallet);
     }
-    /**
-     * 保存钱包,保存前,检查数据库是否存在钱包,如果没有则将该钱包设置为首页展示钱包
-     *
-     * @param nodeBeanLocal 离子链节点
-     * @return
-     */
-    public long saveNode(NodeBeanLocal nodeBeanLocal) {
-        //私钥不存储于数据库中
-        return EntityManager.getInstance().getNodeIONCDao(mDaoSession).insertOrReplace(nodeBeanLocal);
-    }
+
+  
 
     //移除私钥
     public void updateWallet(WalletBeanNew wallet) {
 
         try {
             wallet.setPrivateKey("");
+            LoggerUtils.i("wallet = " + wallet.toString());
             EntityManager.getInstance().getWalletDaoNew(mDaoSession).update(wallet);
         } catch (Throwable e) {
-            LoggerUtils.e("e", "getAllWalletNew");
+            LoggerUtils.e("修改密码失败:" + e.getMessage());
         }
     }
-//    public void updateWallet(WalletBeanNew wallet) {
-//
-//        //私钥不存储于数据库中
-//
-//        wallet.setPrivateKey("");
-//        wallet.setPassword("");
-//        EntityManager.getInstance().getWalletDaoNew().update(wallet);
-//    }
+
 
     /**
      * 删除钱包,删除前
@@ -854,12 +831,13 @@ public class IONCWalletSDK {
      * @param wallet
      */
     public void deleteWallet(WalletBeanNew wallet, OnDeletefinishCallback deletefinishCallback) {
+
+        //私钥不存储于数据库中
+        EntityManager.getInstance().getWalletDaoNew(mDaoSession).delete(wallet);
         File file = new File(wallet.getKeystore());
         if (file.exists()) {
             file.delete();
         }
-        //私钥不存储于数据库中
-        EntityManager.getInstance().getWalletDaoNew(mDaoSession).delete(wallet);
         deletefinishCallback.onDeleteFinish();
     }
 
@@ -912,21 +890,19 @@ public class IONCWalletSDK {
 
 
     /**
+     * @param bean
      * @param password 密码
      * @param ksp      路径
      * @param callback 回掉
      */
-    public void checkPassword(final String password, final String ksp, final OnCheckWalletPasswordCallback callback) {
+    public void checkPassword(WalletBeanNew bean, final String password, final String ksp, final OnCheckWalletPasswordCallback callback) {
         new Thread() {
             @Override
             public void run() {
                 super.run();
                 try {
-
-                    final WalletBeanNew bean = new WalletBeanNew();
-
                     //创建钱包
-                    Credentials credentials = WalletUtils.loadCredentials(password, ksp);
+                    Credentials credentials = WalletUtils.loadCredentials(password, new File(ksp));
                     ECKeyPair keyPair = credentials.getEcKeyPair();
                     bean.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
                     bean.setPublic_key(keyPair.getPublicKey().toString(16));//公钥
@@ -952,11 +928,41 @@ public class IONCWalletSDK {
 
     }
 
+    /**
+     * @param password 密码
+     * @param ksp      路径
+     * @param callback 回掉
+     */
+    public void checkPassword( final String password, final String ksp, final OnCheckWalletPasswordCallback callback) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+
+                    //创建钱包
+                    Credentials credentials = WalletUtils.loadCredentials(password, new File(ksp));
+                    ECKeyPair keyPair = credentials.getEcKeyPair();
+                    WalletBeanNew bean = new WalletBeanNew();
+                    bean.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
+                    bean.setPublic_key(keyPair.getPublicKey().toString(16));//公钥
+                    bean.setAddress("0x" + Keys.getAddress(keyPair)); //地址
+                    bean.setPassword(password); //密码
+                    bean.setKeystore(ksp);
+                    mHandler.post(() -> callback.onCheckWalletPasswordSuccess(bean));
+                } catch (IOException | CipherException | NullPointerException e) {
+                    mHandler.post(() -> callback.onCheckWalletPasswordFailure(e.getMessage()));
+                }
+            }
+        }.start();
+
+    }
+
 
     /**
      * 检查旧表是否存在   WalletBean
      */
-    public boolean checkOldDataBaseExist(){
+    public boolean checkOldDataBaseExist() {
         List<WalletBean> walletList = null;
         try {
             QueryBuilder.LOG_SQL = true;
@@ -972,8 +978,8 @@ public class IONCWalletSDK {
     /**
      * @param walletBeanOlds 钱包旧数据库数据迁移
      */
-    public void migrateDb(List<WalletBean> walletBeanOlds){
-        int count= walletBeanOlds.size();
+    public void migrateDb(List<WalletBean> walletBeanOlds) {
+        int count = walletBeanOlds.size();
         for (int i = 0; i < count; i++) {
             WalletBeanNew walletBeanNew = new WalletBeanNew();
             walletBeanNew.setAddress(walletBeanOlds.get(i).getAddress());
@@ -987,7 +993,7 @@ public class IONCWalletSDK {
             walletBeanNew.setPublic_key(walletBeanOlds.get(i).getPublickey());
             if (count == 1) {
                 walletBeanNew.setIsMainWallet(true);
-            }else {
+            } else {
                 walletBeanNew.setIsMainWallet(walletBeanOlds.get(i).getIsMainWallet());
             }
             walletBeanNew.setPassword(walletBeanOlds.get(i).getPassword());

@@ -14,4 +14,6 @@ public interface OnUSDPriceCallback {
      * @param error 请求usd价格失败
      */
     void onUSDPriceFailure(String error);
+
+    void onUSDPriceFinish();
 }

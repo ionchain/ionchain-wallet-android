@@ -69,14 +69,6 @@ public final class ConstantParams {
     public static final char VERSION_TAG_DOWNLOAD = 1;
 
 
-    /**
-     * intent 参数
-     */
-    public static final String INTENT_PARAME_TAG = "intent_parame_flag";
-    public static final String INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY = "Skip_To_MainActivity";
-    public static final String INTENT_PARAME_TAG_SKIP_TO_MANAGER_ACTIVITY = "Skip_To_ManagerActivity";
-
-
 
     public static final String INTENT_PARAME_WALLET_ADDRESS = "msg";
 

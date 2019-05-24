@@ -3,7 +3,6 @@ package org.ionchain.wallet.mvp.view.activity.imports;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -69,9 +68,8 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         linkUrlTv = (TextView) findViewById(R.id.linkUrlTv);
         importBtn = (Button) findViewById(R.id.importBtn);
         checkbox = (CheckBox) findViewById(R.id.checkbox);
-
-
     }
+
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> list) {
@@ -82,7 +80,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     @Override
     public void onPermissionsDenied(int requestCode, List<String> list) {
         super.onPermissionsDenied(requestCode, list);
-        LoggerUtils.e("permission","拒绝");
+        LoggerUtils.e("permission", "拒绝");
     }
 
     @Override
@@ -113,10 +111,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         mImmersionBar.titleView(R.id.import_header)
                 .statusBarDarkFont(true)
                 .execute();
-    }
-
-    @Override
-    protected void handleIntent(@NonNull Intent intent) {
     }
 
     @Override
@@ -254,12 +248,16 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     }
 
+    /**
+     * @param walletBean 钱包
+     */
     @Override
     public void onCreateSuccess(final WalletBeanNew walletBean) {
         LoggerUtils.i(walletBean.toString());
         hideProgress();
         final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         if (null != wallet) {
+            LoggerUtils.i("导入私钥--钱包存在,是否更新?" + wallet.toString());
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
             wallet.setName(nameStr);
@@ -270,25 +268,30 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            LoggerUtils.i("钱包已存在,执行更新");
                             IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByPriKeyActivity.this);
                         }
                     })
                     .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            LoggerUtils.i("钱包已存在,取消更新");
                             dialog.dismiss();
                         }
                     })
                     .show();
         } else {
             walletBean.setMIconIndex(getNum(7));
-            IONCWalletSDK.getInstance().saveWallet(walletBean);
+            LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功");
             ToastUtil.showToastLonger(getResources().getString(R.string.import_success));
+            IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
             if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
+                LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功--只有一个钱包");
                 skip(MainActivity.class);
+            }else {
+                skipToBack();
             }
         }
-
     }
 
     @Override
@@ -301,14 +304,16 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     @Override
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
-//        wallet.setPrivateKey("");//不保存私钥
         ToastUtil.showToastLonger(getResources().getString(R.string.update_success));
-//        skip(MainActivity.class);
+        skipToBack();
     }
+
+
 
     @Override
     public void onUpdateWalletFailure(String error) {
         ToastUtil.showToastLonger(error);
         LoggerUtils.e("导入失败 " + error);
     }
+
 }

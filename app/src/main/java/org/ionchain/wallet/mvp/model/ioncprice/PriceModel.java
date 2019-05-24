@@ -15,9 +15,10 @@ import java.util.Objects;
 
 import static org.ionchain.wallet.constant.ConstantUrl.URL_USD_EX_RATE_RMB_PRICE;
 import static org.ionchain.wallet.constant.ConstantUrl.URL_USD_PRICE;
+import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_USD_PRICE;
+import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_USD_RMB_RATE;
 
-public class PricelModel implements IPriceModel {
-    private String TAG = this.getClass().getSimpleName();
+public class PriceModel implements IPriceModel {
 
     /**
      * 先获取对应的美元价格
@@ -52,16 +53,14 @@ public class PricelModel implements IPriceModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                LoggerUtils.i("onError");
                 usdPriceCallback.onUSDPriceFailure(response.getException().getMessage());
             }
 
             @Override
             public void onFinish() {
-                super.onFinish();
-                LoggerUtils.i("onFinish");
+                usdPriceCallback.onUSDPriceFinish();
             }
-        }, usdPriceCallback);
+        }, NET_CANCEL_TAG_USD_PRICE);
     }
 
     /**
@@ -96,7 +95,8 @@ public class PricelModel implements IPriceModel {
             public void onFinish() {
                 super.onFinish();
                 LoggerUtils.i("onFinish");
+                usdExRateRMBCallback.onUSDExRateRMBFinish();
             }
-        }, usdExRateRMBCallback);
+        }, NET_CANCEL_TAG_USD_RMB_RATE);
     }
 }

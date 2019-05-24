@@ -74,6 +74,9 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     private final char FLAG_DELETE_WALLET = 3;
     private String privateKey;
     private String json;
+    private DialogPasswordCheck deleteWallet;
+    private DialogPasswordCheck exportPK;
+    private DialogPasswordCheck exportKS;
 
     /**
      * Find the Views in the layout<br />
@@ -201,7 +204,6 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     @Override
     public void onClick(View v) {
         setViewAlphaAnimation(v);
-        passwordCheck = new DialogPasswordCheck(this);
 
         switch (v.getId()) {
             case R.id.copyBtn://复制
@@ -209,28 +211,30 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 ToastUtil.showShortToast(getAppString(R.string.copy_done));
                 break;
             case R.id.delBtn://删除钱包
+                deleteWallet = new DialogPasswordCheck(this);
+
                 flag = FLAG_DELETE_WALLET;
-                passwordCheck.setLeftBtnText(getAppString(R.string.cancel));
-                passwordCheck.setRightBtnText(getAppString(R.string.sure));
-                passwordCheck.setTitleText(getAppString(R.string.please_input_wallet_password));
-                passwordCheck.setLeftBtnClickedListener(new View.OnClickListener() {
+                deleteWallet.setLeftBtnText(getAppString(R.string.cancel));
+                deleteWallet.setRightBtnText(getAppString(R.string.sure));
+                deleteWallet.setTitleText(getAppString(R.string.please_input_wallet_password));
+                deleteWallet.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        passwordCheck.dismiss();
+                        deleteWallet.dismiss();  //删除钱包
                     }
                 });
-                passwordCheck.setRightBtnClickedListener(new View.OnClickListener() {
+                deleteWallet.setRightBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (StringUtils.isEmpty(passwordCheck.getPasswordEt().getText().toString())) {
+                        if (StringUtils.isEmpty(deleteWallet.getPasswordEt().getText().toString())) {
                             ToastUtil.showToastLonger(getAppString(R.string.please_input_wallet_password));
                             return;
                         }
-                        String p_input = passwordCheck.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(p_input, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
+                        String p_input = deleteWallet.getPasswordEt().getText().toString();
+                        IONCWalletSDK.getInstance().checkPassword(mWallet, p_input, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
                     }
                 });
-                passwordCheck.show();
+                deleteWallet.show();//删除钱包
                 break;
             case R.id.modifyPwdLayout://修改密码
                 flag = FLAG_MODIFY_PWD;
@@ -239,40 +243,42 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 break;
             case R.id.import_pri_layout://导出私钥
                 flag = FLAG_EXPORT_PRIVATE;
-                passwordCheck.setTitleText(getAppString(R.string.export_private_key));
-                passwordCheck.setLeftBtnClickedListener(new View.OnClickListener() {
+                exportPK = new DialogPasswordCheck(this);
+                exportPK.setTitleText(getAppString(R.string.export_private_key));
+                exportPK.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        passwordCheck.dismiss();
+                        exportPK.dismiss(); //导出私钥
                     }
                 });
-                passwordCheck.setRightBtnClickedListener(new View.OnClickListener() {
+                exportPK.setRightBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         /*比对密码是否正确*/
-                        String pwd1 = passwordCheck.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
+                        String pwd1 = exportPK.getPasswordEt().getText().toString();
+                        IONCWalletSDK.getInstance().checkPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
                     }
                 });
-                passwordCheck.show();
+                exportPK.show();//导出私钥
                 break;
             case R.id.import_key_store_layout://导出KS
                 flag = FLAG_EXPORT_KS;
-                passwordCheck.setLeftBtnClickedListener(new View.OnClickListener() {
+                exportKS = new DialogPasswordCheck(this);
+                exportKS.setLeftBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        passwordCheck.dismiss();
+                        exportKS.dismiss(); //导出KS
                     }
                 });
-                passwordCheck.setRightBtnClickedListener(new View.OnClickListener() {
+                exportKS.setRightBtnClickedListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         /*比对密码是否正确*/
-                        String pwd1 = passwordCheck.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
+                        String pwd1 = exportKS.getPasswordEt().getText().toString();
+                        IONCWalletSDK.getInstance().checkPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
                     }
                 });
-                passwordCheck.show();
+                exportKS.show(); //导出KS
                 break;
 
         }
@@ -287,6 +293,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         if (IONCWalletSDK.getInstance().getAllWalletNew() == null || IONCWalletSDK.getInstance().getAllWalletNew().size() > 0) {
             IONCWalletSDK.getInstance().getAllWalletNew().get(0).setIsMainWallet(true);
             IONCWalletSDK.getInstance().saveWallet(IONCWalletSDK.getInstance().getAllWalletNew().get(0));
+
         } else {
             //去创建钱包
             Intent intent1 = new Intent(this, CreateWalletSelectActivity.class);
@@ -306,7 +313,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     public void onModifyDialogParam(String currentPassword, String newPassword, String newPasswordAgain) {
         this.newPassword = newPassword;
         this.currentPassword = currentPassword;
-        IONCWalletSDK.getInstance().checkPassword(currentPassword, mWallet.getKeystore(), this);
+        IONCWalletSDK.getInstance().checkPassword(mWallet, currentPassword, mWallet.getKeystore(), this);
     }
 
     @Override
@@ -324,13 +331,14 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
     @Override
     public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
-        passwordCheck.dismiss();
         switch (flag) {
             case FLAG_DELETE_WALLET:
+                deleteWallet.dismiss();
                 IONCWalletSDK.getInstance().deleteWallet(mWallet, ModifyAndExportWalletActivity.this);
                 finish();
                 break;
             case FLAG_EXPORT_KS:
+                exportKS.dismiss();//导出KS
                 try {
                     String path = mWallet.getKeystore();
                     json = Files.readString(new File(path));
@@ -346,10 +354,12 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 }
                 break;
             case FLAG_EXPORT_PRIVATE:
+                exportPK.dismiss();
                 showImportPrivateKeyDialog(bean.getPrivateKey());
                 break;
-            case FLAG_MODIFY_PWD:
+            case FLAG_MODIFY_PWD: //修改密码
                 modifyDialog.dismiss();
+                LoggerUtils.i("wallet -bean" + bean);
                 IONCWalletSDK.getInstance()
                         .modifyPassWord(bean, newPassword, this);
                 showProgress(getAppString(R.string.modifying_password));
@@ -366,7 +376,16 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
             modifyDialog.dismiss();
         }
         if (passwordCheck != null) {
-            passwordCheck.dismiss();
+            passwordCheck.dismiss(); //onCheckWalletPasswordFailure
+        }
+        if (exportPK != null) {
+            exportPK.dismiss(); //onCheckWalletPasswordFailure
+        }
+        if (exportKS != null) {
+            exportKS.dismiss(); //onCheckWalletPasswordFailure
+        }
+        if (deleteWallet != null) {
+            deleteWallet.dismiss(); //onCheckWalletPasswordFailure
         }
     }
 

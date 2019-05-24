@@ -70,6 +70,16 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         }
     }
 
+    @Override
+    protected void handleShow() {
+
+    }
+
+    @Override
+    protected void handleHidden() {
+
+    }
+
     private void getDeviceList() {
 //        List<WalletBeanNew> list = IONCWalletSDK.getInstance().getAllWalletNew();
 //        if (list == null || list.size() == 0) {

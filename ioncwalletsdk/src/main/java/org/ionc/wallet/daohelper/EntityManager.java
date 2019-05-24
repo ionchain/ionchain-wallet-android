@@ -2,7 +2,6 @@ package org.ionc.wallet.daohelper;
 
 
 import org.ionc.wallet.greendaogen.DaoSession;
-import org.ionc.wallet.greendaogen.NodeBeanLocalDao;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanNewDao;
 
@@ -28,15 +27,8 @@ public class EntityManager {
      */
     public WalletBeanDao getWalletDaoOld(DaoSession daoSession) {
         return daoSession.getWalletBeanDao();
-    }    /**
-     * 创建 WalletBean 表实例
-     *   old table
-     * @return
-     * @param daoSession
-     */
-    public NodeBeanLocalDao getNodeIONCDao(DaoSession daoSession) {
-        return daoSession.getNodeBeanLocalDao();
     }
+
 
     /**
      * 创建单例

@@ -22,12 +22,13 @@ import org.ionc.wallet.daohelper.MyOpenHelper;
 import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.qrcode.DisplayUtil;
 import org.ionchain.wallet.qrcode.activity.ZXingLibrary;
-import org.ionchain.wallet.utils.LocalManageUtil;
+import org.ionchain.wallet.utils.SPUtils;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -60,6 +61,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @Override
     public void onCreate() {
         super.onCreate();
+        LoggerUtils.i("App onCreate");
         mContext = this;
         if (DEBUG) {
             Stetho.initializeWithDefaults(this);
@@ -67,6 +69,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         OkGo.getInstance().init(this);
         initOKGO();
         initLogger(DEBUG);
+
         IONCWalletSDK.getInstance().initIONCWalletSDK(this,initDb());
         ZXingLibrary.initDisplayOpinion(this);
         CrashHandler.getInstance().init(this);
@@ -86,7 +89,10 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LocalManageUtil.setLocal(base));
+        mContext = this;
+        SPUtils.initSP(this);
+        LoggerUtils.i("App attachBaseContext");
+        super.attachBaseContext(base);
         MultiDex.install(this);
     }
 

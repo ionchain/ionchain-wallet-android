@@ -17,8 +17,11 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.constant.ConstantActivitySkipTag;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
+import org.ionchain.wallet.mvp.view.activity.manager.ManageWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.webview.WebActivity;
 import org.ionchain.wallet.utils.LocalManageUtil;
 
@@ -28,6 +31,8 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.URL_REQUEST_TYPE;
@@ -40,7 +45,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     protected ImmersionBar mImmersionBar;
     protected String TAG = this.getClass().getSimpleName();
     private ProgressDialog dialog;
-
+    protected String mActivityFrom = INTENT_FROM_MAIN_ACTIVITY; //来自main
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -70,7 +75,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         ClassicsHeader.REFRESH_HEADER_RELEASE = getAppString(R.string.smart_refresh_header_release);
         ClassicsHeader.REFRESH_HEADER_FINISH = getAppString(R.string.smart_refresh_header_finish);
         ClassicsHeader.REFRESH_HEADER_FAILED = getAppString(R.string.smart_refresh_header_failed);
-        ClassicsHeader.REFRESH_HEADER_LASTTIME = "'"+getAppString(R.string.smart_refresh_header_last_time)+"' M-d HH:mm";
+        ClassicsHeader.REFRESH_HEADER_LASTTIME = "'" + getAppString(R.string.smart_refresh_header_last_time) + "' M-d HH:mm";
     }
 
     protected void setListener() {
@@ -82,6 +87,8 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     protected abstract void initView();
 
     protected void handleIntent(Intent intent) {
+        mActivityFrom = intent.getStringExtra(INTENT_FROM_WHERE_TAG) == null ? mActivityFrom : intent.getStringExtra(INTENT_FROM_WHERE_TAG);
+        LoggerUtils.i("来自: " + mActivityFrom);
     }
 
     protected abstract int getLayoutId();
@@ -187,7 +194,8 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         intent.putExtra(URL_REQUEST_TYPE, URL_TAG_PROTOCOL);
         startActivity(intent);
     }
-   /*
+
+    /*
      * 跳转到 关于我们页面
      * */
     protected void skipWebAboutUs() {
@@ -283,5 +291,19 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     public void onBackPressed() {
         super.onBackPressed();
         hideProgress();
+    }
+
+    /**
+     * 判断该导入操作来自哪个模块
+     * 1:资产模块,位于主界面 .导入如成功跳转到主界面,(并且主界面显示新导入的钱包,及新钱包作为主钱包展示)
+     * 2:钱包管理模块 ,导入成功跳转到钱包管理界面
+     */
+
+    protected void skipToBack() {
+        if (mActivityFrom.equals(ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY)) {
+            skip(MainActivity.class);
+        } else if (mActivityFrom.equals(ConstantActivitySkipTag.INTENT_FROM_MANAGER_ACTIVITY)) {
+            skip(ManageWalletActivity.class);
+        }
     }
 }

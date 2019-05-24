@@ -73,7 +73,7 @@ public class LoggerUtils {
      */
     public static void e(String msg) {
         if (isDebug) {
-            Logger.e("default", "e: " + msg);
+            Logger.e( "e: " + msg);
         }
     }
 

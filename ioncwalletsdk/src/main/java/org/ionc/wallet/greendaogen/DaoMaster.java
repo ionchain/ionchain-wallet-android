@@ -23,14 +23,12 @@ public class DaoMaster extends AbstractDaoMaster {
     public static void createAllTables(Database db, boolean ifNotExists) {
         WalletBeanDao.createTable(db, ifNotExists);
         WalletBeanNewDao.createTable(db, ifNotExists);
-        NodeBeanLocalDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         WalletBeanDao.dropTable(db, ifExists);
         WalletBeanNewDao.dropTable(db, ifExists);
-        NodeBeanLocalDao.dropTable(db, ifExists);
     }
 
     /**
@@ -51,7 +49,6 @@ public class DaoMaster extends AbstractDaoMaster {
         super(db, SCHEMA_VERSION);
         registerDaoClass(WalletBeanDao.class);
         registerDaoClass(WalletBeanNewDao.class);
-        registerDaoClass(NodeBeanLocalDao.class);
     }
 
     public DaoSession newSession() {

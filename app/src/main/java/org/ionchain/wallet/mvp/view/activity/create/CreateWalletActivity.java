@@ -35,8 +35,6 @@ import java.util.List;
 
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
-import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
-import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MANAGER_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 
 public class CreateWalletActivity extends AbsBaseActivity implements
@@ -61,7 +59,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     private DialogMnemonic dialogMnemonic;
     WalletBeanNew walletBean;
 
-    private String activity_from = INTENT_FROM_MAIN_ACTIVITY; //来自main
+
 
     /**
      * Find the Views in the layout<br />
@@ -84,7 +82,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     @Override
     protected void handleIntent(@NonNull Intent intent) {
         super.handleIntent(intent);
-        activity_from = intent.getStringExtra(INTENT_FROM_WHERE_TAG);
+        mActivityFrom = intent.getStringExtra(INTENT_FROM_WHERE_TAG);
     }
 
     @Override
@@ -267,19 +265,21 @@ public class CreateWalletActivity extends AbsBaseActivity implements
                 .setCopyBtnClickedListener(this).show();
     }
 
+    /**
+     * @param dialogMnemonic 取消备份助记词
+     */
     @Override
     public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
         dialogMnemonic.dismiss();
-        IONCWalletSDK.getInstance().saveWallet(walletBean);
-        if (activity_from.equals(INTENT_FROM_MAIN_ACTIVITY)) {
-            skip(MainActivity.class);
-        } else if (activity_from.equals(INTENT_FROM_MANAGER_ACTIVITY)){
-            finish();
-        }
+        IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
+        skipToBack();
 
     }
 
 
+    /**
+     * @param dialogTextMessage 
+     */
     @Override
     public void onDialogTextMessageBtnClicked(DialogTextMessage dialogTextMessage) {
         dialogMnemonic.dismiss();

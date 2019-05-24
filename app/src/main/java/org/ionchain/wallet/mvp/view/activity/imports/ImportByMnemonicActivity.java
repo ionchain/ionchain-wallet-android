@@ -28,7 +28,6 @@ import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Arrays;
 
-import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
@@ -232,11 +231,12 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     })
                     .show();
         } else {
-
-            IONCWalletSDK.getInstance().saveWallet(walletBean);
+            IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
             if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
                 skip(MainActivity.class);
+            }else {
+                skipToBack();
             }
         }
         hideProgress();
@@ -252,7 +252,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger(getAppString(R.string.update_success));
-        skip(MainActivity.class);
+        skipToBack();
     }
 
     @Override

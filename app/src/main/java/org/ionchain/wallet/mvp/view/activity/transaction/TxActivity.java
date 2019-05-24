@@ -36,6 +36,7 @@ import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
@@ -53,6 +54,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     /**
      * 收款人地址
      */
+    private WalletBeanNew mWalletBeanNew;
     private EditText txToAddressEt;
     private EditText txAccountEt;
     private TextView txCostTv;
@@ -68,7 +70,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     private int mProgress = SEEK_BAR_SRART_VALUE;//进度值,起始值为 30 ,最大值为100
     private ImageView back;
     private Button txNext;
-    private String mNodeIONC="";
+    private String mNodeIONC = "";
     private SmartRefreshLayout smart_refresh_layout;
 
     private void findViews() {
@@ -122,7 +124,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                         }
                         //检查密码是否正确
                         String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(pwd_input, mKsPath, TxActivity.this);
+                        IONCWalletSDK.getInstance().checkPassword(mWalletBeanNew,pwd_input, mKsPath, TxActivity.this);
                     }
                 }).show();
 
@@ -169,14 +171,14 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
         txCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
-        new IONCNodePresenter().getNodes(URL_NODE_LIST,this);
+        new IONCNodePresenter().getNodes(URL_NODE_LIST, this);
     }
 
     @Override
     protected void handleIntent(Intent intent) {
         mAddress = getIntent().getStringExtra(CURRENT_ADDRESS);
         mKsPath = getIntent().getStringExtra(CURRENT_KSP);
-
+        mWalletBeanNew = intent.getParcelableExtra(INTENT_PARAM_CURRENT_WALLET);
     }
 
     @Override
@@ -206,7 +208,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @SuppressLint("SetTextI18n")
     @Override
     public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
-        balance_tv.setText(getAppString(R.string.balance_) + balanceBigDecimal+" IONC");
+        balance_tv.setText(getAppString(R.string.balance_) + balanceBigDecimal + " IONC");
     }
 
     @Override
@@ -214,7 +216,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         balance_tv.setText(getAppString(R.string.error_net_get_balance));
     }
 
-    /**   密码检查成功
+    /**
+     * 密码检查成功
+     *
      * @param bean
      */
     @Override
@@ -226,7 +230,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                 .setToAddress(toAddress)
                 .setTxValue(txAccount)
                 .setWalletBeanTx(bean);
-        IONCWalletSDK.getInstance().transaction(mNodeIONC,helper, TxActivity.this);
+        IONCWalletSDK.getInstance().transaction(mNodeIONC, helper, TxActivity.this);
     }
 
     @Override
@@ -266,8 +270,8 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     }
 
     @Override
-    public void onIONCNodeError(String string) {
-
+    public void onIONCNodeError(String error) {
+        getAppString(R.string.error_net_node);
     }
 
     @Override

@@ -144,6 +144,16 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
         mUpdatePresenter = new UpdatePresenter();
     }
 
+    @Override
+    protected void handleShow() {
+
+    }
+
+    @Override
+    protected void handleHidden() {
+
+    }
+
     /**
      * 检查更新
      *

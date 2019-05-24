@@ -2,6 +2,7 @@ package org.ionchain.wallet.mvp.view.activity.manager;
 
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -81,7 +82,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements
             @Override
             public void onClick(View v) {
                 setViewAlphaAnimation(importBtn);
-                skip(SelectImportModeActivity.class,INTENT_FROM_WHERE_TAG, INTENT_FROM_MANAGER_ACTIVITY);//
+                skip(SelectImportModeActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MANAGER_ACTIVITY);//
             }
         });
 
@@ -127,7 +128,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements
     @Override
     public void onItemClicked(int position) {
         mCurrentWallet = (WalletBeanNew) mAdapter.getItem(position);
-        if (!mCurrentWallet.getMnemonic().equals("")) {
+        if (!TextUtils.isEmpty(mCurrentWallet.getMnemonic())) {
             ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
             String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
             dialogMnemonic = new DialogMnemonic(this, mnemonics, this);
@@ -188,6 +189,6 @@ public class ManageWalletActivity extends AbsBaseActivity implements
 
     @Override
     public void onLoadMore(RefreshLayout refreshLayout) {
-         srl.finishLoadMore();
+        srl.finishLoadMore();
     }
 }

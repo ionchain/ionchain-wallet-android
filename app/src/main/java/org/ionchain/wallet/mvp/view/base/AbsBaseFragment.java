@@ -280,4 +280,28 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     public String getAppString(int id, Object obj) {
         return getResources().getString(id, obj);
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            LoggerUtils.i("隐藏:" + this.getClass().getSimpleName());
+            handleHidden();
+        } else {
+            LoggerUtils.i("显示:" + this.getClass().getSimpleName());
+            handleShow();
+        }
+    }
+
+    /**
+     * 可见
+     */
+    protected abstract void handleShow();
+
+    /**
+     * 不可见
+     */
+    protected abstract void handleHidden();
+
+
 }
