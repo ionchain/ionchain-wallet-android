@@ -19,7 +19,7 @@ import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.ToastUtil;
 
@@ -157,7 +157,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
 
     @Override
     public void onCreateSuccess(final WalletBeanNew walletBean) {
-        Logger.i(walletBean.toString());
+        LoggerUtils.i(walletBean.toString());
         hideProgress();
         final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         if (null != wallet) {
@@ -192,7 +192,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
     public void onCreateFailure(String result) {
         hideProgress();
         ToastUtil.showToastLonger(getAppString(R.string.import_failure));
-        Logger.e("onCreateFailure: " + result);
+        LoggerUtils.e("onCreateFailure: " + result);
         onSDKCreateFailure(result);
 
     }
@@ -208,7 +208,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
     @Override
     public void onUpdateWalletFailure(String error) {
         ToastUtil.showToastLonger(error);
-        Logger.e("导入失败 " + error);
+        LoggerUtils.e("导入失败 " + error);
         onSDKCreateFailure(error);
     }
 

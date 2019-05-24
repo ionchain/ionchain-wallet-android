@@ -41,6 +41,7 @@ android {
             buildConfigField "String","URL_PROTOCOL_EN","\"${URL_PROTOCOL_EN}\""
             buildConfigField "String","URL_ABOUTUS_CN","\"${URL_ABOUTUS_CN}\""
             buildConfigField "String","URL_ABOUT_US_EN","\"${URL_ABOUT_US_EN}\""
+//            buildConfigField("boolean","DEBUG","true")
         }
         release {
             debuggable false
@@ -51,6 +52,7 @@ android {
             buildConfigField "String","URL_PROTOCOL_EN","\"${URL_PROTOCOL_EN}\""
             buildConfigField "String","URL_ABOUTUS_CN","\"${URL_ABOUTUS_CN}\""
             buildConfigField "String","URL_ABOUT_US_EN","\"${URL_ABOUT_US_EN}\""
+//            buildConfigField("boolean","DEBUG","false")
         }
     }
 

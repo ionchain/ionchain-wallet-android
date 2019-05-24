@@ -9,7 +9,7 @@ import com.ionc.wallet.sdk.R;
 import org.ionc.wallet.adapter.IViewHolder;
 import org.ionc.wallet.adapter.IViewHolderHelper;
 import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 
 import java.util.List;
 
@@ -37,17 +37,17 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
 
     @Override
     public void bindListDataToView(Context context, final List<WalletBeanNew> iBaseBeanList, AllWalletViewHolder viewHolder, final int position) {
-        Logger.i("position" + iBaseBeanList.get(position).getName() + "ffffffff");
+        LoggerUtils.i("position" + iBaseBeanList.get(position).getName() + "ffffffff");
         viewHolder.mName.setText(iBaseBeanList.get(position).getName());
         if (!TextUtils.isEmpty(iBaseBeanList.get(position).getBalance())) {
             viewHolder.count.setText(iBaseBeanList.get(position).getBalance());
 
         }
         if (iBaseBeanList.get(position).getChosen()) {
-            Logger.i("position 0 = " + position);
+            LoggerUtils.i("position 0 = " + position);
             viewHolder.all_wallet_ll.setBackgroundColor(context.getResources().getColor(R.color.chosen_wallet_color));
         } else {
-            Logger.i("position 1 = " + position);
+            LoggerUtils.i("position 1 = " + position);
             viewHolder.all_wallet_ll.setBackgroundColor(Color.WHITE);
         }
         viewHolder.mAddress.setText(iBaseBeanList.get(position).getAddress());
@@ -57,11 +57,11 @@ public class AllWalletViewHepler implements IViewHolderHelper<AllWalletViewHolde
                 int size = iBaseBeanList.size();
                 for (int i = 0; i < size; i++) {
                     if (i == position) {
-                        Logger.i("position 2 = " + position);
+                        LoggerUtils.i("position 2 = " + position);
                         iBaseBeanList.get(i).setChosen(true);
 
                     } else {
-                        Logger.i("position 3 = " + position);
+                        LoggerUtils.i("position 3 = " + position);
 
                         iBaseBeanList.get(i).setChosen(false);
                     }

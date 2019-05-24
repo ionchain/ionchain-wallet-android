@@ -48,6 +48,8 @@ dependencies {
     api 'org.greenrobot:greendao-generator:3.2.2'
     api 'com.google.code.gson:gson:2.8.5'
     api 'com.android.support.constraint:constraint-layout:2.0.0-alpha5'
+
+    implementation 'com.orhanobut:logger:2.2.0'
 }
 
 

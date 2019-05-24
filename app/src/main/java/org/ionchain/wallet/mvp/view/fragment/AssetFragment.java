@@ -24,7 +24,7 @@ import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
@@ -45,8 +45,6 @@ import org.ionchain.wallet.mvp.view.activity.address.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecordActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
@@ -68,11 +66,10 @@ import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 import static java.math.BigDecimal.ROUND_HALF_UP;
-import static org.ionchain.wallet.App.SDK_Debug;
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
-import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
-import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
@@ -442,12 +439,6 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
 
-    @Override
-    protected void initImmersionBar() {
-        mImmersionBar
-                .statusBarColor(R.color.blue_top)
-                .execute();
-    }
 
 
     @Override
@@ -455,7 +446,7 @@ public class AssetFragment extends AbsBaseFragment implements
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == QRCODE_BIND_DEVICE) {
             final String result = data.getStringExtra("result");
-            Logger.i("result", result);
+            LoggerUtils.i("result", result);
 
         }
         /**
@@ -488,7 +479,7 @@ public class AssetFragment extends AbsBaseFragment implements
                     });
                     mDialogBindCardWithWallet.show();
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong(getResources().getString(R.string.toast_qr_code_parase_error));
+                    ToastUtil.showLong(getResources().getString(R.string.error_parase_toast_qr_code));
                 }
             }
         }
@@ -512,11 +503,7 @@ public class AssetFragment extends AbsBaseFragment implements
             @Override
             public void onClick(View v) {
                 instance.dismiss();
-                if (App.SDK_Debug) {
-                    skip(SDKSelectCreateModeWalletActivity.class);
-                } else {
-                    skip(SelectImportModeActivity.class);//
-                }
+                skip(SelectImportModeActivity.class);//
 
             }
         });
@@ -524,18 +511,13 @@ public class AssetFragment extends AbsBaseFragment implements
             @Override
             public void onClick(View v) {
                 instance.dismiss();
-                if (SDK_Debug) {
-                    skip(SDKCreateActivity.class);//
-                } else {
-                    skip(CreateWalletActivity.class, INTENT_PARAME_TAG, INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY);
-                }
-
+                skip(CreateWalletActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
             }
         });
         mMoreWalletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Logger.i(TAG, "onItemClick: ");
+                LoggerUtils.i(TAG, "onItemClick: ");
 
                 for (int i = 0; i < mMoreWallets.size(); i++) {
                     if (i != position) {
@@ -564,12 +546,12 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onLoadStart() {
-        Logger.i(TAG, "onLoadStart: ");
+        LoggerUtils.i(TAG, "onLoadStart: ");
     }
 
     @Override
     public void onLoadFinish() {
-        Logger.i(TAG, "onLoadFinish: ");
+        LoggerUtils.i(TAG, "onLoadFinish: ");
         mRefresh.finishRefresh();
     }
 
@@ -610,7 +592,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onDeviceListSuccess(List<DeviceBean.DataBean> list) {
-        Logger.i(TAG, "onDeviceListSuccess: " + list.toString());
+        LoggerUtils.i(TAG, "onDeviceListSuccess: " + list.toString());
         mDataBeans.clear();
         mDataBeans.addAll(list);
         mAdapterDeviceLv.notifyDataSetChanged();
@@ -622,7 +604,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onDeviceListFailure(String errorMessage) {
-        Logger.i(TAG, "onDeviceListFailure: " + errorMessage);
+        LoggerUtils.i(TAG, "onDeviceListFailure: " + errorMessage);
         mRefresh.finishRefresh();
     }
 
@@ -634,7 +616,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onUnbindButtonClick(final String cksn, int position) {
-        Logger.i(TAG, "onUnbindButtonClick: " + cksn);
+        LoggerUtils.i(TAG, "onUnbindButtonClick: " + cksn);
         mUnbindPos = position;
         mDialogBindCardWithWallet = new DialogBindDevice(mActivity);
         mDialogBindCardWithWallet.setMessageText(cksn);
@@ -671,7 +653,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onUnbindFailure(String result) {
-        Logger.i(TAG, "onUnbindFailure: " + result);
+        LoggerUtils.i(TAG, "onUnbindFailure: " + result);
     }
 
     /**
@@ -683,7 +665,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
         mIONCBalance = balanceBigDecimal;
         ioncBalanceTx.setText(balanceBigDecimal.toPlainString());
-        Logger.i("balance",balanceBigDecimal.toPlainString());
+        LoggerUtils.i("balance",balanceBigDecimal.toPlainString());
         mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
         mRefresh.finishRefresh(); //
         //获取美元价格
@@ -696,8 +678,8 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onBalanceFailure(String error) {
-        Logger.e("balance",error);
-        ToastUtil.showToastLonger(getAppString(R.string.get_balance_error));
+        LoggerUtils.e("balance",error);
+        ToastUtil.showToastLonger(getAppString(R.string.error_net_get_balance));
         ToastUtil.showToastLonger(error);
         mRefresh.finishRefresh();
         ioncBalanceTx.setText(mCurrentWallet.getBalance());
@@ -744,14 +726,14 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onDialogCheckMnemonics12(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
         String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
         if (s.length != mnemonics.length) {
-            ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error));
+            ToastUtil.showToastLonger(getResources().getString(R.string.error_mnemonics));
             return;
         }
         int count = mnemonics.length;
         for (int i = 0; i < count; i++) {
             if (!mnemonics[i].equals(s[i])) {
                 String index = String.valueOf((i + 1));
-                ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error_index, index));
+                ToastUtil.showToastLonger(getResources().getString(R.string.error_index_mnemonics, index));
                 editTextList.get(i).setTextColor(Color.RED);
                 return;
             }
@@ -780,8 +762,8 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onUSDPriceFailure(String error) {
-        Logger.e(error);
-        ToastUtil.showToastLonger(getAppString(R.string.getting_usd_error));
+        LoggerUtils.e(error);
+        ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_usd));
 
         mRefresh.finishRefresh();
     }
@@ -795,15 +777,15 @@ public class AssetFragment extends AbsBaseFragment implements
         //转换为人民币
         mRefresh.finishRefresh();
         BigDecimal rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(usdPrice));
-        Logger.i("balance = ", rmb.setScale(4,ROUND_HALF_UP).toPlainString());
+        LoggerUtils.i("balance = ", rmb.setScale(4,ROUND_HALF_UP).toPlainString());
         mCurrentWallet.setRmb(rmb.setScale(4,ROUND_HALF_UP).toPlainString());
         rmb_balance_tx.setText(mCurrentWallet.getRmb()); //网络数据
     }
 
     @Override
     public void onUSDExRateRMBFailure(String error) {
-        Logger.e(error);
-        ToastUtil.showToastLonger(getAppString(R.string.getting_rate_rmb_error));
+        LoggerUtils.e(error);
+        ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_rate_rmb));
 
         mRefresh.finishRefresh();
     }
@@ -812,7 +794,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
        //取出主链节点
         mNodeIONC = dataBean.get(0).getIonc_node();
-        Logger.i("node",mNodeIONC);
+        LoggerUtils.i("node",mNodeIONC);
         //获取主链成功后,获取余额
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC,mCurrentWallet.getAddress(), this);
 
@@ -820,7 +802,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onIONCNodeError(String string) {
-        ToastUtil.showToastLonger(getAppString(R.string.net_node_error));
+        ToastUtil.showToastLonger(getAppString(R.string.error_net_node));
         mRefresh.finishRefresh();
     }
 

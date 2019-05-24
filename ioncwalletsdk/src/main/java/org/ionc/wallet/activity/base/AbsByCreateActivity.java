@@ -16,7 +16,7 @@ import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
 
@@ -182,7 +182,7 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
 
     @Override
     public void onImportMnemonicSuccess(WalletBeanNew walletBean) {
-        Logger.i("onCreateSuccess: " + walletBean);
+        LoggerUtils.i("onCreateSuccess: " + walletBean);
         hideProgress();
         IONCWalletSDK.getInstance().saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);

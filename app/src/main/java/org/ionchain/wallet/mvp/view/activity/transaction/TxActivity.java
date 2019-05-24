@@ -211,7 +211,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onBalanceFailure(String error) {
-        balance_tv.setText(getAppString(R.string.get_balance_error));
+        balance_tv.setText(getAppString(R.string.error_net_get_balance));
     }
 
     /**   密码检查成功
@@ -231,7 +231,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onCheckWalletPasswordFailure(String errorMsg) {
-        ToastUtil.showToastLonger(getAppString(R.string.input_password_error));
+        ToastUtil.showToastLonger(getAppString(R.string.error_input_password));
     }
 
     @Override
@@ -247,7 +247,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                 final String result = bundle.getString(CodeUtils.RESULT_STRING);
                 txToAddressEt.setText(result);
             } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                ToastUtil.showLong(getResources().getString(R.string.toast_qr_code_parase_error));
+                ToastUtil.showLong(getResources().getString(R.string.error_parase_toast_qr_code));
             }
         }
     }

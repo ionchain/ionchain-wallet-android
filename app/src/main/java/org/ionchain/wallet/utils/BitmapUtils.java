@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -49,7 +49,7 @@ public class BitmapUtils {
 
 
         } catch (IOException e) {
-            Logger.e("qqqq", "savePicture: " + e.getMessage());
+            LoggerUtils.e("qqqq", "savePicture: " + e.getMessage());
 
         }
     }
@@ -76,7 +76,7 @@ public class BitmapUtils {
             }
             return true;
         } catch (final IOException e) {
-            Logger.e("qqqq", "savePicture: " + e.getMessage());
+            LoggerUtils.e("qqqq", "savePicture: " + e.getMessage());
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -89,7 +89,7 @@ public class BitmapUtils {
                     in.close();
                 }
             } catch (final IOException e) {
-                Logger.e("qqqq", "savePicture: " + e.getMessage());
+                LoggerUtils.e("qqqq", "savePicture: " + e.getMessage());
             }
         }
         return false;

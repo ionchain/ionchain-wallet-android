@@ -4,7 +4,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.NodeBean;
@@ -19,10 +19,10 @@ public class NodeMOdel implements INodeModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                Logger.i(json);
+                LoggerUtils.i(json);
                 NodeBean nodeBean = NetUtils.gsonToBean(json, NodeBean.class);
                 if (nodeBean == null || nodeBean.getData() == null) {
-                    callback.onIONCNodeError(App.mContext.getResources().getString(R.string.data_parase_error));
+                    callback.onIONCNodeError(App.mContext.getResources().getString(R.string.error_data_parase));
                     return;
                 }
                 callback.onIONCNodeSuccess(nodeBean.getData());
@@ -37,7 +37,7 @@ public class NodeMOdel implements INodeModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onIONCNodeError(App.mContext.getString(R.string.net_node_error));
+                callback.onIONCNodeError(App.mContext.getString(R.string.error_net_node));
             }
 
             @Override

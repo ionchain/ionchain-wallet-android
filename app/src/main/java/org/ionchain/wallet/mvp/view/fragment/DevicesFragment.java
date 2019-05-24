@@ -8,7 +8,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
@@ -59,14 +59,6 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         getDeviceList();
     }
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar
-                .statusBarColor(R.color.blue_top)
-                .execute();
-    }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -99,7 +91,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
 
     @Override
     public void onUnbindButtonClick(String cksn, int position) {
-        Logger.i(TAG, "onUnbindButtonClick: " + cksn);
+        LoggerUtils.i(TAG, "onUnbindButtonClick: " + cksn);
 
     }
 

@@ -108,21 +108,7 @@
         <activity
             android:name=".mvp.view.activity.webview.WebActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".mvp.view.activity.sdk.SDKCreateActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".mvp.view.activity.sdk.SDKKeyStoreActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".mvp.view.activity.sdk.SDKMnemonicActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".mvp.view.activity.sdk.SDKPrivateKeyActivity"
-            android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".qrcode.activity.CaptureActivity"

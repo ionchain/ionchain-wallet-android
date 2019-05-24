@@ -19,6 +19,7 @@ import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.ionc.wallet.bean.KeystoreBean;
+import org.ionc.wallet.bean.NodeBeanLocal;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
@@ -38,7 +39,7 @@ import org.ionc.wallet.greendaogen.WalletBeanNewDao;
 import org.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
 import org.ionc.wallet.transaction.TransactionHelper;
 import org.ionc.wallet.utils.GsonUtils;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.MnemonicUtils;
 import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.SecureRandomUtils;
@@ -138,15 +139,15 @@ public class IONCWalletSDK {
             mHandler = new Handler(appContext.getMainLooper());
             mMnemonicCode = new MnemonicCode(appContext.getAssets().open("en-mnemonic-word-list.txt"), null);
             keystoreDir = appContext.getCacheDir().getPath() + "/ionchain/keystore";
-            Logger.i("ksp", "initIONCWalletSDK: 文件创建成功 keystoreDir = " + keystoreDir);
+            LoggerUtils.i("ksp", "initIONCWalletSDK: 文件创建成功 keystoreDir = " + keystoreDir);
             //创建keystore路径
             File file = new File(keystoreDir);
             if (!file.exists()) {
                 boolean crate = file.mkdirs();
             }
-            Logger.i("ksp", "initIONCWalletSDK: 文件创建成功file =" + file.getPath());
+            LoggerUtils.i("ksp", "initIONCWalletSDK: 文件创建成功file =" + file.getPath());
         } catch (IOException e) {
-            Logger.i(e.getMessage());
+            LoggerUtils.i(e.getMessage());
         }
     }
 
@@ -187,7 +188,7 @@ public class IONCWalletSDK {
         byte[] seedBytes = ds.getSeedBytes();
 
         if (seedBytes == null) {
-            callback.onImportMnemonicFailure("创建种子（钱包）失败");
+            callback.onImportMnemonicFailure(appContext.getString(R.string.create_wallte_failur));
             return;
         }
         DeterministicKey dkKey = HDKeyDerivation.createMasterPrivateKey(seedBytes);
@@ -212,12 +213,12 @@ public class IONCWalletSDK {
         String publicKey = ecKeyPair.getPublicKey().toString(16);
         walletBean.setPrivateKey(privateKey);
         walletBean.setPublic_key(publicKey);
-        Logger.i("私钥： " + privateKey);
+        LoggerUtils.i("私钥： " + privateKey);
         try {
             String keystore = WalletUtils.generateWalletFile(password, ecKeyPair, new File(keystoreDir), false);
             keystore = keystoreDir + "/" + keystore;
             walletBean.setKeystore(keystore);
-            Logger.i("钱包keystore： " + keystore);
+            LoggerUtils.i("钱包keystore： " + keystore);
             if (StringUtils.isEmpty(walletName)) {
                 walletName = generateNewWalletName();
             }
@@ -226,7 +227,7 @@ public class IONCWalletSDK {
             String addr2 = Keys.getAddress(ecKeyPair);
             String walletAddress = Keys.toChecksumAddress(addr2);
             walletBean.setAddress(Keys.toChecksumAddress(walletAddress));//设置钱包地址
-            Logger.i("钱包地址： " + walletAddress);
+            LoggerUtils.i("钱包地址： " + walletAddress);
             walletBean.setPassword(password);
 
 
@@ -235,7 +236,7 @@ public class IONCWalletSDK {
                 sb.append(mnemonic);
                 sb.append(" ");
             }
-            Logger.i("助记词 === " + sb.toString());
+            LoggerUtils.i("助记词 === " + sb.toString());
             String mnemonicWord = sb.toString();
             walletBean.setMnemonic(mnemonicWord);
             walletBean.setMIconIndex(getNum(7));
@@ -336,7 +337,7 @@ public class IONCWalletSDK {
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Logger.e(e.getMessage() + "  " + password);
+                            LoggerUtils.e(e.getMessage() + "  " + password);
                             callback.onCreateFailure(e.getMessage());
                         }
                     });
@@ -413,16 +414,6 @@ public class IONCWalletSDK {
         }
     }
 
-    //移除私钥
-    public void updateWallet(WalletBeanNew wallet) {
-
-        try {
-            wallet.setPrivateKey("");
-            EntityManager.getInstance().getWalletDaoNew(mDaoSession).update(wallet);
-        } catch (Throwable e) {
-            Logger.e("e", "getAllWalletNew");
-        }
-    }
 
     //修改密码  没有所谓的 修改的密码实现是 利用私匙重新生成一个keystore
     public void modifyPassWord(final WalletBeanNew wallet, final String newPassWord, final OnModifyWalletPassWordCallback callback) {
@@ -435,18 +426,18 @@ public class IONCWalletSDK {
                 try {
                     String keystore;
                     String key = wallet.getPrivateKey();
-                    Logger.i("key", "importWallt: " + key);
+                    LoggerUtils.i("key", "importWallt: " + key);
                     BigInteger privateKeyBig = new BigInteger(key, 16);
                     ECKeyPair ecKeyPair = ECKeyPair.create(privateKeyBig);
                     keystore = WalletUtils.generateWalletFile(newPassWord, ecKeyPair, new File(keystoreDir), false);
                     keystore = keystoreDir + "/" + keystore;
 
-                    Logger.i("new keystore ==>" + keystore);
+                    LoggerUtils.i("new keystore ==>" + keystore);
 
                     //发生更换了
                     if (null != wallet.getKeystore() && !wallet.getKeystore().equals(keystore)) {
                         String old = wallet.getKeystore();
-                        Logger.i("old keystore ==>" + old);
+                        LoggerUtils.i("old keystore ==>" + old);
                         //删除旧的keystore
                         File file = new File(old);
                         if (file.exists()) {
@@ -540,7 +531,7 @@ public class IONCWalletSDK {
 
         //生成助记词
         String mnemonic = generateMnemonic(initialEntropy);
-        Logger.i("mnemonic", "generateBip39Wallet: " + mnemonic);
+        LoggerUtils.i("mnemonic", "generateBip39Wallet: " + mnemonic);
         //根据助记词生成种子
         byte[] seed = MnemonicUtils.generateSeed(mnemonic, password);
         //根据种子生成秘钥对
@@ -619,7 +610,7 @@ public class IONCWalletSDK {
 
                     BigDecimal balanceTemp = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
                     balanceTemp = balanceTemp.setScale(4, BigDecimal.ROUND_DOWN);  //保留4位小数,四舍五入
-                    Logger.i("余额" + balanceTemp);
+                    LoggerUtils.i("余额" + balanceTemp);
                     final BigDecimal finalBalanceTemp = balanceTemp;
                     mHandler.post(new Runnable() {
                         @Override
@@ -628,11 +619,11 @@ public class IONCWalletSDK {
                         }
                     });
                 } catch (final IOException e) {
-                    Logger.e("client", e.getMessage());
+                    LoggerUtils.e("client", e.getMessage());
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Logger.e(e.getMessage());
+                            LoggerUtils.e(e.getMessage());
                             callback.onBalanceFailure(appContext.getString(R.string.error_net_ionc));
                         }
                     });
@@ -827,7 +818,27 @@ public class IONCWalletSDK {
         wallet.setPassword("");
         return EntityManager.getInstance().getWalletDaoNew(mDaoSession).insertOrReplace(wallet);
     }
+    /**
+     * 保存钱包,保存前,检查数据库是否存在钱包,如果没有则将该钱包设置为首页展示钱包
+     *
+     * @param nodeBeanLocal 离子链节点
+     * @return
+     */
+    public long saveNode(NodeBeanLocal nodeBeanLocal) {
+        //私钥不存储于数据库中
+        return EntityManager.getInstance().getNodeIONCDao(mDaoSession).insertOrReplace(nodeBeanLocal);
+    }
 
+    //移除私钥
+    public void updateWallet(WalletBeanNew wallet) {
+
+        try {
+            wallet.setPrivateKey("");
+            EntityManager.getInstance().getWalletDaoNew(mDaoSession).update(wallet);
+        } catch (Throwable e) {
+            LoggerUtils.e("e", "getAllWalletNew");
+        }
+    }
 //    public void updateWallet(WalletBeanNew wallet) {
 //
 //        //私钥不存储于数据库中
@@ -957,6 +968,10 @@ public class IONCWalletSDK {
             return false;
         }
     }
+
+    /**
+     * @param walletBeanOlds 钱包旧数据库数据迁移
+     */
     public void migrateDb(List<WalletBean> walletBeanOlds){
         int count= walletBeanOlds.size();
         for (int i = 0; i < count; i++) {
@@ -980,6 +995,6 @@ public class IONCWalletSDK {
             EntityManager.getInstance().getWalletDaoNew(mDaoSession).insertOrReplace(walletBeanNew);
             EntityManager.getInstance().getWalletDaoOld(mDaoSession).delete(walletBeanOlds.get(i));
         }
-
     }
+
 }

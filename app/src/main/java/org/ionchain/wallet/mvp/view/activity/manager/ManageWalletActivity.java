@@ -7,20 +7,17 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.OnRefreshLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
@@ -31,11 +28,17 @@ import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MANAGER_ACTIVITY;
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLoadmoreListener, ManagerWalletHelper.OnWalletManagerItemClickedListener, DialogMnemonic.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak {
+public class ManageWalletActivity extends AbsBaseActivity implements
+        ManagerWalletHelper.OnWalletManagerItemClickedListener,
+        DialogMnemonic.OnSavedMnemonicCallback,
+        DialogTextMessage.OnBtnClickedListener,
+        OnDialogCheck12MnemonicCallbcak,
+        OnRefreshLoadMoreListener {
 
 
     private SmartRefreshLayout srl;
@@ -65,16 +68,12 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
 
     @Override
     protected void setListener() {
-        srl.setOnRefreshLoadmoreListener(this);
+        srl.setOnRefreshLoadMoreListener(this);
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setViewAlphaAnimation(createBtn);
-                if (App.SDK_Debug) {
-                    skip(SDKCreateActivity.class, INTENT_PARAME_TAG, "1");//
-                } else {
-                    skip(CreateWalletActivity.class, INTENT_PARAME_TAG, "1");
-                }
+                skip(CreateWalletActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MANAGER_ACTIVITY);
             }
         });
 
@@ -82,11 +81,7 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
             @Override
             public void onClick(View v) {
                 setViewAlphaAnimation(importBtn);
-                if (App.SDK_Debug) {
-                    skip(SDKSelectCreateModeWalletActivity.class,INTENT_PARAME_TAG,"");
-                }else {
-                    skip(SelectImportModeActivity.class,INTENT_PARAME_TAG,"1");//
-                }
+                skip(SelectImportModeActivity.class,INTENT_FROM_WHERE_TAG, INTENT_FROM_MANAGER_ACTIVITY);//
             }
         });
 
@@ -111,12 +106,6 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
         return R.layout.activity_wallet_manage;
     }
 
-
-    @Override
-    public void onLoadmore(RefreshLayout refreshlayout) {
-        srl.finishLoadmore();
-
-    }
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
@@ -177,14 +166,14 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
     public void onDialogCheckMnemonics12(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
         String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
         if (s.length != mnemonics.length) {
-            ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error));
+            ToastUtil.showToastLonger(getResources().getString(R.string.error_mnemonics));
             return;
         }
         int count = mnemonics.length;
         for (int i = 0; i < count; i++) {
             if (!mnemonics[i].equals(s[i])) {
                 String index = String.valueOf((i + 1));
-                ToastUtil.showToastLonger(getResources().getString(R.string.mnemonics_error_index, index));
+                ToastUtil.showToastLonger(getResources().getString(R.string.error_index_mnemonics, index));
                 editTextList.get(i).setTextColor(Color.RED);
                 return;
             }
@@ -195,5 +184,10 @@ public class ManageWalletActivity extends AbsBaseActivity implements OnRefreshLo
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
 //        skip(MainActivity.class);
+    }
+
+    @Override
+    public void onLoadMore(RefreshLayout refreshLayout) {
+         srl.finishLoadMore();
     }
 }

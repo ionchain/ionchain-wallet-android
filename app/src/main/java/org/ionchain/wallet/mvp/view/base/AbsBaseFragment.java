@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
@@ -145,8 +145,14 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     /**
      * 设置沉浸式
      */
-    protected void initImmersionBar() {
+    private void initImmersionBar() {
+        mImmersionBar
+                .statusBarColor(getTopBarColor())
+                .execute();
+    }
 
+    private int getTopBarColor() {
+        return R.color.blue_top;
     }
 
     @Override
@@ -177,7 +183,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
             intent.putExtra(params, obj);
             startActivityForResult(intent, 0);
         } catch (Throwable e) {
-            Logger.e(e.getMessage());
+            LoggerUtils.e(e.getMessage());
         }
     }
 
@@ -187,7 +193,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
             intent.putExtra(params, obj);
             startActivityForResult(intent, 0);
         } catch (Throwable e) {
-            Logger.e(e.getMessage());
+            LoggerUtils.e(e.getMessage());
         }
     }
 
@@ -239,7 +245,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
         // Some permissions have been denied
         // ...
         ToastUtil.showToastLonger(getAppString(R.string.permission_request));
-        Logger.i("拒绝" + list.toString());
+        LoggerUtils.i("拒绝" + list.toString());
     }
 
     protected void showProgress(String msg) {

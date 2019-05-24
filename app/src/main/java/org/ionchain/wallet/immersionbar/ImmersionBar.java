@@ -27,7 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -1768,7 +1768,7 @@ public class ImmersionBar {
             ViewGroup.LayoutParams params = mBarParams.statusBarViewWithHeight.getLayoutParams();
             params.height = mConfig.getStatusBarHeight();
             mBarParams.statusBarViewWithHeight.setLayoutParams(params);
-            Logger.i("params.height = "+params.height);
+            LoggerUtils.i("params.height = "+params.height);
         }
     }
 
@@ -1800,14 +1800,14 @@ public class ImmersionBar {
             } else {
                 if (mBarParams.titleBarHeight == 0) {
                     mBarParams.titleBarHeight = layoutParams.height + mConfig.getStatusBarHeight();
-                    Logger.i("mConfig.getStatusBarHeight() = " + mConfig.getStatusBarHeight());//3dp  72
-                    Logger.i("layoutParams.height = " + layoutParams.height);// 168
-                    Logger.i("mBarParams.titleBarHeight = " + mBarParams.titleBarHeight);// 240
+                    LoggerUtils.i("mConfig.getStatusBarHeight() = " + mConfig.getStatusBarHeight());//3dp  72
+                    LoggerUtils.i("layoutParams.height = " + layoutParams.height);// 168
+                    LoggerUtils.i("mBarParams.titleBarHeight = " + mBarParams.titleBarHeight);// 240
                 }
                 if (mBarParams.titleBarPaddingTopHeight == 0) {
                     mBarParams.titleBarPaddingTopHeight = mBarParams.titleBarView.getPaddingTop() + mConfig.getStatusBarHeight();
                 }
-                Logger.i("mBarParams.titleBarPaddingTopHeight = " + mBarParams.titleBarPaddingTopHeight);
+                LoggerUtils.i("mBarParams.titleBarPaddingTopHeight = " + mBarParams.titleBarPaddingTopHeight);
                 layoutParams.height = mBarParams.titleBarHeight;
                 mBarParams.titleBarView.setPadding(mBarParams.titleBarView.getPaddingLeft(),
                         mBarParams.titleBarPaddingTopHeight,

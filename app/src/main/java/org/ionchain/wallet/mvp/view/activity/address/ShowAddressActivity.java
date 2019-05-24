@@ -68,7 +68,7 @@ public class ShowAddressActivity extends AbsBaseActivity {
                     StringUtils.copy(ShowAddressActivity.this, walletAddressTv.getText().toString());
                     Toast.makeText(ShowAddressActivity.this, getAppString(R.string.copy_done_addr), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ShowAddressActivity.this, getAppString(R.string.copy_error), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShowAddressActivity.this, getAppString(R.string.error_copy), Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -22,7 +22,6 @@ import org.ionc.wallet.daohelper.MyOpenHelper;
 import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
@@ -39,7 +38,7 @@ import okhttp3.OkHttpClient;
 
 import static com.ionc.wallet.sdk.BuildConfig.DEBUG;
 import static org.ionc.wallet.constant.ConstanParams.DB_NAME;
-import static org.ionc.wallet.utils.Logger.initLogger;
+import static org.ionc.wallet.utils.LoggerUtils.initLogger;
 
 /**
  * Created by binny on 2018/11/29.
@@ -62,7 +61,9 @@ public class App extends Application implements Application.ActivityLifecycleCal
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        Stetho.initializeWithDefaults(this);
+        if (DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
         OkGo.getInstance().init(this);
         initOKGO();
         initLogger(DEBUG);
@@ -103,7 +104,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //log相关
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
-        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);        //log打印级别，决定了log显示的详细程度
+        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BASIC);        //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setColorLevel(Level.INFO);                               //log颜色级别，决定了log在控制台显示的颜色
         builder.addInterceptor(loggingInterceptor);                                 //添加OkGo默认debug日志
         //第三方的开源库，使用通知显示当前请求的log，不过在做文件下载的时候，这个库好像有问题，对文件判断不准确
@@ -161,39 +162,38 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityCreated");
+//        LoggerUtils.i(activity.getClass().getSimpleName() + "----onActivityCreated");
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityStarted");
+//        LoggerUtils.i( activity.getClass().getSimpleName() + "----onActivityStarted");
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityResumed");
-
+//        LoggerUtils.i(activity.getClass().getSimpleName() + "----onActivityResumed");
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityPaused");
+//        LoggerUtils.i( activity.getClass().getSimpleName() + "----onActivityPaused");
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityStopped");
+//        LoggerUtils.i( activity.getClass().getSimpleName() + "----onActivityStopped");
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivitySaveInstanceState");
+//        LoggerUtils.i( activity.getClass().getSimpleName() + "----onActivitySaveInstanceState");
 
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        Logger.i("Activity", activity.getClass().getSimpleName() + "----onActivityDestroyed");
+//        LoggerUtils.i(activity.getClass().getSimpleName() + "----onActivityDestroyed");
     }
 
     public static void skipToMain() {

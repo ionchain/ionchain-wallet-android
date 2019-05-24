@@ -14,17 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKCreateActivity;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKSelectCreateModeWalletActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
-import static org.ionchain.wallet.App.SDK_Debug;
-import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG;
-import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY;
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
+import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 
 /**
  * 创建钱包。导入钱包，第一次安装时，由启动页跳转过来
@@ -51,14 +47,8 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                     ToastUtil.showLong(getResources().getString(R.string.protocol_please_read));
                     return;
                 }
-                Intent intent = null;
-                if (SDK_Debug) {
-                    intent = new Intent(mActivity, SDKCreateActivity.class);//
-                } else {
-                    intent = new Intent(mActivity, CreateWalletActivity.class);
-                }
-                intent.putExtra(INTENT_PARAME_TAG, INTENT_PARAME_TAG_SKIP_TO_MAIN_ACTIVITY);
-
+                Intent intent = new Intent(mActivity, CreateWalletActivity.class);
+                intent.putExtra(INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
                 startActivity(intent);
             }
         });
@@ -69,12 +59,7 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
                     ToastUtil.showLong(getResources().getString(R.string.protocol_please_read));
                     return;
                 }
-                Intent intent = null;
-                if (App.SDK_Debug) {
-                    intent = new Intent(mActivity, SDKSelectCreateModeWalletActivity.class);
-                } else {
-                    intent = new Intent(mActivity, SelectImportModeActivity.class);//
-                }
+                Intent intent = new Intent(mActivity, SelectImportModeActivity.class);//
                 startActivity(intent);
             }
         });

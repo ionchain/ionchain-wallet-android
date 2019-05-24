@@ -9,7 +9,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.txrecoder.TxRecoderViewHelper;
 import org.ionchain.wallet.bean.TxRecoderBean;
@@ -75,18 +75,18 @@ public class TxRecordActivity extends AbsBaseActivity implements OnTxRecordCallb
 
     @Override
     public void onLoadStart() {
-        Logger.i("正在获取");
+        LoggerUtils.i("正在获取");
     }
 
     @Override
     public void onLoadFinish() {
-        Logger.i("获取完成");
+        LoggerUtils.i("获取完成");
         mSmartRefreshLayout.finishRefresh();
     }
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        Logger.i("刷新");
+        LoggerUtils.i("刷新");
         presenter.getTxRecord("3", address, "1", "10", this);
     }
 }

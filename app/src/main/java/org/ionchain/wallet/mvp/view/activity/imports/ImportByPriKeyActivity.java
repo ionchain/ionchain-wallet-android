@@ -21,7 +21,7 @@ import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -82,7 +82,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     @Override
     public void onPermissionsDenied(int requestCode, List<String> list) {
         super.onPermissionsDenied(requestCode, list);
-        Logger.e("permission","拒绝");
+        LoggerUtils.e("permission","拒绝");
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     mPrivateKey.setText(result);
                     private_key = result;
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong(getString(R.string.toast_qr_code_parase_error));
+                    ToastUtil.showLong(getString(R.string.error_parase_toast_qr_code));
                 }
             }
         }
@@ -256,7 +256,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     public void onCreateSuccess(final WalletBeanNew walletBean) {
-        Logger.i(walletBean.toString());
+        LoggerUtils.i(walletBean.toString());
         hideProgress();
         final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
         if (null != wallet) {
@@ -295,7 +295,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     public void onCreateFailure(String result) {
         hideProgress();
         ToastUtil.showToastLonger(getResources().getString(R.string.import_error));
-        Logger.e(TAG, "onCreateFailure: " + result);
+        LoggerUtils.e(TAG, "onCreateFailure: " + result);
     }
 
     @Override
@@ -309,6 +309,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
     @Override
     public void onUpdateWalletFailure(String error) {
         ToastUtil.showToastLonger(error);
-        Logger.e("导入失败 " + error);
+        LoggerUtils.e("导入失败 " + error);
     }
 }

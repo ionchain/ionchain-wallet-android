@@ -7,7 +7,6 @@
     <string name="error_net_ionc">Failed to connect IONChain</string>
     <string name="error_net_eth">Failed to connect ethereum</string>
     <string name="wallet_empty">Empty purse!</string>
-    <string name="transacton_failed">Tx failure</string>
     <string name="error_mnemonics">Mnemonic words are incorrect !</string>
     <string name="error_key_story">Please enter the correct keystore!</string>
     <string name="toast_wallet_exists">The name of the wallet already exists</string>
@@ -42,4 +41,6 @@
     <string name="please_input_addr_out">Please enter the transaction-out address</string>
     <string name="tx_out">Tx-out:</string>
     <string name="check_error">Check Failure</string>
+    <string name="create_wallte_failur">Failed to create the seed</string>
+    <string name="transacton_failed">Transaction failure</string>
 </resources>

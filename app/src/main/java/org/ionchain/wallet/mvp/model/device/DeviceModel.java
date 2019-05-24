@@ -6,7 +6,7 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
 import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.DeviceBean;
@@ -50,7 +50,7 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                Logger.j(TAG, "onCreateSuccess: $json");
+                LoggerUtils.j("getCurrentWalletDevicesList: $json" + json);
                 DeviceListBean bean = NetUtils.gsonToBean(json, DeviceListBean.class);
                 if (Objects.requireNonNull(bean).getData() == null) {
                     callback.onLoadFinish();
@@ -63,7 +63,7 @@ public class DeviceModel implements IDeviceModel {
             public void onError(Response<String> response) {
                 super.onError(response);
                 if (response.body() == null) {
-                    callback.onDeviceListFailure(App.mContext.getResources().getString(R.string.device_service_error));
+                    callback.onDeviceListFailure(App.mContext.getResources().getString(R.string.error_net_device_list));
                 } else {
                     callback.onDeviceListFailure(response.body());
                 }
@@ -106,7 +106,7 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onDeviceListFailure(App.mContext.getResources().getString(R.string.device_all_service_error));
+                callback.onDeviceListFailure(App.mContext.getResources().getString(R.string.error_device_all_service));
             }
 
             @Override
@@ -128,14 +128,14 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {
-                    ToastUtil.showToastLonger(getString(R.string.device_bind_data_parase_error));
+                    ToastUtil.showToastLonger(getString(R.string.error_parase_device_bind_data));
                     return;
                 }
 
                 String json = response.body();
                 DeviceBean bindBean = NetUtils.gsonToBean(json, DeviceBean.class);
                 if (bindBean == null || bindBean.getData() == null) {
-                    callback.onBindFailure(getString(R.string.device_bind_data_parase_error));
+                    callback.onBindFailure(getString(R.string.error_parase_device_bind_data));
                     return;
                 }
                 if (bindBean.getSuccess() != 0) {
@@ -154,8 +154,8 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                Logger.i(String.valueOf(response.getException().getMessage().isEmpty()));
-                callback.onBindFailure(getString(R.string.device_bind_net_error));
+                LoggerUtils.i(String.valueOf(response.getException().getMessage().isEmpty()));
+                callback.onBindFailure(getString(R.string.error_net_device_bind));
             }
 
             @Override
@@ -208,7 +208,7 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onUnbindFailure(getString(R.string.device_unbind_net_error));
+                callback.onUnbindFailure(getString(R.string.error_net_device_unbind));
             }
 
             @Override

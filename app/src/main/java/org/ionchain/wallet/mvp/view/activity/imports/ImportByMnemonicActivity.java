@@ -101,7 +101,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             public void onClick(View v) {
                 setViewAlphaAnimation(importBtn);
                 if (mnemonic.getText() == null) {
-                    ToastUtil.showToastLonger(getAppString(R.string.mnemonics_error));
+                    ToastUtil.showToastLonger(getAppString(R.string.error_mnemonics));
                     return;
                 }
 
@@ -122,13 +122,13 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                 String resetpass = pwdEt.getText().toString().trim();
                 String pass = repwdEt.getText().toString().trim();
                 if (StringUtils.isEmpty(content)) {
-                    ToastUtil.showToastLonger(getAppString(R.string.mnemonics_error));
+                    ToastUtil.showToastLonger(getAppString(R.string.error_mnemonics));
                     return;
                 }
                 String con_temp = content.replace(" ", "");
                 String[] array_str = content.split(" ");
                 if (!StringUtils.isEN(con_temp) || array_str.length < 12) {
-                    ToastUtil.showLong(getAppString(R.string.mnemonics_error));
+                    ToastUtil.showLong(getAppString(R.string.error_mnemonics));
                     return;
                 }
                 if (!check(resetpass) || !check(pass)) {

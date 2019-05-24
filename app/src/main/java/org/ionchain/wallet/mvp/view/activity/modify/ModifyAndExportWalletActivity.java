@@ -14,7 +14,7 @@ import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
 import org.ionc.wallet.callback.OnModifyWalletPassWordCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletSelectActivity;
@@ -334,7 +334,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 try {
                     String path = mWallet.getKeystore();
                     json = Files.readString(new File(path));
-                    Logger.i(json);
+                    LoggerUtils.i(json);
                     DialogTextMessage d = new DialogTextMessage(this);
                     d.setMessage(json);
                     d.setTitle(getAppString(R.string.export_keystore));
@@ -360,7 +360,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
     @Override
     public void onCheckWalletPasswordFailure(String errorMsg) {
-        Logger.e(errorMsg);
+        LoggerUtils.e(errorMsg);
         ToastUtil.showToastLonger(getAppString(R.string.please_check_password));
         if (modifyDialog != null) {
             modifyDialog.dismiss();

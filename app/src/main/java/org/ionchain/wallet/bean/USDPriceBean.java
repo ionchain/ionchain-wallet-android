@@ -86,7 +86,7 @@ public class USDPriceBean implements Serializable{
 
         public static class MarketinfoBean implements Serializable {
             /**
-             * price : 0.00510047302951
+             * price : 0.00510047302951  离子币美元价格
              * volume_24h : 706040.929370844
              * percent_change_1h : -0.932033
              * percent_change_24h : -2.31309

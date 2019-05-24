@@ -18,7 +18,7 @@ import com.lzy.okserver.OkDownload;
 import com.lzy.okserver.download.DownloadListener;
 import com.lzy.okserver.download.DownloadTask;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
@@ -105,7 +105,7 @@ public class NetUtils {
             t = gson.fromJson(jsonStr, cls);
             return t;
         } catch (JsonSyntaxException e) {
-            Logger.e(e.getMessage());
+            LoggerUtils.e(e.getMessage());
             return null;
         }
     }
@@ -164,7 +164,7 @@ public class NetUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             /* Android N 写法*/
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Logger.i("appid ", BuildConfig.APPLICATION_ID);
+            LoggerUtils.i("appid ", BuildConfig.APPLICATION_ID);
             Uri contentUri = FileProvider.getUriForFile(App.mContext, BuildConfig.APPLICATION_ID + ".provider", new File(path));
             intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
         } else {

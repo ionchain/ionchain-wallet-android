@@ -4,7 +4,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.bean.USDExRmb;
 import org.ionchain.wallet.bean.USDPriceBean;
 import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDExRateRMBCallback;
@@ -32,7 +32,7 @@ public class PricelModel implements IPriceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                Logger.j(TAG, "onCreateSuccess: $json" + json);
+                LoggerUtils.j( "getUSDPrice: $json" + json);
                 USDPriceBean updateBean = NetUtils.gsonToBean(json, USDPriceBean.class);
                 try {
                     usdPriceCallback.onUSDPriceSuccess(Objects.requireNonNull(updateBean).getData().getMarketinfo().getPrice());
@@ -45,21 +45,21 @@ public class PricelModel implements IPriceModel {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
-                Logger.i(":onStart");
+                LoggerUtils.i(":onStart");
                 usdPriceCallback.onUSDPriceStart();
             }
 
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                Logger.i("onError");
+                LoggerUtils.i("onError");
                 usdPriceCallback.onUSDPriceFailure(response.getException().getMessage());
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Logger.i("onFinish");
+                LoggerUtils.i("onFinish");
             }
         }, usdPriceCallback);
     }
@@ -73,7 +73,7 @@ public class PricelModel implements IPriceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                Logger.j(TAG, "onCreateSuccess: $json" + json);
+                LoggerUtils.j( "getUSDExchangeRateRMB: $json" + json);
                 USDExRmb usdExRmb = NetUtils.gsonToBean(json, USDExRmb.class);
                 usdExRateRMBCallback.onUSDExRateRMBSuccess(Objects.requireNonNull(usdExRmb).getData());
             }
@@ -81,21 +81,21 @@ public class PricelModel implements IPriceModel {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
-                Logger.i(":onStart");
+                LoggerUtils.i(":onStart");
                 usdExRateRMBCallback.onUSDExRateRMBStart();
             }
 
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                Logger.i("onError");
+                LoggerUtils.i("onError");
                 usdExRateRMBCallback.onUSDExRateRMBFailure(response.getException().getMessage());
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                Logger.i("onFinish");
+                LoggerUtils.i("onFinish");
             }
         }, usdExRateRMBCallback);
     }

@@ -1,6 +1,7 @@
 package org.ionc.wallet.utils;
 
-import android.util.Log;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 
 /**
@@ -8,13 +9,15 @@ import android.util.Log;
  * 描    述：日志的工具类
  * ================================================
  */
-public class Logger {
+public class LoggerUtils {
 
     private static boolean isDebug = true;
 
     public static void initLogger(boolean debug) {
         isDebug = debug;
+        Logger.addLogAdapter(new AndroidLogAdapter());
     }
+
 
     /**
      * 打印JSON
@@ -22,9 +25,9 @@ public class Logger {
      * @param tag     标志
      * @param jsonStr jsonString
      */
-    public static void j(String jsonStr, String tag) {
+    public static void j(String jsonStr) {
         if (isDebug) {
-            Log.i(tag, "j: " + jsonStr);
+            Logger.json( jsonStr);
         }
     }
 
@@ -36,7 +39,7 @@ public class Logger {
      */
     public static void i(String tag, String msg) {
         if (isDebug) {
-            Log.i(tag, msg);
+            Logger.i( msg);
         }
     }
 
@@ -47,7 +50,7 @@ public class Logger {
      */
     public static void i(String msg) {
         if (isDebug) {
-            Log.i("msg-info", "msg: " + msg);
+            Logger.i("msg: " + msg);
         }
     }
 
@@ -59,7 +62,7 @@ public class Logger {
      */
     public static void e(String tag, String msg) {
         if (isDebug) {
-            Log.e(tag, "e: " + msg);
+            Logger.e( msg);
         }
     }
 
@@ -70,7 +73,7 @@ public class Logger {
      */
     public static void e(String msg) {
         if (isDebug) {
-            Log.e("default", "e: " + msg);
+            Logger.e("default", "e: " + msg);
         }
     }
 

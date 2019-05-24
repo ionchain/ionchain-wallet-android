@@ -19,7 +19,7 @@ import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
@@ -158,7 +158,7 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
     @Override
     public void onImportMnemonicSuccess(WalletBeanNew walletBean) {
         final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
-        Logger.i("onCreateSuccess: " + walletBean.toString());
+        LoggerUtils.i("onCreateSuccess: " + walletBean.toString());
         hideProgress();
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
@@ -193,7 +193,7 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
     public void onImportMnemonicFailure(String error) {
         hideProgress();
         ToastUtil.showToastLonger(getAppString(R.string.import_failure));
-        Logger.i("onCreateFailure: " + error);
+        LoggerUtils.i("onCreateFailure: " + error);
         onSDKCreateFailure(error);
     }
 

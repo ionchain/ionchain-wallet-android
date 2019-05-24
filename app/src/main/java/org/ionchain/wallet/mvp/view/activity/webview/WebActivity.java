@@ -20,7 +20,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -92,7 +92,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
         }
         if (isCurrentLanguageZN()) {
             if (mRequestType == URL_TAG_PROTOCOL) {
-                 Logger.i("webview", "URL_TAG_PROTOCOL = " + URL_TAG_PROTOCOL);
+                 LoggerUtils.i("webview", "URL_TAG_PROTOCOL = " + URL_TAG_PROTOCOL);
                 mWebView.loadUrl(BuildConfig.URL_PROTOCOL_CN); //加载协议
             } else {
                 mWebView.loadUrl(BuildConfig.URL_ABOUTUS_CN); //加载关于我们

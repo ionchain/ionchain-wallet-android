@@ -8,17 +8,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKKeyStoreActivity;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKMnemonicActivity;
-import org.ionchain.wallet.mvp.view.activity.sdk.SDKPrivateKeyActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 
-import static org.ionchain.wallet.App.SDK_Debug;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class SelectImportModeActivity extends AbsBaseActivity implements View.OnClickListener {
 
-    private RelativeLayout header;
     private ImageView back;
     private Button byMnemonic;
     private Button byPrivateKey;
@@ -32,7 +27,7 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        header = (RelativeLayout) findViewById(R.id.header);
+        RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
         back = (ImageView) findViewById(R.id.back);
         byMnemonic = (Button) findViewById(R.id.by_mnemonic);
         byPrivateKey = (Button) findViewById(R.id.by_private_key);
@@ -56,25 +51,13 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
         setViewAlphaAnimation(v);
         Intent intent = null;
         if (v == byMnemonic) {
-            if (SDK_Debug) {
-                intent = new Intent(mActivity, SDKMnemonicActivity.class);
-            }else {
-                intent = new Intent(mActivity, ImportByMnemonicActivity.class);
-            }
+            intent = new Intent(mActivity, ImportByMnemonicActivity.class);
             startActivity(intent);
         } else if (v == byPrivateKey) {
-            if (SDK_Debug) {
-                intent = new Intent(mActivity, SDKPrivateKeyActivity.class);
-            }else {
-                intent = new Intent(mActivity, ImportByPriKeyActivity.class);
-            }
+            intent = new Intent(mActivity, ImportByPriKeyActivity.class);
             startActivity(intent);
         } else if (v == byKeystore) {
-            if (SDK_Debug) {
-                intent = new Intent(mActivity, SDKKeyStoreActivity.class);
-            }else {
-                intent = new Intent(mActivity, ImportByKeystoreActivity.class);
-            }
+            intent = new Intent(mActivity, ImportByKeystoreActivity.class);
             startActivity(intent);
         } else if (v == back) {
             finish();

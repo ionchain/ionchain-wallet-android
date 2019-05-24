@@ -6,7 +6,7 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.TxRecoderBean;
@@ -38,10 +38,10 @@ public class TxRecoderModel implements ITxRecoderModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                Logger.i(json);
+                LoggerUtils.i(json);
                 TxRecoderBean txRecoderBean = NetUtils.gsonToBean(json, TxRecoderBean.class);
                 if (txRecoderBean == null || txRecoderBean.getData() == null || txRecoderBean.getData().getData() == null) {
-                    callback.onTxRecordFailure(App.mContext.getResources().getString(R.string.data_parase_error));
+                    callback.onTxRecordFailure(App.mContext.getResources().getString(R.string.error_data_parase));
                     return;
                 }
                 List<TxRecoderBean.DataBean.ItemBean> beans = txRecoderBean.getData().getData();
@@ -63,7 +63,7 @@ public class TxRecoderModel implements ITxRecoderModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onTxRecordFailure(App.mContext.getString(R.string.tx_recorder_get_error));
+                callback.onTxRecordFailure(App.mContext.getString(R.string.error_net_tx_recorder));
             }
         }, callback);
     }

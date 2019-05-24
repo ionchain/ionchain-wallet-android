@@ -189,7 +189,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     public void onCheckForUpdateError(String error) {
         hideProgress();
         mCurrentVersionInfoDialog.dismiss();
-        ToastUtil.showShortToast(getAppString(R.string.app_update_error));
+        ToastUtil.showShortToast(getAppString(R.string.error_app_update));
     }
 
     @Override
@@ -227,7 +227,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
             mLastedVersionInfoDialog.setType(ConstantParams.VERSION_TAG_DOWNLOAD);
             mLastedVersionInfoDialog.show();
         } catch (NullPointerException e) {
-            ToastUtil.showToastLonger(mActivity.getAppString(R.string.data_parase_error));
+            ToastUtil.showToastLonger(mActivity.getAppString(R.string.error_data_parase));
         }
 
 //        NetUtils.downloadShowDialog(mActivity, url, update_info, v_code, this);
@@ -255,7 +255,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
      */
     @Override
     public void onDownloadError(Progress progress) {
-        ToastUtil.showToastLonger(getAppString(R.string.download_error));
+        ToastUtil.showToastLonger(getAppString(R.string.error_download));
     }
 
     @Override

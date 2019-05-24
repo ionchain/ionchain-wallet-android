@@ -17,7 +17,7 @@ public class RandomUntil {
     public static int getNum(int endNum){
         if(endNum > 0){
             SecureRandom random = new SecureRandom();
-            Logger.i("sssssssss","random.nextInt(7)"+random.nextInt(7));
+            LoggerUtils.i("sssssssss","random.nextInt(7)"+random.nextInt(7));
             return random.nextInt(7);
         }
       return 0;

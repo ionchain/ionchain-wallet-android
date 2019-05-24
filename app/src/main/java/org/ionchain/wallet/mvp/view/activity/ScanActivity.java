@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -56,7 +56,7 @@ public class ScanActivity extends AbsBaseActivity {
         try {
 
             if (!TextUtils.isEmpty(result)) {
-                Logger.i(result);
+                LoggerUtils.i(result);
                 Intent intent = new Intent();
                 intent.putExtra("result", result);
                 setResult(RESULT_OK, intent);
@@ -67,7 +67,7 @@ public class ScanActivity extends AbsBaseActivity {
             finish();
 
         } catch (Throwable e) {
-            Logger.e(e.getMessage() + TAG);
+            LoggerUtils.e(e.getMessage() + TAG);
         }
     }
 

@@ -19,7 +19,7 @@ public class GsonUtils {
             t = gson.fromJson(jsonStr, cls);
             return t;
         } catch (JsonSyntaxException e) {
-            Logger.e(e.getMessage());
+            LoggerUtils.e(e.getMessage());
             return null;
         }
     }

@@ -13,7 +13,7 @@ import com.ionc.wallet.sdk.R;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.ToastUtil;
 
@@ -97,14 +97,14 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
 
     @Override
     public void onCreateSuccess(WalletBeanNew walletBean) {
-//        Logger.i(walletBean.toString());
+//        LoggerUtils.i(walletBean.toString());
 //        hideProgress();
 //        walletBean.setMIconIdex(getNum(7));
 //        saveWallet(walletBean);
 //        ToastUtil.showToastLonger("导入成功啦!");
 //        onSDKCreateSuccess();
         final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
-        Logger.i("onCreateSuccess: " + walletBean.toString());
+        LoggerUtils.i("onCreateSuccess: " + walletBean.toString());
         hideProgress();
 
         if (null != wallet) {

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
@@ -168,7 +168,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
     public void onCreateSuccess(WalletBeanNew walletBean) {
         hideProgress();
         WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
-        Logger.i(walletBean.toString());
+        LoggerUtils.i(walletBean.toString());
         if (null != wallet) {
             ToastUtil.showLong(getAppString(R.string.wallet_name_exists));
         } else {
@@ -209,9 +209,9 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
                     mKeystore.setText(result);
                     keystoreStr = result;
-                    Logger.i(result);
+                    LoggerUtils.i(result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong(getAppString(R.string.toast_qr_code_parase_error));
+                    ToastUtil.showLong(getAppString(R.string.error_parase_toast_qr_code));
                 }
             }
         }

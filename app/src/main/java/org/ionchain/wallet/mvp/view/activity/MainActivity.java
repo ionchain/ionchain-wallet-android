@@ -11,10 +11,9 @@ import android.widget.RadioGroup;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
-import org.ionchain.wallet.mvp.view.fragment.DevicesFragment;
 import org.ionchain.wallet.mvp.view.fragment.AssetFragment;
+import org.ionchain.wallet.mvp.view.fragment.DevicesFragment;
 import org.ionchain.wallet.mvp.view.fragment.MineFragment;
-import org.ionchain.wallet.mvp.view.fragment.ShopFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
     private AssetFragment mAssetFragment;
     private MineFragment mMineFragment;
     private DevicesFragment mDevicesFragment;
-    private ShopFragment mShopFragment;
 
     private List<Fragment> mFragments = new ArrayList<>();
 
@@ -47,10 +45,8 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
         mAssetFragment = new AssetFragment();
         mMineFragment = new MineFragment();
         mDevicesFragment = new DevicesFragment();
-        mShopFragment = new ShopFragment();
         mFragments.add(mAssetFragment);
         mFragments.add(mDevicesFragment);
-        mFragments.add(mShopFragment);
         mFragments.add(mMineFragment);
 
         mFragmentManager = getSupportFragmentManager();
@@ -66,12 +62,6 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
 
     @Override
     protected void initView() {
-//        myOrientoinListener = new MyOrientoinListener(this);
-//        boolean autoRotateOn = (android.provider.Settings.System.getInt(getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0) == 1);
-//        //检查系统是否开启自动旋转
-//        if (autoRotateOn) {
-//            myOrientoinListener.enable();
-//        }
         mRadioGroup = findViewById(R.id.rg_main);
         mRadioGroup.setOnCheckedChangeListener(this);
 
@@ -116,11 +106,8 @@ public class MainActivity extends AbsBaseActivity implements RadioGroup.OnChecke
             case R.id.rb_devices:
                 mPostion = 1;
                 break;
-            case R.id.rb_shop:
-                mPostion = 2;
-                break;
             case R.id.rb_mine:
-                mPostion = 3;
+                mPostion = 2;
                 break;
         }
         showNext();

@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
-import org.ionc.wallet.utils.Logger;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
@@ -163,7 +163,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     public void onPermissionsGranted(int requestCode, List<String> list) {
         // Some permissions have been granted
         // ...
-        Logger.i("允许" + list.toString());
+        LoggerUtils.i("允许" + list.toString());
     }
 
     @Override
@@ -171,7 +171,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         // Some permissions have been denied
         // ...
         ToastUtil.showToastLonger(getAppString(R.string.permission_request));
-        Logger.i("拒绝" + list.toString());
+        LoggerUtils.i("拒绝" + list.toString());
     }
 
     protected void skip(Class clazz) {

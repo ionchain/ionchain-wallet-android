@@ -42,4 +42,5 @@
     <string name="please_input_addr_out">请输入转出地址</string>
     <string name="tx_out">转出：</string>
     <string name="check_error">检测失败</string>
+    <string name="create_wallte_failur">Failed to create the seed</string>
 </resources>
