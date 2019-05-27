@@ -42,8 +42,10 @@ public class ConstantUrl {
     //
     private final static String HOST = "http://walletapi.ionchain.org/api";   //新服
     public final static String URL_UPDATE_APK = HOST + "/version";   //版本信息
-    public final static String URL_USD_PRICE = HOST + "/v1/version";   //美元价格
-    public final static String URL_USD_EX_RATE_RMB_PRICE = HOST + "/v1/currency";   //人民币兑美元汇率
     public final static String URL_NODE_LIST = HOST + "/version/node";   //离子链节点
+
+    private final static String HOST_PRICE = "http://explorer.ionchain.org";
+    public final static String URL_USD_PRICE = HOST_PRICE + "/v1/version";   //美元价格
+    public final static String URL_USD_EX_RATE_RMB_PRICE = HOST_PRICE + "/v1/currency";   //人民币兑美元汇率
 
 }

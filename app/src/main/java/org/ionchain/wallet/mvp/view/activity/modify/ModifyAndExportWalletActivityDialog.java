@@ -12,7 +12,7 @@ import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
-import org.ionc.wallet.callback.OnModifyWalletPassWordCallback;
+import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
@@ -24,8 +24,8 @@ import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.IONCTitleBar;
 import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
 import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
-import org.ionchain.wallet.widget.dialog.modify.ModifyDialog;
-import org.ionchain.wallet.widget.dialog.modify.OnModifyPasswordCallback;
+import org.ionchain.wallet.widget.dialog.modify.ModifyPasswordDialog;
+import org.ionchain.wallet.widget.dialog.modify.OnModifyPasswordDialogCallback;
 import org.web3j.utils.Files;
 
 import java.io.File;
@@ -37,14 +37,13 @@ import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
  */
-public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
+public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity implements
         OnImportPrivateKeyCallback,
         View.OnClickListener,
         OnDeletefinishCallback,
-        OnModifyPasswordCallback,
-        OnModifyWalletPassWordCallback,
+        OnModifyPasswordDialogCallback,
         OnCheckWalletPasswordCallback,
-        DialogTextMessage.OnBtnClickedListener {
+        DialogTextMessage.OnBtnClickedListener, OnUpdateWalletCallback {
 
 
     WalletBeanNew mWallet;
@@ -64,7 +63,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
 
     private char flag = 0;//默认导出助记词
 
-    private ModifyDialog modifyDialog;
+    private ModifyPasswordDialog mModifyPasswordDialog;
     private DialogPasswordCheck passwordCheck;
     private String newPassword = "";
     private String currentPassword = "";
@@ -151,7 +150,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
+                SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivityDialog.this);
                 finish();
             }
         });
@@ -161,7 +160,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
                     mWallet.setName(walletNameEt.getText().toString());
                     ioncTitleBar.setTitle(walletNameEt.getText().toString());
-                    SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
+                    SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivityDialog.this);
                     IONCWalletSDK.getInstance().updateWallet(mWallet);
                 } else {
                     ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
@@ -231,15 +230,15 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                             return;
                         }
                         String p_input = deleteWallet.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(mWallet, p_input, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
+                        IONCWalletSDK.getInstance().checkPassword(mWallet, p_input, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this);
                     }
                 });
                 deleteWallet.show();//删除钱包
                 break;
             case R.id.modifyPwdLayout://修改密码
                 flag = FLAG_MODIFY_PWD;
-                modifyDialog = new ModifyDialog(this, this);
-                modifyDialog.show();
+                mModifyPasswordDialog = new ModifyPasswordDialog(this, this);
+                mModifyPasswordDialog.show();
                 break;
             case R.id.import_pri_layout://导出私钥
                 flag = FLAG_EXPORT_PRIVATE;
@@ -256,7 +255,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                     public void onClick(View v) {
                         /*比对密码是否正确*/
                         String pwd1 = exportPK.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
+                        IONCWalletSDK.getInstance().checkPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this);
                     }
                 });
                 exportPK.show();//导出私钥
@@ -275,7 +274,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                     public void onClick(View v) {
                         /*比对密码是否正确*/
                         String pwd1 = exportKS.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);
+                        IONCWalletSDK.getInstance().checkPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this);
                     }
                 });
                 exportKS.show(); //导出KS
@@ -316,25 +315,13 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         IONCWalletSDK.getInstance().checkPassword(mWallet, currentPassword, mWallet.getKeystore(), this);
     }
 
-    @Override
-    public void onModifySuccess(WalletBeanNew walletBean) {
-        mWallet = walletBean;
-        hideProgress();
-        ToastUtil.showShortToast(getAppString(R.string.modify_password_success));
-    }
-
-    @Override
-    public void onModifyFailure(String error) {
-        ToastUtil.showShortToast(getAppString(R.string.modify_password_failure));
-        hideProgress();
-    }
 
     @Override
     public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
         switch (flag) {
             case FLAG_DELETE_WALLET:
                 deleteWallet.dismiss();
-                IONCWalletSDK.getInstance().deleteWallet(mWallet, ModifyAndExportWalletActivity.this);
+                IONCWalletSDK.getInstance().deleteWallet(mWallet, ModifyAndExportWalletActivityDialog.this);
                 finish();
                 break;
             case FLAG_EXPORT_KS:
@@ -358,10 +345,10 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 showImportPrivateKeyDialog(bean.getPrivateKey());
                 break;
             case FLAG_MODIFY_PWD: //修改密码
-                modifyDialog.dismiss();
+                mModifyPasswordDialog.dismiss();
                 LoggerUtils.i("wallet -bean" + bean);
                 IONCWalletSDK.getInstance()
-                        .modifyPassWord(bean, newPassword, this);
+                        .updatePasswordAndKeyStore(bean, newPassword, this);
                 showProgress(getAppString(R.string.modifying_password));
                 break;
         }
@@ -372,8 +359,8 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     public void onCheckWalletPasswordFailure(String errorMsg) {
         LoggerUtils.e(errorMsg);
         ToastUtil.showToastLonger(getAppString(R.string.please_check_password));
-        if (modifyDialog != null) {
-            modifyDialog.dismiss();
+        if (mModifyPasswordDialog != null) {
+            mModifyPasswordDialog.dismiss();
         }
         if (passwordCheck != null) {
             passwordCheck.dismiss(); //onCheckWalletPasswordFailure
@@ -394,14 +381,27 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         switch (flag) {
             case FLAG_EXPORT_PRIVATE:
                 //复制
-                StringUtils.copy(ModifyAndExportWalletActivity.this, privateKey);
+                StringUtils.copy(ModifyAndExportWalletActivityDialog.this, privateKey);
                 ToastUtil.showToastLonger(getAppString(R.string.copy_done_private));
                 break;
             case FLAG_EXPORT_KS:
-                StringUtils.copy(ModifyAndExportWalletActivity.this, json);
+                StringUtils.copy(ModifyAndExportWalletActivityDialog.this, json);
                 ToastUtil.showToastLonger(getAppString(R.string.copy_done_ks));
                 break;
         }
 
+    }
+
+    @Override
+    public void onUpdateWalletSuccess(WalletBeanNew wallet) {
+        mWallet = wallet;
+        hideProgress();
+        ToastUtil.showShortToast(getAppString(R.string.modify_password_success));
+    }
+
+    @Override
+    public void onUpdateWalletFailure(String error) {
+        ToastUtil.showShortToast(getAppString(R.string.modify_password_failure));
+        hideProgress();
     }
 }

@@ -43,7 +43,7 @@ public class UpdateModelModel implements IUpdateModel {
                     if (AppUtil.getVersionCode(App.mContext) < updateBean.getData().get(0).getVersion_code()) {
                         callback.onCheckForUpdateNeedUpdate(updateBean, updateBean.getData().get(0).getMust_update());
                     } else {
-                        LoggerUtils.j("update: 没有新版本");
+                        LoggerUtils.i("update: 没有新版本");
                         callback.onCheckForUpdateNoNewVersion();
                     }
 

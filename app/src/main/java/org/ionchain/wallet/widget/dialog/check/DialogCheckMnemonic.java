@@ -136,18 +136,18 @@ public class DialogCheckMnemonic extends AbsBaseDialog implements View.OnClickLi
     public void onClick(View v) {
         if (v == rightBtn) {
             // Handle clicks for rightBtn
-            String m1 = mnemonic1.getText().toString().trim();
-            String m2 = mnemonic2.getText().toString().trim();
-            String m3 = mnemonic3.getText().toString().trim();
-            String m4 = mnemonic4.getText().toString().trim();
-            String m5 = mnemonic5.getText().toString().trim();
-            String m6 = mnemonic6.getText().toString().trim();
-            String m7 = mnemonic7.getText().toString().trim();
-            String m8 = mnemonic8.getText().toString().trim();
-            String m9 = mnemonic9.getText().toString().trim();
-            String m10 = mnemonic10.getText().toString().trim();
-            String m11 = mnemonic11.getText().toString().trim();
-            String m12 = mnemonic12.getText().toString().trim();
+            String m1 = mnemonic1.getText().toString().trim().toLowerCase();
+            String m2 = mnemonic2.getText().toString().trim().toLowerCase();
+            String m3 = mnemonic3.getText().toString().trim().toLowerCase();
+            String m4 = mnemonic4.getText().toString().trim().toLowerCase();
+            String m5 = mnemonic5.getText().toString().trim().toLowerCase();
+            String m6 = mnemonic6.getText().toString().trim().toLowerCase();
+            String m7 = mnemonic7.getText().toString().trim().toLowerCase();
+            String m8 = mnemonic8.getText().toString().trim().toLowerCase();
+            String m9 = mnemonic9.getText().toString().trim().toLowerCase();
+            String m10 = mnemonic10.getText().toString().trim().toLowerCase();
+            String m11 = mnemonic11.getText().toString().trim().toLowerCase();
+            String m12 = mnemonic12.getText().toString().trim().toLowerCase();
             if (TextUtils.isEmpty(m1)
                     || TextUtils.isEmpty(m2)
                     || TextUtils.isEmpty(m3)

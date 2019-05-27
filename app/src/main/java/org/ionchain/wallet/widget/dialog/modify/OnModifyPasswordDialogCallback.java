@@ -6,7 +6,7 @@ package org.ionchain.wallet.widget.dialog.modify;
  * @author xubinbin
  * @date 2019/03/12
  */
-public interface OnModifyPasswordCallback {
+public interface OnModifyPasswordDialogCallback {
     /** 确定修改
      * @param currentPassword 当前密码
      * @param newPassword 新密码

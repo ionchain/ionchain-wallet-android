@@ -1,5 +1,7 @@
 package org.ionchain.wallet.bean;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -129,5 +131,30 @@ public class UpdateBean implements Serializable {
         public void setLanguage(String language) {
             this.language = language;
         }
+
+        @NotNull
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id='" + id + '\'' +
+                    ", has_new_version='" + has_new_version + '\'' +
+                    ", must_update='" + must_update + '\'' +
+                    ", version_number='" + version_number + '\'' +
+                    ", version_code=" + version_code +
+                    ", update_info='" + update_info + '\'' +
+                    ", url='" + url + '\'' +
+                    ", language='" + language + '\'' +
+                    '}';
+        }
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "UpdateBean{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

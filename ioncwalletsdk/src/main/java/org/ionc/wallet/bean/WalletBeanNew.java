@@ -74,7 +74,16 @@ public class WalletBeanNew implements Parcelable {
     private boolean isMainWallet;
 
 
+    /**
+     * RMB价格 缓存
+     */
     private String rmb;
+
+    /**
+     *  是否是轻钱包
+     */
+    private boolean light;
+
 
     @Override
     public int describeContents() {
@@ -96,6 +105,7 @@ public class WalletBeanNew implements Parcelable {
         dest.writeByte(this.chosen ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isMainWallet ? (byte) 1 : (byte) 0);
         dest.writeString(this.rmb);
+        dest.writeByte(this.light ? (byte) 1 : (byte) 0);
     }
 
     public Long getId() {
@@ -202,6 +212,14 @@ public class WalletBeanNew implements Parcelable {
         this.rmb = rmb;
     }
 
+    public boolean getLight() {
+        return this.light;
+    }
+
+    public void setLight(boolean light) {
+        this.light = light;
+    }
+
     public WalletBeanNew() {
     }
 
@@ -219,13 +237,14 @@ public class WalletBeanNew implements Parcelable {
         this.chosen = in.readByte() != 0;
         this.isMainWallet = in.readByte() != 0;
         this.rmb = in.readString();
+        this.light = in.readByte() != 0;
     }
 
-    @Generated(hash = 1916511599)
+    @Generated(hash = 199591911)
     public WalletBeanNew(Long id, String privateKey, String name, String address,
             String public_key, String balance, String keystore, String password,
             Integer mIconIndex, String mnemonic, boolean chosen, boolean isMainWallet,
-            String rmb) {
+            String rmb, boolean light) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -239,6 +258,7 @@ public class WalletBeanNew implements Parcelable {
         this.chosen = chosen;
         this.isMainWallet = isMainWallet;
         this.rmb = rmb;
+        this.light = light;
     }
 
     public static final Creator<WalletBeanNew> CREATOR = new Creator<WalletBeanNew>() {
@@ -252,23 +272,4 @@ public class WalletBeanNew implements Parcelable {
             return new WalletBeanNew[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "WalletBeanNew{" +
-                "id=" + id +
-                ", privateKey='" + privateKey + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", public_key='" + public_key + '\'' +
-                ", balance='" + balance + '\'' +
-                ", keystore='" + keystore + '\'' +
-                ", password='" + password + '\'' +
-                ", mIconIndex=" + mIconIndex +
-                ", mnemonic='" + mnemonic + '\'' +
-                ", chosen=" + chosen +
-                ", isMainWallet=" + isMainWallet +
-                ", rmb='" + rmb + '\'' +
-                '}';
-    }
 }

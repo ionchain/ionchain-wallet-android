@@ -26,7 +26,7 @@ import org.ionchain.wallet.widget.dialog.base.AbsBaseDialog;
  * @author xubinbin
  * @date 2019/03/12
  */
-public class ModifyDialog extends AbsBaseDialog implements View.OnClickListener {
+public class ModifyPasswordDialog extends AbsBaseDialog implements View.OnClickListener {
     private AppCompatEditText modifyDialogCurrentPasswordEt;
     private AppCompatEditText newPasswordEt;
     private ImageView showNewPasswordImg;
@@ -43,7 +43,7 @@ public class ModifyDialog extends AbsBaseDialog implements View.OnClickListener 
     private boolean newPasswordIsShow = false;
     private boolean newPasswordAgainIsShow = false;
 
-    private OnModifyPasswordCallback modifyPasswordCallback;
+    private OnModifyPasswordDialogCallback modifyPasswordCallback;
 
 
     /**
@@ -136,7 +136,7 @@ public class ModifyDialog extends AbsBaseDialog implements View.OnClickListener 
         }
     }
 
-    public ModifyDialog(@NonNull Context context, OnModifyPasswordCallback callback) {
+    public ModifyPasswordDialog(@NonNull Context context, OnModifyPasswordDialogCallback callback) {
         super(context);
         modifyPasswordCallback = callback;
     }

@@ -37,6 +37,7 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
         public final static Property Chosen = new Property(10, boolean.class, "chosen", false, "CHOSEN");
         public final static Property IsMainWallet = new Property(11, boolean.class, "isMainWallet", false, "IS_MAIN_WALLET");
         public final static Property Rmb = new Property(12, String.class, "rmb", false, "RMB");
+        public final static Property Light = new Property(13, boolean.class, "light", false, "LIGHT");
     }
 
 
@@ -64,7 +65,8 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
                 "\"MNEMONIC\" TEXT," + // 9: mnemonic
                 "\"CHOSEN\" INTEGER NOT NULL ," + // 10: chosen
                 "\"IS_MAIN_WALLET\" INTEGER NOT NULL ," + // 11: isMainWallet
-                "\"RMB\" TEXT);"); // 12: rmb
+                "\"RMB\" TEXT," + // 12: rmb
+                "\"LIGHT\" INTEGER NOT NULL );"); // 13: light
     }
 
     /** Drops the underlying database table. */
@@ -133,6 +135,7 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
         if (rmb != null) {
             stmt.bindString(13, rmb);
         }
+        stmt.bindLong(14, entity.getLight() ? 1L: 0L);
     }
 
     @Override
@@ -195,6 +198,7 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
         if (rmb != null) {
             stmt.bindString(13, rmb);
         }
+        stmt.bindLong(14, entity.getLight() ? 1L: 0L);
     }
 
     @Override
@@ -217,7 +221,8 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // mnemonic
             cursor.getShort(offset + 10) != 0, // chosen
             cursor.getShort(offset + 11) != 0, // isMainWallet
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // rmb
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // rmb
+            cursor.getShort(offset + 13) != 0 // light
         );
         return entity;
     }
@@ -237,6 +242,7 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
         entity.setChosen(cursor.getShort(offset + 10) != 0);
         entity.setIsMainWallet(cursor.getShort(offset + 11) != 0);
         entity.setRmb(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setLight(cursor.getShort(offset + 13) != 0);
      }
     
     @Override

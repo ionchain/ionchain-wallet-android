@@ -46,7 +46,7 @@ import org.ionchain.wallet.mvp.presenter.node.IONCNodePresenter;
 import org.ionchain.wallet.mvp.view.activity.address.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
-import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivityDialog;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecordActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
@@ -383,7 +383,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 /*
                  *  将币价信息携带过去
                  */
-                skip(ModifyAndExportWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
+                skip(ModifyAndExportWalletActivityDialog.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
             }
         });
         /*
