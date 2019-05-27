@@ -109,23 +109,15 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                     return;
                 }
                 dialogPasswordCheck = new DialogPasswordCheck(mActivity);
-                dialogPasswordCheck.setBtnClickedListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogPasswordCheck.dismiss();
+                dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
+                    //主链节点检查
+                    if ("".equals(mNodeIONC)) {
+                        ToastUtil.showToastLonger(getAppString(R.string.please_refresh));
+                        return;
                     }
-                }, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //主链节点检查
-                        if ("".equals(mNodeIONC)) {
-                            ToastUtil.showToastLonger(getAppString(R.string.please_refresh));
-                            return;
-                        }
-                        //检查密码是否正确
-                        String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew,pwd_input, mKsPath, TxActivity.this); //转账
-                    }
+                    //检查密码是否正确
+                    String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
+                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew,pwd_input, mKsPath, TxActivity.this); //转账
                 }).show();
 
             }
@@ -196,13 +188,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void OnTxSuccess(String hashTx) {
         ToastUtil.showToastLonger(getAppString(R.string.submit_success));
-        dialogPasswordCheck.dismiss();
+        hideProgress();
     }
 
     @Override
     public void onTxFailure(String error) {
+        hideProgress();
         ToastUtil.showToastLonger(getAppString(R.string.submit_failure));
-        dialogPasswordCheck.dismiss();
     }
 
     @SuppressLint("SetTextI18n")
@@ -223,6 +215,8 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      */
     @Override
     public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
+        dialogPasswordCheck.dismiss();
+        showProgress(getAppString(R.string.please_wait));
         final String toAddress = txToAddressEt.getText().toString();
         final String txAccount = txAccountEt.getText().toString();
         TransactionHelper helper = new TransactionHelper()

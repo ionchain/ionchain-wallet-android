@@ -147,26 +147,20 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
         mImmersionBar.titleView(ioncTitleBar).statusBarDarkFont(true).execute();
         ioncTitleBar.setTitle(mWallet.getName());
         ioncTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
-        ioncTitleBar.setLeftBtnCLickedListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivityDialog.this);
-                finish();
-            }
+        ioncTitleBar.setLeftBtnCLickedListener(v -> {
+            SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivityDialog.this);
+            finish();
         });
-        ioncTitleBar.setRightTextCLickedListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
-                    mWallet.setName(walletNameEt.getText().toString());
-                    ioncTitleBar.setTitle(walletNameEt.getText().toString());
-                    SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivityDialog.this);
-                    IONCWalletSDK.getInstance().updateWallet(mWallet);
-                } else {
-                    ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
-                }
-
+        ioncTitleBar.setRightTextCLickedListener(v -> {
+            if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
+                mWallet.setName(walletNameEt.getText().toString());
+                ioncTitleBar.setTitle(walletNameEt.getText().toString());
+                SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivityDialog.this);
+                IONCWalletSDK.getInstance().updateWallet(mWallet);
+            } else {
+                ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
             }
+
         });
     }
 
@@ -309,7 +303,9 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
      * @param newPasswordAgain 重复新密码
      */
     @Override
-    public void onModifyDialogParam(String currentPassword, String newPassword, String newPasswordAgain) {
+    public void onModifyPasswordDialogParam(String currentPassword, String newPassword, String newPasswordAgain) {
+        mModifyPasswordDialog.dismiss();
+        showProgress(getAppString(R.string.modifying_password));
         this.newPassword = newPassword;
         this.currentPassword = currentPassword;
         IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, currentPassword, mWallet.getKeystore(), this); //修改密码对话框
@@ -345,11 +341,10 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
                 showImportPrivateKeyDialog(bean.getPrivateKey());
                 break;
             case FLAG_MODIFY_PWD: //修改密码
-                mModifyPasswordDialog.dismiss();
+                hideProgress();
                 LoggerUtils.i("wallet -bean" + bean);
                 IONCWalletSDK.getInstance()
                         .updatePasswordAndKeyStore(bean, newPassword, this);
-                showProgress(getAppString(R.string.modifying_password));
                 break;
         }
 
@@ -360,7 +355,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
         LoggerUtils.e(errorMsg);
         ToastUtil.showToastLonger(getAppString(R.string.please_check_password));
         if (mModifyPasswordDialog != null) {
-            mModifyPasswordDialog.dismiss();
+            hideProgress();
         }
         if (passwordCheck != null) {
             passwordCheck.dismiss(); //onCheckWalletPasswordFailure

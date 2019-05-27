@@ -12,5 +12,5 @@ public interface OnModifyPasswordDialogCallback {
      * @param newPassword 新密码
      * @param newPasswordAgain 重复新密码
      */
-    void onModifyDialogParam(String currentPassword, String newPassword, String newPasswordAgain);
+    void onModifyPasswordDialogParam(String currentPassword, String newPassword, String newPasswordAgain);
 }

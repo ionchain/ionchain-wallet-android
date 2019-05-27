@@ -132,7 +132,7 @@ public class ModifyPasswordDialog extends AbsBaseDialog implements View.OnClickL
                     return;
                 }
             }
-            modifyPasswordCallback.onModifyDialogParam(currentPassword, newPassword, newPasswordAgain);
+            modifyPasswordCallback.onModifyPasswordDialogParam(currentPassword, newPassword, newPasswordAgain);
         }
     }
 
