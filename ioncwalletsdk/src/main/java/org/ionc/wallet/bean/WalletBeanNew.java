@@ -80,9 +80,9 @@ public class WalletBeanNew implements Parcelable {
     private String rmb;
 
     /**
-     *  是否是轻钱包
+     *  是否是轻钱包,本钱包默认的就是轻钱包
      */
-    private boolean light;
+    private boolean light = true;
 
 
     @Override

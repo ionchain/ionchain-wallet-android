@@ -27,6 +27,7 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.web3j.crypto.WalletUtils;
 
 import java.util.List;
 
@@ -167,6 +168,10 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
                     return;
                 }
+                if (WalletUtils.isValidPrivateKey(mPrivateKey.getText().toString())) {
+                    ToastUtil.showToastLonger(getResources().getString(com.ionc.wallet.sdk.R.string.error_private_key));
+                    return;
+                }
                 if (nameEt.getText() == null) {
                     ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
                     return;
@@ -285,10 +290,10 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
             LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功");
             ToastUtil.showToastLonger(getResources().getString(R.string.import_success));
             IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
-            if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
+            if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
                 LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功--只有一个钱包");
                 skip(MainActivity.class);
-            }else {
+            } else {
                 skipToBack();
             }
         }
@@ -307,7 +312,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         ToastUtil.showToastLonger(getResources().getString(R.string.update_success));
         skipToBack();
     }
-
 
 
     @Override

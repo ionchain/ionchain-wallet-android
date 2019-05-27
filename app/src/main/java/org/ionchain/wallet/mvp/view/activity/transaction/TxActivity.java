@@ -124,7 +124,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                         }
                         //检查密码是否正确
                         String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(mWalletBeanNew,pwd_input, mKsPath, TxActivity.this);
+                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew,pwd_input, mKsPath, TxActivity.this); //转账
                     }
                 }).show();
 

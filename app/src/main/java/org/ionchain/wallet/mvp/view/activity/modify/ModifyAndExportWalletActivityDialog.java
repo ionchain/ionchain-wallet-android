@@ -230,7 +230,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
                             return;
                         }
                         String p_input = deleteWallet.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(mWallet, p_input, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this);
+                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, p_input, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this); //删除钱包的时候检查密码
                     }
                 });
                 deleteWallet.show();//删除钱包
@@ -255,7 +255,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
                     public void onClick(View v) {
                         /*比对密码是否正确*/
                         String pwd1 = exportPK.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this);
+                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this); //导出私钥
                     }
                 });
                 exportPK.show();//导出私钥
@@ -274,7 +274,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
                     public void onClick(View v) {
                         /*比对密码是否正确*/
                         String pwd1 = exportKS.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this);
+                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this);//导出KS
                     }
                 });
                 exportKS.show(); //导出KS
@@ -312,7 +312,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
     public void onModifyDialogParam(String currentPassword, String newPassword, String newPasswordAgain) {
         this.newPassword = newPassword;
         this.currentPassword = currentPassword;
-        IONCWalletSDK.getInstance().checkPassword(mWallet, currentPassword, mWallet.getKeystore(), this);
+        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, currentPassword, mWallet.getKeystore(), this); //修改密码对话框
     }
 
 

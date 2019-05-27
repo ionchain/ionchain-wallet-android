@@ -43,4 +43,5 @@
     <string name="check_error">Check Failure</string>
     <string name="create_wallte_failur">Failed to create the seed</string>
     <string name="transacton_failed">Transaction failure</string>
+    <string name="error_private_key">非法私钥</string>
 </resources>
