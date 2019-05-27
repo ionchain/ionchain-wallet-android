@@ -29,7 +29,6 @@ public class ConstantUrl {
     public final static String URL_DEVICES_UNBIND_POST = URL_DEVICES_HOST + "/api/wallet/v1/devices/unbind";
 
 
-    public final static String URL_TX_RECORD_GET = "http://explorer.blockchainbrother.com/v1/transaction";
 //    public final static String URL_TX_RECORD_GET = "http://192.168.23.164:3001/v1/transaction";//测试
 
 //    public final static String URL_UPDATE_APK = "http://walletapi.ionchain.org/api/version";
@@ -47,5 +46,6 @@ public class ConstantUrl {
     private final static String HOST_PRICE = "http://explorer.ionchain.org";
     public final static String URL_USD_PRICE = HOST_PRICE + "/v1/version";   //美元价格
     public final static String URL_USD_EX_RATE_RMB_PRICE = HOST_PRICE + "/v1/currency";   //人民币兑美元汇率
+    public final static String URL_TX_RECORD_GET = HOST_PRICE + "/v1/transaction";   //交易记录
 
 }

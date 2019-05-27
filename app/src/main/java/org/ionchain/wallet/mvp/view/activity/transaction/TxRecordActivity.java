@@ -19,11 +19,12 @@ import org.ionchain.wallet.mvp.presenter.transcation.TxRecordPresenter;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TxRecordActivity extends AbsBaseActivity implements OnTxRecordCallback, OnLoadingView, OnRefreshListener {
     private CommonAdapter adapterLv;
-    private List<TxRecoderBean.DataBean.ItemBean> itemBeans;
+    private List<TxRecoderBean.DataBean.ItemBean> itemBeans = new ArrayList<>();
     private String address;
     private TxRecordPresenter presenter;
     private SmartRefreshLayout mSmartRefreshLayout;
