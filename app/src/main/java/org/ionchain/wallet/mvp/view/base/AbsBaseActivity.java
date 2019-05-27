@@ -304,6 +304,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
             skip(MainActivity.class);
         } else if (mActivityFrom.equals(ConstantActivitySkipTag.INTENT_FROM_MANAGER_ACTIVITY)) {
             skip(ManageWalletActivity.class);
+//            finish();
         }
     }
 }

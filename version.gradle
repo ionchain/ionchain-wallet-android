@@ -16,5 +16,4 @@ ext{
     extRecycleViewVersion = '28.0.0'
     extDesignVersion = '28.0.0'
     extConstraintLayoutVersion = '1.1.3'
-
 }

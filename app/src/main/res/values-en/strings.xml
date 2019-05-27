@@ -183,7 +183,7 @@
     <string name="balance_usd_rate_rmb">It is being converted into RMB</string>
     <string name="ionc_tag">IONC</string>
     <string name="version_info_right_btn_text">Update</string>
-    <string name="version_info_massage">Version:v_1.0.0-alpha\n\nContent:\n\n1.Added according to the system language Settings to switch between Chinese and English. \n\n2.Optimizes the prompts given to users when they are not connected to the main network. \n\n3.New version information, automatic update and manual update function in App. Item n add IONC and RMB value relationship\n</string>
+    <string name="version_info_massage">Version:v1.0.4\n\nContent :\n\n1. Compatible with ethereum standard wallet\n\n2. Mnemonic verification is case-compatible</string>
     <string name="error_net_web_view_hint">Network request failed</string>
     <string name="forbidden_photo">Please do not take photos or screenshots. Please copy your mnemonic carefully!</string>
     <string name="restore_by_mnemonics_hint">Through mnemonic, can restore the wallet, do not need the original password, please properly keep</string>

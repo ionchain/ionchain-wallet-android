@@ -168,7 +168,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                     ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
                     return;
                 }
-                if (WalletUtils.isValidPrivateKey(mPrivateKey.getText().toString())) {
+                if (!WalletUtils.isValidPrivateKey(mPrivateKey.getText().toString())) {
                     ToastUtil.showToastLonger(getResources().getString(com.ionc.wallet.sdk.R.string.error_private_key));
                     return;
                 }

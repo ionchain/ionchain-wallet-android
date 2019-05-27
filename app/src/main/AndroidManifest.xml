@@ -82,7 +82,7 @@
         <activity
             android:name=".mvp.view.activity.manager.ManageWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity

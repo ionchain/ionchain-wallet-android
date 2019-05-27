@@ -182,7 +182,6 @@
     <string name="balance_usd_rate_rmb">正在转换为人民币</string>
     <string name="ionc_tag">IONC</string>
     <string name="version_info_right_btn_text">检查更新</string>
-    <string name="version_info_massage">当前版本:v_1.0.0-alpha\n\n更新内容:\n\n1.新增根据系统的语言设置切换中英文。 \n\n2.优化连接不上主网的时候给用户的提示。\n\n3.新增版本信息，自动更新和App里手动更新的功能。\n\n4.新增IONC和RMB价值关系\n</string>
     <string name="error_net_web_view_hint">网络请求失败</string>
     <string name="forbidden_photo">请勿拍照或截屏，谨慎抄写您的助记词！</string>
     <string name="restore_by_mnemonics_hint">通过助记词，可以恢复钱包，不需要原始密码,请妥善保管</string>
@@ -196,4 +195,5 @@
     <string name="error_net_getting_usd">获取美元价格失败</string>
     <string name="error_net_getting_rate_rmb">获取汇率信息失败</string>
     <string name="error_net_request_update">更新检查请求出错</string>
+    <string name="version_info_massage">版本号:v1.0.4\n\n版本信息:\n\n1.兼容以太坊标准钱包\n\n2.助记词验证兼容大小写\n\n</string>
 </resources>
