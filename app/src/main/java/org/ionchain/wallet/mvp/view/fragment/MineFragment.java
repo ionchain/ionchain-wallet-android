@@ -98,23 +98,17 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
         version_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = "";
                 String info = "";
-                String btn_tx = "";
 
                 if (isCurrentLanguageZN()) {
-                    title = "版本信息";
-                    info = "中文信息";
-                    btn_tx = "检查更细";
+                    info = getAppString(R.string.version_info_zn);
                 } else {
-                    title = "Version Info";
-                    info = "英文信息";
-                    btn_tx = "update";
+                    info = getAppString(R.string.version_info_en);
                 }
                 mCurrentVersionInfoDialog = new VersionInfoDialog(mActivity, "", MineFragment.this)
                         .setTitleName(getAppString(R.string.version_info_title))
                         .setSureBtnName(getAppString(R.string.version_info_right_btn_text))
-                        .setVersionInfo(getAppString(R.string.version_info_massage));
+                        .setVersionInfo(info);
                 mCurrentVersionInfoDialog.show();
             }
         });

@@ -23,11 +23,7 @@
 
         <RelativeLayout
             android:id="@+id/walletManageRLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/h60"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp">
+            style="@style/A_Style_tab_mine_item_container">
 
             <TextView
                 style="@style/A_Style_tab_mine"

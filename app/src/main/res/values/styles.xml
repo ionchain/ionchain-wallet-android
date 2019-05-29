@@ -245,7 +245,7 @@
 
     <style name="A_Style_tab_mine_item_container">
         <item name="android:layout_marginLeft">@dimen/padding_size_16dp</item>
-        <item name="android:layout_marginTop">@dimen/padding_size_16dp</item>
+        <!--<item name="android:layout_marginTop">@dimen/padding_size_16dp</item>-->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/h60</item>
         <item name="android:layout_marginRight">@dimen/padding_size_16dp</item>

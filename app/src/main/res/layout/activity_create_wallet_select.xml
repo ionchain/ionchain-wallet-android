@@ -18,7 +18,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
+                android:text="@string/ionc_app_name"
                 android:textColor="@color/white"
                 android:textSize="@dimen/txt_22sp"
                 android:lineSpacingExtra="@dimen/h5"

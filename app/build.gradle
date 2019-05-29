@@ -3,7 +3,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+
 android {
+    def appName = """IONC Wallet"""   //APP的名字
+    def commonAppId = "org.ionchain.wallet"
+    def appIdHuaWei = "org.ionchain.wallet.huawei"
+    def appIdXiaoMi = "org.ionchain.wallet.xiaomi"
     compileSdkVersion extCompileSdkVersion
     buildToolsVersion extBuildToolsVersion
     compileOptions {
@@ -25,26 +30,40 @@ android {
 
     signingConfigs {
         key {
-            try{
-                storeFile file("ionchainwallet.keystore")//签名文件
-                storePassword KEYSTORE_PASSWORD
-                keyAlias "ionchain"
-                keyPassword KEY_PASSWORD
-                v2SigningEnabled false
-            }  catch(ex) {
-                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
-            }
+            storeFile file("ionchainwallet.keystore")//签名文件
+            storePassword KEYSTORE_PASSWORD
+            keyAlias "ionchain"
+            keyPassword KEY_PASSWORD
+            v2SigningEnabled false
         }
     }
-    
+
     buildTypes {
         debug {
             signingConfig signingConfigs.key
-            buildConfigField "String","URL_PROTOCOL_CN","\"${URL_PROTOCOL_CN}\""
-            buildConfigField "String","URL_PROTOCOL_EN","\"${URL_PROTOCOL_EN}\""
-            buildConfigField "String","URL_ABOUTUS_CN","\"${URL_ABOUTUS_CN}\""
-            buildConfigField "String","URL_ABOUT_US_EN","\"${URL_ABOUT_US_EN}\""
-//            buildConfigField("boolean","DEBUG","true")
+            buildConfigField "String", "URL_PROTOCOL_CN", "\"${URL_PROTOCOL_CN}\""
+            buildConfigField "String", "URL_PROTOCOL_EN", "\"${URL_PROTOCOL_EN}\""
+            buildConfigField "String", "URL_ABOUTUS_CN", "\"${URL_ABOUTUS_CN}\""
+            buildConfigField "String", "URL_ABOUT_US_EN", "\"${URL_ABOUT_US_EN}\""
+            resValue "string", "ionc_app_name", appName
+            resValue "string", "version_info_zn", """
+\\n
+版本号:v1.0.5
+\\n\\n
+版本信息:
+\\n\\n
+app重命名为 ${appName}
+\\n
+"""
+            resValue "string", "version_info_en", """
+\\n
+Version:v1.0.5
+\\n\\n
+Content :
+\\n\\n
+app renamed to ${appName}
+\\n
+"""
 
         }
         release {
@@ -52,40 +71,52 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.key
-            buildConfigField "String","URL_PROTOCOL_CN","\"${URL_PROTOCOL_CN}\""
-            buildConfigField "String","URL_PROTOCOL_EN","\"${URL_PROTOCOL_EN}\""
-            buildConfigField "String","URL_ABOUTUS_CN","\"${URL_ABOUTUS_CN}\""
-            buildConfigField "String","URL_ABOUT_US_EN","\"${URL_ABOUT_US_EN}\""
-//            buildConfigField("boolean","DEBUG","false")
+            buildConfigField "String", "URL_PROTOCOL_CN", "\"${URL_PROTOCOL_CN}\""
+            buildConfigField "String", "URL_PROTOCOL_EN", "\"${URL_PROTOCOL_EN}\""
+            buildConfigField "String", "URL_ABOUTUS_CN", "\"${URL_ABOUTUS_CN}\""
+            buildConfigField "String", "URL_ABOUT_US_EN", "\"${URL_ABOUT_US_EN}\""
+            resValue "string", "ionc_app_name", appName
+            resValue "string", "version_info_zn", """
+\\n
+版本号:v1.0.5
+\\n\\n
+版本信息:
+\\n\\n
+app重命名为 ${appName}
+\\n
+"""
+            resValue "string", "version_info_en", """
+\\n
+Version:v1.0.5
+\\n\\n
+Content :
+\\n\\n
+app renamed to ${appName}
+\\n
+"""
         }
     }
 
 //    产品维度定义,此处定义一个渠道 channel
     flavorDimensions "channel"
     productFlavors {
-        def appName = "IONChainWallet"
-        def commonAppId = "org.ionchain.wallet"
-        def appIdHuaWei = "org.ionchain.wallet.huawei"
-        def appIdXiaoMi = "org.ionchain.wallet.xiaomi"
-        IONChainWallet {
+
+        IONCWallet {
             dimension "channel"
             manifestPlaceholders.put("appId", commonAppId)
             manifestPlaceholders.put("file_paths", "@xml/file_paths")
-            manifestPlaceholders.put("app_name", appName)
         }
         xiaomi {
             dimension "channel"
             applicationIdSuffix ".xiaomi"
             manifestPlaceholders.put("appId", appIdXiaoMi)
             manifestPlaceholders.put("file_paths", "@xml/file_paths")
-            manifestPlaceholders.put("app_name", appName)
         }
         huawei {
             dimension "channel"
             applicationIdSuffix ".huawei"
             manifestPlaceholders.put("appId", appIdHuaWei)
             manifestPlaceholders.put("file_paths", "@xml/file_paths")
-            manifestPlaceholders.put("app_name", appName)
         }
     }
     android.applicationVariants.all { variant ->
@@ -98,7 +129,7 @@ android {
                 def date = new Date()
                 def formattedDate = date.format('yyyyMMdd')
 
-                def apkName = flavor.name  + separator + "v" + versionName + separator + buildType+ ".apk"
+                def apkName = flavor.name + separator + "v" + versionName + separator + buildType + ".apk"
                 output.outputFileName = apkName
             }
         }
