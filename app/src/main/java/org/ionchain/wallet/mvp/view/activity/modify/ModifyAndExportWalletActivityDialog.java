@@ -31,6 +31,7 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
+import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
@@ -304,6 +305,10 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
      */
     @Override
     public void onModifyPasswordDialogParam(String currentPassword, String newPassword, String newPasswordAgain) {
+        if (!check(newPassword) || !check(newPasswordAgain)) {
+            ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
+            return;
+        }
         mModifyPasswordDialog.dismiss();
         showProgress(getAppString(R.string.modifying_password));
         this.newPassword = newPassword;
