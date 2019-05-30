@@ -23,12 +23,12 @@ import static org.ionchain.wallet.constant.ConstantUrl.URL_TX_RECORD_GET;
  * <p>
  * TIME 2018/11/13 16:15
  */
-public class TxRecoderModel implements ITxRecoderModel {
+public class TxRecordModel implements ITxRecoderModel {
     final HttpParams params = new HttpParams();
 
 
     @Override
-    public void getTxRecoder(String type, String key, String pageNumber, String pageSize, final OnTxRecordCallback callback) {
+    public void getTxRecord(String type, String key, String pageNumber, String pageSize, final OnTxRecordCallback callback) {
         params.clear();
         params.put("type", type);
         params.put("key", key);

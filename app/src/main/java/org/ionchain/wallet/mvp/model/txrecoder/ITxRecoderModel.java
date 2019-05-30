@@ -17,5 +17,5 @@ public interface ITxRecoderModel {
      * @param pageSize
      * @param callback
      */
-    void getTxRecoder(String type, String key, String pageNumber, String pageSize, OnTxRecordCallback callback);
+    void getTxRecord(String type, String key, String pageNumber, String pageSize, OnTxRecordCallback callback);
 }

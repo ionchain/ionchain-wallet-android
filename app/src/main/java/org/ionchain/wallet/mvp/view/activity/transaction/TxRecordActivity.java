@@ -67,6 +67,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnTxRecordCallb
     public void onTxRecordSuccess(List<TxRecoderBean.DataBean.ItemBean> beans) {
         itemBeans.addAll(beans);
         adapterLv.notifyDataSetChanged();
+
     }
 
     @Override

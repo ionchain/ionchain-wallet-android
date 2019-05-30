@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 
 import com.lzy.okgo.model.Progress;
 
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.UpdateBean;
 import org.ionchain.wallet.constant.ConstantParams;
@@ -191,9 +192,9 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
 
     @Override
     public void onCheckForUpdateError(String error) {
-        hideProgress();
+        this.hideProgress();
         mCurrentVersionInfoDialog.dismiss();
-        ToastUtil.showShortToast(getAppString(R.string.error_app_update));
+        ToastUtil.showShortToast(this.getAppString(R.string.error_app_update));
     }
 
     @Override
@@ -231,10 +232,10 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
             mLastedVersionInfoDialog.setType(ConstantParams.VERSION_TAG_DOWNLOAD);
             mLastedVersionInfoDialog.show();
         } catch (NullPointerException e) {
+            LoggerUtils.e("" + e.getMessage());
             ToastUtil.showToastLonger(mActivity.getAppString(R.string.error_data_parase));
         }
 
-//        NetUtils.downloadShowDialog(mActivity, url, update_info, v_code, this);
     }
 
     @Override
