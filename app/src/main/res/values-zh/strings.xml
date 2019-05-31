@@ -31,7 +31,7 @@
     <string name="update_msg_title">新版本 ：%s ，请更新后使用！</string>
     <string name="dialog_btn_download">下载</string>
     <string name="download_cancel">取消</string>
-    <string name="error_download">下载出错</string>
+    <string name="error_net_download">下载网络出错</string>
     <string name="protocol_please_read">请先阅读并同意服务及协议</string>
     <string name="protocol_first">开始使用本产品即表示同意</string>
     <string name="protocol_service_agreement">服务协议</string>
@@ -101,7 +101,7 @@
     <string name="btn_close">关闭</string>
     <string name="btn_update">更新</string>
     <string name="version_info_title">版本信息</string>
-    <string name="download_progress_tv">下载进度 %s</string>
+    <string name="download_progress_tv">正在下载……</string>
     <string name="tx_hash">交易哈希 :</string>
     <string name="tx_block">交易区块 :</string>
     <string name="tx_out_addr">转出地址 :</string>
@@ -196,4 +196,5 @@
     <string name="error_net_getting_rate_rmb">获取汇率信息失败</string>
     <string name="error_net_request_update">更新检查请求出错</string>
     <string name="version_info_massage">版本号:v1.0.4\n\n版本信息:\n\n1.兼容以太坊标准钱包\n\n2.助记词验证兼容大小写\n\n</string>
+    <string name="btn_background">后台下载</string>
 </resources>

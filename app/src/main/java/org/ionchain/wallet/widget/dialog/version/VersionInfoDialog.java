@@ -6,13 +6,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.lzy.okgo.model.Progress;
+
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.base.AbsBaseDialog;
+import org.ionchain.wallet.widget.dialog.download.DownloadDialog;
 
 /**
  * 展示 版本信息  检查版本更新
  */
-public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickListener {
+public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickListener, DownloadDialog.OnDownloadCallback {
     private TextView versionInfoTitle;
     private TextView versionInfoContent;
     private Button versionInfoBtnCancel;
@@ -23,16 +27,37 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
     private String version_info_content;
 
 
-    private char type;
+    /**
+     * 是不是必须更新版本
+     */
+    private String mustUpdate;
+    /*
+     * 右侧按钮为更新
+     * */
+    public static final char VERSION_RIGHT_BTN_TYPE_DOWNLOAD_UPDATE = 0;
+    /**
+     *  右侧按钮为下载
+     */
+    public static final char VERSION_RIGHT_BTN_TYPE_DOWNLOAD = 1;
+
+    private static final String DOWNLOAD_MUST_UPDATE_NO = "0";//  不是必须更新，可以取消对话框
+    private static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   必须更新，不可取消
+
+    /**
+     * 右侧按钮的类型 ,默认是检查更新
+     * 1、检查更新
+     * 2、下载
+     */
+    private char rightBtnType = VERSION_RIGHT_BTN_TYPE_DOWNLOAD_UPDATE;
     private String url;
     private boolean cancelable;
 
-    public char getType() {
-        return type;
-    }
-
-    public VersionInfoDialog setType(char type) {
-        this.type = type;
+    /**
+     * @param rightBtnType
+     * @return
+     */
+    public VersionInfoDialog setRightBtnType(char rightBtnType) {
+        this.rightBtnType = rightBtnType;
         return this;
     }
 
@@ -48,37 +73,20 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
     }
 
     /**
+     * @param mustUpdate 是否必须更新
+     * @return
+     */
+    public VersionInfoDialog setMustUpdate(String mustUpdate) {
+        this.mustUpdate = mustUpdate;
+        return this;
+    }
+
+    /**
      * @param name 确定按钮的文字
      * @return 对话框
      */
     public VersionInfoDialog setSureBtnName(String name) {
         btn_name = name;
-        return this;
-    }
-
-    /**
-     * @param name 确定按钮的文字
-     * @return 对话框
-     */
-    public VersionInfoDialog updateSureBtnName(String name) {
-        versionInfoBtnUpdate.setText(name);
-        return this;
-    }
-
-    /**
-     * @param title
-     * @return 对话框
-     */
-    public VersionInfoDialog updateTitle(String title) {
-        versionInfoTitle.setText(title);
-        return this;
-    }
-
-    /**
-     * @return 对话框
-     */
-    public VersionInfoDialog updateVersionInfoContent(String info) {
-        versionInfoContent.setText(info);
         return this;
     }
 
@@ -129,9 +137,20 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == versionInfoBtnCancel) {
-            callback.onVersionDialogLeftBtnClicked(this);
+            if (mustUpdate.equals(DOWNLOAD_MUST_UPDATE_YES)) {
+                ToastUtil.showShort(mActivity.getString(R.string.must_update));
+            } else {
+                dismiss();
+                callback.onDialogVersionCancelBtnClicked(this);
+            }
+
         } else if (v == versionInfoBtnUpdate) {
-            callback.onVersionDialogRightBtnClicked(this, type, url);
+            if (VERSION_RIGHT_BTN_TYPE_DOWNLOAD == rightBtnType) {
+                dismiss();
+                new DownloadDialog(mActivity, url, this, "").setCancelableBydBackKey(false).show();
+            } else {
+                callback.onDialogVersionUpdateBtnClicked(this);
+            }
         }
     }
 
@@ -163,24 +182,43 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
         return this;
     }
 
+    @Override
+    public void onDownloadStart(Progress progress) {
+        callback.onDownloadStart(progress);
+    }
+
+    @Override
+    public void onDownloadError(Progress progress) {
+        callback.onDownloadError(progress);
+    }
+
+    @Override
+    public void onDownloadCancel() {
+        callback.onDownloadCancel();
+    }
+
+    @Override
+    public void onDownloadHide() {
+        callback.onDownloadHide();
+    }
+
     /**
      * 更新按钮点击事件监听函数
      */
-    public interface OnVersionDialogBtnClickedListener {
+    public interface OnVersionDialogBtnClickedListener extends DownloadDialog.OnDownloadCallback {
         /**
-         * 右侧按钮---确定,更新,下载
-         * 欢迎页的 检查更新对话框
-         * @param dialog       信息展示对话框
-         * @param type         对话框的类型:下载,展示(展示对话框有检查更新文字)
-         * @param url 下载地址
+         * 版本对话框。点击检查更新
+         *
+         * @param dialog 信息展示对话框
          */
-        void onVersionDialogRightBtnClicked(VersionInfoDialog dialog, char type, String url);
+        void onDialogVersionUpdateBtnClicked(VersionInfoDialog dialog);
 
         /**
          * 左侧按钮---取消
          *
          * @param dialog 对话框
          */
-        void onVersionDialogLeftBtnClicked(VersionInfoDialog dialog);
+        void onDialogVersionCancelBtnClicked(VersionInfoDialog dialog);
+
     }
 }

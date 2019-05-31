@@ -8,9 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.request.GetRequest;
@@ -30,26 +30,29 @@ import static org.ionchain.wallet.constant.ConstantParams.DOWNLOAD_MUST_UPDATE_Y
 
 public class DownloadDialog extends AbsBaseDialog implements View.OnClickListener {
     private TextView download_progress_tv;
-    private ProgressBar mProgress;
-    private Button mBtnCacncel;
+    private NumberProgressBar mProgress;
+    private Button mBtnCancel;
+    private Button mBtnHide;
     private String url;
 
     private DL mDL;
 
     private DownloadTask task;
 
-    private DownloadCallback mDownloadCallback;
+    private OnDownloadCallback mOnDownloadCallback;
     private String mMustUpdate;
     private boolean cancelable;
 
     private void findViews() {
         download_progress_tv = findViewById(R.id.download_progress_tv);
         mProgress = findViewById(R.id.download_progress_schedule);
-        mBtnCacncel = findViewById(R.id.download_progress_btn_cancel);
+        mBtnCancel = findViewById(R.id.download_progress_btn_cancel);
+        mBtnHide = findViewById(R.id.download_progress_btn_background);
         if (DOWNLOAD_MUST_UPDATE_YES.equals(mMustUpdate)) {
-            mBtnCacncel.setVisibility(View.GONE);
+            mBtnCancel.setVisibility(View.GONE);
         }
-        mBtnCacncel.setOnClickListener(this);
+        mBtnCancel.setOnClickListener(this);
+        mBtnHide.setOnClickListener(this);
     }
 
     /**
@@ -68,23 +71,27 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (v == mBtnCacncel) {
+        if (v == mBtnCancel) {
             dismiss();
             task.remove(true);
-            mDownloadCallback.onDownloadCancel();
+            mOnDownloadCallback.onDownloadCancel();
+        } else if (v == mBtnHide) {
+            dismiss();
+            mOnDownloadCallback.onDownloadHide();
         }
+
     }
 
     /**
      * @param context
      * @param url
      * @param callback
-     * @param must_update   用于隐藏取消下载按钮   在强制更新的时候用到
+     * @param must_update 用于隐藏取消下载按钮   在强制更新的时候用到
      */
-    public DownloadDialog(@NonNull Context context, String url, DownloadCallback callback, String must_update) {
+    public DownloadDialog(@NonNull Context context, String url, OnDownloadCallback callback, String must_update) {
         super(context);
         this.url = url;
-        mDownloadCallback = callback;
+        mOnDownloadCallback = callback;
         mMustUpdate = must_update;
     }
 
@@ -127,7 +134,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
 
         @Override
         public void onStart(Progress progress) {
-            mDownloadCallback.onDownloadStart(progress);
+            mOnDownloadCallback.onDownloadStart(progress);
         }
 
         @Override
@@ -141,7 +148,8 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
         @Override
         public void onError(Progress progress) {
             dismiss();
-            mDownloadCallback.onDownloadError(progress);
+            LoggerUtils.e("下载出错  DownloadDialog" + progress.exception.getMessage());
+            mOnDownloadCallback.onDownloadError(progress);
         }
 
         @Override
@@ -168,7 +176,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
         }
     }
 
-    public interface DownloadCallback {
+    public interface OnDownloadCallback {
         /**
          * 开始下载
          *
@@ -187,6 +195,11 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
          * 取消下载
          */
         void onDownloadCancel();
+
+        /**
+         * 后台下载
+         */
+        void onDownloadHide();
     }
 
     @Override

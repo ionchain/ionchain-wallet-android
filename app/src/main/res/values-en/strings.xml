@@ -32,7 +32,7 @@
     <string name="update_msg_title">New version ：%s ，please update！</string>
     <string name="dialog_btn_download">Download</string>
     <string name="download_cancel">Download cancelled</string>
-    <string name="error_download">Download error</string>
+    <string name="error_net_download">Download error net</string>
     <string name="protocol_please_read">Please read and agree to the service and agreement first</string>
     <string name="protocol_first">"Agreed to    "</string>
     <string name="protocol_service_agreement">The Service Agreement</string>
@@ -102,7 +102,7 @@
     <string name="btn_close">Close</string>
     <string name="btn_update">Update</string>
     <string name="version_info_title">Version Information</string>
-    <string name="download_progress_tv">Download Progress  %s</string>
+    <string name="download_progress_tv">Downloading……</string>
     <string name="tx_hash">Tx hash:</string>
     <string name="tx_block">Tx Block</string>
     <string name="tx_out_addr">Tx-out Address: :</string>
@@ -197,4 +197,5 @@
     <string name="error_net_getting_usd">Failed to obtain dollar price</string>
     <string name="error_net_getting_rate_rmb">Failed to obtain exchange rate</string>
     <string name="error_net_request_update">Update net request error</string>
+    <string name="btn_background">hide</string>
 </resources>

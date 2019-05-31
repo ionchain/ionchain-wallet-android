@@ -28,26 +28,7 @@ public final class ConstantParams {
 
     public static final int FROM_SCAN = 999;
 
-    public static final int DECODE = 1;
-    public static final int DECODE_FAILED = 2;
-    public static final int DECODE_SUCCEEDED = 3;
-    public static final int LAUNCH_PRODUCT_QUERY = 4;
-    public static final int QUIT = 5;
-    public static final int RESTART_PREVIEW = 6;
-    public static final int RETURN_SCAN_RESULT = 7;
-    public static final int FLASH_OPEN = 8;
-    public static final int FLASH_CLOSE = 9;
-    public static final int REQUEST_IMAGE = 10;
-    public static final String CODED_CONTENT = "result";
-    public static final String CODED_BITMAP = "codedBitmap";
 
-
-    /*传递的zxingconfing*/
-
-    public static final String INTENT_ZXING_CONFIG = "zxingConfig";
-
-    public static final String SERVER_PROTOCOL_KEY = "title_name";
-    public static final String SERVER_PROTOCOL_VALUE = "离子链钱包服务协议";
     public static final String PICTURE_FILE_NAME = "ionchainAddress";
 
 
@@ -86,8 +67,8 @@ public final class ConstantParams {
 
     public static final int QRCODE_BIND_DEVICE = 10;
 
-    public static final String DOWNLOAD_MUST_UPDATE_NO = "0";//  可以取消对话框
-    public static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   不可取消
+    public static final String DOWNLOAD_MUST_UPDATE_NO = "0";//  不是必须更新，可以取消对话框
+    public static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   必须更新，不可取消
 
 
 }
