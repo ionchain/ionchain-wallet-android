@@ -27,21 +27,22 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
     private String version_info_content;
 
 
-    /**
-     * 是不是必须更新版本
-     */
-    private String mustUpdate;
     /*
      * 右侧按钮为更新
      * */
     public static final char VERSION_RIGHT_BTN_TYPE_DOWNLOAD_UPDATE = 0;
     /**
-     *  右侧按钮为下载
+     * 右侧按钮为下载
      */
     public static final char VERSION_RIGHT_BTN_TYPE_DOWNLOAD = 1;
 
     private static final String DOWNLOAD_MUST_UPDATE_NO = "0";//  不是必须更新，可以取消对话框
     private static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   必须更新，不可取消
+
+    /**
+     * 是不是必须更新版本
+     */
+    private String mustUpdate = DOWNLOAD_MUST_UPDATE_NO;
 
     /**
      * 右侧按钮的类型 ,默认是检查更新
