@@ -22,6 +22,7 @@ import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnTransationCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.transaction.TransactionHelper;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.NodeBean;
@@ -186,6 +187,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void OnTxSuccess(String hashTx) {
+        LoggerUtils.i(hashTx);
         ToastUtil.showToastLonger(getAppString(R.string.submit_success));
         hideProgress();
     }
