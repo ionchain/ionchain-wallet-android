@@ -32,7 +32,6 @@ public class CommonAdapter<BEAN extends Serializable> extends BaseAdapter {
      * @param itemViewLayout  item的布局文件
      * @param iViewHolderHelper viewholder的接口
      */
-    @SuppressWarnings("unchecked")
     public CommonAdapter(Context context, List<BEAN> iBaseBeanList, int itemViewLayout, IViewHolderHelper iViewHolderHelper) {
         mContext = context;
         mIBaseBeanList = iBaseBeanList;

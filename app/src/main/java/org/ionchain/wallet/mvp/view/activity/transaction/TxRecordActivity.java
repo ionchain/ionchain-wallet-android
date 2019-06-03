@@ -1,7 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity.transaction;
 
 import android.content.Intent;
-import android.view.View;
 import android.widget.ListView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -38,17 +37,12 @@ public class TxRecordActivity extends AbsBaseActivity implements OnTxRecordCallb
     @Override
     protected void initView() {
         mImmersionBar.titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
-        ListView tx_recoder_lv = findViewById(R.id.tx_recoder_lv);
+        ListView tx_record_lv = findViewById(R.id.tx_recoder_lv);
         mSmartRefreshLayout = findViewById(R.id.refresh_tx_record);
         mSmartRefreshLayout.setOnRefreshListener(this);
         adapterLv = new CommonAdapter(this, itemBeans, R.layout.item_txrecoder, new TxRecoderViewHelper());
-        tx_recoder_lv.setAdapter(adapterLv);
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        tx_record_lv.setAdapter(adapterLv);
+        findViewById(R.id.back).setOnClickListener(v -> finish());
     }
 
     @Override
@@ -65,6 +59,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnTxRecordCallb
 
     @Override
     public void onTxRecordSuccess(List<TxRecoderBean.DataBean.ItemBean> beans) {
+        itemBeans.clear();
         itemBeans.addAll(beans);
         adapterLv.notifyDataSetChanged();
 

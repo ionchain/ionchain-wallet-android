@@ -187,7 +187,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void OnTxSuccess(String hashTx) {
-        LoggerUtils.i(hashTx);
+        LoggerUtils.i("交易hash",hashTx);
         ToastUtil.showToastLonger(getAppString(R.string.submit_success));
         hideProgress();
     }
