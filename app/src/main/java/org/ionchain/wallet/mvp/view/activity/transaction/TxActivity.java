@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +71,17 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     private Button txNext;
     private String mNodeIONC = "";
     private SmartRefreshLayout smart_refresh_layout;
+    /**
+     * 节点请求结束
+     */
+    private IONCNodePresenter ioncNodePresenter;
+
+    private boolean tapNext = false;
+    /**
+     *
+     */
+    private String toAddress;
+    private String txAccount;
 
     private void findViews() {
         header = findViewById(R.id.header);
@@ -92,35 +102,20 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     protected void setListener() {
         super.setListener();
         smart_refresh_layout.setOnRefreshListener(this);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyboard();
-                finish();
-            }
+        back.setOnClickListener(v -> {
+            hideKeyboard();
+            finish();
         });
-        txNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String toAddress = txToAddressEt.getText().toString();
-                final String txAccount = txAccountEt.getText().toString();
-                if (StringUtils.isEmpty(toAddress) || StringUtils.isEmpty(txAccount)) {
-                    ToastUtil.showToastLonger(getAppString(R.string.please_check_addr_amount));
-                    return;
-                }
-                dialogPasswordCheck = new DialogPasswordCheck(mActivity);
-                dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
-                    //主链节点检查
-                    if ("".equals(mNodeIONC)) {
-                        ToastUtil.showToastLonger(getAppString(R.string.please_refresh));
-                        return;
-                    }
-                    //检查密码是否正确
-                    String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew,pwd_input, mKsPath, TxActivity.this); //转账
-                }).show();
+        txNext.setOnClickListener(v -> {
+            tapNext = true;
+            toAddress = txToAddressEt.getText().toString();
+            txAccount = txAccountEt.getText().toString();
 
+            if (StringUtils.isEmpty(toAddress) || StringUtils.isEmpty(txAccount)) {
+                ToastUtil.showToastLonger(getAppString(R.string.please_check_addr_amount));
+                return;
             }
+            ioncNodePresenter.getNodes(this);
         });
         txSeekBarIndex.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             /**
@@ -148,12 +143,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
             }
         });
-        scan_address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity, CaptureActivity.class);
-                startActivityForResult(intent, 1);
-            }
+        scan_address.setOnClickListener(v -> {
+            Intent intent = new Intent(mActivity, CaptureActivity.class);
+            startActivityForResult(intent, 1);
         });
     }
 
@@ -163,7 +155,8 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
         txCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
-        new IONCNodePresenter().getNodes(this);
+        ioncNodePresenter = new IONCNodePresenter();
+        ioncNodePresenter.getNodes(this);
     }
 
     @Override
@@ -187,7 +180,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void OnTxSuccess(String hashTx) {
-        LoggerUtils.i("交易hash",hashTx);
+        LoggerUtils.i("交易hash", hashTx);
         ToastUtil.showToastLonger(getAppString(R.string.submit_success));
         hideProgress();
     }
@@ -230,6 +223,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onCheckWalletPasswordFailure(String errorMsg) {
+        LoggerUtils.e("检查密码失败：" + errorMsg);
         ToastUtil.showToastLonger(getAppString(R.string.error_input_password));
     }
 
@@ -251,27 +245,46 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         }
     }
 
+    /**
+     * tapNext 在点击下一步的时候，及准备交易的时候，回去一下主链节点
+     *
+     * @param dataBean 主链节点
+     */
     @Override
     public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
         mNodeIONC = dataBean.get(0).getIonc_node();
-        getNodes();
+        if (!tapNext) {
+            LoggerUtils.i("获取主链节点成功：来自刷新或者初始化余额的时候");
+            getBalance();
+        } else {
+            LoggerUtils.i("获取主链节点成功：来自下一步");
+            tapNext = false;
+            //
+            dialogPasswordCheck = new DialogPasswordCheck(mActivity);
+            dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
+                LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
+                //主链节点检查
+                if ("".equals(mNodeIONC)) {
+                    ToastUtil.showToastLonger(getAppString(R.string.please_refresh));
+                    return;
+                }
+                //检查密码是否正确
+                String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
+                IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mKsPath, TxActivity.this); //转账
+            }).show();
+        }
     }
 
-    /**
-     * 获取主链节点
-     */
-    private void getNodes() {
-        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mAddress, this);
-    }
 
     @Override
     public void onIONCNodeError(String error) {
-        getAppString(R.string.error_net_node);
+        LoggerUtils.i("获取主链节点失败：" + error);
+        ToastUtil.showToastLonger(getAppString(R.string.error_net_node));
     }
 
     @Override
     public void onIONCNodeStart() {
-
+        LoggerUtils.i("正在获取主链节点……");
     }
 
     @Override
@@ -282,6 +295,14 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
         //刷新 获取 主链节点
-        getNodes();
+        ioncNodePresenter.getNodes(this);
     }
+
+    /**
+     * 获取余额
+     */
+    private void getBalance() {
+        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mAddress, this);
+    }
+
 }

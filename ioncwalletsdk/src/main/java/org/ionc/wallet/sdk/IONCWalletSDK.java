@@ -502,7 +502,7 @@ public class IONCWalletSDK {
                     } else {
                         mHandler.post(() -> callback.onTxFailure(appContext.getString(R.string.transacton_failed)));
                     }
-                } catch (final IOException | CipherException | NullPointerException e) {
+                } catch (final IOException | CipherException | NullPointerException | IllegalArgumentException e) {
                     mHandler.post(() -> callback.onTxFailure(e.getMessage()));
                 }
             }
