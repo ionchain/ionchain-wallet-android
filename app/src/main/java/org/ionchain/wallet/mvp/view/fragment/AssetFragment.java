@@ -79,7 +79,6 @@ import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
-import static org.ionchain.wallet.constant.ConstantUrl.URL_NODE_LIST;
 
 
 public class AssetFragment extends AbsBaseFragment implements
@@ -265,7 +264,7 @@ public class AssetFragment extends AbsBaseFragment implements
         walletNameTx.setText(mCurrentWallet.getName());
         Integer id = mCurrentWallet.getMIconIndex();
         wallet_logo.setImageResource(App.sRandomHeader[id]);
-        getNetData(mCurrentWallet); //回到前台 handleShow
+        getNetData(); //回到前台 handleShow
     }
 
     @Override
@@ -290,17 +289,16 @@ public class AssetFragment extends AbsBaseFragment implements
         walletNameTx.setText(mCurrentWallet.getName());
         Integer id = mCurrentWallet.getMIconIndex();
         wallet_logo.setImageResource(App.sRandomHeader[id]);
-        getNetData(mCurrentWallet); //回到前台  onResume
+        getNetData(); //回到前台  onResume
     }
 
     /**
      * 获取网络数据
      *
-     * @param currentWallet 当前钱包
      */
-    private void getNetData(WalletBeanNew currentWallet) {
+    private void getNetData() {
 //        getDeviceList();
-        new IONCNodePresenter().getNodes(URL_NODE_LIST, this);
+        new IONCNodePresenter().getNodes(this);
     }
 
     /**
@@ -573,7 +571,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 ioncBalanceTx.setText(mCurrentWallet.getBalance());
                 rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
                 instance.dismiss();
-                getNetData(mCurrentWallet); //切换钱包
+                getNetData(); //切换钱包
             }
         });
 
@@ -594,7 +592,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        getNetData(mCurrentWallet);  //刷新
+        getNetData();  //刷新
 //        getDeviceList();
     }
 

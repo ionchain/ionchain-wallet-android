@@ -10,11 +10,13 @@ import org.ionchain.wallet.constant.ConstantNetCancelTag;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
 import org.ionchain.wallet.utils.NetUtils;
 
+import static org.ionchain.wallet.utils.UrlUtils.getNodeListUrl;
+
 public class NodeModel implements INodeModel {
 
     @Override
-    public void getNodes(String url, final OnIONCNodeCallback callback) {
-        NetUtils.get(url, new StringCallback() {
+    public void getNodes(final OnIONCNodeCallback callback) {
+        NetUtils.get(getNodeListUrl(), new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();

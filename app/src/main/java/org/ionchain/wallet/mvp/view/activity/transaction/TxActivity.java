@@ -42,7 +42,6 @@ import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
-import static org.ionchain.wallet.constant.ConstantUrl.URL_NODE_LIST;
 
 /**
  * 596928539@qq.com
@@ -163,7 +162,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
         txCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
-        new IONCNodePresenter().getNodes(URL_NODE_LIST, this);
+        new IONCNodePresenter().getNodes(this);
     }
 
     @Override

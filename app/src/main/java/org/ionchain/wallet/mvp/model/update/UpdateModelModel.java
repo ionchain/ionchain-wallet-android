@@ -11,13 +11,12 @@ import org.ionchain.wallet.bean.UpdateBean;
 import org.ionchain.wallet.constant.ConstantNetCancelTag;
 import org.ionchain.wallet.utils.AppUtil;
 import org.ionchain.wallet.utils.NetUtils;
-
-import static org.ionchain.wallet.constant.ConstantUrl.URL_UPDATE_APK;
+import org.ionchain.wallet.utils.UrlUtils;
 
 public class UpdateModelModel implements IUpdateModel {
     @Override
     public void update(final OnCheckUpdateInfoCallback callback) {
-        NetUtils.get(URL_UPDATE_APK, new StringCallback() {
+        NetUtils.get(UrlUtils.getUpdateApkUrl(), new StringCallback() {
 
             @Override
             public void onStart(Request<String, ? extends Request> request) {

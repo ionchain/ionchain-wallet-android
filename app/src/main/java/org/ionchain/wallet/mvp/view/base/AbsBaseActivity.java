@@ -16,6 +16,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
+import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.constant.ConstantActivitySkipTag;
 import org.ionchain.wallet.helper.ActivityHelper;
@@ -47,6 +48,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     private ProgressDialog dialog;
     protected String mActivityFrom = INTENT_FROM_MAIN_ACTIVITY; //来自main
 
+    protected boolean debug = BuildConfig.DEBUG;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocalManageUtil.setLocal(newBase));

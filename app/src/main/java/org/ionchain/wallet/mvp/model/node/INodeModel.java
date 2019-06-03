@@ -7,5 +7,5 @@ public interface INodeModel {
      *
      * @param callback
      */
-    void getNodes(String url ,OnIONCNodeCallback callback);
+    void getNodes(OnIONCNodeCallback callback);
 }

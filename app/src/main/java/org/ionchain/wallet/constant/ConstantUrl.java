@@ -28,17 +28,14 @@ public class ConstantUrl {
      */
     public final static String URL_DEVICES_UNBIND_POST = URL_DEVICES_HOST + "/api/wallet/v1/devices/unbind";
 
+     //测试服
+    public final static String URL_TX_RECORD_GET_DEBUG = "http://192.168.23.164:3001/v1/transaction";//测试
+    public final static String URL_UPDATE_APK_DEBUG = "http://192.168.23.142:3002/version";   //test
+    public final static String URL_USD_PRICE_DEBUG = "http://192.168.23.142:3001/v1/version";   //test
+    public final static String URL_USD_EX_RATE_RMB_PRICE_DEBUG = "http://192.168.23.142:3001/v1/currency";   //test
+    public final static String URL_NODE_LIST_DEBUG = "http://192.168.23.142:3002/version/node";   //新服
 
-//    public final static String URL_TX_RECORD_GET = "http://192.168.23.164:3001/v1/transaction";//测试
-
-//    public final static String URL_UPDATE_APK = "http://walletapi.ionchain.org/api/version";
-
-//    public final static String URL_UPDATE_APK = "http://192.168.23.142:3002/version";   //test
-//    public final static String URL_USD_PRICE = "http://192.168.23.142:3001/v1/version";   //test
-//    public final static String URL_USD_EX_RATE_RMB_PRICE = "http://192.168.23.142:3001/v1/currency";   //test
-
-
-    //
+    //  正式服
     private final static String HOST = "http://walletapi.ionchain.org/api";   //新服
     public final static String URL_UPDATE_APK = HOST + "/version";   //版本信息
     public final static String URL_NODE_LIST = HOST + "/version/node";   //离子链节点

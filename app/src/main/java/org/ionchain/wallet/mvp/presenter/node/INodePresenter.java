@@ -7,6 +7,6 @@ public interface INodePresenter {
      *
      * @param callback
      */
-    void getNodes(String url , OnIONCNodeCallback callback);
+    void getNodes(OnIONCNodeCallback callback);
 
 }

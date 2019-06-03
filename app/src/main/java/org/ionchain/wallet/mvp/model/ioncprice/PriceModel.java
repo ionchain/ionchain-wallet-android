@@ -13,10 +13,10 @@ import org.ionchain.wallet.utils.NetUtils;
 
 import java.util.Objects;
 
-import static org.ionchain.wallet.constant.ConstantUrl.URL_USD_EX_RATE_RMB_PRICE;
-import static org.ionchain.wallet.constant.ConstantUrl.URL_USD_PRICE;
 import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_USD_PRICE;
 import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_USD_RMB_RATE;
+import static org.ionchain.wallet.utils.UrlUtils.getUSDExRateRMBUrl;
+import static org.ionchain.wallet.utils.UrlUtils.getUSDPriceUrl;
 
 public class PriceModel implements IPriceModel {
 
@@ -29,16 +29,16 @@ public class PriceModel implements IPriceModel {
     @Override
     public void getUSDPrice(final OnUSDPriceCallback usdPriceCallback) {
         //todo price
-        NetUtils.get(URL_USD_PRICE, new StringCallback() {
+        NetUtils.get(getUSDPriceUrl(), new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                LoggerUtils.i( "getUSDPrice: $json" + json);
+                LoggerUtils.i("getUSDPrice: $json" + json);
                 USDPriceBean updateBean = NetUtils.gsonToBean(json, USDPriceBean.class);
                 try {
                     usdPriceCallback.onUSDPriceSuccess(Objects.requireNonNull(updateBean).getData().getMarketinfo().getPrice());
 
-                }  catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     usdPriceCallback.onUSDPriceFailure(e.getMessage());
                 }
             }
@@ -68,11 +68,11 @@ public class PriceModel implements IPriceModel {
      */
     @Override
     public void getUSDExchangeRateRMB(final OnUSDExRateRMBCallback usdExRateRMBCallback) {
-        NetUtils.get(URL_USD_EX_RATE_RMB_PRICE, new StringCallback() {
+        NetUtils.get(getUSDExRateRMBUrl(), new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                LoggerUtils.i( "getUSDExchangeRateRMB: $json" + json);
+                LoggerUtils.i("getUSDExchangeRateRMB: $json" + json);
                 USDExRmb usdExRmb = NetUtils.gsonToBean(json, USDExRmb.class);
                 usdExRateRMBCallback.onUSDExRateRMBSuccess(Objects.requireNonNull(usdExRmb).getData());
             }
