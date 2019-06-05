@@ -2,11 +2,12 @@ package org.ionc.wallet.sdk.widget;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.ionc.wallet.sdk.R;
 

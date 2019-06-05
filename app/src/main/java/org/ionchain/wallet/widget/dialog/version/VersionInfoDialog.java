@@ -1,10 +1,11 @@
 package org.ionchain.wallet.widget.dialog.version;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.lzy.okgo.model.Progress;
 

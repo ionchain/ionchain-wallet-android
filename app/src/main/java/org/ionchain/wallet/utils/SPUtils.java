@@ -3,7 +3,8 @@ package org.ionchain.wallet.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.support.v4.content.SharedPreferencesCompat;
+
+import androidx.core.content.SharedPreferencesCompat;
 
 import java.util.Locale;
 

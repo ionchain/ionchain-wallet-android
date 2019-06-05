@@ -7,8 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
+
+import androidx.multidex.MultiDex;
 
 import com.facebook.stetho.Stetho;
 import com.lzy.okgo.OkGo;

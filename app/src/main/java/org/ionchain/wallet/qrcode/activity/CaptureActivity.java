@@ -3,8 +3,9 @@ package org.ionchain.wallet.qrcode.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.ionchain.wallet.R;
 

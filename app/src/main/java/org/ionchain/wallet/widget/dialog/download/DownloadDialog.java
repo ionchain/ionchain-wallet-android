@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.lzy.okgo.OkGo;

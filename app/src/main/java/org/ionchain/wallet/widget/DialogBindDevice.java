@@ -1,14 +1,14 @@
 package org.ionchain.wallet.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.ionc.wallet.utils.StringUtils;
-import org.ionc.wallet.sdk.widget.BaseDialog;
+import androidx.annotation.NonNull;
 
+import org.ionc.wallet.sdk.widget.BaseDialog;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 
 /**

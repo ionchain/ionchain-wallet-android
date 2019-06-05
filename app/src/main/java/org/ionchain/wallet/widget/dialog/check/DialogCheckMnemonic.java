@@ -2,7 +2,6 @@ package org.ionchain.wallet.widget.dialog.check;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -10,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.widget.dialog.base.AbsBaseDialog;
@@ -57,20 +59,20 @@ public class DialogCheckMnemonic extends AbsBaseDialog implements View.OnClickLi
 
 
     private TextView title;
-    private android.support.v7.widget.AppCompatEditText mnemonic1;
-    private android.support.v7.widget.AppCompatEditText mnemonic2;
-    private android.support.v7.widget.AppCompatEditText mnemonic3;
-    private android.support.v7.widget.AppCompatEditText mnemonic4;
-    private android.support.v7.widget.AppCompatEditText mnemonic5;
-    private android.support.v7.widget.AppCompatEditText mnemonic6;
-    private android.support.v7.widget.AppCompatEditText mnemonic7;
-    private android.support.v7.widget.AppCompatEditText mnemonic8;
-    private android.support.v7.widget.AppCompatEditText mnemonic9;
-    private android.support.v7.widget.AppCompatEditText mnemonic10;
-    private android.support.v7.widget.AppCompatEditText mnemonic11;
-    private android.support.v7.widget.AppCompatEditText mnemonic12;
+    private AppCompatEditText mnemonic1;
+    private AppCompatEditText mnemonic2;
+    private AppCompatEditText mnemonic3;
+    private AppCompatEditText mnemonic4;
+    private AppCompatEditText mnemonic5;
+    private AppCompatEditText mnemonic6;
+    private AppCompatEditText mnemonic7;
+    private AppCompatEditText mnemonic8;
+    private AppCompatEditText mnemonic9;
+    private AppCompatEditText mnemonic10;
+    private AppCompatEditText mnemonic11;
+    private AppCompatEditText mnemonic12;
 
-    List<android.support.v7.widget.AppCompatEditText> editTextList = new ArrayList<>();
+    List<AppCompatEditText> editTextList = new ArrayList<>();
 
     /**
      * Find the Views in the layout<br />

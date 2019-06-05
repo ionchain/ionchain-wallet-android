@@ -7,9 +7,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -79,21 +80,21 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      * 国际好第三方库
      */
     private void initSmartRefreshHeaderAndFooterDate() {
-        ClassicsHeader.REFRESH_HEADER_PULLDOWN = getAppString(R.string.smart_refresh_header_pulldown);
+        ClassicsHeader.REFRESH_HEADER_PULLING = getAppString(R.string.smart_refresh_header_pulldown);
         ClassicsHeader.REFRESH_HEADER_REFRESHING = getAppString(R.string.smart_refresh_header_refreshing);
         ClassicsHeader.REFRESH_HEADER_LOADING = getAppString(R.string.smart_refresh_header_loading);
         ClassicsHeader.REFRESH_HEADER_RELEASE = getAppString(R.string.smart_refresh_header_release);
         ClassicsHeader.REFRESH_HEADER_FINISH = getAppString(R.string.smart_refresh_header_finish);
         ClassicsHeader.REFRESH_HEADER_FAILED = getAppString(R.string.smart_refresh_header_failed);
-        ClassicsHeader.REFRESH_HEADER_LASTTIME = "'" + getAppString(R.string.smart_refresh_header_last_time) + "' M-d HH:mm";
+//        ClassicsHeader.REFRESH_HEADER_LASTTIME = "'" + getAppString(R.string.smart_refresh_header_last_time) + "' M-d HH:mm";
 
-        ClassicsFooter.REFRESH_FOOTER_PULLUP = getAppString(R.string.smart_refresh_footer_pulldown);
+        ClassicsFooter.REFRESH_FOOTER_PULLING = getAppString(R.string.smart_refresh_footer_pulldown);
         ClassicsFooter.REFRESH_FOOTER_REFRESHING = getAppString(R.string.smart_refresh_footer_refreshing);
         ClassicsFooter.REFRESH_FOOTER_LOADING = getAppString(R.string.smart_refresh_footer_loading);
         ClassicsFooter.REFRESH_FOOTER_RELEASE = getAppString(R.string.smart_refresh_footer_release);
         ClassicsFooter.REFRESH_FOOTER_FINISH = getAppString(R.string.smart_refresh_footer_finish);
         ClassicsFooter.REFRESH_FOOTER_FAILED =  getAppString(R.string.smart_refresh_footer_failed);
-        ClassicsFooter.REFRESH_FOOTER_ALLLOADED =  getAppString(R.string.smart_refresh_footer_no_more);
+        ClassicsFooter.REFRESH_FOOTER_NOTHING =  getAppString(R.string.smart_refresh_footer_no_more);
     }
 
     protected void setListener() {

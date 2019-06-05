@@ -1,8 +1,6 @@
 package org.ionchain.wallet.mvp.view.activity.create;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -13,6 +11,9 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;

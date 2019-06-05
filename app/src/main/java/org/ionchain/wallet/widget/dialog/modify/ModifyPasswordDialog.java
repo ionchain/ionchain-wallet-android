@@ -1,9 +1,6 @@
 package org.ionchain.wallet.widget.dialog.modify;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -15,6 +12,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.widget.dialog.LogUtils;

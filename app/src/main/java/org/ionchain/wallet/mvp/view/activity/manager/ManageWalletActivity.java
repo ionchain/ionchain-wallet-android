@@ -1,11 +1,12 @@
 package org.ionchain.wallet.mvp.view.activity.manager;
 
 import android.graphics.Color;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;

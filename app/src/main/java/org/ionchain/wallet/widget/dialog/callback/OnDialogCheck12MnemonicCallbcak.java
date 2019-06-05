@@ -1,6 +1,7 @@
 package org.ionchain.wallet.widget.dialog.callback;
 
-import android.support.v7.widget.AppCompatEditText;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
 

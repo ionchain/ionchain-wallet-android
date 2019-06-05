@@ -2,8 +2,6 @@ package org.ionchain.wallet.mvp.view.activity.imports;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -12,6 +10,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;

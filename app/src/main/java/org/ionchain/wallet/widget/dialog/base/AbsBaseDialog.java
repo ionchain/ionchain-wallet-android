@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.widget.dialog.LogUtils;

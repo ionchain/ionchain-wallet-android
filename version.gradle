@@ -12,8 +12,4 @@ ext{
     extCompileSdkVersion = 28
     extBuildToolsVersion = '28.0.3'
 
-    extAppCompactVersion = '28.0.0'
-    extRecycleViewVersion = '28.0.0'
-    extDesignVersion = '28.0.0'
-    extConstraintLayoutVersion = '1.1.3'
 }
