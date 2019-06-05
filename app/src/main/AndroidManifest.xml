@@ -27,6 +27,7 @@
         tools:replace="android:label">
         <activity
             android:name=".mvp.view.activity.setting.SettingLanguageActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <provider
@@ -60,6 +61,7 @@
         <activity
             android:name=".mvp.view.activity.create.CreateWalletSelectActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
@@ -69,14 +71,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.ScanActivity"
+            android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.imports.ImportByPriKeyActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.modify.ModifyAndExportWalletActivityDialog"
+            android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -88,25 +93,32 @@
         <activity
             android:name=".mvp.view.activity.address.ShowAddressActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".mvp.view.activity.transaction.TxActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.imports.SelectImportModeActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.imports.ImportByMnemonicActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.imports.ImportByKeystoreActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".mvp.view.activity.transaction.TxRecordActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.view.activity.webview.WebActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
 

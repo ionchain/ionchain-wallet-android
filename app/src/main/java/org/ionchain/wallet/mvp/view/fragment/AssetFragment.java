@@ -835,7 +835,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
         //取出主链节点
         mNodeIONC = dataBean.get(0).getIonc_node();
-        LoggerUtils.i("node" + mNodeIONC);
+        LoggerUtils.i("node", mNodeIONC);
         //获取主链成功后,获取余额
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
 

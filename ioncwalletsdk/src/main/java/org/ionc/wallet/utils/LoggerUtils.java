@@ -49,7 +49,7 @@ public class LoggerUtils {
      */
     public static void i(String msg) {
         if (isDebug) {
-            Logger.i("msg: " + msg);
+            Logger.i(msg);
         }
     }
 

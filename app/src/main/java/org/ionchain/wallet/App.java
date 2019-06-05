@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 
@@ -47,8 +45,6 @@ import static org.ionc.wallet.utils.LoggerUtils.initLogger;
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
     @SuppressLint("StaticFieldLeak")
     public static Context mContext;
-    public static boolean SDK_Debug = false;
-    public static Handler mHandler = new Handler(Looper.getMainLooper());
     public static int[] sRandomHeader = {
             R.mipmap.random_header_more_1, R.mipmap.random_header_more_2, R.mipmap.random_header_more_3, R.mipmap.random_header_more_4, R.mipmap.random_header_more_5, R.mipmap.random_header_more_6, R.mipmap.random_header_more_7, R.mipmap.random_header_more_8
     };
