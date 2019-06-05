@@ -294,7 +294,6 @@ public class AssetFragment extends AbsBaseFragment implements
 
     /**
      * 获取网络数据
-     *
      */
     private void getNetData() {
 //        getDeviceList();
@@ -405,7 +404,7 @@ public class AssetFragment extends AbsBaseFragment implements
             public void onClick(View v) {
                 if (pleaseBackupWallet()) return;
                 Intent intent = new Intent(getActivity(), TxActivity.class);
-                intent.putExtra(INTENT_PARAM_CURRENT_WALLET,mCurrentWallet);
+                intent.putExtra(INTENT_PARAM_CURRENT_WALLET, mCurrentWallet);
                 intent.putExtra(CURRENT_ADDRESS, mCurrentWallet.getAddress());
                 intent.putExtra(CURRENT_KSP, mCurrentWallet.getKeystore());
                 skip(intent);
@@ -836,7 +835,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
         //取出主链节点
         mNodeIONC = dataBean.get(0).getIonc_node();
-        LoggerUtils.i("node", mNodeIONC);
+        LoggerUtils.i("node" + mNodeIONC);
         //获取主链成功后,获取余额
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
 

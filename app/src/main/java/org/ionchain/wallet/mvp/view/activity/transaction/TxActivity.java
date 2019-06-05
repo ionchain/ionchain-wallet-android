@@ -180,7 +180,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void OnTxSuccess(String hashTx) {
-        LoggerUtils.i("交易hash", hashTx);
+        LoggerUtils.i("交易hash :" + hashTx);
         ToastUtil.showToastLonger(getAppString(R.string.submit_success));
         hideProgress();
     }
@@ -188,6 +188,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onTxFailure(String error) {
         hideProgress();
+        LoggerUtils.i("交易hash:" + error);
         ToastUtil.showToastLonger(getAppString(R.string.submit_failure));
     }
 

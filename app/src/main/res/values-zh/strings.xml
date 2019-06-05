@@ -197,4 +197,12 @@
     <string name="error_net_request_update">更新检查请求出错</string>
     <string name="version_info_massage">版本号:v1.0.4\n\n版本信息:\n\n1.兼容以太坊标准钱包\n\n2.助记词验证兼容大小写\n\n</string>
     <string name="btn_background">后台下载</string>
+    <string name="smart_refresh_footer_pulldown">上拉加载更多</string>
+    <string name="smart_refresh_footer_refreshing">正在刷新…</string>
+    <string name="smart_refresh_footer_loading">正在加载…</string>
+    <string name="smart_refresh_footer_release">释放立即加载</string>
+    <string name="smart_refresh_footer_finish">加载完成</string>
+    <string name="smart_refresh_footer_failed">加载失败</string>
+    <string name="smart_refresh_footer_no_more">没有更多数据了</string>
+    <string name="smart_refresh_no_new_data">无新数据</string>
 </resources>

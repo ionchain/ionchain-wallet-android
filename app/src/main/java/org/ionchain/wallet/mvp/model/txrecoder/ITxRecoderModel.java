@@ -11,11 +11,12 @@ import org.ionchain.wallet.mvp.callback.OnTxRecordCallback;
 public interface ITxRecoderModel {
     /**
      * 获取交易记录
+     * @param isLoadMore
      * @param type
      * @param key
      * @param pageNumber
      * @param pageSize
      * @param callback
      */
-    void getTxRecord(String type, String key, String pageNumber, String pageSize, OnTxRecordCallback callback);
+    void getTxRecord(boolean isLoadMore, String type, String key, String pageNumber, String pageSize, OnTxRecordCallback callback);
 }

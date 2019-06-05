@@ -14,7 +14,13 @@ public interface OnTxRecordCallback extends OnLoadingView {
     /**
      * 请求成功
      */
-    void onTxRecordSuccess(List<TxRecoderBean.DataBean.ItemBean> beans);
+    void onTxRecordRefreshSuccess(TxRecoderBean.DataBean beans);
+
+    /**
+     * 加载更多
+     * @param beans
+     */
+    void onTxRecordLoadMoreSuccess(List<TxRecoderBean.DataBean.ItemBean> beans);
 
 
     /**

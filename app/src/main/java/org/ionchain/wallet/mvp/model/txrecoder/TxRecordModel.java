@@ -28,7 +28,7 @@ public class TxRecordModel implements ITxRecoderModel {
 
 
     @Override
-    public void getTxRecord(String type, String key, String pageNumber, String pageSize, final OnTxRecordCallback callback) {
+    public void getTxRecord(boolean isLoadMore, String type, String key, String pageNumber, String pageSize, final OnTxRecordCallback callback) {
         params.clear();
         params.put("type", type);
         params.put("key", key);
@@ -44,8 +44,13 @@ public class TxRecordModel implements ITxRecoderModel {
                     callback.onTxRecordFailure(App.mContext.getResources().getString(R.string.error_data_parase));
                     return;
                 }
-                List<TxRecoderBean.DataBean.ItemBean> beans = txRecoderBean.getData().getData();
-                callback.onTxRecordSuccess(beans);
+                TxRecoderBean.DataBean beans = txRecoderBean.getData();
+                if (!isLoadMore) {
+                    callback.onTxRecordRefreshSuccess(beans);
+                } else {
+                    List<TxRecoderBean.DataBean.ItemBean> itemBeans = txRecoderBean.getData().getData();
+                      callback.onTxRecordLoadMoreSuccess(itemBeans);
+                }
             }
 
             @Override

@@ -22,12 +22,11 @@ public class LoggerUtils {
     /**
      * 打印JSON
      *
-     * @param tag     标志
      * @param jsonStr jsonString
      */
     public static void j(String jsonStr) {
         if (isDebug) {
-            Logger.json( jsonStr);
+            Logger.json(jsonStr);
         }
     }
 
@@ -39,7 +38,7 @@ public class LoggerUtils {
      */
     public static void i(String tag, String msg) {
         if (isDebug) {
-            Logger.i( msg);
+            Logger.i(tag + " ： " + msg);
         }
     }
 
@@ -62,7 +61,7 @@ public class LoggerUtils {
      */
     public static void e(String tag, String msg) {
         if (isDebug) {
-            Logger.e( msg);
+            Logger.e(msg);
         }
     }
 
@@ -73,7 +72,7 @@ public class LoggerUtils {
      */
     public static void e(String msg) {
         if (isDebug) {
-            Logger.e( "e: " + msg);
+            Logger.e("e: " + msg);
         }
     }
 

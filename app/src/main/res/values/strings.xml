@@ -198,4 +198,12 @@
     <string name="error_net_request_update">Update net request error</string>
     <string name="version_info_massage">Version:v1.0.4\n\nContent:\n\n1. Compatible with ethereum standard wallet\n\n2. Mnemonic verification is case-compatible</string>
     <string name="btn_background">hide</string>
+    <string name="smart_refresh_footer_pulldown">More pull-ups</string>
+    <string name="smart_refresh_footer_refreshing">Refreshing...</string>
+    <string name="smart_refresh_footer_loading">Being loaded…</string>
+    <string name="smart_refresh_footer_release">Release immediate load</string>
+    <string name="smart_refresh_footer_finish">loaded</string>
+    <string name="smart_refresh_footer_failed">Load failed</string>
+    <string name="smart_refresh_footer_no_more">No more data</string>
+    <string name="smart_refresh_no_new_data">no new data</string>
 </resources>
