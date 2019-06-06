@@ -202,7 +202,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onBalanceFailure(String error) {
-        balance_tv.setText(getAppString(R.string.error_net_get_balance));
+        ToastUtil.showToastLonger(getAppString(R.string.error_net_get_balance));
     }
 
     /**
