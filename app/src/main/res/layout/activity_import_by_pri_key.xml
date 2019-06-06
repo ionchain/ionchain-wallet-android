@@ -28,9 +28,9 @@
             android:id="@+id/scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:layout_marginEnd="@dimen/padding_size_16dp"
             android:src="@mipmap/scan" />
     </RelativeLayout>
 
@@ -40,7 +40,7 @@
         android:layout_below="@id/import_header"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/contentEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:text=""
             android:textSize="14sp" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/nameEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
@@ -67,7 +67,7 @@
             android:textSize="@dimen/hint_text_size"
             android:hint="@string/wallet_name_input"
             android:padding="@dimen/h5" />
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/pwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
@@ -81,7 +81,7 @@
             android:padding="@dimen/h5"
             android:textSize="@dimen/hint_text_size" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/repwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"

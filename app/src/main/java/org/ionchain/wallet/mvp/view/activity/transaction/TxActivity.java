@@ -33,6 +33,7 @@ import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -291,11 +292,11 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onIONCNodeFinish() {
-
+        smart_refresh_layout.finishRefresh();
     }
 
     @Override
-    public void onRefresh(RefreshLayout refreshLayout) {
+    public void onRefresh(@NotNull RefreshLayout refreshLayout) {
         //刷新 获取 主链节点
         ioncNodePresenter.getNodes(this);
     }

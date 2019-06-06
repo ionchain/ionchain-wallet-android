@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50">
 
-            <android.support.v7.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/mobileEt"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h60"
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/h60">
 
-            <android.support.v7.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/pwdEt"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h50"

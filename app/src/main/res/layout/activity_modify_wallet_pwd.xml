@@ -66,7 +66,7 @@
                 android:textSize="@dimen/hint_text_size" />
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/oldPwdEdit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
@@ -79,7 +79,7 @@
             android:textColor="@color/library_33"
             android:textSize="@dimen/hint_text_size" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/newPwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
@@ -92,7 +92,7 @@
             android:textColor="@color/library_33"
             android:textSize="@dimen/hint_text_size" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/resetNewPwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"

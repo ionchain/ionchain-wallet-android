@@ -60,7 +60,7 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/walletNameEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
             android:textColor="@color/library_33"
             android:textSize="@dimen/hint_text_size" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/pwdEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
             android:textSize="@dimen/hint_text_size"
             tools:ignore="SmallSp" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/resetPwdEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

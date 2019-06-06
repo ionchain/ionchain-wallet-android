@@ -24,22 +24,22 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic1"
             style="@style/mnemonic_edit_text"
             android:hint="1" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic2"
             style="@style/mnemonic_edit_text"
             android:hint="2" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic3"
             style="@style/mnemonic_edit_text"
             android:hint="3" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic4"
             style="@style/mnemonic_edit_text"
             android:hint="4" />
@@ -50,22 +50,22 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic5"
             style="@style/mnemonic_edit_text"
             android:hint="5" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic6"
             style="@style/mnemonic_edit_text"
             android:hint="6" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic7"
             style="@style/mnemonic_edit_text"
             android:hint="7" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic8"
             style="@style/mnemonic_edit_text"
             android:hint="8" />
@@ -76,22 +76,22 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic9"
             style="@style/mnemonic_edit_text"
             android:hint="9" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic10"
             style="@style/mnemonic_edit_text"
             android:hint="10" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic11"
             style="@style/mnemonic_edit_text"
             android:hint="11" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/mnemonic12"
             style="@style/mnemonic_edit_text"
             android:hint="12" />

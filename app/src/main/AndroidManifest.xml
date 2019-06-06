@@ -70,17 +70,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.view.activity.ScanActivity"
-            android:launchMode="singleTop"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".mvp.view.activity.imports.ImportByPriKeyActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.view.activity.modify.ModifyAndExportWalletActivityDialog"
+            android:name=".mvp.view.activity.modify.ModifyAndExportWalletActivity"
             android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />

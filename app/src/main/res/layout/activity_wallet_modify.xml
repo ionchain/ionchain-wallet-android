@@ -126,7 +126,7 @@
             android:text="@string/wallet_name"
             android:textSize="@dimen/txt_18sp" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/walletNameEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"

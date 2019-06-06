@@ -39,7 +39,7 @@ import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
  */
-public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity implements
+public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
         OnImportPrivateKeyCallback,
         View.OnClickListener,
         OnDeletefinishCallback,
@@ -150,14 +150,14 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
         ioncTitleBar.setTitle(mWallet.getName());
         ioncTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
         ioncTitleBar.setLeftBtnCLickedListener(v -> {
-            SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivityDialog.this);
+            SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
             finish();
         });
         ioncTitleBar.setRightTextCLickedListener(v -> {
             if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
                 mWallet.setName(walletNameEt.getText().toString());
                 ioncTitleBar.setTitle(walletNameEt.getText().toString());
-                SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivityDialog.this);
+                SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
                 IONCWalletSDK.getInstance().updateWallet(mWallet);
             } else {
                 ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
@@ -226,7 +226,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
                             return;
                         }
                         String p_input = deleteWallet.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, p_input, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this); //删除钱包的时候检查密码
+                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, p_input, mWallet.getKeystore(), ModifyAndExportWalletActivity.this); //删除钱包的时候检查密码
                     }
                 });
                 deleteWallet.show();//删除钱包
@@ -251,7 +251,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
                     public void onClick(View v) {
                         /*比对密码是否正确*/
                         String pwd1 = exportPK.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this); //导出私钥
+                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivity.this); //导出私钥
                     }
                 });
                 exportPK.show();//导出私钥
@@ -270,7 +270,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
                     public void onClick(View v) {
                         /*比对密码是否正确*/
                         String pwd1 = exportKS.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivityDialog.this);//导出KS
+                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyAndExportWalletActivity.this);//导出KS
                     }
                 });
                 exportKS.show(); //导出KS
@@ -323,7 +323,7 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
         switch (flag) {
             case FLAG_DELETE_WALLET:
                 deleteWallet.dismiss();
-                IONCWalletSDK.getInstance().deleteWallet(mWallet, ModifyAndExportWalletActivityDialog.this);
+                IONCWalletSDK.getInstance().deleteWallet(mWallet, ModifyAndExportWalletActivity.this);
                 finish();
                 break;
             case FLAG_EXPORT_KS:
@@ -382,11 +382,11 @@ public class ModifyAndExportWalletActivityDialog extends AbsBaseActivity impleme
         switch (flag) {
             case FLAG_EXPORT_PRIVATE:
                 //复制
-                StringUtils.copy(ModifyAndExportWalletActivityDialog.this, privateKey);
+                StringUtils.copy(ModifyAndExportWalletActivity.this, privateKey);
                 ToastUtil.showToastLonger(getAppString(R.string.copy_done_private));
                 break;
             case FLAG_EXPORT_KS:
-                StringUtils.copy(ModifyAndExportWalletActivityDialog.this, json);
+                StringUtils.copy(ModifyAndExportWalletActivity.this, json);
                 ToastUtil.showToastLonger(getAppString(R.string.copy_done_ks));
                 break;
         }

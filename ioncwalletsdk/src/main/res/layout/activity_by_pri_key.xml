@@ -32,7 +32,7 @@
         android:layout_below="@id/import_header"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/contentEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:textSize="14sp" />
 
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/pwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
@@ -60,7 +60,7 @@
             android:padding="@dimen/h5"
             android:textSize="14sp" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/repwdEt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/h50"
