@@ -110,6 +110,10 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     private TextView walletNameTx;
     /**
+     * 当前主链IP
+     */
+    private TextView node;
+    /**
      * 更多钱包入口
      */
     private ImageView moreWallet;
@@ -227,6 +231,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     private void initListViewHeaderViews(View rootView) {
         walletNameTx = rootView.findViewById(R.id.wallet_name_tv);
+        node = rootView.findViewById(R.id.node);
         moreWallet = rootView.findViewById(R.id.wallet_list);
         ioncBalanceTx = rootView.findViewById(R.id.ionc_balance_tx);
         rmb_balance_tx = rootView.findViewById(R.id.rmb_balance_tx);
@@ -374,77 +379,59 @@ public class AssetFragment extends AbsBaseFragment implements
         /*
          * 修改钱包
          * */
-        wallet_logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pleaseBackupWallet()) return;
-                /*
-                 *  将币价信息携带过去
-                 */
-                skip(ModifyAndExportWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
-            }
+        wallet_logo.setOnClickListener(v -> {
+            if (pleaseBackupWallet()) return;
+            /*
+             *  将币价信息携带过去
+             */
+            skip(ModifyAndExportWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
         });
         /*
          * 绑定设备
          * */
-        addDeviceScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pleaseBackupWallet()) return;
-                Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                startActivityForResult(intent, QRCODE_BIND_DEVICE);
+        addDeviceScan.setOnClickListener(v -> {
+            if (pleaseBackupWallet()) return;
+            Intent intent = new Intent(getActivity(), CaptureActivity.class);
+            startActivityForResult(intent, QRCODE_BIND_DEVICE);
 
-            }
         });
 
         /*
          * 转账
          * */
-        tx_out_ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pleaseBackupWallet()) return;
-                Intent intent = new Intent(getActivity(), TxActivity.class);
-                intent.putExtra(INTENT_PARAM_CURRENT_WALLET, mCurrentWallet);
-                intent.putExtra(CURRENT_ADDRESS, mCurrentWallet.getAddress());
-                intent.putExtra(CURRENT_KSP, mCurrentWallet.getKeystore());
-                skip(intent);
-            }
+        tx_out_ll.setOnClickListener(v -> {
+            if (pleaseBackupWallet()) return;
+            Intent intent = new Intent(getActivity(), TxActivity.class);
+            intent.putExtra(INTENT_PARAM_CURRENT_WALLET, mCurrentWallet);
+            intent.putExtra(CURRENT_ADDRESS, mCurrentWallet.getAddress());
+            intent.putExtra(CURRENT_KSP, mCurrentWallet.getKeystore());
+            skip(intent);
         });
         /*
          * 转入
          * */
-        tx_in_ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pleaseBackupWallet()) return;
-                Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
-                intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mCurrentWallet.getAddress());
-                skip(intent);
-            }
+        tx_in_ll.setOnClickListener(v -> {
+            if (pleaseBackupWallet()) return;
+            Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
+            intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mCurrentWallet.getAddress());
+            skip(intent);
         });
         /*
          * 交易记录
          * */
-        tx_recoder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pleaseBackupWallet()) return;
-                Intent intent = new Intent(getActivity(), TxRecordActivity.class);
-                intent.putExtra("address", mCurrentWallet.getAddress());
-                skip(intent);
-            }
+        tx_recoder.setOnClickListener(v -> {
+            if (pleaseBackupWallet()) return;
+            Intent intent = new Intent(getActivity(), TxRecordActivity.class);
+            intent.putExtra("address", mCurrentWallet.getAddress());
+            skip(intent);
         });
         /*
          * 备份钱包
          * */
-        please_backup_wallet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
-                dialogMnemonic = new DialogMnemonic(mActivity, mnemonics, AssetFragment.this);
-                dialogMnemonic.show();
-            }
+        please_backup_wallet.setOnClickListener(v -> {
+            String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
+            dialogMnemonic = new DialogMnemonic(mActivity, mnemonics, AssetFragment.this);
+            dialogMnemonic.show();
         });
     }
 
@@ -837,6 +824,11 @@ public class AssetFragment extends AbsBaseFragment implements
         //取出主链节点
         mNodeIONC = dataBean.get(0).getIonc_node();
         LoggerUtils.i("node", mNodeIONC);
+        if (BuildConfig.DEBUG) {
+            node.setText("当前节点：" + mNodeIONC);
+        } else {
+            node.setVisibility(View.GONE);
+        }
         //获取主链成功后,获取余额
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
 

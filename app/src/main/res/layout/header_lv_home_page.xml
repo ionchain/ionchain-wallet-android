@@ -268,6 +268,17 @@
             android:textColor="#333333"
             android:textSize="14sp" />
 
+        <TextView
+            android:id="@+id/node"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="当前节点："
+            android:textColor="@color/red"
+            android:textSize="8sp" />
+
         <ImageView
             android:id="@+id/add_device"
             android:layout_width="26dp"
