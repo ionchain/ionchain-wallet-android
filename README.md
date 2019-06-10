@@ -1,5 +1,5 @@
 # ionchain-wallet-android
-# v1.0.6
+# v1.0.6 [download](https://www.ionchain.org/download/IONCWallet_v1.0.6_release.apk)
 ```
 修复交易记录重复显示bug&&
 修改钱包密码优化&&
