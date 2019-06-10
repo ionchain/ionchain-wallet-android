@@ -118,7 +118,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                showProgress(getAppString(R.string.app_loading));
+//                showProgress(getAppString(R.string.app_loading));
                 mWebView.setVisibility(View.GONE);
             }
 
@@ -136,7 +136,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
                 if (NET_ERR_INTERNET_DISCONNECTED.contentEquals(error.getDescription())) {
                     request_error = true;
                 }
-                hideProgress();
+//                hideProgress();
             }
 
             @Override
@@ -148,7 +148,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                hideProgress();
+//                hideProgress();
                 smartRefreshLayout.finishRefresh();
                 if (!request_error) {
                     mWebView.setVisibility(View.VISIBLE);
@@ -185,6 +185,9 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
         mWebView = findViewById(R.id.web_view);
         mNetErrorHintPage = findViewById(R.id.net_error_hint_page_rl);
         smartRefreshLayout = findViewById(R.id.smart_refresh_layout);
+        if (BuildConfig.DEBUG) {
+            smartRefreshLayout.setEnableRefresh(false);
+        }
         mWebTitle = findViewById(R.id.web_title);
     }
 

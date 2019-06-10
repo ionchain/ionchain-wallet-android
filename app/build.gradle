@@ -9,6 +9,8 @@ android {
     def commonAppId = "org.ionchain.wallet"
     def appIdHuaWei = "org.ionchain.wallet.huawei"
     def appIdXiaoMi = "org.ionchain.wallet.xiaomi"
+    def version_cn = loadVersionInfo("version/china.txt")
+    def version_en = loadVersionInfo("version/english.txt")
     compileSdkVersion extCompileSdkVersion
     buildToolsVersion extBuildToolsVersion
     compileOptions {
@@ -46,25 +48,8 @@ android {
             buildConfigField "String", "URL_ABOUTUS_CN", "\"${URL_ABOUTUS_CN}\""
             buildConfigField "String", "URL_ABOUT_US_EN", "\"${URL_ABOUT_US_EN}\""
             resValue "string", "ionc_app_name", appName
-            resValue "string", "version_info_zn", """
-\\n
-版本号:v1.0.5
-\\n\\n
-版本信息:
-\\n\\n
-app重命名为 ${appName}
-\\n
-"""
-            resValue "string", "version_info_en", """
-\\n
-Version:v1.0.5
-\\n\\n
-Content :
-\\n\\n
-app renamed to ${appName}
-\\n
-"""
-
+            resValue "string", "version_info_zn", version_cn
+            resValue "string", "version_info_en", version_en
         }
         release {
             debuggable false
@@ -76,24 +61,8 @@ app renamed to ${appName}
             buildConfigField "String", "URL_ABOUTUS_CN", "\"${URL_ABOUTUS_CN}\""
             buildConfigField "String", "URL_ABOUT_US_EN", "\"${URL_ABOUT_US_EN}\""
             resValue "string", "ionc_app_name", appName
-            resValue "string", "version_info_zn", """
-\\n
-版本号:v1.0.5
-\\n\\n
-版本信息:
-\\n\\n
-app重命名为 ${appName}
-\\n
-"""
-            resValue "string", "version_info_en", """
-\\n
-Version:v1.0.5
-\\n\\n
-Content :
-\\n\\n
-app renamed to ${appName}
-\\n
-"""
+            resValue "string", "version_info_zn", version_cn
+            resValue "string", "version_info_en", version_en
         }
     }
 
@@ -190,3 +159,17 @@ dependencies {
     implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
+
+/**
+ * 获取版本信息
+ * @return
+ */
+def loadVersionInfo(String filename) {
+    String content = ""
+    def config = file(filename)
+    config.eachLine { line ->
+        content = content.concat(line)
+    }
+    return content.replace("&", "\\n")
+}
+
