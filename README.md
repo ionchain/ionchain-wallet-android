@@ -1,5 +1,4 @@
 # ionchain-wallet-android
-# 关于以太坊标准钱包导入离子链钱包的出现OOM的解决方案
 # v1.0.6
 ```
 修复交易记录重复显示bug&&
