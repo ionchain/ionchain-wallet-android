@@ -6,7 +6,7 @@
 2. 修改钱包密码优化
 3. 修复旧版本只有一个钱包的情况下,主钱包属性问题
 ```
-### v1.0.6
+### v1.0.5
 [IONCWallet_v1.0.5_release.apk](https://www.ionchain.org/download/IONCWallet_v1.0.5_release.apk)
 ```markdown
 1. 离子链钱包新增根据系统的语言设置切换中英文。
