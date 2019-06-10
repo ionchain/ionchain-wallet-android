@@ -700,8 +700,16 @@ public class AssetFragment extends AbsBaseFragment implements
         LoggerUtils.e("离子币余额获取失败:", error);
         ToastUtil.showToastLonger(getAppString(R.string.error_net_get_balance));
         mRefresh.finishRefresh();
-        ioncBalanceTx.setText(mCurrentWallet.getBalance());
-        rmb_balance_tx.setText(mCurrentWallet.getRmb());   //缓存
+        String balance = mCurrentWallet.getBalance();
+        String rmb = mCurrentWallet.getBalance();
+        if (TextUtils.isEmpty(balance)) {
+            balance = "****";
+        }
+        if (TextUtils.isEmpty(rmb)) {
+            rmb = "****";
+        }
+        ioncBalanceTx.setText(balance);
+        rmb_balance_tx.setText(rmb);   //缓存
     }
 
     @Override
