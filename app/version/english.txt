@@ -1,0 +1,5 @@
+Version number: 1.0.6&&
+Fixed a bug where transaction records were repeatedly displayed &&
+Modify wallet password optimization &&
+Fix old version of only one wallet case, master wallet property issue &
+
