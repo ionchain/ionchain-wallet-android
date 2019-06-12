@@ -1,6 +1,6 @@
 # ionchain-wallet-android
 ### v1.0.7
-
+[IONCWallet_v1.0.7_release.apk](https://www.ionchain.org/download/IONCWallet_v1.0.7_release.apk)
 ```markdown
 1. 上笔交易未结束，用户疯狂交易，提示用户上笔交易正在进行
 2. 优化版本信息的配置
