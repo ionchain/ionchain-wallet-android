@@ -108,8 +108,19 @@ public class IONCWalletSDK {
      */
     private static final int P_STANDARD = 1;
 
+    /**
+     * 助记词
+     */
     private MnemonicCode mMnemonicCode = null;
+    /**
+     *
+     */
     private final BigInteger gasLimit = Convert.toWei("21000", Convert.Unit.WEI).toBigInteger();
+
+    /**
+     * 交易的nonce值，来判断是否是同一笔交易
+     */
+    private BigInteger nonce;
 
     private IONCWalletSDK() {
     }
@@ -498,6 +509,13 @@ public class IONCWalletSDK {
                     String signedData = Numeric.toHexString(signedMessage);
                     EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();//转账
                     final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
+                    LoggerUtils.i("nonce", valueOf(nonce));
+
+                    if (nonce.equals(IONCWalletSDK.this.nonce)) {
+                        mHandler.post(callback::OnTxDoing);
+                        return;
+                    }
+                    IONCWalletSDK.this.nonce = nonce;
                     if (!TextUtils.isEmpty(hashTx)) {
                         mHandler.post(() -> callback.OnTxSuccess(hashTx));
                     } else {

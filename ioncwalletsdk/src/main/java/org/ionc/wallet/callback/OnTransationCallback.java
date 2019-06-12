@@ -19,4 +19,9 @@ public interface OnTransationCallback {
      * @param error
      */
     void onTxFailure(String error);
+
+    /**
+     * 交易正在进行
+     */
+    void OnTxDoing();
 }

@@ -194,6 +194,12 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         ToastUtil.showToastLonger(getAppString(R.string.submit_failure));
     }
 
+    @Override
+    public void OnTxDoing() {
+        hideProgress();
+        ToastUtil.showShort(getAppString(R.string.tx_doing));
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {

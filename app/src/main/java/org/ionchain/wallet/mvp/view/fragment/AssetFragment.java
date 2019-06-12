@@ -783,6 +783,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onUSDPriceSuccess(double usdPrice) {
         //获取人民币汇率
         mUSDPrice = usdPrice;
+        LoggerUtils.i("美元价格：", String.valueOf(mUnbindPos));
         mTotalUSDPrice = mIONCBalance.multiply(BigDecimal.valueOf(usdPrice));
         mPricePresenter.getUSDExchangeRateRMB(this);
     }

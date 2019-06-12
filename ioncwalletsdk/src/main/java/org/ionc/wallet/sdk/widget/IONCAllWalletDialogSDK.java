@@ -157,6 +157,11 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
         mOnTxResultCallback.onTxFailure(error);
     }
 
+    @Override
+    public void OnTxDoing() {
+
+    }
+
     public interface OnTxResultCallback {
         void OnTxSuccess(String hashTx);
 
