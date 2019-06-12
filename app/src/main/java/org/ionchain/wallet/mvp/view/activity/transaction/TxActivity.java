@@ -84,6 +84,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      */
     private String toAddress;
     private String txAccount;
+    private boolean clicked = false;
 
     private void findViews() {
         header = findViewById(R.id.header);
@@ -219,6 +220,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
         dialogPasswordCheck.dismiss();
+        clicked = false;
         showProgress(getAppString(R.string.please_wait));
         final String toAddress = txToAddressEt.getText().toString();
         final String txAccount = txAccountEt.getText().toString();
@@ -271,12 +273,17 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
             //
             dialogPasswordCheck = new DialogPasswordCheck(mActivity);
             dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
+
                 LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
                 //主链节点检查
                 if ("".equals(mNodeIONC)) {
                     ToastUtil.showToastLonger(getAppString(R.string.please_refresh));
                     return;
                 }
+                if (clicked) {
+                    return;
+                }
+                clicked = true;
                 //检查密码是否正确
                 String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
                 IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mKsPath, TxActivity.this); //转账
