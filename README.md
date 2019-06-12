@@ -3,7 +3,11 @@
 
 ```markdown
 1. 上笔交易未结束，用户疯狂交易，提示用户上笔交易正在进行
+2. 优化版本信息的配置
 3. 优化用户体验
+4. 优化版本信息的配置 优化KS导入钱包的UI
+5. 支持包升级到AndroidX
+6. 修复AndroidX为替换完成的问题
 ```
 ### v1.0.6    
 [IONCWallet_v1.0.6_release.apk](https://www.ionchain.org/download/IONCWallet_v1.0.6_release.apk)
@@ -11,9 +15,6 @@
 1. 修复交易记录重复显示bug
 2. 修改钱包密码优化
 3. 修复旧版本只有一个钱包的情况下,主钱包属性问题
-4. 优化版本信息的配置 优化KS导入钱包的UI
-5. 支持包升级到AndroidX
-6. 修复AndroidX为替换完成的问题
 ```
 ### v1.0.5
 [IONCWallet_v1.0.5_release.apk](https://www.ionchain.org/download/IONCWallet_v1.0.5_release.apk)
