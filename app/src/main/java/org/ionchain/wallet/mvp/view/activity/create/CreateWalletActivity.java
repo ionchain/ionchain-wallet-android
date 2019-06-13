@@ -247,7 +247,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
 
     @Override
     public void onSimulateFinish() {
-        IONCWalletSDK.getInstance().createBip39Wallet(walletnamestr, pass, CreateWalletActivity.this);
+        IONCWalletSDK.getInstance().createIONCWallet(walletnamestr, pass, CreateWalletActivity.this);
     }
 
     /**

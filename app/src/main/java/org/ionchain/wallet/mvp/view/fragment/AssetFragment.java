@@ -785,6 +785,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mUSDPrice = usdPrice;
         LoggerUtils.i("美元价格：", String.valueOf(mUnbindPos));
         mTotalUSDPrice = mIONCBalance.multiply(BigDecimal.valueOf(usdPrice));
+        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
         mPricePresenter.getUSDExchangeRateRMB(this);
     }
 
@@ -793,7 +794,8 @@ public class AssetFragment extends AbsBaseFragment implements
         LoggerUtils.e(error);
         ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_usd));
         LoggerUtils.e("美元价格获取失败:");
-
+        ioncBalanceTx.setText(mCurrentWallet.getBalance());
+        rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
     }
 
     @Override
@@ -814,10 +816,13 @@ public class AssetFragment extends AbsBaseFragment implements
         LoggerUtils.i("balance = ", rmb.setScale(4, ROUND_HALF_UP).toPlainString());
         mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
         rmb_balance_tx.setText(mCurrentWallet.getRmb()); //网络数据
+        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
     }
 
     @Override
     public void onUSDExRateRMBFailure(String error) {
+        ioncBalanceTx.setText(mCurrentWallet.getBalance());
+        rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
         LoggerUtils.e(error);
         ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_rate_rmb));
     }
@@ -846,6 +851,8 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onIONCNodeError(String error) {
         LoggerUtils.e("获取离子链节点失败......" + ("".equals(error) ? "数据解析失败" : error));
+        ioncBalanceTx.setText(mCurrentWallet.getBalance());
+        rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
         ToastUtil.showToastLonger(getAppString(R.string.error_net_node));
     }
 

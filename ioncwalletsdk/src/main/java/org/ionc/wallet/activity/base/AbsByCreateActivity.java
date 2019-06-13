@@ -178,7 +178,7 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
 
     @Override
     public void onSimulateFinish() {
-        IONCWalletSDK.getInstance().createBip39Wallet(walletnamestr, pass, AbsByCreateActivity.this);
+        IONCWalletSDK.getInstance().createIONCWallet(walletnamestr, pass, AbsByCreateActivity.this);
     }
 
     @Override

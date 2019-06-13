@@ -41,6 +41,7 @@ import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.SecureRandomUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
+import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
@@ -176,7 +177,7 @@ public class IONCWalletSDK {
     }
 
     //创建钱包---借助  importWalletByMnemonicCode
-    public void createBip39Wallet(String walletName, String password, final OnImportMnemonicCallback callback) {
+    public void createIONCWallet(String walletName, String password, final OnImportMnemonicCallback callback) {
         try {
             byte[] initialEntropy = new byte[16];
             secureRandom.nextBytes(initialEntropy);//产生一个随机数
