@@ -5,6 +5,5 @@ Version number: 1.0.7&&
 4. Optimized configuration of version information optimized UI&& of KS import wallet
 5. Support package upgrade to AndroidX&&
 6. Fix AndroidX done for replacements &&
-7. Fix the balance display problem under network problems &&
-8. Transaction click protection, preventing users from malicious click &
+7. Fix the balance display problem under network problems &
 
