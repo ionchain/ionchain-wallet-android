@@ -170,7 +170,7 @@ public class IONCWalletSDK {
         BigInteger fee = gas.multiply(BigInteger.valueOf(currentProgress));
         Log.i(TAG, "getCurrentFee: " + fee);
         /*
-         * 从Gwei到wei,再从wei到ether
+         * 从Gwei到wei,再从wei到ether ,交易费用以ETH为单位，最低交易21000以wei 为单位
          * */
         return Convert.fromWei(Convert.toWei(valueOf(fee), Convert.Unit.GWEI), Convert.Unit.ETHER);
     }
