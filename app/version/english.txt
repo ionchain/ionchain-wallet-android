@@ -1,5 +1,10 @@
-Version number: 1.0.6&&
-Fixed a bug where transaction records were repeatedly displayed &&
-Modify wallet password optimization &&
-Fix old version of only one wallet case, master wallet property issue &
+Version number: 1.0.7&&
+1. Before the end of the last transaction, the user makes a crazy transaction, reminding the user that the last transaction is in progress &&
+2. Optimized configuration && of version information
+3. Optimize user experience &&
+4. Optimized configuration of version information optimized UI&& of KS import wallet
+5. Support package upgrade to AndroidX&&
+6. Fix AndroidX done for replacements &&
+7. Fix the balance display problem under network problems &&
+8. Transaction click protection, preventing users from malicious click &
 

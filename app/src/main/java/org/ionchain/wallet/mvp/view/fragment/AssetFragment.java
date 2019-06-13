@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -242,6 +243,9 @@ public class AssetFragment extends AbsBaseFragment implements
         tx_out_ll = rootView.findViewById(R.id.tx_out_ll);
         tx_recoder = rootView.findViewById(R.id.tx_recoder_tv);
         please_backup_wallet = rootView.findViewById(R.id.please_backup_wallet);
+        if (!BuildConfig.DEBUG) {
+            node.setVisibility(View.GONE);
+        }
     }
 
 
@@ -838,11 +842,8 @@ public class AssetFragment extends AbsBaseFragment implements
         //取出主链节点
         mNodeIONC = dataBean.get(0).getIonc_node();
         LoggerUtils.i("node", mNodeIONC);
-        if (BuildConfig.DEBUG) {
-            node.setText("当前节点：" + mNodeIONC);
-        } else {
-            node.setVisibility(View.GONE);
-        }
+        Log.i("BuildConfig.DEBUG", String.valueOf(BuildConfig.DEBUG));
+        node.setText("当前节点：" + mNodeIONC);
         //获取主链成功后,获取余额
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
 
