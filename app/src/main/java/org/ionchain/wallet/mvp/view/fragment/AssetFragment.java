@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -705,7 +704,7 @@ public class AssetFragment extends AbsBaseFragment implements
         ToastUtil.showToastLonger(getAppString(R.string.error_net_get_balance));
         mRefresh.finishRefresh();
         String balance = mCurrentWallet.getBalance();
-        String rmb = mCurrentWallet.getBalance();
+        String rmb = mCurrentWallet.getRmb();
         if (TextUtils.isEmpty(balance)) {
             balance = "****";
         }
@@ -842,7 +841,6 @@ public class AssetFragment extends AbsBaseFragment implements
         //取出主链节点
         mNodeIONC = dataBean.get(0).getIonc_node();
         LoggerUtils.i("node", mNodeIONC);
-        Log.i("BuildConfig.DEBUG", String.valueOf(BuildConfig.DEBUG));
         node.setText("当前节点：" + mNodeIONC);
         //获取主链成功后,获取余额
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);

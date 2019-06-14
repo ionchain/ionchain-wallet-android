@@ -235,6 +235,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onCheckWalletPasswordFailure(String errorMsg) {
         LoggerUtils.e("检查密码失败：" + errorMsg);
+        clicked = false;
         ToastUtil.showToastLonger(getAppString(R.string.error_input_password));
     }
 

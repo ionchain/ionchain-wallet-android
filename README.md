@@ -2,9 +2,8 @@
 ### v1.0.8
 [IONCWallet_v1.0.8_release.apk](https://www.ionchain.org/download/IONCWallet_v1.0.8_release.apk)
 ```markdown
-1. 余额显示部分新增网络请求状态
-2. 新增IONC兑换的币种：美元、欧元、马来比
-
+1. 交易记录背景改为白色
+2. 修复交易密码校验失败，再次点击无效的bug
 ```
 ### v1.0.7
 [IONCWallet_v1.0.7_release.apk](https://www.ionchain.org/download/IONCWallet_v1.0.7_release.apk)
