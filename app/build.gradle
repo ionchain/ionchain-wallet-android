@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     def appName = """IONC Wallet"""   //APP的名字
+    def appNameDebug = """IONC Wallet Debug"""   //APP的名字
     def commonAppId = "org.ionchain.wallet"
     def appIdHuaWei = "org.ionchain.wallet.huawei"
     def appIdXiaoMi = "org.ionchain.wallet.xiaomi"
@@ -47,7 +48,7 @@ android {
             buildConfigField "String", "URL_PROTOCOL_EN", "\"${URL_PROTOCOL_EN}\""
             buildConfigField "String", "URL_ABOUTUS_CN", "\"${URL_ABOUTUS_CN}\""
             buildConfigField "String", "URL_ABOUT_US_EN", "\"${URL_ABOUT_US_EN}\""
-            resValue "string", "ionc_app_name", appName
+            resValue "string", "ionc_app_name", appNameDebug
             resValue "string", "version_info_zn", version_cn
             resValue "string", "version_info_en", version_en
         }
