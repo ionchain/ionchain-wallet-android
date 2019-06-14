@@ -56,7 +56,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     @Override
     protected void initData() {
         mDevicePresenter = new DevicePresenter();
-        getDeviceList();
+//        getDeviceList();
     }
 
 
@@ -134,4 +134,5 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     public void onLoadFinish() {
         mSwipeRefreshLayout.finishRefresh();
     }
+
 }

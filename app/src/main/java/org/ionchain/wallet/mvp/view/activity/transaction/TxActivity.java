@@ -16,6 +16,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
@@ -57,19 +58,38 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      */
     private WalletBeanNew mWalletBeanNew;
     private EditText txToAddressEt;
-    private EditText txAccountEt;
-    private TextView txCostTv;
-    private TextView balance_tv;
+    private EditText mTxValueEt;
+    private TextView mTxCostTv;
+    /**
+     * 余额
+     */
+    private TextView mBalanceTv;
     private ImageView scan_address;
 
     private SeekBar txSeekBarIndex;
 
-    private String mAddress;//当前钱包的地址
-    private String mKsPath;//钱包的ksp ,用于密码检查
+    /**
+     * 当前钱包地址
+     */
+    private String mAddressFrom;//当前钱包的地址
+    /**
+     *接收地址
+     */
+    private String mAddressTo;
+    /**
+     *钱包的ksp ,用于密码检查
+     */
+    private String mKsPath;
 
     private DialogPasswordCheck dialogPasswordCheck;
     private int mProgress = SEEK_BAR_SRART_VALUE;//进度值,起始值为 30 ,最大值为100
+    /**
+     * 返回键
+     */
     private ImageView back;
+    /**
+     * 下一步
+     */
     private Button txNext;
     private String mNodeIONC = "";
     private SmartRefreshLayout smart_refresh_layout;
@@ -79,20 +99,20 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     private IONCNodePresenter ioncNodePresenter;
 
     private boolean tapNext = false;
+
     /**
-     *
+     * 交易金额
      */
-    private String toAddress;
-    private String txAccount;
+    private String mTxAccount;
     private boolean clicked = false;
 
     private void findViews() {
         header = findViewById(R.id.header);
         txToAddressEt = findViewById(R.id.tx_to_address);
-        txAccountEt = findViewById(R.id.tx_account);
-        txCostTv = findViewById(R.id.tx_cost);
+        mTxValueEt = findViewById(R.id.tx_value);
+        mTxCostTv = findViewById(R.id.tx_cost);
         scan_address = findViewById(R.id.scan_address);
-        balance_tv = findViewById(R.id.balance_tv);
+        mBalanceTv = findViewById(R.id.balance_tv);
         txSeekBarIndex = findViewById(R.id.tx_seek_bar_index);
         txNext = findViewById(R.id.tx_next);
         back = findViewById(R.id.back);
@@ -101,6 +121,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     }
 
+    private TxRecordBean mTxRecordBean;
     @Override
     protected void setListener() {
         super.setListener();
@@ -111,10 +132,10 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         });
         txNext.setOnClickListener(v -> {
             tapNext = true;
-            toAddress = txToAddressEt.getText().toString();
-            txAccount = txAccountEt.getText().toString();
+            mAddressTo = txToAddressEt.getText().toString();
+            mTxAccount = mTxValueEt.getText().toString();
 
-            if (StringUtils.isEmpty(toAddress) || StringUtils.isEmpty(txAccount)) {
+            if (StringUtils.isEmpty(mAddressTo) || StringUtils.isEmpty(mTxAccount)) {
                 ToastUtil.showToastLonger(getAppString(R.string.please_check_addr_amount));
                 return;
             }
@@ -133,7 +154,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                     progress = SEEK_BAR_MIN_VALUE_1_GWEI;
                 }
                 mProgress = progress;
-                txCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
+                mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
             }
 
             @Override
@@ -157,14 +178,14 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     protected void initData() {
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
-        txCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
+        mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
         ioncNodePresenter = new IONCNodePresenter();
         ioncNodePresenter.getNodes(this);
     }
 
     @Override
     protected void handleIntent(Intent intent) {
-        mAddress = getIntent().getStringExtra(CURRENT_ADDRESS);
+        mAddressFrom = getIntent().getStringExtra(CURRENT_ADDRESS);
         mKsPath = getIntent().getStringExtra(CURRENT_KSP);
         mWalletBeanNew = intent.getParcelableExtra(INTENT_PARAM_CURRENT_WALLET);
     }
@@ -181,11 +202,26 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         return R.layout.activity_tx_out;
     }
 
+    /**
+     * 交易成功，携带当前的交易信息，跳转到交易记录界面
+     *
+     * @param hashTx 转账成功的hash值
+     */
     @Override
     public void OnTxSuccess(String hashTx) {
         LoggerUtils.i("交易hash :" + hashTx);
         ToastUtil.showToastLonger(getAppString(R.string.submit_success));
         hideProgress();
+        mTxRecordBean = new TxRecordBean();
+        mTxRecordBean.setTo(mAddressTo);
+        mTxRecordBean.setFrom(mAddressFrom);
+        mTxRecordBean.setValue(mTxAccount);
+        mTxRecordBean.setTxHash(hashTx);
+        mTxRecordBean.setTxFee(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
+        mTxRecordBean.setBlock("");//可以作为是否交易成功的展示依据
+        IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
+        finish();
+        skip(TxRecordActivity.class);
     }
 
     @Override
@@ -204,7 +240,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @SuppressLint("SetTextI18n")
     @Override
     public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
-        balance_tv.setText(getAppString(R.string.balance_) + balanceBigDecimal + " IONC");
+        mBalanceTv.setText(getAppString(R.string.balance_) + balanceBigDecimal + " IONC");
     }
 
     @Override
@@ -223,13 +259,14 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         clicked = false;
         showProgress(getAppString(R.string.please_wait));
         final String toAddress = txToAddressEt.getText().toString();
-        final String txAccount = txAccountEt.getText().toString();
+        final String txAccount = mTxValueEt.getText().toString();
         TransactionHelper helper = new TransactionHelper()
                 .setGasPrice(mProgress)
                 .setToAddress(toAddress)
                 .setTxValue(txAccount)
                 .setWalletBeanTx(bean);
         IONCWalletSDK.getInstance().transaction(mNodeIONC, helper, TxActivity.this);
+
     }
 
     @Override
@@ -296,7 +333,32 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onIONCNodeError(String error) {
         LoggerUtils.i("获取主链节点失败：" + error);
-        ToastUtil.showToastLonger(getAppString(R.string.error_net_node));
+        mNodeIONC = "http://192.168.2.1:7545";
+        if (!tapNext) {
+            LoggerUtils.i("获取主链节点成功：来自刷新或者初始化余额的时候");
+            getBalance();
+        } else {
+            LoggerUtils.i("获取主链节点成功：来自下一步");
+            tapNext = false;
+            //
+            dialogPasswordCheck = new DialogPasswordCheck(mActivity);
+            dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
+
+                LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
+                //主链节点检查
+                if ("".equals(mNodeIONC)) {
+                    ToastUtil.showToastLonger(getAppString(R.string.please_refresh));
+                    return;
+                }
+                if (clicked) {
+                    return;
+                }
+                clicked = true;
+                //检查密码是否正确
+                String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
+                IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mKsPath, TxActivity.this); //转账
+            }).show();
+        }
     }
 
     @Override
@@ -319,7 +381,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      * 获取余额
      */
     private void getBalance() {
-        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mAddress, this);
+        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mAddressFrom, this);
     }
 
 }

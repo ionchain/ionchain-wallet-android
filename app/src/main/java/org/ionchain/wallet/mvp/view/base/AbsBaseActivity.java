@@ -50,11 +50,13 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     private ProgressDialog dialog;
     protected String mActivityFrom = INTENT_FROM_MAIN_ACTIVITY; //来自main
 
+
     protected boolean debug = BuildConfig.DEBUG;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocalManageUtil.setLocal(newBase));
     }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

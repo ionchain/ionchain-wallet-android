@@ -19,6 +19,7 @@ import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.ionc.wallet.bean.KeystoreBean;
+import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
@@ -31,6 +32,7 @@ import org.ionc.wallet.callback.OnTransationCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.daohelper.EntityManager;
 import org.ionc.wallet.greendaogen.DaoSession;
+import org.ionc.wallet.greendaogen.TxRecordBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanNewDao;
 import org.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
@@ -41,7 +43,6 @@ import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.SecureRandomUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
-import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
@@ -54,6 +55,7 @@ import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
+import org.web3j.protocol.core.methods.response.Transaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
@@ -480,7 +482,30 @@ public class IONCWalletSDK {
                 }
             }
         }.start();
+    } /**
+     * @param node     区块节点
+     * @param callback 回调
+     */
+    public void ethTransaction(final String node, final String hash, final OnBalanceCallback callback) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Web3j web3j = Web3jFactory.build(new HttpService(node));
+                    LoggerUtils.i("ethTransaction ; ");
+                    Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
+                    LoggerUtils.i("ethTransaction ; ",ethTransaction.toString());
+                } catch (final IOException e) {
+                    LoggerUtils.e("client", e.getMessage());
+                    mHandler.post(() -> {
+                        LoggerUtils.e(e.getMessage());
+                    });
+                }
+            }
+        }.start();
     }
+
 
 
     /**
@@ -627,6 +652,22 @@ public class IONCWalletSDK {
         return walletList;
     }
 
+    /**
+     * 查询 所有交易记录
+     */
+    public List<TxRecordBean> getAllTxRecordBeans() {
+        List<TxRecordBean> txRecordBeans;
+        try {
+            QueryBuilder.LOG_SQL = true;
+            QueryBuilder.LOG_VALUES = true;
+            QueryBuilder<TxRecordBean> qb = EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).queryBuilder();
+            txRecordBeans = qb.orderDesc(TxRecordBeanDao.Properties.Id).list();
+            return txRecordBeans;
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
 
     /**
      * 保存钱包,保存前,检查数据库是否存在钱包,如果没有则将该钱包设置为首页展示钱包
@@ -635,7 +676,7 @@ public class IONCWalletSDK {
      * @return
      */
     public void saveWallet(WalletBeanNew wallet) {
-        if (IONCWalletSDK.getInstance().getAllWalletNew() == null || IONCWalletSDK.getInstance().getAllWalletNew().size() == 0) {
+        if (getAllWalletNew() == null || getAllWalletNew().size() == 0) {
             wallet.setIsMainWallet(true);
         }
         //私钥不存储于数据库中
@@ -643,6 +684,16 @@ public class IONCWalletSDK {
         wallet.setPrivateKey("");
         wallet.setPassword("");
         EntityManager.getInstance().getWalletDaoNew(mDaoSession).insertOrReplace(wallet);
+    }
+
+    /**
+     * 保存钱包,保存前,检查数据库是否存在钱包,如果没有则将该钱包设置为首页展示钱包
+     *
+     * @param txRecordBean 钱包
+     * @return
+     */
+    public void saveTxRecordBean(TxRecordBean txRecordBean) {
+        EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).insertOrReplace(txRecordBean);
     }
 
 
@@ -662,6 +713,15 @@ public class IONCWalletSDK {
         }
     }
 
+    /**
+     * 更新钱包
+     *
+     * @param txRecordBean
+     */
+    public void updateTxRecordBean(TxRecordBean txRecordBean) {
+        EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).update(txRecordBean);
+    }
+
 
     /**
      * 删除钱包,删除前
@@ -678,6 +738,17 @@ public class IONCWalletSDK {
             file.delete();
         }
         deleteFinishCallback.onDeleteFinish();
+    }
+
+    /**
+     * 删除 本地的旧数据
+     *
+     * @param txRecordBean
+     */
+    public void deleteTxRecordBean(TxRecordBean txRecordBean) {
+
+        //私钥不存储于数据库中
+        EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).delete(txRecordBean);
     }
 
     /**

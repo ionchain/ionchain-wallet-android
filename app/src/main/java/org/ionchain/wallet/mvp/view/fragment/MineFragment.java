@@ -266,5 +266,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
      */
     @Override
     public void onDownloadHide() {
+
     }
+
 }

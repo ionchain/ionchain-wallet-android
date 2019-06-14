@@ -925,4 +925,5 @@ public class AssetFragment extends AbsBaseFragment implements
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_RMB_RATE);
     }
 
+
 }

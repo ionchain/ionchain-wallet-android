@@ -9,11 +9,9 @@ import com.lzy.okgo.request.base.Request;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.bean.TxRecoderBean;
+import org.ionchain.wallet.bean.TxRecordBeanTemp;
 import org.ionchain.wallet.mvp.callback.OnTxRecordCallback;
 import org.ionchain.wallet.utils.NetUtils;
-
-import java.util.List;
 
 import static org.ionchain.wallet.utils.UrlUtils.getTxRecordUrl;
 
@@ -39,17 +37,16 @@ public class TxRecordModel implements ITxRecoderModel {
             public void onSuccess(Response<String> response) {
                 String json = response.body();
                 LoggerUtils.i(json);
-                TxRecoderBean txRecoderBean = NetUtils.gsonToBean(json, TxRecoderBean.class);
-                if (txRecoderBean == null || txRecoderBean.getData() == null || txRecoderBean.getData().getData() == null) {
+                TxRecordBeanTemp txRecordBeanTemp = NetUtils.gsonToBean(json, TxRecordBeanTemp.class);
+                if (txRecordBeanTemp == null || txRecordBeanTemp.getData() == null || txRecordBeanTemp.getData().getData() == null) {
                     callback.onTxRecordFailure(App.mContext.getResources().getString(R.string.error_data_parase));
                     return;
                 }
-                TxRecoderBean.DataBean beans = txRecoderBean.getData();
+                TxRecordBeanTemp.DataBean beans = txRecordBeanTemp.getData();
                 if (!isLoadMore) {
                     callback.onTxRecordRefreshSuccess(beans);
                 } else {
-                    List<TxRecoderBean.DataBean.ItemBean> itemBeans = txRecoderBean.getData().getData();
-                      callback.onTxRecordLoadMoreSuccess(itemBeans);
+                    callback.onTxRecordLoadMoreSuccess(beans);
                 }
             }
 

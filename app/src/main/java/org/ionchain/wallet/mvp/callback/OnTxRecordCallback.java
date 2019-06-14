@@ -1,9 +1,7 @@
 package org.ionchain.wallet.mvp.callback;
 
 
-import org.ionchain.wallet.bean.TxRecoderBean;
-
-import java.util.List;
+import org.ionchain.wallet.bean.TxRecordBeanTemp;
 
 /**
  * user: binny
@@ -14,13 +12,13 @@ public interface OnTxRecordCallback extends OnLoadingView {
     /**
      * 请求成功
      */
-    void onTxRecordRefreshSuccess(TxRecoderBean.DataBean beans);
+    void onTxRecordRefreshSuccess(TxRecordBeanTemp.DataBean beans);
 
     /**
      * 加载更多
      * @param beans
      */
-    void onTxRecordLoadMoreSuccess(List<TxRecoderBean.DataBean.ItemBean> beans);
+    void onTxRecordLoadMoreSuccess(TxRecordBeanTemp.DataBean beans);
 
 
     /**
