@@ -4,6 +4,8 @@
 ```markdown
 1. 交易记录背景改为白色
 2. 修复交易密码校验失败，再次点击无效的bug
+3. 刷新提示时间，有每次下拉的时间改为每次刷新成功的时间
+4 .请求失败的余额展示为历史缓存的余额，颜色为灰色
 ```
 ### v1.0.7
 [IONCWallet_v1.0.7_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.0.7_release.apk)

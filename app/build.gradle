@@ -159,6 +159,7 @@ dependencies {
     implementation project(':ioncwalletsdk')
     implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
 }
 
 /**
@@ -173,4 +174,3 @@ def loadVersionInfo(String filename) {
     }
     return content.replace("&", "\\n")
 }
-

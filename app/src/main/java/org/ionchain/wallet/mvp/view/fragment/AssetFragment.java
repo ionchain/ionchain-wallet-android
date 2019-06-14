@@ -20,6 +20,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import com.lzy.okgo.OkGo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
@@ -34,6 +35,7 @@ import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.NodeBean;
+import org.ionchain.wallet.constant.ConstantUrl;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
@@ -63,8 +65,11 @@ import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -138,7 +143,7 @@ public class AssetFragment extends AbsBaseFragment implements
     /**
      * 人民币余额
      */
-    private TextView rmb_balance_tx;
+    private TextView rmb_tx;
     /**
      * 当前钱包的余额--以太坊
      */
@@ -225,7 +230,7 @@ public class AssetFragment extends AbsBaseFragment implements
     private PricePresenter mPricePresenter;
     private String mNodeIONC;
 
-
+    private ClassicsHeader refresh_header;
     /**
      * @param rootView 实例化资产页头部
      */
@@ -234,7 +239,7 @@ public class AssetFragment extends AbsBaseFragment implements
         node = rootView.findViewById(R.id.node);
         moreWallet = rootView.findViewById(R.id.wallet_list);
         ioncBalanceTx = rootView.findViewById(R.id.ionc_balance_tx);
-        rmb_balance_tx = rootView.findViewById(R.id.rmb_balance_tx);
+        rmb_tx = rootView.findViewById(R.id.rmb_balance_tx);
         walletBalanceTxETH = rootView.findViewById(R.id.wallet_balance_tx_eth);
         addDeviceScan = rootView.findViewById(R.id.add_device);
         wallet_logo = rootView.findViewById(R.id.wallet_logo);
@@ -245,6 +250,8 @@ public class AssetFragment extends AbsBaseFragment implements
         if (!BuildConfig.DEBUG) {
             node.setVisibility(View.GONE);
         }
+        ioncBalanceTx.setText("0000");
+        rmb_tx.setText("0000");
     }
 
 
@@ -335,6 +342,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
         //设备列表
         ListView mDevicesLv = view.findViewById(R.id.devices_items);
+        refresh_header = (ClassicsHeader)view.findViewById(R.id.refresh_header);
         //lv头部
         View lvHeader = LayoutInflater.from(mActivity).inflate(R.layout.header_lv_home_page, null);
         initListViewHeaderViews(lvHeader);
@@ -559,7 +567,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 mDataBeans.clear();
                 mAdapterDeviceLv.notifyDataSetChanged();
                 ioncBalanceTx.setText(mCurrentWallet.getBalance());
-                rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+                rmb_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
                 instance.dismiss();
                 getNetData(); //切换钱包
             }
@@ -678,42 +686,6 @@ public class AssetFragment extends AbsBaseFragment implements
         LoggerUtils.i(TAG, "onUnbindFailure: " + result);
     }
 
-    /**
-     * @param balanceBigDecimal 原始形式
-     * @param nodeUrlTag
-     */
-    @Override
-    public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
-
-        mIONCBalance = balanceBigDecimal;
-        ioncBalanceTx.setText(balanceBigDecimal.toPlainString());
-        LoggerUtils.i("离子币余额获取成功:" + balanceBigDecimal.toPlainString());
-        mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
-        mRefresh.finishRefresh(); //
-        //获取美元价格
-        mPricePresenter = new PricePresenter();
-        mPricePresenter.getUSDPrice(this);
-    }
-
-    /**
-     * @param error 失败信息 获取余额失败
-     */
-    @Override
-    public void onBalanceFailure(String error) {
-        LoggerUtils.e("离子币余额获取失败:", error);
-        ToastUtil.showToastLonger(getAppString(R.string.error_net_get_balance));
-        mRefresh.finishRefresh();
-        String balance = mCurrentWallet.getBalance();
-        String rmb = mCurrentWallet.getRmb();
-        if (TextUtils.isEmpty(balance)) {
-            balance = "****";
-        }
-        if (TextUtils.isEmpty(rmb)) {
-            rmb = "****";
-        }
-        ioncBalanceTx.setText(balance);
-        rmb_balance_tx.setText(rmb);   //缓存
-    }
 
     @Override
     public void onDestroy() {
@@ -778,27 +750,130 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     @Override
+    public void onIONCNodeStart() {
+        LoggerUtils.i("正在离子链节点......");
+    }
+
+    @Override
+    public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
+        //取出主链节点
+        mNodeIONC = dataBean.get(0).getIonc_node();
+        LoggerUtils.i("node", mNodeIONC);
+        node.setText("当前节点：" + mNodeIONC);
+        //获取主链成功后,获取离子币余额
+        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
+    }
+
+    /**
+     * 从中心服务器 获取节点失败，使用内置的备用节点
+     *
+     * @param error 失败
+     */
+    @Override
+    public void onIONCNodeError(String error) {
+        LoggerUtils.e("node error", " 获取离子链节点失败......" + ("".equals(error) ? "数据解析失败" : error));
+        //获取主链成功后,获取余额
+        IONCWalletSDK.getInstance().getIONCWalletBalance(ConstantUrl.HOST_NODE, mCurrentWallet.getAddress(), this);
+    }
+
+
+    @Override
+    public void onIONCNodeFinish() {
+        LoggerUtils.i("节点请求结束");
+    }
+
+    /**
+     * @param balanceBigDecimal 原始形式
+     * @param nodeUrlTag        节点
+     */
+    @Override
+    public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
+        LoggerUtils.i("离子币余额获取成功:" + balanceBigDecimal.toPlainString());
+        ioncBalanceTx.setTextColor(Color.WHITE);
+        mIONCBalance = balanceBigDecimal;
+        //正常显示离子币余额
+        ioncBalanceTx.setText(balanceBigDecimal.toPlainString());
+
+        mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
+        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);//更新余额到数据库
+
+        //获取美元价格
+        mPricePresenter = new PricePresenter();
+        mPricePresenter.getUSDPrice(this);
+    }
+
+    /**
+     * 获取余额失败，不再去获取离子币对应的美元价格
+     * 显示余额为灰色
+     *
+     * @param error 失败信息 获取余额失败
+     */
+    @Override
+    public void onBalanceFailure(String error) {
+        mRefresh.finishRefresh();
+
+        LoggerUtils.e("离子币余额获取失败:", error);
+        ToastUtil.showToastLonger(getAppString(R.string.error_net_get_balance));
+
+        String balance = mCurrentWallet.getBalance();
+        String rmb = mCurrentWallet.getRmb();
+        if (TextUtils.isEmpty(balance)) {
+            balance = "0000";
+        }
+        if (TextUtils.isEmpty(rmb)) {
+            rmb = "0000";
+        }
+        rmb_tx.setTextColor(Color.GRAY);
+        ioncBalanceTx.setTextColor(Color.GRAY);
+
+        ioncBalanceTx.setText(balance);
+        rmb_tx.setText(rmb);   //缓存
+    }
+
+    @Override
     public void onUSDPriceStart() {
         LoggerUtils.i("正在美元价格......");
     }
 
+    /**
+     * 美元价格获取成功
+     *
+     * @param usdPrice IONC 的美元价格
+     */
     @Override
     public void onUSDPriceSuccess(double usdPrice) {
         //获取人民币汇率
         mUSDPrice = usdPrice;
         LoggerUtils.i("美元价格：", String.valueOf(mUnbindPos));
+        //计算美元价格
         mTotalUSDPrice = mIONCBalance.multiply(BigDecimal.valueOf(usdPrice));
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
+
+        /*
+         * 请求汇率
+         * 如果用户需要显示总的美元价格  就不要去请求汇率了
+         * 设置美元价格
+         *  rmb_tx.setText(mCurrentWallet.getBalance());
+         *  rmb_tx.setTextColor(Color.WHITE);
+         */
         mPricePresenter.getUSDExchangeRateRMB(this);
     }
 
+    /**
+     * 获取美元汇率失败 ，影响价格转换，但不影响IONC的数量显示
+     *
+     * @param error 请求usd价格失败
+     */
     @Override
     public void onUSDPriceFailure(String error) {
-        LoggerUtils.e(error);
         ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_usd));
-        LoggerUtils.e("美元价格获取失败:");
-        ioncBalanceTx.setText(mCurrentWallet.getBalance());
-        rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+        LoggerUtils.e("美元价格获取失败:" + error);
+        rmb_tx.setTextColor(Color.GRAY);
+        if (TextUtils.isEmpty(mCurrentWallet.getRmb())) {
+            rmb_tx.setText("0000"); //切换时读取余额
+        } else {
+            rmb_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+        }
     }
 
     @Override
@@ -818,51 +893,27 @@ public class AssetFragment extends AbsBaseFragment implements
         BigDecimal rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(usdPrice));
         LoggerUtils.i("balance = ", rmb.setScale(4, ROUND_HALF_UP).toPlainString());
         mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
-        rmb_balance_tx.setText(mCurrentWallet.getRmb()); //网络数据
-        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
+        rmb_tx.setText(mCurrentWallet.getRmb()); //网络数据
+        rmb_tx.setTextColor(Color.WHITE);
+        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet); //更新到数据库
+        refresh_header.setLastUpdateText(new SimpleDateFormat("上次更新:yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
     }
 
     @Override
     public void onUSDExRateRMBFailure(String error) {
-        ioncBalanceTx.setText(mCurrentWallet.getBalance());
-        rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
         LoggerUtils.e(error);
+        rmb_tx.setTextColor(Color.GRAY);
+        if (TextUtils.isEmpty(mCurrentWallet.getRmb())) {
+            rmb_tx.setText("0000"); //切换时读取余额
+        } else {
+            rmb_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+        }
         ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_rate_rmb));
     }
 
     @Override
     public void onUSDExRateRMBFinish() {
         LoggerUtils.i("汇率请求结束");
-        mRefresh.finishRefresh();
-    }
-
-    @Override
-    public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
-        //取出主链节点
-        mNodeIONC = dataBean.get(0).getIonc_node();
-        LoggerUtils.i("node", mNodeIONC);
-        node.setText("当前节点：" + mNodeIONC);
-        //获取主链成功后,获取余额
-        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
-
-    }
-
-    @Override
-    public void onIONCNodeError(String error) {
-        LoggerUtils.e("获取离子链节点失败......" + ("".equals(error) ? "数据解析失败" : error));
-        ioncBalanceTx.setText(mCurrentWallet.getBalance());
-        rmb_balance_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
-        ToastUtil.showToastLonger(getAppString(R.string.error_net_node));
-    }
-
-    @Override
-    public void onIONCNodeStart() {
-        LoggerUtils.i("正在离子链节点......");
-    }
-
-    @Override
-    public void onIONCNodeFinish() {
-        LoggerUtils.i("节点请求结束");
         mRefresh.finishRefresh();
     }
 

@@ -136,7 +136,7 @@
     <string name="permission_request">Please grant relevant permissions first!</string>
     <string name="permission_storage">You need to open storage permissions</string>
     <string name="permission_camera">Scanning the qr code requires permission to turn on the camera and vibrate</string>
-    <string name="error_app_update">Update Error !</string>
+    <string name="error_app_update">Check update failed！</string>
     <string name="mnemonics_rule">Mnemonic words, separated by Spaces</string>
     <string name="keystore_edit_tx_title_hint">Paste the contents of the ETH wallet keystore to the  box.</string>
     <string name="keystore_password_input">Please enter the keystore password</string>

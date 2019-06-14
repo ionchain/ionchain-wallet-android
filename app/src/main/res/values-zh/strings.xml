@@ -135,7 +135,7 @@
     <string name="permission_request">请先授予相关权限!</string>
     <string name="permission_storage">需要打开存储的权限</string>
     <string name="permission_camera">扫描二维码需要打开相机和震动的权限</string>
-    <string name="error_app_update">更新失败 !</string>
+    <string name="error_app_update">检查更新失败 !</string>
     <string name="mnemonics_rule">助记词,用空格分割</string>
     <string name="keystore_edit_tx_title_hint">直接复制粘贴以太坊官方钱包 keystore文件内容至输入框。</string>
     <string name="keystore_password_input">请输入该keystore密码</string>
