@@ -39,14 +39,18 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
         }
         int size = mRecordBeanListLocalTemp.size();
         if (size > 0) {
-            mTxRecordBeanList.addAll(mRecordBeanListLocalTemp);
-            adapterLv.notifyDataSetChanged();
             for (int i = 0; i < size; i++) {
-                IONCWalletSDK.getInstance().ethTransaction("http://api.ionchain.org"
-                        , mRecordBeanListLocalTemp.get(i).getHash()
-                        , mRecordBeanListLocalTemp.get(i)
-                        , this);
+                if ("-1".equals(mRecordBeanListLocalTemp.get(i).getBlockNumber())) {
+                    IONCWalletSDK.getInstance().ethTransaction("http://192.168.0.104:7545"
+                            , mRecordBeanListLocalTemp.get(i).getHash()
+                            , mRecordBeanListLocalTemp.get(i)
+                            , this);
+                } else {
+                    mTxRecordBeanList.add(mRecordBeanListLocalTemp.get(i));
+                    IONCWalletSDK.getInstance().updateTxRecordBean(mRecordBeanListLocalTemp.get(i));
+                }
             }
+            adapterLv.notifyDataSetChanged();
         }
 
     }
@@ -77,8 +81,10 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
 
     @Override
     public void OnTxRecordSuccess(TxRecordBean txRecordBean) {
-        mTxRecordBeanList.add(txRecordBean);
-        adapterLv.notifyDataSetChanged();
+        if (txRecordBean != null) {
+            mTxRecordBeanList.add(txRecordBean);
+            adapterLv.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -104,7 +110,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
         mRecordBeanListLocalTemp = IONCWalletSDK.getInstance().getAllTxRecordBeans();
         int size = mRecordBeanListLocalTemp.size();
         for (int i = 0; i < size; i++) {
-            IONCWalletSDK.getInstance().ethTransaction("http://api.ionchain.org"
+            IONCWalletSDK.getInstance().ethTransaction("http://192.168.0.104:7545"
                     , mRecordBeanListLocalTemp.get(i).getHash()
                     , mRecordBeanListLocalTemp.get(i)
                     , this);

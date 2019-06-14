@@ -35,7 +35,6 @@ import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.NodeBean;
-import org.ionchain.wallet.constant.ConstantUrl;
 import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
@@ -758,13 +757,14 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
         //取出主链节点
 //        mNodeIONC = dataBean.get(0).getIonc_node();
-        mNodeIONC = "http://192.168.2.1:7545";
+        mNodeIONC = "http://192.168.0.104:7545";
+
 
         LoggerUtils.i("node", mNodeIONC);
 
         node.setText("当前节点：" + mNodeIONC);
         //获取主链成功后,获取离子币余额
-        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
+        balance();
     }
 
     /**
@@ -776,7 +776,11 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onIONCNodeError(String error) {
         LoggerUtils.e("node error", " 获取离子链节点失败......" + ("".equals(error) ? "数据解析失败" : error));
         //获取主链成功后,获取余额
-        mNodeIONC = "http://192.168.2.1:7545";
+       balance();
+    }
+
+    private void balance() {
+        mNodeIONC = "http://192.168.0.104:7545";
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
     }
 
@@ -784,7 +788,6 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onIONCNodeFinish() {
         LoggerUtils.i("节点请求结束");
-        mNodeIONC = "http://192.168.2.1:7545";
     }
 
     /**

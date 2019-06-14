@@ -218,7 +218,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         mTxRecordBean.setValue(mTxAccount);
         mTxRecordBean.setHash(hashTx);
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
-        mTxRecordBean.setBlockNumber("");//可以作为是否交易成功的展示依据
+        mTxRecordBean.setBlockNumber("-1");//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         finish();
         skip(TxRecordActivity.class);
@@ -265,6 +265,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                 .setToAddress(toAddress)
                 .setTxValue(txAccount)
                 .setWalletBeanTx(bean);
+        mNodeIONC = "http://192.168.0.104:7545";
         IONCWalletSDK.getInstance().transaction(mNodeIONC, helper, TxActivity.this);
 
     }
@@ -333,7 +334,6 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onIONCNodeError(String error) {
         LoggerUtils.i("获取主链节点失败：" + error);
-        mNodeIONC = "http://192.168.2.1:7545";
         if (!tapNext) {
             LoggerUtils.i("获取主链节点成功：来自刷新或者初始化余额的时候");
             getBalance();
@@ -381,6 +381,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      * 获取余额
      */
     private void getBalance() {
+        mNodeIONC = "http://192.168.0.104:7545";
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mAddressFrom, this);
     }
 

@@ -483,11 +483,13 @@ public class IONCWalletSDK {
                 }
             }
         }.start();
-    } /**
+    }
+
+    /**
      * @param node     区块节点
      * @param callback 回调
      */
-    public void ethTransaction(final String node, final String hash,final TxRecordBean txRecordBean, final OnTxRecordCallback callback) {
+    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordCallback callback) {
         new Thread() {
             @Override
             public void run() {
@@ -496,14 +498,41 @@ public class IONCWalletSDK {
                     Web3j web3j = Web3jFactory.build(new HttpService(node));
                     LoggerUtils.i("ethTransaction ; ");
                     Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
-                    txRecordBean.setBlockNumber(String.valueOf(ethTransaction.getBlockNumber()));
-                    txRecordBean.setTo(ethTransaction.getTo());
-                    txRecordBean.setFrom(ethTransaction.getFrom());
-                    txRecordBean.setValue(String.valueOf(ethTransaction.getValue()));
-                    txRecordBean.setHash(ethTransaction.getHash());
-                    txRecordBean.setGas(String.valueOf(ethTransaction.getGas()));
-                    callback.OnTxRecordSuccess(txRecordBean);
-                    LoggerUtils.i("ethTransaction ; ",ethTransaction.toString());
+                    if (ethTransaction == null) {
+                        mHandler.post(() -> {
+                            callback.OnTxRecordSuccess(null);
+                        });
+                        return;
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getBlockNumberRaw())) {
+                        txRecordBean.setBlockNumber(valueOf(new BigInteger(ethTransaction.getBlockNumberRaw().substring(2).toUpperCase(),16)));
+                    } else {
+                        txRecordBean.setBlockNumber("-1");
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getTo())) {
+                        txRecordBean.setTo(ethTransaction.getTo());
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getFrom())) {
+                        txRecordBean.setFrom(ethTransaction.getFrom());
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getValueRaw())) {
+                        LoggerUtils.i("value-raw "+ethTransaction.getValueRaw());
+                        txRecordBean.setValue(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(),16)));
+                    } else {
+                        txRecordBean.setValue("");
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getHash())) {
+                        txRecordBean.setHash(ethTransaction.getHash());
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getGasRaw())) {
+                        txRecordBean.setGas(String.valueOf(Convert.fromWei(valueOf(
+                                new BigInteger(ethTransaction.getGasPriceRaw().substring(2).toUpperCase(),16)
+                                        .multiply(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(),16))
+                        ),Convert.Unit.ETHER)));
+                    }
+                    mHandler.post(() -> {
+                        callback.OnTxRecordSuccess(txRecordBean);
+                    });
                 } catch (final IOException e) {
                     LoggerUtils.e("client", e.getMessage());
                     mHandler.post(() -> {
@@ -514,7 +543,6 @@ public class IONCWalletSDK {
             }
         }.start();
     }
-
 
 
     /**
