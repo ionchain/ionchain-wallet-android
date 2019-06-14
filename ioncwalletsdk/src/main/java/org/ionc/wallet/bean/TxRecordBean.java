@@ -7,11 +7,13 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.math.BigInteger;
+
 /**
  * 交易记录
  */
 @Entity
-public class TxRecordBean  implements Parcelable {
+public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
     @Id(autoincrement = true)
     private Long id;
     private String hash;
@@ -229,9 +231,9 @@ public class TxRecordBean  implements Parcelable {
 
     @Generated(hash = 701957250)
     public TxRecordBean(Long id, String hash, String nonce, String blockHash,
-            String blockNumber, String transactionIndex, String from, String to, String value,
-            String gasPrice, String gas, String input, String creates, String publicKey,
-            String raw, String r, String s, int v) {
+                        String blockNumber, String transactionIndex, String from, String to, String value,
+                        String gasPrice, String gas, String input, String creates, String publicKey,
+                        String raw, String r, String s, int v) {
         this.id = id;
         this.hash = hash;
         this.nonce = nonce;
@@ -263,4 +265,9 @@ public class TxRecordBean  implements Parcelable {
             return new TxRecordBean[size];
         }
     };
+
+    @Override
+    public int compareTo(TxRecordBean txRecordBean) {
+        return new BigInteger(txRecordBean.getBlockNumber()).compareTo(new BigInteger(this.getBlockNumber()));
+    }
 }

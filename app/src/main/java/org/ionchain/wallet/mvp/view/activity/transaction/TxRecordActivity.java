@@ -19,6 +19,7 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, OnRefreshListener, OnLoadMoreListener,
@@ -39,6 +40,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
         }
         int size = mRecordBeanListLocalTemp.size();
         if (size > 0) {
+            Collections.sort(mRecordBeanListLocalTemp);
             for (int i = 0; i < size; i++) {
                 if ("-1".equals(mRecordBeanListLocalTemp.get(i).getBlockNumber())) {
                     IONCWalletSDK.getInstance().ethTransaction("http://192.168.0.104:7545"
