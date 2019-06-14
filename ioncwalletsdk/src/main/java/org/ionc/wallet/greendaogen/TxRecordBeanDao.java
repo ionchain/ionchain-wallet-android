@@ -25,12 +25,6 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property Block = new Property(1, String.class, "block", false, "BLOCK");
-        public final static Property TxHash = new Property(2, String.class, "txHash", false, "TX_HASH");
-        public final static Property TxFee = new Property(3, String.class, "txFee", false, "TX_FEE");
-        public final static Property From = new Property(4, String.class, "from", false, "FROM");
-        public final static Property To = new Property(5, String.class, "to", false, "TO");
-        public final static Property Value = new Property(6, String.class, "value", false, "VALUE");
     }
 
 
@@ -46,13 +40,7 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"TX_RECORD_BEAN\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"BLOCK\" TEXT," + // 1: block
-                "\"TX_HASH\" TEXT," + // 2: txHash
-                "\"TX_FEE\" TEXT," + // 3: txFee
-                "\"FROM\" TEXT," + // 4: from
-                "\"TO\" TEXT," + // 5: to
-                "\"VALUE\" TEXT);"); // 6: value
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT );"); // 0: id
     }
 
     /** Drops the underlying database table. */
@@ -69,36 +57,6 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
- 
-        String block = entity.getBlock();
-        if (block != null) {
-            stmt.bindString(2, block);
-        }
- 
-        String txHash = entity.getTxHash();
-        if (txHash != null) {
-            stmt.bindString(3, txHash);
-        }
- 
-        String txFee = entity.getTxFee();
-        if (txFee != null) {
-            stmt.bindString(4, txFee);
-        }
- 
-        String from = entity.getFrom();
-        if (from != null) {
-            stmt.bindString(5, from);
-        }
- 
-        String to = entity.getTo();
-        if (to != null) {
-            stmt.bindString(6, to);
-        }
- 
-        String value = entity.getValue();
-        if (value != null) {
-            stmt.bindString(7, value);
-        }
     }
 
     @Override
@@ -108,36 +66,6 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
         Long id = entity.getId();
         if (id != null) {
             stmt.bindLong(1, id);
-        }
- 
-        String block = entity.getBlock();
-        if (block != null) {
-            stmt.bindString(2, block);
-        }
- 
-        String txHash = entity.getTxHash();
-        if (txHash != null) {
-            stmt.bindString(3, txHash);
-        }
- 
-        String txFee = entity.getTxFee();
-        if (txFee != null) {
-            stmt.bindString(4, txFee);
-        }
- 
-        String from = entity.getFrom();
-        if (from != null) {
-            stmt.bindString(5, from);
-        }
- 
-        String to = entity.getTo();
-        if (to != null) {
-            stmt.bindString(6, to);
-        }
- 
-        String value = entity.getValue();
-        if (value != null) {
-            stmt.bindString(7, value);
         }
     }
 
@@ -149,13 +77,7 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
     @Override
     public TxRecordBean readEntity(Cursor cursor, int offset) {
         TxRecordBean entity = new TxRecordBean( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // block
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // txHash
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // txFee
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // from
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // to
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // value
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0) // id
         );
         return entity;
     }
@@ -163,12 +85,6 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
     @Override
     public void readEntity(Cursor cursor, TxRecordBean entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setBlock(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setTxHash(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setTxFee(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setFrom(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setTo(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setValue(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     @Override

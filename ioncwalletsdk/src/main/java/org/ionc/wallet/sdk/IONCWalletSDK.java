@@ -29,6 +29,7 @@ import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
 import org.ionc.wallet.callback.OnTransationCallback;
+import org.ionc.wallet.callback.OnTxRecordCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.daohelper.EntityManager;
 import org.ionc.wallet.greendaogen.DaoSession;
@@ -486,7 +487,7 @@ public class IONCWalletSDK {
      * @param node     区块节点
      * @param callback 回调
      */
-    public void ethTransaction(final String node, final String hash, final OnBalanceCallback callback) {
+    public void ethTransaction(final String node, final String hash,final TxRecordBean txRecordBean, final OnTxRecordCallback callback) {
         new Thread() {
             @Override
             public void run() {
@@ -495,11 +496,19 @@ public class IONCWalletSDK {
                     Web3j web3j = Web3jFactory.build(new HttpService(node));
                     LoggerUtils.i("ethTransaction ; ");
                     Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
+                    txRecordBean.setBlockNumber(String.valueOf(ethTransaction.getBlockNumber()));
+                    txRecordBean.setTo(ethTransaction.getTo());
+                    txRecordBean.setFrom(ethTransaction.getFrom());
+                    txRecordBean.setValue(String.valueOf(ethTransaction.getValue()));
+                    txRecordBean.setHash(ethTransaction.getHash());
+                    txRecordBean.setGas(String.valueOf(ethTransaction.getGas()));
+                    callback.OnTxRecordSuccess(txRecordBean);
                     LoggerUtils.i("ethTransaction ; ",ethTransaction.toString());
                 } catch (final IOException e) {
                     LoggerUtils.e("client", e.getMessage());
                     mHandler.post(() -> {
                         LoggerUtils.e(e.getMessage());
+                        callback.onTxRecordFailure(e.getLocalizedMessage());
                     });
                 }
             }

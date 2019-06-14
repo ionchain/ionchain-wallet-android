@@ -216,9 +216,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         mTxRecordBean.setTo(mAddressTo);
         mTxRecordBean.setFrom(mAddressFrom);
         mTxRecordBean.setValue(mTxAccount);
-        mTxRecordBean.setTxHash(hashTx);
-        mTxRecordBean.setTxFee(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
-        mTxRecordBean.setBlock("");//可以作为是否交易成功的展示依据
+        mTxRecordBean.setHash(hashTx);
+        mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
+        mTxRecordBean.setBlockNumber("");//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         finish();
         skip(TxRecordActivity.class);

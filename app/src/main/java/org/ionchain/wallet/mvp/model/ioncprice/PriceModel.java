@@ -37,7 +37,6 @@ public class PriceModel implements IPriceModel {
                 USDPriceBean updateBean = NetUtils.gsonToBean(json, USDPriceBean.class);
                 try {
                     usdPriceCallback.onUSDPriceSuccess(Objects.requireNonNull(updateBean).getData().getMarketinfo().getPrice());
-
                 } catch (NullPointerException e) {
                     usdPriceCallback.onUSDPriceFailure(e.getMessage());
                 }
