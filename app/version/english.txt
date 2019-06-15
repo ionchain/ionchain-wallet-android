@@ -1,3 +1,4 @@
 Version number: 1.0.8&&
 1. Change the background of transaction records to white &&
-2. Fix failed transaction password verification, click invalid bug&
+2. Fix failed transaction password verification, click invalid bug& again
+3. Localization of transaction records
