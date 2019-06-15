@@ -505,6 +505,7 @@ public class IONCWalletSDK {
                         return;
                     }
                     if (!TextUtils.isEmpty(ethTransaction.getBlockNumberRaw())) {
+                        LoggerUtils.i("txRecordBean  getBlockNumberRaw "+ethTransaction.getBlockNumberRaw());
                         txRecordBean.setBlockNumber(valueOf(new BigInteger(ethTransaction.getBlockNumberRaw().substring(2).toUpperCase(),16)));
                     } else {
                         txRecordBean.setBlockNumber("-1");
@@ -516,8 +517,8 @@ public class IONCWalletSDK {
                         txRecordBean.setFrom(ethTransaction.getFrom());
                     }
                     if (!TextUtils.isEmpty(ethTransaction.getValueRaw())) {
-                        LoggerUtils.i("value-raw "+ethTransaction.getValueRaw());
-                        txRecordBean.setValue(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(),16)));
+                        LoggerUtils.i(" txRecordBean   getValueRaw "+ethTransaction.getValueRaw());
+                        txRecordBean.setValue(String.valueOf(Convert.fromWei(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(),16)),Convert.Unit.ETHER)));
                     } else {
                         txRecordBean.setValue("");
                     }
@@ -638,6 +639,7 @@ public class IONCWalletSDK {
         return wallet;
     }
 
+
     /**
      * @param walletBeanNew 将此钱包设置为主钱包
      * @return
@@ -704,7 +706,15 @@ public class IONCWalletSDK {
             return null;
         }
     }
-
+    /**
+     * 通过钱包地址查询钱包
+     *
+     * @param address
+     * @return
+     */
+    public List<TxRecordBean>  getAllTxRecordBeansByAddress(String address) {
+        return mDaoSession.getTxRecordBeanDao().queryBuilder().where(TxRecordBeanDao.Properties.From.eq(address)).list();
+    }
 
     /**
      * 保存钱包,保存前,检查数据库是否存在钱包,如果没有则将该钱包设置为首页展示钱包

@@ -11,7 +11,7 @@ public class IONCNodePresenter implements INodePresenter {
     }
 
     @Override
-    public void getNodes(OnIONCNodeCallback callback) {
-        mNodeModel.getNodes(callback);
+    public void getNodes(OnIONCNodeCallback callback, Object cancelTag) {
+        mNodeModel.getNodes(callback, cancelTag);
     }
 }

@@ -207,4 +207,6 @@
     <string name="smart_refresh_footer_no_more">No more data</string>
     <string name="smart_refresh_no_new_data">no new data</string>
     <string name="tx_doing">The last deal was in the works...</string>
+    <string name="try_net_times">Trying the %s node request</string>
+    <string name="try_net_times_finish">After %s requests, the attempt ends and the service exception occurs</string>
 </resources>

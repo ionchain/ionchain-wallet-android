@@ -74,7 +74,12 @@ public class PriceModel implements IPriceModel {
                 String json = response.body();
                 LoggerUtils.i("getUSDExchangeRateRMB: $json" + json);
                 USDExRmb usdExRmb = NetUtils.gsonToBean(json, USDExRmb.class);
-                usdExRateRMBCallback.onUSDExRateRMBSuccess(Objects.requireNonNull(usdExRmb).getData());
+                try {
+                    usdExRateRMBCallback.onUSDExRateRMBSuccess(Objects.requireNonNull(usdExRmb).getData());
+
+                }catch (NullPointerException e) {
+                    usdExRateRMBCallback.onUSDExRateRMBFailure("dataerror");
+                }
             }
 
             @Override

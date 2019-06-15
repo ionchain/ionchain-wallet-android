@@ -6,6 +6,7 @@ public interface INodeModel {
     /**
      *
      * @param callback
+     * @param cancelTag
      */
-    void getNodes(OnIONCNodeCallback callback);
+    void getNodes(OnIONCNodeCallback callback, Object cancelTag);
 }

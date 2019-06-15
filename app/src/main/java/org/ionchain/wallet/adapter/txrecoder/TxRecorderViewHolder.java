@@ -17,4 +17,28 @@ class TxRecorderViewHolder implements IViewHolder {
     TextView from;
     TextView to;
     TextView value;
+
+    public TextView getBlock() {
+        return block;
+    }
+
+    public TextView getTxHash() {
+        return txHash;
+    }
+
+    public TextView getTxFee() {
+        return txFee;
+    }
+
+    public TextView getFrom() {
+        return from;
+    }
+
+    public TextView getTo() {
+        return to;
+    }
+
+    public TextView getValue() {
+        return value;
+    }
 }

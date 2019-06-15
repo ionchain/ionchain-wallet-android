@@ -6,7 +6,6 @@ import com.lzy.okgo.request.base.Request;
 
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.bean.NodeBean;
-import org.ionchain.wallet.constant.ConstantNetCancelTag;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
 import org.ionchain.wallet.utils.NetUtils;
 
@@ -15,7 +14,7 @@ import static org.ionchain.wallet.utils.UrlUtils.getNodeListUrl;
 public class NodeModel implements INodeModel {
 
     @Override
-    public void getNodes(final OnIONCNodeCallback callback) {
+    public void getNodes(final OnIONCNodeCallback callback, Object cancelTag) {
         NetUtils.get(getNodeListUrl(), new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
@@ -46,6 +45,6 @@ public class NodeModel implements INodeModel {
                 super.onFinish();
                 callback.onIONCNodeFinish();
             }
-        }, ConstantNetCancelTag.NET_CANCEL_TAG_NODE);
+        }, cancelTag);
     }
 }

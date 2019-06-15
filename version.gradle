@@ -3,7 +3,7 @@
 * */
 ext{
     appVersionName = '1.0.8'
-    appVersionCode = 108//更新依赖
+    appVersionCode = 108//更新依赖   4
 
     extSchemaVersion = 4  //数据库版本
 

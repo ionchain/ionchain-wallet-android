@@ -27,8 +27,9 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.NodeBean;
+import org.ionchain.wallet.constant.ConstantUrl;
+import org.ionchain.wallet.helper.NodeHelper;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
-import org.ionchain.wallet.mvp.presenter.node.IONCNodePresenter;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
@@ -42,6 +43,9 @@ import java.util.List;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_NIMBER;
+import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
+import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
@@ -50,7 +54,7 @@ import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
  * 596928539@qq.com
  * 转账
  */
-public class TxActivity extends AbsBaseActivity implements OnTransationCallback, OnBalanceCallback, OnCheckWalletPasswordCallback, OnIONCNodeCallback, OnRefreshListener {
+public class TxActivity extends AbsBaseActivity implements OnTransationCallback, OnBalanceCallback, OnCheckWalletPasswordCallback, OnIONCNodeCallback, OnRefreshListener, NodeHelper.OnTryTimesCallback {
 
     private RelativeLayout header;
     /**
@@ -73,11 +77,11 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      */
     private String mAddressFrom;//当前钱包的地址
     /**
-     *接收地址
+     * 接收地址
      */
     private String mAddressTo;
     /**
-     *钱包的ksp ,用于密码检查
+     * 钱包的ksp ,用于密码检查
      */
     private String mKsPath;
 
@@ -91,12 +95,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      * 下一步
      */
     private Button txNext;
-    private String mNodeIONC = "";
+    private String mNodeIONC = ConstantUrl.HOST_NODE_MAIN;
     private SmartRefreshLayout smart_refresh_layout;
-    /**
-     * 节点请求结束
-     */
-    private IONCNodePresenter ioncNodePresenter;
+
 
     private boolean tapNext = false;
 
@@ -104,7 +105,6 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      * 交易金额
      */
     private String mTxAccount;
-    private boolean clicked = false;
 
     private void findViews() {
         header = findViewById(R.id.header);
@@ -122,6 +122,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     }
 
     private TxRecordBean mTxRecordBean;
+
     @Override
     protected void setListener() {
         super.setListener();
@@ -139,7 +140,24 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                 ToastUtil.showToastLonger(getAppString(R.string.please_check_addr_amount));
                 return;
             }
-            ioncNodePresenter.getNodes(this);
+            if (!tapNext) {
+                LoggerUtils.i("获取主链节点成功：来自刷新或者初始化余额的时候");
+                balance();
+            } else {
+                LoggerUtils.i("获取主链节点成功：来自下一步");
+                tapNext = false;
+                //
+                dialogPasswordCheck = new DialogPasswordCheck(mActivity);
+                dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
+
+                    LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
+                    //检查密码是否正确
+                    String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
+                    LoggerUtils.i("主链节点获取成功（检查交易密码之前）pwd_input ：" + mNodeIONC);
+
+                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mKsPath, TxActivity.this); //转账
+                }).show();
+            }
         });
         txSeekBarIndex.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             /**
@@ -179,8 +197,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
         mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
-        ioncNodePresenter = new IONCNodePresenter();
-        ioncNodePresenter.getNodes(this);
+        balance();
     }
 
     @Override
@@ -218,10 +235,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         mTxRecordBean.setValue(mTxAccount);
         mTxRecordBean.setHash(hashTx);
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
-        mTxRecordBean.setBlockNumber("-1");//可以作为是否交易成功的展示依据
+        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_NIMBER);//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         finish();
-        skip(TxRecordActivity.class);
+        Intent intent = new Intent(this, TxRecordActivity.class);
+        intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mAddressFrom);
+        intent.putExtra(PARCELABLE_WALLET_BEAN, mWalletBeanNew);
+        startActivity(intent);
     }
 
     @Override
@@ -245,7 +265,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onBalanceFailure(String error) {
-        ToastUtil.showToastLonger(getAppString(R.string.error_net_get_balance));
+        NodeHelper.getInstance().tryGetNode(this, this);
     }
 
     /**
@@ -255,8 +275,8 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      */
     @Override
     public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
+        LoggerUtils.i(" bean "+ bean.getAddress());
         dialogPasswordCheck.dismiss();
-        clicked = false;
         showProgress(getAppString(R.string.please_wait));
         final String toAddress = txToAddressEt.getText().toString();
         final String txAccount = mTxValueEt.getText().toString();
@@ -265,7 +285,6 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
                 .setToAddress(toAddress)
                 .setTxValue(txAccount)
                 .setWalletBeanTx(bean);
-        mNodeIONC = "http://192.168.0.104:7545";
         IONCWalletSDK.getInstance().transaction(mNodeIONC, helper, TxActivity.this);
 
     }
@@ -273,7 +292,6 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onCheckWalletPasswordFailure(String errorMsg) {
         LoggerUtils.e("检查密码失败：" + errorMsg);
-        clicked = false;
         ToastUtil.showToastLonger(getAppString(R.string.error_input_password));
     }
 
@@ -303,62 +321,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
         mNodeIONC = dataBean.get(0).getIonc_node();
-        if (!tapNext) {
-            LoggerUtils.i("获取主链节点成功：来自刷新或者初始化余额的时候");
-            getBalance();
-        } else {
-            LoggerUtils.i("获取主链节点成功：来自下一步");
-            tapNext = false;
-            //
-            dialogPasswordCheck = new DialogPasswordCheck(mActivity);
-            dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
-
-                LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
-                //主链节点检查
-                if ("".equals(mNodeIONC)) {
-                    ToastUtil.showToastLonger(getAppString(R.string.please_refresh));
-                    return;
-                }
-                if (clicked) {
-                    return;
-                }
-                clicked = true;
-                //检查密码是否正确
-                String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mKsPath, TxActivity.this); //转账
-            }).show();
-        }
     }
 
 
     @Override
     public void onIONCNodeError(String error) {
         LoggerUtils.i("获取主链节点失败：" + error);
-        if (!tapNext) {
-            LoggerUtils.i("获取主链节点成功：来自刷新或者初始化余额的时候");
-            getBalance();
-        } else {
-            LoggerUtils.i("获取主链节点成功：来自下一步");
-            tapNext = false;
-            //
-            dialogPasswordCheck = new DialogPasswordCheck(mActivity);
-            dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
-
-                LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
-                //主链节点检查
-                if ("".equals(mNodeIONC)) {
-                    ToastUtil.showToastLonger(getAppString(R.string.please_refresh));
-                    return;
-                }
-                if (clicked) {
-                    return;
-                }
-                clicked = true;
-                //检查密码是否正确
-                String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mKsPath, TxActivity.this); //转账
-            }).show();
-        }
+        NodeHelper.getInstance().tryGetNode(this, this);
     }
 
     @Override
@@ -373,16 +342,33 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onRefresh(@NotNull RefreshLayout refreshLayout) {
-        //刷新 获取 主链节点
-        ioncNodePresenter.getNodes(this);
+        NodeHelper.getInstance().cancelAndReset();//取消自动尝试
+        balance();
     }
+
 
     /**
      * 获取余额
      */
-    private void getBalance() {
-        mNodeIONC = "http://192.168.0.104:7545";
+    private void balance() {
         IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mAddressFrom, this);
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        NodeHelper.getInstance().cancelAndReset();//取消自动尝试
+    }
+
+
+    @Override
+    public void onTryTimes(int count) {
+        ToastUtil.showToastLonger(getAppString(R.string.try_net_times, count));
+    }
+
+    @Override
+    public void onTryFinish(int count) {
+        ToastUtil.showToastLonger(getAppString(R.string.try_net_times_finish, count));
+    }
 }

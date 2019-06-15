@@ -1,9 +1,11 @@
 package org.ionchain.wallet.utils;
 
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.constant.ConstantUrl;
 
 public class UrlUtils {
     private static boolean AppDebug = false;
+
     /**
      * @return 获取主链节点
      */
@@ -11,9 +13,10 @@ public class UrlUtils {
         if (AppDebug) {
             return ConstantUrl.URL_NODE_LIST_DEBUG;
         } else {
+            LoggerUtils.i("正式服：主链" + ConstantUrl.URL_NODE_LIST);
             return ConstantUrl.URL_NODE_LIST;
         }
-        
+
     }
 
     /**
@@ -23,6 +26,7 @@ public class UrlUtils {
         if (AppDebug) {
             return ConstantUrl.URL_UPDATE_APK_DEBUG;
         } else {
+            LoggerUtils.i("正式服：更新" + ConstantUrl.URL_UPDATE_APK);
             return ConstantUrl.URL_UPDATE_APK;
         }
     }
@@ -35,6 +39,7 @@ public class UrlUtils {
         if (AppDebug) {
             return ConstantUrl.URL_TX_RECORD_GET_DEBUG;
         } else {
+            LoggerUtils.i("正式服：记录" + ConstantUrl.URL_TX_RECORD_GET);
             return ConstantUrl.URL_TX_RECORD_GET;
         }
     }
@@ -46,6 +51,7 @@ public class UrlUtils {
         if (AppDebug) {
             return ConstantUrl.URL_USD_PRICE_DEBUG;
         } else {
+            LoggerUtils.i("正式服：美元" + ConstantUrl.URL_USD_PRICE);
             return ConstantUrl.URL_USD_PRICE;
         }
     }
@@ -57,6 +63,8 @@ public class UrlUtils {
         if (AppDebug) {
             return ConstantUrl.URL_USD_EX_RATE_RMB_PRICE_DEBUG;
         } else {
+            LoggerUtils.i("正式服：汇率" + ConstantUrl.URL_USD_EX_RATE_RMB_PRICE);
+
             return ConstantUrl.URL_USD_EX_RATE_RMB_PRICE;
         }
     }
