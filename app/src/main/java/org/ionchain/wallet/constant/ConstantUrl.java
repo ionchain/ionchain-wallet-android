@@ -47,7 +47,8 @@ public class ConstantUrl {
     public final static String URL_USD_EX_RATE_RMB_PRICE = HOST_PRICE + "/v1/currency";   //人民币兑美元汇率
     public final static String URL_TX_RECORD_GET = HOST_PRICE + "/v1/transaction";   //交易记录
     //备用节点
+    public final static String HOST_NODE_MAIN = "http:///192.168.0.104:7545";
 //    public final static String HOST_NODE_MAIN = "http:///192.168.2.1:7545";
-    public final static String HOST_NODE_MAIN = "http://api.ionchain.org";
+//    public final static String HOST_NODE_MAIN = "http://api.ionchain.org";
 
 }

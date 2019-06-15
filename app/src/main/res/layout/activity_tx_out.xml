@@ -64,7 +64,7 @@
                 android:layout_marginTop="@dimen/h15"
                 android:layout_marginRight="@dimen/margin_h20"
                 android:hint="@string/payee_address"
-                android:text="0x1d858Dab4C8ADdcE47aaafD103705DBD23aAb023"
+                android:text=""
                 android:textColor="#666666"
                 android:theme="@style/MyEditText" />
 

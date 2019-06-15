@@ -36,9 +36,9 @@ import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 
-import static com.ionc.wallet.sdk.BuildConfig.DEBUG;
 import static org.ionc.wallet.constant.ConstanParams.DB_NAME;
 import static org.ionc.wallet.utils.LoggerUtils.initLogger;
+import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
 
 /**
  * Created by binny on 2018/11/29.
@@ -60,12 +60,12 @@ public class App extends Application implements Application.ActivityLifecycleCal
         super.onCreate();
         LoggerUtils.i("App onCreate");
         mContext = this;
-        if (DEBUG) {
+        if (APP_DEBUG) {
             Stetho.initializeWithDefaults(this);
         }
         OkGo.getInstance().init(this);
         initOKGO();
-        initLogger(DEBUG);
+        initLogger(APP_DEBUG);
 
         IONCWalletSDK.getInstance().initIONCWalletSDK(this,initDb());
         ZXingLibrary.initDisplayOpinion(this);

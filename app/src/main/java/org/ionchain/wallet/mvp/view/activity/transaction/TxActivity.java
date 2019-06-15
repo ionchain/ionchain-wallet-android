@@ -25,6 +25,7 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.transaction.TransactionHelper;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
+import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.NodeBean;
 import org.ionchain.wallet.constant.ConstantUrl;
@@ -194,6 +195,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
+        if (BuildConfig.APP_DEBUG) {
+            txToAddressEt.setText("0x1d858Dab4C8ADdcE47aaafD103705DBD23aAb023");
+        }
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
         mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
@@ -275,7 +279,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      */
     @Override
     public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
-        LoggerUtils.i(" bean "+ bean.getAddress());
+        LoggerUtils.i(" bean " + bean.getAddress());
         dialogPasswordCheck.dismiss();
         showProgress(getAppString(R.string.please_wait));
         final String toAddress = txToAddressEt.getText().toString();

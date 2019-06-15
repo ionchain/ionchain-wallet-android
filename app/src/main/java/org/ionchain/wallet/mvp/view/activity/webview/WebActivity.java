@@ -185,7 +185,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
         mWebView = findViewById(R.id.web_view);
         mNetErrorHintPage = findViewById(R.id.net_error_hint_page_rl);
         smartRefreshLayout = findViewById(R.id.smart_refresh_layout);
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.APP_DEBUG) {
             smartRefreshLayout.setEnableRefresh(false);
         }
         mWebTitle = findViewById(R.id.web_title);

@@ -248,7 +248,7 @@ public class AssetFragment extends AbsBaseFragment implements
         tx_out_ll = rootView.findViewById(R.id.tx_out_ll);
         tx_recoder = rootView.findViewById(R.id.tx_recoder_tv);
         please_backup_wallet = rootView.findViewById(R.id.please_backup_wallet);
-        if (!BuildConfig.DEBUG) {
+        if (!BuildConfig.APP_DEBUG) {
             node.setVisibility(View.GONE);
         }
         ioncBalanceTx.setText("0000");
@@ -460,7 +460,7 @@ public class AssetFragment extends AbsBaseFragment implements
      * @return ..
      */
     private boolean pleaseBackupWallet() {
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.APP_DEBUG) {
             return false;
         }
         if (please_backup_wallet.getVisibility() == View.VISIBLE) {
