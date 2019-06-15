@@ -208,4 +208,5 @@
     <string name="tx_doing">上笔交易正在进行……</string>
     <string name="try_net_times">正在尝试第  %s 次节点请求</string>
     <string name="try_net_times_finish">请求%s次后，尝试结束，服务器繁忙</string>
+    <string name="tx_record_none">暂无交易记录</string>
 </resources>

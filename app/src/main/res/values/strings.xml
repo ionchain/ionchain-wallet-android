@@ -209,4 +209,5 @@
     <string name="tx_doing">The last deal was in the works...</string>
     <string name="try_net_times">Trying the %s node request</string>
     <string name="try_net_times_finish">After %s requests, the attempt ends and the service exception occurs</string>
+    <string name="tx_record_none">tx record none</string>
 </resources>

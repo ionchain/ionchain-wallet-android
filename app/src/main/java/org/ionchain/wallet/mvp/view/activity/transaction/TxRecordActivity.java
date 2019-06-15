@@ -53,18 +53,17 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
             return;
         }
         mRecordBeanListLocalTemp = IONCWalletSDK.getInstance().getAllTxRecordBeansByAddress(mAddress);
-        if (mRecordBeanListLocalTemp == null) {
+        if (mRecordBeanListLocalTemp == null||mRecordBeanListLocalTemp.size()==0) {
+            ToastUtil.showToastLonger(getAppString(R.string.tx_record_none));
             return;
         }
         int size = mRecordBeanListLocalTemp.size();
-        if (size > 0) {
-            Collections.sort(mRecordBeanListLocalTemp);
-            for (int i = 0; i < size; i++) {
-                LoggerUtils.i("txRecordBean " + mRecordBeanListLocalTemp.get(i).toString());
-                mTxRecordBeanList.add(mRecordBeanListLocalTemp.get(i));
-            }
-            adapterLv.notifyDataSetChanged();
+        Collections.sort(mRecordBeanListLocalTemp);
+        for (int i = 0; i < size; i++) {
+            LoggerUtils.i("txRecordBean " + mRecordBeanListLocalTemp.get(i).toString());
+            mTxRecordBeanList.add(mRecordBeanListLocalTemp.get(i));
         }
+        adapterLv.notifyDataSetChanged();
 
     }
 
