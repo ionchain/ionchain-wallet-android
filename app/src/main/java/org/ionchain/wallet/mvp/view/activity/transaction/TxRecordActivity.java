@@ -1,6 +1,5 @@
 package org.ionchain.wallet.mvp.view.activity.transaction;
 
-import android.content.Context;
 import android.content.Intent;
 import android.widget.ListView;
 
@@ -196,10 +195,5 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
     protected void onStop() {
         super.onStop();
         NodeHelper.getInstance().cancelAndReset();//取消自动尝试
-    }
-
-
-    public interface OnDataChangedCallback {
-        void onDataChange(Context context, TxRecordBean txRecordBean);
     }
 }
