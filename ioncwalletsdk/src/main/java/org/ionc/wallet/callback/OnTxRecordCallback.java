@@ -12,8 +12,9 @@ public interface OnTxRecordCallback {
      * 转账成功
      *
      * @param hashTx 转账成功的hash值
+     * @param index
      */
-    void OnTxRecordSuccess(TxRecordBean  txRecordBean);
+    void OnTxRecordSuccess(TxRecordBean txRecordBean, int index);
 
     /**
      * 转账失败

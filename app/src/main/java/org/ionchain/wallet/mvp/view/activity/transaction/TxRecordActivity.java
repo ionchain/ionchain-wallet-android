@@ -29,20 +29,44 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
-import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_NIMBER;
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 
 public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, OnRefreshListener, OnLoadMoreListener,
         OnTxRecordCallback, NodeHelper.OnTryTimesCallback, OnIONCNodeCallback {
+    /**
+     * 记录适配器
+     */
     private CommonAdapter adapterLv;
+    /**
+     * 钱包记录的实际数据集
+     */
     private List<TxRecordBean> mTxRecordBeanList = new ArrayList<>();
+    /**
+     * 钱包地址
+     */
     private String mAddress;
     private SmartRefreshLayout mSmartRefreshLayout;
-    private int totalCount = 0;
-    private int pageNum = 2;
+
+    /**
+     * 所有本地记录的缓存
+     */
     List<TxRecordBean> mRecordBeanListLocalTemp = new ArrayList<>();
+    /**
+     * 未获取交易信息的本地缓存
+     */
+    List<TxRecordBean> mRecordLocalUnpackedTemp = new ArrayList<>();
+    /**
+     * 例子链接点
+     */
     private String mNodeIONC = ConstantUrl.HOST_NODE_MAIN;
+    /**
+     * 当前钱包
+     */
     private WalletBeanNew mWalletBeanNew;
+    /**
+     * listvie辅助
+     */
     private TxRecordViewHelper mTxRecordViewHelper;
 
     @Override
@@ -52,7 +76,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
             return;
         }
         mRecordBeanListLocalTemp = IONCWalletSDK.getInstance().getAllTxRecordBeansByAddress(mAddress);
-        if (mRecordBeanListLocalTemp == null||mRecordBeanListLocalTemp.size()==0) {
+        if (mRecordBeanListLocalTemp == null || mRecordBeanListLocalTemp.size() == 0) {
             ToastUtil.showToastLonger(getAppString(R.string.tx_record_none));
             return;
         }
@@ -61,6 +85,10 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
         for (int i = 0; i < size; i++) {
             LoggerUtils.i("txRecordBean " + mRecordBeanListLocalTemp.get(i).toString());
             mTxRecordBeanList.add(mRecordBeanListLocalTemp.get(i));
+            if (DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(mRecordBeanListLocalTemp.get(i).getBlockNumber())) {
+                LoggerUtils.i("unpacked" + mRecordBeanListLocalTemp.get(i).toString());
+                mRecordLocalUnpackedTemp.add(mRecordBeanListLocalTemp.get(i));
+            }
         }
         adapterLv.notifyDataSetChanged();
 
@@ -93,13 +121,11 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
     }
 
     @Override
-    public void OnTxRecordSuccess(TxRecordBean txRecordBean) {
+    public void OnTxRecordSuccess(TxRecordBean txRecordBean, int index) {
         if (txRecordBean != null) {
-            int count = mTxRecordBeanList.size();
-            for (int i = 0; i < count; i++) {
-                LoggerUtils.i("txRecordBean " + txRecordBean.toString());
-                IONCWalletSDK.getInstance().updateTxRecordBean(mTxRecordBeanList.get(i));
-            }
+            LoggerUtils.i("txRecordBean " + txRecordBean.toString());
+            IONCWalletSDK.getInstance().updateTxRecordBean(mTxRecordBeanList.get(index));
+            mRecordLocalUnpackedTemp.remove(index);//移除已打包
         }
         Collections.sort(mTxRecordBeanList);
         adapterLv.notifyDataSetChanged();
@@ -128,21 +154,18 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
         LoggerUtils.i("刷新");
-        int size = mRecordBeanListLocalTemp.size();
-        int refresh = 0;
-        for (int i = 0; i < size; i++) {
-            if (DEFAULT_TRANSCATION_NIMBER.equals(mRecordBeanListLocalTemp.get(i).getBlockNumber())) {
-                LoggerUtils.i("iiii" + i);
-                IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
-                        , mRecordBeanListLocalTemp.get(i).getHash()
-                        , mRecordBeanListLocalTemp.get(i)
-                        , this);
-                refresh++;
-            }
-        }
-        if (refresh == 0) {
+        int size = mRecordLocalUnpackedTemp.size();
+        if (size == 0) {
             LoggerUtils.i("无刷新");
             mSmartRefreshLayout.finishRefresh();
+            return;
+        }
+        LoggerUtils.i("需更新 " + size);
+        for (int i = 0; i < size; i++) {
+            IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
+                    , mRecordBeanListLocalTemp.get(i).getHash()
+                    , mRecordBeanListLocalTemp.get(i)
+                    , this, i);
         }
     }
 

@@ -71,7 +71,7 @@ public final class ConstantParams {
     public static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   必须更新，不可取消
 
 
-    public static final String DEFAULT_TRANSCATION_NIMBER = "100000000000";//   必须更新，不可取消
+    public static final String DEFAULT_TRANSCATION_BLOCK_NUMBER = "100000000000";//   必须更新，不可取消
 
 
 }

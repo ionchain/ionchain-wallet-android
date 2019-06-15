@@ -44,7 +44,7 @@ import java.util.List;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
-import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_NIMBER;
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
@@ -239,7 +239,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         mTxRecordBean.setValue(mTxAccount);
         mTxRecordBean.setHash(hashTx);
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
-        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_NIMBER);//可以作为是否交易成功的展示依据
+        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER);//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         finish();
         Intent intent = new Intent(this, TxRecordActivity.class);

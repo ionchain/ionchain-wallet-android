@@ -488,8 +488,9 @@ public class IONCWalletSDK {
     /**
      * @param node     区块节点
      * @param callback 回调
+     * @param index
      */
-    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordCallback callback) {
+    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordCallback callback, int index) {
         new Thread() {
             @Override
             public void run() {
@@ -500,7 +501,7 @@ public class IONCWalletSDK {
                     Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
                     if (ethTransaction == null) {
                         mHandler.post(() -> {
-                            callback.OnTxRecordSuccess(null);
+                            callback.OnTxRecordSuccess(null, index);
                         });
                         return;
                     }
@@ -532,7 +533,7 @@ public class IONCWalletSDK {
                         ),Convert.Unit.ETHER)));
                     }
                     mHandler.post(() -> {
-                        callback.OnTxRecordSuccess(txRecordBean);
+                        callback.OnTxRecordSuccess(txRecordBean, index);
                     });
                 } catch (final IOException e) {
                     LoggerUtils.e("client", e.getMessage());
