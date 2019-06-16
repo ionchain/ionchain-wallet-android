@@ -103,7 +103,7 @@
     <string name="version_info_title">版本信息</string>
     <string name="download_progress_tv">正在下载……</string>
     <string name="tx_hash">交易哈希 :</string>
-    <string name="tx_block">交易区块 :</string>
+    <string name="tx_block">"交易区块 : "</string>
     <string name="tx_out_addr">转出地址 :</string>
     <string name="tx_in_addr">转入地址 :</string>
     <string name="tx_amount">转账金额 :</string>
@@ -209,4 +209,5 @@
     <string name="try_net_times">正在尝试第  %s 次节点请求</string>
     <string name="try_net_times_finish">请求%s次后，尝试结束，服务器繁忙</string>
     <string name="tx_record_none">暂无交易记录</string>
+    <string name="tx_block_unpacked">交易区块 : 未打包（请下拉刷新…）</string>
 </resources>

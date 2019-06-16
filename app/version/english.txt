@@ -1,4 +1,3 @@
-Version number: 1.0.8&&
-1. Change the background of transaction records to white &&
-2. Fix failed transaction password verification, click invalid bug&&
-3. Localization of transaction records&
+Version number: 1.0.9&&
+1. Unpacked transactions are shown as unpacked&
+2. Performance optimization

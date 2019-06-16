@@ -1,6 +1,7 @@
 package org.ionchain.wallet.utils;
 
 import org.ionc.wallet.utils.LoggerUtils;
+import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.constant.ConstantUrl;
 
 public class UrlUtils {
@@ -66,6 +67,19 @@ public class UrlUtils {
             LoggerUtils.i("正式服：汇率" + ConstantUrl.URL_USD_EX_RATE_RMB_PRICE);
 
             return ConstantUrl.URL_USD_EX_RATE_RMB_PRICE;
+        }
+    }
+
+    /**
+     * @return 获取美元-人民币汇率信息接口
+     */
+    public static String getHostNode() {
+        if (BuildConfig.APP_DEBUG) {
+            return ConstantUrl.HOST_NODE_MAIN_DEBUG;
+        } else {
+            LoggerUtils.i("正式服：汇率" + ConstantUrl.URL_USD_EX_RATE_RMB_PRICE);
+
+            return ConstantUrl.HOST_NODE_MAIN;
         }
     }
 

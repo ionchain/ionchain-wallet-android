@@ -2,8 +2,8 @@
 * 版本信息
 * */
 ext{
-    appVersionName = '1.0.8'
-    appVersionCode = 108//更新依赖   4
+    appVersionName = '1.0.9'
+    appVersionCode = 109//更新依赖   4
 
     extSchemaVersion = 4  //数据库版本
 

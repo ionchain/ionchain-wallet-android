@@ -10,17 +10,16 @@ import org.ionc.wallet.bean.TxRecordBean;
 public interface OnTxRecordCallback {
     /**
      * 转账成功
+     *  @param hashTx 转账成功的hash值
      *
-     * @param hashTx 转账成功的hash值
-     * @param index
      */
-    void OnTxRecordSuccess(TxRecordBean txRecordBean, int index);
+    void OnTxRecordSuccess(TxRecordBean txRecordBean);
 
     /**
      * 转账失败
-     *
-     * @param error
+     *  @param error
+     * @param recordBean
      */
-    void onTxRecordFailure(String error);
+    void onTxRecordFailure(String error, TxRecordBean recordBean);
 
 }

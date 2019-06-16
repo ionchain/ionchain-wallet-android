@@ -104,7 +104,7 @@
     <string name="version_info_title">Version Information</string>
     <string name="download_progress_tv">Downloading……</string>
     <string name="tx_hash">Tx hash:</string>
-    <string name="tx_block">Tx Block</string>
+    <string name="tx_block">"Tx Block: "</string>
     <string name="tx_out_addr">Tx-out Address: :</string>
     <string name="tx_in_addr">Transfer-in Address:</string>
     <string name="tx_amount">Tx Amount:</string>
@@ -210,4 +210,5 @@
     <string name="try_net_times">Trying the %s node request</string>
     <string name="try_net_times_finish">After %s requests, the attempt ends and the service exception occurs</string>
     <string name="tx_record_none">tx record none</string>
+    <string name="tx_block_unpacked">Trading block: unpackaged (please drop down to refresh...)</string>
 </resources>

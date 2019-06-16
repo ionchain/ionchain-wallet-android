@@ -71,6 +71,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.lang.String.valueOf;
 import static org.ionc.wallet.constant.ConstanParams.GAS_MIN;
@@ -142,6 +144,8 @@ public class IONCWalletSDK {
 
 
     private DaoSession mDaoSession;
+
+    private final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     /**
      * 初始化钱包
@@ -490,18 +494,17 @@ public class IONCWalletSDK {
      * @param callback 回调
      * @param index
      */
-    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordCallback callback, int index) {
-        new Thread() {
+    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordCallback callback) {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                super.run();
                 try {
                     Web3j web3j = Web3jFactory.build(new HttpService(node));
                     LoggerUtils.i("ethTransaction ; ");
                     Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
                     if (ethTransaction == null) {
                         mHandler.post(() -> {
-                            callback.OnTxRecordSuccess(null, index);
+                            callback.onTxRecordFailure("error",txRecordBean);
                         });
                         return;
                     }
@@ -533,17 +536,19 @@ public class IONCWalletSDK {
                         ),Convert.Unit.ETHER)));
                     }
                     mHandler.post(() -> {
-                        callback.OnTxRecordSuccess(txRecordBean, index);
+                        callback.OnTxRecordSuccess(txRecordBean);
                     });
                 } catch (final IOException e) {
                     LoggerUtils.e("client", e.getMessage());
                     mHandler.post(() -> {
                         LoggerUtils.e(e.getMessage());
-                        callback.onTxRecordFailure(e.getLocalizedMessage());
+                        callback.onTxRecordFailure(e.getLocalizedMessage(),txRecordBean);
                     });
                 }
             }
-        }.start();
+        };
+        singleThreadExecutor.execute(runnable);
+       
     }
 
 

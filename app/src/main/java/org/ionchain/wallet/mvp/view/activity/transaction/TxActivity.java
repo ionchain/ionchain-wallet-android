@@ -28,7 +28,6 @@ import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.NodeBean;
-import org.ionchain.wallet.constant.ConstantUrl;
 import org.ionchain.wallet.helper.NodeHelper;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
@@ -50,6 +49,7 @@ import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
+import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 /**
  * 596928539@qq.com
@@ -96,7 +96,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      * 下一步
      */
     private Button txNext;
-    private String mNodeIONC = ConstantUrl.HOST_NODE_MAIN;
+    private String mNodeIONC =getHostNode();
     private SmartRefreshLayout smart_refresh_layout;
 
 

@@ -17,7 +17,6 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.txrecoder.TxRecordViewHelper;
 import org.ionchain.wallet.bean.NodeBean;
-import org.ionchain.wallet.constant.ConstantUrl;
 import org.ionchain.wallet.helper.NodeHelper;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
 import org.ionchain.wallet.mvp.callback.OnLoadingView;
@@ -31,6 +30,7 @@ import java.util.List;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
+import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, OnRefreshListener, OnLoadMoreListener,
         OnTxRecordCallback, NodeHelper.OnTryTimesCallback, OnIONCNodeCallback {
@@ -51,15 +51,15 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
     /**
      * 所有本地记录的缓存
      */
-    List<TxRecordBean> mRecordBeanListLocalTemp = new ArrayList<>();
+    List<TxRecordBean> mRecordBeanListTemp = new ArrayList<>();
     /**
-     * 未获取交易信息的本地缓存
+     * 未获取交易信息的本地缓存,缓存hash值
      */
-    List<TxRecordBean> mRecordLocalUnpackedTemp = new ArrayList<>();
+    List<TxRecordBean> mTxHashUnpackedTemp = new ArrayList<>();
     /**
      * 例子链接点
      */
-    private String mNodeIONC = ConstantUrl.HOST_NODE_MAIN;
+    private String mNodeIONC = getHostNode();
     /**
      * 当前钱包
      */
@@ -69,27 +69,37 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
      */
     private TxRecordViewHelper mTxRecordViewHelper;
 
+
     @Override
     protected void initData() {
         LoggerUtils.i("address" + mAddress);
         if (mAddress == null) {
             return;
         }
-        mRecordBeanListLocalTemp = IONCWalletSDK.getInstance().getAllTxRecordBeansByAddress(mAddress);
-        if (mRecordBeanListLocalTemp == null || mRecordBeanListLocalTemp.size() == 0) {
+        mRecordBeanListTemp = IONCWalletSDK.getInstance().getAllTxRecordBeansByAddress(mAddress);
+        if (mRecordBeanListTemp == null || mRecordBeanListTemp.size() == 0) {
             ToastUtil.showToastLonger(getAppString(R.string.tx_record_none));
             return;
         }
-        int size = mRecordBeanListLocalTemp.size();
-        Collections.sort(mRecordBeanListLocalTemp);
+        int size = mRecordBeanListTemp.size();
+        Collections.sort(mRecordBeanListTemp);
         for (int i = 0; i < size; i++) {
-            LoggerUtils.i("txRecordBean " + mRecordBeanListLocalTemp.get(i).toString());
-            mTxRecordBeanList.add(mRecordBeanListLocalTemp.get(i));
-            if (DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(mRecordBeanListLocalTemp.get(i).getBlockNumber())) {
-                LoggerUtils.i("unpacked" + mRecordBeanListLocalTemp.get(i).toString());
-                mRecordLocalUnpackedTemp.add(mRecordBeanListLocalTemp.get(i));
+            LoggerUtils.i("txRecordBean " + mRecordBeanListTemp.get(i).toString());
+            mTxRecordBeanList.add(mRecordBeanListTemp.get(i));
+            if (DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(mRecordBeanListTemp.get(i).getBlockNumber())) {
+                LoggerUtils.i("unpacked" + mRecordBeanListTemp.get(i).toString());
+                mTxHashUnpackedTemp.add(mRecordBeanListTemp.get(i));
             }
         }
+        int tempHashSize = mTxHashUnpackedTemp.size();
+//        if (tempHashSize > 0) {
+//            for (int i = 0; i < tempHashSize; i++) {
+//                IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
+//                        , mTxHashUnpackedTemp.get(i)
+//                        , mRecordBeanListTemp.get(i)
+//                        , this, i);
+//            }
+//        }
         adapterLv.notifyDataSetChanged();
 
     }
@@ -121,19 +131,24 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
     }
 
     @Override
-    public void OnTxRecordSuccess(TxRecordBean txRecordBean, int index) {
-        if (txRecordBean != null) {
-            LoggerUtils.i("txRecordBean " + txRecordBean.toString());
-            IONCWalletSDK.getInstance().updateTxRecordBean(mTxRecordBeanList.get(index));
-            mRecordLocalUnpackedTemp.remove(index);//移除已打包
-        }
-        Collections.sort(mTxRecordBeanList);
-        adapterLv.notifyDataSetChanged();
+    public void OnTxRecordSuccess(TxRecordBean txRecordBean) {
+        LoggerUtils.i("执行完成 " + txRecordBean.toString());
         mSmartRefreshLayout.finishRefresh();
+
+        if (mTxHashUnpackedTemp.contains(txRecordBean)) {
+            mTxHashUnpackedTemp.remove(txRecordBean);//移除已打包
+            LoggerUtils.i("txRecordBean " + txRecordBean.toString());
+            IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
+            Collections.sort(mTxRecordBeanList);
+            adapterLv.notifyDataSetChanged();
+        }
+
+
     }
 
     @Override
-    public void onTxRecordFailure(String error) {
+    public void onTxRecordFailure(String error, TxRecordBean recordBean) {
+        LoggerUtils.i("执行失败 " + recordBean);
         ToastUtil.showShortToast(error);
         mSmartRefreshLayout.finishRefresh();
         NodeHelper.getInstance().tryGetNode(this, this);
@@ -154,7 +169,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
         LoggerUtils.i("刷新");
-        int size = mRecordLocalUnpackedTemp.size();
+        int size = mTxHashUnpackedTemp.size();
         if (size == 0) {
             LoggerUtils.i("无刷新");
             mSmartRefreshLayout.finishRefresh();
@@ -163,9 +178,9 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
         LoggerUtils.i("需更新 " + size);
         for (int i = 0; i < size; i++) {
             IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
-                    , mRecordBeanListLocalTemp.get(i).getHash()
-                    , mRecordBeanListLocalTemp.get(i)
-                    , this, i);
+                    , mRecordBeanListTemp.get(i).getHash()
+                    , mRecordBeanListTemp.get(i)
+                    , this);
         }
     }
 

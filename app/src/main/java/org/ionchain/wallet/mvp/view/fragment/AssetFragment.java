@@ -84,7 +84,7 @@ import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
-import static org.ionchain.wallet.constant.ConstantUrl.HOST_NODE_MAIN;
+import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 
 public class AssetFragment extends AbsBaseFragment implements
@@ -228,7 +228,7 @@ public class AssetFragment extends AbsBaseFragment implements
      * 币价信息
      */
     private PricePresenter mPricePresenter;
-    private String mNodeIONC = HOST_NODE_MAIN;
+    private String mNodeIONC = getHostNode();
 
     private ClassicsHeader refresh_header;
 
@@ -238,6 +238,7 @@ public class AssetFragment extends AbsBaseFragment implements
     private void initListViewHeaderViews(View rootView) {
         walletNameTx = rootView.findViewById(R.id.wallet_name_tv);
         node = rootView.findViewById(R.id.node);
+        node.setText("当前节点：" + mNodeIONC);
         moreWallet = rootView.findViewById(R.id.wallet_list);
         ioncBalanceTx = rootView.findViewById(R.id.ionc_balance_tx);
         rmb_tx = rootView.findViewById(R.id.rmb_balance_tx);

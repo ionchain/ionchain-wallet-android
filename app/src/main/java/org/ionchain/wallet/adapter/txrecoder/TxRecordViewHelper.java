@@ -11,6 +11,8 @@ import org.ionchain.wallet.R;
 
 import java.util.List;
 
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER;
+
 /**
  * AUTHOR binny
  * <p>
@@ -34,7 +36,11 @@ public class TxRecordViewHelper implements IViewHolderHelper<TxRecorderViewHolde
     @Override
     public void bindListDataToView(Context context, List<TxRecordBean> iBaseBeanList, TxRecorderViewHolder viewHolder, int position) {
         viewHolder.txHash.setText(context.getResources().getString(R.string.tx_hash) + iBaseBeanList.get(position).getHash());
-        viewHolder.block.setText(context.getResources().getString(R.string.tx_block) + iBaseBeanList.get(position).getBlockNumber());
+        if (DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(iBaseBeanList.get(position).getBlockNumber())) {
+            viewHolder.block.setText(context.getResources().getString(R.string.tx_block_unpacked));
+        }else {
+            viewHolder.block.setText(context.getResources().getString(R.string.tx_block) + iBaseBeanList.get(position).getBlockNumber());
+        }
         viewHolder.from.setText(context.getResources().getString(R.string.tx_out_addr) + iBaseBeanList.get(position).getFrom());
         viewHolder.to.setText(context.getResources().getString(R.string.tx_in_addr) + iBaseBeanList.get(position).getTo());
         viewHolder.value.setText(context.getResources().getString(R.string.tx_amount) + iBaseBeanList.get(position).getValue() + " IONC");
