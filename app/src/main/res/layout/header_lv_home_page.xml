@@ -130,16 +130,6 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="10sp" />
 
-            <TextView
-                android:id="@+id/tx_recoder_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:text="@string/record"
-                android:textColor="@color/white"
-                android:textSize="@dimen/txt_18sp"
-                android:textStyle="bold" />
         </RelativeLayout>
         <!--转账 40-->
         <LinearLayout

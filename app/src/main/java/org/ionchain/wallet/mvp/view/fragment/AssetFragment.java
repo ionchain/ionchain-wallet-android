@@ -47,7 +47,6 @@ import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
-import org.ionchain.wallet.mvp.view.activity.transaction.TxRecordActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.mvp.view.base.AbsBaseViewPagerFragment;
 import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordAllFragment;
@@ -140,10 +139,6 @@ public class AssetFragment extends AbsBaseFragment implements
     private TextView mRmbIcon;
 
     /**
-     * 交易记录,点击跳转到交易记录
-     */
-    private TextView mTxRecoder;
-    /**
      * 提示用户备份钱包,在用户备份钱包的情况下
      */
     private TextView mPleaseBackupWallet;
@@ -232,7 +227,6 @@ public class AssetFragment extends AbsBaseFragment implements
         mWalletLogo = header.findViewById(R.id.wallet_logo);
         mTxInLl = header.findViewById(R.id.tx_in_ll);
         mTxOutLl = header.findViewById(R.id.tx_out_ll);
-        mTxRecoder = header.findViewById(R.id.tx_recoder_tv);
         mPleaseBackupWallet = header.findViewById(R.id.please_backup_wallet);
         mIoncBalanceTx.setText("0000");
         mRmbTx.setText("0000");
@@ -397,19 +391,7 @@ public class AssetFragment extends AbsBaseFragment implements
             cancelGetNode();  //转入
             skip(intent);
         });
-        /*
-         * 交易记录
-         * */
-        mTxRecoder.setOnClickListener(v -> {
-            if (pleaseBackupWallet()) return;
-            LoggerUtils.i("address" + mCurrentWallet.getAddress());
 
-            Intent intent = new Intent(getActivity(), TxRecordActivity.class);
-            intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mCurrentWallet.getAddress());
-            intent.putExtra(PARCELABLE_WALLET_BEAN, mCurrentWallet);
-            skip(intent);
-            cancelGetNode();// 交易记录
-        });
         /*
          * 备份钱包
          * */
@@ -719,7 +701,6 @@ public class AssetFragment extends AbsBaseFragment implements
         //获取人民币汇率
         mUSDPrice = usdPrice;
         //计算美元价格
-        mTotalUSDPrice = mIONCBalance.multiply(BigDecimal.valueOf(usdPrice));
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
 
         /*
