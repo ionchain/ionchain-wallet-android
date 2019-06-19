@@ -210,7 +210,7 @@
     <string name="try_net_times">Trying the %s node request</string>
     <string name="try_net_times_finish">After %s requests, the attempt ends and the service exception occurs</string>
     <string name="tx_record_none">tx record none</string>
-    <string name="tx_block_unpacked">Trading block: unpackaged (please drop down to refresh...)</string>
+    <string name="tx_block_unpacked">Transaction failure</string>
     <string name="tx_time">Tx_time:</string>
     <string name="coin_type">Select Coin Type</string>
     <string name="import_mnemonics">Import mnemonics</string>

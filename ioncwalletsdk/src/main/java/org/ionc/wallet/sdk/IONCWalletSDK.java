@@ -505,6 +505,7 @@ public class IONCWalletSDK {
                 Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
                 if (ethTransaction == null) {
                     mHandler.post(() -> {
+                        txRecordBean.setBlockNumber("交易失败");
                         callback.onTxRecordNodeFailure("error", txRecordBean);
                     });
                     return;

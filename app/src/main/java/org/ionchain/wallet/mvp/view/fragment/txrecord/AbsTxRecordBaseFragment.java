@@ -8,6 +8,7 @@ import com.lzy.okgo.OkGo;
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.DateUtils;
 import org.ionc.wallet.utils.LoggerUtils;
@@ -29,7 +30,7 @@ import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
  * 2、如果网络数据获取失败，则直接显示本地数据
  * 3、如果网络数据获取成功，则对比本地缓存的未记录的数据，并更新本地数据
  */
-public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment implements OnTxRecordNetDataCallback, AssetFragment.OnPullToRefreshCallback {
+public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment implements OnTxRecordNetDataCallback, AssetFragment.OnPullToRefreshCallback, OnTxRecordFromNodeCallback {
 
     /**
      * @param walletBeanNew 初始化所所需的钱保
@@ -225,7 +226,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      */
     @Override
     public void onPullToDown(WalletBeanNew walletBeanNew) {
-//        getNetData();
 //        if (mCommonAdapter == null) {
 //            return;
 //        }
@@ -290,8 +290,23 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     }
 
     @Override
+    public void onAddressChanged(WalletBeanNew currentWallet) {
+
+    }
+
+    @Override
     public void onNewRecord(TxRecordBean txRecordBean) {
         mListData.add(0,txRecordBean);
         mCommonAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
+
+    }
+
+    @Override
+    public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
+
     }
 }

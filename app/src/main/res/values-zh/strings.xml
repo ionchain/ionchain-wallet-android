@@ -209,7 +209,7 @@
     <string name="try_net_times">正在尝试第  %s 次节点请求</string>
     <string name="try_net_times_finish">请求%s次后，尝试结束，服务器繁忙</string>
     <string name="tx_record_none">暂无交易记录</string>
-    <string name="tx_block_unpacked">交易区块 : 未打包（请下拉刷新…）</string>
+    <string name="tx_block_unpacked">交易失败</string>
     <string name="tx_time">交易时间:</string>
     <string name="coin_type">选择币种</string>
     <string name="import_mnemonics">导入助记词</string>

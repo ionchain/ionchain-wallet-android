@@ -28,6 +28,7 @@ import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
+import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
@@ -41,7 +42,6 @@ import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
 import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDExRateRMBCallback;
 import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDPriceCallback;
 import org.ionchain.wallet.mvp.presenter.ioncrmb.PricePresenter;
-import org.ionchain.wallet.mvp.presenter.node.IONCNodePresenter;
 import org.ionchain.wallet.mvp.view.activity.address.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
@@ -95,7 +95,7 @@ public class AssetFragment extends AbsBaseFragment implements
         OnDialogCheck12MnemonicCallbcak,
         OnUSDPriceCallback,
         OnUSDExRateRMBCallback,
-        OnIONCNodeCallback {
+        OnIONCNodeCallback, OnTxRecordFromNodeCallback {
 
 
     /**
@@ -212,7 +212,6 @@ public class AssetFragment extends AbsBaseFragment implements
     private TxRecordOutFragment mTxRecordOutFragment;
 
     private String mOldAddress = "";
-    private IONCNodePresenter mIONCNodePresenter;
     private double mCNY = 0;
     private double mUS = 0;
     private double mKRW = 0;
@@ -430,8 +429,17 @@ public class AssetFragment extends AbsBaseFragment implements
         TxRecordBean t = null;
         if (data != null) {
             t = data.getParcelableExtra(TX_ACTIVITY_RESULT);
-            mTxRecordAllFragment.onNewRecord(t);
+            if (TextUtils.isEmpty(t.getHash())) {
+                mTxRecordAllFragment.onNewRecord(t);
+                IONCWalletSDK.getInstance().saveTxRecordBean(t);
+                return;
+            }
+            IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
+                    , t.getHash()
+                    , t
+                    , this);
         }
+        LoggerUtils.i("onActivityResult   ----     " + t.toString());
 
     }
 
@@ -457,7 +465,6 @@ public class AssetFragment extends AbsBaseFragment implements
         if (mCurrentWallet == null) {
             mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         }
-        mIONCNodePresenter = new IONCNodePresenter();
         mTxRecordInFragment = new TxRecordInFragment();
         mTxRecordOutFragment = new TxRecordOutFragment();
         mTxRecordAllFragment = new TxRecordAllFragment();
@@ -545,7 +552,6 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-//        mIONCNodePresenter.getNodes(this, this);
         balance();
         mTxRecordAllFragment.onPullToDown(mCurrentWallet);
     }
@@ -803,6 +809,18 @@ public class AssetFragment extends AbsBaseFragment implements
     private void cancelGetNode() {
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_RMB_RATE);
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_PRICE);
+    }
+
+    @Override
+    public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
+        mTxRecordAllFragment.onNewRecord(txRecordBean);
+        IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
+    }
+
+    @Override
+    public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
+        mTxRecordAllFragment.onNewRecord(recordBean);
+        IONCWalletSDK.getInstance().saveTxRecordBean(recordBean);
     }
 
     public interface OnPullToRefreshCallback {
