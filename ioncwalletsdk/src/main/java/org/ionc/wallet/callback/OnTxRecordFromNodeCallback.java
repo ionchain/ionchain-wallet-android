@@ -7,19 +7,19 @@ import org.ionc.wallet.bean.TxRecordBean;
  * date:2018/12/7
  * description：转账结果的回调
  */
-public interface OnTxRecordCallback {
+public interface OnTxRecordFromNodeCallback {
     /**
      * 转账成功
      *  @param hashTx 转账成功的hash值
      *
      */
-    void OnTxRecordSuccess(TxRecordBean txRecordBean);
+    void OnTxRecordNodeSuccess(TxRecordBean txRecordBean);
 
     /**
      * 转账失败
      *  @param error
      * @param recordBean
      */
-    void onTxRecordFailure(String error, TxRecordBean recordBean);
+    void onTxRecordNodeFailure(String error, TxRecordBean recordBean);
 
 }

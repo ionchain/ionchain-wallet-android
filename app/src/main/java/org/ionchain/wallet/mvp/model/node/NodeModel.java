@@ -15,7 +15,7 @@ public class NodeModel implements INodeModel {
 
     @Override
     public void getNodes(final OnIONCNodeCallback callback, Object cancelTag) {
-        NetUtils.get(getNodeListUrl(), new StringCallback() {
+        NetUtils.get("getNodes",getNodeListUrl(), new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();

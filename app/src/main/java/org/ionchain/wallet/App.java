@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 
 import androidx.multidex.MultiDex;
@@ -22,6 +24,7 @@ import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
+import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
@@ -46,6 +49,8 @@ import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
     @SuppressLint("StaticFieldLeak")
     public static Context mContext;
+    public static String mCoinType = ConstantParams.COIN_TYPE_US;//币种信息，默认人民币
+    public static final Handler APP_HANDLE = new Handler(Looper.getMainLooper());
     public static int[] sRandomHeader = {
             R.mipmap.random_header_more_1, R.mipmap.random_header_more_2, R.mipmap.random_header_more_3, R.mipmap.random_header_more_4, R.mipmap.random_header_more_5, R.mipmap.random_header_more_6, R.mipmap.random_header_more_7, R.mipmap.random_header_more_8
     };
@@ -67,7 +72,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         initOKGO();
         initLogger(APP_DEBUG);
 
-        IONCWalletSDK.getInstance().initIONCWalletSDK(this,initDb());
+        IONCWalletSDK.getInstance().initIONCWalletSDK(this, initDb());
         ZXingLibrary.initDisplayOpinion(this);
         CrashHandler.getInstance().init(this);
         initDisplayOpinion();

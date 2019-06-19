@@ -24,7 +24,7 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleThreeActivity;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -37,7 +37,7 @@ import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatcher, OnCreateWalletCallback, OnUpdateWalletCallback {
+public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity implements TextWatcher, OnCreateWalletCallback, OnUpdateWalletCallback {
 
     private AppCompatEditText mPrivateKey;
     private AppCompatEditText pwdEt;
@@ -61,8 +61,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     private void findViews() {
         RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
-        back = (ImageView) findViewById(R.id.back);
-        scan = (ImageView) findViewById(R.id.scan);
+
         mPrivateKey = (AppCompatEditText) findViewById(R.id.contentEt);
         pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
         nameEt = (AppCompatEditText) findViewById(R.id.nameEt);
@@ -110,9 +109,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
 
     @Override
     protected void initData() {
-        mImmersionBar.titleView(R.id.import_header)
-                .statusBarDarkFont(true)
-                .execute();
+     
     }
 
     @Override
@@ -121,6 +118,11 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
         mPrivateKey.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
         repwdEt.addTextChangedListener(this);
+    }
+
+    @Override
+    protected String getTitleName() {
+        return "导入私钥";
     }
 
     @Override
@@ -151,7 +153,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                 skipWebProtocol();
             }
         });
-        scan.setOnClickListener(new View.OnClickListener() {
+        mTitleRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (requestCameraPermissions()) {
@@ -211,7 +213,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivity implements TextWatch
                         .importPrivateKey(nameStr, private_key, pass, ImportByPriKeyActivity.this);
             }
         });
-        back.setOnClickListener(new View.OnClickListener() {
+        mTitleLeftImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

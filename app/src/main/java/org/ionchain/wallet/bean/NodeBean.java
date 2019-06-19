@@ -11,7 +11,7 @@ public class NodeBean {
     /**
      * code : 0
      * msg : 操作成功!
-     * data : [{"ionc_node":"xxx-test"}]
+     * data : [{"ionc_node":"xxx-testOkhttp"}]
      */
 
     private int code;
@@ -44,7 +44,7 @@ public class NodeBean {
 
     public static class DataBean implements Serializable {
         /**
-         * ionc_node : xxx-test
+         * ionc_node : xxx-testOkhttp
          */
 
         private String ionc_node;

@@ -11,53 +11,51 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="@dimen/h150"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/h5"
                 android:text="@string/ionc_app_name"
                 android:textColor="@color/white"
-                android:textSize="@dimen/txt_22sp"
-                android:lineSpacingExtra="@dimen/h5"
                 android:textScaleX="1"
-                />
+                android:textSize="@dimen/txt_22sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_size_16dp"
                 android:text="@string/distributed_intelligent_digital_wallet"
                 android:textColor="@color/white"
-                android:textSize="@dimen/txt_22sp"
-                android:layout_marginTop="@dimen/padding_size_16dp"/>
+                android:textSize="@dimen/txt_22sp" />
 
 
             <Button
                 android:id="@+id/createBtn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h50"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
+                android:layout_marginTop="@dimen/padding_size_16dp"
+                android:layout_marginRight="@dimen/padding_size_16dp"
+                android:background="@drawable/common_button_semicircle"
                 android:text="@string/app_create_wallet"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/txt_16sp"
-                android:layout_marginLeft="@dimen/padding_size_16dp"
-                android:layout_marginRight="@dimen/padding_size_16dp"
-                android:layout_marginTop="@dimen/padding_size_16dp"
-                android:background="@drawable/common_button_semicircle"/>
+                android:textSize="@dimen/txt_16sp" />
 
             <Button
                 android:id="@+id/importBtn"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/h50"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
+                android:layout_marginTop="@dimen/padding_size_16dp"
+                android:layout_marginRight="@dimen/padding_size_16dp"
+                android:background="@drawable/common_button_semicircle"
                 android:text="@string/app_import_wallet"
                 android:textColor="@color/main_blue"
-                android:textSize="@dimen/txt_16sp"
-                android:layout_marginLeft="@dimen/padding_size_16dp"
-                android:layout_marginRight="@dimen/padding_size_16dp"
-                android:layout_marginTop="@dimen/padding_size_16dp"
-                android:background="@drawable/common_button_semicircle"
-                />
+                android:textSize="@dimen/txt_16sp" />
 
         </LinearLayout>
 
@@ -65,17 +63,17 @@
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/check_white"
-            android:drawablePadding="@dimen/h5"
-            android:button="@null"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="@dimen/txt_14sp"
-            android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/margin_h20"
-            android:checked="true"/>
+            android:button="@null"
+            android:checked="true"
+            android:drawableStart="@drawable/check_white"
+            android:drawablePadding="@dimen/h5"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_14sp" />
 
     </RelativeLayout>
 

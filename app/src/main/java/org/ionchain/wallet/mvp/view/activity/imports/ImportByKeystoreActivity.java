@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,7 +20,7 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleThreeActivity;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 
@@ -31,7 +30,7 @@ import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreateWalletCallback, TextWatcher {
+public class ImportByKeystoreActivity extends AbsBaseCommonTitleThreeActivity implements OnCreateWalletCallback, TextWatcher {
     private AppCompatEditText mKeystore;
     private AppCompatEditText pwdEt;
     private AppCompatEditText nameEt;
@@ -42,31 +41,34 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
     private String namestr;
 
     @Override
+    protected String getTitleName() {
+        return getAppString(R.string.import_ks);
+    }
+
+    @Override
     protected void setListener() {
-        importBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewAlphaAnimation(importBtn);
-                if (nameEt.getText() == null) {
-                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_name));
-                    return;
-                }
-                if (pwdEt.getText() == null) {
-                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_password_null));
-                    return;
-                }
-                if (mKeystore.getText() == null) {
-                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
-                    return;
-                }
-                keystoreStr = mKeystore.getText().toString();
-                //读取keystore密码
-                String pass = pwdEt.getText().toString();
-                //生成keystory文件
-                showProgress(getString(R.string.importing_wallet));
-                LoggerUtils.i("正在导入KS......");
-                IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, keystoreStr, ImportByKeystoreActivity.this);
+        super.setListener();
+        importBtn.setOnClickListener(v -> {
+            setViewAlphaAnimation(importBtn);
+            if (nameEt.getText() == null) {
+                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_name));
+                return;
             }
+            if (pwdEt.getText() == null) {
+                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_password_null));
+                return;
+            }
+            if (mKeystore.getText() == null) {
+                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
+                return;
+            }
+            keystoreStr = mKeystore.getText().toString();
+            //读取keystore密码
+            String pass = pwdEt.getText().toString();
+            //生成keystory文件
+            showProgress(getString(R.string.importing_wallet));
+            LoggerUtils.i("正在导入KS......");
+            IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, keystoreStr, ImportByKeystoreActivity.this);
         });
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,35 +76,26 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
                 skipWebProtocol();
             }
         });
+        mTitleRightImage.setOnClickListener(v -> {
+            if (requestCameraPermissions()) {
+                skip(CaptureActivity.class, FROM_SCAN);
+            }
+        });
+        checkbox.setOnClickListener(v -> {
+            if (mKeystore.getText() != null && pwdEt.getText() != null && nameEt.getText() != null && checkbox.isChecked()) {
+                importBtn.setEnabled(true);
+                importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+            } else {
+                importBtn.setEnabled(false);
+                importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
+            }
+        });
     }
 
-    @Override
-    protected void initData() {
-
-    }
 
     @Override
     protected void initView() {
-        mImmersionBar.titleView(R.id.import_header)
-                .statusBarDarkFont(true)
-                .execute();
-        ImageView back = findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
-        ImageView scan = findViewById(R.id.scan);
-        scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (requestCameraPermissions()) {
-                    skip(CaptureActivity.class, FROM_SCAN);
-                }
-            }
-        });
         mKeystore = findViewById(R.id.mnemonic);
 
         pwdEt = findViewById(R.id.pwdEt);
@@ -111,28 +104,14 @@ public class ImportByKeystoreActivity extends AbsBaseActivity implements OnCreat
         pwdEt.addTextChangedListener(this);
         nameEt.addTextChangedListener(this);
         checkbox = findViewById(R.id.checkbox);
-        checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mKeystore.getText() != null && pwdEt.getText() != null && nameEt.getText() != null && checkbox.isChecked()) {
-                    importBtn.setEnabled(true);
-                    importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
-                } else {
-                    importBtn.setEnabled(false);
-                    importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-                }
-            }
-        });
+
+
 
         linkUrlTv = findViewById(R.id.linkUrlTv);
         importBtn = findViewById(R.id.importBtn);
 
     }
 
-    @Override
-    protected void handleIntent(Intent intent) {
-
-    }
 
     @Override
     protected int getLayoutId() {

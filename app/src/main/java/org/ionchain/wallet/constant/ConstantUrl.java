@@ -31,9 +31,11 @@ public class ConstantUrl {
     //测试服
     private final static String HOST_DEBUG = "http://192.168.23.142";   //新服
     public final static String URL_TX_RECORD_GET_DEBUG = HOST_DEBUG + ":3001/v1/transaction";//测试
-    public final static String URL_UPDATE_APK_DEBUG = HOST_DEBUG + ":3002/version";   //test
-    public final static String URL_USD_PRICE_DEBUG = HOST_DEBUG + ":3001/v1/version";   //test
-    public final static String URL_USD_EX_RATE_RMB_PRICE_DEBUG = HOST_DEBUG + ":3001/v1/currency";   //test
+    public final static String URL_UPDATE_APK_DEBUG = HOST_DEBUG + ":3002/version";   //更新
+    public final static String URL_USD_PRICE_DEBUG = HOST_DEBUG + ":3001/v1/version";   //美元
+    public final static String URL_USD_EX_RATE_RMB_PRICE_DEBUG_V1 = HOST_DEBUG + ":3001/v1/currency";   //人民币兑美元汇率 版本1
+    public final static String URL_USD_EX_RATE_RMB_PRICE_DEBUG = HOST_DEBUG + ":3001/v2/currency";   //人民币兑美元汇率
+
     public final static String URL_NODE_LIST_DEBUG = HOST_DEBUG + ":3002/version/node";   //新服
     private final static String HOST_NODE_DEBUG = "http://explorer.ionchain.org";
 
@@ -51,8 +53,8 @@ public class ConstantUrl {
 
 
     //备用节点
-//    public final static String HOST_NODE_MAIN_ DEBUG = "http:///192.168.0.104:7545";
-    public final static String HOST_NODE_MAIN_DEBUG = "http:///192.168.1.10:7545";
+    public final static String HOST_NODE_MAIN_DEBUG = "http://192.168.31.27:8545";
+//    public final static String HOST_NODE_MAIN_DEBUG = "http:///192.168.1.10:7545";
 //    public final static String HOST_NODE_MAIN_DEBUG = "http:///192.168.2.1:7545";
 
 }

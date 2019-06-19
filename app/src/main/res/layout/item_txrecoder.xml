@@ -11,10 +11,16 @@
         android:gravity="center" />
 
     <TextView
+        android:id="@+id/tx_time"
+        style="@style/TxRecorder" />
+
+
+    <TextView
         android:id="@+id/tx_value"
         style="@style/TxRecorder" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tx_fee"
         style="@style/TxRecorder" />
 
@@ -23,10 +29,12 @@
         style="@style/TxRecorder" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tx_from"
         style="@style/TxRecorder" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tx_to"
         style="@style/TxRecorder" />
 

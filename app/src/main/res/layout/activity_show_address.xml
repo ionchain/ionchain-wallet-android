@@ -4,32 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/show_title"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/blue_top" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/blue_top">
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="?actionBarSize"
-            android:paddingLeft="@dimen/dp_10"
-            android:src="@mipmap/arrow_back_white" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:gravity="center"
-            android:text="收款码"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </RelativeLayout>
+    <include layout="@layout/activity_common_title_two"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -6,35 +6,7 @@
     android:orientation="vertical"
     tools:context=".mvp.view.activity.imports.SelectImportModeActivity">
 
-
-    <View
-        android:id="@+id/header_top"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
-
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:paddingLeft="@dimen/margin_h20"
-        android:paddingRight="@dimen/margin_h20">
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/arrow_back_blue" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/select_import_title"
-            android:textColor="@color/blue_top"
-            android:textSize="@dimen/title_size" />
-    </RelativeLayout>
+    <include layout="@layout/activity_common_title_two"/>
 
     <Button
         android:id="@+id/by_private_key"

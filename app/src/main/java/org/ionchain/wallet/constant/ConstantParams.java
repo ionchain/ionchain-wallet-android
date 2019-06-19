@@ -22,6 +22,7 @@ public final class ConstantParams {
     public static final String DB_NAME = "ionchainwallet";
     public static final String SPLIT = ",";
     public static final String IS = "=";
+    public static final String DATA_ERROR = "data-error";
     public static final String JUMP_PARM_ISADDMODE = "isaddmode";
     public static final String user = "user_model";
     public static final String FROM_WELCOME = "welcome";
@@ -44,16 +45,13 @@ public final class ConstantParams {
 
 
     /*
-    * 版本对话框的按钮事件
-    * */
+     * 版本对话框的按钮事件
+     * */
     public static final char VERSION_TAG_CHECK_FOR_UPDATE = 0;
     public static final char VERSION_TAG_DOWNLOAD = 1;
 
 
-
     public static final String INTENT_PARAME_WALLET_ADDRESS = "msg";
-
-
 
 
     /**
@@ -73,5 +71,9 @@ public final class ConstantParams {
 
     public static final String DEFAULT_TRANSCATION_BLOCK_NUMBER = "100000000000";//   必须更新，不可取消
 
+    public final static String COIN_TYPE_CNY = "cny";
+    public final static String COIN_TYPE_US = "us";
+    public final static String COIN_TYPE_KRW = "krw";
+    public final static String COIN_TYPE_IDR = "idr";
 
 }

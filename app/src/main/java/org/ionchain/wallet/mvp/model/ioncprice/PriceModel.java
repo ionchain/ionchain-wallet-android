@@ -29,7 +29,7 @@ public class PriceModel implements IPriceModel {
     @Override
     public void getUSDPrice(final OnUSDPriceCallback usdPriceCallback) {
         //todo price
-        NetUtils.get(getUSDPriceUrl(), new StringCallback() {
+        NetUtils.get("getUSDPrice", getUSDPriceUrl(), new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
@@ -68,7 +68,7 @@ public class PriceModel implements IPriceModel {
      */
     @Override
     public void getUSDExchangeRateRMB(final OnUSDExRateRMBCallback usdExRateRMBCallback) {
-        NetUtils.get(getUSDExRateRMBUrl(), new StringCallback() {
+        NetUtils.get("getUSDExchangeRateRMB", getUSDExRateRMBUrl(), new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();

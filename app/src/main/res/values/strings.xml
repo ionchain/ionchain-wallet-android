@@ -14,7 +14,7 @@
     <string name="wallet_icon">Wallet Icon</string>
     <string name="tx_in">Into</string>
     <string name="tx_out">Out</string>
-    <string name="tx_recorder">Tx_record</string>
+    <string name="tx_recorder">Tx_record：</string>
     <string name="header_back">Background</string>
     <string name="name_hint">Names cannot contain special characters and are no longer than 8 bits long</string>
     <string name="import_wallet_text">Import the wallet</string>
@@ -103,12 +103,12 @@
     <string name="btn_update">Update</string>
     <string name="version_info_title">Version Information</string>
     <string name="download_progress_tv">Downloading……</string>
-    <string name="tx_hash">Tx hash:</string>
-    <string name="tx_block">"Tx Block: "</string>
-    <string name="tx_out_addr">Tx-out Address: :</string>
-    <string name="tx_in_addr">Transfer-in Address:</string>
-    <string name="tx_amount">Tx Amount:</string>
-    <string name="tx_fee">Tx Costs:</string>
+    <string name="tx_hash">Tx_hash:</string>
+    <string name="tx_block">"Tx_block: "</string>
+    <string name="tx_out_addr">"Tx_out Address: "</string>
+    <string name="tx_in_addr">Tx_in Address:</string>
+    <string name="tx_amount">Tx_amount:</string>
+    <string name="tx_fee">Tx_costs:</string>
     <string name="error_net_device_list">"Device list server error! "</string>
     <string name="error_data_parase">"Parsing data failed "</string>
     <string name="wallet_exists">The wallet already exists</string>
@@ -211,4 +211,11 @@
     <string name="try_net_times_finish">After %s requests, the attempt ends and the service exception occurs</string>
     <string name="tx_record_none">tx record none</string>
     <string name="tx_block_unpacked">Trading block: unpackaged (please drop down to refresh...)</string>
+    <string name="tx_time">Tx_time:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="coin_type">Select Coin Type</string>
+    <string name="import_mnemonics">Import mnemonics</string>
+    <string name="import_ks">导入KS</string>
 </resources>

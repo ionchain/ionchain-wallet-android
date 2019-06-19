@@ -38,7 +38,6 @@
 
         </RelativeLayout>
 
-
         <RelativeLayout
             android:id="@+id/language_setting"
             style="@style/A_Style_tab_mine_item_container">
@@ -61,6 +60,21 @@
             <TextView
                 style="@style/A_Style_tab_mine"
                 android:text="@string/version_info_item" />
+
+            <ImageView
+                style="@style/A_Style_tab_mine_item_image"
+                android:src="@mipmap/ic_keyboard_arrow_right" />
+
+            <View style="@style/A_Style_tab_mine_split_line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/coin_type"
+            style="@style/A_Style_tab_mine_item_container">
+
+            <TextView
+                style="@style/A_Style_tab_mine"
+                android:text="@string/coin_type" />
 
             <ImageView
                 style="@style/A_Style_tab_mine_item_image"

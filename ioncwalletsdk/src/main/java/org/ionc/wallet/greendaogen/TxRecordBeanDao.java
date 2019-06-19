@@ -42,6 +42,9 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
         public final static Property R = new Property(15, String.class, "r", false, "R");
         public final static Property S = new Property(16, String.class, "s", false, "S");
         public final static Property V = new Property(17, int.class, "v", false, "V");
+        public final static Property Tc_in_out = new Property(18, String.class, "tc_in_out", false, "TC_IN_OUT");
+        public final static Property Local = new Property(19, boolean.class, "local", false, "LOCAL");
+        public final static Property Success = new Property(20, boolean.class, "success", false, "SUCCESS");
     }
 
 
@@ -74,7 +77,10 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
                 "\"RAW\" TEXT," + // 14: raw
                 "\"R\" TEXT," + // 15: r
                 "\"S\" TEXT," + // 16: s
-                "\"V\" INTEGER NOT NULL );"); // 17: v
+                "\"V\" INTEGER NOT NULL ," + // 17: v
+                "\"TC_IN_OUT\" TEXT," + // 18: tc_in_out
+                "\"LOCAL\" INTEGER NOT NULL ," + // 19: local
+                "\"SUCCESS\" INTEGER NOT NULL );"); // 20: success
     }
 
     /** Drops the underlying database table. */
@@ -172,6 +178,13 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
             stmt.bindString(17, s);
         }
         stmt.bindLong(18, entity.getV());
+ 
+        String tc_in_out = entity.getTc_in_out();
+        if (tc_in_out != null) {
+            stmt.bindString(19, tc_in_out);
+        }
+        stmt.bindLong(20, entity.getLocal() ? 1L: 0L);
+        stmt.bindLong(21, entity.getSuccess() ? 1L: 0L);
     }
 
     @Override
@@ -263,6 +276,13 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
             stmt.bindString(17, s);
         }
         stmt.bindLong(18, entity.getV());
+ 
+        String tc_in_out = entity.getTc_in_out();
+        if (tc_in_out != null) {
+            stmt.bindString(19, tc_in_out);
+        }
+        stmt.bindLong(20, entity.getLocal() ? 1L: 0L);
+        stmt.bindLong(21, entity.getSuccess() ? 1L: 0L);
     }
 
     @Override
@@ -290,7 +310,10 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
             cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // raw
             cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // r
             cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // s
-            cursor.getInt(offset + 17) // v
+            cursor.getInt(offset + 17), // v
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // tc_in_out
+            cursor.getShort(offset + 19) != 0, // local
+            cursor.getShort(offset + 20) != 0 // success
         );
         return entity;
     }
@@ -315,6 +338,9 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
         entity.setR(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
         entity.setS(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
         entity.setV(cursor.getInt(offset + 17));
+        entity.setTc_in_out(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setLocal(cursor.getShort(offset + 19) != 0);
+        entity.setSuccess(cursor.getShort(offset + 20) != 0);
      }
     
     @Override

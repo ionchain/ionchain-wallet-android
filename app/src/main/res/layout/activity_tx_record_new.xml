@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.ionchain.wallet.mvp.view.activity.txrecord.TxRecordNewActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/blue_top">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/padding_size_16dp"
+            android:src="@mipmap/arrow_back_white" />
+
+        <TextView
+            style="@style/common_title"
+            android:layout_centerInParent="true"
+            android:text="@string/tx_record"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
+    </RelativeLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tx_record_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_btn_height_40dp" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/tx_record_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

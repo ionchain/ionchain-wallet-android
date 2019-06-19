@@ -5,6 +5,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
+    <include layout="@layout/activity_common_title_two" />
 
     <TextView
         android:id="@+id/tv_user_select"
@@ -20,23 +21,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        android:text="@string/language_auto" />
+        android:text="@string/language_auto"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btn_cn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        android:text="@string/language_cn" />
+        android:text="@string/language_cn"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btn_en"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:text="@string/language_en"
         android:textAllCaps="false"
-        android:textStyle="bold"
-        android:text="@string/language_en" />
+        android:textStyle="bold" />
 </LinearLayout>

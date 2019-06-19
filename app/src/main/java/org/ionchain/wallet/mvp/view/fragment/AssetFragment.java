@@ -2,21 +2,23 @@ package org.ionchain.wallet.mvp.view.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.lzy.okgo.OkGo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -31,20 +33,15 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
-import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.bean.NodeBean;
-import org.ionchain.wallet.helper.NodeHelper;
-import org.ionchain.wallet.mvp.callback.OnBindDeviceCallback;
-import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
+import org.ionchain.wallet.bean.USDExRmb;
+import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
-import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
-import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDExRateRMBCallback;
 import org.ionchain.wallet.mvp.model.ioncprice.callbcak.OnUSDPriceCallback;
-import org.ionchain.wallet.mvp.presenter.device.DevicePresenter;
 import org.ionchain.wallet.mvp.presenter.ioncrmb.PricePresenter;
+import org.ionchain.wallet.mvp.presenter.node.IONCNodePresenter;
 import org.ionchain.wallet.mvp.view.activity.address.ShowAddressActivity;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
@@ -52,16 +49,17 @@ import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivit
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecordActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
-import org.ionchain.wallet.qrcode.activity.CaptureActivity;
-import org.ionchain.wallet.qrcode.activity.CodeUtils;
+import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordAllFragment;
+import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordInFragment;
+import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordOutFragment;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
-import org.ionchain.wallet.widget.DialogBindDevice;
 import org.ionchain.wallet.widget.PopupWindowBuilder;
 import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
 import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -71,7 +69,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import static android.app.Activity.RESULT_OK;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
@@ -83,23 +80,19 @@ import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
-import static org.ionchain.wallet.constant.ConstantParams.QRCODE_BIND_DEVICE;
 import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 
 public class AssetFragment extends AbsBaseFragment implements
         PopupWindowBuilder.OnItemBuilder,
         OnRefreshListener,
-        OnBindDeviceCallback,
-        OnDeviceListCallback,
-        OnUnbindDeviceButtonClickedListener,
-        OnUnbindDeviceCallback,
         OnBalanceCallback,
         DialogMnemonic.OnSavedMnemonicCallback,
         DialogTextMessage.OnBtnClickedListener,
         OnDialogCheck12MnemonicCallbcak,
         OnUSDPriceCallback,
-        OnUSDExRateRMBCallback, OnIONCNodeCallback, NodeHelper.OnTryTimesCallback {
+        OnUSDExRateRMBCallback,
+        OnIONCNodeCallback {
 
 
     /**
@@ -113,20 +106,17 @@ public class AssetFragment extends AbsBaseFragment implements
     /**
      * 钱包名字
      */
-    private TextView walletNameTx;
-    /**
-     * 当前主链IP
-     */
-    private TextView node;
+    private TextView mWalletNameTx;
+
     /**
      * 更多钱包入口
      */
-    private ImageView moreWallet;
+    private ImageView mMoreWallet;
 
     /**
      * 当前钱包的余额
      */
-    private TextView ioncBalanceTx;
+    private TextView mIoncBalanceTx;
 
     /**
      * 离子比余额
@@ -143,31 +133,24 @@ public class AssetFragment extends AbsBaseFragment implements
     /**
      * 人民币余额
      */
-    private TextView rmb_tx;
-    /**
-     * 当前钱包的余额--以太坊
-     */
-    private TextView walletBalanceTxETH;
+    private TextView mRmbTx;
+
     /**
      * 交易记录,点击跳转到交易记录
      */
-    private TextView tx_recoder;
+    private TextView mTxRecoder;
     /**
      * 提示用户备份钱包,在用户备份钱包的情况下
      */
-    private TextView please_backup_wallet;
+    private TextView mPleaseBackupWallet;
     /**
      * 更多钱包
      */
     private PopupWindowBuilder mBuilder;
     /**
-     * 添加设设备
-     */
-    private ImageView addDeviceScan;
-    /**
      * 钱包的图标
      */
-    private ImageView wallet_logo;
+    private ImageView mWalletLogo;
 
     /**
      * 更多钱包适配器
@@ -186,39 +169,16 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     private ListView mMoreWalletListView;
 
-    /**
-     * 设备适配器
-     */
-    private CommonAdapter mAdapterDeviceLv;
-
-    /**
-     * 设备数据
-     */
-    private List<DeviceBean.DataBean> mDataBeans = new ArrayList<>();
-
-    /**
-     * 设备代理
-     */
-    private DevicePresenter mDevicePresenter;
-
 
     /**
      * 转出
      */
-    private LinearLayout tx_out_ll;
+    private LinearLayout mTxOutLl;
     /**
      * 转入
      */
-    private LinearLayout tx_in_ll;
+    private LinearLayout mTxInLl;
 
-    /**
-     * 绑定设备的弹窗
-     */
-    private DialogBindDevice mDialogBindCardWithWallet;
-    /**
-     * 解绑位置
-     */
-    private int mUnbindPos = 0;
     /**
      * 引导用户备份,助记词
      */
@@ -230,46 +190,52 @@ public class AssetFragment extends AbsBaseFragment implements
     private PricePresenter mPricePresenter;
     private String mNodeIONC = getHostNode();
 
-    private ClassicsHeader refresh_header;
+    private ClassicsHeader mRefreshHeader;
 
     /**
-     * @param rootView 实例化资产页头部
+     * 交易记录的分类页面
      */
-    private void initListViewHeaderViews(View rootView) {
-        walletNameTx = rootView.findViewById(R.id.wallet_name_tv);
-        node = rootView.findViewById(R.id.node);
-        node.setText("当前节点：" + mNodeIONC);
-        moreWallet = rootView.findViewById(R.id.wallet_list);
-        ioncBalanceTx = rootView.findViewById(R.id.ionc_balance_tx);
-        rmb_tx = rootView.findViewById(R.id.rmb_balance_tx);
-        walletBalanceTxETH = rootView.findViewById(R.id.wallet_balance_tx_eth);
-        addDeviceScan = rootView.findViewById(R.id.add_device);
-        wallet_logo = rootView.findViewById(R.id.wallet_logo);
-        tx_in_ll = rootView.findViewById(R.id.tx_in_ll);
-        tx_out_ll = rootView.findViewById(R.id.tx_out_ll);
-        tx_recoder = rootView.findViewById(R.id.tx_recoder_tv);
-        please_backup_wallet = rootView.findViewById(R.id.please_backup_wallet);
-        if (!BuildConfig.APP_DEBUG) {
-            node.setVisibility(View.GONE);
-        }
-        ioncBalanceTx.setText("0000");
-        rmb_tx.setText("0000");
-    }
+    private TabLayout tabLayout;
+    /**
+     * 交易记录的容器
+     */
+    private ViewPager viewPager;
+    List<String> titles = new ArrayList<>();
+    private List<AbsBaseFragment> mFragmentListTxRecord = new ArrayList<>();
 
+    private TxRecordInFragment mTxRecordInFragment;
+    private TxRecordAllFragment mTxRecordAllFragment;
+    private TxRecordOutFragment mTxRecordOutFragment;
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            mImmersionBar
-                    .statusBarColor(R.color.blue_top)
-                    .statusBarDarkFont(false).execute();
+    private String mOldAddress = "";
+    private IONCNodePresenter mIONCNodePresenter;
+    private double mCNY = 0;
+    private double mUS = 0;
+    private double mKRW = 0;
+    private double mIDR = 0;
 
-        }
+    /**
+     * 实例化资产页头部
+     *
+     * @param header
+     */
+    private void initListViewHeaderViews(View header) {
+        mWalletNameTx = header.findViewById(R.id.wallet_name_tv);
+        mMoreWallet = header.findViewById(R.id.wallet_list);
+        mIoncBalanceTx = header.findViewById(R.id.ionc_balance_tx);
+        mRmbTx = header.findViewById(R.id.rmb_balance_tx);
+        mWalletLogo = header.findViewById(R.id.wallet_logo);
+        mTxInLl = header.findViewById(R.id.tx_in_ll);
+        mTxOutLl = header.findViewById(R.id.tx_out_ll);
+        mTxRecoder = header.findViewById(R.id.tx_recoder_tv);
+        mPleaseBackupWallet = header.findViewById(R.id.please_backup_wallet);
+        mIoncBalanceTx.setText("0000");
+        mRmbTx.setText("0000");
     }
 
     @Override
     protected void handleShow() {
+        mImmersionBar.statusBarColor(R.color.blue_top).statusBarDarkFont(false).execute();
         LoggerUtils.i("handleShow");
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
@@ -279,10 +245,11 @@ public class AssetFragment extends AbsBaseFragment implements
             return;
         }
         setBackupTag();
-        walletNameTx.setText(mCurrentWallet.getName());
+        mWalletNameTx.setText(mCurrentWallet.getName());
         Integer id = mCurrentWallet.getMIconIndex();
-        wallet_logo.setImageResource(App.sRandomHeader[id]);
-        getNetData(); //回到前台 handleShow
+        mWalletLogo.setImageResource(App.sRandomHeader[id]);
+        balance(); //回到前台 handleShow
+        mTxRecordAllFragment.onPullToDown(mCurrentWallet);
     }
 
     @Override
@@ -295,27 +262,30 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+
         LoggerUtils.i("onResume");
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
+
         if (mCurrentWallet == null) {
             ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
 //            跳转到钱包创建或者导入界面
             return;
         }
-        setBackupTag();
-        walletNameTx.setText(mCurrentWallet.getName());
-        Integer id = mCurrentWallet.getMIconIndex();
-        wallet_logo.setImageResource(App.sRandomHeader[id]);
-        getNetData(); //回到前台  onResume
-    }
 
-    /**
-     * 获取网络数据
-     * 先从内置的节点获取余额
-     */
-    private void getNetData() {
-        balance();
+        mOldAddress = mCurrentWallet.getAddress();//初始化和赋值
+        mTxRecordAllFragment.initRecordWalletBean(mCurrentWallet);
+        setBackupTag();
+        mWalletNameTx.setText(mCurrentWallet.getName());
+        Integer id = mCurrentWallet.getMIconIndex();
+        mWalletLogo.setImageResource(App.sRandomHeader[id]);
+        balance(); //回到前台  onResume
+        if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
+            mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
+        } else {
+            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
+        }
+        setBalance();
     }
 
     /**
@@ -324,9 +294,9 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     private void setBackupTag() {
         if (!TextUtils.isEmpty(mCurrentWallet.getMnemonic())) {
-            please_backup_wallet.setVisibility(View.VISIBLE);
+            mPleaseBackupWallet.setVisibility(View.VISIBLE);
         } else {
-            please_backup_wallet.setVisibility(View.GONE);
+            mPleaseBackupWallet.setVisibility(View.GONE);
         }
     }
 
@@ -341,21 +311,23 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     @SuppressWarnings("unchecked")
     protected void initView(View view) {
-
-        //设备列表
-        ListView mDevicesLv = view.findViewById(R.id.devices_items);
-        refresh_header = (ClassicsHeader) view.findViewById(R.id.refresh_header);
         //lv头部
-        View lvHeader = LayoutInflater.from(mActivity).inflate(R.layout.header_lv_home_page, null);
-        initListViewHeaderViews(lvHeader);
+        View header = view.findViewById(R.id.header_lv_home_page);
 
-        mDevicesLv.addHeaderView(lvHeader);
+        initListViewHeaderViews(header);
         mRefresh = view.findViewById(R.id.refresh_asset);
+        mRefresh.setHeaderHeight(40);
+        mRefresh.setFooterHeight(40);
+        mRefresh.setHeaderMaxDragRate(2);//最大显示下拉高度/Header标准高度
+        mRefresh.setFooterMaxDragRate(2);//最大显示下拉高度/Footer标准高度
+        mRefresh.setHeaderTriggerRate(1);//触发刷新距离 与 HeaderHeight 的比率1.0.4
+        mRefresh.setFooterTriggerRate(1);//触发加载距离 与 FooterHeight 的比率1.0.4
+        mRefresh.setEnableAutoLoadMore(false);
+        mRefreshHeader = view.findViewById(R.id.refresh_header);
         mRefresh.setOnRefreshListener(this);
         mBuilder = new PopupWindowBuilder(mActivity, R.layout.item_popup_list_layout, this);
-
-        mAdapterDeviceLv = new CommonAdapter(mActivity, mDataBeans, R.layout.item_devices_layout, new DeviceViewHelper(this));
-        mDevicesLv.setAdapter(mAdapterDeviceLv);
+        tabLayout = view.findViewById(R.id.tx_record_tabs);
+        viewPager = view.findViewById(R.id.tx_record_content);
 
     }
 
@@ -365,77 +337,65 @@ public class AssetFragment extends AbsBaseFragment implements
         /*
          * 更多钱包
          * */
-        moreWallet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DisplayMetrics metrics = new DisplayMetrics();
-                Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                int screenHeight = metrics.heightPixels;
-                int screenWidth = metrics.widthPixels;
-                mBuilder.setAnimationStyle(R.style.push_left_in_out)
-                        .setWidth((int) (screenWidth * 0.6))
-                        .setHeight(screenHeight)
-                        .setLocation(mRefresh, Gravity.END | Gravity.TOP, 0, 0)
-                        .build()
-                        .show();
-                mMoreWalletListView.smoothScrollToPosition(0);
+        mMoreWallet.setOnClickListener(v -> {
+            DisplayMetrics metrics = new DisplayMetrics();
+            Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            int screenHeight = metrics.heightPixels;
+            int screenWidth = metrics.widthPixels;
+            mBuilder.setAnimationStyle(R.style.push_left_in_out)
+                    .setWidth((int) (screenWidth * 0.6))
+                    .setHeight(screenHeight)
+                    .setLocation(mRefresh, Gravity.END | Gravity.TOP, 0, 0)
+                    .build()
+                    .show();
+            mMoreWalletListView.smoothScrollToPosition(0);
 
-                mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
-                if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
-                    mMoreWallets.clear();
-                    mMoreWallets.addAll(mMoreWalletsTemp);
-                    mAdapterMore.notifyDataSetChanged();
-                }
+            mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
+            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
+                mMoreWallets.clear();
+                mMoreWallets.addAll(mMoreWalletsTemp);
+                mAdapterMore.notifyDataSetChanged();
             }
-
         });
         /*
          * 修改钱包
          * */
-        wallet_logo.setOnClickListener(v -> {
+        mWalletLogo.setOnClickListener(v -> {
             if (pleaseBackupWallet()) return;
             /*
              *  将币价信息携带过去
              */
-            NodeHelper.getInstance().cancelAndReset();
+            cancelGetNode();// 修改钱包
             skip(ModifyAndExportWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
         });
-        /*
-         * 绑定设备
-         * */
-        addDeviceScan.setOnClickListener(v -> {
-            if (pleaseBackupWallet()) return;
-            Intent intent = new Intent(getActivity(), CaptureActivity.class);
-            startActivityForResult(intent, QRCODE_BIND_DEVICE);
 
-        });
 
         /*
          * 转账
          * */
-        tx_out_ll.setOnClickListener(v -> {
+        mTxOutLl.setOnClickListener(v -> {
             if (pleaseBackupWallet()) return;
             Intent intent = new Intent(getActivity(), TxActivity.class);
             intent.putExtra(INTENT_PARAM_CURRENT_WALLET, mCurrentWallet);
             intent.putExtra(CURRENT_ADDRESS, mCurrentWallet.getAddress());
             intent.putExtra(CURRENT_KSP, mCurrentWallet.getKeystore());
-            NodeHelper.getInstance().cancelAndReset();
+            cancelGetNode();//转账
             skip(intent);
         });
         /*
          * 转入
          * */
-        tx_in_ll.setOnClickListener(v -> {
+        mTxInLl.setOnClickListener(v -> {
             if (pleaseBackupWallet()) return;
             Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
             intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mCurrentWallet.getAddress());
-            NodeHelper.getInstance().cancelAndReset();
+            cancelGetNode();  //转入
             skip(intent);
         });
         /*
          * 交易记录
          * */
-        tx_recoder.setOnClickListener(v -> {
+        mTxRecoder.setOnClickListener(v -> {
             if (pleaseBackupWallet()) return;
             LoggerUtils.i("address" + mCurrentWallet.getAddress());
 
@@ -443,17 +403,18 @@ public class AssetFragment extends AbsBaseFragment implements
             intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mCurrentWallet.getAddress());
             intent.putExtra(PARCELABLE_WALLET_BEAN, mCurrentWallet);
             skip(intent);
-            NodeHelper.getInstance().cancelAndReset();
+            cancelGetNode();// 交易记录
         });
         /*
          * 备份钱包
          * */
-        please_backup_wallet.setOnClickListener(v -> {
+        mPleaseBackupWallet.setOnClickListener(v -> {
             String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
             dialogMnemonic = new DialogMnemonic(mActivity, mnemonics, AssetFragment.this);
             dialogMnemonic.show();
         });
     }
+
 
     /**
      * 钱包没有备份,则提示用户去备份钱包
@@ -464,7 +425,7 @@ public class AssetFragment extends AbsBaseFragment implements
         if (BuildConfig.APP_DEBUG) {
             return false;
         }
-        if (please_backup_wallet.getVisibility() == View.VISIBLE) {
+        if (mPleaseBackupWallet.getVisibility() == View.VISIBLE) {
             ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
             return true;
         }
@@ -473,56 +434,52 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     protected void initData() {
-        mDevicePresenter = new DevicePresenter();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == QRCODE_BIND_DEVICE) {
-            final String result = data.getStringExtra("result");
-            LoggerUtils.i("result", result);
-
+        if (mCurrentWallet == null) {
+            mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         }
-        /**
-         * 处理二维码扫描结果
-         */
-        if (requestCode == QRCODE_BIND_DEVICE) {
-            //处理扫描结果（在界面上显示）
-            if (null != data) {
-                Bundle bundle = data.getExtras();
-                if (bundle == null) {
-                    return;
-                }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    final String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    mDialogBindCardWithWallet = new DialogBindDevice(mActivity);
-                    mDialogBindCardWithWallet.setMessageText(result);
-                    mDialogBindCardWithWallet.setLeftBtnClickedListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDialogBindCardWithWallet.dismiss();
-                        }
-                    });
-                    mDialogBindCardWithWallet.setRightBtnClickedListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDialogBindCardWithWallet.dismiss();
-                            String address = mCurrentWallet.getAddress();
-                            mDevicePresenter.bindDeviceToWallet(address, result, AssetFragment.this);
-                        }
-                    });
-                    mDialogBindCardWithWallet.show();
-                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    ToastUtil.showLong(getResources().getString(R.string.error_parase_toast_qr_code));
-                }
+        mIONCNodePresenter = new IONCNodePresenter();
+        mTxRecordInFragment = new TxRecordInFragment();
+        mTxRecordOutFragment = new TxRecordOutFragment();
+        mTxRecordAllFragment = new TxRecordAllFragment();
+        mFragmentListTxRecord.add(mTxRecordAllFragment);
+        mFragmentListTxRecord.add(new TxRecordOutFragment());
+        mFragmentListTxRecord.add(new TxRecordInFragment());
+
+        titles.add("全部");
+        titles.add("转出");
+        titles.add("转入");
+
+        viewPager.setAdapter(new FragmentPagerAdapter(mActivity.getSupportFragmentManager()) {
+            @NotNull
+            @Override
+            public AbsBaseFragment getItem(int position) {
+                return mFragmentListTxRecord.get(position);
             }
-        }
+
+            @Override
+            public int getCount() {
+                return mFragmentListTxRecord.size();
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                super.destroyItem(container, position, object);
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+
+                return titles.get(position);
+            }
+        });
+        tabLayout.setupWithViewPager(viewPager);
     }
+
 
     @SuppressWarnings("unchecked")
     @Override
-    public void initItems(final PopupWindow instance, View contentView) {
+    public void initMoreItems(final PopupWindow instance, View contentView) {
         mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
         if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
             mMoreWallets.clear();
@@ -530,164 +487,63 @@ public class AssetFragment extends AbsBaseFragment implements
             mMoreWallets.addAll(mMoreWalletsTemp);
         }
         mMoreWalletListView = contentView.findViewById(R.id.data_list);
-        LinearLayout scan_popu = contentView.findViewById(R.id.scan_popu);
-        LinearLayout new_ll = contentView.findViewById(R.id.new_ll);
+        LinearLayout importWallet = contentView.findViewById(R.id.scan_popu);
+        LinearLayout createWallet = contentView.findViewById(R.id.new_ll);
         mAdapterMore = new CommonAdapter(getActivity(), mMoreWallets, R.layout.item_popup_list, new MoreWalletViewHelper());
         mMoreWalletListView.setAdapter(mAdapterMore);
-        scan_popu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                instance.dismiss();
-                skip(SelectImportModeActivity.class);//
+        importWallet.setOnClickListener(v -> {
+            instance.dismiss();
+            skip(SelectImportModeActivity.class);//
 
-            }
         });
-        new_ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                instance.dismiss();
-                skip(CreateWalletActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
-            }
+        createWallet.setOnClickListener(v -> {
+            instance.dismiss();
+            skip(CreateWalletActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
         });
-        mMoreWalletListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LoggerUtils.i(TAG, "onItemClick: ");
+        mMoreWalletListView.setOnItemClickListener((parent, view, position, id) -> {
+            LoggerUtils.i(TAG, "onItemClick: ");
 
-                for (int i = 0; i < mMoreWallets.size(); i++) {
-                    if (i != position) {
-                        mMoreWallets.get(i).setIsMainWallet(false);
-                    } else {
-                        mMoreWallets.get(i).setIsMainWallet(true);
-                    }
-                    IONCWalletSDK.getInstance().saveWallet(mMoreWallets.get(i));
+            for (int i = 0; i < mMoreWallets.size(); i++) {
+                if (i != position) {
+                    mMoreWallets.get(i).setIsMainWallet(false);
+                } else {
+                    mMoreWallets.get(i).setIsMainWallet(true);
                 }
-                mCurrentWallet = mMoreWallets.get(position);
-                walletNameTx.setText(mCurrentWallet.getName());
-                setBackupTag();
-                Integer ids = mCurrentWallet.getMIconIndex();
-                wallet_logo.setImageResource(App.sRandomHeader[ids]);
-                mDataBeans.clear();
-                mAdapterDeviceLv.notifyDataSetChanged();
-                ioncBalanceTx.setText(mCurrentWallet.getBalance());
-                rmb_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
-                instance.dismiss();
-                NodeHelper.getInstance().cancelAndReset();
-                getNetData(); //切换钱包
+                IONCWalletSDK.getInstance().saveWallet(mMoreWallets.get(i));
             }
+            mCurrentWallet = mMoreWallets.get(position);
+            mWalletNameTx.setText(mCurrentWallet.getName());
+            setBackupTag();
+            Integer ids = mCurrentWallet.getMIconIndex();
+            mWalletLogo.setImageResource(App.sRandomHeader[ids]);
+            mIoncBalanceTx.setText(mCurrentWallet.getBalance());
+            mRmbTx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+            instance.dismiss();
+            LoggerUtils.i("mOldAddress = " + mOldAddress);
+            LoggerUtils.i("mNewAddress = " + mCurrentWallet.getAddress());
+            if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
+                balance();//切换
+                mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
+            }
+            mOldAddress = mCurrentWallet.getAddress();
+            cancelGetNode();//切换
         });
 
     }
 
-    @Override
-    public void onLoadStart() {
-        LoggerUtils.i(TAG, "onLoadStart: ");
-    }
 
-    @Override
-    public void onLoadFinish() {
-        LoggerUtils.i(TAG, "onLoadFinish: ");
-        mRefresh.finishRefresh();
-    }
-
+    /**
+     * 余额获取失败，刷新获取主链节点
+     * 1、获取余额
+     * 2、获取交易记录
+     *
+     * @param refreshLayout
+     */
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-//        getNetData();  //刷新
-//        getDeviceList();
-        NodeHelper.getInstance().cancelAndReset();
+//        mIONCNodePresenter.getNodes(this, this);
         balance();
-    }
-
-
-    /**
-     * @param dataBean 绑定设备成功
-     */
-    @Override
-    public void onBindSuccess(DeviceBean.DataBean dataBean) {
-        DeviceBean.DataBean bean = new DeviceBean.DataBean();
-        bean.setCksn(dataBean.getCksn());
-        bean.setCreated_at(dataBean.getCreated_at());
-        bean.setId(dataBean.getId());
-        bean.setImage_url(dataBean.getImage_url());
-        bean.setName(dataBean.getName());
-        bean.setSystem(dataBean.getSystem());
-        mDataBeans.add(bean);
-        mAdapterDeviceLv.notifyDataSetChanged();
-    }
-
-    /**
-     * @param result 绑定失败
-     */
-    @Override
-    public void onBindFailure(String result) {
-        ToastUtil.showLong(result);
-    }
-
-    /**
-     * @param list 设备列表
-     */
-    @Override
-    public void onDeviceListSuccess(List<DeviceBean.DataBean> list) {
-        LoggerUtils.i(TAG, "onDeviceListSuccess: " + list.toString());
-        mDataBeans.clear();
-        mDataBeans.addAll(list);
-        mAdapterDeviceLv.notifyDataSetChanged();
-        mRefresh.finishRefresh();
-    }
-
-    /**
-     * @param errorMessage 失败信息 获取设备列表失败
-     */
-    @Override
-    public void onDeviceListFailure(String errorMessage) {
-        LoggerUtils.i(TAG, "onDeviceListFailure: " + errorMessage);
-        mRefresh.finishRefresh();
-    }
-
-    /**
-     * 解绑设备
-     *
-     * @param cksn
-     * @param position
-     */
-    @Override
-    public void onUnbindButtonClick(final String cksn, int position) {
-        LoggerUtils.i(TAG, "onUnbindButtonClick: " + cksn);
-        mUnbindPos = position;
-        mDialogBindCardWithWallet = new DialogBindDevice(mActivity);
-        mDialogBindCardWithWallet.setMessageText(cksn);
-        mDialogBindCardWithWallet.setTitleText(getResources().getString(R.string.sure_to_bind_device));
-        mDialogBindCardWithWallet.setLeftBtnClickedListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialogBindCardWithWallet.dismiss();
-            }
-        });
-        mDialogBindCardWithWallet.setRightBtnClickedListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialogBindCardWithWallet.dismiss();
-                mDevicePresenter.unbindDeviceToWallet(mCurrentWallet.getAddress(), cksn, AssetFragment.this);
-            }
-        });
-        mDialogBindCardWithWallet.show();
-    }
-
-    /**
-     * 解绑定成功
-     */
-    @Override
-    public void onUnbindSuccess(DeviceBean.DataBean dataBean) {
-        mDataBeans.remove(mUnbindPos);
-        mAdapterDeviceLv.notifyDataSetChanged();
-    }
-
-    /**
-     * @param result 解绑定失败
-     */
-    @Override
-    public void onUnbindFailure(String result) {
-        LoggerUtils.i(TAG, "onUnbindFailure: " + result);
+        mTxRecordAllFragment.onPullToDown(mCurrentWallet);
     }
 
     @Override
@@ -749,7 +605,7 @@ public class AssetFragment extends AbsBaseFragment implements
         dialogCheckMnemonic.dismiss();
 //        skip(MainActivity.class);
         //隐藏备份提示布局
-        please_backup_wallet.setVisibility(View.GONE);
+        mPleaseBackupWallet.setVisibility(View.GONE);
     }
 
     @Override
@@ -762,9 +618,8 @@ public class AssetFragment extends AbsBaseFragment implements
         //取出主链节点
         mNodeIONC = dataBean.get(0).getIonc_node();
         LoggerUtils.i("node", mNodeIONC);
-        node.setText("当前节点：" + mNodeIONC);
         //获取主链成功后,获取离子币余额
-        balance();
+        balance();//onIONCNodeSuccess
     }
 
     /**
@@ -776,7 +631,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onIONCNodeError(String error) {
         LoggerUtils.e("node error", " 获取离子链节点失败......" + ("".equals(error) ? "数据解析失败" : error));
         //获取主链成功后,获取余额
-        tryAgain();
+        ToastUtil.showToastLonger(getAppString(R.string.error_net_node));
     }
 
     /**
@@ -799,10 +654,10 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
         LoggerUtils.i("离子币余额获取成功:" + balanceBigDecimal.toPlainString());
-        ioncBalanceTx.setTextColor(Color.WHITE);
+        mIoncBalanceTx.setTextColor(Color.WHITE);
         mIONCBalance = balanceBigDecimal;
         //正常显示离子币余额
-        ioncBalanceTx.setText(balanceBigDecimal.toPlainString());
+        mIoncBalanceTx.setText(balanceBigDecimal.toPlainString());
 
         mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);//更新余额到数据库
@@ -832,19 +687,11 @@ public class AssetFragment extends AbsBaseFragment implements
         if (TextUtils.isEmpty(rmb)) {
             rmb = "0000";
         }
-        rmb_tx.setTextColor(Color.GRAY);
-        ioncBalanceTx.setTextColor(Color.GRAY);
+        mRmbTx.setTextColor(Color.GRAY);
+        mIoncBalanceTx.setTextColor(Color.GRAY);
 
-        ioncBalanceTx.setText(balance);
-        rmb_tx.setText(rmb);   //缓存
-        tryAgain();
-    }
-
-    /**
-     * 尝试获取新节点
-     */
-    private void tryAgain() {
-        NodeHelper.getInstance().tryGetNode(this,this);
+        mIoncBalanceTx.setText(balance);
+        mRmbTx.setText(rmb);   //缓存
     }
 
     @Override
@@ -861,7 +708,6 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onUSDPriceSuccess(double usdPrice) {
         //获取人民币汇率
         mUSDPrice = usdPrice;
-        LoggerUtils.i("美元价格：", String.valueOf(mUnbindPos));
         //计算美元价格
         mTotalUSDPrice = mIONCBalance.multiply(BigDecimal.valueOf(usdPrice));
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
@@ -870,8 +716,8 @@ public class AssetFragment extends AbsBaseFragment implements
          * 请求汇率
          * 如果用户需要显示总的美元价格  就不要去请求汇率了
          * 设置美元价格
-         *  rmb_tx.setText(mCurrentWallet.getBalance());
-         *  rmb_tx.setTextColor(Color.WHITE);
+         *  mRmbTx.setText(mCurrentWallet.getBalance());
+         *  mRmbTx.setTextColor(Color.WHITE);
          */
         mPricePresenter.getUSDExchangeRateRMB(this);
     }
@@ -885,11 +731,11 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onUSDPriceFailure(String error) {
         ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_usd));
         LoggerUtils.e("美元价格获取失败:" + error);
-        rmb_tx.setTextColor(Color.GRAY);
+        mRmbTx.setTextColor(Color.GRAY);
         if (TextUtils.isEmpty(mCurrentWallet.getRmb())) {
-            rmb_tx.setText("0000"); //切换时读取余额
+            mRmbTx.setText("0000"); //切换时读取余额
         } else {
-            rmb_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+            mRmbTx.setText(mCurrentWallet.getRmb()); //切换时读取余额
         }
     }
 
@@ -905,25 +751,27 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     @Override
-    public void onUSDExRateRMBSuccess(double usdPrice) {
+    public void onUSDExRateRMBSuccess(USDExRmb.DataBean dataBean) {
         //转换为人民币
-        BigDecimal rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(usdPrice));
-        LoggerUtils.i("balance = ", rmb.setScale(4, ROUND_HALF_UP).toPlainString());
-        mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
-        rmb_tx.setText(mCurrentWallet.getRmb()); //网络数据
-        rmb_tx.setTextColor(Color.WHITE);
+        mRmbTx.setTextColor(Color.WHITE);
+        mCNY = dataBean.getCNY();
+        mUS = dataBean.getUSD();
+        mIDR = dataBean.getIDR();
+        mKRW = dataBean.getKRW();
+        LoggerUtils.i("balance = ");
+        setBalance();
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet); //更新到数据库
-        refresh_header.setLastUpdateText(new SimpleDateFormat("上次更新:yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
+        mRefreshHeader.setLastUpdateText(new SimpleDateFormat("上次更新:yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
     }
 
     @Override
     public void onUSDExRateRMBFailure(String error) {
         LoggerUtils.e(error);
-        rmb_tx.setTextColor(Color.GRAY);
+        mRmbTx.setTextColor(Color.GRAY);
         if (TextUtils.isEmpty(mCurrentWallet.getRmb())) {
-            rmb_tx.setText("0000"); //切换时读取余额
+            mRmbTx.setText("0000"); //切换时读取余额
         } else {
-            rmb_tx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+            mRmbTx.setText(mCurrentWallet.getRmb()); //切换时读取余额
         }
         ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_rate_rmb));
     }
@@ -937,19 +785,69 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onPause() {
         super.onPause();
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_PRICE);
-        NodeHelper.getInstance().cancelAndReset();//取消自动尝试
+        mOldAddress = mCurrentWallet.getAddress();
+        cancelGetNode();//pause
+    }
+
+    @Override
+    public void onDataParseError() {
+        ToastUtil.showToastLonger(getAppString(R.string.error_data_parase));
+    }
+
+    private void cancelGetNode() {
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_RMB_RATE);
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_PRICE);
     }
 
+    public interface OnPullToRefreshCallback {
+        /**
+         * 下拉刷新
+         */
+        void onPullToDown(WalletBeanNew walletBeanNew);
 
-    @Override
-    public void onTryTimes(int count) {
-        ToastUtil.showToastLonger(getAppString(R.string.try_net_times,count));
+        /**
+         * 上拉加载更多
+         */
+        void onPullToUp(WalletBeanNew walletBeanNew);
+
+        void onAddressChanged(WalletBeanNew currentWallet);
     }
 
-    @Override
-    public void onTryFinish(int count) {
-        ToastUtil.showToastLonger(getAppString(R.string.try_net_times_finish,count));
+    private void setBalance() {
+        if (mTotalUSDPrice == null) {
+            return;
+        }
+        BigDecimal rmb;
+        String balance;
+        switch (App.mCoinType) {
+            case ConstantParams.COIN_TYPE_CNY:
+                rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mCNY));
+                mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
+                balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
+                LoggerUtils.i("balance = COIN_TYPE_CNY ", balance);
+                mRmbTx.setText(balance); //网络数据
+                break;
+            case ConstantParams.COIN_TYPE_IDR:
+                rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mIDR));
+                mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
+                balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
+                LoggerUtils.i("balance = COIN_TYPE_IDR ", balance);
+                mRmbTx.setText(balance); //网络数据
+                break;
+            case ConstantParams.COIN_TYPE_KRW:
+                rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mKRW));
+                mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
+                balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
+                LoggerUtils.i("balance = COIN_TYPE_KRW ", balance);
+                mRmbTx.setText(balance); //网络数据
+                break;
+            case ConstantParams.COIN_TYPE_US:
+                rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mUS));
+                mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
+                balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
+                LoggerUtils.i("balance = COIN_TYPE_US ", balance);
+                mRmbTx.setText(balance); //网络数据
+                break;
+        }
     }
 }

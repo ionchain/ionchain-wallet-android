@@ -1,18 +1,17 @@
 package org.ionchain.wallet.mvp.view.activity.imports;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class SelectImportModeActivity extends AbsBaseActivity implements View.OnClickListener {
+public class SelectImportModeActivity extends AbsBaseCommonTitleTwoActivity implements View.OnClickListener {
 
     private ImageView back;
     private Button byMnemonic;
@@ -28,7 +27,6 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
      */
     private void findViews() {
         RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
-        back = (ImageView) findViewById(R.id.back);
         byMnemonic = (Button) findViewById(R.id.by_mnemonic);
         byPrivateKey = (Button) findViewById(R.id.by_private_key);
         byKeystore = (Button) findViewById(R.id.by_keystore);
@@ -36,7 +34,6 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
         byMnemonic.setOnClickListener(this);
         byPrivateKey.setOnClickListener(this);
         byKeystore.setOnClickListener(this);
-        back.setOnClickListener(this);
 
     }
 
@@ -49,28 +46,23 @@ public class SelectImportModeActivity extends AbsBaseActivity implements View.On
     @Override
     public void onClick(View v) {
         setViewAlphaAnimation(v);
-        Intent intent = null;
         if (v == byMnemonic) {
             skip(ImportByMnemonicActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
         } else if (v == byPrivateKey) {
             skip(ImportByPriKeyActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
         } else if (v == byKeystore) {
             skip(ImportByKeystoreActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
-        } else if (v == back) {
-            finish();
-        }
-
+        } 
     }
 
     @Override
-    protected void initData() {
-
+    protected String getTitleName() {
+        return getAppString(R.string.select_import_title);
     }
 
     @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleView(R.id.header_top).statusBarDarkFont(true).execute();
     }
 
     @Override

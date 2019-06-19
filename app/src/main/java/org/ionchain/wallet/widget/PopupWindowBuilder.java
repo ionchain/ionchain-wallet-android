@@ -32,7 +32,7 @@ public class PopupWindowBuilder {
         contentView = LayoutInflater.from(context).inflate(layoutRes, null, false);
         mInstance = new PopupWindow(contentView);
         mOnItemBuilder = itemBuilder;
-        mOnItemBuilder.initItems(mInstance, contentView);
+        mOnItemBuilder.initMoreItems(mInstance, contentView);
     }
 
 
@@ -96,7 +96,7 @@ public class PopupWindowBuilder {
     }
 
     public interface OnItemBuilder {
-        void initItems(PopupWindow instance, View contentView);
+        void initMoreItems(PopupWindow instance, View contentView);
     }
 
 

@@ -18,7 +18,6 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
-import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.constant.ConstantActivitySkipTag;
 import org.ionchain.wallet.helper.ActivityHelper;
@@ -51,7 +50,6 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
     protected String mActivityFrom = INTENT_FROM_MAIN_ACTIVITY; //来自main
 
 
-    protected boolean debug = BuildConfig.DEBUG;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocalManageUtil.setLocal(newBase));
@@ -64,20 +62,39 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getLayoutId());
 
+
         ActivityHelper.getHelper().addActivity(this);
         mImmersionBar = ImmersionBar.with(this);
+        setImmersionBar();
         Intent intent = getIntent();
 
 
         if (intent != null) {
             handleIntent(intent);
         }
+
         initView();
         initData();
+        initCommonTitle();
         setListener();
         initSmartRefreshHeaderAndFooterDate();
     }
 
+    protected void setImmersionBar() {
+
+    }
+
+    protected void initCommonTitle() {
+
+    }
+
+    protected int getColorBlue(){
+       return getResources().getColor(R.color.blue_top);
+    }
+
+    protected int getColorWhite() {
+        return getResources().getColor(R.color.white);
+    }
     /**
      * 国际好第三方库
      */
@@ -95,24 +112,23 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         ClassicsFooter.REFRESH_FOOTER_LOADING = getAppString(R.string.smart_refresh_footer_loading);
         ClassicsFooter.REFRESH_FOOTER_RELEASE = getAppString(R.string.smart_refresh_footer_release);
         ClassicsFooter.REFRESH_FOOTER_FINISH = getAppString(R.string.smart_refresh_footer_finish);
-        ClassicsFooter.REFRESH_FOOTER_FAILED =  getAppString(R.string.smart_refresh_footer_failed);
-        ClassicsFooter.REFRESH_FOOTER_NOTHING =  getAppString(R.string.smart_refresh_footer_no_more);
+        ClassicsFooter.REFRESH_FOOTER_FAILED = getAppString(R.string.smart_refresh_footer_failed);
+        ClassicsFooter.REFRESH_FOOTER_NOTHING = getAppString(R.string.smart_refresh_footer_no_more);
     }
 
     protected void setListener() {
     }
 
-
-    protected abstract void initData();
+    protected abstract int getLayoutId();
 
     protected abstract void initView();
+
+    protected abstract void initData();
 
     protected void handleIntent(Intent intent) {
         mActivityFrom = intent.getStringExtra(INTENT_FROM_WHERE_TAG) == null ? mActivityFrom : intent.getStringExtra(INTENT_FROM_WHERE_TAG);
         LoggerUtils.i("来自: " + mActivityFrom);
     }
-
-    protected abstract int getLayoutId();
 
 
     @Override

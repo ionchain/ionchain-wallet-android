@@ -1,38 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:id="@+id/import_header"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:src="@mipmap/arrow_back_blue" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/import_private_key"
-            android:textColor="@color/blue_top"
-            android:textSize="@dimen/title_size" />
-
-        <ImageView
-            android:id="@+id/scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/padding_size_16dp"
-            android:src="@mipmap/scan" />
-    </RelativeLayout>
+    <include layout="@layout/activity_common_title_three" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -143,4 +114,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

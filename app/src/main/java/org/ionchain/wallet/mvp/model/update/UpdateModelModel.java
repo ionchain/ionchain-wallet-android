@@ -16,7 +16,7 @@ import org.ionchain.wallet.utils.UrlUtils;
 public class UpdateModelModel implements IUpdateModel {
     @Override
     public void update(final OnCheckUpdateInfoCallback callback) {
-        NetUtils.get(UrlUtils.getUpdateApkUrl(), new StringCallback() {
+        NetUtils.get("update", UrlUtils.getUpdateApkUrl(), new StringCallback() {
 
             @Override
             public void onStart(Request<String, ? extends Request> request) {

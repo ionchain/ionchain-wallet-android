@@ -40,7 +40,7 @@ public class DeviceModel implements IDeviceModel {
     public void getCurrentWalletDevicesList(WalletBeanNew walletBean, final OnDeviceListCallback callback) {
         params.clear();
         params.put("eth_address", walletBean.getAddress());
-        NetUtils.get(URL_DEVICES_GET, params, new StringCallback() {
+        NetUtils.get("getCurrentWalletDevicesList", URL_DEVICES_GET, params, new StringCallback() {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
@@ -86,7 +86,7 @@ public class DeviceModel implements IDeviceModel {
     public void getAllWalletDeviceList(String addressSet, final OnDeviceListCallback callback) {
         params.clear();
         params.put("eth_address", addressSet);
-        NetUtils.get(URL_DEVICES_GET, params, new StringCallback() {
+        NetUtils.get("getAllWalletDeviceList", URL_DEVICES_GET, params, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
@@ -124,7 +124,7 @@ public class DeviceModel implements IDeviceModel {
         params.clear();
         params.put("eth_address", address);
         params.put("cksn", cksn);
-        NetUtils.post(URL_DEVICES_BIND_POST, params, new StringCallback() {
+        NetUtils.post("bindDeviceToWallet", URL_DEVICES_BIND_POST, params, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {

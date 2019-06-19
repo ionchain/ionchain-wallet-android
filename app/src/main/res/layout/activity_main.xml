@@ -4,65 +4,76 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mvp.view.activity.MainActivity"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    tools:context=".mvp.view.activity.MainActivity">
+
+    <include
+        layout="@layout/activity_common_title_three"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/fm_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
     <RadioGroup
         android:id="@+id/rg_main"
-        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="#eff4ff"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:padding="5dp">
+
         <RadioButton
             android:id="@+id/rb_asset"
-            android:text="@string/tab_asset"
-            android:textColor="@drawable/tab_text_color"
-            android:drawableTop="@drawable/tab_home_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:checked="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_home_selector"
+            android:gravity="center"
+            android:text="@string/tab_asset"
+            android:textColor="@drawable/tab_text_color" />
+
         <View
-            android:background="@color/btn_semicircle_color"
             android:layout_width="1px"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/btn_semicircle_color" />
+
         <RadioButton
             android:id="@+id/rb_devices"
-            android:text="@string/tab_device"
-            android:textColor="@drawable/tab_text_color"
-            android:drawableTop="@drawable/tab_devices_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_devices_selector"
+            android:gravity="center"
+            android:text="@string/tab_device"
+            android:textColor="@drawable/tab_text_color" />
+
         <View
-            android:background="@color/btn_semicircle_color"
             android:layout_width="1px"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/btn_semicircle_color" />
+
         <View
-            android:background="@color/btn_semicircle_color"
             android:layout_width="1px"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/btn_semicircle_color" />
+
         <RadioButton
             android:id="@+id/rb_mine"
-            android:text="@string/tab_mine"
-            android:textColor="@drawable/tab_text_color"
-            android:drawableTop="@drawable/tab_usercenter_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_usercenter_selector"
+            android:gravity="center"
+            android:text="@string/tab_mine"
+            android:textColor="@drawable/tab_text_color" />
     </RadioGroup>
 
 </LinearLayout>

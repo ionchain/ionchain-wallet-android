@@ -1,10 +1,11 @@
 package org.ionchain.wallet.mvp.callback;
 
+import org.ionc.wallet.callback.OnDataParseErrorCallback;
 import org.ionchain.wallet.bean.NodeBean;
 
 import java.util.List;
 
-public interface OnIONCNodeCallback {
+public interface OnIONCNodeCallback extends OnDataParseErrorCallback {
     void onIONCNodeStart();
     /**
      * @param dataBean 主链节点

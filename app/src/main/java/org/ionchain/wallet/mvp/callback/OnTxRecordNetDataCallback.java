@@ -6,13 +6,13 @@ import org.ionchain.wallet.bean.TxRecordBeanTemp;
 /**
  * user: binny
  * date:2018/12/7
- * description：交易记录
+ * description：网络上的交易记录
  */
-public interface OnTxRecordCallback extends OnLoadingView {
+public interface OnTxRecordNetDataCallback extends OnLoadingView {
     /**
      * 请求成功
      */
-    void onTxRecordRefreshSuccess(TxRecordBeanTemp.DataBean beans);
+    void onTxRecordRefreshNetDataSuccess(TxRecordBeanTemp.DataBean beans);
 
     /**
      * 加载更多
@@ -24,5 +24,5 @@ public interface OnTxRecordCallback extends OnLoadingView {
     /**
      * 请求失败
      */
-    void onTxRecordFailure(String error);
+    void onTxRecordNetDataFailure(String error);
 }

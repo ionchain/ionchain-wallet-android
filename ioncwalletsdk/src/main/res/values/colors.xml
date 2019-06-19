@@ -2,6 +2,7 @@
 <resources>
     <color name="main_blue">#3574FA</color>
     <color name="blue_btn">#50ABF1</color>
+    <color name="blue_light">#50ABF1</color>
     <color name="blue_top">#3574FA</color>
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="saddlebrown">#8B4513</color><!--重褐色 -->

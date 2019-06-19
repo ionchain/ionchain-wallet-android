@@ -12,6 +12,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.UpdateBean;
 import org.ionchain.wallet.mvp.model.update.OnCheckUpdateInfoCallback;
 import org.ionchain.wallet.mvp.presenter.update.UpdatePresenter;
+import org.ionchain.wallet.mvp.view.activity.coin.SelectCoinActivity;
 import org.ionchain.wallet.mvp.view.activity.manager.ManageWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.setting.SettingLanguageActivity;
 import org.ionchain.wallet.mvp.view.activity.webview.WebActivity;
@@ -31,19 +32,23 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     /**
      * 钱包管理
      */
-    private RelativeLayout walletManageRLayout;
+    private RelativeLayout mWalletManageRL;
     /**
      * 语言设置
      */
-    private RelativeLayout language_setting;
+    private RelativeLayout mLanguageSettingRL;
     /**
      * 版本信息
      */
-    private RelativeLayout version_info;
+    private RelativeLayout mVersionInfoRL;
     /**
      * 关于我们
      */
-    private RelativeLayout about_us;
+    private RelativeLayout mAboutUsRL;
+    /**
+     * 币种选择
+     */
+    private RelativeLayout mCoinTypeRL;
     /**
      * 下载对话框
      */
@@ -67,10 +72,11 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
      */
     @SuppressLint("CutPasteId")
     private void findViews(View rootView) {
-        walletManageRLayout = rootView.findViewById(R.id.walletManageRLayout);
-        version_info = rootView.findViewById(R.id.version_info);
-        about_us = rootView.findViewById(R.id.about_us);
-        language_setting = rootView.findViewById(R.id.language_setting);
+        mWalletManageRL = rootView.findViewById(R.id.walletManageRLayout);
+        mVersionInfoRL = rootView.findViewById(R.id.version_info);
+        mAboutUsRL = rootView.findViewById(R.id.about_us);
+        mCoinTypeRL = rootView.findViewById(R.id.coin_type);
+        mLanguageSettingRL = rootView.findViewById(R.id.language_setting);
     }
 
     /**
@@ -79,12 +85,13 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     @Override
     protected void setListener() {
 
-        walletManageRLayout.setOnClickListener(v -> skip(ManageWalletActivity.class));
-        language_setting.setOnClickListener(v -> startActivity(new Intent(mActivity, SettingLanguageActivity.class)));
+        mWalletManageRL.setOnClickListener(v -> skip(ManageWalletActivity.class));
+        mCoinTypeRL.setOnClickListener(v -> skip(SelectCoinActivity.class));
+        mLanguageSettingRL.setOnClickListener(v -> startActivity(new Intent(mActivity, SettingLanguageActivity.class)));
         /*
          * 展示版本信息
          * */
-        version_info.setOnClickListener(v -> {
+        mVersionInfoRL.setOnClickListener(v -> {
             String info = "";
 
             if (isCurrentLanguageZN()) {
@@ -98,7 +105,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
                     .setVersionInfo(info);
             mVersionInfoDialogWithUpdate.show();
         });
-        about_us.setOnClickListener(v -> {
+        mAboutUsRL.setOnClickListener(v -> {
             Intent intent = new Intent(mActivity, WebActivity.class);
             intent.putExtra(URL_REQUEST_TYPE, URL_TAG_ABOUT_US);
             startActivity(intent);
@@ -141,7 +148,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     public void onDialogVersionUpdateBtnClicked(VersionInfoDialog dialog) {
         dialog.dismiss();
         if (requestStoragePermissions()) {
-            mUpdatePresenter.checkForUpdate(this);
+            mUpdatePresenter.update(this);
         }
     }
 

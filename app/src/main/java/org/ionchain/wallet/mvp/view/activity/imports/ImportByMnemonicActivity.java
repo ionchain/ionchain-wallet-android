@@ -66,12 +66,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     @Override
     protected void setListener() {
         super.setListener();
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
 
         mnemonic.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);

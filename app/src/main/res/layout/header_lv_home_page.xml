@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/header_lv_home_page"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
+    android:layout_height="190dp"
     android:orientation="vertical">
 
     <!--背景  -->
@@ -138,49 +139,6 @@
                 android:textSize="@dimen/txt_18sp"
                 android:textStyle="bold" />
         </RelativeLayout>
-        <!--28-->
-        <RelativeLayout
-            android:id="@+id/modify_wallet_eth"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/wallet_balance_tx_eth"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="0.0000"
-                android:textColor="@color/white"
-                android:textSize="@dimen/txt_28sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tag_eth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@id/wallet_balance_tx_eth"
-                android:text="ETH"
-                android:textColor="@color/white"
-                android:textSize="@dimen/txt_12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tx_recoder_tv_eth"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:gravity="center"
-                android:text="@string/tx_recorder"
-                android:textColor="@color/white"
-                android:visibility="gone" />
-        </RelativeLayout>
-
         <!--转账 40-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -249,50 +207,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <!--设备 30-->
-    <RelativeLayout
-        android:id="@+id/h3"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@id/balance_ll"
-        android:paddingLeft="@dimen/padding_size_16dp"
-        android:paddingRight="@dimen/padding_size_16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="@string/my_devices"
-            android:textColor="#333333"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/node"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="当前节点："
-            android:textColor="@color/red"
-            android:textSize="8sp" />
-
-        <ImageView
-            android:id="@+id/add_device"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/scan" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@id/h3"
-        android:background="#D3DFEF" />
-
 </RelativeLayout>

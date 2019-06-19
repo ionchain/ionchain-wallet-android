@@ -5,14 +5,15 @@ import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.constant.ConstantUrl;
 
 public class UrlUtils {
-    private static boolean AppDebug = false;
+//    private static boolean AppDebug = false;
+    private static boolean AppDebug = true;
 
     /**
      * @return 获取主链节点
      */
     public static String getNodeListUrl() {
         if (AppDebug) {
-            return ConstantUrl.URL_NODE_LIST_DEBUG;
+            return ConstantUrl.URL_NODE_LIST;
         } else {
             LoggerUtils.i("正式服：主链" + ConstantUrl.URL_NODE_LIST);
             return ConstantUrl.URL_NODE_LIST;

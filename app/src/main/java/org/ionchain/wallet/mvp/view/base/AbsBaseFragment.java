@@ -55,8 +55,10 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        LoggerUtils.i("setUserVisibleHint " + TAG + "   isVisibleToUser " + isVisibleToUser);
         if (mIsFirstBindData && mContainerView != null && isVisibleToUser) {
             mIsFirstBindData = false;
+            LoggerUtils.i("setUserVisibleHint initData " + TAG);
             initData();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
         }
     }
@@ -94,6 +96,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mContainerView != null) {
             //防止重复创建视图
+            LoggerUtils.i("无需重新创建视图" + this.TAG);
             return mContainerView;
         }
 
@@ -104,7 +107,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
          * 如果第一次创建时，可见，则加载数据，绑定数据
          * */
 
-
+        LoggerUtils.i("创建视图" + this.TAG);
         mContainerView = inflater.inflate(getFragmentLayout(), container, false);
         initView(mContainerView);
 
@@ -113,7 +116,10 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
         setListener();
         if (getUserVisibleHint()) {
             mIsFirstBindData = false;
+            LoggerUtils.i("第一次 可见的 fragment 要加载数据" + this.TAG);
             initData();//第一个 可见的 fragment 要加载数据
+        } else {
+            LoggerUtils.i("非第一次 可见的 fragment 不要加载数据" + this.TAG);
         }
         return mContainerView;
     }
@@ -282,6 +288,9 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
         return getResources().getString(id, obj);
     }
 
+    /**
+     * @param hidden 在hide，show的时候会触发
+     */
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);

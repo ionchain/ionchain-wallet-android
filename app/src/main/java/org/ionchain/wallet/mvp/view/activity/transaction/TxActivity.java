@@ -28,8 +28,8 @@ import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.NodeBean;
-import org.ionchain.wallet.helper.NodeHelper;
 import org.ionchain.wallet.mvp.callback.OnIONCNodeCallback;
+import org.ionchain.wallet.mvp.presenter.node.IONCNodePresenter;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
@@ -55,7 +55,12 @@ import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
  * 596928539@qq.com
  * 转账
  */
-public class TxActivity extends AbsBaseActivity implements OnTransationCallback, OnBalanceCallback, OnCheckWalletPasswordCallback, OnIONCNodeCallback, OnRefreshListener, NodeHelper.OnTryTimesCallback {
+public class TxActivity extends AbsBaseActivity implements
+        OnTransationCallback,
+        OnBalanceCallback,
+        OnCheckWalletPasswordCallback,
+        OnIONCNodeCallback,
+        OnRefreshListener{
 
     private RelativeLayout header;
     /**
@@ -96,7 +101,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      * 下一步
      */
     private Button txNext;
-    private String mNodeIONC =getHostNode();
+    private String mNodeIONC = getHostNode();
     private SmartRefreshLayout smart_refresh_layout;
 
 
@@ -106,6 +111,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      * 交易金额
      */
     private String mTxAccount;
+    private IONCNodePresenter mIONCNodePresenter = new IONCNodePresenter();
 
     private void findViews() {
         header = findViewById(R.id.header);
@@ -133,6 +139,9 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
             finish();
         });
         txNext.setOnClickListener(v -> {
+            if (IONCWalletSDK.getInstance().getTxRecordBeansByTimes(String.valueOf(System.currentTimeMillis())) != null) {
+                return;
+            }
             tapNext = true;
             mAddressTo = txToAddressEt.getText().toString();
             mTxAccount = mTxValueEt.getText().toString();
@@ -196,7 +205,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     protected void initData() {
         if (BuildConfig.APP_DEBUG) {
-            txToAddressEt.setText("0x1d858Dab4C8ADdcE47aaafD103705DBD23aAb023");
+            txToAddressEt.setText("0x286Dd651fFcc9524e199e483d7BFba8daAB1d201");
         }
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
@@ -234,10 +243,13 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         ToastUtil.showToastLonger(getAppString(R.string.submit_success));
         hideProgress();
         mTxRecordBean = new TxRecordBean();
+        mTxRecordBean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
         mTxRecordBean.setTo(mAddressTo);
         mTxRecordBean.setFrom(mAddressFrom);
         mTxRecordBean.setValue(mTxAccount);
         mTxRecordBean.setHash(hashTx);
+        mTxRecordBean.setLocal(true);
+        mTxRecordBean.setSuccess(true);
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
         mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER);//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
@@ -246,13 +258,32 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
         intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mAddressFrom);
         intent.putExtra(PARCELABLE_WALLET_BEAN, mWalletBeanNew);
         startActivity(intent);
+        /*
+         *交易成功，返回成功的hash值给fragment
+         */
     }
 
     @Override
     public void onTxFailure(String error) {
         hideProgress();
-        LoggerUtils.i("交易hash:" + error);
-        ToastUtil.showToastLonger(getAppString(R.string.submit_failure));
+        LoggerUtils.i("交易error :" + error);
+        hideProgress();
+        mTxRecordBean = new TxRecordBean();
+        mTxRecordBean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
+        mTxRecordBean.setTo(mAddressTo);
+        mTxRecordBean.setFrom(mAddressFrom);
+        mTxRecordBean.setValue(mTxAccount);
+        mTxRecordBean.setHash("");
+        mTxRecordBean.setLocal(true);
+        mTxRecordBean.setSuccess(true);
+        mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
+        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER);//可以作为是否交易成功的展示依据
+        IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
+        finish();
+        Intent intent = new Intent(this, TxRecordActivity.class);
+        intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mAddressFrom);
+        intent.putExtra(PARCELABLE_WALLET_BEAN, mWalletBeanNew);
+        startActivity(intent);
     }
 
     @Override
@@ -269,7 +300,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onBalanceFailure(String error) {
-        NodeHelper.getInstance().tryGetNode(this, this);
+        mIONCNodePresenter.getNodes(this,this);
     }
 
     /**
@@ -324,6 +355,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
      */
     @Override
     public void onIONCNodeSuccess(List<NodeBean.DataBean> dataBean) {
+        cancelGetNode();
         mNodeIONC = dataBean.get(0).getIonc_node();
     }
 
@@ -331,7 +363,7 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     public void onIONCNodeError(String error) {
         LoggerUtils.i("获取主链节点失败：" + error);
-        NodeHelper.getInstance().tryGetNode(this, this);
+        mIONCNodePresenter.getNodes(this,this);
     }
 
     @Override
@@ -346,10 +378,12 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
 
     @Override
     public void onRefresh(@NotNull RefreshLayout refreshLayout) {
-        NodeHelper.getInstance().cancelAndReset();//取消自动尝试
+        cancelGetNode();//取消自动尝试
         balance();
     }
 
+    private void cancelGetNode() {
+    }
 
     /**
      * 获取余额
@@ -362,17 +396,11 @@ public class TxActivity extends AbsBaseActivity implements OnTransationCallback,
     @Override
     protected void onPause() {
         super.onPause();
-        NodeHelper.getInstance().cancelAndReset();//取消自动尝试
-    }
-
-
-    @Override
-    public void onTryTimes(int count) {
-        ToastUtil.showToastLonger(getAppString(R.string.try_net_times, count));
+        cancelGetNode();//取消自动尝试
     }
 
     @Override
-    public void onTryFinish(int count) {
-        ToastUtil.showToastLonger(getAppString(R.string.try_net_times_finish, count));
+    public void onDataParseError() {
+
     }
 }

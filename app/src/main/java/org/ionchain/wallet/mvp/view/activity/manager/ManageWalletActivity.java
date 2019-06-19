@@ -2,7 +2,6 @@ package org.ionchain.wallet.mvp.view.activity.manager;
 
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -20,7 +19,7 @@ import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
@@ -35,7 +34,7 @@ import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_W
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ManageWalletActivity extends AbsBaseActivity implements
+public class ManageWalletActivity extends AbsBaseCommonTitleTwoActivity implements
         ManagerWalletHelper.OnWalletManagerItemClickedListener,
         DialogMnemonic.OnSavedMnemonicCallback,
         DialogTextMessage.OnBtnClickedListener,
@@ -69,22 +68,27 @@ public class ManageWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
+    protected String getTitleName() {
+        return "钱包管理";
+    }
+
+    @Override
+    protected int getTitleNameColor() {
+        return super.getTitleNameColor();
+    }
+
+    @Override
     protected void setListener() {
+        super.setListener();
         srl.setOnRefreshLoadMoreListener(this);
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewAlphaAnimation(createBtn);
-                skip(CreateWalletActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MANAGER_ACTIVITY);
-            }
+        createBtn.setOnClickListener(v -> {
+            setViewAlphaAnimation(createBtn);
+            skip(CreateWalletActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MANAGER_ACTIVITY);
         });
 
-        importBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewAlphaAnimation(importBtn);
-                skip(SelectImportModeActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MANAGER_ACTIVITY);//
-            }
+        importBtn.setOnClickListener(v -> {
+            setViewAlphaAnimation(importBtn);
+            skip(SelectImportModeActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MANAGER_ACTIVITY);//
         });
 
     }
@@ -92,15 +96,6 @@ public class ManageWalletActivity extends AbsBaseActivity implements
     @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleView(R.id.toolbarlayout)
-                .statusBarDarkFont(true)
-                .execute();
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     @Override

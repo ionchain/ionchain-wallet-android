@@ -29,7 +29,7 @@ import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
 import org.ionc.wallet.callback.OnTransationCallback;
-import org.ionc.wallet.callback.OnTxRecordCallback;
+import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.daohelper.EntityManager;
 import org.ionc.wallet.greendaogen.DaoSession;
@@ -492,63 +492,63 @@ public class IONCWalletSDK {
     /**
      * @param node     区块节点
      * @param callback 回调
-     * @param index
      */
-    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordCallback callback) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Web3j web3j = Web3jFactory.build(new HttpService(node));
-                    LoggerUtils.i("ethTransaction ; ");
-                    Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
-                    if (ethTransaction == null) {
-                        mHandler.post(() -> {
-                            callback.onTxRecordFailure("error",txRecordBean);
-                        });
-                        return;
-                    }
-                    if (!TextUtils.isEmpty(ethTransaction.getBlockNumberRaw())) {
-                        LoggerUtils.i("txRecordBean  getBlockNumberRaw "+ethTransaction.getBlockNumberRaw());
-                        txRecordBean.setBlockNumber(valueOf(new BigInteger(ethTransaction.getBlockNumberRaw().substring(2).toUpperCase(),16)));
-                    } else {
-                        txRecordBean.setBlockNumber("-1");
-                    }
-                    if (!TextUtils.isEmpty(ethTransaction.getTo())) {
-                        txRecordBean.setTo(ethTransaction.getTo());
-                    }
-                    if (!TextUtils.isEmpty(ethTransaction.getFrom())) {
-                        txRecordBean.setFrom(ethTransaction.getFrom());
-                    }
-                    if (!TextUtils.isEmpty(ethTransaction.getValueRaw())) {
-                        LoggerUtils.i(" txRecordBean   getValueRaw "+ethTransaction.getValueRaw());
-                        txRecordBean.setValue(String.valueOf(Convert.fromWei(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(),16)),Convert.Unit.ETHER)));
-                    } else {
-                        txRecordBean.setValue("");
-                    }
-                    if (!TextUtils.isEmpty(ethTransaction.getHash())) {
-                        txRecordBean.setHash(ethTransaction.getHash());
-                    }
-                    if (!TextUtils.isEmpty(ethTransaction.getGasRaw())) {
-                        txRecordBean.setGas(String.valueOf(Convert.fromWei(valueOf(
-                                new BigInteger(ethTransaction.getGasPriceRaw().substring(2).toUpperCase(),16)
-                                        .multiply(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(),16))
-                        ),Convert.Unit.ETHER)));
-                    }
+    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordFromNodeCallback callback) {
+
+        if (TextUtils.isEmpty(hash)) {
+            return;
+        }
+        Runnable runnable = () -> {
+            try {
+                Web3j web3j = Web3jFactory.build(new HttpService(node));
+                LoggerUtils.i("ethTransaction ; ");
+                Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
+                if (ethTransaction == null) {
                     mHandler.post(() -> {
-                        callback.OnTxRecordSuccess(txRecordBean);
+                        callback.onTxRecordNodeFailure("error", txRecordBean);
                     });
-                } catch (final IOException e) {
-                    LoggerUtils.e("client", e.getMessage());
-                    mHandler.post(() -> {
-                        LoggerUtils.e(e.getMessage());
-                        callback.onTxRecordFailure(e.getLocalizedMessage(),txRecordBean);
-                    });
+                    return;
                 }
+                if (!TextUtils.isEmpty(ethTransaction.getBlockNumberRaw())) {
+                    LoggerUtils.i("txRecordBean  getBlockNumberRaw " + ethTransaction.getBlockNumberRaw());
+                    txRecordBean.setBlockNumber(valueOf(new BigInteger(ethTransaction.getBlockNumberRaw().substring(2).toUpperCase(), 16)));
+                } else {
+                    txRecordBean.setBlockNumber("-1");
+                }
+                if (!TextUtils.isEmpty(ethTransaction.getTo())) {
+                    txRecordBean.setTo(ethTransaction.getTo());
+                }
+                if (!TextUtils.isEmpty(ethTransaction.getFrom())) {
+                    txRecordBean.setFrom(ethTransaction.getFrom());
+                }
+                if (!TextUtils.isEmpty(ethTransaction.getValueRaw())) {
+                    LoggerUtils.i(" txRecordBean   getValueRaw " + ethTransaction.getValueRaw());
+                    txRecordBean.setValue(String.valueOf(Convert.fromWei(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(), 16)), Convert.Unit.ETHER)));
+                } else {
+                    txRecordBean.setValue("");
+                }
+                if (!TextUtils.isEmpty(ethTransaction.getHash())) {
+                    txRecordBean.setHash(ethTransaction.getHash());
+                }
+                if (!TextUtils.isEmpty(ethTransaction.getGasRaw())) {
+                    txRecordBean.setGas(String.valueOf(Convert.fromWei(valueOf(
+                            new BigInteger(ethTransaction.getGasPriceRaw().substring(2).toUpperCase(), 16)
+                                    .multiply(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(), 16))
+                    ), Convert.Unit.ETHER)));
+                }
+                mHandler.post(() -> {
+                    callback.OnTxRecordNodeSuccess(txRecordBean);
+                });
+            } catch (final IOException e) {
+                LoggerUtils.e("client", e.getMessage());
+                mHandler.post(() -> {
+                    LoggerUtils.e(e.getMessage());
+                    callback.onTxRecordNodeFailure(e.getLocalizedMessage(), txRecordBean);
+                });
             }
         };
         singleThreadExecutor.execute(runnable);
-       
+
     }
 
 
@@ -712,14 +712,52 @@ public class IONCWalletSDK {
             return null;
         }
     }
+
     /**
      * 通过钱包地址查询钱包
      *
-     * @param address
-     * @return
+     * @param txOutAddress 转出地址
+     * @return 该钱包所有转出的交易记录
      */
-    public List<TxRecordBean>  getAllTxRecordBeansByAddress(String address) {
-        return mDaoSession.getTxRecordBeanDao().queryBuilder().where(TxRecordBeanDao.Properties.From.eq(address)).list();
+    public List<TxRecordBean> getAllTxRecordByTxOutAddress(String txOutAddress) {
+        List<TxRecordBean> list = mDaoSession.getTxRecordBeanDao().queryBuilder().where(TxRecordBeanDao.Properties.From.eq(txOutAddress)).list();
+        return list;
+    }
+
+    /**
+     * 通过钱包地址查询钱包
+     * <p>
+     * 转入
+     *
+     * @param txInAddress 转入地址
+     * @return 该钱包收到的转账记录
+     */
+    public List<TxRecordBean> getAllTxRecordBeansByTxInAddress(String txInAddress) {
+        return mDaoSession.getTxRecordBeanDao().queryBuilder().where(TxRecordBeanDao.Properties.To.eq(txInAddress)).list();
+    }
+
+    /**
+     * 通过钱包地址查询钱包
+     * <p>
+     * 转入
+     *
+     * @param timeStemp 转入地址
+     * @return 该钱包收到的转账记录
+     */
+    public TxRecordBean getTxRecordBeansByTimes(String timeStemp) {
+        return mDaoSession.getTxRecordBeanDao().queryBuilder().where(TxRecordBeanDao.Properties.Tc_in_out.eq(timeStemp)).unique();
+    }
+
+    /**
+     * 分页加载数据
+     *
+     * @param offset 页数
+     * @return 当页交易记录
+     */
+    public List<TxRecordBean> getTxRecordBeanByPage(int offset) {
+        TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
+        return dao.queryBuilder()
+                .offset(offset * 20).limit(20).list();
     }
 
     /**
@@ -733,7 +771,7 @@ public class IONCWalletSDK {
             wallet.setIsMainWallet(true);
         }
         //私钥不存储于数据库中
-
+        wallet.setAddress(wallet.getAddress().toLowerCase());//小写本地地址
         wallet.setPrivateKey("");
         wallet.setPassword("");
         EntityManager.getInstance().getWalletDaoNew(mDaoSession).insertOrReplace(wallet);
@@ -746,6 +784,7 @@ public class IONCWalletSDK {
      * @return
      */
     public void saveTxRecordBean(TxRecordBean txRecordBean) {
+
         EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).insertOrReplace(txRecordBean);
     }
 

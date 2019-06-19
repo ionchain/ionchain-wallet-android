@@ -34,6 +34,21 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
     private String s;
     private int v;  // see https://github.com/web3j/web3j/issues/44
 
+    /**
+     * 本地交易的时时间戳
+     */
+    private String tc_in_out;
+    private boolean local;
+    private boolean success;
+
+
+
+
+    @Override
+    public int compareTo(TxRecordBean txRecordBean) {
+        return new BigInteger(txRecordBean.getTc_in_out()).compareTo(new BigInteger(this.getTc_in_out()));
+    }
+
     public Long getId() {
         return id;
     }
@@ -87,7 +102,7 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
     }
 
     public void setFrom(String from) {
-        this.from = from;
+        this.from = from.toLowerCase();
     }
 
     public String getTo() {
@@ -178,6 +193,30 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.v = v;
     }
 
+    public String getTc_in_out() {
+        return tc_in_out;
+    }
+
+    public void setTc_in_out(String tc_in_out) {
+        this.tc_in_out = tc_in_out;
+    }
+
+    public boolean isLocal() {
+        return local;
+    }
+
+    public void setLocal(boolean local) {
+        this.local = local;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -203,6 +242,17 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         dest.writeString(this.r);
         dest.writeString(this.s);
         dest.writeInt(this.v);
+        dest.writeString(this.tc_in_out);
+        dest.writeByte(this.local ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.success ? (byte) 1 : (byte) 0);
+    }
+
+    public boolean getLocal() {
+        return this.local;
+    }
+
+    public boolean getSuccess() {
+        return this.success;
     }
 
     public TxRecordBean() {
@@ -227,13 +277,16 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.r = in.readString();
         this.s = in.readString();
         this.v = in.readInt();
+        this.tc_in_out = in.readString();
+        this.local = in.readByte() != 0;
+        this.success = in.readByte() != 0;
     }
 
-    @Generated(hash = 701957250)
-    public TxRecordBean(Long id, String hash, String nonce, String blockHash,
-                        String blockNumber, String transactionIndex, String from, String to, String value,
-                        String gasPrice, String gas, String input, String creates, String publicKey,
-                        String raw, String r, String s, int v) {
+    @Generated(hash = 1483780730)
+    public TxRecordBean(Long id, String hash, String nonce, String blockHash, String blockNumber,
+            String transactionIndex, String from, String to, String value, String gasPrice, String gas,
+            String input, String creates, String publicKey, String raw, String r, String s, int v,
+            String tc_in_out, boolean local, boolean success) {
         this.id = id;
         this.hash = hash;
         this.nonce = nonce;
@@ -252,6 +305,9 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.r = r;
         this.s = s;
         this.v = v;
+        this.tc_in_out = tc_in_out;
+        this.local = local;
+        this.success = success;
     }
 
     public static final Creator<TxRecordBean> CREATOR = new Creator<TxRecordBean>() {
@@ -265,33 +321,4 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
             return new TxRecordBean[size];
         }
     };
-
-    @Override
-    public int compareTo(TxRecordBean txRecordBean) {
-        return new BigInteger(txRecordBean.getBlockNumber()).compareTo(new BigInteger(this.getBlockNumber()));
-    }
-
-    @Override
-    public String toString() {
-        return "TxRecordBean{" +
-                "id=" + id +
-                ", hash='" + hash + '\'' +
-                ", nonce='" + nonce + '\'' +
-                ", blockHash='" + blockHash + '\'' +
-                ", blockNumber='" + blockNumber + '\'' +
-                ", transactionIndex='" + transactionIndex + '\'' +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", value='" + value + '\'' +
-                ", gasPrice='" + gasPrice + '\'' +
-                ", gas='" + gas + '\'' +
-                ", input='" + input + '\'' +
-                ", creates='" + creates + '\'' +
-                ", publicKey='" + publicKey + '\'' +
-                ", raw='" + raw + '\'' +
-                ", r='" + r + '\'' +
-                ", s='" + s + '\'' +
-                ", v=" + v +
-                '}';
-    }
 }

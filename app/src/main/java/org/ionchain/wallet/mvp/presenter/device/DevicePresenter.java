@@ -6,12 +6,13 @@ import org.ionchain.wallet.mvp.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.mvp.callback.OnDeviceListCallback;
 import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.mvp.model.device.DeviceModel;
+import org.ionchain.wallet.mvp.model.device.IDeviceModel;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * 设别信息
  */
-public class DevicePresenter implements IDevicePresenter {
+public class DevicePresenter implements IDeviceModel {
 
     private DeviceModel mDeviceModel;
 
@@ -25,9 +26,10 @@ public class DevicePresenter implements IDevicePresenter {
     }
 
     @Override
-    public void getAllWalletDevicesList(String address, OnDeviceListCallback callback) {
-          mDeviceModel.getAllWalletDeviceList(address,callback);
+    public void getAllWalletDeviceList(String addressSet, OnDeviceListCallback callback) {
+        mDeviceModel.getAllWalletDeviceList(addressSet,callback);
     }
+
 
     @Override
     public void bindDeviceToWallet(@NotNull String address, @NotNull String cksn, @NotNull OnBindDeviceCallback callback) {

@@ -1,6 +1,9 @@
 # ionchain-wallet-android
 ### v1.0.9
 [IONCWallet_v1.0.9_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.0.9_release.apk)
+```markdown 
+数据库版本：4
+```
 ```markdown
 1. 修复一直已知bug&&
 2. 未打包的交易，显示为unpacked&

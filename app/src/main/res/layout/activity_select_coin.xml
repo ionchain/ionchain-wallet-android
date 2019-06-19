@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.ionchain.wallet.mvp.view.activity.coin.SelectCoinActivity">
+
+    <include layout="@layout/activity_common_title_two" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/coin_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="美元" />
+
+            <Button
+                android:id="@+id/coin_cny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="人民币" />
+
+            <Button
+                android:id="@+id/coin_krw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="韩元" />
+
+            <Button
+                android:id="@+id/coin_idr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="印尼盾" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

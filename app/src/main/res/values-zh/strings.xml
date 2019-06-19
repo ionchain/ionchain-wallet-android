@@ -13,7 +13,7 @@
     <string name="wallet_icon">钱包icon</string>
     <string name="tx_in">转入</string>
     <string name="tx_out">转出</string>
-    <string name="tx_recorder">交易记录</string>
+    <string name="tx_recorder">交易记录：</string>
     <string name="header_back">背景</string>
     <string name="name_hint">名字不能包含特殊字符,且长度不超过8位</string>
     <string name="import_wallet_text">导入钱包</string>
@@ -104,7 +104,7 @@
     <string name="download_progress_tv">正在下载……</string>
     <string name="tx_hash">交易哈希 :</string>
     <string name="tx_block">"交易区块 : "</string>
-    <string name="tx_out_addr">转出地址 :</string>
+    <string name="tx_out_addr">转出地址:</string>
     <string name="tx_in_addr">转入地址 :</string>
     <string name="tx_amount">转账金额 :</string>
     <string name="tx_fee">交易费用 :</string>
@@ -210,4 +210,8 @@
     <string name="try_net_times_finish">请求%s次后，尝试结束，服务器繁忙</string>
     <string name="tx_record_none">暂无交易记录</string>
     <string name="tx_block_unpacked">交易区块 : 未打包（请下拉刷新…）</string>
+    <string name="tx_time">交易时间:</string>
+    <string name="coin_type">选择币种</string>
+    <string name="import_mnemonics">导入助记词</string>
+    <string name="import_ks">导入KS</string>
 </resources>

@@ -11,7 +11,7 @@ import org.ionchain.wallet.mvp.callback.OnUnbindDeviceCallback;
  * DATE: 2018/9/13
  * 描述: 首页数据的业务类
  */
-interface IDeviceModel {
+public interface IDeviceModel {
     /**
      * 获取用户当前钱包的设备列表
      *

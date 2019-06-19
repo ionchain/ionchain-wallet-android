@@ -25,10 +25,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
+        <activity android:name=".mvp.view.activity.coin.SelectCoinActivity"></activity>
+        <activity android:name=".mvp.view.activity.txrecord.TxRecordNewActivity" />
         <activity
             android:name=".mvp.view.activity.setting.SettingLanguageActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -57,71 +60,79 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".mvp.view.activity.create.CreateWalletSelectActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".mvp.view.activity.create.CreateWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.imports.ImportByPriKeyActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.modify.ModifyAndExportWalletActivity"
-            android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.manager.ManageWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.address.ShowAddressActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.transaction.TxActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.imports.SelectImportModeActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.imports.ImportByMnemonicActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.imports.ImportByKeystoreActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.transaction.TxRecordActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.webview.WebActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-
-
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".qrcode.activity.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/IONCAppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 

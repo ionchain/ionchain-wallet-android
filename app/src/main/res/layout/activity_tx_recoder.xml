@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <ListView
-            android:id="@+id/tx_recoder_lv"
+            android:id="@+id/tx_record_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter

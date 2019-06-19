@@ -8,9 +8,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ionc.wallet.utils.StringUtils;
-
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 import org.ionchain.wallet.utils.BitmapUtils;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -18,7 +17,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PICTURE_FILE_NAME;
 
-public class ShowAddressActivity extends AbsBaseActivity {
+public class ShowAddressActivity extends AbsBaseCommonTitleTwoActivity {
     private ImageView back;
     private TextView walletAddressTv;
     private ImageView showQrImg;
@@ -54,6 +53,11 @@ public class ShowAddressActivity extends AbsBaseActivity {
 
 
     @Override
+    protected String getTitleName() {
+        return "收款地址";
+    }
+
+    @Override
     protected void setListener() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +81,6 @@ public class ShowAddressActivity extends AbsBaseActivity {
     @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleView(R.id.show_title).statusBarDarkFont(false).execute();
         showQrImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
