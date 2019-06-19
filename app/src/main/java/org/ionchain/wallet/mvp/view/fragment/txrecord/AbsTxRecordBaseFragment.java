@@ -30,7 +30,7 @@ import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
  * 2、如果网络数据获取失败，则直接显示本地数据
  * 3、如果网络数据获取成功，则对比本地缓存的未记录的数据，并更新本地数据
  */
-public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment implements OnTxRecordNetDataCallback, AssetFragment.OnPullToRefreshCallback, OnTxRecordFromNodeCallback {
+public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment implements OnTxRecordNetDataCallback, AssetFragment.OnPullToRefreshCallback, OnTxRecordFromNodeCallback, TxRecordViewHelper.OnTxRecordItemClickedListener {
 
     /**
      * @param walletBeanNew 初始化所所需的钱保
@@ -47,7 +47,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     protected void initView(View view) {
         ListView tx_record_lv = view.findViewById(R.id.tx_record_lv);
-        mTxRecordViewHelper = new TxRecordViewHelper();
+        mTxRecordViewHelper = new TxRecordViewHelper(this);
         mCommonAdapter = new CommonAdapter(mActivity, mListData, R.layout.item_txrecoder, mTxRecordViewHelper);
         tx_record_lv.setAdapter(mCommonAdapter);
     }
@@ -308,5 +308,10 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
 
+    }
+
+    @Override
+    public void onTxRecordItemClick(TxRecordBean txRecordBean) {
+        ToastUtil.showLong(txRecordBean.getValue());
     }
 }

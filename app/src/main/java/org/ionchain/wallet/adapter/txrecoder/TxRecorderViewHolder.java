@@ -1,5 +1,6 @@
 package org.ionchain.wallet.adapter.txrecoder;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.ionc.wallet.adapter.IViewHolder;
@@ -18,5 +19,6 @@ class TxRecorderViewHolder implements IViewHolder {
     TextView from;
     TextView to;
     TextView value;
+    LinearLayout tx_record_holder;
 
 }

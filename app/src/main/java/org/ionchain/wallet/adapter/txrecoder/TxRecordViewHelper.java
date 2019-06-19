@@ -22,11 +22,17 @@ import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BL
  * TIME 2018/11/13 15:30
  */
 public class TxRecordViewHelper implements IViewHolderHelper<TxRecorderViewHolder, TxRecordBean> {
+    private OnTxRecordItemClickedListener mClickedListener;
+
+    public TxRecordViewHelper(OnTxRecordItemClickedListener clickedListener) {
+        mClickedListener = clickedListener;
+    }
 
     @Override
     public IViewHolder initItemViewHolder(TxRecorderViewHolder viewHolder, View convertView) {
         viewHolder = new TxRecorderViewHolder();
         viewHolder.block = convertView.findViewById(R.id.tx_block);
+        viewHolder.tx_record_holder = convertView.findViewById(R.id.tx_record_holder);
         viewHolder.tx_time = convertView.findViewById(R.id.tx_time);
         viewHolder.from = convertView.findViewById(R.id.tx_from);
         viewHolder.to = convertView.findViewById(R.id.tx_to);
@@ -40,9 +46,9 @@ public class TxRecordViewHelper implements IViewHolderHelper<TxRecorderViewHolde
     @Override
     public void bindListDataToView(Context context, List<TxRecordBean> iBaseBeanList, TxRecorderViewHolder viewHolder, int position) {
         viewHolder.txHash.setText(context.getResources().getString(R.string.tx_hash) + iBaseBeanList.get(position).getHash());
-        String time = iBaseBeanList.get(position).getTc_in_out();
+        String time = DateUtils.getDateToString(Long.parseLong(iBaseBeanList.get(position).getTc_in_out()), Y4M2D2H2M2S2);
         LoggerUtils.i("time = " + time);
-        viewHolder.tx_time.setText(context.getResources().getString(R.string.tx_time) + DateUtils.getDateToString(Long.parseLong(time), Y4M2D2H2M2S2));
+        viewHolder.tx_time.setText(context.getResources().getString(R.string.tx_time) + time);
         if (DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(iBaseBeanList.get(position).getBlockNumber())) {
             viewHolder.block.setText(context.getResources().getString(R.string.tx_block_unpacked));
         } else {
@@ -52,5 +58,15 @@ public class TxRecordViewHelper implements IViewHolderHelper<TxRecorderViewHolde
         viewHolder.to.setText(context.getResources().getString(R.string.tx_in_addr) + iBaseBeanList.get(position).getTo());
         viewHolder.value.setText(context.getResources().getString(R.string.tx_amount) + iBaseBeanList.get(position).getValue() + " IONC");
         viewHolder.txFee.setText(context.getResources().getString(R.string.tx_fee) + iBaseBeanList.get(position).getGas() + " IONC");
+        viewHolder.tx_record_holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickedListener.onTxRecordItemClick(iBaseBeanList.get(position));
+            }
+        });
+    }
+
+    public interface OnTxRecordItemClickedListener {
+        void onTxRecordItemClick(TxRecordBean txRecordBean);
     }
 }

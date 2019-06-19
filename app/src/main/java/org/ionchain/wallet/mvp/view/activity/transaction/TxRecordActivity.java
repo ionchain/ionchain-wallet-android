@@ -32,8 +32,9 @@ import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BL
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
+@Deprecated
 public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, OnRefreshListener, OnLoadMoreListener,
-        OnTxRecordFromNodeCallback, OnIONCNodeCallback {
+        OnTxRecordFromNodeCallback, OnIONCNodeCallback, TxRecordViewHelper.OnTxRecordItemClickedListener {
     /**
      * 记录适配器
      */
@@ -114,7 +115,7 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
         mSmartRefreshLayout.setOnLoadMoreListener(this);
         mSmartRefreshLayout.setEnableLoadMore(false);
         mSmartRefreshLayout.setEnableAutoLoadMore(false);
-        mTxRecordViewHelper = new TxRecordViewHelper();
+        mTxRecordViewHelper = new TxRecordViewHelper(this);
         adapterLv = new CommonAdapter(this, mTxRecordBeanList, R.layout.item_txrecoder, mTxRecordViewHelper);
         tx_record_lv.setAdapter(adapterLv);
         findViewById(R.id.back).setOnClickListener(v -> finish());
@@ -230,5 +231,10 @@ public class TxRecordActivity extends AbsBaseActivity implements OnLoadingView, 
     @Override
     public void onDataParseError() {
 
+    }
+
+    @Override
+    public void onTxRecordItemClick(TxRecordBean txRecordBean) {
+        
     }
 }
