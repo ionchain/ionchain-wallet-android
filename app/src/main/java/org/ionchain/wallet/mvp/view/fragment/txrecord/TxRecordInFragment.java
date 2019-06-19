@@ -45,6 +45,9 @@ public class TxRecordInFragment extends AbsTxRecordBaseFragment implements OnTxR
     public void onAddressChanged(WalletBeanNew currentWallet) {
         LoggerUtils.i("地址切换，清空缓存 " + TAG + "mCommonAdapter = " + mCommonAdapter);
         mListData.clear();
+        if (mCommonAdapter == null) {
+            return;
+        }
         mCommonAdapter.notifyDataSetChanged();
     }
 }

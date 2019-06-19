@@ -231,6 +231,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
             if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
                 skip(MainActivity.class);
+                finish();
             }else {
                 skipToBack();
             }

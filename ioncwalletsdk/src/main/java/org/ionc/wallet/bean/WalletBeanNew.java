@@ -4,8 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * 新版本数据表
@@ -78,12 +78,159 @@ public class WalletBeanNew implements Parcelable {
      * RMB价格 缓存
      */
     private String rmb;
+    /**
+     * 美元价格 缓存
+     */
+    private String us;
+    /**
+     * 韩元价格 缓存
+     */
+    private String krw;
+    /**
+     * 印尼盾价格 缓存
+     */
+    private String idr;
 
     /**
      *  是否是轻钱包,本钱包默认的就是轻钱包
      */
     private boolean light = true;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPublic_key() {
+        return public_key;
+    }
+
+    public void setPublic_key(String public_key) {
+        this.public_key = public_key;
+    }
+
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
+    }
+
+    public String getKeystore() {
+        return keystore;
+    }
+
+    public void setKeystore(String keystore) {
+        this.keystore = keystore;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getIconIndex() {
+        return mIconIndex;
+    }
+
+    public void setIconIndex(Integer iconIndex) {
+        mIconIndex = iconIndex;
+    }
+
+    public String getMnemonic() {
+        return mnemonic;
+    }
+
+    public void setMnemonic(String mnemonic) {
+        this.mnemonic = mnemonic;
+    }
+
+    public boolean isChosen() {
+        return chosen;
+    }
+
+    public void setChosen(boolean chosen) {
+        this.chosen = chosen;
+    }
+
+    public boolean isMainWallet() {
+        return isMainWallet;
+    }
+
+    public void setMainWallet(boolean mainWallet) {
+        isMainWallet = mainWallet;
+    }
+
+    public String getRmb() {
+        return rmb;
+    }
+
+    public void setRmb(String rmb) {
+        this.rmb = rmb;
+    }
+
+    public String getUs() {
+        return us;
+    }
+
+    public void setUs(String us) {
+        this.us = us;
+    }
+
+    public String getKrw() {
+        return krw;
+    }
+
+    public void setKrw(String krw) {
+        this.krw = krw;
+    }
+
+    public String getIdr() {
+        return idr;
+    }
+
+    public void setIdr(String idr) {
+        this.idr = idr;
+    }
+
+    public boolean isLight() {
+        return light;
+    }
+
+    public void setLight(boolean light) {
+        this.light = light;
+    }
 
     @Override
     public int describeContents() {
@@ -105,119 +252,10 @@ public class WalletBeanNew implements Parcelable {
         dest.writeByte(this.chosen ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isMainWallet ? (byte) 1 : (byte) 0);
         dest.writeString(this.rmb);
+        dest.writeString(this.us);
+        dest.writeString(this.krw);
+        dest.writeString(this.idr);
         dest.writeByte(this.light ? (byte) 1 : (byte) 0);
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPrivateKey() {
-        return this.privateKey;
-    }
-
-    public void setPrivateKey(String privateKey) {
-        this.privateKey = privateKey;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPublic_key() {
-        return this.public_key;
-    }
-
-    public void setPublic_key(String public_key) {
-        this.public_key = public_key;
-    }
-
-    public String getBalance() {
-        return this.balance;
-    }
-
-    public void setBalance(String balance) {
-        this.balance = balance;
-    }
-
-    public String getKeystore() {
-        return this.keystore;
-    }
-
-    public void setKeystore(String keystore) {
-        this.keystore = keystore;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getMIconIndex() {
-        return this.mIconIndex;
-    }
-
-    public void setMIconIndex(Integer mIconIndex) {
-        this.mIconIndex = mIconIndex;
-    }
-
-    public String getMnemonic() {
-        return this.mnemonic;
-    }
-
-    public void setMnemonic(String mnemonic) {
-        this.mnemonic = mnemonic;
-    }
-
-    public boolean getChosen() {
-        return this.chosen;
-    }
-
-    public void setChosen(boolean chosen) {
-        this.chosen = chosen;
-    }
-
-    public boolean getIsMainWallet() {
-        return this.isMainWallet;
-    }
-
-    public void setIsMainWallet(boolean isMainWallet) {
-        this.isMainWallet = isMainWallet;
-    }
-
-    public String getRmb() {
-        return this.rmb;
-    }
-
-    public void setRmb(String rmb) {
-        this.rmb = rmb;
-    }
-
-    public boolean getLight() {
-        return this.light;
-    }
-
-    public void setLight(boolean light) {
-        this.light = light;
     }
 
     public WalletBeanNew() {
@@ -237,14 +275,17 @@ public class WalletBeanNew implements Parcelable {
         this.chosen = in.readByte() != 0;
         this.isMainWallet = in.readByte() != 0;
         this.rmb = in.readString();
+        this.us = in.readString();
+        this.krw = in.readString();
+        this.idr = in.readString();
         this.light = in.readByte() != 0;
     }
 
-    @Generated(hash = 199591911)
+    @Generated(hash = 387588)
     public WalletBeanNew(Long id, String privateKey, String name, String address,
             String public_key, String balance, String keystore, String password,
             Integer mIconIndex, String mnemonic, boolean chosen, boolean isMainWallet,
-            String rmb, boolean light) {
+            String rmb, String us, String krw, String idr, boolean light) {
         this.id = id;
         this.privateKey = privateKey;
         this.name = name;
@@ -258,6 +299,9 @@ public class WalletBeanNew implements Parcelable {
         this.chosen = chosen;
         this.isMainWallet = isMainWallet;
         this.rmb = rmb;
+        this.us = us;
+        this.krw = krw;
+        this.idr = idr;
         this.light = light;
     }
 
@@ -272,4 +316,51 @@ public class WalletBeanNew implements Parcelable {
             return new WalletBeanNew[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "WalletBeanNew{" +
+                "id=" + id +
+                ", privateKey='" + privateKey + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", public_key='" + public_key + '\'' +
+                ", balance='" + balance + '\'' +
+                ", keystore='" + keystore + '\'' +
+                ", password='" + password + '\'' +
+                ", mIconIndex=" + mIconIndex +
+                ", mnemonic='" + mnemonic + '\'' +
+                ", chosen=" + chosen +
+                ", isMainWallet=" + isMainWallet +
+                ", rmb='" + rmb + '\'' +
+                ", us='" + us + '\'' +
+                ", krw='" + krw + '\'' +
+                ", idr='" + idr + '\'' +
+                ", light=" + light +
+                '}';
+    }
+
+    public Integer getMIconIndex() {
+        return this.mIconIndex;
+    }
+
+    public void setMIconIndex(Integer mIconIndex) {
+        this.mIconIndex = mIconIndex;
+    }
+
+    public boolean getChosen() {
+        return this.chosen;
+    }
+
+    public boolean getIsMainWallet() {
+        return this.isMainWallet;
+    }
+
+    public void setIsMainWallet(boolean isMainWallet) {
+        this.isMainWallet = isMainWallet;
+    }
+
+    public boolean getLight() {
+        return this.light;
+    }
 }

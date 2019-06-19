@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -465,7 +466,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mFragmentListTxRecord.add(mTxRecordInFragment);
 
 
-        viewPager.setAdapter(new TxRecordPagerAdapter(getChildFragmentManager(),mFragmentListTxRecord));
+        viewPager.setAdapter(new TxRecordPagerAdapter(getChildFragmentManager(), mFragmentListTxRecord));
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -694,7 +695,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mIoncBalanceTx.setTextColor(Color.GRAY);
 
         mIoncBalanceTx.setText(balance);
-        mRmbTx.setText(rmb);   //缓存
+        setBalance();
     }
 
     @Override
@@ -738,7 +739,7 @@ public class AssetFragment extends AbsBaseFragment implements
         if (TextUtils.isEmpty(mCurrentWallet.getRmb())) {
             mRmbTx.setText("0000"); //切换时读取余额
         } else {
-            mRmbTx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+            setBalance();
         }
     }
 
@@ -775,7 +776,7 @@ public class AssetFragment extends AbsBaseFragment implements
         if (TextUtils.isEmpty(mCurrentWallet.getRmb())) {
             mRmbTx.setText("0000"); //切换时读取余额
         } else {
-            mRmbTx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+            setBalance();
         }
         ToastUtil.showToastLonger(getAppString(R.string.error_net_getting_rate_rmb));
     }
@@ -827,45 +828,55 @@ public class AssetFragment extends AbsBaseFragment implements
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setBalance() {
-        if (!mCanSet) {
-            return;
-        }
-        BigDecimal rmb;
-        String balance;
+        BigDecimal bigDecimal;
+        String balance = "0000";
         switch (App.mCoinType) {
             case ConstantParams.COIN_TYPE_CNY:
-                rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mCNY));
-                mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
-                balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
-                LoggerUtils.i("balance = COIN_TYPE_CNY ", balance);
-                mRmbTx.setText(balance); //网络数据
+                if (mTotalUSDPrice == null) {
+                    balance = "0000";
+                } else {
+                    bigDecimal = mTotalUSDPrice.multiply(BigDecimal.valueOf(mCNY));
+                    balance = bigDecimal.setScale(4, ROUND_HALF_UP).toPlainString();
+                }
+                mCurrentWallet.setIdr(balance);
                 mRmbIcon.setText("  元");
                 break;
             case ConstantParams.COIN_TYPE_IDR:
-                rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mIDR));
-                mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
-                balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
-                LoggerUtils.i("balance = COIN_TYPE_IDR ", balance);
-                mRmbTx.setText(balance); //网络数据
+                if (mTotalUSDPrice == null) {
+                    balance = "0000";
+                } else {
+                    bigDecimal = mTotalUSDPrice.multiply(BigDecimal.valueOf(mIDR));
+                    balance = bigDecimal.setScale(4, ROUND_HALF_UP).toPlainString();
+
+                }
+                mCurrentWallet.setIdr(balance);
                 mRmbIcon.setText("  Rp");
                 break;
             case ConstantParams.COIN_TYPE_KRW:
-                rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mKRW));
-                mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
-                balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
-                LoggerUtils.i("balance = COIN_TYPE_KRW ", balance);
-                mRmbTx.setText(balance); //网络数据
+                if (mTotalUSDPrice == null) {
+                    balance = "0000";
+                } else {
+                    bigDecimal = mTotalUSDPrice.multiply(BigDecimal.valueOf(mKRW));
+                    balance = bigDecimal.setScale(4, ROUND_HALF_UP).toPlainString();
+                }
+                mCurrentWallet.setKrw(balance);
                 mRmbIcon.setText("  원");
                 break;
             case ConstantParams.COIN_TYPE_US:
-                rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mUS));
-                mCurrentWallet.setRmb(rmb.setScale(4, ROUND_HALF_UP).toPlainString());
-                balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
-                LoggerUtils.i("balance = COIN_TYPE_US ", balance);
-                mRmbTx.setText(balance); //网络数据
+                if (mTotalUSDPrice == null) {
+                    balance = "0000";
+                } else {
+                    bigDecimal = mTotalUSDPrice.multiply(BigDecimal.valueOf(mUS));
+                    balance = bigDecimal.setScale(4, ROUND_HALF_UP).toPlainString();
+                }
+                mCurrentWallet.setUs(balance);
                 mRmbIcon.setText("  $");
                 break;
         }
+        LoggerUtils.i("balance = COIN_TYPE_IDR ", balance);
+        mRmbTx.setText(balance);
+        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
     }
 }
