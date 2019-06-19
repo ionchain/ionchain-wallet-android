@@ -96,13 +96,15 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ionc_balance_tx"
                     android:gravity="center"
+                    android:maxLength="20"
+                    android:ellipsize="middle"
                     android:text="****"
                     android:textColor="@color/white"
                     android:textSize="@dimen/txt_16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/rmb_ionc"
+                    android:id="@+id/rmb_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/rmb_balance_tx"

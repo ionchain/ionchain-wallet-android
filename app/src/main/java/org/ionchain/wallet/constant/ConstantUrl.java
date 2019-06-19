@@ -36,8 +36,6 @@ public class ConstantUrl {
     public final static String URL_USD_EX_RATE_RMB_PRICE_DEBUG_V1 = HOST_DEBUG + ":3001/v1/currency";   //人民币兑美元汇率 版本1
     public final static String URL_USD_EX_RATE_RMB_PRICE_DEBUG = HOST_DEBUG + ":3001/v2/currency";   //人民币兑美元汇率
 
-    public final static String URL_NODE_LIST_DEBUG = HOST_DEBUG + ":3002/version/node";   //新服
-    private final static String HOST_NODE_DEBUG = "http://explorer.ionchain.org";
 
     //  正式服
     private final static String HOST = "http://walletapi.ionchain.org/api";   //新服

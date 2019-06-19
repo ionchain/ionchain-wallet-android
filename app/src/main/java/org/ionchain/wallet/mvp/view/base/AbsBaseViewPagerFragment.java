@@ -14,13 +14,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import org.ionc.wallet.adapter.CommonAdapter;
+import org.ionc.wallet.bean.TxRecordBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.adapter.txrecoder.TxRecordViewHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
+import org.ionchain.wallet.mvp.presenter.transcation.TxRecordPresenter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -28,40 +34,91 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
+import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 
 /**
  * author  binny
  * date 5/9
  */
-public abstract class AbsBaseFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
+public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
 
-    protected AbsBaseFragment mFragment = this;
+    protected AbsBaseViewPagerFragment mFragment = this;
     protected AbsBaseActivity mActivity;
-    protected final String TAG;
     protected View mContainerView;
-    protected boolean mIsFirstBindData = true;
     protected ImmersionBar mImmersionBar;
     protected boolean isRefreshing = false;//listview是否可用
 
-    public AbsBaseFragment() {
+    protected String TAG = this.getClass().getSimpleName();
+    /**
+     * 当前钱包
+     */
+    protected static WalletBeanNew mWalletBeanNew;
+    /**
+     * 记录适配器
+     */
+    protected CommonAdapter mCommonAdapter;
+    /**
+     * 钱包记录的实际数据集
+     */
+    protected List<TxRecordBean> mListData = new ArrayList<>();
+    /**
+     * 转出记录
+     */
+    protected static List<TxRecordBean> mListOut = new ArrayList<>();
+    /**
+     * 转入记录
+     */
+    protected static List<TxRecordBean> mListIn = new ArrayList<>();
+
+    /**
+     * 所有本地记录的缓存
+     */
+    protected List<TxRecordBean> mListDataTemp = new ArrayList<>();
+    /**
+     * 未获取交易信息的本地缓存,缓存hash值
+     */
+    protected List<TxRecordBean> mTxHashUnpackedTemp = new ArrayList<>();
+    /**
+     * 例子链接点
+     */
+    protected String mNodeIONC = getHostNode();
+
+    /**
+     * listvie辅助
+     */
+    protected TxRecordViewHelper mTxRecordViewHelper;
+
+    /**
+     * 交易记录
+     */
+    protected TxRecordPresenter mTxRecordPresenter;
+
+    protected final char TYPE_ALL = 0;
+    protected final char TYPE_OUT = 1;
+    protected final char TYPE_IN = 2;
+
+    public AbsBaseViewPagerFragment() {
         this.TAG = this.getClass().getSimpleName();
     }
 
-//
-//    /*
-//     * 防止频繁请求网络
-//     * */
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        LoggerUtils.i("AbsBaseFragment setUserVisibleHint " + TAG + "   isVisibleToUser " + isVisibleToUser);
-//        if (mIsFirstBindData && mContainerView != null && isVisibleToUser) {
-//            mIsFirstBindData = false;
-//            LoggerUtils.i("AbsBaseFragment setUserVisibleHint initData " + TAG);
-//            initData();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
-//        }
-//    }
+
+    /*
+     * 防止频繁请求网络
+     * */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        LoggerUtils.i("AbsBaseViewPagerFragment setUserVisibleHint " + TAG
+                + "   isVisibleToUser " + isVisibleToUser
+                + "  mContainerView  " + mContainerView);
+        if (mContainerView != null && isVisibleToUser) {
+            LoggerUtils.i("AbsBaseViewPagerFragment setUserVisibleHint initData " + TAG);
+            loadData();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
+        }
+    }
+
+    protected abstract void loadData();
 
 
     /**
@@ -96,7 +153,18 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mContainerView != null) {
             //防止重复创建视图
-            LoggerUtils.i(TAG,"AbsBaseFragment 无需重新创建视图" );
+            LoggerUtils.i(TAG, "AbsBaseViewPagerFragment 无需重新创建视图");
+            initView(mContainerView);
+
+            mImmersionBar = ImmersionBar.with(getActivity(), this);
+            initImmersionBar();
+            setListener();
+            if (getUserVisibleHint()) {
+                LoggerUtils.i("AbsBaseViewPagerFragment 第一次 可见的 fragment 要加载数据" + this.TAG);
+                initData();//第一个 可见的 fragment 要加载数据
+            } else {
+                LoggerUtils.i("AbsBaseViewPagerFragment 非第一次 可见的 fragment 不要加载数据" + this.TAG);
+            }
             return mContainerView;
         }
 
@@ -107,7 +175,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
          * 如果第一次创建时，可见，则加载数据，绑定数据
          * */
 
-        LoggerUtils.i("创建视图 AbsBaseFragment " + this.TAG);
+        LoggerUtils.i("tabfragment AbsBaseViewPagerFragment " + this.TAG);
         mContainerView = inflater.inflate(getFragmentLayout(), container, false);
         initView(mContainerView);
 
@@ -115,11 +183,10 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
         initImmersionBar();
         setListener();
         if (getUserVisibleHint()) {
-            mIsFirstBindData = false;
-            LoggerUtils.i("AbsBaseFragment 第一次 可见的 fragment 要加载数据" + this.TAG);
+            LoggerUtils.i("AbsBaseViewPagerFragment 第一次 可见的 fragment 要加载数据" + this.TAG);
             initData();//第一个 可见的 fragment 要加载数据
         } else {
-            LoggerUtils.i("AbsBaseFragment 非第一次 可见的 fragment 不要加载数据" + this.TAG);
+            LoggerUtils.i("AbsBaseViewPagerFragment 非第一次 可见的 fragment 不要加载数据" + this.TAG);
         }
         return mContainerView;
     }
@@ -252,7 +319,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
         // Some permissions have been denied
         // ...
         ToastUtil.showToastLonger(getAppString(R.string.permission_request));
-        LoggerUtils.i("AbsBaseFragment 拒绝" + list.toString());
+        LoggerUtils.i("AbsBaseViewPagerFragment 拒绝" + list.toString());
     }
 
     protected void showProgress(String msg) {
@@ -287,31 +354,6 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     public String getAppString(int id, Object obj) {
         return getResources().getString(id, obj);
     }
-
-    /**
-     * @param hidden 在hide，show的时候会触发
-     */
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            LoggerUtils.i("AbsBaseFragment 隐藏:" + this.getClass().getSimpleName());
-            handleHidden();
-        } else {
-            LoggerUtils.i("AbsBaseFragment 显示:" + this.getClass().getSimpleName());
-            handleShow();
-        }
-    }
-
-    /**
-     * 可见
-     */
-    protected abstract void handleShow();
-
-    /**
-     * 不可见
-     */
-    protected abstract void handleHidden();
 
 
 }

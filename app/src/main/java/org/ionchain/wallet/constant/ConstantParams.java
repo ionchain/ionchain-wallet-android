@@ -43,7 +43,6 @@ public final class ConstantParams {
     public static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
     public static final int REQUEST_STORAGE_PERMISSIONS = 2;
 
-
     /*
      * 版本对话框的按钮事件
      * */
@@ -63,7 +62,7 @@ public final class ConstantParams {
     public static final char URL_TAG_ABOUT_US = 1;//关于我们
 
 
-    public static final int QRCODE_BIND_DEVICE = 10;
+
 
     public static final String DOWNLOAD_MUST_UPDATE_NO = "0";//  不是必须更新，可以取消对话框
     public static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   必须更新，不可取消
@@ -76,4 +75,6 @@ public final class ConstantParams {
     public final static String COIN_TYPE_KRW = "krw";
     public final static String COIN_TYPE_IDR = "idr";
 
+    public static final int TX_ACTIVITY_FOR_RESULT_CODE = 10;
+    public static final String TX_ACTIVITY_RESULT = "TX_ACTIVITY_RESULT";
 }

@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -26,6 +24,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
+import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -49,9 +48,11 @@ import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivit
 import org.ionchain.wallet.mvp.view.activity.transaction.TxActivity;
 import org.ionchain.wallet.mvp.view.activity.transaction.TxRecordActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
+import org.ionchain.wallet.mvp.view.base.AbsBaseViewPagerFragment;
 import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordAllFragment;
 import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordInFragment;
 import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordOutFragment;
+import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordPagerAdapter;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.PopupWindowBuilder;
@@ -59,7 +60,6 @@ import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbca
 import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
 import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
-import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -80,6 +80,8 @@ import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
+import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_FOR_RESULT_CODE;
+import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_RESULT;
 import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 
@@ -134,6 +136,7 @@ public class AssetFragment extends AbsBaseFragment implements
      * 人民币余额
      */
     private TextView mRmbTx;
+    private TextView mRmbIcon;
 
     /**
      * 交易记录,点击跳转到交易记录
@@ -200,8 +203,8 @@ public class AssetFragment extends AbsBaseFragment implements
      * 交易记录的容器
      */
     private ViewPager viewPager;
-    List<String> titles = new ArrayList<>();
-    private List<AbsBaseFragment> mFragmentListTxRecord = new ArrayList<>();
+
+    private List<AbsBaseViewPagerFragment> mFragmentListTxRecord = new ArrayList<>();
 
     private TxRecordInFragment mTxRecordInFragment;
     private TxRecordAllFragment mTxRecordAllFragment;
@@ -225,6 +228,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mMoreWallet = header.findViewById(R.id.wallet_list);
         mIoncBalanceTx = header.findViewById(R.id.ionc_balance_tx);
         mRmbTx = header.findViewById(R.id.rmb_balance_tx);
+        mRmbIcon = header.findViewById(R.id.rmb_icon);
         mWalletLogo = header.findViewById(R.id.wallet_logo);
         mTxInLl = header.findViewById(R.id.tx_in_ll);
         mTxOutLl = header.findViewById(R.id.tx_out_ll);
@@ -381,7 +385,7 @@ public class AssetFragment extends AbsBaseFragment implements
             intent.putExtra(CURRENT_ADDRESS, mCurrentWallet.getAddress());
             intent.putExtra(CURRENT_KSP, mCurrentWallet.getKeystore());
             cancelGetNode();//转账
-            skip(intent);
+            startActivityForResult(intent, TX_ACTIVITY_FOR_RESULT_CODE);
         });
         /*
          * 转入
@@ -417,6 +421,20 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        tabLayout.selectTab(tabLayout.getTabAt(0));
+        //
+        TxRecordBean t = null;
+        if (data != null) {
+            t = data.getParcelableExtra(TX_ACTIVITY_RESULT);
+            mTxRecordAllFragment.onNewRecord(t);
+        }
+
+    }
+
+
     /**
      * 钱包没有备份,则提示用户去备份钱包
      *
@@ -443,42 +461,15 @@ public class AssetFragment extends AbsBaseFragment implements
         mTxRecordOutFragment = new TxRecordOutFragment();
         mTxRecordAllFragment = new TxRecordAllFragment();
         mFragmentListTxRecord.add(mTxRecordAllFragment);
-        mFragmentListTxRecord.add(new TxRecordOutFragment());
-        mFragmentListTxRecord.add(new TxRecordInFragment());
+        mFragmentListTxRecord.add(mTxRecordOutFragment);
+        mFragmentListTxRecord.add(mTxRecordInFragment);
 
-        titles.add("全部");
-        titles.add("转出");
-        titles.add("转入");
 
-        viewPager.setAdapter(new FragmentPagerAdapter(mActivity.getSupportFragmentManager()) {
-            @NotNull
-            @Override
-            public AbsBaseFragment getItem(int position) {
-                return mFragmentListTxRecord.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return mFragmentListTxRecord.size();
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                super.destroyItem(container, position, object);
-            }
-
-            @Nullable
-            @Override
-            public CharSequence getPageTitle(int position) {
-
-                return titles.get(position);
-            }
-        });
+        viewPager.setAdapter(new TxRecordPagerAdapter(getChildFragmentManager(),mFragmentListTxRecord));
         tabLayout.setupWithViewPager(viewPager);
     }
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initMoreItems(final PopupWindow instance, View contentView) {
         mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
@@ -520,16 +511,27 @@ public class AssetFragment extends AbsBaseFragment implements
             mIoncBalanceTx.setText(mCurrentWallet.getBalance());
             mRmbTx.setText(mCurrentWallet.getRmb()); //切换时读取余额
             instance.dismiss();
-            LoggerUtils.i("mOldAddress = " + mOldAddress);
-            LoggerUtils.i("mNewAddress = " + mCurrentWallet.getAddress());
+            LoggerUtils.i("钱包切换 mOldAddress = " + mOldAddress);
+            LoggerUtils.i("钱包切换 mNewAddress = " + mCurrentWallet.getAddress());
             if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
                 balance();//切换
-                mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
+                changeWallet();
             }
             mOldAddress = mCurrentWallet.getAddress();
             cancelGetNode();//切换
         });
 
+    }
+
+    /**
+     * 钱包切换时，将记录面板切换到地换全部记录面板
+     * 同时并通知它
+     */
+    private void changeWallet() {
+        tabLayout.selectTab(tabLayout.getTabAt(0));
+        mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
+        mTxRecordOutFragment.onAddressChanged(mCurrentWallet);
+        mTxRecordInFragment.onAddressChanged(mCurrentWallet);
     }
 
 
@@ -813,7 +815,16 @@ public class AssetFragment extends AbsBaseFragment implements
          */
         void onPullToUp(WalletBeanNew walletBeanNew);
 
+        /**
+         * @param currentWallet 地址发生改变的时候
+         */
         void onAddressChanged(WalletBeanNew currentWallet);
+
+        /**
+         * @param txRecordBean 有新的交易记录的时候
+         */
+        void onNewRecord(TxRecordBean txRecordBean);
+
     }
 
     private void setBalance() {
@@ -829,6 +840,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
                 LoggerUtils.i("balance = COIN_TYPE_CNY ", balance);
                 mRmbTx.setText(balance); //网络数据
+                mRmbIcon.setText("  元");
                 break;
             case ConstantParams.COIN_TYPE_IDR:
                 rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mIDR));
@@ -836,6 +848,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
                 LoggerUtils.i("balance = COIN_TYPE_IDR ", balance);
                 mRmbTx.setText(balance); //网络数据
+                mRmbIcon.setText("  Rp");
                 break;
             case ConstantParams.COIN_TYPE_KRW:
                 rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mKRW));
@@ -843,6 +856,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
                 LoggerUtils.i("balance = COIN_TYPE_KRW ", balance);
                 mRmbTx.setText(balance); //网络数据
+                mRmbIcon.setText("  원");
                 break;
             case ConstantParams.COIN_TYPE_US:
                 rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mUS));
@@ -850,6 +864,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 balance = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
                 LoggerUtils.i("balance = COIN_TYPE_US ", balance);
                 mRmbTx.setText(balance); //网络数据
+                mRmbIcon.setText("  $");
                 break;
         }
     }

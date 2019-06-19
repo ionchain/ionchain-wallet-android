@@ -44,11 +44,11 @@ import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURR
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER;
-import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
-import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
+import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_FOR_RESULT_CODE;
+import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_RESULT;
 import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 /**
@@ -159,7 +159,7 @@ public class TxActivity extends AbsBaseActivity implements
                 //
                 dialogPasswordCheck = new DialogPasswordCheck(mActivity);
                 dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
-
+                    dialogPasswordCheck.dismiss();
                     LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
                     //检查密码是否正确
                     String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
@@ -253,14 +253,13 @@ public class TxActivity extends AbsBaseActivity implements
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
         mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER);//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
-        finish();
-        Intent intent = new Intent(this, TxRecordActivity.class);
-        intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mAddressFrom);
-        intent.putExtra(PARCELABLE_WALLET_BEAN, mWalletBeanNew);
-        startActivity(intent);
+        Intent intent = new Intent();
+        intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);
         /*
          *交易成功，返回成功的hash值给fragment
          */
+        setResult(TX_ACTIVITY_FOR_RESULT_CODE,intent);
+        finish();
     }
 
     @Override
@@ -279,11 +278,13 @@ public class TxActivity extends AbsBaseActivity implements
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
         mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER);//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
+        Intent intent = new Intent();
+        intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);
+        /*
+         *交易成功，返回成功的hash值给fragment
+         */
+        setResult(TX_ACTIVITY_FOR_RESULT_CODE,intent);
         finish();
-        Intent intent = new Intent(this, TxRecordActivity.class);
-        intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mAddressFrom);
-        intent.putExtra(PARCELABLE_WALLET_BEAN, mWalletBeanNew);
-        startActivity(intent);
     }
 
     @Override
@@ -311,7 +312,7 @@ public class TxActivity extends AbsBaseActivity implements
     @Override
     public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
         LoggerUtils.i(" bean " + bean.getAddress());
-        dialogPasswordCheck.dismiss();
+       
         showProgress(getAppString(R.string.please_wait));
         final String toAddress = txToAddressEt.getText().toString();
         final String txAccount = mTxValueEt.getText().toString();

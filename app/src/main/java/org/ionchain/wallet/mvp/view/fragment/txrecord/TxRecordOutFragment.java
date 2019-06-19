@@ -1,6 +1,7 @@
 package org.ionchain.wallet.mvp.view.fragment.txrecord;
 
 import org.ionc.wallet.bean.TxRecordBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
@@ -18,16 +19,6 @@ public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTx
         return TYPE_OUT;
     }
 
-    @Override
-    protected void handleShow() {
-        LoggerUtils.i("handleShow " + TAG);
-
-    }
-
-    @Override
-    protected void handleHidden() {
-    }
-
 
     @Override
     protected void onAfterNetDataSuccess() {
@@ -42,13 +33,25 @@ public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTx
             LoggerUtils.i("txRecordBean " + txRecordBean.toString());
             IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
             Collections.sort(mListData);
-            adapterLv.notifyDataSetChanged();
+            mCommonAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
-        LoggerUtils.i("执行失败 " + recordBean);
+        LoggerUtils.e("执行失败 " + recordBean);
         ToastUtil.showShortToast(error);
+    }
+
+    @Override
+    public void onAddressChanged(WalletBeanNew currentWallet) {
+        LoggerUtils.i("地址切换，清空缓存 " + TAG + "mCommonAdapter = " + mCommonAdapter);
+        mListData.clear();
+        mCommonAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onNewRecord(TxRecordBean txRecordBean) {
+
     }
 }

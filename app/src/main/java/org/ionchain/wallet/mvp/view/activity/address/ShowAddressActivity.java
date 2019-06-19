@@ -59,21 +59,13 @@ public class ShowAddressActivity extends AbsBaseCommonTitleTwoActivity {
 
     @Override
     protected void setListener() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        copyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!StringUtils.isEmpty(walletAddressTv.getText().toString())) {
-                    StringUtils.copy(ShowAddressActivity.this, walletAddressTv.getText().toString());
-                    Toast.makeText(ShowAddressActivity.this, getAppString(R.string.copy_done_addr), Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(ShowAddressActivity.this, getAppString(R.string.error_copy), Toast.LENGTH_LONG).show();
-                }
+        super.setListener();
+        copyBtn.setOnClickListener(v -> {
+            if (!StringUtils.isEmpty(walletAddressTv.getText().toString())) {
+                StringUtils.copy(ShowAddressActivity.this, walletAddressTv.getText().toString());
+                Toast.makeText(ShowAddressActivity.this, getAppString(R.string.copy_done_addr), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ShowAddressActivity.this, getAppString(R.string.error_copy), Toast.LENGTH_LONG).show();
             }
         });
     }
