@@ -49,7 +49,7 @@ import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
     @SuppressLint("StaticFieldLeak")
     public static Context mContext;
-    public static String mCoinType = ConstantParams.COIN_TYPE_US;//币种信息，默认人民币
+    public static String mCoinType = ConstantParams.COIN_TYPE_US;
     public static final Handler APP_HANDLE = new Handler(Looper.getMainLooper());
     public static int[] sRandomHeader = {
             R.mipmap.random_header_more_1, R.mipmap.random_header_more_2, R.mipmap.random_header_more_3, R.mipmap.random_header_more_4, R.mipmap.random_header_more_5, R.mipmap.random_header_more_6, R.mipmap.random_header_more_7, R.mipmap.random_header_more_8
@@ -96,6 +96,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         LoggerUtils.i("App attachBaseContext");
         super.attachBaseContext(base);
         MultiDex.install(this);
+        mCoinType = SPUtils.getInstance().getCoinType();//币种信息，默认人民币
     }
 
     private void initDisplayOpinion() {

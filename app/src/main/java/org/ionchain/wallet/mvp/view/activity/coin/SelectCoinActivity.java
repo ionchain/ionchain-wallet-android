@@ -5,6 +5,7 @@ import android.widget.Button;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
+import org.ionchain.wallet.utils.SPUtils;
 
 import static org.ionchain.wallet.App.mCoinType;
 import static org.ionchain.wallet.constant.ConstantParams.COIN_TYPE_CNY;
@@ -70,6 +71,7 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
         } else if (v == coinIdr) {
             mCoinType = COIN_TYPE_IDR;
         }
+        SPUtils.getInstance().saveCoinType(mCoinType);
     }
 
 }

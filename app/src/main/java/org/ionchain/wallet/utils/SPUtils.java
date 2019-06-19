@@ -6,6 +6,8 @@ import android.content.SharedPreferences.Editor;
 
 import androidx.core.content.SharedPreferencesCompat;
 
+import org.ionchain.wallet.constant.ConstantParams;
+
 import java.util.Locale;
 
 /**
@@ -14,7 +16,8 @@ import java.util.Locale;
  * @author wkp111
  */
 public class SPUtils {
-    private final String TAG_LANGUAGE = "language_select";
+    private final String TAG_LANGUAGE_KEY = "language_select";
+    private final String COIN_TYPE_KEY = "COIN_TYPE_KEY";
     private static SharedPreferences mSharedPreferences;
     private static volatile SPUtils instance;
     private Locale systemCurrentLocal = Locale.getDefault();
@@ -62,7 +65,7 @@ public class SPUtils {
      * @param key
      * @return key对应的值(String)
      */
-    public static String getString(String key, String defaultValue) {
+    public  String getString(String key, String defaultValue) {
         SharedPreferences sp = getSP();
         return sp.getString(key, defaultValue);
     }
@@ -73,7 +76,7 @@ public class SPUtils {
      * @param key
      * @return key对应的值(String)
      */
-    public static String getString(String key) {
+    public  String getString(String key) {
         SharedPreferences sp = getSP();
         return sp.getString(key, "");
     }
@@ -84,7 +87,7 @@ public class SPUtils {
      * @param key
      * @return key对应的值(boolean)
      */
-    public static boolean getBoolean(String key) {
+    public  boolean getBoolean(String key) {
         SharedPreferences sp = getSP();
         boolean b = sp.getBoolean(key, false);
         return b;
@@ -96,7 +99,7 @@ public class SPUtils {
      * @param key
      * @return key对应的值(boolean)
      */
-    public static boolean getBoolean(String key, boolean defaultValue) {
+    public  boolean getBoolean(String key, boolean defaultValue) {
         SharedPreferences sp = getSP();
         boolean b = sp.getBoolean(key, defaultValue);
         return b;
@@ -130,7 +133,7 @@ public class SPUtils {
      * @param key
      * @return key对应的值(long)
      */
-    public static long getLong(String key, int defaultValue) {
+    public  long getLong(String key, int defaultValue) {
         SharedPreferences sp = getSP();
         return sp.getLong(key, defaultValue);
     }
@@ -141,7 +144,7 @@ public class SPUtils {
      * @param key
      * @return key对应的值(long)
      */
-    public static long getLong(String key) {
+    public  long getLong(String key) {
         SharedPreferences sp = getSP();
         return sp.getLong(key, 0);
     }
@@ -152,7 +155,7 @@ public class SPUtils {
      * @param key
      * @return key对应的值(float)
      */
-    public static float getFloat(String key, int defaultValue) {
+    public  float getFloat(String key, int defaultValue) {
         SharedPreferences sp = getSP();
         return sp.getFloat(key, defaultValue);
     }
@@ -163,7 +166,7 @@ public class SPUtils {
      * @param key
      * @return key对应的值(float)
      */
-    public static float getFloat(String key) {
+    public  float getFloat(String key) {
         SharedPreferences sp = getSP();
         return sp.getFloat(key, 0);
     }
@@ -174,7 +177,7 @@ public class SPUtils {
      * @param key
      * @param value
      */
-    public static void put(String key, Object value) {
+    public  void put(String key, Object value) {
         SharedPreferences sp = getSP();
         Editor editor = sp.edit();
 
@@ -215,12 +218,22 @@ public class SPUtils {
 
     public void saveLanguage(int select) {
         SharedPreferences.Editor edit = mSharedPreferences.edit();
-        edit.putInt(TAG_LANGUAGE, select);
+        edit.putInt(TAG_LANGUAGE_KEY, select);
         edit.apply();
     }
 
     public int getSelectLanguage() {
-        return mSharedPreferences.getInt(TAG_LANGUAGE, 0);
+        return mSharedPreferences.getInt(TAG_LANGUAGE_KEY, 0);
+    }
+
+    public void saveCoinType(String select) {
+        SharedPreferences.Editor edit = mSharedPreferences.edit();
+        edit.putString(COIN_TYPE_KEY, select);
+        edit.apply();
+    }
+
+    public String getCoinType() {
+        return mSharedPreferences.getString(COIN_TYPE_KEY, ConstantParams.COIN_TYPE_US);
     }
 
 

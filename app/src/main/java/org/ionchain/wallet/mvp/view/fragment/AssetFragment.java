@@ -213,6 +213,7 @@ public class AssetFragment extends AbsBaseFragment implements
     private double mUS = 0;
     private double mKRW = 0;
     private double mIDR = 0;
+    private boolean mCanSet = false;
 
     /**
      * 实例化资产页头部
@@ -759,6 +760,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mIDR = dataBean.getIDR();
         mKRW = dataBean.getKRW();
         LoggerUtils.i("balance = ");
+        mCanSet = true;
         setBalance();
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet); //更新到数据库
         mRefreshHeader.setLastUpdateText(new SimpleDateFormat("上次更新:yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
@@ -779,6 +781,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onUSDExRateRMBFinish() {
         LoggerUtils.i("汇率请求结束");
+        mCanSet = true;
         mRefresh.finishRefresh();
     }
 
@@ -814,7 +817,7 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     private void setBalance() {
-        if (mTotalUSDPrice == null) {
+        if (!mCanSet) {
             return;
         }
         BigDecimal rmb;
