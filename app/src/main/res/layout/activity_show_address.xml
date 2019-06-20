@@ -1,52 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tx_record_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/activity_common_title_two"/>
+    <View
+        android:id="@+id/title_header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/blue_top" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/show_qr_img"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerInParent="true" />
-
-         <TextView
-            android:id="@+id/hint_address"
+        <RelativeLayout
+            android:id="@+id/common_title_rl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/show_qr_img"
-            android:gravity="center"
-            android:text="长按收款码可保存到本地" />
+            android:layout_height="?actionBarSize"
+            android:background="@color/transparent">
 
+            <ImageView
+                android:id="@+id/common_image_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/padding_size_16dp"
+                android:src="@mipmap/arrow_back_blue" />
 
-        <TextView
-            android:layout_above="@id/hint_address"
-            android:id="@+id/walletAddressTv"
+            <TextView
+                android:id="@+id/common_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="自定义标题"
+                android:textColor="@color/blue_top"
+                android:textSize="@dimen/title_size" />
+        </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_h20"
-            android:gravity="center"
-            android:maxLines="2"
-            android:text=" "
-            android:textColor="@color/blue_top"
-            android:textSize="14sp" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/h10"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="60dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="20dp">
 
-        <Button
-            android:id="@+id/copyBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/show_qr_img"
-            android:layout_margin="@dimen/padding_size_16dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/blue_top"
-            android:text="复制收款地址"
-            android:textColor="@color/white" />
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/show_qr_img"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_centerInParent="true" />
+
+                <TextView
+                    android:id="@+id/hint_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/show_qr_img"
+                    android:gravity="center"
+                    android:text="@string/save_qrcode" />
+
+
+                <TextView
+                    android:id="@+id/walletAddressTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/hint_address"
+                    android:layout_margin="@dimen/margin_h20"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text=" "
+                    android:textColor="@color/blue_top"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/copyBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/show_qr_img"
+                    android:layout_margin="@dimen/padding_size_16dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/blue_top"
+                    android:text="复制收款地址"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
 </LinearLayout>

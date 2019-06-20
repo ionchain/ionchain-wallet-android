@@ -172,10 +172,16 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
     }
 
     @Override
-    protected void initView() {
+    protected void setImmersionBar() {
+        super.setImmersionBar();
         mImmersionBar.titleView(R.id.toolbarlayout)
                 .statusBarDarkFont(true)
                 .execute();
+    }
+
+    @Override
+    protected void initView() {
+
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

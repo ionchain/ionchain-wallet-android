@@ -89,7 +89,7 @@ public class IONCWalletSDK {
     private Handler mHandler;
     private final String TAG = this.getClass().getSimpleName();
 
-    private BigInteger gas = GAS_MIN;
+    private BigInteger mGasMinConut = GAS_MIN;
 
     /**
      * 通用的以太坊基于bip44协议的助记词路径
@@ -171,16 +171,18 @@ public class IONCWalletSDK {
     /**
      * 获取当前进度条下的费用
      *
-     * @param currentProgress
+     * @param gasPriceGwei GWei单位
      * @return
      */
-    public BigDecimal getCurrentFee(int currentProgress) {
-        BigInteger fee = gas.multiply(BigInteger.valueOf(currentProgress));
-        Log.i(TAG, "getCurrentFee: " + fee);
+    public BigDecimal getCurrentFee(int gasPriceGwei) {
+        BigInteger feeGwei = mGasMinConut.multiply(BigInteger.valueOf(gasPriceGwei));
+        Log.i(TAG, "getCurrentFee:feeGwei " + feeGwei);
+        Log.i(TAG, "getCurrentFee:gasPrice " + gasPriceGwei);
+        Log.i(TAG, "getCurrentFee:mGasMinConut " + mGasMinConut);
         /*
          * 从Gwei到wei,再从wei到ether ,交易费用以ETH为单位，最低交易21000以wei 为单位
          * */
-        return Convert.fromWei(Convert.toWei(valueOf(fee), Convert.Unit.GWEI), Convert.Unit.ETHER);
+        return Convert.fromWei(Convert.toWei(valueOf(feeGwei), Convert.Unit.GWEI), Convert.Unit.ETHER);
     }
 
     //创建钱包---借助  importWalletByMnemonicCode
@@ -490,8 +492,10 @@ public class IONCWalletSDK {
     }
 
     /**
-     * @param node     区块节点
-     * @param callback 回调
+     * @param node         区块节点
+     * @param hash         交易的 哈希值
+     * @param txRecordBean
+     * @param callback     回调
      */
     public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordFromNodeCallback callback) {
 
@@ -516,6 +520,15 @@ public class IONCWalletSDK {
                 } else {
                     txRecordBean.setBlockNumber("-1");
                 }
+                txRecordBean.setBlockHash(ethTransaction.getBlockHash());
+                txRecordBean.setTransactionIndex(ethTransaction.getTransactionIndexRaw());
+                txRecordBean.setRaw(ethTransaction.getRaw());
+                txRecordBean.setPublicKey(ethTransaction.getPublicKey());
+                txRecordBean.setR(ethTransaction.getR());
+                txRecordBean.setS(ethTransaction.getS());
+                txRecordBean.setV(ethTransaction.getV());
+                txRecordBean.setCreates(ethTransaction.getCreates());
+                txRecordBean.setInput(ethTransaction.getInput());
                 if (!TextUtils.isEmpty(ethTransaction.getTo())) {
                     txRecordBean.setTo(ethTransaction.getTo());
                 }
@@ -531,6 +544,7 @@ public class IONCWalletSDK {
                 if (!TextUtils.isEmpty(ethTransaction.getHash())) {
                     txRecordBean.setHash(ethTransaction.getHash());
                 }
+                txRecordBean.setGasPrice(String.valueOf(Convert.fromWei(Convert.toWei(new BigDecimal(ethTransaction.getGasPrice()), Convert.Unit.GWEI), Convert.Unit.ETHER)));
                 if (!TextUtils.isEmpty(ethTransaction.getGasRaw())) {
                     txRecordBean.setGas(String.valueOf(Convert.fromWei(valueOf(
                             new BigInteger(ethTransaction.getGasPriceRaw().substring(2).toUpperCase(), 16)
@@ -588,7 +602,7 @@ public class IONCWalletSDK {
                     }
                     IONCWalletSDK.this.nonce = nonce;
                     if (!TextUtils.isEmpty(hashTx)) {
-                        mHandler.post(() -> callback.OnTxSuccess(hashTx));
+                        mHandler.post(() -> callback.OnTxSuccess(hashTx, nonce));
                     } else {
                         mHandler.post(() -> callback.onTxFailure(appContext.getString(R.string.transacton_failed)));
                     }

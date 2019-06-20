@@ -1,5 +1,7 @@
 package org.ionc.wallet.callback;
 
+import java.math.BigInteger;
+
 /**
  * user: binny
  * date:2018/12/7
@@ -10,8 +12,9 @@ public interface OnTransationCallback {
      * 转账成功
      *
      * @param hashTx 转账成功的hash值
+     * @param nonce
      */
-    void OnTxSuccess(String hashTx);
+    void OnTxSuccess(String hashTx, BigInteger nonce);
 
     /**
      * 转账失败

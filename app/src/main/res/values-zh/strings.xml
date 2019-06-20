@@ -11,8 +11,8 @@
     <string name="protocol_hint">我已经仔细阅读并同意</string>
     <string name="password_rule">数字、大小写字母与特殊符号混合(空白和下划线除外)，且长度为8~12位</string>
     <string name="wallet_icon">钱包icon</string>
-    <string name="tx_in">转入</string>
-    <string name="tx_out">转出</string>
+    <string name="tx_in">转入：</string>
+    <string name="tx_out">转出：</string>
     <string name="tx_recorder">交易记录：</string>
     <string name="header_back">背景</string>
     <string name="name_hint">名字不能包含特殊字符,且长度不超过8位</string>
@@ -102,12 +102,12 @@
     <string name="btn_update">更新</string>
     <string name="version_info_title">版本信息</string>
     <string name="download_progress_tv">正在下载……</string>
-    <string name="tx_hash">交易哈希 :</string>
+    <string name="tx_hash">交易哈希：</string>
     <string name="tx_block">"交易区块 : "</string>
     <string name="tx_out_addr">转出地址:</string>
-    <string name="tx_in_addr">转入地址 :</string>
+    <string name="tx_in_addr">转入地址：</string>
     <string name="tx_amount">转账金额 :</string>
-    <string name="tx_fee">交易费用 :</string>
+    <string name="tx_fee">交易费用：</string>
     <string name="error_net_device_list">设备列表服务器出错！</string>
     <string name="error_data_parase">解析数据失败</string>
     <string name="wallet_exists">该钱包已存在</string>
@@ -214,4 +214,15 @@
     <string name="coin_type">选择币种</string>
     <string name="import_mnemonics">导入助记词</string>
     <string name="import_ks">导入KS</string>
+    <string name="copy_hash_addr">交易号已复制</string>
+    <string name="copy_from_addr">转出地址已复制</string>
+    <string name="copy_to_addr">转入地址已复制</string>
+    <string name="tab_all">全部</string>
+    <string name="tab_in">转入</string>
+    <string name="tab_out">转出</string>
+    <string name="tx_detail">交易详情</string>
+    <string name="tx_success">转账成功</string>
+    <string name="tx_failure">转账失败</string>
+    <string name="tx_in_addrss_title">收款地址</string>
+    <string name="save_qrcode">长按可保存到本地</string>
 </resources>

@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".mvp.view.activity.coin.SelectCoinActivity"></activity>
+        <activity android:name=".mvp.view.activity.transaction.TxRecordDetailActivity"></activity>
+        <activity android:name=".mvp.view.activity.coin.SelectCoinActivity" />
         <activity android:name=".mvp.view.activity.txrecord.TxRecordNewActivity" />
         <activity
             android:name=".mvp.view.activity.setting.SettingLanguageActivity"
@@ -115,11 +116,6 @@
             android:theme="@style/IONCAppTheme" />
         <activity
             android:name=".mvp.view.activity.imports.ImportByKeystoreActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/IONCAppTheme" />
-        <activity
-            android:name=".mvp.view.activity.transaction.TxRecordActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />

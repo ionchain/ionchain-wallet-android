@@ -181,4 +181,7 @@
     <dimen name="margin_h50">50dp</dimen>
     <dimen name="txt_8sp">8sp</dimen>
     <dimen name="title_bar_height">120dp</dimen>
+    <dimen name="tx_marginStar">20dp</dimen>
+    <dimen name="tx_detail_left_tag">60dp</dimen>
+    <dimen name="tx_left_tag">12sp</dimen>
 </resources>

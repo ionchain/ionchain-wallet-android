@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.ionchain.wallet.mvp.view.activity.transaction.TxRecordDetailActivity">
+
+    <View
+        android:id="@+id/title_header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/blue_top" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/tx_record_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/common_title_rl"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/transparent">
+
+            <ImageView
+                android:id="@+id/common_image_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/padding_size_16dp"
+                android:src="@mipmap/arrow_back_blue" />
+
+            <TextView
+                android:id="@+id/common_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="自定义标题"
+                android:textColor="@color/blue_top"
+                android:textSize="@dimen/title_size" />
+        </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/h10"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="60dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/tx_detail_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/tx_success" />
+
+                <TextView
+                    android:id="@+id/tx_detail_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tx_detail_icon"
+                    android:layout_marginTop="@dimen/h5"
+                    android:gravity="center"
+                    android:text="转账成功"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textSize_18"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tx_detail_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tx_detail_text"
+                    android:gravity="center"
+                    android:padding="@dimen/h5"
+                    android:text="2019-年" />
+
+                <TextView
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tx_detail_time"
+                    android:layout_marginLeft="@dimen/h10"
+                    android:layout_marginRight="@dimen/h10"
+                    android:background="@drawable/dot_line"
+                    android:layerType="software" />
+
+                <LinearLayout
+                    android:id="@+id/value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/line1"
+                    android:layout_marginLeft="@dimen/tx_marginStar"
+                    android:layout_marginTop="@dimen/h5"
+                    android:layout_marginRight="@dimen/h25"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/tx_detail_left_tag"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:text="@string/tx_amount"
+                        android:textSize="@dimen/tx_left_tag" />
+
+                    <TextView
+                        android:id="@+id/tx_detail_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|left"
+                        android:text="0.0063 IONC"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textSize_20" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tx_fee_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/value"
+                    android:layout_marginLeft="@dimen/tx_marginStar"
+                    android:layout_marginTop="@dimen/h15"
+                    android:layout_marginRight="@dimen/h25"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/tx_detail_left_tag"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|left"
+                        android:text="@string/tx_fee"
+                        android:textSize="@dimen/tx_left_tag" />
+
+                    <TextView
+                        android:id="@+id/tx_detail_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|left"
+                        android:text="0.0063 IONC"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textSize_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tx_fee1_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tx_fee_ll"
+                    android:layout_marginLeft="@dimen/tx_marginStar"
+                    android:layout_marginRight="@dimen/h25"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/tx_detail_left_tag"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textSize_16" />
+
+                    <TextView
+                        android:id="@+id/tx_detail_fee1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="21dp"
+                        android:gravity="center_vertical|left"
+                        android:text="0.0063 IONC"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/textSize_10"
+                        tools:ignore="RtlHardcoded" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tx_fee1_ll"
+                    android:layout_marginStart="@dimen/tx_marginStar"
+                    android:layout_marginTop="@dimen/h15"
+                    android:layout_marginEnd="@dimen/h25"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/tx_detail_left_tag"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|left"
+                        android:text="@string/tx_in"
+                        android:textSize="@dimen/tx_left_tag" />
+
+                    <TextView
+                        android:id="@+id/tx_detail_to_copy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/copy"
+                        android:gravity="center|left"
+                        android:maxLines="2"
+                        android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textSize_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/from_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/to"
+                    android:layout_marginLeft="@dimen/tx_marginStar"
+                    android:layout_marginTop="@dimen/h15"
+                    android:layout_marginRight="@dimen/h25"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/tx_detail_left_tag"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|left"
+                        android:text="@string/tx_out"
+                        android:textSize="@dimen/tx_left_tag" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|left"
+                        android:text="IONC-Wallet"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/textSize_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tx_from_ll_copy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/from_ll"
+                    android:layout_marginStart="@dimen/tx_marginStar"
+                    android:layout_marginEnd="@dimen/h25"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/tx_detail_left_tag"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/tx_left_tag" />
+
+                    <TextView
+                        android:id="@+id/tx_detail_from"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/copy"
+                        android:gravity="center_vertical|left"
+                        android:maxLines="2"
+                        android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textSize_14" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tx_from_ll_copy"
+                    android:layout_marginLeft="@dimen/h10"
+                    android:layout_marginRight="@dimen/h10"
+                    android:background="@drawable/dot_line"
+                    android:layerType="software" />
+
+                <TextView
+                    android:id="@+id/tx_hash"
+                    android:layout_width="@dimen/tx_detail_left_tag"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/line2"
+                    android:layout_marginStart="@dimen/tx_marginStar"
+                    android:layout_marginTop="@dimen/h10"
+                    android:text="@string/tx_hash"
+                    android:textSize="@dimen/tx_left_tag" />
+
+                <TextView
+                    android:id="@+id/tx_detail_hash"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tx_hash"
+                    android:layout_toEndOf="@id/tx_hash"
+                    android:drawableEnd="@drawable/copy"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tx_block"
+                    android:layout_width="@dimen/tx_detail_left_tag"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tx_hash"
+                    android:layout_marginStart="@dimen/tx_marginStar"
+                    android:layout_marginTop="@dimen/h20"
+                    android:text="@string/tx_block"
+                    android:textSize="@dimen/tx_left_tag" />
+
+                <TextView
+                    android:id="@+id/tx_detail_block"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tx_block"
+                    android:layout_toEndOf="@id/tx_block"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:text="174834"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/tx_detail_qrcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/line2"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/h10"
+                    android:layout_marginEnd="@dimen/h25"
+                    android:src="@mipmap/scan" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</LinearLayout>

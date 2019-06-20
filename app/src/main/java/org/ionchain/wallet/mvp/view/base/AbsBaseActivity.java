@@ -64,8 +64,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
 
 
         ActivityHelper.getHelper().addActivity(this);
-        mImmersionBar = ImmersionBar.with(this);
-        setImmersionBar();
+
         Intent intent = getIntent();
 
 
@@ -74,14 +73,16 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         }
 
         initView();
-        initData();
+
         initCommonTitle();
+        setImmersionBar();
+        initData();
         setListener();
         initSmartRefreshHeaderAndFooterDate();
     }
 
     protected void setImmersionBar() {
-
+        mImmersionBar = ImmersionBar.with(this);
     }
 
     protected void initCommonTitle() {

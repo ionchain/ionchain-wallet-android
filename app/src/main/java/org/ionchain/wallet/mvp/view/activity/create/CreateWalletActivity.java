@@ -87,9 +87,14 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     }
 
     @Override
+    protected void setImmersionBar() {
+        super.setImmersionBar();
+        mImmersionBar.titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
+    }
+
+    @Override
     protected void initView() {
         findViews();
-        mImmersionBar.titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

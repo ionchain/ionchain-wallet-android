@@ -321,4 +321,31 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
             return new TxRecordBean[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "TxRecordBean{" +
+                "id=" + id +
+                ", hash='" + hash + '\'' +
+                ", nonce='" + nonce + '\'' +
+                ", blockHash='" + blockHash + '\'' +
+                ", blockNumber='" + blockNumber + '\'' +
+                ", transactionIndex='" + transactionIndex + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", value='" + value + '\'' +
+                ", gasPrice='" + gasPrice + '\'' +
+                ", gas='" + gas + '\'' +
+                ", input='" + input + '\'' +
+                ", creates='" + creates + '\'' +
+                ", publicKey='" + publicKey + '\'' +
+                ", raw='" + raw + '\'' +
+                ", r='" + r + '\'' +
+                ", s='" + s + '\'' +
+                ", v=" + v +
+                ", tc_in_out='" + tc_in_out + '\'' +
+                ", local=" + local +
+                ", success=" + success +
+                '}';
+    }
 }

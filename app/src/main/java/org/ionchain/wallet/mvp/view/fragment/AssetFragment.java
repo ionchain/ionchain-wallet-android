@@ -411,6 +411,9 @@ public class AssetFragment extends AbsBaseFragment implements
         TxRecordBean t = null;
         if (data != null) {
             t = data.getParcelableExtra(TX_ACTIVITY_RESULT);
+            if (t == null) {
+                return;
+            }
             if (TextUtils.isEmpty(t.getHash())) {
                 mTxRecordAllFragment.onNewRecord(t);
                 IONCWalletSDK.getInstance().saveTxRecordBean(t);
@@ -421,7 +424,6 @@ public class AssetFragment extends AbsBaseFragment implements
                     , t
                     , this);
         }
-        LoggerUtils.i("onActivityResult   ----     " + t.toString());
 
     }
 
@@ -453,9 +455,11 @@ public class AssetFragment extends AbsBaseFragment implements
         mFragmentListTxRecord.add(mTxRecordAllFragment);
         mFragmentListTxRecord.add(mTxRecordOutFragment);
         mFragmentListTxRecord.add(mTxRecordInFragment);
-
-
-        viewPager.setAdapter(new TxRecordPagerAdapter(getChildFragmentManager(), mFragmentListTxRecord));
+        List<String> titles = new ArrayList<>();
+        titles.add(getAppString(R.string.tab_all));
+        titles.add(getAppString(R.string.tab_out));
+        titles.add(getAppString(R.string.tab_in));
+        viewPager.setAdapter(new TxRecordPagerAdapter(getChildFragmentManager(), mFragmentListTxRecord, titles));
         tabLayout.setupWithViewPager(viewPager);
     }
 

@@ -51,10 +51,20 @@ public class ShowAddressActivity extends AbsBaseCommonTitleTwoActivity {
 
     }
 
+    @Override
+    protected void initCommonTitle() {
+        mTitleRl = findViewById(R.id.common_title_rl);
+        mTitleHeader = findViewById(R.id.title_header);
+        mTitleLeftImage = findViewById(R.id.common_image_back);
+        mTitleLeftImage.setImageResource(getLeftArrow());
+        mTitleNameTv = findViewById(R.id.common_title);
+        mTitleNameTv.setText(getTitleName());
+        mTitleNameTv.setTextColor(getTitleNameColor());
+    }
 
     @Override
     protected String getTitleName() {
-        return "收款地址";
+        return getAppString(R.string.tx_in_addrss_title);
     }
 
     @Override
@@ -76,7 +86,7 @@ public class ShowAddressActivity extends AbsBaseCommonTitleTwoActivity {
         showQrImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                BitmapUtils.savePicture(QRCodeUtils.generateQRCode(address, 200), PICTURE_FILE_NAME, address +".jpg");
+                BitmapUtils.savePicture(QRCodeUtils.generateQRCode(address, 200), PICTURE_FILE_NAME, address + ".jpg");
                 ToastUtil.showLong(getAppString(R.string.save_pos));
                 return true;
             }

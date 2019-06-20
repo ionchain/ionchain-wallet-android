@@ -16,6 +16,7 @@ import org.ionc.wallet.adapterhelper.AllWalletViewHepler;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTransationCallback;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -143,7 +144,7 @@ public class IONCAllWalletDialogSDK extends BaseDialog implements AllWalletViewH
     }
 
     @Override
-    public void OnTxSuccess(String hashTx) {
+    public void OnTxSuccess(String hashTx, BigInteger nonce) {
         dialogPasswordCheckSDK.dismiss();
         this.dismiss();
         hideProgress();

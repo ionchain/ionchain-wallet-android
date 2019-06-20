@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.fragment.txrecord;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
 
@@ -17,6 +18,7 @@ import org.ionchain.wallet.adapter.txrecoder.TxRecordViewHelper;
 import org.ionchain.wallet.bean.TxRecordBeanTemp;
 import org.ionchain.wallet.mvp.callback.OnTxRecordNetDataCallback;
 import org.ionchain.wallet.mvp.presenter.transcation.TxRecordPresenter;
+import org.ionchain.wallet.mvp.view.activity.transaction.TxRecordDetailActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseViewPagerFragment;
 import org.ionchain.wallet.mvp.view.fragment.AssetFragment;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -24,6 +26,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 import java.util.Collections;
 
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
+import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_TX_RECORD;
 
 /**
  * 1、先网络数据，
@@ -48,7 +51,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     protected void initView(View view) {
         ListView tx_record_lv = view.findViewById(R.id.tx_record_lv);
         mTxRecordViewHelper = new TxRecordViewHelper(this);
-        mCommonAdapter = new CommonAdapter(mActivity, mListData, R.layout.item_txrecoder, mTxRecordViewHelper);
+        mCommonAdapter = new CommonAdapter(mActivity, mListData, R.layout.item_txrecord, mTxRecordViewHelper);
         tx_record_lv.setAdapter(mCommonAdapter);
     }
 
@@ -312,6 +315,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     @Override
     public void onTxRecordItemClick(TxRecordBean txRecordBean) {
-        ToastUtil.showLong(txRecordBean.getValue());
+//        ToastUtil.showLong(txRecordBean.getValue());
+        Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
+        intent.putExtra(PARCELABLE_TX_RECORD,txRecordBean);
+        startActivity(intent);
     }
 }

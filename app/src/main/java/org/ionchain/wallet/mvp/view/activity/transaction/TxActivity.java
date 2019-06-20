@@ -26,6 +26,8 @@ import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
 
+import java.math.BigInteger;
+
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
@@ -73,7 +75,7 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
     private String mKsPath;
 
     private DialogPasswordCheck dialogPasswordCheck;
-    private int mProgress = SEEK_BAR_SRART_VALUE;//进度值,起始值为 30 ,最大值为100
+    private int mProgress = SEEK_BAR_SRART_VALUE;//进度值,起始值为 30GWei ,最大值为100
     /**
      * 下一步
      */
@@ -194,9 +196,10 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
      * 交易成功，携带当前的交易信息，跳转到交易记录界面
      *
      * @param hashTx 转账成功的hash值
+     * @param nonce
      */
     @Override
-    public void OnTxSuccess(String hashTx) {
+    public void OnTxSuccess(String hashTx, BigInteger nonce) {
         LoggerUtils.i("交易hash :" + hashTx);
         ToastUtil.showToastLonger(getAppString(R.string.submit_success));
         hideProgress();
@@ -208,8 +211,9 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setHash(hashTx);
         mTxRecordBean.setLocal(true);
         mTxRecordBean.setSuccess(true);
+        mTxRecordBean.setNonce(String.valueOf(nonce));
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
-        mTxRecordBean.setBlockNumber("");//可以作为是否交易成功的展示依据
+        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER);//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         Intent intent = new Intent();
         intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);

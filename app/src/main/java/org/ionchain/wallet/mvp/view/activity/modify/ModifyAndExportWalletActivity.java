@@ -78,6 +78,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     private DialogPasswordCheck deleteWallet;
     private DialogPasswordCheck exportPK;
     private DialogPasswordCheck exportKS;
+    private IONCTitleBar mIONCTitleBar;
 
     /**
      * Find the Views in the layout<br />
@@ -145,18 +146,17 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     @Override
     protected void initView() {
         findViews();
-        final IONCTitleBar ioncTitleBar = findViewById(R.id.ionc_title_bar);
-        mImmersionBar.titleView(ioncTitleBar).statusBarDarkFont(true).execute();
-        ioncTitleBar.setTitle(mWallet.getName());
-        ioncTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
-        ioncTitleBar.setLeftBtnCLickedListener(v -> {
+         mIONCTitleBar = findViewById(R.id.ionc_title_bar);
+        mIONCTitleBar.setTitle(mWallet.getName());
+        mIONCTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
+        mIONCTitleBar.setLeftBtnCLickedListener(v -> {
             SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
             finish();
         });
-        ioncTitleBar.setRightTextCLickedListener(v -> {
+        mIONCTitleBar.setRightTextCLickedListener(v -> {
             if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
                 mWallet.setName(walletNameEt.getText().toString());
-                ioncTitleBar.setTitle(walletNameEt.getText().toString());
+                mIONCTitleBar.setTitle(walletNameEt.getText().toString());
                 SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
                 IONCWalletSDK.getInstance().updateWallet(mWallet);
             } else {
@@ -164,6 +164,12 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
             }
 
         });
+    }
+
+    @Override
+    protected void setImmersionBar() {
+        super.setImmersionBar();
+        mImmersionBar.titleView(mIONCTitleBar).statusBarDarkFont(true).execute();
     }
 
     @Override

@@ -14,15 +14,14 @@ import java.util.List;
 public class TxRecordPagerAdapter extends FragmentPagerAdapter {
     private List<AbsBaseViewPagerFragment> mFragmentListTxRecord = new ArrayList<>();
     List<String> titles = new ArrayList<>();
-    public TxRecordPagerAdapter(@NonNull FragmentManager fm, List<AbsBaseViewPagerFragment> list) {
+
+    public TxRecordPagerAdapter(@NonNull FragmentManager fm, List<AbsBaseViewPagerFragment> list, List<String> titles) {
         super(fm);
         mFragmentListTxRecord = list;
-        titles.add("全部");
-        titles.add("转出");
-        titles.add("转入");
+        this.titles = titles;
+
 
     }
-
 
 
     @NonNull
@@ -35,6 +34,7 @@ public class TxRecordPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return mFragmentListTxRecord.size();
     }
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

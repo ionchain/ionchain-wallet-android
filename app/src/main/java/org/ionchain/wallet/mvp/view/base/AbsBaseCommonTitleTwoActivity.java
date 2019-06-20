@@ -1,5 +1,6 @@
 package org.ionchain.wallet.mvp.view.base;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,16 +14,27 @@ public abstract class AbsBaseCommonTitleTwoActivity extends AbsBaseActivity {
     protected ImageView mTitleRightImage;
     protected TextView mTitleNameTv;
 
+    protected View mTitleHeader;
+
     @Override
     protected void initCommonTitle() {
         super.initCommonTitle();
         mTitleRl = findViewById(R.id.common_title_rl);
+        mTitleHeader = findViewById(R.id.title_header);
         mTitleLeftImage = findViewById(R.id.common_image_back);
         mTitleLeftImage.setImageResource(getLeftArrow());
         mTitleNameTv = findViewById(R.id.common_title);
         mTitleRl.setBackgroundColor(getCommonTitleBackgroundColor());
+        mTitleHeader.setBackgroundColor(getTitleHeaderBackgroundColor());
         mTitleNameTv.setText(getTitleName());
         mTitleNameTv.setTextColor(getTitleNameColor());
+    }
+
+    protected int getTitleHeaderBackgroundColor() {
+        return getColorBlue();
+    }
+    protected int getCommonTitleBackgroundColor() {
+        return getColorBlue();
     }
 
     protected int getLeftArrow() {
@@ -40,9 +52,6 @@ public abstract class AbsBaseCommonTitleTwoActivity extends AbsBaseActivity {
 
     protected abstract String getTitleName();
 
-    private int getCommonTitleBackgroundColor() {
-        return getColorBlue();
-    }
 
     @Override
     protected void setImmersionBar() {

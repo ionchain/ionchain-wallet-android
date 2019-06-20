@@ -97,6 +97,12 @@ public class CreateWalletSelectActivity extends AbsBaseActivity {
     @Override
     protected void initView() {
         findViews();
+
+    }
+
+    @Override
+    protected void setImmersionBar() {
+        super.setImmersionBar();
         mImmersionBar
                 .statusBarDarkFont(false)
                 .transparentStatusBar()
