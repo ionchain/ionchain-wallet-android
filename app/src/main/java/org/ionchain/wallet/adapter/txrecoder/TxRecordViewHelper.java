@@ -14,7 +14,7 @@ import org.ionchain.wallet.R;
 import java.util.List;
 
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
-import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER;
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL;
 
 /**
  * AUTHOR binny
@@ -49,7 +49,7 @@ public class TxRecordViewHelper implements IViewHolderHelper<TxRecorderViewHolde
         String time = DateUtils.getDateToString(Long.parseLong(iBaseBeanList.get(position).getTc_in_out()), Y4M2D2H2M2S2);
         LoggerUtils.i("time = " + time);
         viewHolder.tx_time.setText(context.getResources().getString(R.string.tx_time) + time);
-        if (DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(iBaseBeanList.get(position).getBlockNumber())) {
+        if (DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL.equals(iBaseBeanList.get(position).getBlockNumber())) {
             viewHolder.block.setText(context.getResources().getString(R.string.tx_block_unpacked));
         } else {
             viewHolder.block.setText(context.getResources().getString(R.string.tx_block) + iBaseBeanList.get(position).getBlockNumber());

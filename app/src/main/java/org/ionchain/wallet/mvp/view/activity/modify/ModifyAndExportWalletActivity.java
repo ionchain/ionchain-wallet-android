@@ -146,7 +146,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     @Override
     protected void initView() {
         findViews();
-         mIONCTitleBar = findViewById(R.id.ionc_title_bar);
+        mIONCTitleBar = findViewById(R.id.ionc_title_bar);
         mIONCTitleBar.setTitle(mWallet.getName());
         mIONCTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
         mIONCTitleBar.setLeftBtnCLickedListener(v -> {
@@ -159,6 +159,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
                 mIONCTitleBar.setTitle(walletNameEt.getText().toString());
                 SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
                 IONCWalletSDK.getInstance().updateWallet(mWallet);
+                ToastUtil.showShort(getAppString(R.string.has_been_done));
             } else {
                 ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
             }

@@ -31,7 +31,8 @@ import java.math.BigInteger;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
-import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER;
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL;
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_HASH_NULL;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
@@ -122,6 +123,7 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
             dialogPasswordCheck = new DialogPasswordCheck(mActivity);
             dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
                 dialogPasswordCheck.dismiss();
+                closeInputMethod();
                 LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
                 //检查密码是否正确
                 String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
@@ -213,7 +215,7 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setSuccess(true);
         mTxRecordBean.setNonce(String.valueOf(nonce));
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
-        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER);//可以作为是否交易成功的展示依据
+        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL);//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         Intent intent = new Intent();
         intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);
@@ -234,11 +236,12 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setTo(mAddressTo);
         mTxRecordBean.setFrom(mAddressFrom);
         mTxRecordBean.setValue(mTxAccount);
-        mTxRecordBean.setHash("");
+        mTxRecordBean.setHash(DEFAULT_TRANSCATION_HASH_NULL);
         mTxRecordBean.setLocal(true);
         mTxRecordBean.setSuccess(true);
+        mTxRecordBean.setGasPrice(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
-        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER);//可以作为是否交易成功的展示依据
+        mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL);//可以作为是否交易成功的展示依据
         Intent intent = new Intent();
         intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);
         /*

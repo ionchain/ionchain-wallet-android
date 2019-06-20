@@ -78,6 +78,7 @@ import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_U
 import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_USD_RMB_RATE;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_HASH_NULL;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_FOR_RESULT_CODE;
@@ -414,7 +415,7 @@ public class AssetFragment extends AbsBaseFragment implements
             if (t == null) {
                 return;
             }
-            if (TextUtils.isEmpty(t.getHash())) {
+            if (DEFAULT_TRANSCATION_HASH_NULL.equals(t.getHash())) {
                 mTxRecordAllFragment.onNewRecord(t);
                 IONCWalletSDK.getInstance().saveTxRecordBean(t);
                 return;

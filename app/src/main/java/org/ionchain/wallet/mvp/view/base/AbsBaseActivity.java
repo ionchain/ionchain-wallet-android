@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +31,8 @@ import org.ionchain.wallet.utils.LocalManageUtil;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -344,5 +348,64 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
             skip(ManageWalletActivity.class);
 //            finish();
         }
+    }
+    /**
+
+     *
+
+     * @MethodName:closeInputMethod
+
+     * @Description:关闭系统软键盘
+
+     * @throws
+
+     */
+
+    protected void closeInputMethod(){
+
+        try {
+
+            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+
+                    .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+
+        } catch (Exception e) { }finally{ }
+
+    }
+
+    /**
+
+     *
+
+     * @MethodName:openInputMethod
+
+     * @Description:打开系统软键盘
+
+     * @throws
+
+     */
+
+    protected void openInputMethod(final EditText editText){
+
+        Timer timer = new Timer();
+
+        timer.schedule(new TimerTask() {
+
+            public void run() {
+
+                InputMethodManager inputManager = (InputMethodManager) editText
+
+                        .getContext().getSystemService(
+
+                                Context.INPUT_METHOD_SERVICE);
+
+                inputManager.showSoftInput(editText, 0);
+
+            }
+
+        }, 200);
+
     }
 }

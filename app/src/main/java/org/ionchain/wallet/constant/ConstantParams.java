@@ -70,7 +70,8 @@ public final class ConstantParams {
     public static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   必须更新，不可取消
 
 
-    public static final String DEFAULT_TRANSCATION_BLOCK_NUMBER = "null";//   必须更新，不可取消
+    public static final String DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL = "null";//   必须更新，不可取消
+    public static final String DEFAULT_TRANSCATION_HASH_NULL = "null";//   必须更新，不可取消
 
     public final static String COIN_TYPE_CNY = "cny";
     public final static String COIN_TYPE_US = "us";

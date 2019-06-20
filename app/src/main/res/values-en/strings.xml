@@ -226,4 +226,5 @@
     <string name="tx_failure">Tx Failed</string>
     <string name="tx_in_addrss_title">In-Address</string>
     <string name="save_qrcode">Long press can save to local</string>
+    <string name="has_been_done">Done</string>
 </resources>

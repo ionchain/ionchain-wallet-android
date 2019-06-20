@@ -16,7 +16,7 @@ import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
 
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
-import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER;
+import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL;
 
 public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
 
@@ -73,7 +73,7 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
     protected void initData() {
         super.initData();
 
-        if (!DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(mTxRecordBean.getBlockNumber())) {
+        if (!DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL.equals(mTxRecordBean.getBlockNumber())) {
             txDetailText.setText(getAppString(R.string.tx_success));
             txDetailIcon.setImageResource(R.drawable.tx_success);
         } else {

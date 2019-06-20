@@ -11,7 +11,7 @@
         android:id="@+id/title_header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/blue_top" />
+        android:background="#00BFFF" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -278,13 +278,14 @@
 
                 <TextView
                     android:id="@+id/tx_detail_hash"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tx_hash"
                     android:layout_toEndOf="@id/tx_hash"
                     android:drawableEnd="@drawable/copy"
                     android:ellipsize="middle"
                     android:singleLine="true"
+                    android:maxLength="20"
                     android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
                     android:textColor="@color/black" />
 

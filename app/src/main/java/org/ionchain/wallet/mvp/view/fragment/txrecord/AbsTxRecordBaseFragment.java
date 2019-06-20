@@ -129,7 +129,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 //        for (int i = 0; i < size; i++) {
 //            LoggerUtils.i("txRecordBean " + mListDataTemp.get(i).toString());
 //            mListData.add(mListDataTemp.get(i));
-////            if (DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(mListDataTemp.get(i).getBlockNumber())) {
+////            if (DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL.equals(mListDataTemp.get(i).getBlockNumber())) {
 ////                LoggerUtils.i("unpacked" + mListDataTemp.get(i).toString());
 ////                mTxHashUnpackedTemp.add(mListDataTemp.get(i));
 ////            }
@@ -262,7 +262,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 //        for (int i = 0; i < sizeTempAll; i++) {
 //            String bn = mListDataTemp.get(i).getBlockNumber();
 //            Log.i("bn", bn + "sizeTempAll = " + sizeTempAll);
-//            if (DEFAULT_TRANSCATION_BLOCK_NUMBER.equals(bn)) {
+//            if (DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL.equals(bn)) {
 //                LoggerUtils.i("local unpacked   " + mListDataTemp.get(i).getHash());
 //                if (mTxHashUnpackedTemp.contains(mListDataTemp.get(i))) {
 //                    break;
