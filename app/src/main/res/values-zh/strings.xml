@@ -226,4 +226,8 @@
     <string name="tx_in_addrss_title">收款地址</string>
     <string name="save_qrcode">长按可保存到本地</string>
     <string name="has_been_done">已完成</string>
+    <string name="coin_type_us">美元</string>
+    <string name="coin_type_rmb">人民币</string>
+    <string name="coin_type_han_yuan">韩元</string>
+    <string name="coin_type_yin_ni_dun">印尼盾</string>
 </resources>

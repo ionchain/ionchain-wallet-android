@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical">
 
@@ -22,28 +22,28 @@
                 android:id="@+id/coin_us"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="美元" />
+                android:text="@string/coin_type_us" />
 
             <Button
                 android:id="@+id/coin_cny"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="人民币" />
+                android:text="@string/coin_type_rmb" />
 
             <Button
                 android:id="@+id/coin_krw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="韩元" />
+                android:text="@string/coin_type_han_yuan" />
 
             <Button
                 android:id="@+id/coin_idr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="印尼盾" />
+                android:text="@string/coin_type_yin_ni_dun" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

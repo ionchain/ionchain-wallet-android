@@ -228,4 +228,8 @@
     <string name="tx_in_addrss_title">In-Address</string>
     <string name="save_qrcode" translatable="false">Long press can save to local</string>
     <string name="has_been_done">Done</string>
+    <string name="coin_type_us">Dollar</string>
+    <string name="coin_type_rmb">Yuan</string>
+    <string name="coin_type_han_yuan">Won</string>
+    <string name="coin_type_yin_ni_dun">" Indonesian Rupiah"</string>
 </resources>
