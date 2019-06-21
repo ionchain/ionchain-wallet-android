@@ -705,6 +705,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onUSDPriceSuccess(double usdPrice) {
         //获取人民币汇率
         mUSDPrice = usdPrice;
+        mTotalUSDPrice = mIONCBalance.multiply(BigDecimal.valueOf(mUSDPrice));
         //计算美元价格
         IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
 
