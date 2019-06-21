@@ -20,14 +20,13 @@
     <application
         android:name=".App"
         android:icon="@mipmap/login_logo"
-        android:label="@string/ionc_app_name"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/login_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".mvp.view.activity.transaction.TxRecordDetailActivity"></activity>
+        <activity android:name=".mvp.view.activity.transaction.TxRecordDetailActivity"/>
         <activity android:name=".mvp.view.activity.coin.SelectCoinActivity" />
-        <activity android:name=".mvp.view.activity.txrecord.TxRecordNewActivity" />
         <activity
             android:name=".mvp.view.activity.setting.SettingLanguageActivity"
             android:launchMode="singleTop"
