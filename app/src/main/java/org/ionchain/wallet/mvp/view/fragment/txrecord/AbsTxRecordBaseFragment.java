@@ -102,7 +102,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
         mListOutTemp = IONCWalletSDK.getInstance().getAllTxRecordByTxOutAddress(address);
         mListInTemp = IONCWalletSDK.getInstance().getAllTxRecordBeansByTxInAddress(address);
-
+        LoggerUtils.i("local-data", "访问本地数据库.........."); // TODO: 2019-06-21 可优化
         switch (getType()) {
             case TYPE_ALL:
                 /*
@@ -308,6 +308,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      * 有新的交易发生
      * 1、先添加到全部的列表
      * 2、再添加到转出列表
+     *
      * @param txRecordBean 有新的交易记录的时候
      */
     @Override

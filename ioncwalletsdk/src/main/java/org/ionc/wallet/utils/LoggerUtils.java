@@ -1,8 +1,8 @@
 package org.ionc.wallet.utils;
 
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
 
+import com.elvishew.xlog.LogLevel;
+import com.elvishew.xlog.XLog;
 
 /**
  * ================================================
@@ -11,11 +11,8 @@ import com.orhanobut.logger.Logger;
  */
 public class LoggerUtils {
 
-    private static boolean isDebug = true;
-
     public static void initLogger(boolean debug) {
-        isDebug = debug;
-        Logger.addLogAdapter(new AndroidLogAdapter());
+        XLog.init(debug ? LogLevel.ALL : LogLevel.NONE);
     }
 
 
@@ -25,9 +22,7 @@ public class LoggerUtils {
      * @param jsonStr jsonString
      */
     public static void j(String jsonStr) {
-        if (isDebug) {
-            Logger.json(jsonStr);
-        }
+        XLog.tag("json").json(jsonStr);
     }
 
     /**
@@ -37,9 +32,7 @@ public class LoggerUtils {
      * @param msg 信息
      */
     public static void i(String tag, String msg) {
-        if (isDebug) {
-            Logger.i(msg, tag);
-        }
+        XLog.tag(tag).i(msg);
     }
 
     /**
@@ -49,9 +42,7 @@ public class LoggerUtils {
      * @param msg 信息
      */
     public static void i(String tag, int msg) {
-        if (isDebug) {
-            Logger.i(String.valueOf(msg), tag);
-        }
+        XLog.tag(tag).i( String.valueOf(msg));
     }
 
     /**
@@ -60,9 +51,7 @@ public class LoggerUtils {
      * @param msg 信息
      */
     public static void i(String msg) {
-        if (isDebug) {
-            Logger.i(msg);
-        }
+        XLog.i(msg);
     }
 
     /**
@@ -72,9 +61,7 @@ public class LoggerUtils {
      * @param msg 错误码的伴随信息：描述信息错误码
      */
     public static void e(String tag, String msg) {
-        if (isDebug) {
-            Logger.e(msg, tag);
-        }
+        XLog.tag(tag).e(msg);
     }
 
     /**
@@ -83,9 +70,7 @@ public class LoggerUtils {
      * @param msg 错误码的伴随信息：描述信息错误码
      */
     public static void e(String msg) {
-        if (isDebug) {
-            Logger.e("e: " + msg);
-        }
+        XLog.e(msg);
     }
 
 

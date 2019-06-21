@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="global_tag" translatable="false">XLog</string>
     <string name="app_name">IONChainWallet</string>
     <string name="menu_import_scan">Scan</string>
     <string name="menu_scan_album">Album</string>

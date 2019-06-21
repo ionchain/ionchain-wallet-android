@@ -7,12 +7,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 
 import androidx.multidex.MultiDex;
 
+import com.elvishew.xlog.LogConfiguration;
+import com.elvishew.xlog.LogLevel;
+import com.elvishew.xlog.XLog;
+import com.elvishew.xlog.flattener.ClassicFlattener;
+import com.elvishew.xlog.interceptor.BlacklistTagsFilterInterceptor;
+import com.elvishew.xlog.printer.AndroidPrinter;
+import com.elvishew.xlog.printer.Printer;
+import com.elvishew.xlog.printer.file.FilePrinter;
+import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator;
 import com.facebook.stetho.Stetho;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -23,7 +33,6 @@ import org.ionc.wallet.daohelper.MyOpenHelper;
 import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.helper.ActivityHelper;
@@ -32,6 +41,7 @@ import org.ionchain.wallet.qrcode.DisplayUtil;
 import org.ionchain.wallet.qrcode.activity.ZXingLibrary;
 import org.ionchain.wallet.utils.SPUtils;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +50,6 @@ import java.util.logging.Level;
 import okhttp3.OkHttpClient;
 
 import static org.ionc.wallet.constant.ConstanParams.DB_NAME;
-import static org.ionc.wallet.utils.LoggerUtils.initLogger;
 import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
 
 /**
@@ -60,17 +69,20 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     public static String currentLanguage = "";
 
+    public static Printer globalFilePrinter;
+
+    private static final long MAX_TIME = 1000 * 60 * 60 * 24 * 2; // two days
+
     @Override
     public void onCreate() {
         super.onCreate();
-        LoggerUtils.i("App onCreate");
         mContext = this;
         if (APP_DEBUG) {
             Stetho.initializeWithDefaults(this);
         }
         OkGo.getInstance().init(this);
         initOKGO();
-        initLogger(APP_DEBUG);
+        initXlog();
 
         IONCWalletSDK.getInstance().initIONCWalletSDK(this, initDb());
         ZXingLibrary.initDisplayOpinion(this);
@@ -93,7 +105,6 @@ public class App extends Application implements Application.ActivityLifecycleCal
     protected void attachBaseContext(Context base) {
         mContext = this;
         SPUtils.initSP(this);
-        LoggerUtils.i("App attachBaseContext");
         super.attachBaseContext(base);
         MultiDex.install(this);
         mCoinType = SPUtils.getInstance().getCoinType();//币种信息，默认人民币
@@ -209,5 +220,48 @@ public class App extends Application implements Application.ActivityLifecycleCal
         Intent intent = new Intent(ActivityHelper.getHelper().currentActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityHelper.getHelper().currentActivity().startActivity(intent);
+    }
+    /**
+     * Initialize XLog.
+     */
+    private void initXlog() {
+        LogConfiguration config = new LogConfiguration.Builder()
+                .logLevel(BuildConfig.DEBUG ? LogLevel.ALL             // Specify log level, logs below this level won't be printed, default: LogLevel.ALL
+                        : LogLevel.NONE)
+                .tag(getString(R.string.global_tag))                   // Specify TAG, default: "X-LOG"
+                // .t()                                                // Enable thread info, disabled by default
+                // .st(2)                                              // Enable stack trace info with depth 2, disabled by default
+                // .b()                                                // Enable border, disabled by default
+                // .jsonFormatter(new MyJsonFormatter())               // Default: DefaultJsonFormatter
+                // .xmlFormatter(new MyXmlFormatter())                 // Default: DefaultXmlFormatter
+                // .throwableFormatter(new MyThrowableFormatter())     // Default: DefaultThrowableFormatter
+                // .threadFormatter(new MyThreadFormatter())           // Default: DefaultThreadFormatter
+                // .stackTraceFormatter(new MyStackTraceFormatter())   // Default: DefaultStackTraceFormatter
+                // .borderFormatter(new MyBoardFormatter())            // Default: DefaultBorderFormatter
+                // .addObjectFormatter(AnyClass.class,                 // Add formatter for specific class of object
+                //     new AnyClassObjectFormatter())                  // Use Object.toString() by default
+                .addInterceptor(new BlacklistTagsFilterInterceptor(    // Add blacklist tags filter
+                        "blacklist1", "blacklist2", "blacklist3"))
+                // .addInterceptor(new WhitelistTagsFilterInterceptor( // Add whitelist tags filter
+                //     "whitelist1", "whitelist2", "whitelist3"))
+                // .addInterceptor(new MyInterceptor())                // Add a log interceptor
+                .build();
+
+        Printer androidPrinter = new AndroidPrinter();             // Printer that print the log using android.util.Log
+        Printer filePrinter = new FilePrinter                      // Printer that print the log to the file system
+                .Builder(new File(Environment.getExternalStorageDirectory(), "xlogsample").getPath())       // Specify the path to save log file
+                .fileNameGenerator(new DateFileNameGenerator())        // Default: ChangelessFileNameGenerator("log")
+                // .backupStrategy(new MyBackupStrategy())             // Default: FileSizeBackupStrategy(1024 * 1024)
+                // .cleanStrategy(new FileLastModifiedCleanStrategy(MAX_TIME))     // Default: NeverCleanStrategy()
+                .flattener(new ClassicFlattener())                     // Default: DefaultFlattener
+                .build();
+
+        XLog.init(                                                 // Initialize XLog
+                config,                                                // Specify the log configuration, if not specified, will use new LogConfiguration.Builder().build()
+                androidPrinter,                                        // Specify printers, if no printer is specified, AndroidPrinter(for Android)/ConsolePrinter(for java) will be used.
+                filePrinter);
+
+        // For future usage: partial usage in MainActivity.
+        globalFilePrinter = filePrinter;
     }
 }
