@@ -1,3 +1,2 @@
-Version number: 1.0.9&&
-1. Unpacked transactions are shown as unpacked&
-2. Performance optimization
+Version number: 2.0.0&&
+1. Localize transaction records
