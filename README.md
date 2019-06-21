@@ -2,10 +2,10 @@
 ### v1.1.0
 [IONCWallet_v1.1.0_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.1.0_release.apk)
 ```markdown
- 数据库版本：5
+ 数据库版本：6
 ```
 ```markdown
-
+ 1、转账成功，自动刷新首页余额
 ```
 ### v1.0.9
 [IONCWallet_v1.0.9_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.0.9_release.apk)

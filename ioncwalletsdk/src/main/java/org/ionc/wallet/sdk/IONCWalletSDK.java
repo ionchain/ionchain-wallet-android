@@ -813,7 +813,7 @@ public class IONCWalletSDK {
 
         try {
             wallet.setPrivateKey("");//移除私钥
-            LoggerUtils.i("wallet = " + wallet.toString());
+            LoggerUtils.i("bean","update--wallet = " + wallet.toString());
             EntityManager.getInstance().getWalletDaoNew(mDaoSession).update(wallet);
         } catch (Throwable e) {
             LoggerUtils.e("修改密码失败:" + e.getMessage());

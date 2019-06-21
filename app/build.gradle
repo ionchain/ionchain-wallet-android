@@ -49,7 +49,7 @@ android {
             buildConfigField "String", "URL_ABOUTUS_CN", "\"${URL_ABOUTUS_CN}\""
             buildConfigField "String", "URL_ABOUT_US_EN", "\"${URL_ABOUT_US_EN}\""
             buildConfigField "boolean", "APP_DEBUG", "true"
-            resValue "string", "ionc_app_name", appNameDebug
+//            resValue "string", "ionc_app_name", appNameDebug
             resValue "string", "version_info_zn", version_cn
             resValue "string", "version_info_en", version_en
         }
