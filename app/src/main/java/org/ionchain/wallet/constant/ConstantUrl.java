@@ -30,7 +30,9 @@ public class ConstantUrl {
 
     //测试服
     private final static String HOST_DEBUG = "http://192.168.23.142";   //新服
-    public final static String URL_TX_RECORD_GET_DEBUG = HOST_DEBUG + ":3001/v1/transaction";//测试
+    public final static String URL_TX_RECORD_FROM_GET_DEBUG = HOST_DEBUG + ":3001/v1/transactionFrom";//测试
+    public final static String URL_TX_RECORD_TO_GET_DEBUG = HOST_DEBUG + ":3001/v1/transactionTo";//测试
+    public final static String URL_TX_RECORD_ALL_GET_DEBUG = HOST_DEBUG + ":3001/v1/transaction";//测试
     public final static String URL_UPDATE_APK_DEBUG = HOST_DEBUG + ":3002/version";   //更新
     public final static String URL_USD_PRICE_DEBUG = HOST_DEBUG + ":3001/v1/version";   //美元
     public final static String URL_USD_EX_RATE_RMB_PRICE_DEBUG_V1 = HOST_DEBUG + ":3001/v1/currency";   //人民币兑美元汇率 版本1

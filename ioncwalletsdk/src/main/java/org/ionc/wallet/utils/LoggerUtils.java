@@ -38,7 +38,7 @@ public class LoggerUtils {
      */
     public static void i(String tag, String msg) {
         if (isDebug) {
-            Logger.i(tag + " ： " + msg);
+            Logger.i(msg, tag);
         }
     }
 
@@ -61,7 +61,7 @@ public class LoggerUtils {
      */
     public static void e(String tag, String msg) {
         if (isDebug) {
-            Logger.e(tag,msg);
+            Logger.e(msg, tag);
         }
     }
 

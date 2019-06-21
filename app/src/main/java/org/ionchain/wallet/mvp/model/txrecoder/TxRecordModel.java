@@ -13,8 +13,6 @@ import org.ionchain.wallet.bean.TxRecordBeanTemp;
 import org.ionchain.wallet.mvp.callback.OnTxRecordNetDataCallback;
 import org.ionchain.wallet.utils.NetUtils;
 
-import static org.ionchain.wallet.utils.UrlUtils.getTxRecordUrl;
-
 /**
  * AUTHOR binny
  * <p>
@@ -26,7 +24,7 @@ public class TxRecordModel implements ITxRecoderModel {
 
 
     /**
-     * @param isLoadMore 是否是上拉刷新
+     * @param url
      * @param type       类型
      * @param address    钱包地址
      * @param pageNumber 页数
@@ -34,13 +32,13 @@ public class TxRecordModel implements ITxRecoderModel {
      * @param callback   请求回调
      */
     @Override
-    public void getTxRecord(boolean isLoadMore, String type, String address, String pageNumber, String pageSize, final OnTxRecordNetDataCallback callback) {
+    public void getTxRecord(String url, String type, String address, String pageNumber, String pageSize, final OnTxRecordNetDataCallback callback) {
         params.clear();
         params.put("type", type);
         params.put("address", address);
         params.put("pageNumber", pageNumber);
         params.put("pageSize", pageSize);
-        NetUtils.get("getTxRecord", getTxRecordUrl(), params, new StringCallback() {
+        NetUtils.get("getTxRecord", url, params, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
@@ -51,11 +49,8 @@ public class TxRecordModel implements ITxRecoderModel {
                     return;
                 }
                 TxRecordBeanTemp.DataBean beans = txRecordBeanTemp.getData();
-                if (!isLoadMore) {
-                    callback.onTxRecordRefreshNetDataSuccess(beans);
-                } else {
-                    callback.onTxRecordLoadMoreSuccess(beans);
-                }
+                callback.onTxRecordRefreshNetDataSuccess(beans);
+
             }
 
             @Override

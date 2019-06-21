@@ -9,6 +9,7 @@ import org.ionchain.wallet.bean.TxRecordBeanTemp;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Collections;
+import java.util.List;
 
 
 public class TxRecordAllFragment extends AbsTxRecordBaseFragment implements
@@ -24,10 +25,14 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment implements
      * 获取到网络数据之后{@link #onTxRecordRefreshNetDataSuccess(TxRecordBeanTemp.DataBean)}
      * 将网络数据缓存到list view 的数据集中{@link #mListData}
      * 在此处理
+     * @param listNet
      */
     @Override
-    protected void onAfterNetDataSuccess() {
-
+    protected void onAfterNetDataSuccess(List<TxRecordBean> listNet) {
+        for (TxRecordBean b :
+                listNet) {
+            LoggerUtils.i("bean", b.toString());
+        }
     }
 
     @Override
@@ -67,6 +72,13 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment implements
         }
         mCommonAdapter.notifyDataSetChanged();
         getLocalData();
-//        getNetData();
+    }
+
+    @Override
+    public void onPullToDown(WalletBeanNew walletBeanNew) {
+        super.onPullToDown(walletBeanNew);
+        if (isVisible()) {
+            mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), "1", "10", this);
+        }
     }
 }

@@ -9,6 +9,7 @@ import org.ionchain.wallet.mvp.view.fragment.AssetFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Collections;
+import java.util.List;
 
 public class TxRecordInFragment extends AbsTxRecordBaseFragment implements OnTxRecordFromNodeCallback,
         AssetFragment.OnPullToRefreshCallback {
@@ -18,7 +19,7 @@ public class TxRecordInFragment extends AbsTxRecordBaseFragment implements OnTxR
     }
 
     @Override
-    protected void onAfterNetDataSuccess() {
+    protected void onAfterNetDataSuccess(List<TxRecordBean> listNet) {
 
     }
 

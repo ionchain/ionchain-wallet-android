@@ -49,7 +49,8 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     protected ImmersionBar mImmersionBar;
     protected boolean isRefreshing = false;//listview是否可用
 
-    protected String TAG = this.getClass().getSimpleName();
+    protected String TAG = "visible";
+    protected String TAG_NAME;
     /**
      * 当前钱包
      */
@@ -62,6 +63,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
      * 钱包记录的实际数据集
      */
     protected List<TxRecordBean> mListData = new ArrayList<>();
+    protected List<TxRecordBean> mListNet = new ArrayList<>();
     /**
      * 转出记录
      */
@@ -99,7 +101,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     protected final char TYPE_IN = 2;
 
     public AbsBaseViewPagerFragment() {
-        this.TAG = this.getClass().getSimpleName();
+        this.TAG_NAME = this.getClass().getSimpleName();
     }
 
 
@@ -109,16 +111,17 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        LoggerUtils.i("AbsBaseViewPagerFragment setUserVisibleHint " + TAG
-                + "   isVisibleToUser " + isVisibleToUser
-                + "  mContainerView  " + mContainerView);
+        LoggerUtils.i(TAG, "   isVisibleToUser = " + isVisibleToUser + ";  mContainerView = " + mContainerView);
         if (mContainerView != null && isVisibleToUser) {
-            LoggerUtils.i("AbsBaseViewPagerFragment setUserVisibleHint initData " + TAG);
-            loadData();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
+            LoggerUtils.i(TAG, "AbsBaseViewPagerFragment setUserVisibleHint visible ");
+            visible();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
         }
     }
 
-    protected abstract void loadData();
+    /**
+     * 对用户可见
+     */
+    protected abstract void visible();
 
 
     /**
@@ -160,22 +163,20 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
             initImmersionBar();
             setListener();
             if (getUserVisibleHint()) {
-                LoggerUtils.i("AbsBaseViewPagerFragment 第一次 可见的 fragment 要加载数据" + this.TAG);
+                LoggerUtils.i(TAG, "visible 第一次 可见的 fragment 要加载数据");
                 initData();//第一个 可见的 fragment 要加载数据
             } else {
-                LoggerUtils.i("AbsBaseViewPagerFragment 非第一次 可见的 fragment 不要加载数据" + this.TAG);
+                LoggerUtils.i(TAG, "visible 非第一次 可见的 fragment 不要加载数据");
             }
             return mContainerView;
         }
 
+
         /*
          * 创建视图
-         * */
-        /*
          * 如果第一次创建时，可见，则加载数据，绑定数据
          * */
 
-        LoggerUtils.i("tabfragment AbsBaseViewPagerFragment " + this.TAG);
         mContainerView = inflater.inflate(getFragmentLayout(), container, false);
         initView(mContainerView);
 
@@ -183,10 +184,10 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
         initImmersionBar();
         setListener();
         if (getUserVisibleHint()) {
-            LoggerUtils.i("AbsBaseViewPagerFragment 第一次 可见的 fragment 要加载数据" + this.TAG);
+            LoggerUtils.i(TAG, "第一次 可见的 fragment 要加载数据 ");
             initData();//第一个 可见的 fragment 要加载数据
         } else {
-            LoggerUtils.i("AbsBaseViewPagerFragment 非第一次 可见的 fragment 不要加载数据" + this.TAG);
+            LoggerUtils.i(TAG, "非第一次 可见的 fragment 不要加载数据 ");
         }
         return mContainerView;
     }

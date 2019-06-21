@@ -37,9 +37,33 @@ public class UrlUtils {
     /**
      * @return 交易记录接口
      */
-    public static String getTxRecordUrl() {
+    public static String getTxRecordAllUrl() {
         if (AppDebug) {
-            return ConstantUrl.URL_TX_RECORD_GET_DEBUG;
+            return ConstantUrl.URL_TX_RECORD_ALL_GET_DEBUG;
+        } else {
+            LoggerUtils.i("正式服：记录" + ConstantUrl.URL_TX_RECORD_GET);
+            return ConstantUrl.URL_TX_RECORD_GET;
+        }
+    }
+
+    /**
+     * @return 交易记录接口
+     */
+    public static String getTxRecordFromUrl() {
+        if (AppDebug) {
+            return ConstantUrl.URL_TX_RECORD_FROM_GET_DEBUG;
+        } else {
+            LoggerUtils.i("正式服：记录" + ConstantUrl.URL_TX_RECORD_GET);
+            return ConstantUrl.URL_TX_RECORD_GET;
+        }
+    }
+
+    /**
+     * @return 交易记录接口
+     */
+    public static String getTxRecordToUrl() {
+        if (AppDebug) {
+            return ConstantUrl.URL_TX_RECORD_TO_GET_DEBUG;
         } else {
             LoggerUtils.i("正式服：记录" + ConstantUrl.URL_TX_RECORD_GET);
             return ConstantUrl.URL_TX_RECORD_GET;

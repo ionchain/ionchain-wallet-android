@@ -24,6 +24,7 @@ import org.ionchain.wallet.mvp.view.fragment.AssetFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_TX_RECORD;
@@ -56,8 +57,8 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     }
 
     @Override
-    protected void loadData() {
-        LoggerUtils.i("loadData  mWalletBeanNew.getAddress() = " + mWalletBeanNew.getAddress());
+    protected void visible() {
+        LoggerUtils.i("visible ", "TAG_NAME = " + TAG_NAME + " visible() = " + isVisible());
         getLocalData();
     }
 
@@ -69,7 +70,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     protected void initData() {
         mTxRecordPresenter = new TxRecordPresenter();
-        LoggerUtils.i("initData " + TAG);
+        LoggerUtils.i(TAG, "initData ");
         getLocalData();
 //        getNetData();
     }
@@ -83,11 +84,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
          */
 
         mListDataTemp.clear();
-        LoggerUtils.i("本地所有该钱包的数据" + TAG + "  地址：" + address);
         mListOut = IONCWalletSDK.getInstance().getAllTxRecordByTxOutAddress(address);
         mListIn = IONCWalletSDK.getInstance().getAllTxRecordBeansByTxInAddress(address);
         LoggerUtils.i("mListDataTemp.size0 = " + mListDataTemp.size());
-
         switch (getType()) {
             case TYPE_ALL:
                 /*
@@ -100,15 +99,15 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                  * 2.2、不存在，则添加
                  */
                 // 转出记录
-                LoggerUtils.i("本地所有该钱包的数据 0" + TAG + "  地址：" + address + "mListOut.size = " + mListOut.size());
-                LoggerUtils.i("本地所有该钱包的数据 0" + TAG + "  地址：" + address + "mListIn.size = " + mListIn.size());
+                LoggerUtils.i("本地所有该钱包的数据 0 mListOut " + TAG + "  地址：" + address + "mListOut.size = " + mListOut.size());
+                LoggerUtils.i("本地所有该钱包的数据 0 mListIn " + TAG + "  地址：" + address + "mListIn.size = " + mListIn.size());
                 mListDataTemp.addAll(mListOut);
                 // 转入记录
                 mListDataTemp.addAll(mListIn);
                 break;
             case TYPE_OUT:
-                LoggerUtils.i("本地所有该钱包的数据 1" + TAG + "  地址：" + address + "mListOut.size = " + mListOut.size());
-                LoggerUtils.i("本地所有该钱包的数据 1" + TAG + "  地址：" + address + "mListIn.size = " + mListIn.size());
+                LoggerUtils.i("本地所有该钱包的数据 1 mListOut " + TAG + "  地址：" + address + "mListOut.size = " + mListOut.size());
+                LoggerUtils.i("本地所有该钱包的数据 1 mListIn " + TAG + "  地址：" + address + "mListIn.size = " + mListIn.size());
                 // 转出记录
 
                 mListDataTemp.addAll(mListOut);
@@ -121,7 +120,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 break;
         }
         LoggerUtils.i("mListDataTemp.size = " + mListDataTemp.size());
-        if (mListDataTemp.size() == 0 ) {
+        if (mListDataTemp.size() == 0) {
             ToastUtil.showToastLonger(getAppString(R.string.tx_record_none));
         }
         LoggerUtils.i("mListDataTemp.size = " + mListDataTemp.size());
@@ -141,14 +140,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     }
 
 
-    void getNetData() {
-        LoggerUtils.i("获取网络数据 " + TAG);
-        if (mTxRecordPresenter == null) {
-            LoggerUtils.i("获取网络数据 null" + TAG);
-            return;
-        }
-        mTxRecordPresenter.getTxRecord(false, "3", mWalletBeanNew.getAddress(), "1", "10", this);
-    }
 
 
     @Override
@@ -188,9 +179,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 //                    mListIn.add(bean);
 //                    break;
 //            }
-            mListData.add(bean);
+            mListNet.add(bean);
         }
-        onAfterNetDataSuccess();
+        onAfterNetDataSuccess(mListNet);
     }
 
 
@@ -203,8 +194,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     /**
      * 网络数据后
+     * @param listNet
      */
-    protected abstract void onAfterNetDataSuccess();
+    protected abstract void onAfterNetDataSuccess(List<TxRecordBean> listNet);
 
     @Override
     public void onTxRecordLoadMoreSuccess(TxRecordBeanTemp.DataBean beans) {
@@ -299,7 +291,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     @Override
     public void onNewRecord(TxRecordBean txRecordBean) {
-        mListData.add(0,txRecordBean);
+        mListData.add(0, txRecordBean);
         mCommonAdapter.notifyDataSetChanged();
     }
 
@@ -317,7 +309,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     public void onTxRecordItemClick(TxRecordBean txRecordBean) {
 //        ToastUtil.showLong(txRecordBean.getValue());
         Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
-        intent.putExtra(PARCELABLE_TX_RECORD,txRecordBean);
+        intent.putExtra(PARCELABLE_TX_RECORD, txRecordBean);
         startActivity(intent);
     }
 }
