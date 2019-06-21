@@ -45,6 +45,18 @@ public class LoggerUtils {
     /**
      * 用于打印信息
      *
+     * @param tag 级别
+     * @param msg 信息
+     */
+    public static void i(String tag, int msg) {
+        if (isDebug) {
+            Logger.i(String.valueOf(msg), tag);
+        }
+    }
+
+    /**
+     * 用于打印信息
+     *
      * @param msg 信息
      */
     public static void i(String msg) {

@@ -8,11 +8,11 @@ import org.ionchain.wallet.bean.TxRecordBeanTemp;
  * date:2018/12/7
  * description：网络上的交易记录
  */
-public interface OnTxRecordNetDataCallback extends OnLoadingView {
+public interface OnTxRecordBrowserDataCallback extends OnLoadingView {
     /**
      * 请求成功
      */
-    void onTxRecordRefreshNetDataSuccess(TxRecordBeanTemp.DataBean beans);
+    void onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean beans);
 
     /**
      * 加载更多
@@ -24,5 +24,5 @@ public interface OnTxRecordNetDataCallback extends OnLoadingView {
     /**
      * 请求失败
      */
-    void onTxRecordNetDataFailure(String error);
+    void onTxRecordBrowserFailure(String error);
 }

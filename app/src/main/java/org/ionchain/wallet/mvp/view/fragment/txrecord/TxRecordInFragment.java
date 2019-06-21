@@ -30,7 +30,7 @@ public class TxRecordInFragment extends AbsTxRecordBaseFragment implements OnTxR
             mTxHashUnpackedTemp.remove(txRecordBean);//移除已打包
             LoggerUtils.i("txRecordBean " + txRecordBean.toString());
             IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
-            Collections.sort(mListData);
+            Collections.sort(mListIn);
             mCommonAdapter.notifyDataSetChanged();
         }
     }
@@ -45,10 +45,19 @@ public class TxRecordInFragment extends AbsTxRecordBaseFragment implements OnTxR
     @Override
     public void onAddressChanged(WalletBeanNew currentWallet) {
         LoggerUtils.i("地址切换，清空缓存 " + TAG + "mCommonAdapter = " + mCommonAdapter);
-        mListData.clear();
+        mListIn.clear();
         if (mCommonAdapter == null) {
             return;
         }
         mCommonAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPullToDown(WalletBeanNew walletBeanNew) {
+        super.onPullToDown(walletBeanNew);
+        if (mVisibleToUser) {
+            LoggerUtils.i("beannet","in");
+            mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), "1", "10", this);
+        }
     }
 }

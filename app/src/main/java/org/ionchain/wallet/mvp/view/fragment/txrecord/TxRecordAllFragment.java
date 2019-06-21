@@ -1,19 +1,16 @@
 package org.ionchain.wallet.mvp.view.fragment.txrecord;
 
+import android.util.Log;
+
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
-import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.bean.TxRecordBeanTemp;
-import org.ionchain.wallet.utils.ToastUtil;
 
-import java.util.Collections;
 import java.util.List;
 
 
-public class TxRecordAllFragment extends AbsTxRecordBaseFragment implements
-        OnTxRecordFromNodeCallback {
+public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
 
 
     @Override
@@ -22,35 +19,18 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment implements
     }
 
     /**
-     * 获取到网络数据之后{@link #onTxRecordRefreshNetDataSuccess(TxRecordBeanTemp.DataBean)}
+     * 获取到网络数据之后{@link #onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean)}
      * 将网络数据缓存到list view 的数据集中{@link #mListData}
      * 在此处理
+     *
      * @param listNet
      */
     @Override
     protected void onAfterNetDataSuccess(List<TxRecordBean> listNet) {
         for (TxRecordBean b :
                 listNet) {
-            LoggerUtils.i("bean", b.toString());
+            Log.i("beannet", b.toString());
         }
-    }
-
-    @Override
-    public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
-        LoggerUtils.i("执行完成 " + txRecordBean.toString());
-        if (mTxHashUnpackedTemp.contains(txRecordBean)) {
-            mTxHashUnpackedTemp.remove(txRecordBean);//移除已打包
-            LoggerUtils.i("txRecordBean " + txRecordBean.toString());
-            IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
-            Collections.sort(mListData);
-            mCommonAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
-        LoggerUtils.i("执行失败 " + recordBean);
-        ToastUtil.showShortToast(error);
     }
 
 
@@ -77,8 +57,15 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment implements
     @Override
     public void onPullToDown(WalletBeanNew walletBeanNew) {
         super.onPullToDown(walletBeanNew);
-        if (isVisible()) {
+        if (mVisibleToUser) {
+            LoggerUtils.i("beannet", "all");
             mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), "1", "10", this);
         }
+    }
+
+    @Override
+    public void onNewTxRecordByTx(TxRecordBean txRecordBean) {
+        mListData.add(0, txRecordBean);
+        super.onNewTxRecordByTx(txRecordBean);
     }
 }

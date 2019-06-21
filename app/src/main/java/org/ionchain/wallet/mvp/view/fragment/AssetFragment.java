@@ -415,7 +415,8 @@ public class AssetFragment extends AbsBaseFragment implements
                 return;
             }
             if (DEFAULT_TRANSCATION_HASH_NULL.equals(t.getHash())) {
-                mTxRecordAllFragment.onNewRecord(t);
+                mTxRecordAllFragment.onNewTxRecordByTx(t);
+                mTxRecordOutFragment.onNewTxRecordByTx(t);
                 IONCWalletSDK.getInstance().saveTxRecordBean(t);
                 return;
             }
@@ -541,7 +542,16 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
         balance();
-        mTxRecordAllFragment.onPullToDown(mCurrentWallet);
+        if (mTxRecordAllFragment != null) {
+            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
+        }
+        if (mTxRecordOutFragment != null) {
+            mTxRecordOutFragment.onPullToDown(mCurrentWallet);
+        }
+        if (mTxRecordInFragment != null) {
+            mTxRecordInFragment.onPullToDown(mCurrentWallet);
+        }
+
     }
 
     @Override
@@ -797,15 +807,22 @@ public class AssetFragment extends AbsBaseFragment implements
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_PRICE);
     }
 
+    /**
+     * 直接通过 web3j Api查询交易结果
+     *
+     * @param txRecordBean
+     */
     @Override
     public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
-        mTxRecordAllFragment.onNewRecord(txRecordBean);
+        mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
+        mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
         IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
     }
 
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
-        mTxRecordAllFragment.onNewRecord(recordBean);
+        mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
+        mTxRecordOutFragment.onNewTxRecordByTx(recordBean);
         IONCWalletSDK.getInstance().saveTxRecordBean(recordBean);
     }
 
@@ -828,7 +845,7 @@ public class AssetFragment extends AbsBaseFragment implements
         /**
          * @param txRecordBean 有新的交易记录的时候
          */
-        void onNewRecord(TxRecordBean txRecordBean);
+        void onNewTxRecordByTx(TxRecordBean txRecordBean);
 
     }
 
@@ -840,10 +857,10 @@ public class AssetFragment extends AbsBaseFragment implements
             mRmbTx.setText(balance);
             return;
         }
-        BigDecimal us = mTotalUSDPrice.multiply(BigDecimal.valueOf(mCNY));
+        BigDecimal us = mTotalUSDPrice.multiply(BigDecimal.valueOf(mUS));
         BigDecimal rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mCNY));
-        BigDecimal krw = mTotalUSDPrice.multiply(BigDecimal.valueOf(mCNY));
-        BigDecimal idr = mTotalUSDPrice.multiply(BigDecimal.valueOf(mCNY));
+        BigDecimal krw = mTotalUSDPrice.multiply(BigDecimal.valueOf(mKRW));
+        BigDecimal idr = mTotalUSDPrice.multiply(BigDecimal.valueOf(mIDR));
         String balance_us = us.setScale(4, ROUND_HALF_UP).toPlainString();
         String balance_rmb = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
         String balance_krw = krw.setScale(4, ROUND_HALF_UP).toPlainString();

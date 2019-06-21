@@ -63,7 +63,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
      * 钱包记录的实际数据集
      */
     protected List<TxRecordBean> mListData = new ArrayList<>();
-    protected List<TxRecordBean> mListNet = new ArrayList<>();
+    protected List<TxRecordBean> mListNetTemp = new ArrayList<>();
     /**
      * 转出记录
      */
@@ -105,12 +105,14 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     }
 
 
+    protected  boolean mVisibleToUser ;
     /*
      * 防止频繁请求网络
      * */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        mVisibleToUser = isVisibleToUser;
         LoggerUtils.i(TAG, "   isVisibleToUser = " + isVisibleToUser + ";  mContainerView = " + mContainerView);
         if (mContainerView != null && isVisibleToUser) {
             LoggerUtils.i(TAG, "AbsBaseViewPagerFragment setUserVisibleHint visible ");

@@ -10,7 +10,6 @@ import org.ionc.wallet.bean.TxRecordBean;
 public interface OnTxRecordFromNodeCallback {
     /**
      * 转账成功
-     *  @param hashTx 转账成功的hash值
      *
      */
     void OnTxRecordNodeSuccess(TxRecordBean txRecordBean);

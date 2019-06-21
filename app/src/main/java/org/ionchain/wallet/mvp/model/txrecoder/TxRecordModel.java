@@ -10,7 +10,7 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.TxRecordBeanTemp;
-import org.ionchain.wallet.mvp.callback.OnTxRecordNetDataCallback;
+import org.ionchain.wallet.mvp.callback.OnTxRecordBrowserDataCallback;
 import org.ionchain.wallet.utils.NetUtils;
 
 /**
@@ -32,7 +32,7 @@ public class TxRecordModel implements ITxRecoderModel {
      * @param callback   请求回调
      */
     @Override
-    public void getTxRecord(String url, String type, String address, String pageNumber, String pageSize, final OnTxRecordNetDataCallback callback) {
+    public void getTxRecord(String url, String type, String address, String pageNumber, String pageSize, final OnTxRecordBrowserDataCallback callback) {
         params.clear();
         params.put("type", type);
         params.put("address", address);
@@ -42,14 +42,16 @@ public class TxRecordModel implements ITxRecoderModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                LoggerUtils.i("json" + json);
+                LoggerUtils.i("pullforrecord" + json);
                 TxRecordBeanTemp txRecordBeanTemp = NetUtils.gsonToBean(json, TxRecordBeanTemp.class);
                 if (txRecordBeanTemp == null || txRecordBeanTemp.getData() == null || txRecordBeanTemp.getData().getData() == null) {
-                    callback.onTxRecordNetDataFailure(App.mContext.getResources().getString(R.string.error_data_parase));
+                    callback.onTxRecordBrowserFailure(App.mContext.getResources().getString(R.string.error_data_parase));
                     return;
                 }
+                LoggerUtils.i("pullforrecord......." );
                 TxRecordBeanTemp.DataBean beans = txRecordBeanTemp.getData();
-                callback.onTxRecordRefreshNetDataSuccess(beans);
+                LoggerUtils.i("pullforrecord",beans.getData().size() );
+                callback.onTxRecordBrowserSuccess(beans);
 
             }
 
@@ -68,7 +70,7 @@ public class TxRecordModel implements ITxRecoderModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onTxRecordNetDataFailure(App.mContext.getString(R.string.error_net_tx_recorder));
+                callback.onTxRecordBrowserFailure(App.mContext.getString(R.string.error_net_tx_recorder));
             }
         }, callback);
     }
