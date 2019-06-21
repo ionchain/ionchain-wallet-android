@@ -66,6 +66,7 @@ public final class ConstantParams {
 
 
 
+    public static final String ADDRESS_DEBUG = "0x286Dd651fFcc9524e199e483d7BFba8daAB1d201";//  测试收款方
     public static final String DOWNLOAD_MUST_UPDATE_NO = "0";//  不是必须更新，可以取消对话框
     public static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   必须更新，不可取消
 

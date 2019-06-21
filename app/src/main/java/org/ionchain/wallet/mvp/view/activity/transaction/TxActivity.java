@@ -29,6 +29,7 @@ import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
 import java.math.BigInteger;
 
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
+import static org.ionchain.wallet.constant.ConstantParams.ADDRESS_DEBUG;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL;
@@ -168,7 +169,7 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
     @Override
     protected void initData() {
         if (BuildConfig.APP_DEBUG) {
-            txToAddressEt.setText("0x286Dd651fFcc9524e199e483d7BFba8daAB1d201");
+            txToAddressEt.setText(ADDRESS_DEBUG);
         }
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(mProgress);
