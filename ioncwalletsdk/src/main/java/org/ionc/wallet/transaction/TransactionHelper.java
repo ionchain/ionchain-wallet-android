@@ -26,7 +26,7 @@ public class TransactionHelper {
     /**
      * gas价格,以Gwei为单位
      */
-    private int gasPrice;
+    private BigDecimal gasPrice;
     /**
      * 转账金额
      */
@@ -58,7 +58,7 @@ public class TransactionHelper {
      * @param gasPrice
      * @return
      */
-    public TransactionHelper setGasPrice(int gasPrice) {
+    public TransactionHelper setGasPrice(BigDecimal gasPrice) {
         this.gasPrice = gasPrice;
         return this;
     }

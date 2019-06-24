@@ -89,7 +89,7 @@ public class IONCWalletSDK {
     private Handler mHandler;
     private final String TAG = this.getClass().getSimpleName();
 
-    private BigInteger mGasMinConut = GAS_MIN;
+    private BigDecimal mGasMinConut = GAS_MIN;
 
     /**
      * 通用的以太坊基于bip44协议的助记词路径
@@ -174,8 +174,8 @@ public class IONCWalletSDK {
      * @param gasPriceGwei GWei单位
      * @return
      */
-    public BigDecimal getCurrentFee(int gasPriceGwei) {
-        BigInteger feeGwei = mGasMinConut.multiply(BigInteger.valueOf(gasPriceGwei));
+    public BigDecimal getCurrentFee(BigDecimal gasPriceGwei) {
+        BigDecimal feeGwei = mGasMinConut.multiply(gasPriceGwei);
         Log.i(TAG, "getCurrentFee:feeGwei " + feeGwei);
         Log.i(TAG, "getCurrentFee:gasPrice " + gasPriceGwei);
         Log.i(TAG, "getCurrentFee:mGasMinConut " + mGasMinConut);

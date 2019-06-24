@@ -38,8 +38,7 @@
             <TextView
                 android:layout_below="@id/tx_value"
                 android:id="@+id/tx_fee"
-                style="@style/TxRecorder"
-                android:visibility="gone" />
+                style="@style/TxRecorder" />
 
             <TextView
                 android:layout_below="@id/tx_fee"
@@ -49,14 +48,12 @@
             <TextView
                 android:layout_below="@id/tx_hash"
                 android:id="@+id/tx_from"
-                style="@style/TxRecorder"
-                android:visibility="gone" />
+                style="@style/TxRecorder"/>
 
             <TextView
                 android:layout_below="@id/tx_from"
                 android:id="@+id/tx_to"
-                style="@style/TxRecorder"
-                android:visibility="gone" />
+                style="@style/TxRecorder" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

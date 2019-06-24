@@ -4,7 +4,7 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.constant.ConstantUrl;
 
 public class UrlUtils {
-    private static boolean AppDebug = false;
+    private static boolean AppDebug = true;
 //    private static boolean AppDebug = true;
 
     /**

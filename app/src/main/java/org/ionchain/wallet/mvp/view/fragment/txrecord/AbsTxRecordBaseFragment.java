@@ -11,7 +11,6 @@ import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.utils.DateUtils;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.txrecoder.TxRecordViewHelper;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_TX_RECORD;
 
 /**
@@ -170,7 +168,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             LoggerUtils.i("beannet", "网络请求成功" + beans.toString());
             TxRecordBean bean = new TxRecordBean();
             bean.setHash(itemBean.getHash());
-            bean.setTc_in_out(DateUtils.getDateToString(System.currentTimeMillis(), Y4M2D2H2M2S2));
+            bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
             bean.setTo(itemBean.getTx_to());
             bean.setFrom(itemBean.getTx_from());
             bean.setValue(itemBean.getValue());
@@ -189,9 +187,10 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 //                    mListIn.add(bean);
 //                    break;
 //            }
+            IONCWalletSDK.getInstance().saveTxRecordBean(bean);
             mListNetTemp.add(bean);
         }
-        LoggerUtils.i("mListNetTemp", mListNetTemp.size());
+        LoggerUtils.i("beannet", mListNetTemp.size());
         onAfterNetDataSuccess(mListNetTemp);
     }
 

@@ -26,6 +26,7 @@ import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
@@ -77,12 +78,14 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
     private String mKsPath;
 
     private DialogPasswordCheck dialogPasswordCheck;
-    private int mProgress = SEEK_BAR_SRART_VALUE;//进度值,起始值为 30GWei ,最大值为100
     /**
      * 下一步
      */
     private Button txNext;
     private String mNodeIONC = getHostNode();
+
+    private final BigDecimal mGasPriceScale = BigDecimal.valueOf(10000); //gWei
+    private BigDecimal mGasPrice = BigDecimal.valueOf(SEEK_BAR_SRART_VALUE);//进度值,起始值为 30GWei ,最大值为100
 
 
     /**
@@ -145,8 +148,8 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
                 if (progress == 0) {
                     progress = SEEK_BAR_MIN_VALUE_1_GWEI;
                 }
-                mProgress = progress;
-                mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
+                mGasPrice = BigDecimal.valueOf(progress).multiply(mGasPriceScale);
+                mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString() + " IONC");
             }
 
             @Override
@@ -172,8 +175,8 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
             txToAddressEt.setText(ADDRESS_DEBUG);
         }
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
-        txSeekBarIndex.setProgress(mProgress);
-        mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString() + " IONC");
+        txSeekBarIndex.setProgress(30);
+        mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mGasPrice.multiply(mGasPriceScale)).toPlainString() + " IONC");
         mBalanceTv.setText(getAppString(R.string.balance_) + ": " + mWalletBeanNew.getBalance());
     }
 
@@ -215,7 +218,7 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setLocal(true);
         mTxRecordBean.setSuccess(true);
         mTxRecordBean.setNonce(String.valueOf(nonce));
-        mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
+        mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
         mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL);//可以作为是否交易成功的展示依据
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         Intent intent = new Intent();
@@ -240,8 +243,8 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setHash(DEFAULT_TRANSCATION_HASH_NULL);
         mTxRecordBean.setLocal(true);
         mTxRecordBean.setSuccess(true);
-        mTxRecordBean.setGasPrice(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
-        mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mProgress).toPlainString());
+        mTxRecordBean.setGasPrice(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
+        mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
         mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL);//可以作为是否交易成功的展示依据
         Intent intent = new Intent();
         intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);
@@ -272,7 +275,7 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         final String toAddress = txToAddressEt.getText().toString();
         final String txAccount = mTxValueEt.getText().toString();
         TransactionHelper helper = new TransactionHelper()
-                .setGasPrice(mProgress)
+                .setGasPrice(mGasPrice)
                 .setToAddress(toAddress)
                 .setTxValue(txAccount)
                 .setWalletBeanTx(bean);

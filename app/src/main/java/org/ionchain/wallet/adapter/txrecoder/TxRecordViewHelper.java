@@ -2,6 +2,7 @@ package org.ionchain.wallet.adapter.txrecoder;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import org.ionc.wallet.adapter.IViewHolder;
@@ -46,9 +47,19 @@ public class TxRecordViewHelper implements IViewHolderHelper<TxRecorderViewHolde
     @Override
     public void bindListDataToView(Context context, List<TxRecordBean> iBaseBeanList, TxRecorderViewHolder viewHolder, int position) {
         viewHolder.txHash.setText(context.getResources().getString(R.string.tx_hash) + iBaseBeanList.get(position).getHash());
-        String time = DateUtils.getDateToString(Long.parseLong(iBaseBeanList.get(position).getTc_in_out()), Y4M2D2H2M2S2);
-        LoggerUtils.i("time = " + time);
-        viewHolder.tx_time.setText(context.getResources().getString(R.string.tx_time) + time);
+        try {
+            if (!TextUtils.isEmpty(iBaseBeanList.get(position).getTc_in_out())) {
+                String time = DateUtils.getDateToString(Long.parseLong(iBaseBeanList.get(position).getTc_in_out()), Y4M2D2H2M2S2);
+                LoggerUtils.i("time = " + time);
+                viewHolder.tx_time.setText(context.getResources().getString(R.string.tx_time) + time);
+            } else {
+                viewHolder.tx_time.setText("来自网络");
+            }
+        } catch (NumberFormatException r) {
+            viewHolder.tx_time.setText("来自网络");
+        }
+
+
         if (DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL.equals(iBaseBeanList.get(position).getBlockNumber())) {
             viewHolder.block.setText(context.getResources().getString(R.string.tx_block_unpacked));
         } else {

@@ -138,7 +138,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:text">TxHash : 0xeb680f30715f347d4eb5cd03ac5eced297ac5046</item>
         <item name="android:textColor">@color/tx_recorder_text</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="base_dialog" parent="android:style/Theme.Dialog">
