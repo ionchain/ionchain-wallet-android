@@ -14,13 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.adapter.txrecoder.TxRecordAdapter;
 import org.ionchain.wallet.adapter.txrecoder.TxRecordViewHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 import org.ionchain.wallet.mvp.presenter.transcation.TxRecordPresenter;
@@ -34,7 +34,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
-import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 
 /**
@@ -43,11 +42,9 @@ import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
  */
 public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
 
-    protected AbsBaseViewPagerFragment mFragment = this;
     protected AbsBaseActivity mActivity;
-    protected View mContainerView;
+    private View mContainerView;
     protected ImmersionBar mImmersionBar;
-    protected boolean isRefreshing = false;//listview是否可用
 
     protected String TAG = "visible";
     protected String TAG_NAME;
@@ -59,7 +56,8 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     /**
      * 记录适配器
      */
-    protected CommonAdapter mCommonAdapter;
+
+    protected TxRecordAdapter mTxRecordAdapter;
     /**
      * 钱包记录的实际数据集
      */
@@ -82,10 +80,6 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
      * 未获取交易信息的本地缓存,缓存hash值
      */
     protected List<TxRecordBean> mTxHashUnpackedTemp = new ArrayList<>();
-    /**
-     * 例子链接点
-     */
-    protected String mNodeIONC = getHostNode();
 
     /**
      * listvie辅助

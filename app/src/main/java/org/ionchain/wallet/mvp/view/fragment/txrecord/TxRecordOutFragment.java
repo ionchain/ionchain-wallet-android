@@ -34,7 +34,7 @@ public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTx
             LoggerUtils.i("txRecordBean " + txRecordBean.toString());
             IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
             Collections.sort(mListOut);
-            mCommonAdapter.notifyDataSetChanged();
+            mTxRecordAdapter.notifyDataSetChanged();
         }
     }
 
@@ -46,12 +46,12 @@ public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTx
 
     @Override
     public void onAddressChanged(WalletBeanNew currentWallet) {
-        LoggerUtils.i("地址切换，清空缓存 " + TAG + "mCommonAdapter = " + mCommonAdapter);
+        LoggerUtils.i("地址切换，清空缓存 " + TAG + "mCommonAdapter = " + mTxRecordAdapter);
         mListOut.clear();
-        if (mCommonAdapter == null) {
+        if (mTxRecordAdapter == null) {
             return;
         }
-        mCommonAdapter.notifyDataSetChanged();
+        mTxRecordAdapter.notifyDataSetChanged();
     }
 
     /**

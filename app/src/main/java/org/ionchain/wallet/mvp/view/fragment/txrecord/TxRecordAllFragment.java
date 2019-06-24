@@ -37,7 +37,7 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
             mListData.add(0, b);
             IONCWalletSDK.getInstance().saveTxRecordBean(b);
         }
-        mCommonAdapter.notifyDataSetChanged();
+        mTxRecordAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -52,11 +52,11 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
         mListIn.clear();
         mListOut.clear();
         mListData.clear();
-        if (mCommonAdapter == null) {
+        if (mTxRecordAdapter == null) {
             LoggerUtils.i("地址切换 = mCommonAdapter999 =null");
             return;
         }
-        mCommonAdapter.notifyDataSetChanged();
+        mTxRecordAdapter.notifyDataSetChanged();
         getLocalData();//onAddressChanged
     }
 
@@ -73,5 +73,12 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
     public void onNewTxRecordByTx(TxRecordBean txRecordBean) {
         mListData.add(0, txRecordBean);
         super.onNewTxRecordByTx(txRecordBean);
+    }
+
+    @Override
+    public void onPullToUp(WalletBeanNew walletBeanNew) {
+
+        super.onPullToUp(walletBeanNew);
+
     }
 }

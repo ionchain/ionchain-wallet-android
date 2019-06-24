@@ -766,14 +766,48 @@ public class IONCWalletSDK {
     /**
      * 分页加载数据
      *
-     * @param offset 页数
+     * @param offset  页数
+     * @param address 查询条件 转入和转出地址
+     * @param limit
+     * @param num
      * @return 当页交易记录
      */
-    public List<TxRecordBean> getTxRecordBeanByPage(int offset) {
+    public List<TxRecordBean> getTxRecordBeanOutByPage(int offset, String address, int limit, int num) {
         TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
-        return dao.queryBuilder()
-                .offset(offset * 20).limit(20).list();
+        return dao.queryBuilder().where(TxRecordBeanDao.Properties.From.eq(address))
+                .offset(offset*num).limit(limit).list();
     }
+
+    /**
+     * 分页加载数据
+     *
+     * @param offset  页数
+     * @param address 查询条件 转入和转出地址
+     * @param limit
+     * @param num
+     * @return 当页交易记录
+     */
+    public List<TxRecordBean> getTxRecordBeanInByPage(int offset, String address, int limit, int num) {
+        TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
+        return dao.queryBuilder().where(TxRecordBeanDao.Properties.To.eq(address))
+                .offset(offset*num).limit(limit).list();
+    }
+
+    /**
+     * 分页加载数据
+     *
+     * @param offset  页数
+     * @param address 查询条件 转入和转出地址
+     * @param num     取出的个数
+     * @param limit
+     * @return 当页交易记录
+     */
+    public List<TxRecordBean> getTxRecordBeanAllByPage(int offset, String address, int num, int limit) {
+        TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
+        return dao.queryBuilder().where(TxRecordBeanDao.Properties.To.eq(address), TxRecordBeanDao.Properties.From.eq(address))
+                .offset(offset * num).limit(limit).list();
+    }
+
 
     /**
      * 保存钱包,保存前,检查数据库是否存在钱包,如果没有则将该钱包设置为首页展示钱包
@@ -813,7 +847,7 @@ public class IONCWalletSDK {
 
         try {
             wallet.setPrivateKey("");//移除私钥
-            LoggerUtils.i("bean","update--wallet = " + wallet.toString());
+            LoggerUtils.i("bean", "update--wallet = " + wallet.toString());
             EntityManager.getInstance().getWalletDaoNew(mDaoSession).update(wallet);
         } catch (Throwable e) {
             LoggerUtils.e("修改密码失败:" + e.getMessage());

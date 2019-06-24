@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.viewpager.widget.ViewPager;
@@ -22,6 +23,7 @@ import com.lzy.okgo.OkGo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
@@ -95,7 +97,7 @@ public class AssetFragment extends AbsBaseFragment implements
         OnDialogCheck12MnemonicCallbcak,
         OnUSDPriceCallback,
         OnUSDExRateRMBCallback,
-        OnIONCNodeCallback, OnTxRecordFromNodeCallback {
+        OnIONCNodeCallback, OnTxRecordFromNodeCallback, OnLoadMoreListener {
 
 
     /**
@@ -281,9 +283,10 @@ public class AssetFragment extends AbsBaseFragment implements
         balance(); //回到前台  onResume
         if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
             mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
-        } else {
-            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
-        }
+        } 
+//        else {
+//            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
+//        }
         setBalance();
     }
 
@@ -324,6 +327,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mRefresh.setEnableAutoLoadMore(false);
         mRefreshHeader = view.findViewById(R.id.refresh_header);
         mRefresh.setOnRefreshListener(this);
+        mRefresh.setOnLoadMoreListener(this);
         mBuilder = new PopupWindowBuilder(mActivity, R.layout.item_popup_list_layout, this);
         tabLayout = view.findViewById(R.id.tx_record_tabs);
         viewPager = view.findViewById(R.id.tx_record_content);
@@ -825,6 +829,12 @@ public class AssetFragment extends AbsBaseFragment implements
         mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
         mTxRecordOutFragment.onNewTxRecordByTx(recordBean);
         IONCWalletSDK.getInstance().saveTxRecordBean(recordBean);
+    }
+
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+        mTxRecordAllFragment.onPullToUp(mCurrentWallet);
+        mRefresh.finishLoadMore(2000);
     }
 
     public interface OnPullToRefreshCallback {
