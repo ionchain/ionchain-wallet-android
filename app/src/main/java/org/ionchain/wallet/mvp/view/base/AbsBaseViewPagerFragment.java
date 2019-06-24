@@ -105,7 +105,9 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     }
 
 
-    protected  boolean mVisibleToUser ;
+    protected boolean mFirst = true;
+    protected boolean mVisibleToUser;
+
     /*
      * 防止频繁请求网络
      * */
@@ -113,9 +115,10 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         mVisibleToUser = isVisibleToUser;
-        LoggerUtils.i(TAG, "   isVisibleToUser = " + isVisibleToUser + ";  mContainerView = " + mContainerView);
-        if (mContainerView != null && isVisibleToUser) {
+        LoggerUtils.i("local-data", "   isVisibleToUser = " + isVisibleToUser + ";  mContainerView = " + mContainerView);
+        if (mContainerView != null && isVisibleToUser && mFirst) {
             LoggerUtils.i(TAG, "AbsBaseViewPagerFragment setUserVisibleHint visible ");
+            mFirst = false;
             visible();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
         }
     }

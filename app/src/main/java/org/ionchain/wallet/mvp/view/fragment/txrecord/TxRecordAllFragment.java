@@ -33,6 +33,10 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
         }
     }
 
+    @Override
+    protected void visible() {
+        
+    }
 
     /**
      * 数据集指向新的钱包记录
@@ -41,7 +45,7 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
      */
     @Override
     public void onAddressChanged(WalletBeanNew currentWallet) {
-        LoggerUtils.i("地址切换");
+        LoggerUtils.i("local-data", "地址切换");
         mWalletBeanNew = currentWallet;
         mListIn.clear();
         mListOut.clear();
@@ -51,7 +55,7 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
             return;
         }
         mCommonAdapter.notifyDataSetChanged();
-        getLocalData();
+        getLocalData();//onAddressChanged
     }
 
     @Override

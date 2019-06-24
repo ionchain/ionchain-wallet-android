@@ -72,8 +72,8 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     @Override
     protected void visible() {
-        LoggerUtils.i("visible ", "TAG_NAME = " + TAG_NAME + " visible() = " + isVisible());
-        getLocalData();
+        LoggerUtils.i("local-data ", "TAG_NAME = " + TAG_NAME + " visible() = " + isVisible());
+        getLocalData();//可见 visible ,左右切换不刷新数据
     }
 
     /**
@@ -84,8 +84,8 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     protected void initData() {
 
-        LoggerUtils.i(TAG, "initData ");
-        getLocalData();
+        LoggerUtils.i("local-data", "initData ");
+        getLocalData(); //初始化
 //        getNetData();
     }
 
@@ -96,13 +96,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         /*
          * 获取本地数据集的缓存
          */
-
-        mListOutTemp.clear();
-        mListInTemp.clear();
-
-        mListOutTemp = IONCWalletSDK.getInstance().getAllTxRecordByTxOutAddress(address);
-        mListInTemp = IONCWalletSDK.getInstance().getAllTxRecordBeansByTxInAddress(address);
-        LoggerUtils.i("local-data", "访问本地数据库.........."); // TODO: 2019-06-21 可优化
+        LoggerUtils.i("local-data", "访问本地数据库.........." + " mListOutTemp.s  = " + mListOutTemp.size()+ " mListInTemp.s  = " + mListInTemp.size()); // TODO: 2019-06-21 可优化
         switch (getType()) {
             case TYPE_ALL:
                 /*
@@ -114,6 +108,10 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                  * 2.1 、交易时间存在则，不添加；
                  * 2.2、不存在，则添加
                  */
+                mListOutTemp.clear();
+                mListInTemp.clear();
+                mListOutTemp = IONCWalletSDK.getInstance().getAllTxRecordByTxOutAddress(address);
+                mListInTemp = IONCWalletSDK.getInstance().getAllTxRecordBeansByTxInAddress(address);
                 if (mListOutTemp.size() == 0 && mListInTemp.size() == 0) {
                     ToastUtil.showToastLonger(getAppString(R.string.tx_record_none));
                     return;
@@ -125,6 +123,8 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 Collections.sort(mListData);
                 break;
             case TYPE_OUT:
+                mListOutTemp.clear();
+                mListOutTemp = IONCWalletSDK.getInstance().getAllTxRecordByTxOutAddress(address);
                 if (mListOutTemp.size() == 0) {
                     ToastUtil.showToastLonger(getAppString(R.string.tx_record_none));
                     return;
@@ -134,6 +134,8 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 Collections.sort(mListOut);
                 break;
             case TYPE_IN:
+                mListInTemp.clear();
+                mListInTemp = IONCWalletSDK.getInstance().getAllTxRecordBeansByTxInAddress(address);
                 if (mListInTemp.size() == 0) {
                     ToastUtil.showToastLonger(getAppString(R.string.tx_record_none));
                     return;
