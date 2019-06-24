@@ -1,8 +1,5 @@
 package org.ionchain.wallet.mvp.view.fragment.txrecord;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.sdk.IONCWalletSDK;
@@ -29,29 +26,18 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
      */
     @Override
     protected void onAfterNetDataSuccess(List<TxRecordBean> listNet) {
+        if (listNet.size() == 0) {
+            LoggerUtils.i("beannet", "size = 0,无新数据");
+            return;
+        }
         int size = mListData.size();
+        LoggerUtils.i("beannet", "size = " + size);
         for (TxRecordBean b :
                 listNet) {
-
-            for (int i = 0; i < size; i++) {
-                if (TextUtils.isEmpty(mListData.get(i).getHash())) {
-                    Log.i("beannet", "本地哈希为空 ");
-                    continue;
-                }
-                if (b.getHash().contains(mListData.get(i).getHash())) {
-                    Log.i("beannet", "已存在 = " + mListData.get(i).getHash() + " = " + b.getHash());
-                }
-            }
-            Log.i("beannet", "不存在 = " + b.toString());
-            mListData.add(b);
-
+            mListData.add(0, b);
+            IONCWalletSDK.getInstance().saveTxRecordBean(b);
         }
         mCommonAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void visible() {
-
     }
 
     /**

@@ -51,6 +51,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
 
     protected String TAG = "visible";
     protected String TAG_NAME;
+
     /**
      * 当前钱包
      */
@@ -104,8 +105,6 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
         this.TAG_NAME = this.getClass().getSimpleName();
     }
 
-
-    protected boolean mFirst = true;
     protected boolean mVisibleToUser;
 
     /*
@@ -116,9 +115,8 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
         super.setUserVisibleHint(isVisibleToUser);
         mVisibleToUser = isVisibleToUser;
         LoggerUtils.i("local-data", "   isVisibleToUser = " + isVisibleToUser + ";  mContainerView = " + mContainerView);
-        if (mContainerView != null && isVisibleToUser && mFirst) {
+        if (mContainerView != null && isVisibleToUser) {
             LoggerUtils.i(TAG, "AbsBaseViewPagerFragment setUserVisibleHint visible ");
-            mFirst = false;
             visible();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
         }
     }

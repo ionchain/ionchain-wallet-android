@@ -38,6 +38,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     private List<TxRecordBean> mListOutTemp = new ArrayList<>();
     private List<TxRecordBean> mListInTemp = new ArrayList<>();
 
+    private String tag = "binny";
     /**
      * @param walletBeanNew 初始化所所需的钱保
      */
@@ -70,7 +71,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     @Override
     protected void visible() {
-        LoggerUtils.i("local-data ", "TAG_NAME = " + TAG_NAME + " visible() = " + isVisible());
+        LoggerUtils.i(tag, "TAG_NAME = " + TAG_NAME + " visible() = " + isVisible());
         getLocalData();//可见 visible ,左右切换不刷新数据
     }
 
@@ -82,7 +83,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     protected void initData() {
 
-        LoggerUtils.i("local-data", "initData ");
+        LoggerUtils.i(tag, "initData ");
         getLocalData(); //初始化
 //        getNetData();
     }
@@ -94,7 +95,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         /*
          * 获取本地数据集的缓存
          */
-        LoggerUtils.i("local-data", "访问本地数据库.........." + " mListOutTemp.s  = " + mListOutTemp.size()+ " mListInTemp.s  = " + mListInTemp.size()); // TODO: 2019-06-21 可优化
+        LoggerUtils.i(tag, "访问本地数据库.........." + " mListOutTemp.s  = " + mListOutTemp.size() + " mListInTemp.s  = " + mListInTemp.size()); // TODO: 2019-06-21 可优化
         switch (getType()) {
             case TYPE_ALL:
                 /*
@@ -117,7 +118,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 mListData.clear();
                 mListData.addAll(mListOutTemp);
                 mListData.addAll(mListInTemp);
-                LoggerUtils.i("mListDataTemp.size = " + mListDataTemp.size());
+                LoggerUtils.i(tag,"mListDataTemp.size = " + mListDataTemp.size());
                 Collections.sort(mListData);
                 break;
             case TYPE_OUT:
@@ -129,6 +130,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 }
                 mListOut.clear();
                 mListOut.addAll(mListOutTemp);
+                LoggerUtils.i(tag,"mListDataOutTemp.size = " + mListDataTemp.size());
                 Collections.sort(mListOut);
                 break;
             case TYPE_IN:
@@ -140,6 +142,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 }
                 mListIn.clear();
                 mListIn.addAll(mListInTemp);
+                LoggerUtils.i(tag,"mListDataInTemp.size = " + mListDataTemp.size());
                 Collections.sort(mListIn);
                 break;
         }
@@ -161,37 +164,152 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      */
     @Override
     public void onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean beans) {
-        LoggerUtils.i("beannet", "网络请求成功");
         mListNetTemp.clear();
-        for (TxRecordBeanTemp.DataBean.ItemBean itemBean :
-                beans.getData()) {
-            LoggerUtils.i("beannet", "网络请求成功" + beans.toString());
-            TxRecordBean bean = new TxRecordBean();
-            bean.setHash(itemBean.getHash());
-            bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
-            bean.setTo(itemBean.getTx_to());
-            bean.setFrom(itemBean.getTx_from());
-            bean.setValue(itemBean.getValue());
-            bean.setSuccess(true);
-            bean.setGas(itemBean.getGas());
-            bean.setNonce(itemBean.getNonce());
-            bean.setBlockNumber(String.valueOf(itemBean.getBlockNumber()));//可以作为是否交易成功的展示依据
-//            switch (getType()) {
-//                case TYPE_ALL:
-//                    mListData.add(bean);
-//                    break;
-//                case TYPE_OUT:
-//                    mListOut.add(bean);
-//                    break;
-//                case TYPE_IN:
-//                    mListIn.add(bean);
-//                    break;
-//            }
-            IONCWalletSDK.getInstance().saveTxRecordBean(bean);
-            mListNetTemp.add(bean);
+        boolean exist = false;
+        List<TxRecordBean> txRecordBeans = new ArrayList<>();
+        switch (getType()) {
+            case TYPE_ALL:
+
+                mListNetTemp.addAll(mListData);
+
+                for (TxRecordBeanTemp.DataBean.ItemBean itemBean :
+                        beans.getData()) {
+                    LoggerUtils.i(tag, "网络请求成功" + beans.toString());
+                    for (TxRecordBean t :
+                            mListNetTemp) {
+                        if (itemBean.getHash().equals(t.getHash())) {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist) {
+                        TxRecordBean bean = new TxRecordBean();
+                        bean.setHash(itemBean.getHash());
+                        bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
+                        bean.setTo(itemBean.getTx_to());
+                        bean.setFrom(itemBean.getTx_from());
+                        bean.setValue(itemBean.getValue());
+                        bean.setSuccess(true);
+                        bean.setGas(itemBean.getGas());
+                        bean.setNonce(itemBean.getNonce());
+                        bean.setBlockNumber(String.valueOf(itemBean.getBlockNumber()));//可以作为是否交易成功的展示依据
+                        txRecordBeans.add(bean);
+                    } else {
+                        break;
+                    }
+                }
+                LoggerUtils.i(tag, "all size  = " + txRecordBeans.size());
+                break;
+            case TYPE_OUT:
+                mListNetTemp.addAll(mListOut);
+                for (TxRecordBeanTemp.DataBean.ItemBean itemBean :
+                        beans.getData()) {
+                    LoggerUtils.i(tag, "网络请求成功" + beans.toString());
+                    if (!itemBean.getTx_from().equals(mWalletBeanNew.getAddress())) {
+                        continue;
+                    }
+                    for (TxRecordBean t :
+                            mListNetTemp) {
+                        if (itemBean.getHash().equals(t.getHash())) {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist) {
+                        TxRecordBean bean = new TxRecordBean();
+                        bean.setHash(itemBean.getHash());
+                        bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
+                        bean.setTo(itemBean.getTx_to());
+                        bean.setFrom(itemBean.getTx_from());
+                        bean.setValue(itemBean.getValue());
+                        bean.setSuccess(true);
+                        bean.setGas(itemBean.getGas());
+                        bean.setNonce(itemBean.getNonce());
+                        bean.setBlockNumber(String.valueOf(itemBean.getBlockNumber()));//可以作为是否交易成功的展示依据
+                        txRecordBeans.add(bean);
+                    } else {
+                        break;
+                    }
+                    LoggerUtils.i(tag, "out size  = " + txRecordBeans.size());
+                }
+                break;
+            case TYPE_IN:
+                mListNetTemp.addAll(mListIn);
+                for (TxRecordBeanTemp.DataBean.ItemBean itemBean :
+                        beans.getData()) {
+                    if (!itemBean.getTx_to().equals(mWalletBeanNew.getAddress())) {
+                        LoggerUtils.i(tag, "to = " + itemBean.getTx_to() + ", address = " + mWalletBeanNew.getAddress());
+                        continue;
+                    }
+                    LoggerUtils.i(tag, "网络请求成功" + beans.toString());
+                    for (TxRecordBean t :
+                            mListNetTemp) {
+                        if (itemBean.getHash().equals(t.getHash())) {
+                            exist = true;
+                            LoggerUtils.i(tag,"存在 哈希 = "+t.getHash());
+                            break;
+                        }
+                    }
+                    if (!exist) {
+                        LoggerUtils.i(tag,"不存在 哈希 = ");
+                        TxRecordBean bean = new TxRecordBean();
+                        bean.setHash(itemBean.getHash());
+                        bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
+                        bean.setTo(itemBean.getTx_to());
+                        bean.setFrom(itemBean.getTx_from());
+                        bean.setValue(itemBean.getValue());
+                        bean.setSuccess(true);
+                        bean.setGas(itemBean.getGas());
+                        bean.setNonce(itemBean.getNonce());
+                        bean.setBlockNumber(String.valueOf(itemBean.getBlockNumber()));//可以作为是否交易成功的展示依据
+                        txRecordBeans.add(bean);
+                    } else {
+                        break;
+                    }
+                }
+                LoggerUtils.i(tag, "in size  = " + txRecordBeans.size());
+                break;
+
         }
-        LoggerUtils.i("beannet", mListNetTemp.size());
-        onAfterNetDataSuccess(mListNetTemp);
+
+
+//        onAfterNetDataSuccess(txRecordBeans);
+        if (txRecordBeans.size() == 0) {
+            LoggerUtils.i(tag, "size = 0,无新数据");
+            return;
+        }
+        int size = 0;
+        switch (getType()) {
+            case TYPE_ALL:
+                size = mListData.size();
+                LoggerUtils.i(tag, "size = " + size);
+                for (TxRecordBean b :
+                        txRecordBeans) {
+                    mListData.add(0, b);
+                    IONCWalletSDK.getInstance().saveTxRecordBean(b);
+                }
+                break;
+            case TYPE_OUT:
+                size = mListOut.size();
+
+                for (TxRecordBean b :
+                        txRecordBeans) {
+                    mListOut.add(0, b);
+                    IONCWalletSDK.getInstance().saveTxRecordBean(b);
+                    LoggerUtils.i(tag, "save-out-size = " + size);
+                }
+                break;
+            case TYPE_IN:
+                size = mListIn.size();
+                LoggerUtils.i(tag, "size = " + size);
+                for (TxRecordBean b :
+                        txRecordBeans) {
+                    mListIn.add(0, b);
+                    IONCWalletSDK.getInstance().saveTxRecordBean(b);
+                }
+                break;
+        }
+        mCommonAdapter.notifyDataSetChanged();
     }
 
 

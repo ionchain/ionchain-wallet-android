@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".mvp.view.activity.transaction.TxRecordDetailActivity"/>
+        <activity android:name=".mvp.view.activity.transaction.TxRecordDetailActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".mvp.view.activity.coin.SelectCoinActivity" />
         <activity
             android:name=".mvp.view.activity.setting.SettingLanguageActivity"

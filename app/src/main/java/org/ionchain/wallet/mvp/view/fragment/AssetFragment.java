@@ -333,6 +333,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     protected void setListener() {
         super.setListener();
+
         /*
          * 更多钱包
          * */
