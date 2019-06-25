@@ -35,7 +35,7 @@ import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_TX_RECORD;
  * 2、如果网络数据获取失败，则直接显示本地数据
  * 3、如果网络数据获取成功，则对比本地缓存的未记录的数据，并更新本地数据
  */
-public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment implements OnTxRecordBrowserDataCallback, AssetFragment.OnPullToRefreshCallback, OnTxRecordFromNodeCallback {
+public abstract class  AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment implements OnTxRecordBrowserDataCallback, AssetFragment.OnPullToRefreshCallback, OnTxRecordFromNodeCallback {
 
     private List<TxRecordBean> mListOutTemp = new ArrayList<>();
     private List<TxRecordBean> mListInTemp = new ArrayList<>();

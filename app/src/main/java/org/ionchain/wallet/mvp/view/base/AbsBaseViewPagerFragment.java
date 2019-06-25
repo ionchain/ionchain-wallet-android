@@ -112,7 +112,13 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
         if (mContainerView != null && isVisibleToUser) {
             LoggerUtils.i(TAG, "AbsBaseViewPagerFragment setUserVisibleHint visible ");
             visible();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
+        }else {
+            unVisible();
         }
+    }
+
+    public void unVisible() {
+
     }
 
     /**

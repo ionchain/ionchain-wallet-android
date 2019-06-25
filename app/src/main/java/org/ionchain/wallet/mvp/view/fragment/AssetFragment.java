@@ -242,7 +242,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     protected void handleShow() {
-        LoggerUtils.i("method", "handleShow");
+        LoggerUtils.i("method","handleShow"+"   AssetFragment");
         mImmersionBar.statusBarColor(R.color.blue_top).statusBarDarkFont(false).execute();
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         if (mCurrentWallet == null) {
@@ -263,7 +263,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     protected void handleHidden() {
-        LoggerUtils.i("method", "handleHidden");
+        LoggerUtils.i("method","handleHidden"+"   AssetFragment");
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_PRICE);
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_NODE);
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_RMB_RATE);
@@ -272,7 +272,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        LoggerUtils.i("method", "onResume");
+        LoggerUtils.i("method","onResume"+"   AssetFragment");
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
 
