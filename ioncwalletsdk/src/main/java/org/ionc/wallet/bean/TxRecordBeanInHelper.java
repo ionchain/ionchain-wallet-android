@@ -8,14 +8,14 @@ import org.greenrobot.greendao.annotation.Generated;
 public class TxRecordBeanInHelper {
     @Id(autoincrement = true)
     private Long id;
-    private Long indexMax;
-    private String publicKey;
+    private Long indexMaxForIn;
+    private String toAddress;
 
-    @Generated(hash = 965216298)
-    public TxRecordBeanInHelper(Long id, Long indexMax, String publicKey) {
+    @Generated(hash = 1355299878)
+    public TxRecordBeanInHelper(Long id, Long indexMaxForIn, String toAddress) {
         this.id = id;
-        this.indexMax = indexMax;
-        this.publicKey = publicKey;
+        this.indexMaxForIn = indexMaxForIn;
+        this.toAddress = toAddress;
     }
 
     @Generated(hash = 1383857116)
@@ -30,19 +30,19 @@ public class TxRecordBeanInHelper {
         this.id = id;
     }
 
-    public Long getIndexMax() {
-        return indexMax;
+    public Long getIndexMaxForIn() {
+        return indexMaxForIn;
     }
 
-    public void setIndexMax(Long indexMax) {
-        this.indexMax = indexMax;
+    public void setIndexMaxForIn(Long indexMaxForIn) {
+        this.indexMaxForIn = indexMaxForIn;
     }
 
-    public String getPublicKey() {
-        return publicKey;
+    public String getToAddress() {
+        return toAddress;
     }
 
-    public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
     }
 }

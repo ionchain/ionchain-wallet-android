@@ -25,7 +25,7 @@ public class TxRecordBeanAllHelperDao extends AbstractDao<TxRecordBeanAllHelper,
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property IndexMax = new Property(1, Long.class, "indexMax", false, "INDEX_MAX");
+        public final static Property IndexMaxForAll = new Property(1, Long.class, "indexMaxForAll", false, "INDEX_MAX_FOR_ALL");
         public final static Property PublicKey = new Property(2, String.class, "publicKey", false, "PUBLIC_KEY");
     }
 
@@ -43,7 +43,7 @@ public class TxRecordBeanAllHelperDao extends AbstractDao<TxRecordBeanAllHelper,
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"TX_RECORD_BEAN_ALL_HELPER\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"INDEX_MAX\" INTEGER," + // 1: indexMax
+                "\"INDEX_MAX_FOR_ALL\" INTEGER," + // 1: indexMaxForAll
                 "\"PUBLIC_KEY\" TEXT);"); // 2: publicKey
     }
 
@@ -62,9 +62,9 @@ public class TxRecordBeanAllHelperDao extends AbstractDao<TxRecordBeanAllHelper,
             stmt.bindLong(1, id);
         }
  
-        Long indexMax = entity.getIndexMax();
-        if (indexMax != null) {
-            stmt.bindLong(2, indexMax);
+        Long indexMaxForAll = entity.getIndexMaxForAll();
+        if (indexMaxForAll != null) {
+            stmt.bindLong(2, indexMaxForAll);
         }
  
         String publicKey = entity.getPublicKey();
@@ -82,9 +82,9 @@ public class TxRecordBeanAllHelperDao extends AbstractDao<TxRecordBeanAllHelper,
             stmt.bindLong(1, id);
         }
  
-        Long indexMax = entity.getIndexMax();
-        if (indexMax != null) {
-            stmt.bindLong(2, indexMax);
+        Long indexMaxForAll = entity.getIndexMaxForAll();
+        if (indexMaxForAll != null) {
+            stmt.bindLong(2, indexMaxForAll);
         }
  
         String publicKey = entity.getPublicKey();
@@ -102,7 +102,7 @@ public class TxRecordBeanAllHelperDao extends AbstractDao<TxRecordBeanAllHelper,
     public TxRecordBeanAllHelper readEntity(Cursor cursor, int offset) {
         TxRecordBeanAllHelper entity = new TxRecordBeanAllHelper( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // indexMax
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // indexMaxForAll
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // publicKey
         );
         return entity;
@@ -111,7 +111,7 @@ public class TxRecordBeanAllHelperDao extends AbstractDao<TxRecordBeanAllHelper,
     @Override
     public void readEntity(Cursor cursor, TxRecordBeanAllHelper entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setIndexMax(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setIndexMaxForAll(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
         entity.setPublicKey(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
      }
     

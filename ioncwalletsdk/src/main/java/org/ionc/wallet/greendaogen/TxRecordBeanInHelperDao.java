@@ -25,8 +25,8 @@ public class TxRecordBeanInHelperDao extends AbstractDao<TxRecordBeanInHelper, L
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property IndexMax = new Property(1, Long.class, "indexMax", false, "INDEX_MAX");
-        public final static Property PublicKey = new Property(2, String.class, "publicKey", false, "PUBLIC_KEY");
+        public final static Property IndexMaxForIn = new Property(1, Long.class, "indexMaxForIn", false, "INDEX_MAX_FOR_IN");
+        public final static Property ToAddress = new Property(2, String.class, "toAddress", false, "TO_ADDRESS");
     }
 
 
@@ -43,8 +43,8 @@ public class TxRecordBeanInHelperDao extends AbstractDao<TxRecordBeanInHelper, L
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"TX_RECORD_BEAN_IN_HELPER\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"INDEX_MAX\" INTEGER," + // 1: indexMax
-                "\"PUBLIC_KEY\" TEXT);"); // 2: publicKey
+                "\"INDEX_MAX_FOR_IN\" INTEGER," + // 1: indexMaxForIn
+                "\"TO_ADDRESS\" TEXT);"); // 2: toAddress
     }
 
     /** Drops the underlying database table. */
@@ -62,14 +62,14 @@ public class TxRecordBeanInHelperDao extends AbstractDao<TxRecordBeanInHelper, L
             stmt.bindLong(1, id);
         }
  
-        Long indexMax = entity.getIndexMax();
-        if (indexMax != null) {
-            stmt.bindLong(2, indexMax);
+        Long indexMaxForIn = entity.getIndexMaxForIn();
+        if (indexMaxForIn != null) {
+            stmt.bindLong(2, indexMaxForIn);
         }
  
-        String publicKey = entity.getPublicKey();
-        if (publicKey != null) {
-            stmt.bindString(3, publicKey);
+        String toAddress = entity.getToAddress();
+        if (toAddress != null) {
+            stmt.bindString(3, toAddress);
         }
     }
 
@@ -82,14 +82,14 @@ public class TxRecordBeanInHelperDao extends AbstractDao<TxRecordBeanInHelper, L
             stmt.bindLong(1, id);
         }
  
-        Long indexMax = entity.getIndexMax();
-        if (indexMax != null) {
-            stmt.bindLong(2, indexMax);
+        Long indexMaxForIn = entity.getIndexMaxForIn();
+        if (indexMaxForIn != null) {
+            stmt.bindLong(2, indexMaxForIn);
         }
  
-        String publicKey = entity.getPublicKey();
-        if (publicKey != null) {
-            stmt.bindString(3, publicKey);
+        String toAddress = entity.getToAddress();
+        if (toAddress != null) {
+            stmt.bindString(3, toAddress);
         }
     }
 
@@ -102,8 +102,8 @@ public class TxRecordBeanInHelperDao extends AbstractDao<TxRecordBeanInHelper, L
     public TxRecordBeanInHelper readEntity(Cursor cursor, int offset) {
         TxRecordBeanInHelper entity = new TxRecordBeanInHelper( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // indexMax
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // publicKey
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // indexMaxForIn
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // toAddress
         );
         return entity;
     }
@@ -111,8 +111,8 @@ public class TxRecordBeanInHelperDao extends AbstractDao<TxRecordBeanInHelper, L
     @Override
     public void readEntity(Cursor cursor, TxRecordBeanInHelper entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setIndexMax(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setPublicKey(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setIndexMaxForIn(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setToAddress(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
      }
     
     @Override

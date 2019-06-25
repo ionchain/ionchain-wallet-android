@@ -25,8 +25,8 @@ public class TxRecordBeanOutHelperDao extends AbstractDao<TxRecordBeanOutHelper,
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property IndexMax = new Property(1, Long.class, "indexMax", false, "INDEX_MAX");
-        public final static Property PublicKey = new Property(2, String.class, "publicKey", false, "PUBLIC_KEY");
+        public final static Property IndexMaxForOut = new Property(1, Long.class, "indexMaxForOut", false, "INDEX_MAX_FOR_OUT");
+        public final static Property FromAddress = new Property(2, String.class, "fromAddress", false, "FROM_ADDRESS");
     }
 
 
@@ -43,8 +43,8 @@ public class TxRecordBeanOutHelperDao extends AbstractDao<TxRecordBeanOutHelper,
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"TX_RECORD_BEAN_OUT_HELPER\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"INDEX_MAX\" INTEGER," + // 1: indexMax
-                "\"PUBLIC_KEY\" TEXT);"); // 2: publicKey
+                "\"INDEX_MAX_FOR_OUT\" INTEGER," + // 1: indexMaxForOut
+                "\"FROM_ADDRESS\" TEXT);"); // 2: fromAddress
     }
 
     /** Drops the underlying database table. */
@@ -62,14 +62,14 @@ public class TxRecordBeanOutHelperDao extends AbstractDao<TxRecordBeanOutHelper,
             stmt.bindLong(1, id);
         }
  
-        Long indexMax = entity.getIndexMax();
-        if (indexMax != null) {
-            stmt.bindLong(2, indexMax);
+        Long indexMaxForOut = entity.getIndexMaxForOut();
+        if (indexMaxForOut != null) {
+            stmt.bindLong(2, indexMaxForOut);
         }
  
-        String publicKey = entity.getPublicKey();
-        if (publicKey != null) {
-            stmt.bindString(3, publicKey);
+        String fromAddress = entity.getFromAddress();
+        if (fromAddress != null) {
+            stmt.bindString(3, fromAddress);
         }
     }
 
@@ -82,14 +82,14 @@ public class TxRecordBeanOutHelperDao extends AbstractDao<TxRecordBeanOutHelper,
             stmt.bindLong(1, id);
         }
  
-        Long indexMax = entity.getIndexMax();
-        if (indexMax != null) {
-            stmt.bindLong(2, indexMax);
+        Long indexMaxForOut = entity.getIndexMaxForOut();
+        if (indexMaxForOut != null) {
+            stmt.bindLong(2, indexMaxForOut);
         }
  
-        String publicKey = entity.getPublicKey();
-        if (publicKey != null) {
-            stmt.bindString(3, publicKey);
+        String fromAddress = entity.getFromAddress();
+        if (fromAddress != null) {
+            stmt.bindString(3, fromAddress);
         }
     }
 
@@ -102,8 +102,8 @@ public class TxRecordBeanOutHelperDao extends AbstractDao<TxRecordBeanOutHelper,
     public TxRecordBeanOutHelper readEntity(Cursor cursor, int offset) {
         TxRecordBeanOutHelper entity = new TxRecordBeanOutHelper( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // indexMax
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // publicKey
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // indexMaxForOut
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // fromAddress
         );
         return entity;
     }
@@ -111,8 +111,8 @@ public class TxRecordBeanOutHelperDao extends AbstractDao<TxRecordBeanOutHelper,
     @Override
     public void readEntity(Cursor cursor, TxRecordBeanOutHelper entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setIndexMax(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setPublicKey(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setIndexMaxForOut(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setFromAddress(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
      }
     
     @Override

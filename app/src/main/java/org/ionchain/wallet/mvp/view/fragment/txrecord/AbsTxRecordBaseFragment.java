@@ -317,12 +317,12 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     if (txRecordBeanAllHelper == null) {
                         txRecordBeanAllHelper = new TxRecordBeanAllHelper();
                         txRecordBeanAllHelper.setPublicKey(mWalletBeanNew.getPublic_key());
-                        txRecordBeanAllHelper.setIndexMax(1L);
+                        txRecordBeanAllHelper.setIndexMaxForAll(1L);
                         b.setIndex(1L);
                         IONCWalletSDK.getInstance().saveCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
                     } else {
-                        txRecordBeanAllHelper.setIndexMax(txRecordBeanAllHelper.getIndexMax() + 1);
-                        b.setIndex(txRecordBeanAllHelper.getIndexMax());
+                        txRecordBeanAllHelper.setIndexMaxForAll(txRecordBeanAllHelper.getIndexMaxForAll() + 1);
+                        b.setIndex(txRecordBeanAllHelper.getIndexMaxForAll());
                         IONCWalletSDK.getInstance().updateCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
                     }
                     b.setPublicKey(mWalletBeanNew.getPublic_key());
@@ -339,15 +339,15 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     if (txRecordBeanAllHelper == null) {
                         txRecordBeanAllHelper = new TxRecordBeanAllHelper();
                         txRecordBeanAllHelper.setPublicKey(mWalletBeanNew.getPublic_key());
-                        txRecordBeanAllHelper.setIndexMax(1L);
+                        txRecordBeanAllHelper.setIndexMaxForAll(1L);
                         b.setIndex(1L);
                         IONCWalletSDK.getInstance().saveCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
                     } else {
-                        txRecordBeanAllHelper.setIndexMax(txRecordBeanAllHelper.getIndexMax() + 1);
+                        txRecordBeanAllHelper.setIndexMaxForAll(txRecordBeanAllHelper.getIndexMaxForAll() + 1);
                         b.setPublicKey(mWalletBeanNew.getPublic_key());
                         IONCWalletSDK.getInstance().updateCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
                     }
-                    b.setIndex(txRecordBeanAllHelper.getIndexMax() + 1);
+                    b.setIndex(txRecordBeanAllHelper.getIndexMaxForAll() + 1);
 
                     mListOut.add(0, b);
                     IONCWalletSDK.getInstance().saveTxRecordBean(b);
@@ -362,12 +362,12 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     if (txRecordBeanAllHelper == null) {
                         txRecordBeanAllHelper = new TxRecordBeanAllHelper();
                         txRecordBeanAllHelper.setPublicKey(mWalletBeanNew.getPublic_key());
-                        txRecordBeanAllHelper.setIndexMax(1L);
+                        txRecordBeanAllHelper.setIndexMaxForAll(1L);
                         b.setIndex(1L);
                         IONCWalletSDK.getInstance().saveCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
                     } else {
-                        txRecordBeanAllHelper.setIndexMax(txRecordBeanAllHelper.getIndexMax() + 1);
-                        b.setIndex(txRecordBeanAllHelper.getIndexMax() + 1);
+                        txRecordBeanAllHelper.setIndexMaxForAll(txRecordBeanAllHelper.getIndexMaxForAll() + 1);
+                        b.setIndex(txRecordBeanAllHelper.getIndexMaxForAll() + 1);
 
                         IONCWalletSDK.getInstance().updateCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
                     }
@@ -456,7 +456,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         /*
          * 先得到当期页的条目数
          */
-        long indexMax = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mWalletBeanNew.getPublic_key()).getIndexMax();
+        long indexMax = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mWalletBeanNew.getPublic_key()).getIndexMaxForAll();
         LoggerUtils.i("method", "onPullToUp" + "   AbsTxRecordBaseFragment " + indexMax);
         long fromId = 0; //包括
         long toId = 0;   //包括

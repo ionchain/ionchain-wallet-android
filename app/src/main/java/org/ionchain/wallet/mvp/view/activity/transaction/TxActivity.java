@@ -225,11 +225,11 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         TxRecordBeanAllHelper txRecordBeanAllHelper = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mWalletBeanNew.getPublic_key());
         if (txRecordBeanAllHelper == null) {
             txRecordBeanAllHelper = new TxRecordBeanAllHelper();
-            txRecordBeanAllHelper.setIndexMax((long) 1);
+            txRecordBeanAllHelper.setIndexMaxForAll((long) 1);
             txRecordBeanAllHelper.setPublicKey(mWalletBeanNew.getPublic_key());
             IONCWalletSDK.getInstance().saveCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
         } else {
-            txRecordBeanAllHelper.setIndexMax(txRecordBeanAllHelper.getIndexMax()+1);
+            txRecordBeanAllHelper.setIndexMaxForAll(txRecordBeanAllHelper.getIndexMaxForAll()+1);
             IONCWalletSDK.getInstance().updateCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
         }
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
@@ -262,11 +262,11 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         TxRecordBeanAllHelper txRecordBeanAllHelper = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mWalletBeanNew.getPublic_key());
         if (txRecordBeanAllHelper == null) {
             txRecordBeanAllHelper = new TxRecordBeanAllHelper();
-            txRecordBeanAllHelper.setIndexMax((long) 1);
+            txRecordBeanAllHelper.setIndexMaxForAll((long) 1);
             txRecordBeanAllHelper.setPublicKey(mWalletBeanNew.getPublic_key());
             IONCWalletSDK.getInstance().saveCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
         } else {
-            txRecordBeanAllHelper.setIndexMax(txRecordBeanAllHelper.getIndexMax()+1);
+            txRecordBeanAllHelper.setIndexMaxForAll(txRecordBeanAllHelper.getIndexMaxForAll()+1);
             IONCWalletSDK.getInstance().updateCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
         }
         Intent intent = new Intent();
