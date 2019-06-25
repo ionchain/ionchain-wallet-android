@@ -5,21 +5,21 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public class TxRecordBeanHelper {
+public class TxRecordBeanOutHelper {
     @Id(autoincrement = true)
     private Long id;
     private Long indexMax;
     private String publicKey;
 
-    @Generated(hash = 1496552963)
-    public TxRecordBeanHelper(Long id, Long indexMax, String publicKey) {
+    @Generated(hash = 1853734427)
+    public TxRecordBeanOutHelper(Long id, Long indexMax, String publicKey) {
         this.id = id;
         this.indexMax = indexMax;
         this.publicKey = publicKey;
     }
 
-    @Generated(hash = 409002779)
-    public TxRecordBeanHelper() {
+    @Generated(hash = 1718105565)
+    public TxRecordBeanOutHelper() {
     }
 
     public Long getId() {
@@ -44,14 +44,5 @@ public class TxRecordBeanHelper {
 
     public void setPublicKey(String publicKey) {
         this.publicKey = publicKey;
-    }
-
-    @Override
-    public String toString() {
-        return "TxRecordBeanHelper{" +
-                "id=" + id +
-                ", indexMax=" + indexMax +
-                ", publicKey='" + publicKey + '\'' +
-                '}';
     }
 }

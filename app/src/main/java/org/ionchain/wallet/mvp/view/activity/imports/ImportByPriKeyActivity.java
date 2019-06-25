@@ -207,6 +207,10 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
                     Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (IONCWalletSDK.getInstance().getWalletByName(nameStr)!=null) {
+                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
+                   return;
+                }
                 newPassword = pass;
                 showProgress(getString(R.string.importing_wallet));
                 IONCWalletSDK.getInstance()

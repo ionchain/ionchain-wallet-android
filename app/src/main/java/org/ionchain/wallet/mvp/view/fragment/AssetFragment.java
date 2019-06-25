@@ -858,7 +858,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         mTxRecordAllFragment.onPullToUp(mCurrentWallet);
-        mRefresh.finishLoadMore(2000);
+        mRefresh.finishLoadMore(500);
     }
 
     public interface OnPullToRefreshCallback {

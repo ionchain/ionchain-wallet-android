@@ -134,6 +134,10 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                     Toast.makeText(mActivity.getApplicationContext(), getAppString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (IONCWalletSDK.getInstance().getWalletByName(namestr)!=null) {
+                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 newPassword = pass;
                 showProgress(getAppString(R.string.importing_wallet));
                 IONCWalletSDK.getInstance()

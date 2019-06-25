@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.TxRecordBeanHelper;
+import org.ionc.wallet.bean.TxRecordBeanAllHelper;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnTransationCallback;
@@ -222,15 +222,15 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setNonce(String.valueOf(nonce));
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
         mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL);//可以作为是否交易成功的展示依据
-        TxRecordBeanHelper txRecordBeanHelper = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mWalletBeanNew.getPublic_key());
-        if (txRecordBeanHelper == null) {
-            txRecordBeanHelper = new TxRecordBeanHelper();
-            txRecordBeanHelper.setIndexMax((long) 1);
-            txRecordBeanHelper.setPublicKey(mWalletBeanNew.getPublic_key());
-            IONCWalletSDK.getInstance().saveTxRecordBeanHelper(txRecordBeanHelper);
+        TxRecordBeanAllHelper txRecordBeanAllHelper = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mWalletBeanNew.getPublic_key());
+        if (txRecordBeanAllHelper == null) {
+            txRecordBeanAllHelper = new TxRecordBeanAllHelper();
+            txRecordBeanAllHelper.setIndexMax((long) 1);
+            txRecordBeanAllHelper.setPublicKey(mWalletBeanNew.getPublic_key());
+            IONCWalletSDK.getInstance().saveCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
         } else {
-            txRecordBeanHelper.setIndexMax(txRecordBeanHelper.getIndexMax()+1);
-            IONCWalletSDK.getInstance().updateTxRecordBeanHelper(txRecordBeanHelper);
+            txRecordBeanAllHelper.setIndexMax(txRecordBeanAllHelper.getIndexMax()+1);
+            IONCWalletSDK.getInstance().updateCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
         }
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         Intent intent = new Intent();
@@ -259,15 +259,15 @@ public class TxActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setGasPrice(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
         mTxRecordBean.setBlockNumber(DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL);//可以作为是否交易成功的展示依据
-        TxRecordBeanHelper txRecordBeanHelper = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mWalletBeanNew.getPublic_key());
-        if (txRecordBeanHelper == null) {
-            txRecordBeanHelper = new TxRecordBeanHelper();
-            txRecordBeanHelper.setIndexMax((long) 1);
-            txRecordBeanHelper.setPublicKey(mWalletBeanNew.getPublic_key());
-            IONCWalletSDK.getInstance().saveTxRecordBeanHelper(txRecordBeanHelper);
+        TxRecordBeanAllHelper txRecordBeanAllHelper = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mWalletBeanNew.getPublic_key());
+        if (txRecordBeanAllHelper == null) {
+            txRecordBeanAllHelper = new TxRecordBeanAllHelper();
+            txRecordBeanAllHelper.setIndexMax((long) 1);
+            txRecordBeanAllHelper.setPublicKey(mWalletBeanNew.getPublic_key());
+            IONCWalletSDK.getInstance().saveCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
         } else {
-            txRecordBeanHelper.setIndexMax(txRecordBeanHelper.getIndexMax()+1);
-            IONCWalletSDK.getInstance().updateTxRecordBeanHelper(txRecordBeanHelper);
+            txRecordBeanAllHelper.setIndexMax(txRecordBeanAllHelper.getIndexMax()+1);
+            IONCWalletSDK.getInstance().updateCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
         }
         Intent intent = new Intent();
         intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);

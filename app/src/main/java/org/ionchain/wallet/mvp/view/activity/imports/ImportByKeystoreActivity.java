@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -60,6 +61,10 @@ public class ImportByKeystoreActivity extends AbsBaseCommonTitleThreeActivity im
             }
             if (mKeystore.getText() == null) {
                 org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
+                return;
+            }
+            if (IONCWalletSDK.getInstance().getWalletByName(namestr)!=null) {
+                Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
             keystoreStr = mKeystore.getText().toString();

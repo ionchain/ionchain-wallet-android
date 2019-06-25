@@ -2,8 +2,10 @@ package org.ionc.wallet.daohelper;
 
 
 import org.ionc.wallet.greendaogen.DaoSession;
+import org.ionc.wallet.greendaogen.TxRecordBeanAllHelperDao;
 import org.ionc.wallet.greendaogen.TxRecordBeanDao;
-import org.ionc.wallet.greendaogen.TxRecordBeanHelperDao;
+import org.ionc.wallet.greendaogen.TxRecordBeanInHelperDao;
+import org.ionc.wallet.greendaogen.TxRecordBeanOutHelperDao;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanNewDao;
 
@@ -44,14 +46,34 @@ public class EntityManager {
     }
 
     /**
-     * 创建 TxRecordBeanHelper 表实例
+     * 创建 TxRecordBeanAllHelper 表实例
      * old table
      *
      * @param daoSession
      * @return
      */
-    public TxRecordBeanHelperDao getTxRecordBeanHelper(DaoSession daoSession) {
-        return daoSession.getTxRecordBeanHelperDao();
+    public TxRecordBeanAllHelperDao getTxRecordBeanAllHelperDao(DaoSession daoSession) {
+        return daoSession.getTxRecordBeanAllHelperDao();
+    }   /**
+     * 创建 TxRecordBeanAllHelper 表实例
+     * old table
+     *
+     * @param daoSession
+     * @return
+     */
+    public TxRecordBeanInHelperDao getTxRecordBeanInHelperDao(DaoSession daoSession) {
+        return daoSession.getTxRecordBeanInHelperDao();
+    }
+
+    /**
+     * 创建 TxRecordBeanAllHelper 表实例
+     * old table
+     *
+     * @param daoSession
+     * @return
+     */
+    public TxRecordBeanOutHelperDao getTxRecordBeanOutHelperDao(DaoSession daoSession) {
+        return daoSession.getTxRecordBeanOutHelperDao();
     }
 
 
