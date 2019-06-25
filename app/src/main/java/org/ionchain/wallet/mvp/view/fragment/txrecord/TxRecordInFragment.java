@@ -1,7 +1,6 @@
 package org.ionchain.wallet.mvp.view.fragment.txrecord;
 
 import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
@@ -41,23 +40,4 @@ public class TxRecordInFragment extends AbsTxRecordBaseFragment implements OnTxR
         ToastUtil.showShortToast(error);
     }
 
-
-    @Override
-    public void onAddressChanged(WalletBeanNew currentWallet) {
-        LoggerUtils.i("地址切换，清空缓存 " + TAG + "mCommonAdapter = " + mTxRecordAdapter);
-        mListIn.clear();
-        if (mTxRecordAdapter == null) {
-            return;
-        }
-        mTxRecordAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onPullToDown(WalletBeanNew walletBeanNew) {
-        super.onPullToDown(walletBeanNew);
-        if (mVisibleToUser) {
-            LoggerUtils.i("beannet","in");
-            mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), "1", "10", this);
-        }
-    }
 }

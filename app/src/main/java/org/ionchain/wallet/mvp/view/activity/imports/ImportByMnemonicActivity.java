@@ -233,7 +233,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                 skip(MainActivity.class);
                 finish();
             }else {
-                skipToBack();
+                skipToBack(walletBean);
             }
         }
         hideProgress();
@@ -249,7 +249,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger(getAppString(R.string.update_success));
-        skipToBack();
+        skipToBack(wallet);
     }
 
     @Override

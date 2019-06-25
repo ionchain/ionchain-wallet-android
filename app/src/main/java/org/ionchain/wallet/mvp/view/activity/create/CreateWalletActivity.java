@@ -14,15 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
 import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
@@ -37,6 +38,8 @@ import java.util.List;
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
+import static org.ionchain.wallet.mvp.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 
 public class CreateWalletActivity extends AbsBaseActivity implements
         TextWatcher,
@@ -166,7 +169,8 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         importBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skip(SelectImportModeActivity.class);//
+                Intent intent = new Intent(mActivity, SelectImportModeActivity.class);
+                startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
             }
         });
         linkUrlTv.setOnClickListener(new View.OnClickListener() {
@@ -228,6 +232,21 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == NEW_WALLET_FOR_RESULT_CODE) {
+            Intent intent = new Intent();
+            WalletBeanNew walletBeanNew = null;
+            if (data != null) {
+                walletBeanNew = data.getParcelableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
+                LoggerUtils.i("requestCode", "requestCode = " + requestCode + "resultCode = " + resultCode + "address = " + walletBeanNew.getAddress());
+                intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, walletBeanNew);
+                setResult(NEW_WALLET_FOR_RESULT_CODE, intent);
+                finish();
+            }
+        }
+    }
 
     @Override
     public void onImportMnemonicSuccess(@NonNull WalletBeanNew walletBean) {
@@ -278,8 +297,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
         dialogMnemonic.dismiss();
         IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
-        skipToBack();
-
+        skipToBack(walletBean);
     }
 
 
@@ -328,6 +346,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         walletBean.setMnemonic("");
         IONCWalletSDK.getInstance().updateWallet(walletBean);
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
-        skip(MainActivity.class);
+        skipToBack(walletBean);
     }
 }

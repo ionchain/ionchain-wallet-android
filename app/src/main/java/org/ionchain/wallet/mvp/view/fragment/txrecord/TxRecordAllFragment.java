@@ -19,7 +19,7 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
 
     /**
      * 获取到网络数据之后{@link #onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean)}
-     * 将网络数据缓存到list view 的数据集中{@link #mListData}
+     * 将网络数据缓存到list view 的数据集中{@link #mListOutAndInData}
      * 在此处理
      *
      * @param listNet
@@ -30,48 +30,21 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
             LoggerUtils.i("beannet", "size = 0,无新数据");
             return;
         }
-        int size = mListData.size();
+        int size = mListOutAndInData.size();
         LoggerUtils.i("beannet", "size = " + size);
         for (TxRecordBean b :
                 listNet) {
-            mListData.add(0, b);
+            mListOutAndInData.add(0, b);
             IONCWalletSDK.getInstance().saveTxRecordBean(b);
         }
         mTxRecordAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * 数据集指向新的钱包记录
-     *
-     * @param currentWallet 新钱包
-     */
-    @Override
-    public void onAddressChanged(WalletBeanNew currentWallet) {
-        LoggerUtils.i("local-data", "地址切换");
-        mWalletBeanNew = currentWallet;
-        mListIn.clear();
-        mListOut.clear();
-        mListData.clear();
-        if (mTxRecordAdapter == null) {
-            LoggerUtils.i("地址切换 = mCommonAdapter999 =null");
-            return;
-        }
-        mTxRecordAdapter.notifyDataSetChanged();
-        getLocalData();//onAddressChanged
-    }
 
-    @Override
-    public void onPullToDown(WalletBeanNew walletBeanNew) {
-        super.onPullToDown(walletBeanNew);
-        if (mVisibleToUser) {
-            LoggerUtils.i("beannet", "all");
-            mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), "1", "10", this);
-        }
-    }
 
     @Override
     public void onNewTxRecordByTx(TxRecordBean txRecordBean) {
-        mListData.add(0, txRecordBean);
+        mListOutAndInData.add(0, txRecordBean);
         super.onNewTxRecordByTx(txRecordBean);
     }
 

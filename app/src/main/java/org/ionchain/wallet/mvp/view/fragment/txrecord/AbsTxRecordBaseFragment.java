@@ -42,6 +42,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     private String tag = "binny";
     private int mOffset = 0;
+    private int mPageNum = 1;
     private RecyclerView mListView;
 
     /**
@@ -62,15 +63,15 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         mListView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         switch (getType()) {
             case TYPE_ALL:
-                mTxRecordAdapter = new TxRecordAdapter(getActivity(),R.layout.item_txrecord, mListData);
+                mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListOutAndInData);
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
                     Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
-                    intent.putExtra(PARCELABLE_TX_RECORD, mListData.get(position));
+                    intent.putExtra(PARCELABLE_TX_RECORD, mListOutAndInData.get(position));
                     startActivity(intent);
                 });
                 break;
             case TYPE_OUT:
-                mTxRecordAdapter = new TxRecordAdapter(getActivity(),R.layout.item_txrecord, mListOut);
+                mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListOut);
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
                     Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
                     intent.putExtra(PARCELABLE_TX_RECORD, mListOut.get(position));
@@ -78,7 +79,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 });
                 break;
             case TYPE_IN:
-                mTxRecordAdapter = new TxRecordAdapter(getActivity(),R.layout.item_txrecord, mListIn);
+                mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListIn);
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view1, position) -> {
                     Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
                     intent.putExtra(PARCELABLE_TX_RECORD, mListIn.get(position));
@@ -93,7 +94,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     protected void visible() {
         LoggerUtils.i(tag, "TAG_NAME = " + TAG_NAME + " visible() = " + isVisible());
-        getLocalData();//可见 visible ,左右切换不刷新数据
+        getLocalData();//可见 visible ,左右切换
     }
 
     /**
@@ -110,9 +111,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     }
 
     protected void getLocalData() {
-
-        String address = mWalletBeanNew.getAddress();
-
         /*
          * 获取本地数据集的缓存
          */
@@ -136,11 +134,11 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     ToastUtil.showToastLonger(getAppString(R.string.tx_record_none));
                     return;
                 }
-                mListData.clear();
-                mListData.addAll(mListOutTemp);
-                mListData.addAll(mListInTemp);
+                mListOutAndInData.clear();
+                mListOutAndInData.addAll(mListOutTemp);
+                mListOutAndInData.addAll(mListInTemp);
                 LoggerUtils.i(tag, "mListDataTemp.size = " + mListDataTemp.size());
-                Collections.sort(mListData);
+                Collections.sort(mListOutAndInData);
                 break;
             case TYPE_OUT:
                 mListOutTemp.clear();
@@ -191,7 +189,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         switch (getType()) {
             case TYPE_ALL:
 
-                mListNetTemp.addAll(mListData);
+                mListNetTemp.addAll(mListOutAndInData);
 
                 for (TxRecordBeanTemp.DataBean.ItemBean itemBean :
                         beans.getData()) {
@@ -302,11 +300,11 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         int size = 0;
         switch (getType()) {
             case TYPE_ALL:
-                size = mListData.size();
+                size = mListOutAndInData.size();
                 LoggerUtils.i(tag, "size = " + size);
                 for (TxRecordBean b :
                         txRecordBeans) {
-                    mListData.add(0, b);
+                    mListOutAndInData.add(0, b);
                     IONCWalletSDK.getInstance().saveTxRecordBean(b);
                 }
                 break;
@@ -373,8 +371,25 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     public void onPullToDown(WalletBeanNew walletBeanNew) {
         LoggerUtils.i(TAG, "   isVisibleToUser = " + mVisibleToUser);
-        if (mTxRecordPresenter == null) {
-            mTxRecordPresenter = new TxRecordPresenter();
+        if (mVisibleToUser) {
+            if (mTxRecordPresenter == null) {
+                mTxRecordPresenter = new TxRecordPresenter();
+            }
+            mPageNum++;
+            switch (getType()) {
+                case TYPE_ALL:
+                    LoggerUtils.i("beannet", "all");
+                    mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), "10", this);
+                    break;
+                case TYPE_OUT:
+                    LoggerUtils.i("beannet", "out");
+                    mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), "5", this);
+                    break;
+                case TYPE_IN:
+                    LoggerUtils.i("beannet", "in");
+                    mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), "5", this);
+                    break;
+            }
         }
     }
 
@@ -395,18 +410,49 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         mListInTemp.clear();
         mListOutTemp = IONCWalletSDK.getInstance().getTxRecordBeanOutByPage(mOffset, mWalletBeanNew.getAddress(), 5, 5);
         mListInTemp = IONCWalletSDK.getInstance().getTxRecordBeanInByPage(mOffset, mWalletBeanNew.getAddress(), 5, 5);
-        mListData.addAll(mListOutTemp);
+        mListOutAndInData.addAll(mListOutTemp);
         LoggerUtils.i("temp = ", mListInTemp.size());
         LoggerUtils.i("temp = ", mListOutTemp.size());
         LoggerUtils.i("temp = ", mOffset);
-        mListData.addAll(mListInTemp);
+        mListOutAndInData.addAll(mListInTemp);
         mTxRecordAdapter.notifyDataSetChanged();
 
     }
 
     @Override
     public void onAddressChanged(WalletBeanNew currentWallet) {
-
+        LoggerUtils.i("method","onAddressChanged");
+        mOffset = 0;
+        mPageNum = 1;
+        switch (getType()) {
+            case TYPE_ALL:
+                mWalletBeanNew = currentWallet;
+                mListIn.clear();
+                mListOut.clear();
+                mListOutAndInData.clear();
+                if (mTxRecordAdapter == null) {
+                    LoggerUtils.i("地址切换 = mCommonAdapter999 =null");
+                    return;
+                }
+                mTxRecordAdapter.notifyDataSetChanged();
+                getLocalData();// 全部需要显示
+                break;
+            case TYPE_OUT:
+                LoggerUtils.i("地址切换，清空缓存 " + TAG + "mCommonAdapter = " + mTxRecordAdapter);
+                mListOut.clear();
+                if (mTxRecordAdapter == null) {
+                    return;
+                }
+                mTxRecordAdapter.notifyDataSetChanged();
+                break;
+            case TYPE_IN:
+                mListIn.clear();
+                if (mTxRecordAdapter == null) {
+                    return;
+                }
+                mTxRecordAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
     /**
@@ -431,11 +477,4 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     }
 
-
-
-    @Override
-    protected void setListener() {
-        super.setListener();
-
-    }
 }

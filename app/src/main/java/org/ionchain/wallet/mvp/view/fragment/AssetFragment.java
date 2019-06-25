@@ -214,6 +214,7 @@ public class AssetFragment extends AbsBaseFragment implements
     private double mUS = 0;
     private double mKRW = 0;
     private double mIDR = 0;
+    public static int NEW_WALLET_FOR_RESULT_CODE = 11;
 
     /**
      * 实例化资产页头部
@@ -234,27 +235,35 @@ public class AssetFragment extends AbsBaseFragment implements
         mRmbTx.setText("0000");
     }
 
+    /**
+     * 主页fragment切换时调用
+     * <p>
+     * 更新钱包为主钱包
+     */
     @Override
     protected void handleShow() {
+        LoggerUtils.i("method", "handleShow");
         mImmersionBar.statusBarColor(R.color.blue_top).statusBarDarkFont(false).execute();
-        LoggerUtils.i("handleShow");
-        SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         if (mCurrentWallet == null) {
             ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
 //            跳转到钱包创建或者导入界面
             return;
         }
-        setBackupTag();
-        mWalletNameTx.setText(mCurrentWallet.getName());
-        Integer id = mCurrentWallet.getMIconIndex();
-        mWalletLogo.setImageResource(App.sRandomHeader[id]);
-        balance(); //回到前台 handleShow
-        mTxRecordAllFragment.onPullToDown(mCurrentWallet);
+        if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
+            setBackupTag();
+            mOldAddress = mCurrentWallet.getAddress();
+            mWalletNameTx.setText(mCurrentWallet.getName());
+            Integer id = mCurrentWallet.getMIconIndex();
+            mWalletLogo.setImageResource(App.sRandomHeader[id]);
+            balance(); //回到前台 handleShow
+            mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
+        }
     }
 
     @Override
     protected void handleHidden() {
+        LoggerUtils.i("method", "handleHidden");
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_PRICE);
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_NODE);
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_RMB_RATE);
@@ -263,8 +272,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-
-        LoggerUtils.i("onResume");
+        LoggerUtils.i("method", "onResume");
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
 
@@ -273,17 +281,16 @@ public class AssetFragment extends AbsBaseFragment implements
 //            跳转到钱包创建或者导入界面
             return;
         }
-
-        mOldAddress = mCurrentWallet.getAddress();//初始化和赋值
         mTxRecordAllFragment.initRecordWalletBean(mCurrentWallet);
         setBackupTag();
         mWalletNameTx.setText(mCurrentWallet.getName());
         Integer id = mCurrentWallet.getMIconIndex();
         mWalletLogo.setImageResource(App.sRandomHeader[id]);
         balance(); //回到前台  onResume
-        if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
+        if (!TextUtils.isEmpty(mOldAddress) && !mOldAddress.equals(mCurrentWallet.getAddress())) {
             mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
-        } 
+        }
+        mOldAddress = mCurrentWallet.getAddress();
 //        else {
 //            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
 //        }
@@ -412,27 +419,39 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         tabLayout.selectTab(tabLayout.getTabAt(0));
-        //
-        TxRecordBean t;
-        if (data != null) {
-            t = data.getParcelableExtra(TX_ACTIVITY_RESULT);
-            if (t == null) {
-                return;
+        if (requestCode == NEW_WALLET_FOR_RESULT_CODE) {
+            if (data != null) {
+                mCurrentWallet = data.getParcelableExtra(ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN);
+                LoggerUtils.i("requestCode", "requestCode = " + requestCode + "resultCode = " + resultCode + "address = " + mCurrentWallet.getAddress());
+                if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
+                    mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
+                } else {
+                    LoggerUtils.i("requestCode", "requestCode2 = " + requestCode + "resultCode = " + resultCode + "address = " + mCurrentWallet.getAddress());
+                }
             }
-            if (DEFAULT_TRANSCATION_HASH_NULL.equals(t.getHash())) {
-                mTxRecordAllFragment.onNewTxRecordByTx(t);
-                mTxRecordOutFragment.onNewTxRecordByTx(t);
-                IONCWalletSDK.getInstance().saveTxRecordBean(t);
-                return;
-            }
-            //刷刷新余额
-            balance();
-            IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
-                    , t.getHash()
-                    , t
-                    , this);
-        }
 
+        } else if (requestCode == TX_ACTIVITY_FOR_RESULT_CODE) {
+            LoggerUtils.i("requestCode", "requestCode = " + requestCode + "resultCode = " + resultCode + "address = " + mCurrentWallet.getAddress());
+            TxRecordBean t;
+            if (data != null) {
+                t = data.getParcelableExtra(TX_ACTIVITY_RESULT);
+                if (t == null) {
+                    return;
+                }
+                if (DEFAULT_TRANSCATION_HASH_NULL.equals(t.getHash())) {
+                    mTxRecordAllFragment.onNewTxRecordByTx(t);
+                    mTxRecordOutFragment.onNewTxRecordByTx(t);
+                    IONCWalletSDK.getInstance().saveTxRecordBean(t);
+                    return;
+                }
+                //刷刷新余额
+                balance();
+                IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
+                        , t.getHash()
+                        , t
+                        , this);
+            }
+        }
     }
 
 
@@ -487,12 +506,14 @@ public class AssetFragment extends AbsBaseFragment implements
         mMoreWalletListView.setAdapter(mAdapterMore);
         importWallet.setOnClickListener(v -> {
             instance.dismiss();
-            skip(SelectImportModeActivity.class);//
-
+            Intent intent = new Intent(getActivity(), SelectImportModeActivity.class);
+            startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
         });
         createWallet.setOnClickListener(v -> {
             instance.dismiss();
-            skip(CreateWalletActivity.class, INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
+            Intent intent = new Intent(getActivity(), CreateWalletActivity.class);
+            intent.putExtra(INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
+            startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
         });
         mMoreWalletListView.setOnItemClickListener((parent, view, position, id) -> {
             LoggerUtils.i(TAG, "onItemClick: ");

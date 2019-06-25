@@ -57,6 +57,7 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.Transaction;
+import org.web3j.protocol.exceptions.ClientConnectionException;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
@@ -480,7 +481,7 @@ public class IONCWalletSDK {
                     balanceTemp = balanceTemp.setScale(4, BigDecimal.ROUND_DOWN);  //保留4位小数,四舍五入
                     final BigDecimal finalBalanceTemp = balanceTemp;
                     mHandler.post(() -> callback.onBalanceSuccess(finalBalanceTemp, node));
-                } catch (final IOException e) {
+                } catch (final IOException | ClientConnectionException e) {
                     LoggerUtils.e("client", e.getMessage());
                     mHandler.post(() -> {
                         LoggerUtils.e(e.getMessage());

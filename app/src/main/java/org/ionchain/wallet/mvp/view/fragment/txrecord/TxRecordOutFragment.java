@@ -1,7 +1,6 @@
 package org.ionchain.wallet.mvp.view.fragment.txrecord;
 
 import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
@@ -44,15 +43,6 @@ public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTx
         ToastUtil.showShortToast(error);
     }
 
-    @Override
-    public void onAddressChanged(WalletBeanNew currentWallet) {
-        LoggerUtils.i("地址切换，清空缓存 " + TAG + "mCommonAdapter = " + mTxRecordAdapter);
-        mListOut.clear();
-        if (mTxRecordAdapter == null) {
-            return;
-        }
-        mTxRecordAdapter.notifyDataSetChanged();
-    }
 
     /**
      * @param txRecordBean 有新的交易记录的时候
@@ -61,14 +51,5 @@ public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTx
     public void onNewTxRecordByTx(TxRecordBean txRecordBean) {
         mListOut.add(0, txRecordBean);
         super.onNewTxRecordByTx(txRecordBean);
-    }
-
-    @Override
-    public void onPullToDown(WalletBeanNew walletBeanNew) {
-        super.onPullToDown(walletBeanNew);
-        if (mVisibleToUser) {
-            LoggerUtils.i("beannet","out");
-            mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), "1", "10", this);
-        }
     }
 }

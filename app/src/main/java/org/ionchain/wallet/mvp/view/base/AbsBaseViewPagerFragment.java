@@ -61,7 +61,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     /**
      * 钱包记录的实际数据集
      */
-    protected List<TxRecordBean> mListData = new ArrayList<>();
+    protected List<TxRecordBean> mListOutAndInData = new ArrayList<>();
     protected List<TxRecordBean> mListNetTemp = new ArrayList<>();
     /**
      * 转出记录

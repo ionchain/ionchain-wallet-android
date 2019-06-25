@@ -1,14 +1,21 @@
 package org.ionchain.wallet.mvp.view.activity.imports;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
+
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
+import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
+import static org.ionchain.wallet.mvp.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class SelectImportModeActivity extends AbsBaseCommonTitleTwoActivity implements View.OnClickListener {
@@ -47,12 +54,38 @@ public class SelectImportModeActivity extends AbsBaseCommonTitleTwoActivity impl
     public void onClick(View v) {
         setViewAlphaAnimation(v);
         if (v == byMnemonic) {
-            skip(ImportByMnemonicActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
+            Intent intent = new Intent(this, ImportByMnemonicActivity.class);
+            intent.putExtra(INTENT_FROM_WHERE_TAG, mActivityFrom);
+            startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
         } else if (v == byPrivateKey) {
-            skip(ImportByPriKeyActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
+            Intent intent = new Intent(this, ImportByPriKeyActivity.class);
+            intent.putExtra(INTENT_FROM_WHERE_TAG, mActivityFrom);
+            startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
         } else if (v == byKeystore) {
-            skip(ImportByKeystoreActivity.class,INTENT_FROM_WHERE_TAG, mActivityFrom);
-        } 
+            Intent intent = new Intent(this, ImportByKeystoreActivity.class);
+            intent.putExtra(INTENT_FROM_WHERE_TAG, mActivityFrom);
+            startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*
+         *交易成功，返回成功的hash值给fragment
+         */
+
+        if (resultCode == NEW_WALLET_FOR_RESULT_CODE) {
+            Intent intent = new Intent();
+            WalletBeanNew walletBeanNew = null;
+            if (data != null) {
+                walletBeanNew = data.getParcelableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
+                LoggerUtils.i("requestCode", "requestCode = " + requestCode + "resultCode = " + resultCode + "address = " + walletBeanNew.getAddress());
+                intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, walletBeanNew);
+                setResult(NEW_WALLET_FOR_RESULT_CODE, intent);
+            finish();
+            }
+        }
     }
 
     @Override

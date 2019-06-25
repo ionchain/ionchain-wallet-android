@@ -17,14 +17,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.constant.ConstantActivitySkipTag;
+import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
-import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.manager.ManageWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.webview.WebActivity;
 import org.ionchain.wallet.utils.LocalManageUtil;
@@ -44,6 +45,7 @@ import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMIS
 import static org.ionchain.wallet.constant.ConstantParams.URL_REQUEST_TYPE;
 import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_ABOUT_US;
 import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_PROTOCOL;
+import static org.ionchain.wallet.mvp.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 
 public abstract class AbsBaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
@@ -339,11 +341,18 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      * 判断该导入操作来自哪个模块
      * 1:资产模块,位于主界面 .导入如成功跳转到主界面,(并且主界面显示新导入的钱包,及新钱包作为主钱包展示)
      * 2:钱包管理模块 ,导入成功跳转到钱包管理界面
+     * @param walletBean
      */
 
-    protected void skipToBack() {
+    protected void skipToBack(WalletBeanNew walletBean) {
         if (mActivityFrom.equals(ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY)) {
-            skip(MainActivity.class);
+            Intent intent = new Intent();
+            /*
+             *交易成功，返回成功的hash值给fragment
+             */
+            intent.putExtra(ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN,walletBean);
+            setResult(NEW_WALLET_FOR_RESULT_CODE, intent);
+            finish();
         } else if (mActivityFrom.equals(ConstantActivitySkipTag.INTENT_FROM_MANAGER_ACTIVITY)) {
             skip(ManageWalletActivity.class);
 //            finish();

@@ -297,7 +297,7 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
                 LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功--只有一个钱包");
                 skip(MainActivity.class);
             } else {
-                skipToBack();
+                skipToBack(walletBean);
             }
         }
     }
@@ -313,7 +313,7 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger(getResources().getString(R.string.update_success));
-        skipToBack();
+        skipToBack(wallet);
     }
 
 

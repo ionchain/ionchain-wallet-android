@@ -53,8 +53,9 @@ public class ConstantUrl {
 
 
     //备用节点
-    public final static String HOST_NODE_MAIN_DEBUG = "http://192.168.23.200:8545";
-//    public final static String HOST_NODE_MAIN_DEBUG = "http:///192.168.1.10:7545";
-//    public final static String HOST_NODE_MAIN_DEBUG = "http:///192.168.2.1:7545";
+//    public final static String HOST_NODE_MAIN_DEBUG = "http://192.168.23.200:8545";
+//    public final static String HOST_NODE_MAIN_DEBUG = "http:///192.168.1.8:7545";
+    public final static String HOST_NODE_MAIN_DEBUG = "http://172.16.10.88:8545";
+//    public final static String HOST_NODE_MAIN_DEBUG = "http://192.168.23.142:7545";
 
 }

@@ -159,7 +159,7 @@ public class ImportByKeystoreActivity extends AbsBaseCommonTitleThreeActivity im
             if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
                 skip(MainActivity.class);
             } else {
-                skipToBack();
+                skipToBack(walletBean);
             }
         }
     }
