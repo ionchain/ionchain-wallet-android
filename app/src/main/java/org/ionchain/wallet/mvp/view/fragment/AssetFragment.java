@@ -242,7 +242,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     protected void handleShow() {
-        LoggerUtils.i("method","handleShow"+"   AssetFragment");
+        LoggerUtils.i("method", "handleShow" + "   AssetFragment");
         mImmersionBar.statusBarColor(R.color.blue_top).statusBarDarkFont(false).execute();
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         if (mCurrentWallet == null) {
@@ -263,7 +263,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     protected void handleHidden() {
-        LoggerUtils.i("method","handleHidden"+"   AssetFragment");
+        LoggerUtils.i("method", "handleHidden" + "   AssetFragment");
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_PRICE);
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_NODE);
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_RMB_RATE);
@@ -272,7 +272,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        LoggerUtils.i("method","onResume"+"   AssetFragment");
+        LoggerUtils.i("method", "onResume" + "   AssetFragment");
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
 
@@ -439,13 +439,16 @@ public class AssetFragment extends AbsBaseFragment implements
                     return;
                 }
                 if (DEFAULT_TRANSCATION_HASH_NULL.equals(t.getHash())) {
+                    //交易失败
                     mTxRecordAllFragment.onNewTxRecordByTx(t);
                     mTxRecordOutFragment.onNewTxRecordByTx(t);
                     IONCWalletSDK.getInstance().saveTxRecordBean(t);
                     return;
                 }
+                //交易成功
                 //刷刷新余额
                 balance();
+                //请求交易区块等信息
                 IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
                         , t.getHash()
                         , t
@@ -842,14 +845,14 @@ public class AssetFragment extends AbsBaseFragment implements
     public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
         mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
         mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
-        IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
+        IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
     }
 
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
         mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
         mTxRecordOutFragment.onNewTxRecordByTx(recordBean);
-        IONCWalletSDK.getInstance().saveTxRecordBean(recordBean);
+        IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
     }
 
     @Override

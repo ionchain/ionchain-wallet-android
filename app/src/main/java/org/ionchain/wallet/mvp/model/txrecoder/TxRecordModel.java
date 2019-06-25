@@ -35,22 +35,20 @@ public class TxRecordModel implements ITxRecoderModel {
     public void getTxRecord(String url, String type, String address, String pageNumber, String pageSize, final OnTxRecordBrowserDataCallback callback) {
         params.clear();
         params.put("type", type);
-        params.put("address", address);
+        params.put("key", address);
         params.put("pageNumber", pageNumber);
         params.put("pageSize", pageSize);
         NetUtils.get("getTxRecord", url, params, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                LoggerUtils.i("pullforrecord" + json);
+                LoggerUtils.i("jsontx" + json);
                 TxRecordBeanTemp txRecordBeanTemp = NetUtils.gsonToBean(json, TxRecordBeanTemp.class);
-                if (txRecordBeanTemp == null || txRecordBeanTemp.getData() == null || txRecordBeanTemp.getData().getData() == null) {
-                    callback.onTxRecordBrowserFailure(App.mContext.getResources().getString(R.string.error_data_parase));
+                if (txRecordBeanTemp == null || txRecordBeanTemp.getData() == null || txRecordBeanTemp.getData().getData() == null || txRecordBeanTemp.getData().getData().size() == 0) {
+                    callback.onTxRecordSuccessDataNUll();
                     return;
                 }
-                LoggerUtils.i("pullforrecord......." );
                 TxRecordBeanTemp.DataBean beans = txRecordBeanTemp.getData();
-                LoggerUtils.i("pullforrecord",beans.getData().size() );
                 callback.onTxRecordBrowserSuccess(beans);
 
             }

@@ -3,6 +3,7 @@ package org.ionc.wallet.daohelper;
 
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.greendaogen.TxRecordBeanDao;
+import org.ionc.wallet.greendaogen.TxRecordBeanHelperDao;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanNewDao;
 
@@ -40,6 +41,17 @@ public class EntityManager {
      */
     public WalletBeanDao getWalletDaoOld(DaoSession daoSession) {
         return daoSession.getWalletBeanDao();
+    }
+
+    /**
+     * 创建 TxRecordBeanHelper 表实例
+     * old table
+     *
+     * @param daoSession
+     * @return
+     */
+    public TxRecordBeanHelperDao getTxRecordBeanHelper(DaoSession daoSession) {
+        return daoSession.getTxRecordBeanHelperDao();
     }
 
 

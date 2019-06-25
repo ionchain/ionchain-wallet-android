@@ -16,9 +16,8 @@ public interface OnTxRecordBrowserDataCallback extends OnLoadingView {
 
     /**
      * 加载更多
-     * @param beans
      */
-    void onTxRecordLoadMoreSuccess(TxRecordBeanTemp.DataBean beans);
+    void onTxRecordSuccessDataNUll();
 
 
     /**

@@ -20,6 +20,7 @@ import org.bitcoinj.wallet.DeterministicSeed;
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.ionc.wallet.bean.KeystoreBean;
 import org.ionc.wallet.bean.TxRecordBean;
+import org.ionc.wallet.bean.TxRecordBeanHelper;
 import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
@@ -34,6 +35,7 @@ import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.daohelper.EntityManager;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.greendaogen.TxRecordBeanDao;
+import org.ionc.wallet.greendaogen.TxRecordBeanHelperDao;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanNewDao;
 import org.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
@@ -716,17 +718,8 @@ public class IONCWalletSDK {
     /**
      * 查询 所有交易记录
      */
-    public List<TxRecordBean> getAllTxRecordBeans() {
-        List<TxRecordBean> txRecordBeans;
-        try {
-            QueryBuilder.LOG_SQL = true;
-            QueryBuilder.LOG_VALUES = true;
-            QueryBuilder<TxRecordBean> qb = EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).queryBuilder();
-            txRecordBeans = qb.orderDesc(TxRecordBeanDao.Properties.Id).list();
-            return txRecordBeans;
-        } catch (Throwable e) {
-            return null;
-        }
+    public long getTxRecordBeansTotalConut() {
+        return EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).queryBuilder().count();
     }
 
     /**
@@ -763,6 +756,17 @@ public class IONCWalletSDK {
     public TxRecordBean getTxRecordBeansByTimes(String timeStemp) {
         return mDaoSession.getTxRecordBeanDao().queryBuilder().where(TxRecordBeanDao.Properties.Tc_in_out.eq(timeStemp)).unique();
     }
+ /**
+     * 通过钱包地址查询钱包
+     * <p>
+     * 转入
+     *
+     * @param publicKey 转入地址
+     * @return 该钱包收到的转账记录
+     */
+    public TxRecordBeanHelper getTxRecordBeanHelperByPublicKey(String publicKey) {
+        return mDaoSession.getTxRecordBeanHelperDao().queryBuilder().where(TxRecordBeanHelperDao.Properties.PublicKey.eq(publicKey)).unique();
+    }
 
     /**
      * 分页加载数据
@@ -773,11 +777,53 @@ public class IONCWalletSDK {
      * @param num
      * @return 当页交易记录
      */
-    public List<TxRecordBean> getTxRecordBeanOutByPage(int offset, String address, int limit, int num) {
+    public List<TxRecordBean> getTxRecordBeanOutByAddress(int offset, String address, int limit, int num) {
         TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
         return dao.queryBuilder().where(TxRecordBeanDao.Properties.From.eq(address))
-                .offset(offset*num).limit(limit).list();
+                .offset(offset * num).limit(limit).list();
     }
+    /**
+     * 分页加载数据
+     *
+     * @param offset  页数
+     * @param limit
+     * @param num
+     * @param public_key 查询条件 转入和转出地址
+     * @return 当页交易记录
+     */
+    public List<TxRecordBean> getTxRecordBeanOutByPage2(String public_key, long fromId, long toId) {
+        TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
+        return dao.queryBuilder().where(TxRecordBeanDao.Properties.PublicKey.eq(public_key),TxRecordBeanDao.Properties.Id.gt(fromId), TxRecordBeanDao.Properties.Id.lt(toId)).orderDesc(TxRecordBeanDao.Properties.Id).list();
+    }
+    /**
+     * 分页加载数据
+     *
+     * @param offset  页数
+     * @param public_key 查询条件 转入和转出地址
+     * @param limit
+     * @param num
+     * @return 当页交易记录
+     */
+    public List<TxRecordBean> getTxRecordBeanAllByPublicKey(int offset, String public_key, int limit, int num) {
+        TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
+        return dao.queryBuilder().where(TxRecordBeanDao.Properties.PublicKey.eq(public_key))
+                .offset(offset * num).limit(limit).orderDesc(TxRecordBeanDao.Properties.Id).list();
+    }
+
+    /**
+     * 分页加载数据
+     *
+     * @param offset  页数
+     * @param limit
+     * @param num
+     * @param public_key 查询条件 转入和转出地址
+     * @return 当页交易记录
+     */
+    public List<TxRecordBean> getTxRecordBeanAllByPage2(String public_key, long fromId, long toId) {
+        TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
+        return dao.queryBuilder().where(TxRecordBeanDao.Properties.PublicKey.eq(public_key),TxRecordBeanDao.Properties.Id.gt(fromId), TxRecordBeanDao.Properties.Id.lt(toId)).orderDesc(TxRecordBeanDao.Properties.Id).list();
+    }
+
 
     /**
      * 分页加载数据
@@ -788,24 +834,9 @@ public class IONCWalletSDK {
      * @param num
      * @return 当页交易记录
      */
-    public List<TxRecordBean> getTxRecordBeanInByPage(int offset, String address, int limit, int num) {
+    public List<TxRecordBean> getTxRecordBeanInByAddress(int offset, String address, int limit, int num) {
         TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
         return dao.queryBuilder().where(TxRecordBeanDao.Properties.To.eq(address))
-                .offset(offset*num).limit(limit).list();
-    }
-
-    /**
-     * 分页加载数据
-     *
-     * @param offset  页数
-     * @param address 查询条件 转入和转出地址
-     * @param num     取出的个数
-     * @param limit
-     * @return 当页交易记录
-     */
-    public List<TxRecordBean> getTxRecordBeanAllByPage(int offset, String address, int num, int limit) {
-        TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
-        return dao.queryBuilder().where(TxRecordBeanDao.Properties.To.eq(address), TxRecordBeanDao.Properties.From.eq(address))
                 .offset(offset * num).limit(limit).list();
     }
 
@@ -838,7 +869,19 @@ public class IONCWalletSDK {
         EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).insertOrReplace(txRecordBean);
     }
 
+    public void saveTxRecordBeanHelper(TxRecordBeanHelper txRecordBeanHelper) {
 
+        EntityManager.getInstance().getTxRecordBeanHelper(mDaoSession).insertOrReplace(txRecordBeanHelper);
+    }
+
+    public void updateTxRecordBeanHelper(TxRecordBeanHelper txRecordBeanHelper) {
+
+        try {
+            EntityManager.getInstance().getTxRecordBeanHelper(mDaoSession).update(txRecordBeanHelper);
+        } catch (Throwable e) {
+            LoggerUtils.e("修改密码失败:" + e.getMessage());
+        }
+    }
     /**
      * 更新钱包
      *

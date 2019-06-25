@@ -2,6 +2,10 @@ package org.ionc.wallet.bean;
 
 import java.io.Serializable;
 
+/**
+ * 解析以ks方式导入钱包
+ *
+ */
 public class KeystoreBean implements Serializable {
 
     /**

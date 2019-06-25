@@ -20,6 +20,7 @@ import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BL
 
 public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHolder> {
     private Context context;
+    private String split = " ： ";
 
     public TxRecordAdapter(Context context, int layoutResId, @Nullable List<TxRecordBean> data) {
         super(layoutResId, data);
@@ -28,31 +29,31 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
 
     @Override
     protected void convert(BaseViewHolder viewHolder, TxRecordBean item) {
-       
 
-        viewHolder.setText(R.id.tx_hash,context.getResources().getString(R.string.tx_hash) + item.getHash());
+
+        viewHolder.setText(R.id.tx_hash, context.getResources().getString(R.string.tx_hash)+ split + item.getHash());
         try {
             if (!TextUtils.isEmpty(item.getTc_in_out())) {
                 String time = DateUtils.getDateToString(Long.parseLong(item.getTc_in_out()), Y4M2D2H2M2S2);
                 LoggerUtils.i("time = " + time);
-                viewHolder.setText(R.id.tx_time,context.getResources().getString(R.string.tx_time) + time);
+                viewHolder.setText(R.id.tx_time, context.getResources().getString(R.string.tx_time) + split + time);
             } else {
-                viewHolder.setText(R.id.tx_time,"来自网络");
+                viewHolder.setText(R.id.tx_time, context.getResources().getString(R.string.tx_time) + split + "来自网络");
             }
         } catch (NumberFormatException r) {
-            viewHolder.setText(R.id.tx_time,"来自网络");
+            viewHolder.setText(R.id.tx_time, context.getResources().getString(R.string.tx_time) + split + "来自网络");
         }
 
 
         if (DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL.equals(item.getBlockNumber())) {
-            viewHolder.setText(R.id.tx_block,context.getResources().getString(R.string.tx_block_unpacked));
+            viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block_unpacked));
         } else {
-            viewHolder.setText(R.id.tx_block,context.getResources().getString(R.string.tx_block) + item.getBlockNumber());
+            viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block) + split + item.getBlockNumber());
         }
-        viewHolder.setText(R.id.tx_from,context.getResources().getString(R.string.tx_out_addr) + item.getFrom());
-        viewHolder.setText(R.id.tx_to,context.getResources().getString(R.string.tx_in_addr) + item.getTo());
-        viewHolder.setText(R.id.tx_value,context.getResources().getString(R.string.tx_amount) + item.getValue() + " IONC");
-        viewHolder.setText(R.id.tx_fee,context.getResources().getString(R.string.tx_fee) + item.getGas() + " IONC");
+        viewHolder.setText(R.id.tx_from, context.getResources().getString(R.string.tx_out_addr) + split + item.getFrom());
+        viewHolder.setText(R.id.tx_to, context.getResources().getString(R.string.tx_in_addr) + split + item.getTo());
+        viewHolder.setText(R.id.tx_value, context.getResources().getString(R.string.tx_amount) + split + item.getValue() + " IONC");
+        viewHolder.setText(R.id.tx_fee, context.getResources().getString(R.string.tx_fee) + split + item.getGas() + " IONC");
         viewHolder.addOnClickListener(R.id.tx_record_holder);
     }
 }

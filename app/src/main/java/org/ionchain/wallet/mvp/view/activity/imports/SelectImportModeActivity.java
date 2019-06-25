@@ -77,7 +77,7 @@ public class SelectImportModeActivity extends AbsBaseCommonTitleTwoActivity impl
 
         if (resultCode == NEW_WALLET_FOR_RESULT_CODE) {
             Intent intent = new Intent();
-            WalletBeanNew walletBeanNew = null;
+            WalletBeanNew walletBeanNew;
             if (data != null) {
                 walletBeanNew = data.getParcelableExtra(SERIALIZABLE_DATA_WALLET_BEAN);
                 LoggerUtils.i("requestCode", "requestCode = " + requestCode + "resultCode = " + resultCode + "address = " + walletBeanNew.getAddress());
@@ -85,6 +85,8 @@ public class SelectImportModeActivity extends AbsBaseCommonTitleTwoActivity impl
                 setResult(NEW_WALLET_FOR_RESULT_CODE, intent);
             finish();
             }
+        } else {
+            finish();
         }
     }
 

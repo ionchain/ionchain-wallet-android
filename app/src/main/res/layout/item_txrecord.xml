@@ -25,6 +25,7 @@
                 android:gravity="center" />
 
             <TextView
+                android:visibility="gone"
                 android:layout_below="@id/tx_block"
                 android:id="@+id/tx_time"
                 style="@style/TxRecorder" />
@@ -36,6 +37,7 @@
                 style="@style/TxRecorder" />
 
             <TextView
+                android:visibility="gone"
                 android:layout_below="@id/tx_value"
                 android:id="@+id/tx_fee"
                 style="@style/TxRecorder" />
@@ -46,11 +48,13 @@
                 style="@style/TxRecorder" />
 
             <TextView
+                android:visibility="gone"
                 android:layout_below="@id/tx_hash"
                 android:id="@+id/tx_from"
                 style="@style/TxRecorder"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_below="@id/tx_from"
                 android:id="@+id/tx_to"
                 style="@style/TxRecorder" />

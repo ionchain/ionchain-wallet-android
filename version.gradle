@@ -3,9 +3,9 @@
 * */
 ext{
     appVersionName = '2.0.0_beta'
-    appVersionCode = 200//更新依赖
+    appVersionCode = 201//更新依赖
 
-    extSchemaVersion = 6  //数据库版本     下一版本 5
+    extSchemaVersion = 7  //数据库版本
 
     extMinSdkVersion = 19
     extTargetSdkVersion = 26
