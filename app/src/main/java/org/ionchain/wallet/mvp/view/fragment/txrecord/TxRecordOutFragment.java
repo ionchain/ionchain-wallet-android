@@ -19,7 +19,6 @@ public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTx
     }
 
 
-
     @Override
     public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
         LoggerUtils.i("执行完成 " + txRecordBean.toString());

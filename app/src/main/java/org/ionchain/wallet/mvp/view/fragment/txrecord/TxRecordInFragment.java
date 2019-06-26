@@ -16,7 +16,6 @@ public class TxRecordInFragment extends AbsTxRecordBaseFragment implements OnTxR
         return TYPE_IN;
     }
 
-
     @Override
     public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
         LoggerUtils.i("执行完成 " + txRecordBean.toString());

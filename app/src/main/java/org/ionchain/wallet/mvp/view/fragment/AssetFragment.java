@@ -28,9 +28,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.TxRecordBeanAllHelper;
-import org.ionc.wallet.bean.TxRecordBeanInHelper;
-import org.ionc.wallet.bean.TxRecordBeanOutHelper;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
@@ -847,59 +844,7 @@ public class AssetFragment extends AbsBaseFragment implements
     }
     private void txRecordHelper(TxRecordBean txRecordBean) {
         txRecordBean.setPublicKey(mCurrentWallet.getPublic_key());
-        /*
-         * 全部
-         */
-        TxRecordBeanAllHelper txRecordBeanAllHelper = IONCWalletSDK.getInstance().getTxRecordBeanHelperByPublicKey(mCurrentWallet.getPublic_key());
-        if (txRecordBeanAllHelper == null) {
-            txRecordBeanAllHelper = new TxRecordBeanAllHelper();
-            txRecordBeanAllHelper.setPublicKey(mCurrentWallet.getPublic_key());
-            txRecordBeanAllHelper.setIndexMaxForAll(1L);
-            txRecordBean.setIndexForAll(1L);
-            IONCWalletSDK.getInstance().saveCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
-        } else {
-            txRecordBeanAllHelper.setIndexMaxForAll(txRecordBeanAllHelper.getIndexMaxForAll() + 1);
-            txRecordBean.setIndexForAll(txRecordBeanAllHelper.getIndexMaxForAll());
-            IONCWalletSDK.getInstance().updateCurrentWalletTxRecordAllHelper(txRecordBeanAllHelper);
-        }
-        LoggerUtils.i("method", "txRecordHelper" + "   out = " + txRecordBeanAllHelper.toString());
-        /*
-         * 转出
-         */
-        if (txRecordBean.getFrom().equals(mCurrentWallet.getAddress())) {
-            TxRecordBeanOutHelper beanOutHelper = IONCWalletSDK.getInstance().getHelperOutByAddressFrom(mCurrentWallet.getAddress());
 
-            if (beanOutHelper == null) {
-                beanOutHelper = new TxRecordBeanOutHelper();
-                beanOutHelper.setFromAddress(mCurrentWallet.getAddress());
-                beanOutHelper.setIndexMaxForOut(1L);
-                txRecordBean.setIndexForOut(1L);
-                IONCWalletSDK.getInstance().saveCurrentWalletTxRecordBeanOutHelper(beanOutHelper);
-            } else {
-                beanOutHelper.setIndexMaxForOut(beanOutHelper.getIndexMaxForOut() + 1);
-                txRecordBean.setIndexForOut(beanOutHelper.getIndexMaxForOut());
-                IONCWalletSDK.getInstance().updateCurrentWalletTxRecordOutHelper(beanOutHelper);
-            }
-            LoggerUtils.i("method", "txRecordHelper" + "   out = " + beanOutHelper.toString());
-        }
-        /*
-         * 转入
-         */
-        if (txRecordBean.getTo().equals(mCurrentWallet.getAddress())) {
-            TxRecordBeanInHelper beanInHelper = IONCWalletSDK.getInstance().getTxRecordBeanInHelperByAddressTo(mCurrentWallet.getAddress());
-            if (beanInHelper == null) {
-                beanInHelper = new TxRecordBeanInHelper();
-                beanInHelper.setToAddress(mCurrentWallet.getAddress());
-                beanInHelper.setIndexMaxForIn(1L);
-                txRecordBean.setIndexForIn(1L);
-                IONCWalletSDK.getInstance().saveCurrentWalletTxRecordBeanInHelper(beanInHelper);
-            } else {
-                beanInHelper.setIndexMaxForIn(beanInHelper.getIndexMaxForIn() + 1);
-                txRecordBean.setIndexForIn(beanInHelper.getIndexMaxForIn());
-                IONCWalletSDK.getInstance().updateCurrentWalletTxRecordInHelper(beanInHelper);
-            }
-            LoggerUtils.i("method", "txRecordHelper" + "   in = " + beanInHelper.toString());
-        }
         IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
     }
     /**

@@ -48,7 +48,7 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
 
         if (TX_SUSPENDED.equals(item.getBlockNumber())) {
             viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block) + split + context.getResources().getString(R.string.tx_block_suspended));
-//            viewHolder.setVisible(R.id.sync_node,true);
+            viewHolder.setVisible(R.id.sync_node,true);
         } else if (TRANSCATION_ERROR.equals(item.getBlockNumber())) {
             viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block) + split + context.getResources().getString(R.string.tx_block_failure));
         } else {

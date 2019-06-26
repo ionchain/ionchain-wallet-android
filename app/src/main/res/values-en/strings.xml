@@ -232,4 +232,5 @@
     <string name="coin_type_han_yuan">Won</string>
     <string name="coin_type_yin_ni_dun">" Indonesian Rupiah"</string>
     <string name="tx_block_suspended">交易未完成</string>
+    <string name="tx_mount">未完成</string>
 </resources>
