@@ -21,7 +21,6 @@ import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.txrecoder.TxRecordAdapter;
-import org.ionchain.wallet.adapter.txrecoder.TxRecordViewHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 import org.ionchain.wallet.mvp.presenter.transcation.TxRecordPresenter;
 
@@ -82,10 +81,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
      */
     protected List<TxRecordBean> mTxHashUnpackedTemp = new ArrayList<>();
 
-    /**
-     * listvie辅助
-     */
-    protected TxRecordViewHelper mTxRecordViewHelper;
+
 
     /**
      * 交易记录

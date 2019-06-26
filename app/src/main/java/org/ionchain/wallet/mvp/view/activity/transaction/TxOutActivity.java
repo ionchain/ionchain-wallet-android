@@ -34,7 +34,6 @@ import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURR
 import static org.ionchain.wallet.constant.ConstantParams.ADDRESS_DEBUG;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
-import static org.ionchain.wallet.constant.ConstantParams.TRANSCATION_ERROR;
 import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_HASH_NULL;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
@@ -249,7 +248,7 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setSuccess(true);
         mTxRecordBean.setGasPrice(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
         mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
-        mTxRecordBean.setBlockNumber(TRANSCATION_ERROR);//交易失败
+        mTxRecordBean.setBlockNumber(getAppString(R.string.tx_failure));//交易失败
 
         Intent intent = new Intent();
         intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);

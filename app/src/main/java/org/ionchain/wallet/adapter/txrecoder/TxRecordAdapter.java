@@ -17,7 +17,6 @@ import java.util.List;
 
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
-import static org.ionchain.wallet.constant.ConstantParams.TRANSCATION_ERROR;
 
 public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHolder> {
     private Context context;
@@ -49,7 +48,7 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
         if (TX_SUSPENDED.equals(item.getBlockNumber())) {
             viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block) + split + context.getResources().getString(R.string.tx_block_suspended));
             viewHolder.setVisible(R.id.sync_node,true);
-        } else if (TRANSCATION_ERROR.equals(item.getBlockNumber())) {
+        } else if (context.getResources().getString(R.string.tx_failure).equals(item.getBlockNumber())) {
             viewHolder.setVisible(R.id.sync_node,true);
             viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block) + split + context.getResources().getString(R.string.tx_block_failure));
         } else {
