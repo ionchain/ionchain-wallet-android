@@ -75,8 +75,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static java.lang.String.valueOf;
 import static org.ionc.wallet.constant.ConstanParams.GAS_MIN;
@@ -149,7 +147,6 @@ public class IONCWalletSDK {
 
     private DaoSession mDaoSession;
 
-    private final ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     /**
      * 初始化钱包
@@ -506,71 +503,71 @@ public class IONCWalletSDK {
         if (TextUtils.isEmpty(hash)) {
             return;
         }
-        Runnable runnable = () -> {
-            try {
-                Web3j web3j = Web3jFactory.build(new HttpService(node));
-                LoggerUtils.i("ethTransaction ; ");
-                Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
-                if (ethTransaction == null) {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Web3j web3j = Web3jFactory.build(new HttpService(node));
+                    Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
+                    if (ethTransaction == null) {
+                        mHandler.post(() -> {
+                            callback.onTxRecordNodeFailure("error", txRecordBean);
+                        });
+                        return;
+                    }
+
+                    if (!TextUtils.isEmpty(ethTransaction.getBlockNumberRaw())) {
+                        txRecordBean.setBlockNumber(valueOf(new BigInteger(ethTransaction.getBlockNumberRaw().substring(2).toUpperCase(), 16)));
+                    } else {
+                        txRecordBean.setBlockNumber(TX_SUSPENDED);
+                    }
+                    txRecordBean.setBlockHash(ethTransaction.getBlockHash());
+                    txRecordBean.setTransactionIndex(ethTransaction.getTransactionIndexRaw());
+                    txRecordBean.setRaw(ethTransaction.getRaw());
+                    if (!TextUtils.isEmpty(ethTransaction.getPublicKey())) {
+                        txRecordBean.setPublicKey(ethTransaction.getPublicKey());
+                    }
+                    txRecordBean.setR(ethTransaction.getR());
+                    txRecordBean.setS(ethTransaction.getS());
+                    txRecordBean.setV(ethTransaction.getV());
+                    txRecordBean.setCreates(ethTransaction.getCreates());
+                    txRecordBean.setInput(ethTransaction.getInput());
+                    if (!TextUtils.isEmpty(ethTransaction.getTo())) {
+                        txRecordBean.setTo(ethTransaction.getTo());
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getFrom())) {
+                        txRecordBean.setFrom(ethTransaction.getFrom());
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getValueRaw())) {
+                        LoggerUtils.i(" txRecordBean   getValueRaw " + ethTransaction.getValueRaw());
+                        txRecordBean.setValue(String.valueOf(Convert.fromWei(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(), 16)), Convert.Unit.ETHER)));
+                    } else {
+                        txRecordBean.setValue("");
+                    }
+                    if (!TextUtils.isEmpty(ethTransaction.getHash())) {
+                        txRecordBean.setHash(ethTransaction.getHash());
+                    }
+                    txRecordBean.setGasPrice(String.valueOf(Convert.fromWei(Convert.toWei(new BigDecimal(ethTransaction.getGasPrice()), Convert.Unit.GWEI), Convert.Unit.ETHER)));
+                    if (!TextUtils.isEmpty(ethTransaction.getGasRaw())) {
+                        txRecordBean.setGas(String.valueOf(Convert.fromWei(valueOf(
+                                new BigInteger(ethTransaction.getGasPriceRaw().substring(2).toUpperCase(), 16)
+                                        .multiply(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(), 16))
+                        ), Convert.Unit.ETHER)));
+                    }
                     mHandler.post(() -> {
-                        txRecordBean.setBlockNumber("交易失败");
-                        callback.onTxRecordNodeFailure("error", txRecordBean);
+                        LoggerUtils.i("ethTransaction", "txRecordBean  getBlockNumberRaw " + ethTransaction.getBlockNumberRaw());
+                        callback.OnTxRecordNodeSuccess(txRecordBean);
                     });
-                    return;
+                } catch (final IOException e) {
+                    LoggerUtils.e("client", e.getMessage());
+                    mHandler.post(() -> {
+                        LoggerUtils.e(e.getMessage());
+                        callback.onTxRecordNodeFailure(e.getLocalizedMessage(), txRecordBean);
+                    });
                 }
-                LoggerUtils.i("ethTransaction", "txRecordBean  getBlockNumberRaw " + ethTransaction.getBlockNumberRaw());
-
-                if (!TextUtils.isEmpty(ethTransaction.getBlockNumberRaw())) {
-                    txRecordBean.setBlockNumber(valueOf(new BigInteger(ethTransaction.getBlockNumberRaw().substring(2).toUpperCase(), 16)));
-                } else {
-                    txRecordBean.setBlockNumber(TX_SUSPENDED);
-                }
-                txRecordBean.setBlockHash(ethTransaction.getBlockHash());
-                txRecordBean.setTransactionIndex(ethTransaction.getTransactionIndexRaw());
-                txRecordBean.setRaw(ethTransaction.getRaw());
-                if (!TextUtils.isEmpty(ethTransaction.getPublicKey())) {
-                    txRecordBean.setPublicKey(ethTransaction.getPublicKey());
-                }
-                txRecordBean.setR(ethTransaction.getR());
-                txRecordBean.setS(ethTransaction.getS());
-                txRecordBean.setV(ethTransaction.getV());
-                txRecordBean.setCreates(ethTransaction.getCreates());
-                txRecordBean.setInput(ethTransaction.getInput());
-                if (!TextUtils.isEmpty(ethTransaction.getTo())) {
-                    txRecordBean.setTo(ethTransaction.getTo());
-                }
-                if (!TextUtils.isEmpty(ethTransaction.getFrom())) {
-                    txRecordBean.setFrom(ethTransaction.getFrom());
-                }
-                if (!TextUtils.isEmpty(ethTransaction.getValueRaw())) {
-                    LoggerUtils.i(" txRecordBean   getValueRaw " + ethTransaction.getValueRaw());
-                    txRecordBean.setValue(String.valueOf(Convert.fromWei(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(), 16)), Convert.Unit.ETHER)));
-                } else {
-                    txRecordBean.setValue("");
-                }
-                if (!TextUtils.isEmpty(ethTransaction.getHash())) {
-                    txRecordBean.setHash(ethTransaction.getHash());
-                }
-                txRecordBean.setGasPrice(String.valueOf(Convert.fromWei(Convert.toWei(new BigDecimal(ethTransaction.getGasPrice()), Convert.Unit.GWEI), Convert.Unit.ETHER)));
-                if (!TextUtils.isEmpty(ethTransaction.getGasRaw())) {
-                    txRecordBean.setGas(String.valueOf(Convert.fromWei(valueOf(
-                            new BigInteger(ethTransaction.getGasPriceRaw().substring(2).toUpperCase(), 16)
-                                    .multiply(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(), 16))
-                    ), Convert.Unit.ETHER)));
-                }
-                mHandler.post(() -> {
-                    callback.OnTxRecordNodeSuccess(txRecordBean);
-                });
-            } catch (final IOException e) {
-                LoggerUtils.e("client", e.getMessage());
-                mHandler.post(() -> {
-                    LoggerUtils.e(e.getMessage());
-                    callback.onTxRecordNodeFailure(e.getLocalizedMessage(), txRecordBean);
-                });
             }
-        };
-        singleThreadExecutor.execute(runnable);
-
+        } .start();
     }
 
 

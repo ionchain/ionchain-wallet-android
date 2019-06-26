@@ -16,7 +16,18 @@
         android:orientation="vertical">
         <!--头部-->
         <include layout="@layout/header_lv_home_page" />
-
+        <TextView
+            android:text="@string/tx_record"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:background="@color/blue_light"
+            android:layout_height="30dp" />
+        <View
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/margin_h50"
+            android:paddingEnd="@dimen/margin_h50"
+            android:layout_height="1dp"/>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tx_record_tabs"
             android:layout_width="match_parent"
