@@ -585,6 +585,13 @@ public class AssetFragment extends AbsBaseFragment implements
 //            mTxRecordInFragment.onPullToDown(mCurrentWallet);
 //        }
     }
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//        mTxRecordAllFragment.onPullToUp(mCurrentWallet);
+//        mTxRecordInFragment.onPullToUp(mCurrentWallet);
+//        mTxRecordOutFragment.onPullToUp(mCurrentWallet);
+//        mRefresh.finishLoadMore(500);
+    }
 
     @Override
     public void onDestroy() {
@@ -916,13 +923,6 @@ public class AssetFragment extends AbsBaseFragment implements
         IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
     }
 
-    @Override
-    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//        mTxRecordAllFragment.onPullToUp(mCurrentWallet);
-//        mTxRecordInFragment.onPullToUp(mCurrentWallet);
-//        mTxRecordOutFragment.onPullToUp(mCurrentWallet);
-//        mRefresh.finishLoadMore(500);
-    }
 
     public interface OnPullToRefreshCallback {
         /**
