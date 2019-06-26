@@ -338,7 +338,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mRefreshHeader = view.findViewById(R.id.refresh_header);
         mRefresh.setOnRefreshListener(this);
         mRefresh.setOnLoadMoreListener(this);
-        mRefresh.setEnableLoadMore(false);
+//        mRefresh.setEnableLoadMore(false);
         mBuilder = new PopupWindowBuilder(mActivity, R.layout.item_popup_list_layout, this);
         tabLayout = view.findViewById(R.id.tx_record_tabs);
         viewPager = view.findViewById(R.id.tx_record_content);
@@ -575,22 +575,22 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
         balance();
-//        if (mTxRecordAllFragment != null) {
-//            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
-//        }
-//        if (mTxRecordOutFragment != null) {
-//            mTxRecordOutFragment.onPullToDown(mCurrentWallet);
-//        }
-//        if (mTxRecordInFragment != null) {
-//            mTxRecordInFragment.onPullToDown(mCurrentWallet);
-//        }
+        if (mTxRecordAllFragment != null) {
+            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
+        }
+        if (mTxRecordOutFragment != null) {
+            mTxRecordOutFragment.onPullToDown(mCurrentWallet);
+        }
+        if (mTxRecordInFragment != null) {
+            mTxRecordInFragment.onPullToDown(mCurrentWallet);
+        }
     }
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//        mTxRecordAllFragment.onPullToUp(mCurrentWallet);
-//        mTxRecordInFragment.onPullToUp(mCurrentWallet);
-//        mTxRecordOutFragment.onPullToUp(mCurrentWallet);
-//        mRefresh.finishLoadMore(500);
+        mTxRecordAllFragment.onPullToUp(mCurrentWallet);
+        mTxRecordInFragment.onPullToUp(mCurrentWallet);
+        mTxRecordOutFragment.onPullToUp(mCurrentWallet);
+        mRefresh.finishLoadMore(500);
     }
 
     @Override
