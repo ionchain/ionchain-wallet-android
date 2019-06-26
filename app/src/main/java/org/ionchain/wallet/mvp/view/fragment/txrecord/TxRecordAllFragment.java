@@ -1,7 +1,6 @@
 package org.ionchain.wallet.mvp.view.fragment.txrecord;
 
 import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.WalletBeanNew;
 
 
 public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
@@ -22,10 +21,4 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
         super.onNewTxRecordByTx(txRecordBean);
     }
 
-    @Override
-    public void onPullToUp(WalletBeanNew walletBeanNew) {
-
-        super.onPullToUp(walletBeanNew);
-
-    }
 }

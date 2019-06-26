@@ -210,7 +210,7 @@
     <string name="try_net_times">Trying the %s node request</string>
     <string name="try_net_times_finish">After %s requests, the attempt ends and the service exception occurs</string>
     <string name="tx_record_none">Tx record empty</string>
-    <string name="tx_block_unpacked">Transaction Failure</string>
+    <string name="tx_block_failure">Transaction Failure</string>
     <string name="tx_time">Time</string>
     <string name="coin_type">Select Coin Type</string>
     <string name="import_mnemonics">Import mnemonics</string>
@@ -231,4 +231,5 @@
     <string name="coin_type_rmb">Yuan</string>
     <string name="coin_type_han_yuan">Won</string>
     <string name="coin_type_yin_ni_dun">" Indonesian Rupiah"</string>
+    <string name="tx_block_suspended">交易未完成</string>
 </resources>

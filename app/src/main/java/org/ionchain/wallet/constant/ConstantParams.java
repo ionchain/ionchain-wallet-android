@@ -71,7 +71,7 @@ public final class ConstantParams {
     public static final String DOWNLOAD_MUST_UPDATE_YES = "1";//   必须更新，不可取消
 
 
-    public static final String DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL = "null";//   必须更新，不可取消
+    public static final String TRANSCATION_ERROR = "null";//   必须更新，不可取消
     public static final String DEFAULT_TRANSCATION_HASH_NULL = "null";//   必须更新，不可取消
 
     public final static String COIN_TYPE_CNY = "cny";
@@ -81,4 +81,7 @@ public final class ConstantParams {
 
     public static final int TX_ACTIVITY_FOR_RESULT_CODE = 10;
     public static final String TX_ACTIVITY_RESULT = "TX_ACTIVITY_RESULT";
+
+
+
 }

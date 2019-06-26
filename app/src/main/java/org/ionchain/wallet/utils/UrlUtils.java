@@ -4,8 +4,8 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.constant.ConstantUrl;
 
 public class UrlUtils {
-    private static boolean AppDebug = true;
 //    private static boolean AppDebug = true;
+    private static boolean AppDebug = false;
 
     /**
      * @return 获取主链节点
@@ -102,8 +102,8 @@ public class UrlUtils {
             return ConstantUrl.HOST_NODE_MAIN_DEBUG;
         } else {
             LoggerUtils.i("正式服：汇率" + ConstantUrl.URL_USD_EX_RATE_RMB_PRICE);
-            return ConstantUrl.HOST_NODE_MAIN_DEBUG;
-//            return ConstantUrl.HOST_NODE_MAIN;
+//            return ConstantUrl.HOST_NODE_MAIN_DEBUG;
+            return ConstantUrl.HOST_NODE_MAIN;
         }
     }
 

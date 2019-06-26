@@ -15,7 +15,7 @@ import org.ionchain.wallet.R;
 import java.util.List;
 
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
-import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL;
+import static org.ionchain.wallet.constant.ConstantParams.TRANSCATION_ERROR;
 
 /**
  * AUTHOR binny
@@ -60,8 +60,8 @@ public class TxRecordViewHelper implements IViewHolderHelper<TxRecorderViewHolde
         }
 
 
-        if (DEFAULT_TRANSCATION_BLOCK_NUMBER_NULL.equals(iBaseBeanList.get(position).getBlockNumber())) {
-            viewHolder.block.setText(context.getResources().getString(R.string.tx_block_unpacked));
+        if (TRANSCATION_ERROR.equals(iBaseBeanList.get(position).getBlockNumber())) {
+            viewHolder.block.setText(context.getResources().getString(R.string.tx_block_failure));
         } else {
             viewHolder.block.setText(context.getResources().getString(R.string.tx_block) + iBaseBeanList.get(position).getBlockNumber());
         }

@@ -100,7 +100,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".mvp.view.activity.transaction.TxActivity"
+            android:name=".mvp.view.activity.transaction.TxOutActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />

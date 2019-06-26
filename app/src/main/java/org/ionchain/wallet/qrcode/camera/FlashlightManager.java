@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 /**
  * This class is used to activate the weak light on some activity_camera phones (not flash)
  * in order to illuminate surfaces for scanning. There is no official way to do this,
- * but, classes which allow access to this function still exist on some devices.
+ * but, classes which allow access to this function still notExist on some devices.
  * This therefore proceeds through a great deal of reflection.
  * <p>
  * See <a href="http://almondmendoza.com/2009/01/05/changing-the-screen-brightness-programatically/">

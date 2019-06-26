@@ -45,4 +45,13 @@ public class TxRecordBeanInHelper {
     public void setToAddress(String toAddress) {
         this.toAddress = toAddress;
     }
+
+    @Override
+    public String toString() {
+        return "TxRecordBeanInHelper{" +
+                "id=" + id +
+                ", indexMaxForIn=" + indexMaxForIn +
+                ", toAddress='" + toAddress + '\'' +
+                '}';
+    }
 }

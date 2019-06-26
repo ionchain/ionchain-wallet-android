@@ -2,10 +2,10 @@
 * 版本信息
 * */
 ext{
-    appVersionName = '2.0.0_beta'
-    appVersionCode = 201//更新依赖
+    appVersionName = '1.1.0'
+    appVersionCode = 110//更新依赖
 
-    extSchemaVersion = 8  //数据库版本
+    extSchemaVersion = 5  //数据库版本
 
     extMinSdkVersion = 19
     extTargetSdkVersion = 26

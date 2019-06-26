@@ -15,7 +15,7 @@
         <RelativeLayout
             android:id="@+id/tx_record_holder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:background="@drawable/tx_record_bg_item"
             android:orientation="vertical">
@@ -58,6 +58,15 @@
                 android:layout_below="@id/tx_from"
                 android:id="@+id/tx_to"
                 style="@style/TxRecorder" />
+            <ImageView
+                android:id="@+id/sync_node"
+                android:visibility="gone"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/dp_10"
+                android:src="@mipmap/sync_node"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

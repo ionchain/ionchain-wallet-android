@@ -41,7 +41,9 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
     private boolean local;
     private boolean success;
 
-    private Long index;
+    private Long indexForAll;
+    private Long indexForOut;
+    private Long indexForIn;
 
 
     @Override
@@ -217,12 +219,28 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.success = success;
     }
 
-    public Long getIndex() {
-        return index;
+    public Long getIndexForAll() {
+        return indexForAll;
     }
 
-    public void setIndex(Long index) {
-        this.index = index;
+    public void setIndexForAll(Long indexForAll) {
+        this.indexForAll = indexForAll;
+    }
+
+    public Long getIndexForOut() {
+        return indexForOut;
+    }
+
+    public void setIndexForOut(Long indexForOut) {
+        this.indexForOut = indexForOut;
+    }
+
+    public Long getIndexForIn() {
+        return indexForIn;
+    }
+
+    public void setIndexForIn(Long indexForIn) {
+        this.indexForIn = indexForIn;
     }
 
     @Override
@@ -253,7 +271,17 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         dest.writeString(this.tc_in_out);
         dest.writeByte(this.local ? (byte) 1 : (byte) 0);
         dest.writeByte(this.success ? (byte) 1 : (byte) 0);
-        dest.writeValue(this.index);
+        dest.writeValue(this.indexForAll);
+        dest.writeValue(this.indexForOut);
+        dest.writeValue(this.indexForIn);
+    }
+
+    public boolean getLocal() {
+        return this.local;
+    }
+
+    public boolean getSuccess() {
+        return this.success;
     }
 
     public TxRecordBean() {
@@ -281,14 +309,17 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.tc_in_out = in.readString();
         this.local = in.readByte() != 0;
         this.success = in.readByte() != 0;
-        this.index = (Long) in.readValue(Long.class.getClassLoader());
+        this.indexForAll = (Long) in.readValue(Long.class.getClassLoader());
+        this.indexForOut = (Long) in.readValue(Long.class.getClassLoader());
+        this.indexForIn = (Long) in.readValue(Long.class.getClassLoader());
     }
 
-    @Generated(hash = 1910062084)
+    @Generated(hash = 628270852)
     public TxRecordBean(Long id, String hash, String nonce, String blockHash, String blockNumber,
             String transactionIndex, String from, String to, String value, String gasPrice, String gas,
             String input, String creates, String publicKey, String raw, String r, String s, Integer v,
-            String tc_in_out, boolean local, boolean success, Long index) {
+            String tc_in_out, boolean local, boolean success, Long indexForAll, Long indexForOut,
+            Long indexForIn) {
         this.id = id;
         this.hash = hash;
         this.nonce = nonce;
@@ -310,7 +341,9 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.tc_in_out = tc_in_out;
         this.local = local;
         this.success = success;
-        this.index = index;
+        this.indexForAll = indexForAll;
+        this.indexForOut = indexForOut;
+        this.indexForIn = indexForIn;
     }
 
     public static final Creator<TxRecordBean> CREATOR = new Creator<TxRecordBean>() {
@@ -349,15 +382,9 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
                 ", tc_in_out='" + tc_in_out + '\'' +
                 ", local=" + local +
                 ", success=" + success +
-                ", index=" + index +
+                ", indexForAll=" + indexForAll +
+                ", indexForOut=" + indexForOut +
+                ", indexForIn=" + indexForIn +
                 '}';
-    }
-
-    public boolean getLocal() {
-        return this.local;
-    }
-
-    public boolean getSuccess() {
-        return this.success;
     }
 }

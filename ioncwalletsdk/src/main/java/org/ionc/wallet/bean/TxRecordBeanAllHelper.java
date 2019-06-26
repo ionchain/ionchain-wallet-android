@@ -45,4 +45,13 @@ public class TxRecordBeanAllHelper {
     public void setPublicKey(String publicKey) {
         this.publicKey = publicKey;
     }
+
+    @Override
+    public String toString() {
+        return "TxRecordBeanAllHelper{" +
+                "id=" + id +
+                ", indexMaxForAll=" + indexMaxForAll +
+                ", publicKey='" + publicKey + '\'' +
+                '}';
+    }
 }

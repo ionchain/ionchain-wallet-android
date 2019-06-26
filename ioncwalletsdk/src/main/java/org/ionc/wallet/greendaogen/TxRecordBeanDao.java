@@ -45,7 +45,9 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
         public final static Property Tc_in_out = new Property(18, String.class, "tc_in_out", false, "TC_IN_OUT");
         public final static Property Local = new Property(19, boolean.class, "local", false, "LOCAL");
         public final static Property Success = new Property(20, boolean.class, "success", false, "SUCCESS");
-        public final static Property Index = new Property(21, Long.class, "index", false, "INDEX");
+        public final static Property IndexForAll = new Property(21, Long.class, "indexForAll", false, "INDEX_FOR_ALL");
+        public final static Property IndexForOut = new Property(22, Long.class, "indexForOut", false, "INDEX_FOR_OUT");
+        public final static Property IndexForIn = new Property(23, Long.class, "indexForIn", false, "INDEX_FOR_IN");
     }
 
 
@@ -82,7 +84,9 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
                 "\"TC_IN_OUT\" TEXT," + // 18: tc_in_out
                 "\"LOCAL\" INTEGER NOT NULL ," + // 19: local
                 "\"SUCCESS\" INTEGER NOT NULL ," + // 20: success
-                "\"INDEX\" INTEGER);"); // 21: index
+                "\"INDEX_FOR_ALL\" INTEGER," + // 21: indexForAll
+                "\"INDEX_FOR_OUT\" INTEGER," + // 22: indexForOut
+                "\"INDEX_FOR_IN\" INTEGER);"); // 23: indexForIn
     }
 
     /** Drops the underlying database table. */
@@ -192,9 +196,19 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
         stmt.bindLong(20, entity.getLocal() ? 1L: 0L);
         stmt.bindLong(21, entity.getSuccess() ? 1L: 0L);
  
-        Long index = entity.getIndex();
-        if (index != null) {
-            stmt.bindLong(22, index);
+        Long indexForAll = entity.getIndexForAll();
+        if (indexForAll != null) {
+            stmt.bindLong(22, indexForAll);
+        }
+ 
+        Long indexForOut = entity.getIndexForOut();
+        if (indexForOut != null) {
+            stmt.bindLong(23, indexForOut);
+        }
+ 
+        Long indexForIn = entity.getIndexForIn();
+        if (indexForIn != null) {
+            stmt.bindLong(24, indexForIn);
         }
     }
 
@@ -299,9 +313,19 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
         stmt.bindLong(20, entity.getLocal() ? 1L: 0L);
         stmt.bindLong(21, entity.getSuccess() ? 1L: 0L);
  
-        Long index = entity.getIndex();
-        if (index != null) {
-            stmt.bindLong(22, index);
+        Long indexForAll = entity.getIndexForAll();
+        if (indexForAll != null) {
+            stmt.bindLong(22, indexForAll);
+        }
+ 
+        Long indexForOut = entity.getIndexForOut();
+        if (indexForOut != null) {
+            stmt.bindLong(23, indexForOut);
+        }
+ 
+        Long indexForIn = entity.getIndexForIn();
+        if (indexForIn != null) {
+            stmt.bindLong(24, indexForIn);
         }
     }
 
@@ -334,7 +358,9 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
             cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // tc_in_out
             cursor.getShort(offset + 19) != 0, // local
             cursor.getShort(offset + 20) != 0, // success
-            cursor.isNull(offset + 21) ? null : cursor.getLong(offset + 21) // index
+            cursor.isNull(offset + 21) ? null : cursor.getLong(offset + 21), // indexForAll
+            cursor.isNull(offset + 22) ? null : cursor.getLong(offset + 22), // indexForOut
+            cursor.isNull(offset + 23) ? null : cursor.getLong(offset + 23) // indexForIn
         );
         return entity;
     }
@@ -362,7 +388,9 @@ public class TxRecordBeanDao extends AbstractDao<TxRecordBean, Long> {
         entity.setTc_in_out(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
         entity.setLocal(cursor.getShort(offset + 19) != 0);
         entity.setSuccess(cursor.getShort(offset + 20) != 0);
-        entity.setIndex(cursor.isNull(offset + 21) ? null : cursor.getLong(offset + 21));
+        entity.setIndexForAll(cursor.isNull(offset + 21) ? null : cursor.getLong(offset + 21));
+        entity.setIndexForOut(cursor.isNull(offset + 22) ? null : cursor.getLong(offset + 22));
+        entity.setIndexForIn(cursor.isNull(offset + 23) ? null : cursor.getLong(offset + 23));
      }
     
     @Override

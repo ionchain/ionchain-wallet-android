@@ -45,4 +45,13 @@ public class TxRecordBeanOutHelper {
     public void setFromAddress(String fromAddress) {
         this.fromAddress = fromAddress;
     }
+
+    @Override
+    public String toString() {
+        return "TxRecordBeanOutHelper{" +
+                "id=" + id +
+                ", indexMaxForOut=" + indexMaxForOut +
+                ", fromAddress='" + fromAddress + '\'' +
+                '}';
+    }
 }

@@ -142,6 +142,31 @@ public class TxRecordBeanTemp implements Serializable {
             private String gasGasThousand;
             private String gasGasPriceThousand;
 
+            @Override
+            public String toString() {
+                return "ItemBean{" +
+                        "hash='" + hash + '\'' +
+                        ", blockHash='" + blockHash + '\'' +
+                        ", blockNumber=" + blockNumber +
+                        ", tx_from='" + tx_from + '\'' +
+                        ", tx_to='" + tx_to + '\'' +
+                        ", isContract=" + isContract +
+                        ", value='" + value + '\'' +
+                        ", input='" + input + '\'' +
+                        ", nonce='" + nonce + '\'' +
+                        ", transactionIndex=" + transactionIndex +
+                        ", gas='" + gas + '\'' +
+                        ", gasPrice='" + gasPrice + '\'' +
+                        ", v='" + v + '\'' +
+                        ", s='" + s + '\'' +
+                        ", r='" + r + '\'' +
+                        ", etherValue=" + etherValue +
+                        ", txFee='" + txFee + '\'' +
+                        ", gasGasThousand='" + gasGasThousand + '\'' +
+                        ", gasGasPriceThousand='" + gasGasPriceThousand + '\'' +
+                        '}';
+            }
+
             public String getHash() {
                 return hash;
             }

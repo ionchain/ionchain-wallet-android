@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".mvp.view.activity.transaction.TxActivity">
+    tools:context=".mvp.view.activity.transaction.TxOutActivity">
     <include layout="@layout/activity_common_title_three"/>
     <LinearLayout
         android:orientation="vertical"
