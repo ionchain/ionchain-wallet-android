@@ -84,12 +84,8 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
         txDetailTime.setText(time);
         txDetailValue.setText(mTxRecordBean.getValue() + " IONC");
         txDetailFee.setText(mTxRecordBean.getGas() + " IONC");
-        txDetailFee1.setText("=Gas(21,000)*" + "GasPrice(" + mTxRecordBean.getGasPrice() + "GWei)");
+        txDetailFee1.setText("=Gas(21,000)*" + " GasPrice(" + mTxRecordBean.getGasPrice() + " GWei)");
         txDetailTo.setText(mTxRecordBean.getTo()+"   ");
-//        SpannableString spannableString = new SpannableString(mTxRecordBean.getTo()+"1");
-//        ImageSpan imageSpan = new ImageSpan(this, R.drawable.copy);
-//        spannableString.setSpan(imageSpan, mTxRecordBean.getTo().length(), mTxRecordBean.getTo().length()+1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-//        txDetailTo.setText(spannableString);
         txDetailFrom.setText(mTxRecordBean.getFrom()+"   ");
         txDetailHash.setText(mTxRecordBean.getHash()+"   ");
         txDetailBlock.setText(mTxRecordBean.getBlockNumber());

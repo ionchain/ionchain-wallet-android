@@ -12,9 +12,6 @@ public class TxRecordAllFragment extends AbsTxRecordBaseFragment {
     }
 
 
-
-
-
     @Override
     public void onNewTxRecordByTx(TxRecordBean txRecordBean) {
         mListAllData.add(0, txRecordBean);

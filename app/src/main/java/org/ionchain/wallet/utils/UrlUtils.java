@@ -1,11 +1,12 @@
 package org.ionchain.wallet.utils;
 
 import org.ionc.wallet.utils.LoggerUtils;
+import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.constant.ConstantUrl;
 
 public class UrlUtils {
-//    private static boolean AppDebug = true;
-    private static boolean AppDebug = false;
+    private static boolean AppDebug = BuildConfig.APP_DEBUG;
+//    private static boolean AppDebug = false;
 
     /**
      * @return 获取主链节点
