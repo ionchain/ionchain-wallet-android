@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ionc.wallet.bean.TxRecordBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.DateUtils;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
@@ -15,6 +16,7 @@ import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
 
+import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
 
 public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
@@ -30,7 +32,10 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
     private TextView txDetailFrom;
     private TextView txDetailHash;
     private TextView txDetailBlock;
+    private TextView wallet_name;
     private ImageView txDetailQrcode;
+
+    private WalletBeanNew mWalletBeanNew;
 
     /**
      * Find the Views in the layout<br />
@@ -49,6 +54,7 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
         txDetailFrom = (TextView) findViewById(R.id.tx_detail_from);
         txDetailHash = (TextView) findViewById(R.id.tx_detail_hash);
         txDetailBlock = (TextView) findViewById(R.id.tx_detail_block);
+        wallet_name = (TextView) findViewById(R.id.wallet_name);
         txDetailQrcode = (ImageView) findViewById(R.id.tx_detail_qrcode);
     }
 
@@ -72,22 +78,29 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
     protected void initData() {
         super.initData();
 
-        if (!getAppString(R.string.tx_failure).equals(mTxRecordBean.getBlockNumber())) {
-            txDetailText.setText(getAppString(R.string.tx_success));
-            txDetailIcon.setImageResource(R.drawable.tx_success);
-        } else {
+        if (getAppString(R.string.tx_failure).equals(mTxRecordBean.getBlockNumber())) {
             txDetailText.setText(getAppString(R.string.tx_failure));
             txDetailIcon.setImageResource(R.drawable.tx_failure);
+
+        } else if (TX_SUSPENDED.equals(mTxRecordBean.getBlockNumber())) {
+            txDetailText.setText(getAppString(R.string.tx_block_suspended));
+            txDetailIcon.setImageResource(R.drawable.tx_suspended);
+        } else {
+            txDetailText.setText(getAppString(R.string.tx_success));
+            txDetailIcon.setImageResource(R.drawable.tx_success);
         }
+
         String time = DateUtils.getDateToString(Long.parseLong(mTxRecordBean.getTc_in_out()), Y4M2D2H2M2S2);
         txDetailTime.setText(time);
         txDetailValue.setText(mTxRecordBean.getValue() + " IONC");
         txDetailFee.setText(mTxRecordBean.getGas() + " IONC");
         txDetailFee1.setText("=Gas(21,000)*" + " GasPrice(" + mTxRecordBean.getGasPrice() + " GWei)");
-        txDetailTo.setText(mTxRecordBean.getTo()+"   ");
-        txDetailFrom.setText(mTxRecordBean.getFrom()+"   ");
-        txDetailHash.setText(mTxRecordBean.getHash()+"   ");
+        txDetailTo.setText(mTxRecordBean.getTo() + "   ");
+        txDetailFrom.setText(mTxRecordBean.getFrom() + "   ");
+        txDetailHash.setText(mTxRecordBean.getHash() + "   ");
+
         txDetailBlock.setText(mTxRecordBean.getBlockNumber());
+        wallet_name.setText(mWalletBeanNew.getName());
         txDetailQrcode.setImageBitmap(QRCodeUtils.generateQRCode(mTxRecordBean.getHash(), 200));
     }
 
@@ -134,6 +147,7 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
         mTxRecordBean = intent.getParcelableExtra(ConstantParams.PARCELABLE_TX_RECORD);
+        mWalletBeanNew = intent.getParcelableExtra(ConstantParams.PARCELABLE_WALLET_BEAN);
         LoggerUtils.i("mTxRecordBean = " + mTxRecordBean.toString());
     }
 }

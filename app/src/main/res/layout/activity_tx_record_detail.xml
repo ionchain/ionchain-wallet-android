@@ -128,9 +128,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/value"
-                    android:layout_marginLeft="@dimen/tx_marginStar"
+                    android:layout_marginStart="@dimen/tx_marginStar"
                     android:layout_marginTop="@dimen/h15"
-                    android:layout_marginRight="@dimen/h25"
+                    android:layout_marginEnd="@dimen/h25"
                     android:orientation="horizontal">
 
                     <TextView
@@ -155,8 +155,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tx_fee_ll"
-                    android:layout_marginLeft="@dimen/tx_marginStar"
-                    android:layout_marginRight="@dimen/h25"
+                    android:layout_marginStart="@dimen/tx_marginStar"
+                    android:layout_marginEnd="@dimen/h25"
                     android:orientation="horizontal">
 
                     <TextView
@@ -209,9 +209,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/to"
-                    android:layout_marginLeft="@dimen/tx_marginStar"
+                    android:layout_marginStart="@dimen/tx_marginStar"
                     android:layout_marginTop="@dimen/h15"
-                    android:layout_marginRight="@dimen/h25"
+                    android:layout_marginEnd="@dimen/h25"
                     android:orientation="horizontal">
 
                     <TextView
@@ -222,6 +222,7 @@
                         android:textSize="@dimen/tx_left_tag" />
 
                     <TextView
+                        android:id="@+id/wallet_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center|left"
@@ -278,7 +279,7 @@
 
                 <TextView
                     android:id="@+id/tx_detail_hash"
-                    android:layout_width="wrap_content"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tx_hash"
                     android:layout_toEndOf="@id/tx_hash"

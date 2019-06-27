@@ -35,6 +35,7 @@ import java.util.List;
 import static com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN;
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_TX_RECORD;
+import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 /**
@@ -85,9 +86,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             case TYPE_ALL:
                 mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListAllData);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view12, position) -> {
-                    Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
-                    intent.putExtra(PARCELABLE_TX_RECORD, mListAllData.get(position));
-                    startActivity(intent);
+                    skipToDetail( mListAllData.get(position));
                 });
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
                     syncBrowser(view15, position);
@@ -96,9 +95,8 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             case TYPE_OUT:
                 mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListOut);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view13, position) -> {
-                    Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
-                    intent.putExtra(PARCELABLE_TX_RECORD, mListOut.get(position));
-                    startActivity(intent);
+                    skipToDetail( mListOut.get(position));
+
                 });
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
                     syncBrowser(view15, position);
@@ -107,9 +105,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             case TYPE_IN:
                 mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListIn);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view14, position) -> {
-                    Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
-                    intent.putExtra(PARCELABLE_TX_RECORD, mListIn.get(position));
-                    startActivity(intent);
+                    skipToDetail( mListIn.get(position));
                 });
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
                     syncBrowser(view15, position);
@@ -119,6 +115,13 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         mTxRecordAdapter.bindToRecyclerView(mListView);
         mTxRecordAdapter.openLoadAnimation(SCALEIN);
         mListView.setAdapter(mTxRecordAdapter);
+    }
+
+    private void skipToDetail(TxRecordBean txRecordBean) {
+        Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
+        intent.putExtra(PARCELABLE_TX_RECORD,txRecordBean);
+        intent.putExtra(PARCELABLE_WALLET_BEAN,mWalletBeanNew);
+        startActivity(intent);
     }
 
     private void syncBrowser(View view15, int position) {
@@ -619,7 +622,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         TextView v = (TextView) mTxRecordAdapter.getViewByPosition(mItemClickedPos, R.id.tx_block);
         LoggerUtils.i("ethTransaction", "OnTxRecordNodeSuccess" + "   " + txRecordBean.toString());
         if (TX_SUSPENDED.equals(txRecordBean.getBlockNumber())) {
-            ToastUtil.showToastLonger(getAppString(R.string.tx_mount));
+            ToastUtil.showToastLonger(getAppString(R.string.tx_block_suspended));
             return;
         }
         if (v != null) {

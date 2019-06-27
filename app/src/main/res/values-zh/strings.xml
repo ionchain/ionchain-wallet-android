@@ -231,6 +231,5 @@
     <string name="coin_type_han_yuan">韩元</string>
     <string name="coin_type_yin_ni_dun">印尼盾</string>
     <string name="tx_block_suspended">交易未完成</string>
-    <string name="tx_mount">未完成</string>
     <string name="error_tx_recorder">交易失败</string>
 </resources>

@@ -84,7 +84,7 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
     private Button txNext;
     private String mNodeIONC = getHostNode();
 
-    private final BigDecimal mGasPriceScale = BigDecimal.valueOf(10000); //gWei
+    private final BigDecimal mGasPriceScale = BigDecimal.valueOf(0.1); //gWei
     private BigDecimal mGasPrice = BigDecimal.valueOf(SEEK_BAR_SRART_VALUE);//进度值,起始值为 30GWei ,最大值为100
 
 
@@ -149,6 +149,7 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
                     progress = SEEK_BAR_MIN_VALUE_1_GWEI;
                 }
                 mGasPrice = BigDecimal.valueOf(progress).multiply(mGasPriceScale);
+                //显示gas消耗
                 mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString() + " IONC");
             }
 

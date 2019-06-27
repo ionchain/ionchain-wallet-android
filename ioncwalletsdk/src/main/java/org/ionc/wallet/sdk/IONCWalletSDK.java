@@ -522,7 +522,9 @@ public class IONCWalletSDK {
                     } else {
                         txRecordBean.setBlockNumber(TX_SUSPENDED);
                     }
+                    //交易区块的哈希值
                     txRecordBean.setBlockHash(ethTransaction.getBlockHash());
+                    //交易索引
                     txRecordBean.setTransactionIndex(ethTransaction.getTransactionIndexRaw());
                     txRecordBean.setRaw(ethTransaction.getRaw());
                     if (!TextUtils.isEmpty(ethTransaction.getPublicKey())) {
