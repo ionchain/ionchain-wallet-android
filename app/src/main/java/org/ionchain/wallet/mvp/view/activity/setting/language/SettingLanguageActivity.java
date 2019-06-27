@@ -1,4 +1,4 @@
-package org.ionchain.wallet.mvp.view.activity.setting;
+package org.ionchain.wallet.mvp.view.activity.setting.language;
 
 import android.view.View;
 import android.widget.TextView;
@@ -22,7 +22,7 @@ public class SettingLanguageActivity extends AbsBaseCommonTitleTwoActivity imple
     @Override
     protected void initView() {
         mUserSelect = findViewById(R.id.tv_user_select);
-        mUserSelect.setText(getString(R.string.language_select, LocalManageUtil.getSelectLanguage(this)));
+        mUserSelect.setText(getString(R.string.setting_select_language, LocalManageUtil.getSelectLanguage(this)));
         findViewById(R.id.btn_auto).setOnClickListener(this);
         findViewById(R.id.btn_cn).setOnClickListener(this);
         findViewById(R.id.btn_en).setOnClickListener(this);

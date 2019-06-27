@@ -24,7 +24,7 @@
     <string name="language_cn">简体中文</string>
     <string name="language_en">English</string>
     <string name="language_auto">Auto</string>
-    <string name="language_select">Currently selected language:  %s</string>
+    <string name="setting_select_language">Currently selected language:  %s</string>
     <string name="nav_mine">Mine</string>
     <string name="wallet_management">Wallet Management</string>
     <string name="version">Version：%s</string>
@@ -235,4 +235,5 @@
     <string name="coin_type_yin_ni_dun">" Indonesian Rupiah"</string>
     <string name="tx_block_suspended">Suspended</string>
     <string name="error_tx_recorder">交易失败</string>
+    <string name="setting_select_coin_type">Currently selected coin type:  %s</string>
 </resources>

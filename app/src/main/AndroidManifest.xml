@@ -27,9 +27,9 @@
         tools:replace="android:label">
         <activity android:name=".mvp.view.activity.transaction.TxRecordDetailActivity"
             android:launchMode="singleTop"/>
-        <activity android:name=".mvp.view.activity.coin.SelectCoinActivity" />
+        <activity android:name=".mvp.view.activity.setting.coin.SelectCoinActivity" />
         <activity
-            android:name=".mvp.view.activity.setting.SettingLanguageActivity"
+            android:name=".mvp.view.activity.setting.language.SettingLanguageActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />

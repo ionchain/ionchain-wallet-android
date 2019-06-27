@@ -22,7 +22,7 @@
     <string name="language_cn">简体中文</string>
     <string name="language_en">English</string>
     <string name="language_auto">默认</string>
-    <string name="language_select">当前选择的语言: %s</string>
+    <string name="setting_select_language">当前选择的语言: %s</string>
     <string name="nav_mine">我的</string>
     <string name="wallet_management">钱包管理</string>
     <string name="version">当前版本：%s</string>
@@ -232,4 +232,5 @@
     <string name="coin_type_yin_ni_dun">印尼盾</string>
     <string name="tx_block_suspended">交易未完成</string>
     <string name="error_tx_recorder">交易失败</string>
+    <string name="setting_select_coin_type">当前币种: %s</string>
 </resources>

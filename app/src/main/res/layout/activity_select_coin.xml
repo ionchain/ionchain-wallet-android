@@ -5,10 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.ionchain.wallet.mvp.view.activity.coin.SelectCoinActivity">
+    android:gravity="center_horizontal"
+    tools:context=".mvp.view.activity.setting.coin.SelectCoinActivity">
 
     <include layout="@layout/activity_common_title_two" />
 
+    <TextView
+        android:id="@+id/current_coin_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="@string/setting_select_language"
+        android:textColor="@android:color/black"
+        android:textSize="15dp" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

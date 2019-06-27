@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/wallet_logo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerInParent="true"
             android:background="@mipmap/wallet_logo"
             android:contentDescription="@string/wallet_icon" />
@@ -35,7 +35,7 @@
             android:gravity="center"
             android:text="@string/wallet"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_22sp" />
+            android:textSize="@dimen/txt_16sp" />
 
         <ImageView
             android:id="@+id/wallet_list"
@@ -76,7 +76,7 @@
                     android:gravity="center"
                     android:text="****"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/txt_16sp"
+                    android:textSize="@dimen/txt_22sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -87,7 +87,7 @@
                     android:layout_toRightOf="@id/ionc_balance_tx"
                     android:text="    IONC"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/txt_8sp"
+                    android:textSize="10sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -113,7 +113,7 @@
                     android:layout_toRightOf="@id/ionc_balance_tx"
                     android:text="    RMB"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/txt_8sp"
+                    android:textSize="10sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 

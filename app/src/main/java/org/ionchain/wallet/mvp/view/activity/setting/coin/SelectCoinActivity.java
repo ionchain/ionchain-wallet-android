@@ -1,7 +1,8 @@
-package org.ionchain.wallet.mvp.view.activity.coin;
+package org.ionchain.wallet.mvp.view.activity.setting.coin;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
@@ -18,6 +19,8 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
     private Button coinCny;
     private Button coinKrw;
     private Button coinIdr;
+
+    private TextView mUserSelect;
 
     @Override
     protected int getLayoutId() {
@@ -36,6 +39,26 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
     }
 
 
+    @Override
+    protected void initData() {
+        super.initData();
+        String ct = SPUtils.getInstance().getCoinType();
+        switch (ct) {
+            case "us":
+                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_us)));
+                break;
+            case "cny":
+                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_rmb)));
+                break;
+            case "krw":
+                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_han_yuan)));
+                break;
+            case "idr":
+                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_yin_ni_dun)));
+                break;
+        }
+    }
+
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -43,6 +66,7 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
+        mUserSelect = findViewById(R.id.current_coin_type);
         coinUs = (Button) findViewById(R.id.coin_us);
         coinCny = (Button) findViewById(R.id.coin_cny);
         coinKrw = (Button) findViewById(R.id.coin_krw);
@@ -72,6 +96,22 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
             mCoinType = COIN_TYPE_IDR;
         }
         SPUtils.getInstance().saveCoinType(mCoinType);
+        String ct = SPUtils.getInstance().getCoinType();
+        switch (ct) {
+            case "us":
+                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_us)));
+                break;
+            case "cny":
+                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_rmb)));
+                break;
+            case "krw":
+                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_han_yuan)));
+                break;
+            case "idr":
+                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_yin_ni_dun)));
+                break;
+        }
+
     }
 
 }
