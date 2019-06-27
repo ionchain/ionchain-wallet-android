@@ -204,7 +204,9 @@
                         android:textSize="@dimen/textSize_14" />
                 </LinearLayout>
 
+                <!--暂时隐藏-->
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/from_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -243,6 +245,8 @@
                     <TextView
                         android:layout_width="@dimen/tx_detail_left_tag"
                         android:layout_height="wrap_content"
+                        android:gravity="center|left"
+                        android:text="@string/tx_out"
                         android:textSize="@dimen/tx_left_tag" />
 
                     <TextView

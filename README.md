@@ -1,4 +1,16 @@
 # ionchain-wallet-android
+### v1.1.1
+[IONCWallet_v1.1.0_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.1.0_release.apk)
+```markdown
+ 数据库版本：6
+```
+```markdown
+ 1、币种选择优化
+ 2、记录分页已完成
+ 3、未完成交易本地同步
+ 4、移除交易详情中，钱包类型标签
+ 5、设备绑定界面搭建
+```
 ### v1.1.0
 [IONCWallet_v1.1.0_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.1.0_release.apk)
 ```markdown
