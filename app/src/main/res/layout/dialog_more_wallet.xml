@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:layout_gravity="center"
+    android:background="@drawable/more_wallet_bg"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/close_more_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/h5"
+        android:layout_marginEnd="@dimen/h10"
+        android:contentDescription="@string/btn_close"
+        android:src="@drawable/icon_close" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/h10"
+        android:gravity="center"
+        android:text="请选择一个钱包"
+        android:textColor="@color/white" />
+
+    <ListView
+        android:id="@+id/data_list"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="@dimen/h40"
+        android:layout_marginRight="@dimen/h40"
+        android:divider="#ffffff"
+        android:dividerHeight="1px"
+        android:scrollbars="none" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/data_list"
+        android:layout_marginBottom="@dimen/h10">
+
+        <TextView
+            android:id="@+id/scan_popu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/h40"
+            android:gravity="center"
+            android:text="@string/app_import_wallet"
+            android:textColor="#3574FA" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/blue" />
+
+        <TextView
+            android:id="@+id/new_ll"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/h40"
+            android:gravity="center"
+            android:text="@string/app_create_wallet"
+            android:textColor="#3574FA" />
+    </RelativeLayout>
+</RelativeLayout>

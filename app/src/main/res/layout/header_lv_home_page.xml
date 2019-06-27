@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/header_lv_home_page"
     android:layout_width="match_parent"
-    android:layout_height="190dp"
+    android:layout_height="220dp"
     android:orientation="vertical">
 
     <!--背景  -->
@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/wallet_logo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerInParent="true"
             android:background="@mipmap/wallet_logo"
             android:contentDescription="@string/wallet_icon" />
@@ -35,7 +35,7 @@
             android:gravity="center"
             android:text="@string/wallet"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_16sp" />
+            android:textSize="@dimen/txt_22sp" />
 
         <ImageView
             android:id="@+id/wallet_list"
@@ -43,8 +43,8 @@
             android:layout_height="22dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/padding_size_16dp"
-            android:background="@mipmap/more_derices" />
+            android:layout_marginEnd="@dimen/h30"
+            android:background="@mipmap/more_wallet" />
     </RelativeLayout>
     <!--balance 120-->
     <LinearLayout

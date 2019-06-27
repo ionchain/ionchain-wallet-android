@@ -47,7 +47,7 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
     private CheckBox checkbox;
     private String private_key;
     private String newPassword;
-    private String nameStr;
+    private String namestr;
     private ImageView back;
     private TextView linkUrlTv;
     private ImageView scan;
@@ -109,7 +109,7 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
 
     @Override
     protected void initData() {
-     
+
     }
 
     @Override
@@ -134,10 +134,10 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
                 if (mPrivateKey.getText() != null && nameEt.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
                     String content = mPrivateKey.getText().toString().trim();
                     String pwdstr = pwdEt.getText().toString().trim();
-                    nameStr = nameEt.getText().toString().trim();
+                    namestr = nameEt.getText().toString().trim();
                     String resetpwdstr = repwdEt.getText().toString().trim();
 
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(nameStr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
+                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(namestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                         importBtn.setEnabled(true);
                         importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
                     } else {
@@ -207,14 +207,15 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
                     Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (IONCWalletSDK.getInstance().getWalletByName(nameStr)!=null) {
+                namestr = pwdEt.getText().toString().trim();
+                if (IONCWalletSDK.getInstance().getWalletByName(namestr) != null) {
                     Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
-                   return;
+                    return;
                 }
                 newPassword = pass;
                 showProgress(getString(R.string.importing_wallet));
                 IONCWalletSDK.getInstance()
-                        .importPrivateKey(nameStr, private_key, pass, ImportByPriKeyActivity.this);
+                        .importPrivateKey(namestr, private_key, pass, ImportByPriKeyActivity.this);
             }
         });
         mTitleLeftImage.setOnClickListener(new View.OnClickListener() {
@@ -246,10 +247,10 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
         if (mPrivateKey.getText() != null && nameEt.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
             String contentstr = mPrivateKey.getText().toString().trim();
             String pwdstr = pwdEt.getText().toString().trim();
-            nameStr = pwdEt.getText().toString().trim();
+            namestr = pwdEt.getText().toString().trim();
             String resetpwdstr = repwdEt.getText().toString().trim();
 
-            if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(nameStr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
+            if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(namestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
             } else {
@@ -272,7 +273,7 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
             LoggerUtils.i("导入私钥--钱包存在,是否更新?" + wallet.toString());
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
-            wallet.setName(nameStr);
+            wallet.setName(namestr);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.wallet_name_exists))
                     .setMessage(getString(R.string.import_and_update_password))

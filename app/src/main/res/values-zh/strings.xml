@@ -206,13 +206,9 @@
     <string name="smart_refresh_footer_no_more">没有更多数据了</string>
     <string name="smart_refresh_no_new_data">无新数据</string>
     <string name="tx_doing">上笔交易正在进行……</string>
-    <string name="try_net_times">正在尝试第  %s 次节点请求</string>
-    <string name="try_net_times_finish">请求%s次后，尝试结束，服务器繁忙</string>
-    <string name="tx_record_none">暂无交易记录</string>
     <string name="tx_block_failure">交易失败</string>
     <string name="tx_time">交易时间</string>
     <string name="coin_type">选择币种</string>
-    <string name="import_mnemonics">导入助记词</string>
     <string name="import_ks">导入KS</string>
     <string name="copy_hash_addr">交易号已复制</string>
     <string name="copy_from_addr">转出地址已复制</string>
@@ -233,4 +229,5 @@
     <string name="tx_block_suspended">交易未完成</string>
     <string name="error_tx_recorder">交易失败</string>
     <string name="setting_select_coin_type">当前币种: %s</string>
+    <string name="no_record">暂无交易记录</string>
 </resources>

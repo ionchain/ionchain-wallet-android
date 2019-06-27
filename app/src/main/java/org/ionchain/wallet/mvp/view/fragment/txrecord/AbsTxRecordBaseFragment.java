@@ -485,7 +485,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                  */
                 currentCount = mListAllData.size();
                 if (currentCount == txRecordAllCount) {
-                    ToastUtil.showToastLonger(getAppString(R.string.smart_refresh_footer_no_more));
+                    ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
                 offset = txRecordAllCount - currentCount - mPerPageAddNum;
@@ -510,7 +510,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                  */
                 currentCount = mListOut.size();
                 if (currentCount == txRecordOutCount) {
-                    ToastUtil.showToastLonger(getAppString(R.string.smart_refresh_footer_no_more));
+                    ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
                 offset = txRecordOutCount - currentCount - mPerPageAddNum;
@@ -536,7 +536,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                  */
                 currentCount = mListIn.size();
                 if (currentCount == txRecordInCount) {
-                    ToastUtil.showToastLonger(getAppString(R.string.smart_refresh_footer_no_more));
+                    ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
                 offset = txRecordInCount - currentCount - mPerPageAddNum;

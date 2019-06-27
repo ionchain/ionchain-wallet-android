@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,7 +24,6 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
@@ -36,7 +33,6 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.bean.NodeBean;
 import org.ionchain.wallet.bean.USDExRmb;
 import org.ionchain.wallet.constant.ConstantParams;
@@ -57,11 +53,11 @@ import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordOutFragment;
 import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordPagerAdapter;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
-import org.ionchain.wallet.widget.PopupWindowBuilder;
 import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
 import org.ionchain.wallet.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.widget.dialog.mnemonic.DialogMnemonic;
+import org.ionchain.wallet.widget.dialog.more.MoreWalletDialog;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -89,7 +85,6 @@ import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 
 public class AssetFragment extends AbsBaseFragment implements
-        PopupWindowBuilder.OnItemBuilder,
         OnRefreshListener,
         OnBalanceCallback,
         DialogMnemonic.OnSavedMnemonicCallback,
@@ -97,7 +92,7 @@ public class AssetFragment extends AbsBaseFragment implements
         OnDialogCheck12MnemonicCallbcak,
         OnUSDPriceCallback,
         OnUSDExRateRMBCallback,
-        OnIONCNodeCallback, OnTxRecordFromNodeCallback, OnLoadMoreListener {
+        OnIONCNodeCallback, OnTxRecordFromNodeCallback, OnLoadMoreListener, MoreWalletDialog.OnMoreWalletDialogItemClickedListener {
 
 
     /**
@@ -146,18 +141,10 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     private TextView mPleaseBackupWallet;
     /**
-     * 更多钱包
-     */
-    private PopupWindowBuilder mBuilder;
-    /**
      * 钱包的图标
      */
     private ImageView mWalletLogo;
 
-    /**
-     * 更多钱包适配器
-     */
-    private CommonAdapter mAdapterMore;
     /**
      * 更多钱包
      */
@@ -166,10 +153,7 @@ public class AssetFragment extends AbsBaseFragment implements
      * 更过钱包缓存
      */
     private List<WalletBeanNew> mMoreWalletsTemp = new ArrayList<>();
-    /**
-     * 更多钱包列表
-     */
-    private ListView mMoreWalletListView;
+
 
 
     /**
@@ -215,6 +199,7 @@ public class AssetFragment extends AbsBaseFragment implements
     private double mKRW = 0;
     private double mIDR = 0;
     public static int NEW_WALLET_FOR_RESULT_CODE = 11;
+    private MoreWalletDialog mMoreWalletDialog;
 
     /**
      * 实例化资产页头部
@@ -336,7 +321,6 @@ public class AssetFragment extends AbsBaseFragment implements
         mRefresh.setOnRefreshListener(this);
         mRefresh.setOnLoadMoreListener(this);
 //        mRefresh.setEnableLoadMore(false);
-        mBuilder = new PopupWindowBuilder(mActivity, R.layout.item_popup_list_layout, this);
         tabLayout = view.findViewById(R.id.tx_record_tabs);
         viewPager = view.findViewById(R.id.tx_record_content);
 
@@ -346,29 +330,7 @@ public class AssetFragment extends AbsBaseFragment implements
     protected void setListener() {
         super.setListener();
 
-        /*
-         * 更多钱包
-         * */
-        mMoreWallet.setOnClickListener(v -> {
-            DisplayMetrics metrics = new DisplayMetrics();
-            Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            int screenHeight = metrics.heightPixels;
-            int screenWidth = metrics.widthPixels;
-            mBuilder.setAnimationStyle(R.style.push_left_in_out)
-                    .setWidth((int) (screenWidth * 0.6))
-                    .setHeight(screenHeight)
-                    .setLocation(mRefresh, Gravity.END | Gravity.TOP, 0, 0)
-                    .build()
-                    .show();
-            mMoreWalletListView.smoothScrollToPosition(0);
 
-            mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
-            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
-                mMoreWallets.clear();
-                mMoreWallets.addAll(mMoreWalletsTemp);
-                mAdapterMore.notifyDataSetChanged();
-            }
-        });
         /*
          * 修改钱包
          * */
@@ -413,8 +375,84 @@ public class AssetFragment extends AbsBaseFragment implements
             dialogMnemonic = new DialogMnemonic(mActivity, mnemonics, AssetFragment.this);
             dialogMnemonic.show();
         });
+        /*
+         * 更多钱包
+         * */
+        mMoreWallet.setOnClickListener(v -> {
+            DisplayMetrics metrics = new DisplayMetrics();
+//            Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//            int screenHeight = metrics.heightPixels;
+//            int screenWidth = metrics.widthPixels;
+//            mBuilder.setAnimationStyle(R.style.push_left_in_out)
+//                    .setWidth((int) (screenWidth * 0.6))
+//                    .setHeight(screenHeight)
+//                    .setLocation(mRefresh, Gravity.END | Gravity.TOP, 0, 0)
+//                    .build()
+//                    .show();
+//            mMoreWalletListView.smoothScrollToPosition(0);
+
+            mMoreWalletDialog = new MoreWalletDialog(mActivity);
+            mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
+            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
+                mMoreWallets.clear();
+//            Collections.reverse(mMoreWalletsTemp);
+                mMoreWallets.addAll(mMoreWalletsTemp);
+            }
+            mMoreWalletDialog.setData(mMoreWallets,AssetFragment.this);
+//            mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
+//            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
+//                mMoreWallets.clear();
+//                mMoreWallets.addAll(mMoreWalletsTemp);
+//                mMoreWalletDialog.notifyDataSetChanged();
+//            }
+            mMoreWalletDialog.show();
+        });
     }
 
+    @Override
+    public void onMoreWalletDialogItemClick(AdapterView<?> parent, View view, int position, long id) {
+        LoggerUtils.i(TAG, "onItemClick: ");
+
+        for (int i = 0; i < mMoreWallets.size(); i++) {
+            if (i != position) {
+                mMoreWallets.get(i).setIsMainWallet(false);
+            } else {
+                mMoreWallets.get(i).setIsMainWallet(true);
+            }
+            IONCWalletSDK.getInstance().saveWallet(mMoreWallets.get(i));
+        }
+        mCurrentWallet = mMoreWallets.get(position);
+        mWalletNameTx.setText(mCurrentWallet.getName());
+        setBackupTag();
+        Integer ids = mCurrentWallet.getMIconIndex();
+        mWalletLogo.setImageResource(App.sRandomHeader[ids]);
+        mIoncBalanceTx.setText(mCurrentWallet.getBalance());
+        mRmbTx.setText(mCurrentWallet.getRmb()); //切换时读取余额
+        mMoreWalletDialog.dismiss();
+        LoggerUtils.i("钱包切换 mOldAddress = " + mOldAddress);
+        LoggerUtils.i("钱包切换 mNewAddress = " + mCurrentWallet.getAddress());
+        if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
+            balance();//切换
+            changeWallet();
+        }
+        mOldAddress = mCurrentWallet.getAddress();
+        cancelGetNode();//切换
+    }
+
+    @Override
+    public void onMoreWalletDialogImportBtnClick(MoreWalletDialog moreWalletDialog) {
+        moreWalletDialog.dismiss();
+        Intent intent = new Intent(getActivity(), SelectImportModeActivity.class);
+        startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
+    }
+
+    @Override
+    public void onMoreWalletDialogCreateBtnClick(MoreWalletDialog moreWalletDialog) {
+        moreWalletDialog.dismiss();
+        Intent intent = new Intent(getActivity(), CreateWalletActivity.class);
+        intent.putExtra(INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
+        startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -495,61 +533,6 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
 
-    @Override
-    public void initMoreItems(final PopupWindow instance, View contentView) {
-        mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
-        if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
-            mMoreWallets.clear();
-//            Collections.reverse(mMoreWalletsTemp);
-            mMoreWallets.addAll(mMoreWalletsTemp);
-        }
-        mMoreWalletListView = contentView.findViewById(R.id.data_list);
-        LinearLayout importWallet = contentView.findViewById(R.id.scan_popu);
-        LinearLayout createWallet = contentView.findViewById(R.id.new_ll);
-        mAdapterMore = new CommonAdapter(getActivity(), mMoreWallets, R.layout.item_popup_list, new MoreWalletViewHelper());
-        mMoreWalletListView.setAdapter(mAdapterMore);
-        importWallet.setOnClickListener(v -> {
-            instance.dismiss();
-            Intent intent = new Intent(getActivity(), SelectImportModeActivity.class);
-            startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
-        });
-        createWallet.setOnClickListener(v -> {
-            instance.dismiss();
-            Intent intent = new Intent(getActivity(), CreateWalletActivity.class);
-            intent.putExtra(INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
-            startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
-        });
-        mMoreWalletListView.setOnItemClickListener((parent, view, position, id) -> {
-            LoggerUtils.i(TAG, "onItemClick: ");
-
-            for (int i = 0; i < mMoreWallets.size(); i++) {
-                if (i != position) {
-                    mMoreWallets.get(i).setIsMainWallet(false);
-                } else {
-                    mMoreWallets.get(i).setIsMainWallet(true);
-                }
-                IONCWalletSDK.getInstance().saveWallet(mMoreWallets.get(i));
-            }
-            mCurrentWallet = mMoreWallets.get(position);
-            mWalletNameTx.setText(mCurrentWallet.getName());
-            setBackupTag();
-            Integer ids = mCurrentWallet.getMIconIndex();
-            mWalletLogo.setImageResource(App.sRandomHeader[ids]);
-            mIoncBalanceTx.setText(mCurrentWallet.getBalance());
-            mRmbTx.setText(mCurrentWallet.getRmb()); //切换时读取余额
-            instance.dismiss();
-            LoggerUtils.i("钱包切换 mOldAddress = " + mOldAddress);
-            LoggerUtils.i("钱包切换 mNewAddress = " + mCurrentWallet.getAddress());
-            if (!mOldAddress.equals(mCurrentWallet.getAddress())) {
-                balance();//切换
-                changeWallet();
-            }
-            mOldAddress = mCurrentWallet.getAddress();
-            cancelGetNode();//切换
-        });
-
-    }
-
     /**
      * 钱包切换时，将记录面板切换到地换全部记录面板
      * 同时并通知它
@@ -582,18 +565,13 @@ public class AssetFragment extends AbsBaseFragment implements
             mTxRecordInFragment.onPullToDown(mCurrentWallet);
         }
     }
+
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         mTxRecordAllFragment.onPullToUp(mCurrentWallet);
         mTxRecordInFragment.onPullToUp(mCurrentWallet);
         mTxRecordOutFragment.onPullToUp(mCurrentWallet);
         mRefresh.finishLoadMore(500);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mBuilder.release();
     }
 
     @Override
@@ -842,11 +820,13 @@ public class AssetFragment extends AbsBaseFragment implements
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_RMB_RATE);
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), NET_CANCEL_TAG_USD_PRICE);
     }
+
     private void txRecordHelper(TxRecordBean txRecordBean) {
         txRecordBean.setPublicKey(mCurrentWallet.getPublic_key());
 
         IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
     }
+
     /**
      * 直接通过 web3j Api查询交易结果
      *

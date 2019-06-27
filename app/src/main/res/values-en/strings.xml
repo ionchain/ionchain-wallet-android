@@ -207,13 +207,9 @@
     <string name="smart_refresh_footer_no_more">No more data</string>
     <string name="smart_refresh_no_new_data">no new data</string>
     <string name="tx_doing">The last deal was in the works...</string>
-    <string name="try_net_times">Trying the %s node request</string>
-    <string name="try_net_times_finish">After %s requests, the attempt ends and the service exception occurs</string>
-    <string name="tx_record_none">Tx record empty</string>
     <string name="tx_block_failure">Transaction Failure</string>
     <string name="tx_time">Time</string>
     <string name="coin_type">Select Coin Type</string>
-    <string name="import_mnemonics">Import mnemonics</string>
     <string name="import_ks">导入KS</string>
     <string name="copy_hash_addr">The transaction number has been copied</string>
     <string name="copy_from_addr">The outgoing address has been copied</string>
@@ -234,4 +230,5 @@
     <string name="tx_block_suspended">Suspended</string>
     <string name="error_tx_recorder">交易失败</string>
     <string name="setting_select_coin_type">Currently selected coin type:  %s</string>
+    <string name="no_record">No transaction record available</string>
 </resources>

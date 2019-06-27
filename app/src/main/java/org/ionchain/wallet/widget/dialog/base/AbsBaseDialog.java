@@ -29,7 +29,12 @@ public abstract class AbsBaseDialog extends Dialog {
         setCanceledOnTouchOutside(false);
         initDialog();
         initView();
+        setListener();
         initData();
+    }
+
+    protected void setListener() {
+
     }
 
     /**
@@ -40,7 +45,10 @@ public abstract class AbsBaseDialog extends Dialog {
     /**
      * 初始化 弹窗数据
      */
-    protected abstract void initDialog();
+    protected void initDialog() {
+    }
+
+    ;
 
     /**
      * 实例化视图
@@ -51,7 +59,8 @@ public abstract class AbsBaseDialog extends Dialog {
      * 初始化 数据
      */
     protected abstract void initData();
-    protected void initDialogDefault(){
+
+    protected void initDialogDefault() {
         /*
          * 获取圣诞框的窗口对象及参数对象以修改对话框的布局设置,
          * 可以直接调用getWindow(),表示获得这个Activity的Window
