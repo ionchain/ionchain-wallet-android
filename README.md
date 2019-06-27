@@ -10,6 +10,8 @@
  3、未完成交易本地同步
  4、移除交易详情中，钱包类型标签
  5、设备绑定界面搭建
+ 6、交易详情支持跳转到浏览器
+ 7、更多钱包界面优化
 ```
 ### v1.1.0
 [IONCWallet_v1.1.0_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.1.0_release.apk)
