@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -58,8 +59,9 @@ public class TxRecordBrowserActivity extends AbsBaseCommonTitleTwoActivity imple
 
         //设置自适应屏幕，两者合用
         webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
-//        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-
+        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
+        webSettings.setDomStorageEnabled(true);//主要是这句
+        webSettings.setJavaScriptEnabled(true);//启用js
         //缩放操作
         webSettings.setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提
         webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
@@ -67,7 +69,7 @@ public class TxRecordBrowserActivity extends AbsBaseCommonTitleTwoActivity imple
 
         //其他细节操作
         webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
-        webSettings.setAllowFileAccess(true); //设置可以访问文件
+        webSettings.setAllowFileAccess(false); //设置可以访问文件
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
@@ -87,7 +89,7 @@ public class TxRecordBrowserActivity extends AbsBaseCommonTitleTwoActivity imple
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
-                return super.shouldOverrideUrlLoading(view, url);
+                return true;
             }
 
             @Override
@@ -97,8 +99,9 @@ public class TxRecordBrowserActivity extends AbsBaseCommonTitleTwoActivity imple
             }
 
             @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                view.loadUrl(url);
+                return true;
             }
         });
         mWebView.setWebChromeClient(new WebChromeClient(){
