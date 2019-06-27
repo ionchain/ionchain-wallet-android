@@ -2,7 +2,9 @@ package org.ionchain.wallet.mvp.view.activity.transaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,11 +15,15 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.constant.ConstantParams;
+import org.ionchain.wallet.mvp.view.activity.webview.TxRecordBrowserActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
+import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
+import static org.ionchain.wallet.constant.ConstantParams.TX_HASH;
+import static org.ionchain.wallet.constant.ConstantParams.TX_HASH_NULL;
 
 public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
 
@@ -36,6 +42,7 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
     private ImageView txDetailQrcode;
 
     private WalletBeanNew mWalletBeanNew;
+    private LinearLayout go_to_ionchain_explore;
 
     /**
      * Find the Views in the layout<br />
@@ -55,7 +62,8 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
         txDetailHash = (TextView) findViewById(R.id.tx_detail_hash);
         txDetailBlock = (TextView) findViewById(R.id.tx_detail_block);
         wallet_name = (TextView) findViewById(R.id.wallet_name);
-        txDetailQrcode = (ImageView) findViewById(R.id.tx_detail_qrcode);
+        txDetailQrcode = findViewById(R.id.tx_detail_qrcode);
+        go_to_ionchain_explore = findViewById(R.id.go_to_ionchain_explore);
     }
 
     @Override
@@ -140,7 +148,19 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
             StringUtils.copy(this, mTxRecordBean.getHash());
             Toast.makeText(this, getAppString(R.string.copy_from_addr), Toast.LENGTH_LONG).show();
         });
-
+        go_to_ionchain_explore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String hash = mTxRecordBean.getHash();
+                if (TX_HASH_NULL.equals(hash)) {
+                    ToastUtil.showToastLonger(getAppString(R.string.error_tx_hash));
+                    return;
+                }
+                Intent intent = new Intent(mActivity, TxRecordBrowserActivity.class);
+                intent.putExtra(TX_HASH, hash);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

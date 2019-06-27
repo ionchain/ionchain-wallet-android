@@ -34,12 +34,12 @@ import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURR
 import static org.ionchain.wallet.constant.ConstantParams.ADDRESS_DEBUG;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
-import static org.ionchain.wallet.constant.ConstantParams.DEFAULT_TRANSCATION_HASH_NULL;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
 import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_FOR_RESULT_CODE;
 import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_RESULT;
+import static org.ionchain.wallet.constant.ConstantParams.TX_HASH_NULL;
 import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 
 /**
@@ -244,7 +244,7 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setFrom(mAddressFrom);
         mTxRecordBean.setValue(mTxAccount);
         mTxRecordBean.setPublicKey(mWalletBeanNew.getPublic_key());
-        mTxRecordBean.setHash(DEFAULT_TRANSCATION_HASH_NULL);
+        mTxRecordBean.setHash(TX_HASH_NULL);
         mTxRecordBean.setLocal(true);
         mTxRecordBean.setSuccess(true);
         mTxRecordBean.setGasPrice(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,6 +14,7 @@
         android:background="#00BFFF" />
 
     <LinearLayout
+        android:layout_below="@id/title_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/tx_record_detail_bg"
@@ -45,11 +46,12 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="@dimen/h10"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="160dp"
+            android:layout_marginBottom="60dp"
+            android:layout_weight="1"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp"
             app:cardElevation="20dp">
@@ -206,7 +208,6 @@
 
                 <!--暂时隐藏-->
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/from_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -214,7 +215,8 @@
                     android:layout_marginStart="@dimen/tx_marginStar"
                     android:layout_marginTop="@dimen/h15"
                     android:layout_marginEnd="@dimen/h25"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="@dimen/tx_detail_left_tag"
@@ -238,8 +240,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/from_ll"
-                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginStart="@dimen/tx_marginStar"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginEnd="@dimen/h25"
                     android:orientation="horizontal">
 
@@ -290,8 +292,8 @@
                     android:layout_toEndOf="@id/tx_hash"
                     android:drawableEnd="@drawable/copy"
                     android:ellipsize="middle"
-                    android:singleLine="true"
                     android:maxLength="20"
+                    android:singleLine="true"
                     android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
                     android:textColor="@color/black" />
 
@@ -325,8 +327,29 @@
                     android:layout_marginTop="@dimen/h10"
                     android:layout_marginEnd="@dimen/h25"
                     android:src="@mipmap/scan" />
+
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:id="@+id/go_to_ionchain_explore"
+            android:layout_marginBottom="@dimen/h30"
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/h30"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wallet_logo" />
+            <TextView
+                android:layout_marginLeft="@dimen/h5"
+                android:text="@string/ionchain_explore"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/blue_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

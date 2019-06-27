@@ -46,6 +46,12 @@ public abstract class AbsBaseCommonTitleTwoActivity extends AbsBaseActivity {
 
     }
 
+    /**
+     * @param titleName 设置标题
+     */
+    protected void setActivityTitle(String titleName){
+        mTitleNameTv.setText(titleName);
+    }
     protected int getTitleNameColor() {
         return getColorWhite();
     }

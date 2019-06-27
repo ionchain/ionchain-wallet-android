@@ -80,6 +80,8 @@ public final class ConstantParams {
 
     public static final int TX_ACTIVITY_FOR_RESULT_CODE = 10;
     public static final String TX_ACTIVITY_RESULT = "TX_ACTIVITY_RESULT";
+    public static final String TX_HASH = "TX_HASH";
+    public static final String TX_HASH_NULL = "null";
 
 
 

@@ -230,4 +230,6 @@
     <string name="error_tx_recorder">交易失败</string>
     <string name="setting_select_coin_type">当前币种: %s</string>
     <string name="no_record">暂无交易记录</string>
+    <string name="error_tx_hash">无法查询此交易</string>
+    <string name="ionchain_explore"><![CDATA[到 IONChain Explore 查询更详细的信息 >]]></string>
 </resources>
