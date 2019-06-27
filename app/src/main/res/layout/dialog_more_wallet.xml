@@ -23,7 +23,7 @@
         android:layout_height="30dp"
         android:layout_marginTop="@dimen/h10"
         android:gravity="center"
-        android:text="请选择一个钱包"
+        android:text="@string/plerse_select_one_wallet"
         android:textColor="@color/white" />
 
     <ListView

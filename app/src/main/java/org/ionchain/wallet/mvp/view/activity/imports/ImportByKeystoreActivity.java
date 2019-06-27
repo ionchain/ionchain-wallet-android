@@ -63,7 +63,7 @@ public class ImportByKeystoreActivity extends AbsBaseCommonTitleThreeActivity im
                 org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
                 return;
             }
-            namestr = pwdEt.getText().toString().trim();
+            namestr = nameEt.getText().toString().trim();
             if (IONCWalletSDK.getInstance().getWalletByName(namestr)!=null) {
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;

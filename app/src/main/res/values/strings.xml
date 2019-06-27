@@ -236,4 +236,5 @@
     <string name="no_record">No transaction record available</string>
     <string name="error_tx_hash">无法查询此交易</string>
     <string name="ionchain_explore"><![CDATA[Go to IONChain Explore for more details>]]></string>
+    <string name="plerse_select_one_wallet">Please select a wallet</string>
 </resources>
