@@ -335,6 +335,7 @@
             android:layout_marginBottom="@dimen/h30"
             android:layout_width="match_parent"
             android:paddingStart="@dimen/h30"
+            android:gravity="center"
             android:layout_height="40dp">
 
             <ImageView
