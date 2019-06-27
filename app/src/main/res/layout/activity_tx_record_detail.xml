@@ -238,6 +238,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/from_ll"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginStart="@dimen/tx_marginStar"
                     android:layout_marginEnd="@dimen/h25"
                     android:orientation="horizontal">
