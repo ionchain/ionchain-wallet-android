@@ -13,6 +13,48 @@
         android:textColor="@color/white"
         android:textSize="@dimen/title_size" />
 
+    <!--设备 30-->
+    <RelativeLayout
+        android:id="@+id/h3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="@dimen/padding_size_16dp"
+        android:paddingRight="@dimen/padding_size_16dp">
+
+        <ImageView
+            android:id="@+id/wallet_img_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/more_wallet" />
+        <TextView
+            android:layout_toEndOf="@id/wallet_img_device"
+            android:id="@+id/wallet_name_devices"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="钱包的名字"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/add_devices"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/scan" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/h3"
+        android:background="#D3DFEF" />
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh_asset"
         android:layout_width="match_parent"

@@ -165,7 +165,7 @@
     <string name="error_parase_device_bind_data">设备绑数据解析错误</string>
     <string name="error_net_device_bind">设备绑定网络错误</string>
     <string name="error_net_device_unbind">设备解除绑定网络错误</string>
-    <string name="tx_record">转账记录</string>
+    <string name="tx_record">交易记录</string>
     <string name="tx">转 账</string>
     <string name="payee_address">收款人地址</string>
     <string name="tx_amount_in_tx">转账金额</string>
