@@ -1,6 +1,6 @@
 # ionchain-wallet-android
 ### v1.1.1
-[IONCWallet_v1.1.0_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.1.0_release.apk)
+[IONCWallet_v1.1.0_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/IONCWallet/release/IONCWallet_v1.1.0_release.apk)
 ```markdown
  数据库版本：6
 ```
@@ -14,7 +14,7 @@
  7、更多钱包界面优化
 ```
 ### v1.1.0
-[IONCWallet_v1.1.0_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.1.0_release.apk)
+[IONCWallet_v1.1.0_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/IONCWallet/release/IONCWallet_v1.1.0_release.apk)
 ```markdown
  数据库版本：5
 ```
@@ -22,7 +22,7 @@
  1、本地化交易记录
 ```
 ### v1.0.9
-[IONCWallet_v1.0.9_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.0.9_release.apk)
+[IONCWallet_v1.0.9_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/IONCWallet/release/IONCWallet_v1.0.9_release.apk)
 ```markdown 
 数据库版本：4
 ```
@@ -31,7 +31,7 @@
 2. 未打包的交易，显示为unpacked&
 ```
 ### v1.0.8
-[IONCWallet_v1.0.8_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.0.8_release.apk)
+[IONCWallet_v1.0.8_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/IONCWallet/release/IONCWallet_v1.0.8_release.apk)
 ```markdown
 1. 交易记录背景改为白色
 2. 修复交易密码校验失败，再次点击无效的bug
@@ -40,7 +40,7 @@
 5 .交易记录本地化
 ```
 ### v1.0.7
-[IONCWallet_v1.0.7_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.0.7_release.apk)
+[IONCWallet_v1.0.7_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/IONCWallet/release/IONCWallet_v1.0.7_release.apk)
 ```markdown
 1. 上笔交易未结束，用户疯狂交易，提示用户上笔交易正在进行
 2. 优化版本信息的配置
@@ -52,14 +52,14 @@
 8. 交易点击保护，防止用户恶意点击
 ```
 ### v1.0.6    
-[IONCWallet_v1.0.6_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.0.6_release.apk)
+[IONCWallet_v1.0.6_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/IONCWallet/release/IONCWallet_v1.0.6_release.apk)
 ```markdown
 1. 修复交易记录重复显示bug
 2. 修改钱包密码优化
 3. 修复旧版本只有一个钱包的情况下,主钱包属性问题
 ```
 ### v1.0.5
-[IONCWallet_v1.0.5_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/app/IONCWallet/release/IONCWallet_v1.0.5_release.apk)
+[IONCWallet_v1.0.5_release.apk](https://github.com/ionchain/ionchain-wallet-android/blob/master/IONCWallet/release/IONCWallet_v1.0.5_release.apk)
 ```markdown
 1. 离子链钱包新增根据系统的语言设置切换中英文。
 

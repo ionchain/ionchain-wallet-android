@@ -1,2 +1,8 @@
-Version number: 1.1.0&&
-1. Localize transaction records
+Version number: 1.1.1&&
+1. Optimized currency selection &
+2. Paging of records has been completed &
+3. Local synchronization & for incomplete transactions
+4. remove transaction details, wallet type tag &
+5. Set up the device binding interface &
+6. trading details support jump to browser &
+7. more wallet interface optimization &
