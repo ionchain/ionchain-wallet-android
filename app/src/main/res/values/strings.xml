@@ -238,5 +238,6 @@
     <string name="go_to_ionchain_explore"><![CDATA[Go to IONChain Explore for more details>]]></string>
     <string name="plerse_select_one_wallet">Please select a wallet</string>
     <string name="ionchain_explore">Ionchain Explorer</string>
-    <string name="new_tx_record">新纪录</string>
+    <string name="new_tx_record">new data</string>
+    <string name="no_more_rexord">New transaction records are not available</string>
 </resources>

@@ -130,7 +130,7 @@
     <string name="app_loading">正在加载…</string>
     <string name="copy_done_addr">已复制地址</string>
     <string name="error_copy">复制失败</string>
-    <string name="balance_">余额:</string>
+    <string name="balance_">余额</string>
     <string name="save_pos">保存成功！\n保存路径: SD卡根目录的 ionchainAddress 文件夹下</string>
     <string name="permission_request">请先授予相关权限!</string>
     <string name="permission_storage">需要打开存储的权限</string>
@@ -235,4 +235,5 @@
     <string name="plerse_select_one_wallet">请选择一个钱包</string>
     <string name="ionchain_explore">Ionchain Explorer</string>
     <string name="new_tx_record">新纪录</string>
+    <string name="no_more_rexord">暂未获取到新的交易记录</string>
 </resources>

@@ -65,7 +65,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     private int mItemClickedPos;
     private String split = " ： ";
     private View mSyncImageView;
-    private boolean mStopPullToDown = false;
     private String mPageSizeAll = String.valueOf(5);
     private String mPageSizeFrom = String.valueOf(5);
     private String mPageSizeTo = String.valueOf(5);
@@ -286,7 +285,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      */
     @Override
     public void onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean beans) {
-        mStopPullToDown = false;
         mListNetTemp.clear();
         int num = 0;
         LoggerUtils.i("method", "onTxRecordBrowserSuccess" + "   " + beans.toString());
@@ -427,7 +425,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     public void onTxRecordBrowserFailure(String error) {
         mPageNum--;
-        mStopPullToDown = false;
         LoggerUtils.e("onTxRecordBrowserFailure", error);
     }
 
@@ -436,6 +433,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     public void onTxRecordSuccessDataNUll() {
         LoggerUtils.i("jsontx", "mPageNum" + "   " + mPageNum);
         mPageNum--;
+        ToastUtil.showToastLonger(getAppString(R.string.no_more_rexord));
     }
 
     /**
@@ -445,9 +443,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      */
     @Override
     public void onPullToDown(WalletBeanNew walletBeanNew) {
-        if (mStopPullToDown) {
-            ToastUtil.showToastLonger(getAppString(R.string.please_wait));
-        }
+
         LoggerUtils.i(TAG, "   isVisibleToUser = " + mVisibleToUser);
         if (mVisibleToUser) {
             if (mTxRecordPresenter == null) {
@@ -455,7 +451,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             }
             switch (getType()) {
                 case TYPE_ALL:
-                    mStopPullToDown = true;
                     mPageNum++;
                     LoggerUtils.i("beannet", "all  mPageNum = " + mPageNum + " " + walletBeanNew.toString());
                     mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), mPageSizeAll, this);
