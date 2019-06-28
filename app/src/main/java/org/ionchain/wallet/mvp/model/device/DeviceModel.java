@@ -50,7 +50,7 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                LoggerUtils.j("getCurrentWalletDevicesList: $json" + json);
+                LoggerUtils.j(json);
                 DeviceListBean bean = NetUtils.gsonToBean(json, DeviceListBean.class);
                 if (Objects.requireNonNull(bean).getData() == null) {
                     callback.onLoadFinish();

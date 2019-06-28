@@ -33,7 +33,7 @@ public class PriceModel implements IPriceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                LoggerUtils.j("getUSDPrice: $json" + json);
+                LoggerUtils.j( json);
                 USDPriceBean updateBean = NetUtils.gsonToBean(json, USDPriceBean.class);
                 if (updateBean == null||updateBean.getData()==null||updateBean.getData().getMarketinfo()==null) {
                     usdPriceCallback.onUSDPriceFailure("data");
