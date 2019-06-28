@@ -15,7 +15,7 @@ import java.util.Objects;
 
 import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_USD_PRICE;
 import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_USD_RMB_RATE;
-import static org.ionchain.wallet.utils.UrlUtils.getUSDExRateRMBUrl;
+import static org.ionchain.wallet.utils.UrlUtils.getUSDExRateUrl;
 import static org.ionchain.wallet.utils.UrlUtils.getUSDPriceUrl;
 
 public class PriceModel implements IPriceModel {
@@ -68,7 +68,7 @@ public class PriceModel implements IPriceModel {
      */
     @Override
     public void getUSDExchangeRateRMB(final OnUSDExRateRMBCallback usdExRateRMBCallback) {
-        NetUtils.get("getUSDExchangeRateRMB", getUSDExRateRMBUrl(), new StringCallback() {
+        NetUtils.get("getUSDExchangeRateRMB", getUSDExRateUrl(), new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();

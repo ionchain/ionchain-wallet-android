@@ -344,7 +344,7 @@
                 android:src="@mipmap/wallet_logo" />
             <TextView
                 android:layout_marginLeft="@dimen/h5"
-                android:text="@string/ionchain_explore"
+                android:text="@string/go_to_ionchain_explore"
                 android:gravity="center"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/blue_light"

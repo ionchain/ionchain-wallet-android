@@ -155,7 +155,6 @@ public class AssetFragment extends AbsBaseFragment implements
     private List<WalletBeanNew> mMoreWalletsTemp = new ArrayList<>();
 
 
-
     /**
      * 转出
      */
@@ -398,7 +397,7 @@ public class AssetFragment extends AbsBaseFragment implements
 //            Collections.reverse(mMoreWalletsTemp);
                 mMoreWallets.addAll(mMoreWalletsTemp);
             }
-            mMoreWalletDialog.setData(mMoreWallets,AssetFragment.this);
+            mMoreWalletDialog.setData(mMoreWallets, AssetFragment.this);
 //            mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
 //            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
 //                mMoreWallets.clear();
@@ -487,7 +486,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 //交易成功
                 //刷刷新余额
                 balance();
-                //请求交易区块等信息
+//                //请求交易区块等信息
                 IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
                         , t.getHash()
                         , t
@@ -837,6 +836,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
         mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
         txRecordHelper(txRecordBean);
+        LoggerUtils.i("syncBrowser", "OnTxRecordNodeSuccess" + "   AssetFragment" + txRecordBean.toString());
         IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
     }
 

@@ -65,6 +65,10 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     private int mItemClickedPos;
     private String split = " ： ";
     private View mSyncImageView;
+    private boolean mStopPullToDown = false;
+    private String mPageSizeAll = String.valueOf(5);
+    private String mPageSizeFrom = String.valueOf(5);
+    private String mPageSizeTo = String.valueOf(5);
 
     /**
      * @param walletBeanNew 初始化所所需的钱保
@@ -86,7 +90,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             case TYPE_ALL:
                 mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListAllData);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view12, position) -> {
-                    skipToDetail( mListAllData.get(position));
+                    skipToDetail(mListAllData.get(position));
                 });
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
                     syncBrowser(view15, position);
@@ -95,7 +99,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             case TYPE_OUT:
                 mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListOut);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view13, position) -> {
-                    skipToDetail( mListOut.get(position));
+                    skipToDetail(mListOut.get(position));
 
                 });
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
@@ -105,7 +109,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             case TYPE_IN:
                 mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListIn);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view14, position) -> {
-                    skipToDetail( mListIn.get(position));
+                    skipToDetail(mListIn.get(position));
                 });
                 mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
                     syncBrowser(view15, position);
@@ -119,13 +123,14 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     private void skipToDetail(TxRecordBean txRecordBean) {
         Intent intent = new Intent(mActivity, TxRecordDetailActivity.class);
-        intent.putExtra(PARCELABLE_TX_RECORD,txRecordBean);
-        intent.putExtra(PARCELABLE_WALLET_BEAN,mWalletBeanNew);
+        intent.putExtra(PARCELABLE_TX_RECORD, txRecordBean);
+        intent.putExtra(PARCELABLE_WALLET_BEAN, mWalletBeanNew);
         startActivity(intent);
     }
 
     private void syncBrowser(View view15, int position) {
         mSyncImageView = view15;
+        mSyncImageView.setClickable(false);
         LoggerUtils.i("binny", "initView" + "   AbsTxRecordBaseFragment" + position);
         objectAnimator = ObjectAnimator.ofFloat(view15, "rotation", 0f, 360f);//添加旋转动画，旋转中心默认为控件中点
         objectAnimator.setDuration(2000);//设置动画时间
@@ -134,26 +139,28 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         objectAnimator.setRepeatMode(ObjectAnimator.RESTART);
         objectAnimator.start();//动画开始
         mItemClickedPos = position;
+        TxRecordBean txRecordBean = mListAllData.get(position);
+        LoggerUtils.i("syncBrowser", "txRecordBean = " + txRecordBean.toString());
         switch (getType()) {
             case TYPE_ALL:
                 IONCWalletSDK.getInstance().
                         ethTransaction(mNode,
-                                mListAllData.get(position).getHash(),
-                                mListAllData.get(position),
+                                txRecordBean.getHash(),
+                                txRecordBean,
                                 AbsTxRecordBaseFragment.this);
                 break;
-                case TYPE_OUT:
+            case TYPE_OUT:
                 IONCWalletSDK.getInstance().
                         ethTransaction(mNode,
-                                mListOut.get(position).getHash(),
-                                mListOut.get(position),
+                                txRecordBean.getHash(),
+                                txRecordBean,
                                 AbsTxRecordBaseFragment.this);
                 break;
             case TYPE_IN:
                 IONCWalletSDK.getInstance().
                         ethTransaction(mNode,
-                                mListIn.get(position).getHash(),
-                                mListIn.get(position),
+                                txRecordBean.getHash(),
+                                txRecordBean,
                                 AbsTxRecordBaseFragment.this);
                 break;
         }
@@ -173,13 +180,13 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 LoggerUtils.i("method1", "getPageNum" + "   all " + mCurrentPageNumBean);
                 if (mCurrentPageNumBean == null) {
                     mCurrentPageNumBean = new CurrentPageNum();
-                    mPageNum = 1;
+                    mPageNum = 0;
                     mCurrentPageNumBean.setAddress(mWalletBeanNew.getAddress());
                     mCurrentPageNumBean.setNumAll(String.valueOf(1));
                     IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
                 } else {
                     if (mCurrentPageNumBean.getNumAll() == null) {
-                        mPageNum = 1;
+                        mPageNum = 0;
                         mCurrentPageNumBean.setNumAll(String.valueOf(1));
                         IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
                     } else {
@@ -192,13 +199,13 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 LoggerUtils.i("method1", "getPageNum" + "   out " + mCurrentPageNumBean);
                 if (mCurrentPageNumBean == null) {
                     mCurrentPageNumBean = new CurrentPageNum();
-                    mPageNum = 1;
+                    mPageNum = 0;
                     mCurrentPageNumBean.setAddress(mWalletBeanNew.getAddress());
                     mCurrentPageNumBean.setNumOut(String.valueOf(1));
                     IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
                 } else {
                     if (mCurrentPageNumBean.getNumOut() == null) {
-                        mPageNum = 1;
+                        mPageNum = 0;
                         mCurrentPageNumBean.setNumOut(String.valueOf(1));
                         IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
                     } else {
@@ -211,13 +218,13 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 LoggerUtils.i("method1", "getPageNum" + "   in " + mCurrentPageNumBean);
                 if (mCurrentPageNumBean == null) {
                     mCurrentPageNumBean = new CurrentPageNum();
-                    mPageNum = 1;
+                    mPageNum = 0;
                     mCurrentPageNumBean.setAddress(mWalletBeanNew.getAddress());
                     mCurrentPageNumBean.setNumIn(String.valueOf(1));
                     IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
                 } else {
                     if (mCurrentPageNumBean.getNumIn() == null) {
-                        mPageNum = 1;
+                        mPageNum = 0;
                         mCurrentPageNumBean.setNumIn(String.valueOf(1));
                         IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
                     } else {
@@ -252,6 +259,26 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     }
 
     /**
+     * @param txRecordBean 转账的辅助数据库字段更新
+     */
+    private void txRecordHelper(TxRecordBean txRecordBean) {
+        txRecordBean.setPublicKey(mWalletBeanNew.getPublic_key());
+
+        IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
+    }
+
+
+    @Override
+    public void onLoadStart() {
+
+    }
+
+    @Override
+    public void onLoadFinish() {
+
+    }
+
+    /**
      * 网络上，带地址的所有交易记录
      * {@link org.ionchain.wallet.mvp.model.txrecoder.TxRecordModel#getTxRecord(String, String, String, String, String, OnTxRecordBrowserDataCallback)}  }
      *
@@ -259,18 +286,21 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      */
     @Override
     public void onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean beans) {
+        mStopPullToDown = false;
         mListNetTemp.clear();
         int num = 0;
+        LoggerUtils.i("method", "onTxRecordBrowserSuccess" + "   " + beans.toString());
         List<TxRecordBean> txRecordBeansNew = new ArrayList<>();
+        List<TxRecordBeanTemp.DataBean.ItemBean> data = beans.getData();
         switch (getType()) {
             case TYPE_ALL:
                 mListNetTemp.addAll(mListAllData);
-
+                LoggerUtils.i(tag, "网络请求成功 size = " + data.size());
                 for (TxRecordBeanTemp.DataBean.ItemBean itemBeanBrowser :
-                        beans.getData()) {
-                    LoggerUtils.i(tag, "网络请求成功" + itemBeanBrowser.toString());
+                        data) {
+                    LoggerUtils.i("oldhash", "new 哈希" + "   " + itemBeanBrowser.getHash());
                     if (IONCWalletSDK.getInstance().notExist(itemBeanBrowser.getHash())) {
-                        LoggerUtils.i("method", "新增哈希" + "   " + itemBeanBrowser.getHash());
+                        LoggerUtils.i("newhash", "新增哈希" + "   " + itemBeanBrowser.getHash());
                         TxRecordBean bean = new TxRecordBean();
                         bean.setHash(itemBeanBrowser.getHash());
                         bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
@@ -280,18 +310,21 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                         bean.setSuccess(true);
                         bean.setPublicKey(mWalletBeanNew.getPublic_key());
                         bean.setGas(itemBeanBrowser.getGas());
+                        bean.setGasPrice(itemBeanBrowser.getGasPrice());
                         bean.setNonce(itemBeanBrowser.getNonce());
                         bean.setBlockNumber(String.valueOf(itemBeanBrowser.getBlockNumber()));//可以作为是否交易成功的展示依据
 
                         txRecordBeansNew.add(0, bean);
+                    } else {
+                        LoggerUtils.i("oldhash", "old 哈希" + "   " + itemBeanBrowser.getHash());
                     }
                 }
-                LoggerUtils.i(tag, "all size  = " + txRecordBeansNew.size());
+                LoggerUtils.i(tag, "all size 3  = " + txRecordBeansNew.size());
                 break;
             case TYPE_OUT:
                 mListNetTemp.addAll(mListOut);
                 for (TxRecordBeanTemp.DataBean.ItemBean itemBeanBrowser :
-                        beans.getData()) {
+                        data) {
                     LoggerUtils.i(tag, "网络请求成功" + itemBeanBrowser.toString());
                     if (IONCWalletSDK.getInstance().notExist(itemBeanBrowser.getHash())) {
                         TxRecordBean bean = new TxRecordBean();
@@ -303,6 +336,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                         bean.setSuccess(true);
                         bean.setPublicKey(mWalletBeanNew.getPublic_key());
                         bean.setGas(itemBeanBrowser.getGas());
+                        bean.setGasPrice(itemBeanBrowser.getGasPrice());
                         bean.setNonce(itemBeanBrowser.getNonce());
                         bean.setBlockNumber(String.valueOf(itemBeanBrowser.getBlockNumber()));//可以作为是否交易成功的展示依据
                         txRecordBeansNew.add(0, bean);
@@ -314,7 +348,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             case TYPE_IN:
                 mListNetTemp.addAll(mListIn);
                 for (TxRecordBeanTemp.DataBean.ItemBean itemBeanBrowser :
-                        beans.getData()) {
+                        data) {
                     LoggerUtils.i("beannet", "hash" + "   " + itemBeanBrowser.getHash());
                     if (IONCWalletSDK.getInstance().notExist(itemBeanBrowser.getHash())) {
                         LoggerUtils.i("beannet", "onTxRecordBrowserSuccess" + "   新增 = " + itemBeanBrowser.getHash());
@@ -327,6 +361,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                         bean.setSuccess(true);
                         bean.setPublicKey(mWalletBeanNew.getPublic_key());
                         bean.setGas(itemBeanBrowser.getGas());
+                        bean.setGasPrice(itemBeanBrowser.getGasPrice());
                         bean.setNonce(itemBeanBrowser.getNonce());
                         bean.setBlockNumber(String.valueOf(itemBeanBrowser.getBlockNumber()));//可以作为是否交易成功的展示依据
                         txRecordBeansNew.add(0, bean);
@@ -345,7 +380,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             return;
         }
 
-        int size;
+        int size = 0;
         switch (getType()) {
             case TYPE_ALL:
                 size = mListAllData.size();
@@ -379,20 +414,12 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 }
                 mCurrentPageNumBean.setNumIn(String.valueOf(mPageNum));
                 IONCWalletSDK.getInstance().updateCurrentPageNum(mCurrentPageNumBean);
+
                 break;
         }
+        ToastUtil.showToastLonger(getAppString(R.string.new_tx_record) + size);
         mTxRecordAdapter.notifyDataSetChanged();
     }
-
-    /**
-     * @param txRecordBean 转账的辅助数据库字段更新
-     */
-    private void txRecordHelper(TxRecordBean txRecordBean) {
-        txRecordBean.setPublicKey(mWalletBeanNew.getPublic_key());
-
-        IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
-    }
-
 
     /**
      * @param error 网络数据传递错误时，传递本地数据
@@ -400,26 +427,16 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     public void onTxRecordBrowserFailure(String error) {
         mPageNum--;
+        mStopPullToDown = false;
         LoggerUtils.e("onTxRecordBrowserFailure", error);
     }
 
 
     @Override
     public void onTxRecordSuccessDataNUll() {
-        LoggerUtils.i("method", "onTxRecordSuccessDataNUll" + "   AbsTxRecordBaseFragment");
+        LoggerUtils.i("jsontx", "mPageNum" + "   " + mPageNum);
         mPageNum--;
     }
-
-    @Override
-    public void onLoadStart() {
-
-    }
-
-    @Override
-    public void onLoadFinish() {
-
-    }
-
 
     /**
      * @param walletBeanNew 1、先网络数据，
@@ -428,6 +445,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      */
     @Override
     public void onPullToDown(WalletBeanNew walletBeanNew) {
+        if (mStopPullToDown) {
+            ToastUtil.showToastLonger(getAppString(R.string.please_wait));
+        }
         LoggerUtils.i(TAG, "   isVisibleToUser = " + mVisibleToUser);
         if (mVisibleToUser) {
             if (mTxRecordPresenter == null) {
@@ -435,22 +455,22 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             }
             switch (getType()) {
                 case TYPE_ALL:
+                    mStopPullToDown = true;
                     mPageNum++;
-
-                    LoggerUtils.i("beannet", "all  mPageNum = " + mPageNum);
-                    mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), "10", this);
+                    LoggerUtils.i("beannet", "all  mPageNum = " + mPageNum + " " + walletBeanNew.toString());
+                    mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), mPageSizeAll, this);
                     break;
                 case TYPE_OUT:
                     mPageNum++;
 
                     LoggerUtils.i("beannet", "out  mPageNum = " + mPageNum);
-                    mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), "5", this);
+                    mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), mPageSizeFrom, this);
                     break;
                 case TYPE_IN:
                     mPageNum++;
 
                     LoggerUtils.i("beannet", "in  mPageNum = " + mPageNum);
-                    mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), "5", this);
+                    mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), mPageSizeTo, this);
                     break;
             }
         }
@@ -619,6 +639,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         if (objectAnimator != null) {
             objectAnimator.end();//动画结束
         }
+        mSyncImageView.setClickable(true);
         TextView v = (TextView) mTxRecordAdapter.getViewByPosition(mItemClickedPos, R.id.tx_block);
         LoggerUtils.i("ethTransaction", "OnTxRecordNodeSuccess" + "   " + txRecordBean.toString());
         if (TX_SUSPENDED.equals(txRecordBean.getBlockNumber())) {
@@ -636,6 +657,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean txRecordBean) {
         LoggerUtils.e("ethTransaction", error);
+        mSyncImageView.setClickable(true);
         txRecordBean.setBlockNumber(getAppString(R.string.error_tx_recorder));
         IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
         if (objectAnimator != null) {

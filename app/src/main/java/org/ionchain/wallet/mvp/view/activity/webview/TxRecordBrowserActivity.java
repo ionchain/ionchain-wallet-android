@@ -3,7 +3,6 @@ package org.ionchain.wallet.mvp.view.activity.webview;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,11 +15,11 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.utils.LoggerUtils;
-import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 
 import static org.ionchain.wallet.constant.ConstantParams.TX_HASH;
+import static org.ionchain.wallet.utils.UrlUtils.getExplorerUrl;
 
 public class TxRecordBrowserActivity extends AbsBaseCommonTitleTwoActivity implements OnRefreshListener {
     private WebView mWebView;
@@ -43,6 +42,12 @@ public class TxRecordBrowserActivity extends AbsBaseCommonTitleTwoActivity imple
     protected void setListener() {
         super.setListener();
         smartRefreshLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    protected void initCommonTitle() {
+        super.initCommonTitle();
+        setActivityTitle(getAppString(R.string.ionchain_explore));
     }
 
     @Override
@@ -77,12 +82,7 @@ public class TxRecordBrowserActivity extends AbsBaseCommonTitleTwoActivity imple
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        if (BuildConfig.APP_DEBUG) {
-            url = "http://192.168.23.142:3001/v1/general?queryValue=";
-        } else {
-            url = "http://explorer.ionchain.org/v1/general?queryValue=";
-        }
-        url = url + hash;
+        url = getExplorerUrl() + hash;
         LoggerUtils.i("url ", url);
         mWebView.loadUrl(url);
         mWebView.setWebViewClient(new WebViewClient() {
@@ -104,15 +104,7 @@ public class TxRecordBrowserActivity extends AbsBaseCommonTitleTwoActivity imple
                 return true;
             }
         });
-        mWebView.setWebChromeClient(new WebChromeClient(){
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                if (title != null) {
-                    setActivityTitle(title);
-                }
-            }
-        });
+
     }
 
     @Override

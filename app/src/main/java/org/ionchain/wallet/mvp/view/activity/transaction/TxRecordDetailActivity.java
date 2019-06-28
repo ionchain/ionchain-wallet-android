@@ -19,6 +19,9 @@ import org.ionchain.wallet.mvp.view.activity.webview.TxRecordBrowserActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.web3j.utils.Convert;
+
+import java.math.BigDecimal;
 
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
@@ -102,7 +105,8 @@ public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
         txDetailTime.setText(time);
         txDetailValue.setText(mTxRecordBean.getValue() + " IONC");
         txDetailFee.setText(mTxRecordBean.getGas() + " IONC");
-        txDetailFee1.setText("=Gas(21,000)*" + " GasPrice(" + mTxRecordBean.getGasPrice() + " GWei)");
+        txDetailFee.setText(Convert.fromWei(new BigDecimal(mTxRecordBean.getGasPrice()).multiply(new BigDecimal(mTxRecordBean.getGas())), Convert.Unit.ETHER) + " IONC");
+        txDetailFee1.setText("=Gas(" + mTxRecordBean.getGas() + ")*" + " GasPrice(" + Convert.fromWei(mTxRecordBean.getGasPrice(), Convert.Unit.GWEI) + " GWei)");
         txDetailTo.setText(mTxRecordBean.getTo() + "   ");
         txDetailFrom.setText(mTxRecordBean.getFrom() + "   ");
         txDetailHash.setText(mTxRecordBean.getHash() + "   ");

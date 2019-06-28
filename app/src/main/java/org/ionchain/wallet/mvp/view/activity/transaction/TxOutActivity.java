@@ -3,6 +3,7 @@ package org.ionchain.wallet.mvp.view.activity.transaction;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -25,17 +26,17 @@ import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.check.DialogPasswordCheck;
+import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import static java.lang.String.valueOf;
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
-import static org.ionchain.wallet.constant.ConstantParams.ADDRESS_DEBUG;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MAX_VALUE_100_GWEI;
-import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_MIN_VALUE_1_GWEI;
 import static org.ionchain.wallet.constant.ConstantParams.SEEK_BAR_SRART_VALUE;
 import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_FOR_RESULT_CODE;
 import static org.ionchain.wallet.constant.ConstantParams.TX_ACTIVITY_RESULT;
@@ -84,14 +85,19 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
     private Button txNext;
     private String mNodeIONC = getHostNode();
 
-    private final BigDecimal mGasPriceScale = BigDecimal.valueOf(0.1); //gWei
+    private final BigDecimal mGasPriceScaleGWei = BigDecimal.valueOf(10); //gWei
     private BigDecimal mGasPrice = BigDecimal.valueOf(SEEK_BAR_SRART_VALUE);//进度值,起始值为 30GWei ,最大值为100
+    /**
+     * gas 值,以太坊最小值
+     */
+    public final static BigDecimal GAS_MIN_COUNT = BigDecimal.valueOf(21000);
 
-
+    public static final String ADDRESS_DEBUG = "0x964a6027dfe068ab25bc4d2f0b997e65af4d7fb1";//  测试收款方
     /**
      * 交易金额
      */
     private String mTxAccount;
+    private String mFee = "";
 
     private void findViews() {
         txToAddressEt = findViewById(R.id.tx_to_address);
@@ -139,18 +145,18 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
         txSeekBarIndex.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             /**
              * @param seekBar ..
-             * @param progress  Gwei
+             * @param gasPrice  Gwei [mGasPriceScaleGWei*1,mGasPriceScaleGWei*100]
              * @param fromUser   ...
              */
             @SuppressLint("SetTextI18n")
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress == 0) {
-                    progress = SEEK_BAR_MIN_VALUE_1_GWEI;
-                }
-                mGasPrice = BigDecimal.valueOf(progress).multiply(mGasPriceScale);
+            public void onProgressChanged(SeekBar seekBar, int gasPrice, boolean fromUser) {
+                gasPrice++;
+                LoggerUtils.i("getCurrentFee", "gasPrice 0 = " + gasPrice);
+                mGasPrice = BigDecimal.valueOf(gasPrice).multiply(mGasPriceScaleGWei);
                 //显示gas消耗
-                mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString() + " IONC");
+                mFee = getCurrentFee(mGasPrice).toPlainString();
+                mTxCostTv.setText(getAppString(R.string.tx_fee) + mFee + " IONC");
             }
 
             @Override
@@ -169,6 +175,22 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
         });
     }
 
+    /**
+     * 获取当前进度条下的费用
+     *
+     * @param gasPriceGwei GWei单位
+     * @return
+     */
+    public BigDecimal getCurrentFee(BigDecimal gasPriceGwei) {
+        BigDecimal feeGwei = GAS_MIN_COUNT.multiply(gasPriceGwei);
+        Log.i(TAG, "getCurrentFee:feeGwei " + feeGwei);
+        Log.i(TAG, "getCurrentFee:gasPrice " + gasPriceGwei);
+        /*
+         * 从Gwei到wei,再从wei到ether ,交易费用以ETH为单位，最低交易21000以wei 为单位
+         * */
+        return Convert.fromWei(Convert.toWei(valueOf(feeGwei), Convert.Unit.GWEI), Convert.Unit.ETHER);
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
@@ -177,7 +199,7 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
         }
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(30);
-        mTxCostTv.setText(getAppString(R.string.tx_fee) + IONCWalletSDK.getInstance().getCurrentFee(mGasPrice.multiply(mGasPriceScale)).toPlainString() + " IONC");
+        mTxCostTv.setText(getAppString(R.string.tx_fee) + getCurrentFee(mGasPrice.multiply(mGasPriceScaleGWei)).toPlainString() + " IONC");
         mBalanceTv.setText(getAppString(R.string.balance_) + ": " + mWalletBeanNew.getBalance());
     }
 
@@ -220,9 +242,10 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setLocal(true);
         mTxRecordBean.setSuccess(true);
         mTxRecordBean.setNonce(String.valueOf(nonce));
-        mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
+        mTxRecordBean.setGasPrice(String.valueOf(mGasPrice));
+        mTxRecordBean.setGas(String.valueOf(GAS_MIN_COUNT));
         mTxRecordBean.setBlockNumber(TX_SUSPENDED);//可以作为是否交易成功的展示依据
-
+        LoggerUtils.i("syncBrowser", "OnTxSuccess" + "   TxOutActivity" + mTxRecordBean.toString());
         IONCWalletSDK.getInstance().saveTxRecordBean(mTxRecordBean);
         Intent intent = new Intent();
         intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);
@@ -247,8 +270,8 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxRecordBean.setHash(TX_HASH_NULL);
         mTxRecordBean.setLocal(true);
         mTxRecordBean.setSuccess(true);
-        mTxRecordBean.setGasPrice(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
-        mTxRecordBean.setGas(IONCWalletSDK.getInstance().getCurrentFee(mGasPrice).toPlainString());
+        mTxRecordBean.setGasPrice(String.valueOf(mGasPrice));
+        mTxRecordBean.setGas(String.valueOf(GAS_MIN_COUNT));
         mTxRecordBean.setBlockNumber(getAppString(R.string.tx_failure));//交易失败
 
         Intent intent = new Intent();

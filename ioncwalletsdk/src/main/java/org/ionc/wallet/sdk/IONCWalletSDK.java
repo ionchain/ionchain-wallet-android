@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -77,7 +76,6 @@ import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.valueOf;
-import static org.ionc.wallet.constant.ConstanParams.GAS_MIN;
 import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 
@@ -91,7 +89,6 @@ public class IONCWalletSDK {
     private Handler mHandler;
     private final String TAG = this.getClass().getSimpleName();
 
-    private BigDecimal mGasMinConut = GAS_MIN;
 
     /**
      * 通用的以太坊基于bip44协议的助记词路径
@@ -121,7 +118,7 @@ public class IONCWalletSDK {
      */
     private MnemonicCode mMnemonicCode = null;
     /**
-     *
+     * gas下线
      */
     private final BigInteger gasLimit = Convert.toWei("21000", Convert.Unit.WEI).toBigInteger();
 
@@ -169,22 +166,6 @@ public class IONCWalletSDK {
         }
     }
 
-    /**
-     * 获取当前进度条下的费用
-     *
-     * @param gasPriceGwei GWei单位
-     * @return
-     */
-    public BigDecimal getCurrentFee(BigDecimal gasPriceGwei) {
-        BigDecimal feeGwei = mGasMinConut.multiply(gasPriceGwei);
-        Log.i(TAG, "getCurrentFee:feeGwei " + feeGwei);
-        Log.i(TAG, "getCurrentFee:gasPrice " + gasPriceGwei);
-        Log.i(TAG, "getCurrentFee:mGasMinConut " + mGasMinConut);
-        /*
-         * 从Gwei到wei,再从wei到ether ,交易费用以ETH为单位，最低交易21000以wei 为单位
-         * */
-        return Convert.fromWei(Convert.toWei(valueOf(feeGwei), Convert.Unit.GWEI), Convert.Unit.ETHER);
-    }
 
     //创建钱包---借助  importWalletByMnemonicCode
     public void createIONCWallet(String walletName, String password, final OnImportMnemonicCallback callback) {
@@ -503,7 +484,7 @@ public class IONCWalletSDK {
         if (TextUtils.isEmpty(hash)) {
             return;
         }
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 super.run();
@@ -550,12 +531,10 @@ public class IONCWalletSDK {
                     if (!TextUtils.isEmpty(ethTransaction.getHash())) {
                         txRecordBean.setHash(ethTransaction.getHash());
                     }
-                    txRecordBean.setGasPrice(String.valueOf(Convert.fromWei(Convert.toWei(new BigDecimal(ethTransaction.getGasPrice()), Convert.Unit.GWEI), Convert.Unit.ETHER)));
+                    txRecordBean.setGasPrice(String.valueOf(ethTransaction.getGasPrice()));
                     if (!TextUtils.isEmpty(ethTransaction.getGasRaw())) {
-                        txRecordBean.setGas(String.valueOf(Convert.fromWei(valueOf(
-                                new BigInteger(ethTransaction.getGasPriceRaw().substring(2).toUpperCase(), 16)
-                                        .multiply(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(), 16))
-                        ), Convert.Unit.ETHER)));
+                        String gas = String.valueOf(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(), 16));
+                        txRecordBean.setGas(gas);
                     }
                     mHandler.post(() -> {
                         LoggerUtils.i("ethTransaction", "txRecordBean  getBlockNumberRaw " + ethTransaction.getBlockNumberRaw());
@@ -569,7 +548,7 @@ public class IONCWalletSDK {
                     });
                 }
             }
-        } .start();
+        }.start();
     }
 
 
@@ -719,7 +698,6 @@ public class IONCWalletSDK {
     }
 
 
-
     /**
      * 通过钱包地址查询钱包
      * <p>
@@ -738,8 +716,6 @@ public class IONCWalletSDK {
         int size = list.size();
         return size == 0;
     }
-
-
 
 
     /**
@@ -816,16 +792,18 @@ public class IONCWalletSDK {
      * @return
      */
     public CurrentPageNum txOutCurrentPageNum(String address) {
-        CurrentPageNum wallet  = mDaoSession.getCurrentPageNumDao().queryBuilder().where(CurrentPageNumDao.Properties.NumOut.eq(address)).unique();
+        CurrentPageNum wallet = mDaoSession.getCurrentPageNumDao().queryBuilder().where(CurrentPageNumDao.Properties.NumOut.eq(address)).unique();
         return wallet;
-    }  /**
+    }
+
+    /**
      * 通过钱包地址查询钱包
      *
      * @param address
      * @return
      */
     public CurrentPageNum txInCurrentPageNum(String address) {
-        CurrentPageNum wallet  = mDaoSession.getCurrentPageNumDao().queryBuilder().where(CurrentPageNumDao.Properties.NumIn.eq(address)).unique();
+        CurrentPageNum wallet = mDaoSession.getCurrentPageNumDao().queryBuilder().where(CurrentPageNumDao.Properties.NumIn.eq(address)).unique();
         return wallet;
     }
 

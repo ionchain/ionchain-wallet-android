@@ -229,8 +229,10 @@
     <string name="tx_block_suspended">交易未完成</string>
     <string name="error_tx_recorder">交易失败</string>
     <string name="setting_select_coin_type">当前币种: %s</string>
-    <string name="no_record">暂无交易记录</string>
+    <string name="no_record">暂无更多交易记录</string>
     <string name="error_tx_hash">无法查询此交易</string>
-    <string name="ionchain_explore"><![CDATA[到 IONChain Explore 查询更详细的信息 >]]></string>
+    <string name="go_to_ionchain_explore"><![CDATA[到 IONChain Explore 查询更详细的信息 >]]></string>
     <string name="plerse_select_one_wallet">请选择一个钱包</string>
+    <string name="ionchain_explore">Ionchain Explorer</string>
+    <string name="new_tx_record">新纪录</string>
 </resources>
