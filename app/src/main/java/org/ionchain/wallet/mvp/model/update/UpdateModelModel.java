@@ -35,7 +35,7 @@ public class UpdateModelModel implements IUpdateModel {
             public void onSuccess(Response<String> response) {
                 callback.onCheckForUpdateSuccess();
                 String json = response.body();
-                LoggerUtils.i("版本信息" + json);
+                LoggerUtils.j("update", json);
                 UpdateBean updateBean = NetUtils.gsonToBean(json, UpdateBean.class);
                 if (updateBean != null && updateBean.getData() != null && updateBean.getData().get(0) != null) {
                     //询问用户是否下载？i

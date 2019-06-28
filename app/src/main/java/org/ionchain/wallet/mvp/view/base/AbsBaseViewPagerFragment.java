@@ -159,7 +159,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
             LoggerUtils.i(TAG, "AbsBaseViewPagerFragment 无需重新创建视图");
             initView(mContainerView);
 
-            mImmersionBar = ImmersionBar.with(getActivity(), this);
+            mImmersionBar = ImmersionBar.with(mActivity, this);
             initImmersionBar();
             setListener();
             if (getUserVisibleHint()) {
@@ -180,7 +180,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
         mContainerView = inflater.inflate(getFragmentLayout(), container, false);
         initView(mContainerView);
 
-        mImmersionBar = ImmersionBar.with(getActivity(), this);
+        mImmersionBar = ImmersionBar.with(mActivity, this);
         initImmersionBar();
         setListener();
         if (getUserVisibleHint()) {
@@ -241,7 +241,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
      * @param clazz 跳转的activity
      */
     protected void skip(Class<?> clazz) {
-        Intent intent = new Intent(getActivity(), clazz);
+        Intent intent = new Intent(mActivity, clazz);
         startActivity(intent);
     }
 
@@ -254,7 +254,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
 
     protected void skip(Class<?> clazz, String params, Serializable obj) {
         try {
-            Intent intent = new Intent(getActivity(), clazz);
+            Intent intent = new Intent(mActivity, clazz);
             intent.putExtra(params, obj);
             startActivityForResult(intent, 0);
         } catch (Throwable e) {
@@ -264,7 +264,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
 
     protected void skip(Class<?> clazz, String params, Parcelable obj) {
         try {
-            Intent intent = new Intent(getActivity(), clazz);
+            Intent intent = new Intent(mActivity, clazz);
             intent.putExtra(params, obj);
             startActivityForResult(intent, 0);
         } catch (Throwable e) {

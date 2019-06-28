@@ -77,7 +77,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         wallet_img_device = view.findViewById(R.id.wallet_img_device);
         wallet_name_devices = view.findViewById(R.id.wallet_name_devices);
 
-        mAdapter = new CommonAdapter(getActivity(), mDataBeanList, R.layout.item_devices_layout, new DeviceViewHelper(this));
+        mAdapter = new CommonAdapter(mActivity, mDataBeanList, R.layout.item_devices_layout, new DeviceViewHelper(this));
         mListView.setAdapter(mAdapter);
 
 
@@ -99,7 +99,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
                     dialogMnemonic.show();
                     return;
                 }
-                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+                Intent intent = new Intent(mActivity, CaptureActivity.class);
                 startActivityForResult(intent, 10);
 
             }

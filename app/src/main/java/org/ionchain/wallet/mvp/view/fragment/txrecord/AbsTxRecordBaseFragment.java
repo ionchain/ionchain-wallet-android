@@ -85,10 +85,10 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     protected void initView(View view) {
         mListView = view.findViewById(R.id.tx_record_lv);
-        mListView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        mListView.setLayoutManager(new GridLayoutManager(mActivity, 1));
         switch (getType()) {
             case TYPE_ALL:
-                mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListAllData);
+                mTxRecordAdapter = new TxRecordAdapter(mActivity, R.layout.item_txrecord, mListAllData);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view12, position) -> {
                     skipToDetail(mListAllData.get(position));
                 });
@@ -97,7 +97,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 });
                 break;
             case TYPE_OUT:
-                mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListOut);
+                mTxRecordAdapter = new TxRecordAdapter(mActivity, R.layout.item_txrecord, mListOut);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view13, position) -> {
                     skipToDetail(mListOut.get(position));
 
@@ -107,7 +107,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 });
                 break;
             case TYPE_IN:
-                mTxRecordAdapter = new TxRecordAdapter(getActivity(), R.layout.item_txrecord, mListIn);
+                mTxRecordAdapter = new TxRecordAdapter(mActivity, R.layout.item_txrecord, mListIn);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view14, position) -> {
                     skipToDetail(mListIn.get(position));
                 });
@@ -174,6 +174,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     }
 
     private void getPageNum() {
+        if (mWalletBeanNew == null) {
+            return;
+        }
         switch (getType()) {
             case TYPE_ALL:
                 mCurrentPageNumBean = IONCWalletSDK.getInstance().txAllCurrentPageNumBean(mWalletBeanNew.getAddress());
@@ -394,21 +397,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     txRecordHelper(b);
                     mListAllData.add(0, b);
                 }
-                if (mCurrentPageNumBean == null) {
-                    mCurrentPageNumBean = new CurrentPageNum();
-                    mPageNum = 0;
-                    mCurrentPageNumBean.setAddress(mWalletBeanNew.getAddress());
-                    mCurrentPageNumBean.setNumAll(String.valueOf(1));
-                    IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
-                } else {
-                    if (mCurrentPageNumBean.getNumAll() == null) {
-                        mPageNum = 0;
-                        mCurrentPageNumBean.setNumAll(String.valueOf(1));
-                        IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
-                    } else {
-                        mPageNum = Integer.parseInt(mCurrentPageNumBean.getNumAll());
-                    }
-                }
                 mCurrentPageNumBean.setNumAll(String.valueOf(mPageNum));
                 IONCWalletSDK.getInstance().updateCurrentPageNum(mCurrentPageNumBean);
                 size = mListAllData.size();
@@ -450,6 +438,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         mRefresh.finishRefresh();
         mRefresh.finishLoadMore();
         mPageNum--;
+        ToastUtil.showToastLonger(error);
         LoggerUtils.e("onTxRecordBrowserFailure", error);
     }
 

@@ -111,7 +111,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_toEndOf="@id/rmb_balance_tx"
                     android:layout_toRightOf="@id/ionc_balance_tx"
-                    android:text="    RMB"
+                    android:text="    USD"
                     android:textColor="@color/white"
                     android:textSize="10sp"
                     android:textStyle="bold" />

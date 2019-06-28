@@ -1,18 +1,20 @@
 package org.ionchain.wallet.mvp.view.activity.setting.coin;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
 import org.ionchain.wallet.utils.SPUtils;
 
 import static org.ionchain.wallet.App.mCoinType;
-import static org.ionchain.wallet.constant.ConstantParams.COIN_TYPE_CNY;
-import static org.ionchain.wallet.constant.ConstantParams.COIN_TYPE_IDR;
-import static org.ionchain.wallet.constant.ConstantParams.COIN_TYPE_KRW;
-import static org.ionchain.wallet.constant.ConstantParams.COIN_TYPE_US;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_CNY;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_IDR;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_KRW;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
 
 public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements View.OnClickListener {
     private Button coinUs;
@@ -21,6 +23,7 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
     private Button coinIdr;
 
     private TextView mUserSelect;
+    String split = " ：";
 
     @Override
     protected int getLayoutId() {
@@ -39,24 +42,11 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
         super.initData();
-        String ct = SPUtils.getInstance().getCoinType();
-        switch (ct) {
-            case "us":
-                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_us)));
-                break;
-            case "cny":
-                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_rmb)));
-                break;
-            case "krw":
-                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_han_yuan)));
-                break;
-            case "idr":
-                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_yin_ni_dun)));
-                break;
-        }
+        setCoinType();
     }
 
     /**
@@ -71,7 +61,6 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
         coinCny = (Button) findViewById(R.id.coin_cny);
         coinKrw = (Button) findViewById(R.id.coin_krw);
         coinIdr = (Button) findViewById(R.id.coin_idr);
-
         coinUs.setOnClickListener(this);
         coinCny.setOnClickListener(this);
         coinKrw.setOnClickListener(this);
@@ -84,10 +73,11 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
      * Auto-created on 2019-06-19 13:30:44 by Android Layout Finder
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
         if (v == coinUs) {
-            mCoinType = COIN_TYPE_US;
+            mCoinType = COIN_TYPE_USD;
         } else if (v == coinCny) {
             mCoinType = COIN_TYPE_CNY;
         } else if (v == coinKrw) {
@@ -96,22 +86,28 @@ public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements
             mCoinType = COIN_TYPE_IDR;
         }
         SPUtils.getInstance().saveCoinType(mCoinType);
+        setCoinType();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setCoinType() {
         String ct = SPUtils.getInstance().getCoinType();
         switch (ct) {
-            case "us":
-                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_us)));
+            case COIN_TYPE_USD:
+                ct = getAppString(R.string.coin_type_us);
                 break;
-            case "cny":
-                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_rmb)));
+            case COIN_TYPE_CNY:
+                ct = getAppString(R.string.coin_type_rmb);
                 break;
-            case "krw":
-                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_han_yuan)));
+            case COIN_TYPE_KRW:
+                ct = getAppString(R.string.coin_type_han_yuan);
                 break;
-            case "idr":
-                mUserSelect.setText(getAppString(R.string.setting_select_coin_type, getAppString(R.string.coin_type_yin_ni_dun)));
+            case COIN_TYPE_IDR:
+                ct = getAppString(R.string.coin_type_yin_ni_dun);
                 break;
         }
-
+        LoggerUtils.i("cointype = "+ct);
+        mUserSelect.setText(getAppString(R.string.setting_select_coin_type) + split + ct);
     }
 
 }

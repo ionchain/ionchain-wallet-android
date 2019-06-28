@@ -19,7 +19,7 @@ public class NodeModel implements INodeModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                LoggerUtils.i("node" , json);
+                LoggerUtils.j("node" , json);
                 NodeBean nodeBean = NetUtils.gsonToBean(json, NodeBean.class);
                 if (nodeBean == null || nodeBean.getData() == null) {
                     callback.onIONCNodeError("");

@@ -51,6 +51,7 @@ import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordAllFragment;
 import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordInFragment;
 import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordOutFragment;
 import org.ionchain.wallet.mvp.view.fragment.txrecord.TxRecordPagerAdapter;
+import org.ionchain.wallet.utils.SPUtils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
@@ -70,6 +71,10 @@ import java.util.Objects;
 import static java.math.BigDecimal.ROUND_HALF_UP;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_CNY;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_IDR;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_KRW;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_NODE;
 import static org.ionchain.wallet.constant.ConstantNetCancelTag.NET_CANCEL_TAG_USD_PRICE;
@@ -243,6 +248,7 @@ public class AssetFragment extends AbsBaseFragment implements
             balance(); //回到前台 handleShow
             mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
         }
+        mRmbIcon.setText(SPUtils.getInstance().getCoinType());
     }
 
     @Override
@@ -257,7 +263,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onResume() {
         super.onResume();
         LoggerUtils.i("method", "onResume" + "   AssetFragment");
-        SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(getActivity()));
+        SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(mActivity));
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
 
         if (mCurrentWallet == null) {
@@ -348,7 +354,7 @@ public class AssetFragment extends AbsBaseFragment implements
          * */
         mTxOutLl.setOnClickListener(v -> {
             if (pleaseBackupWallet()) return;
-            Intent intent = new Intent(getActivity(), TxOutActivity.class);
+            Intent intent = new Intent(mActivity, TxOutActivity.class);
             intent.putExtra(INTENT_PARAM_CURRENT_WALLET, mCurrentWallet);
             intent.putExtra(CURRENT_ADDRESS, mCurrentWallet.getAddress());
             intent.putExtra(CURRENT_KSP, mCurrentWallet.getKeystore());
@@ -360,7 +366,7 @@ public class AssetFragment extends AbsBaseFragment implements
          * */
         mTxInLl.setOnClickListener(v -> {
             if (pleaseBackupWallet()) return;
-            Intent intent = new Intent(getActivity(), ShowAddressActivity.class);
+            Intent intent = new Intent(mActivity, ShowAddressActivity.class);
             intent.putExtra(INTENT_PARAME_WALLET_ADDRESS, mCurrentWallet.getAddress());
             cancelGetNode();  //转入
             skip(intent);
@@ -379,7 +385,7 @@ public class AssetFragment extends AbsBaseFragment implements
          * */
         mMoreWallet.setOnClickListener(v -> {
             DisplayMetrics metrics = new DisplayMetrics();
-//            Objects.requireNonNull(getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//            Objects.requireNonNull(mActivity).getWindowManager().getDefaultDisplay().getMetrics(metrics);
 //            int screenHeight = metrics.heightPixels;
 //            int screenWidth = metrics.widthPixels;
 //            mBuilder.setAnimationStyle(R.style.push_left_in_out)
@@ -441,14 +447,14 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onMoreWalletDialogImportBtnClick(MoreWalletDialog moreWalletDialog) {
         moreWalletDialog.dismiss();
-        Intent intent = new Intent(getActivity(), SelectImportModeActivity.class);
+        Intent intent = new Intent(mActivity, SelectImportModeActivity.class);
         startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
     }
 
     @Override
     public void onMoreWalletDialogCreateBtnClick(MoreWalletDialog moreWalletDialog) {
         moreWalletDialog.dismiss();
-        Intent intent = new Intent(getActivity(), CreateWalletActivity.class);
+        Intent intent = new Intent(mActivity, CreateWalletActivity.class);
         intent.putExtra(INTENT_FROM_WHERE_TAG, INTENT_FROM_MAIN_ACTIVITY);
         startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
     }
@@ -555,27 +561,27 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onRefresh(RefreshLayout refreshLayout) {
         balance();
         if (mTxRecordAllFragment != null) {
-            mTxRecordAllFragment.onPullToDown(mCurrentWallet,mRefresh);
+            mTxRecordAllFragment.onPullToDown(mCurrentWallet, mRefresh);
         }
         if (mTxRecordOutFragment != null) {
-            mTxRecordOutFragment.onPullToDown(mCurrentWallet,mRefresh);
+            mTxRecordOutFragment.onPullToDown(mCurrentWallet, mRefresh);
         }
         if (mTxRecordInFragment != null) {
-            mTxRecordInFragment.onPullToDown(mCurrentWallet,mRefresh);
+            mTxRecordInFragment.onPullToDown(mCurrentWallet, mRefresh);
         }
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        mTxRecordAllFragment.onPullToUp(mCurrentWallet,mRefresh);
-        mTxRecordInFragment.onPullToUp(mCurrentWallet,mRefresh);
-        mTxRecordOutFragment.onPullToUp(mCurrentWallet,mRefresh);
+        mTxRecordAllFragment.onPullToUp(mCurrentWallet, mRefresh);
+        mTxRecordInFragment.onPullToUp(mCurrentWallet, mRefresh);
+        mTxRecordOutFragment.onPullToUp(mCurrentWallet, mRefresh);
         mRefresh.finishLoadMore(500);
     }
 
     @Override
     public void onSaveMnemonicSure() {
-        new DialogTextMessage(Objects.requireNonNull(getActivity())).setTitle(getResources().getString(R.string.attention))
+        new DialogTextMessage(Objects.requireNonNull(mActivity)).setTitle(getResources().getString(R.string.attention))
                 .setMessage(getResources().getString(R.string.key_store_to_save))
                 .setBtnText(getResources().getString(R.string.i_know))
                 .setHintMsg("")
@@ -699,7 +705,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mRefresh.finishRefresh();
 
         LoggerUtils.e("离子币余额获取失败:", error);
-
+        ToastUtil.showToastLonger(error);
         String balance = mCurrentWallet.getBalance();
         String rmb = mCurrentWallet.getRmb();
         if (TextUtils.isEmpty(balance)) {
@@ -892,22 +898,19 @@ public class AssetFragment extends AbsBaseFragment implements
         mCurrentWallet.setUs(balance_us);
         mCurrentWallet.setKrw(balance_krw);
         mCurrentWallet.setIdr(balance_idr);
-        switch (App.mCoinType) {
-            case ConstantParams.COIN_TYPE_CNY:
+        mRmbIcon.setText(" " + SPUtils.getInstance().getCoinType());
+        switch (SPUtils.getInstance().getCoinType()) {
+            case COIN_TYPE_CNY:
                 mRmbTx.setText(balance_rmb);
-                mRmbIcon.setText("  元");
                 break;
-            case ConstantParams.COIN_TYPE_IDR:
+            case COIN_TYPE_IDR:
                 mRmbTx.setText(balance_idr);
-                mRmbIcon.setText("  Rp");
                 break;
-            case ConstantParams.COIN_TYPE_KRW:
+            case COIN_TYPE_KRW:
                 mRmbTx.setText(balance_krw);
-                mRmbIcon.setText("  원");
                 break;
-            case ConstantParams.COIN_TYPE_US:
+            case COIN_TYPE_USD:
                 mRmbTx.setText(balance_us);
-                mRmbIcon.setText("  $");
                 break;
         }
         LoggerUtils.i("balance = COIN_TYPE_IDR ", balance);

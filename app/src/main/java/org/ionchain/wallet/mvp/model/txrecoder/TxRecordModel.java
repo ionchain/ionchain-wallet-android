@@ -42,7 +42,7 @@ public class TxRecordModel implements ITxRecoderModel {
             @Override
             public void onSuccess(Response<String> response) {
                 String json = response.body();
-                LoggerUtils.i("jsontx" + json);
+                LoggerUtils.j(json);
                 TxRecordBeanTemp txRecordBeanTemp = NetUtils.gsonToBean(json, TxRecordBeanTemp.class);
                 if (txRecordBeanTemp == null || txRecordBeanTemp.getData() == null || txRecordBeanTemp.getData().getData() == null || txRecordBeanTemp.getData().getData().size() == 0) {
                     callback.onTxRecordSuccessDataNUll();

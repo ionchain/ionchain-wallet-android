@@ -23,6 +23,14 @@ public class LoggerUtils {
      */
     public static void j(String jsonStr) {
         XLog.tag("json").json(jsonStr);
+    }  /**
+     * 打印JSON
+     *
+     * @param tag
+     * @param jsonStr jsonString
+     */
+    public static void j(String tag, String jsonStr) {
+        XLog.tag(tag).json(jsonStr);
     }
 
     /**

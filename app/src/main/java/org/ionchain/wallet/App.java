@@ -18,6 +18,8 @@ import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
 import com.elvishew.xlog.flattener.ClassicFlattener;
+import com.elvishew.xlog.formatter.message.json.DefaultJsonFormatter;
+import com.elvishew.xlog.formatter.stacktrace.DefaultStackTraceFormatter;
 import com.elvishew.xlog.interceptor.BlacklistTagsFilterInterceptor;
 import com.elvishew.xlog.printer.AndroidPrinter;
 import com.elvishew.xlog.printer.Printer;
@@ -33,7 +35,6 @@ import org.ionc.wallet.daohelper.MyOpenHelper;
 import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
@@ -51,6 +52,7 @@ import okhttp3.OkHttpClient;
 
 import static org.ionc.wallet.constant.ConstanParams.DB_NAME;
 import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
 
 /**
  * Created by binny on 2018/11/29.
@@ -58,7 +60,7 @@ import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
     @SuppressLint("StaticFieldLeak")
     public static Context mContext;
-    public static String mCoinType = ConstantParams.COIN_TYPE_US;
+    public static String mCoinType = COIN_TYPE_USD;
     public static final Handler APP_HANDLE = new Handler(Looper.getMainLooper());
     public static int[] sRandomHeader = {
             R.mipmap.random_header_more_1, R.mipmap.random_header_more_2, R.mipmap.random_header_more_3, R.mipmap.random_header_more_4, R.mipmap.random_header_more_5, R.mipmap.random_header_more_6, R.mipmap.random_header_more_7, R.mipmap.random_header_more_8
@@ -232,11 +234,11 @@ public class App extends Application implements Application.ActivityLifecycleCal
                 // .t()                                                // Enable thread info, disabled by default
                 // .st(2)                                              // Enable stack trace info with depth 2, disabled by default
                 // .b()                                                // Enable border, disabled by default
-                // .jsonFormatter(new MyJsonFormatter())               // Default: DefaultJsonFormatter
+                 .jsonFormatter(new DefaultJsonFormatter())               // Default: DefaultJsonFormatter
                 // .xmlFormatter(new MyXmlFormatter())                 // Default: DefaultXmlFormatter
                 // .throwableFormatter(new MyThrowableFormatter())     // Default: DefaultThrowableFormatter
                 // .threadFormatter(new MyThreadFormatter())           // Default: DefaultThreadFormatter
-                // .stackTraceFormatter(new MyStackTraceFormatter())   // Default: DefaultStackTraceFormatter
+                 .stackTraceFormatter(new DefaultStackTraceFormatter())   // Default: DefaultStackTraceFormatter
                 // .borderFormatter(new MyBoardFormatter())            // Default: DefaultBorderFormatter
                 // .addObjectFormatter(AnyClass.class,                 // Add formatter for specific class of object
                 //     new AnyClassObjectFormatter())                  // Use Object.toString() by default

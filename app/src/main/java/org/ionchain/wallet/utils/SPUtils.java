@@ -6,9 +6,9 @@ import android.content.SharedPreferences.Editor;
 
 import androidx.core.content.SharedPreferencesCompat;
 
-import org.ionchain.wallet.constant.ConstantParams;
-
 import java.util.Locale;
+
+import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
 
 /**
  * 首选项工具类
@@ -233,7 +233,7 @@ public class SPUtils {
     }
 
     public String getCoinType() {
-        return mSharedPreferences.getString(COIN_TYPE_KEY, ConstantParams.COIN_TYPE_US);
+        return mSharedPreferences.getString(COIN_TYPE_KEY, COIN_TYPE_USD);
     }
 
 

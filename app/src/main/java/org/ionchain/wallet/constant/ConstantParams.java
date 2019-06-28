@@ -72,10 +72,6 @@ public final class ConstantParams {
 
     public static final String DEFAULT_TRANSCATION_HASH_NULL = "null";//   必须更新，不可取消
 
-    public final static String COIN_TYPE_CNY = "cny";
-    public final static String COIN_TYPE_US = "us";
-    public final static String COIN_TYPE_KRW = "krw";
-    public final static String COIN_TYPE_IDR = "idr";
 
     public static final int TX_ACTIVITY_FOR_RESULT_CODE = 10;
     public static final String TX_ACTIVITY_RESULT = "TX_ACTIVITY_RESULT";

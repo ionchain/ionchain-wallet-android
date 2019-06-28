@@ -76,7 +76,6 @@ import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.valueOf;
-import static org.ionc.wallet.constant.ConstantUrl.ETH_CHAIN_NODE;
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 
 public class IONCWalletSDK {
@@ -433,16 +432,16 @@ public class IONCWalletSDK {
         balance(node, address, callback);
     }
 
-    /**
-     * 获取以太币余额
-     *
-     * @param tag
-     * @param address
-     * @param callback
-     */
-    public void getETHWalletBalance(String tag, String address, OnBalanceCallback callback) {
-        balance(ETH_CHAIN_NODE, address, callback);
-    }
+//    /**
+//     * 获取以太币余额
+//     *
+//     * @param tag
+//     * @param address
+//     * @param callback
+//     */
+//    public void getETHWalletBalance(String tag, String address, OnBalanceCallback callback) {
+//        balance(ETH_CHAIN_NODE, address, callback);
+//    }
 
     /**
      * @param node     区块节点
