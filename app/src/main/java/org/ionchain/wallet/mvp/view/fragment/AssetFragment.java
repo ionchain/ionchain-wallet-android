@@ -555,21 +555,21 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onRefresh(RefreshLayout refreshLayout) {
         balance();
         if (mTxRecordAllFragment != null) {
-            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
+            mTxRecordAllFragment.onPullToDown(mCurrentWallet,mRefresh);
         }
         if (mTxRecordOutFragment != null) {
-            mTxRecordOutFragment.onPullToDown(mCurrentWallet);
+            mTxRecordOutFragment.onPullToDown(mCurrentWallet,mRefresh);
         }
         if (mTxRecordInFragment != null) {
-            mTxRecordInFragment.onPullToDown(mCurrentWallet);
+            mTxRecordInFragment.onPullToDown(mCurrentWallet,mRefresh);
         }
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        mTxRecordAllFragment.onPullToUp(mCurrentWallet);
-        mTxRecordInFragment.onPullToUp(mCurrentWallet);
-        mTxRecordOutFragment.onPullToUp(mCurrentWallet);
+        mTxRecordAllFragment.onPullToUp(mCurrentWallet,mRefresh);
+        mTxRecordInFragment.onPullToUp(mCurrentWallet,mRefresh);
+        mTxRecordOutFragment.onPullToUp(mCurrentWallet,mRefresh);
         mRefresh.finishLoadMore(500);
     }
 
@@ -853,12 +853,12 @@ public class AssetFragment extends AbsBaseFragment implements
         /**
          * 下拉刷新
          */
-        void onPullToDown(WalletBeanNew walletBeanNew);
+        void onPullToDown(WalletBeanNew walletBeanNew, SmartRefreshLayout refresh);
 
         /**
          * 上拉加载更多
          */
-        void onPullToUp(WalletBeanNew walletBeanNew);
+        void onPullToUp(WalletBeanNew walletBeanNew, SmartRefreshLayout refresh);
 
         /**
          * @param currentWallet 地址发生改变的时候

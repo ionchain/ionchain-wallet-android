@@ -33,7 +33,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
      * 异常日志 存储位置为根目录下的 Crash文件夹
      */
     private static final String PATH = Environment.getExternalStorageDirectory().getPath() +
-            "/ionchian_crash_log/";
+            "/ionchain_crash_log/";
     /**
      * 文件名后缀
      */
