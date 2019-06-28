@@ -16,7 +16,7 @@ public class QRCodeUtils {
      */
     public static Bitmap generateQRCode(String msg, int size_px) {
         Bitmap bitmap = null;
-        Bitmap logo = BitmapFactory.decodeResource(App.mContext.getResources(), R.mipmap.login_logo);
+        Bitmap logo = BitmapFactory.decodeResource(App.mAppInstance.getResources(), R.mipmap.login_logo);
         bitmap =  CodeUtils.createImage(msg, size_px, size_px, null);
         return bitmap;
     }

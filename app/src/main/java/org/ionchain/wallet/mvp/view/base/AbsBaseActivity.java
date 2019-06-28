@@ -38,6 +38,7 @@ import java.util.TimerTask;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.ionchain.wallet.App.mAppInstance;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
@@ -310,7 +311,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      * @return 字符串
      */
     public String getAppString(int id) {
-        return getResources().getString(id);
+        return mAppInstance.getAppString(id);
     }
 
     /**
@@ -327,7 +328,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      * @return 字符串
      */
     public String getAppString(int id, Object obj) {
-        return getResources().getString(id, obj);
+        return mAppInstance.getAppString(id, obj);
     }
 
 

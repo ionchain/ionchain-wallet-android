@@ -59,7 +59,7 @@ import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
  */
 public class App extends Application implements Application.ActivityLifecycleCallbacks {
     @SuppressLint("StaticFieldLeak")
-    public static Context mContext;
+    public static App mAppInstance;
     public static String mCoinType = COIN_TYPE_USD;
     public static final Handler APP_HANDLE = new Handler(Looper.getMainLooper());
     public static int[] sRandomHeader = {
@@ -78,7 +78,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
+        mAppInstance = this;
         if (APP_DEBUG) {
             Stetho.initializeWithDefaults(this);
         }
@@ -105,7 +105,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
     @Override
     protected void attachBaseContext(Context base) {
-        mContext = this;
+        mAppInstance = this;
         SPUtils.initSP(this);
         super.attachBaseContext(base);
         MultiDex.install(this);
@@ -223,6 +223,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         ActivityHelper.getHelper().currentActivity().startActivity(intent);
     }
+
     /**
      * Initialize XLog.
      */
@@ -234,11 +235,11 @@ public class App extends Application implements Application.ActivityLifecycleCal
                 // .t()                                                // Enable thread info, disabled by default
                 // .st(2)                                              // Enable stack trace info with depth 2, disabled by default
                 // .b()                                                // Enable border, disabled by default
-                 .jsonFormatter(new DefaultJsonFormatter())               // Default: DefaultJsonFormatter
+                .jsonFormatter(new DefaultJsonFormatter())               // Default: DefaultJsonFormatter
                 // .xmlFormatter(new MyXmlFormatter())                 // Default: DefaultXmlFormatter
                 // .throwableFormatter(new MyThrowableFormatter())     // Default: DefaultThrowableFormatter
                 // .threadFormatter(new MyThreadFormatter())           // Default: DefaultThreadFormatter
-                 .stackTraceFormatter(new DefaultStackTraceFormatter())   // Default: DefaultStackTraceFormatter
+                .stackTraceFormatter(new DefaultStackTraceFormatter())   // Default: DefaultStackTraceFormatter
                 // .borderFormatter(new MyBoardFormatter())            // Default: DefaultBorderFormatter
                 // .addObjectFormatter(AnyClass.class,                 // Add formatter for specific class of object
                 //     new AnyClassObjectFormatter())                  // Use Object.toString() by default
@@ -265,5 +266,29 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
         // For future usage: partial usage in MainActivity.
         globalFilePrinter = filePrinter;
+    }
+
+    /**
+     * @param id 多语言环境中的
+     * @return 字符串
+     */
+    public String getAppString(int id) {
+        return getResources().getString(id);
+    }
+
+    /**
+     * @param id  多语言环境中的
+     * @param obj
+     * @return 字符串
+     */
+    public String getAppString(int id, Object obj) {
+        return getResources().getString(id, obj);
+    }
+    /**
+     * @param id 多语言环境中的
+     * @return color
+     */
+    public int getAppColor(int id) {
+        return getResources().getColor(id);
     }
 }

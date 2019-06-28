@@ -68,7 +68,7 @@ public class TxRecordModel implements ITxRecoderModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onTxRecordBrowserFailure(App.mContext.getString(R.string.error_net_tx_recorder));
+                callback.onTxRecordBrowserFailure(App.mAppInstance.getString(R.string.error_net_tx_recorder));
             }
         }, callback);
     }

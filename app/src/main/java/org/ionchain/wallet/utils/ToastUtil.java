@@ -12,12 +12,12 @@ public class ToastUtil {
 
 
     public static void showShortToast(String message) {
-        Toast.makeText(App.mContext, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.mAppInstance, message, Toast.LENGTH_SHORT).show();
     }
 
     public static void showToastLonger(String message) {
 
-        Toast.makeText(App.mContext, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(App.mAppInstance, message, Toast.LENGTH_LONG).show();
     }
 
     private ToastUtil() {
@@ -26,27 +26,27 @@ public class ToastUtil {
 
 
     public static void showShort(CharSequence message) {
-        Toast.makeText(App.mContext, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.mAppInstance, message, Toast.LENGTH_SHORT).show();
     }
 
 
     public static void showShort(int message) {
-        Toast.makeText(App.mContext, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.mAppInstance, message, Toast.LENGTH_SHORT).show();
     }
 
 
     public static void showLong(CharSequence message) {
-        Toast.makeText(App.mContext, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(App.mAppInstance, message, Toast.LENGTH_LONG).show();
     }
 
 
     public static void show(CharSequence message, int duration) {
-        Toast.makeText(App.mContext, message, duration).show();
+        Toast.makeText(App.mAppInstance, message, duration).show();
     }
 
 
     public static void show(int message, int duration) {
-        Toast.makeText(App.mContext, message, duration).show();
+        Toast.makeText(App.mAppInstance, message, duration).show();
     }
 
 

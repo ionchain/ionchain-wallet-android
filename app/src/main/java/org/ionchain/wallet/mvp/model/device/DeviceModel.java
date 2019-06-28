@@ -63,7 +63,7 @@ public class DeviceModel implements IDeviceModel {
             public void onError(Response<String> response) {
                 super.onError(response);
                 if (response.body() == null) {
-                    callback.onDeviceListFailure(App.mContext.getResources().getString(R.string.error_net_device_list));
+                    callback.onDeviceListFailure(App.mAppInstance.getResources().getString(R.string.error_net_device_list));
                 } else {
                     callback.onDeviceListFailure(response.body());
                 }
@@ -106,7 +106,7 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                callback.onDeviceListFailure(App.mContext.getResources().getString(R.string.error_device_all_service));
+                callback.onDeviceListFailure(App.mAppInstance.getResources().getString(R.string.error_device_all_service));
             }
 
             @Override
@@ -168,7 +168,7 @@ public class DeviceModel implements IDeviceModel {
     }
 
     private String getString(int id) {
-        return App.mContext.getString(id);
+        return App.mAppInstance.getString(id);
     }
 
     @Override
@@ -182,14 +182,14 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {
-                    ToastUtil.showToastLonger(App.mContext.getString(R.string.device_unbind_data_parase_error));
+                    ToastUtil.showToastLonger(App.mAppInstance.getString(R.string.device_unbind_data_parase_error));
                     return;
                 }
 
                 String json = response.body();
                 DeviceBean bindBean = NetUtils.gsonToBean(json, DeviceBean.class);
                 if (Objects.requireNonNull(bindBean).getData() == null) {
-                    callback.onUnbindFailure(App.mContext.getString(R.string.device_unbind_data_parase_error));
+                    callback.onUnbindFailure(App.mAppInstance.getString(R.string.device_unbind_data_parase_error));
                     return;
                 }
                 if (bindBean.getSuccess() != 0) {

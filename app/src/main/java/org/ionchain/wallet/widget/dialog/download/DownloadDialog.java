@@ -161,7 +161,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
                 /* Android N 写法*/
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 LoggerUtils.i("appid ", BuildConfig.APPLICATION_ID);
-                Uri contentUri = FileProvider.getUriForFile(App.mContext, BuildConfig.APPLICATION_ID + ".provider", new File(progress.filePath));
+                Uri contentUri = FileProvider.getUriForFile(App.mAppInstance, BuildConfig.APPLICATION_ID + ".provider", new File(progress.filePath));
                 intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
             } else {
                 /* Android N之前的老版本写法*/

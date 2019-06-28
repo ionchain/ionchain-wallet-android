@@ -229,6 +229,7 @@ public class AssetFragment extends AbsBaseFragment implements
      * <p>
      * 更新钱包为主钱包
      */
+    @SuppressLint("SetTextI18n")
     @Override
     protected void handleShow() {
         LoggerUtils.i("method", "handleShow" + "   AssetFragment");
@@ -248,7 +249,7 @@ public class AssetFragment extends AbsBaseFragment implements
             balance(); //回到前台 handleShow
             mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
         }
-        mRmbIcon.setText(SPUtils.getInstance().getCoinType());
+        mRmbIcon.setText(" "+SPUtils.getInstance().getCoinType());
     }
 
     @Override

@@ -17,7 +17,7 @@ public class FileUtils {
         ObjectOutputStream oos = null;
         try {
             //通过openFileOutput方法得到一个输出流
-            fos = App.mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
+            fos = App.mAppInstance.openFileOutput(fileName, Context.MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(obj); //写入
         } catch (IOException e) {

@@ -26,6 +26,7 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.ionchain.wallet.App.mAppInstance;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
 
@@ -96,7 +97,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mContainerView != null) {
             //防止重复创建视图
-            LoggerUtils.i(TAG,"AbsBaseFragment 无需重新创建视图" );
+            LoggerUtils.i(TAG, "AbsBaseFragment 无需重新创建视图");
             return mContainerView;
         }
 
@@ -212,7 +213,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
     protected boolean requestCameraPermissions() {
         String[] perms = new String[]{Manifest.permission.CAMERA, Manifest.permission.VIBRATE};
-        if (!EasyPermissions.hasPermissions(App.mContext, perms)) {
+        if (!EasyPermissions.hasPermissions(App.mAppInstance, perms)) {
             EasyPermissions.requestPermissions(this, getAppString(R.string.permission_camera), REQUEST_CODE_QRCODE_PERMISSIONS, perms);
             return false;
         } else {
@@ -227,7 +228,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
      */
     @AfterPermissionGranted(REQUEST_STORAGE_PERMISSIONS)
     protected boolean requestStoragePermissions() {
-        if (!EasyPermissions.hasPermissions(App.mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (!EasyPermissions.hasPermissions(App.mAppInstance, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             EasyPermissions.requestPermissions(this, getAppString(R.string.permission_storage), REQUEST_STORAGE_PERMISSIONS, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             return false;
         } else {
@@ -268,7 +269,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
      * @return 字符串
      */
     public String getAppString(int id) {
-        return getResources().getString(id);
+        return mAppInstance.getAppString(id);
     }
 
     /**

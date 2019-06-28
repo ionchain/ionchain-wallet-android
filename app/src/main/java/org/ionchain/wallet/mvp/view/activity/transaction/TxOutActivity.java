@@ -33,6 +33,7 @@ import java.math.BigInteger;
 
 import static java.lang.String.valueOf;
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
+import static org.ionchain.wallet.App.mAppInstance;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
@@ -112,7 +113,7 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
 
     @Override
     protected String getTitleName() {
-        return getAppString(R.string.tx);
+        return mAppInstance.getAppString(R.string.tx);
     }
 
     @Override
@@ -156,7 +157,7 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
                 mGasPrice = BigDecimal.valueOf(gasPrice).multiply(mGasPriceScaleGWei);
                 //显示gas消耗
                 mFee = getCurrentFee(mGasPrice).toPlainString();
-                mTxCostTv.setText(getAppString(R.string.tx_fee) + mFee + " IONC");
+                mTxCostTv.setText(mAppInstance.getAppString(R.string.tx_fee) + mFee + " IONC");
             }
 
             @Override
@@ -202,6 +203,7 @@ public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
         mTxCostTv.setText(getAppString(R.string.tx_fee) + getCurrentFee(mGasPrice.multiply(mGasPriceScaleGWei)).toPlainString() + " IONC");
         mBalanceTv.setText(getAppString(R.string.balance_) + ": " + mWalletBeanNew.getBalance());
     }
+
 
     @Override
     protected void handleIntent(Intent intent) {
