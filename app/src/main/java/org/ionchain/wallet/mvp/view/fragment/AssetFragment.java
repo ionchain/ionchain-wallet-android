@@ -204,7 +204,9 @@ public class AssetFragment extends AbsBaseFragment implements
     private double mIDR = 0;
     public static int NEW_WALLET_FOR_RESULT_CODE = 11;
     private MoreWalletDialog mMoreWalletDialog;
+    private int mBalanceScale = 4;
 
+    private String split = "    ";
     /**
      * 实例化资产页头部
      *
@@ -249,7 +251,7 @@ public class AssetFragment extends AbsBaseFragment implements
             balance(); //回到前台 handleShow
             mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
         }
-        mRmbIcon.setText(" "+SPUtils.getInstance().getCoinType());
+        mRmbIcon.setText(split+ SPUtils.getInstance().getCoinType());
     }
 
     @Override
@@ -885,21 +887,22 @@ public class AssetFragment extends AbsBaseFragment implements
         String balance = "0000";
         if (mTotalUSDPrice == null) {
             mRmbTx.setText(balance);
+            mRmbIcon.setText(split + SPUtils.getInstance().getCoinType());
             return;
         }
         BigDecimal us = mTotalUSDPrice.multiply(BigDecimal.valueOf(mUS));
         BigDecimal rmb = mTotalUSDPrice.multiply(BigDecimal.valueOf(mCNY));
         BigDecimal krw = mTotalUSDPrice.multiply(BigDecimal.valueOf(mKRW));
         BigDecimal idr = mTotalUSDPrice.multiply(BigDecimal.valueOf(mIDR));
-        String balance_us = us.setScale(4, ROUND_HALF_UP).toPlainString();
-        String balance_rmb = rmb.setScale(4, ROUND_HALF_UP).toPlainString();
-        String balance_krw = krw.setScale(4, ROUND_HALF_UP).toPlainString();
-        String balance_idr = idr.setScale(4, ROUND_HALF_UP).toPlainString();
+        String balance_us = us.setScale(mBalanceScale, ROUND_HALF_UP).toPlainString();
+        String balance_rmb = rmb.setScale(mBalanceScale, ROUND_HALF_UP).toPlainString();
+        String balance_krw = krw.setScale(mBalanceScale, ROUND_HALF_UP).toPlainString();
+        String balance_idr = idr.setScale(mBalanceScale, ROUND_HALF_UP).toPlainString();
         mCurrentWallet.setRmb(balance_rmb);
         mCurrentWallet.setUs(balance_us);
         mCurrentWallet.setKrw(balance_krw);
         mCurrentWallet.setIdr(balance_idr);
-        mRmbIcon.setText(" " + SPUtils.getInstance().getCoinType());
+        mRmbIcon.setText(split+ SPUtils.getInstance().getCoinType());
         switch (SPUtils.getInstance().getCoinType()) {
             case COIN_TYPE_CNY:
                 mRmbTx.setText(balance_rmb);
