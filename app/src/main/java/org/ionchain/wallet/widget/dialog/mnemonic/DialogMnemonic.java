@@ -61,10 +61,10 @@ public class DialogMnemonic extends AbsBaseDialog {
         next_sure = findViewById(R.id.next_sure);
     }
 
-    public DialogMnemonic(@NonNull Context context, String[] mmnemonicList, OnSavedMnemonicCallback callback) {
+    public DialogMnemonic(@NonNull Context context, String[] mmnemonicList, OnSavedMnemonicCallback onSavedMnemonicCallback) {
         super(context);
         this.mmnemonicArray = mmnemonicList;
-        this.callback = callback;
+        this.callback = onSavedMnemonicCallback;
     }
 
     @Override

@@ -238,7 +238,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                 skip(MainActivity.class);
                 finish();
             }else {
-                skipToBack(walletBean);
+                skipToBack(walletBean);//助记词导入钱包
             }
         }
         hideProgress();
@@ -254,7 +254,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
         IONCWalletSDK.getInstance().updateWallet(wallet);
         ToastUtil.showToastLonger(getAppString(R.string.update_success));
-        skipToBack(wallet);
+        skipToBack(wallet);//z助记词更新钱包
     }
 
     @Override

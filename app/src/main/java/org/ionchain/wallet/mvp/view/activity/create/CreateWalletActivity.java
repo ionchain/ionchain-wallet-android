@@ -24,6 +24,7 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
@@ -62,7 +63,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     private String resetpass;
     private DialogMnemonic dialogMnemonic;
     WalletBeanNew walletBean;
-
 
 
     /**
@@ -166,19 +166,11 @@ public class CreateWalletActivity extends AbsBaseActivity implements
 
             }
         });
-        importBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity, SelectImportModeActivity.class);
-                startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
-            }
+        importBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(mActivity, SelectImportModeActivity.class);
+            startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
         });
-        linkUrlTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skipWebProtocol();
-            }
-        });
+        linkUrlTv.setOnClickListener(v -> skipWebProtocol());
         walletNameEt.addTextChangedListener(this);
         pwdEt.addTextChangedListener(this);
         resetPwdEt.addTextChangedListener(this);
@@ -297,12 +289,12 @@ public class CreateWalletActivity extends AbsBaseActivity implements
     public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
         dialogMnemonic.dismiss();
         IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
-        skipToBack(walletBean);
+        skipToBack(walletBean); //创建钱包时，取消备份助记词
     }
 
 
     /**
-     * @param dialogTextMessage 
+     * @param dialogTextMessage
      */
     @Override
     public void onDialogTextMessageBtnClicked(DialogTextMessage dialogTextMessage) {
@@ -346,6 +338,12 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         walletBean.setMnemonic("");
         IONCWalletSDK.getInstance().updateWallet(walletBean);
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
-        skipToBack(walletBean);
+        //跳转到首页
+        if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
+            LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功--只有一个钱包");
+            skip(MainActivity.class);
+        } else {
+            skipToBack(walletBean);//创建钱包时，取消备份助记词
+        }
     }
 }
