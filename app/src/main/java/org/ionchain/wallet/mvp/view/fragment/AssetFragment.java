@@ -462,6 +462,13 @@ public class AssetFragment extends AbsBaseFragment implements
         startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
     }
 
+    /**
+     *
+     * 这里有一个切换界面，导入或者创建钱包，导致地址变化时，更新交易记录数据的一个判断
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
