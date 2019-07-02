@@ -285,18 +285,18 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      * 网络上，带地址的所有交易记录
      * {@link org.ionchain.wallet.mvp.model.txrecoder.TxRecordModel#getTxRecord(String, String, String, String, String, OnTxRecordBrowserDataCallback)}  }
      *
-     * @param beans 浏览器接口中数据
+     * @param browserData 浏览器接口中数据
      */
     @Override
-    public void onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean beans) {
+    public void onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean browserData) {
         mRefresh.finishRefresh();
         mRefresh.finishLoadMore();
         mListNetTemp.clear();
-        int num = 0;
-        LoggerUtils.i("method", "onTxRecordBrowserSuccess" + "   " + beans.toString());
+        LoggerUtils.i("method", "onTxRecordBrowserSuccess" + "   " + browserData.toString());
         List<TxRecordBean> txRecordBeansNew = new ArrayList<>();
-        List<TxRecordBeanTemp.DataBean.ItemBean> data = beans.getData();
+        List<TxRecordBeanTemp.DataBean.ItemBean> data = browserData.getData();
         int oldSize = 0;
+        //数据转换
         switch (getType()) {
             case TYPE_ALL:
                 oldSize = mListAllData.size();
@@ -312,7 +312,8 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                         bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
                         bean.setTo(itemBeanBrowser.getTx_to());
                         bean.setFrom(itemBeanBrowser.getTx_from());
-                        bean.setValue(String.valueOf(Convert.fromWei(itemBeanBrowser.getValue(), Convert.Unit.ETHER)));
+                        LoggerUtils.i("valueeee", itemBeanBrowser.getValue());
+                        bean.setValue(String.valueOf(itemBeanBrowser.getEtherValue()));
                         bean.setSuccess(true);
                         bean.setPublicKey(mWalletBeanNew.getPublic_key());
                         bean.setGas(itemBeanBrowser.getGas());
@@ -388,6 +389,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             return;
         }
 
+        //数据比对
         int size = 0;
         switch (getType()) {
             case TYPE_ALL:
@@ -426,7 +428,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 size = mListIn.size();
                 break;
         }
-        ToastUtil.showToastLonger(getAppString(R.string.new_tx_record) +" "+ (size-oldSize));
+        ToastUtil.showToastLonger(getAppString(R.string.new_tx_record) + " " + (size - oldSize));
         mTxRecordAdapter.notifyDataSetChanged();
     }
 

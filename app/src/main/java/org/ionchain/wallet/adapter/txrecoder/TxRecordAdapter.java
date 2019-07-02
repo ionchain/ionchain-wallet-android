@@ -30,7 +30,6 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
     @Override
     protected void convert(BaseViewHolder viewHolder, TxRecordBean item) {
 
-
         viewHolder.setText(R.id.tx_hash, context.getResources().getString(R.string.tx_hash) + split + item.getHash());
         try {
             if (!TextUtils.isEmpty(item.getTc_in_out())) {
@@ -57,6 +56,7 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
         }
         viewHolder.setText(R.id.tx_from, context.getResources().getString(R.string.tx_out_addr) + split + item.getFrom());
         viewHolder.setText(R.id.tx_to, context.getResources().getString(R.string.tx_in_addr) + split + item.getTo());
+        LoggerUtils.i("valueeee",item.getValue());
         viewHolder.setText(R.id.tx_value, context.getResources().getString(R.string.tx_amount) + split + item.getValue() + " IONC");
         viewHolder.setText(R.id.tx_fee, context.getResources().getString(R.string.tx_fee) + split + item.getGas() + " IONC");
         viewHolder.addOnClickListener(R.id.sync_node);
