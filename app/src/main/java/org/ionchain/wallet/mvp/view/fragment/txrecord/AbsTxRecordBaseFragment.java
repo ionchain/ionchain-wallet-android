@@ -681,4 +681,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             objectAnimator.end();//动画结束
         }
     }
+
+    @Override
+    public void onTxRecordNodeStart() {
+
+    }
 }

@@ -3,6 +3,7 @@ package org.ionc.wallet.sdk;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
 
@@ -53,7 +54,6 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
@@ -74,6 +74,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static java.lang.String.valueOf;
 import static org.ionc.wallet.utils.RandomUntil.getNum;
@@ -454,7 +455,7 @@ public class IONCWalletSDK {
             public void run() {
                 super.run();
                 try {
-                    Web3j web3j = Web3jFactory.build(new HttpService(node));
+                    Web3j web3j = Web3j.build(new HttpService(node));
                     BigInteger balance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send().getBalance();//获取余额
 
                     BigDecimal balanceTemp = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
@@ -476,9 +477,9 @@ public class IONCWalletSDK {
      * @param node         区块节点
      * @param hash         交易的 哈希值
      * @param txRecordBean
-     * @param callback     回调
+     * @param onTxRecordFromNodeCallback     回调
      */
-    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordFromNodeCallback callback) {
+    public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordFromNodeCallback onTxRecordFromNodeCallback) {
 
         if (TextUtils.isEmpty(hash)) {
             return;
@@ -488,11 +489,11 @@ public class IONCWalletSDK {
             public void run() {
                 super.run();
                 try {
-                    Web3j web3j = Web3jFactory.build(new HttpService(node));
-                    Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction();//获取余额
+                    Web3j web3j = Web3j.build(new HttpService(node));
+                    Transaction ethTransaction = web3j.ethGetTransactionByHash(hash).send().getTransaction().get();//获取余额
                     if (ethTransaction == null) {
                         mHandler.post(() -> {
-                            callback.onTxRecordNodeFailure("error", txRecordBean);
+                            onTxRecordFromNodeCallback.onTxRecordNodeFailure("error", txRecordBean);
                         });
                         return;
                     }
@@ -512,7 +513,9 @@ public class IONCWalletSDK {
                     }
                     txRecordBean.setR(ethTransaction.getR());
                     txRecordBean.setS(ethTransaction.getS());
-                    txRecordBean.setV(ethTransaction.getV());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        txRecordBean.setV(Math.toIntExact(ethTransaction.getV()));
+                    }
                     txRecordBean.setCreates(ethTransaction.getCreates());
                     txRecordBean.setInput(ethTransaction.getInput());
                     if (!TextUtils.isEmpty(ethTransaction.getTo())) {
@@ -523,27 +526,27 @@ public class IONCWalletSDK {
                     }
                     if (!TextUtils.isEmpty(ethTransaction.getValueRaw())) {
                         LoggerUtils.i(" txRecordBean   getValueRaw " + ethTransaction.getValueRaw());
-                        txRecordBean.setValue(String.valueOf(Convert.fromWei(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(), 16)), Convert.Unit.ETHER)));
+                        txRecordBean.setValue(valueOf(Convert.fromWei(valueOf(new BigInteger(ethTransaction.getValueRaw().substring(2).toUpperCase(), 16)), Convert.Unit.ETHER)));
                     } else {
                         txRecordBean.setValue("");
                     }
                     if (!TextUtils.isEmpty(ethTransaction.getHash())) {
                         txRecordBean.setHash(ethTransaction.getHash());
                     }
-                    txRecordBean.setGasPrice(String.valueOf(ethTransaction.getGasPrice()));
+                    txRecordBean.setGasPrice(valueOf(ethTransaction.getGasPrice()));
                     if (!TextUtils.isEmpty(ethTransaction.getGasRaw())) {
-                        String gas = String.valueOf(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(), 16));
+                        String gas = valueOf(new BigInteger(ethTransaction.getGasRaw().substring(2).toUpperCase(), 16));
                         txRecordBean.setGas(gas);
                     }
                     mHandler.post(() -> {
                         LoggerUtils.i("ethTransaction", "txRecordBean  getBlockNumberRaw " + ethTransaction.getBlockNumberRaw());
-                        callback.OnTxRecordNodeSuccess(txRecordBean);
+                        onTxRecordFromNodeCallback.OnTxRecordNodeSuccess(txRecordBean);
                     });
                 } catch (final IOException e) {
                     LoggerUtils.e("client", e.getMessage());
                     mHandler.post(() -> {
                         LoggerUtils.e(e.getMessage());
-                        callback.onTxRecordNodeFailure(e.getLocalizedMessage(), txRecordBean);
+                        onTxRecordFromNodeCallback.onTxRecordNodeFailure(e.getLocalizedMessage(), txRecordBean);
                     });
                 }
             }
@@ -559,43 +562,37 @@ public class IONCWalletSDK {
      * @param callback 转账结果
      */
     public void transaction(final String nodeIONC, final TransactionHelper helper, final OnTransationCallback callback) {
-        new Thread() {
-            /**
-             * BigInteger value = Convert.toWei(BigDecimal.valueOf(account), Convert.Unit.ETHER).toBigInteger();
-             */
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    Web3j web3j = Web3jFactory.build(new HttpService(nodeIONC));
-                    EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(helper.getWalletBeanTx().getAddress(), DefaultBlockParameterName.PENDING).send();//转账
-                    BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-                    String toAddress = helper.getToAddress().toLowerCase();
+        try {
+            Web3j web3j = Web3j.build(new HttpService(nodeIONC));
+            LoggerUtils.i("gettest","0 "+Thread.currentThread().getName());
+            EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(helper.getWalletBeanTx().getAddress(), DefaultBlockParameterName.PENDING).sendAsync().get();//转账
+            LoggerUtils.i("gettest","1 "+Thread.currentThread().getId());
+            BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+            String toAddress = helper.getToAddress().toLowerCase();
 //                    Credentials credentials = MyWalletUtils.loadCredentials(helper.getWalletBeanTx().getPassword(), new File(helper.getWalletBeanTx().getKeystore()));
-                    Credentials credentials = loadCredentials(helper.getWalletBeanTx().getLight(), helper.getWalletBeanTx().getPassword(), new File(helper.getWalletBeanTx().getKeystore()));
-                    RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, helper.getGasPrice(), gasLimit, toAddress, helper.getTxValue());
-                    byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
-                    String signedData = Numeric.toHexString(signedMessage);
-                    EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();//转账
-                    final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
-                    LoggerUtils.i("nonce", valueOf(nonce));
+            Credentials credentials = loadCredentials(helper.getWalletBeanTx().getLight(), helper.getWalletBeanTx().getPassword(), new File(helper.getWalletBeanTx().getKeystore()));
+            RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, helper.getGasPrice(), gasLimit, toAddress, helper.getTxValue());
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+            String signedData = Numeric.toHexString(signedMessage);
+            EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).sendAsync().get();//转账
+            LoggerUtils.i("gettest","2 "+Thread.currentThread().getId());
+            final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
+            LoggerUtils.i("nonce", valueOf(nonce));
 
-                    if (nonce.equals(IONCWalletSDK.this.nonce)) {
-                        mHandler.post(callback::OnTxDoing);
-                        return;
-                    }
-                    IONCWalletSDK.this.nonce = nonce;
-                    if (!TextUtils.isEmpty(hashTx)) {
-                        mHandler.post(() -> callback.OnTxSuccess(hashTx, nonce));
-                    } else {
-                        mHandler.post(() -> callback.onTxFailure(appContext.getString(R.string.transacton_failed)));
-                    }
-                } catch (final IOException | CipherException | NullPointerException | IllegalArgumentException e) {
-                    mHandler.post(() -> callback.onTxFailure(e.getMessage()));
-                }
+            web3j.shutdown();
+            if (nonce.equals(IONCWalletSDK.this.nonce)) {
+                mHandler.post(callback::OnTxDoing);
+                return;
             }
+            IONCWalletSDK.this.nonce = nonce;
+            if (!TextUtils.isEmpty(hashTx)) {
+                mHandler.post(() -> callback.OnTxSuccess(hashTx, nonce));
+            } else {
+                mHandler.post(() -> callback.onTxFailure(appContext.getString(R.string.transacton_failed)));
+            }
+        } catch (final IOException | CipherException | NullPointerException | IllegalArgumentException | InterruptedException | ExecutionException e) {
+            mHandler.post(() -> callback.onTxFailure(e.getMessage()));
         }
-                .start();
     }
 
     /**

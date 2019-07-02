@@ -60,7 +60,6 @@
                 style="@style/TxRecorder" />
             <ImageView
                 android:id="@+id/sync_node"
-                android:visibility="gone"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="@dimen/dp_10"
                 android:src="@mipmap/sync_node"

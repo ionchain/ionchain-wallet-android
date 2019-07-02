@@ -849,6 +849,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     @Override
     public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
+        hideProgress();
         mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
         mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
         txRecordHelper(txRecordBean);
@@ -858,10 +859,17 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
+        hideProgress();
         mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
         mTxRecordOutFragment.onNewTxRecordByTx(recordBean);
         txRecordHelper(recordBean);
         IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
+    }
+
+    @Override
+    public void onTxRecordNodeStart() {
+        LoggerUtils.i("4444444444444444");
+        showProgress(getAppString(R.string.please_wait));
     }
 
 

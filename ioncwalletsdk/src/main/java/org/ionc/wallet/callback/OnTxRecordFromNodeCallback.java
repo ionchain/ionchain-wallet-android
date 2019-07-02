@@ -21,4 +21,6 @@ public interface OnTxRecordFromNodeCallback {
      */
     void onTxRecordNodeFailure(String error, TxRecordBean recordBean);
 
+    void onTxRecordNodeStart();
+
 }

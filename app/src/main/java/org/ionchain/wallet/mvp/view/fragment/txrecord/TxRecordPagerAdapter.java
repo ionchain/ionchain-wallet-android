@@ -8,12 +8,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import org.ionchain.wallet.mvp.view.base.AbsBaseViewPagerFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TxRecordPagerAdapter extends FragmentPagerAdapter {
-    private List<AbsBaseViewPagerFragment> mFragmentListTxRecord = new ArrayList<>();
-    List<String> titles = new ArrayList<>();
+    private List<AbsBaseViewPagerFragment> mFragmentListTxRecord;
+    List<String> titles;
 
     public TxRecordPagerAdapter(@NonNull FragmentManager fm, List<AbsBaseViewPagerFragment> list, List<String> titles) {
         super(fm);
