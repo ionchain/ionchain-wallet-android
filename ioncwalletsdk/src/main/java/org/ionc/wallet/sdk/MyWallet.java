@@ -1,10 +1,9 @@
 package org.ionc.wallet.sdk;
 
-import com.lambdaworks.crypto.SCrypt;
-
-import org.spongycastle.crypto.digests.SHA256Digest;
-import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;
-import org.spongycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.digests.SHA256Digest;
+import org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;
+import org.bouncycastle.crypto.generators.SCrypt;
+import org.bouncycastle.crypto.params.KeyParameter;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Hash;
@@ -12,7 +11,6 @@ import org.web3j.crypto.WalletFile;
 import org.web3j.utils.Numeric;
 
 import java.nio.charset.Charset;
-import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -35,12 +33,7 @@ public class MyWallet {
 
     private static byte[] generateDerivedScryptKey(
             byte[] password, byte[] salt, int n, int r, int p, int dkLen)  {
-        try {
-            return SCrypt.scrypt(password, salt, n, r, p, dkLen);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return SCrypt.generate(password, salt, n, r, p, dkLen);
     }
 
     private static byte[] generateAes128CtrDerivedKey(
