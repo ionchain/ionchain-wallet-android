@@ -994,14 +994,14 @@ public class IONCWalletSDK {
      *
      * @param address
      * @param offset
-     * @param perPageAddNum
+     * @param perPageDataNum
      * @return 当页交易记录
      */
-    public List<TxRecordBean> txRecordAllByAddress(String address, long offset, long perPageAddNum) {
+    public List<TxRecordBean> txRecordAllByAddress(String address, long offset, long perPageDataNum) {
         TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
         List<TxRecordBean> list = dao.queryBuilder().whereOr(TxRecordBeanDao.Properties.From.eq(address), TxRecordBeanDao.Properties.To.eq(address))
                 .offset((int) offset)
-                .limit((int) perPageAddNum)
+                .limit((int) perPageDataNum)
                 .list();
         Collections.reverse(list);
         return list;

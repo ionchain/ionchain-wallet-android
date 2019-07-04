@@ -442,7 +442,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 currentCount = mListAllData.size();
                 if (currentCount == txRecordAllCount) {
                     getNetData();
-                    ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
                 offset = txRecordAllCount - currentCount - mPerPageAddNum;
@@ -468,7 +467,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 currentCount = mListOut.size();
                 if (currentCount == txRecordOutCount) {
                     getNetData();
-                    ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
                 offset = txRecordOutCount - currentCount - mPerPageAddNum;
@@ -495,7 +493,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 currentCount = mListIn.size();
                 if (currentCount == txRecordInCount) {
                     getNetData();
-                    ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
                 offset = txRecordInCount - currentCount - mPerPageAddNum;
@@ -526,35 +523,25 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 mTxRecordPresenter = new TxRecordPresenter();
             }
             int size;
-            int pageNum = 0;
-            int size2;
+            int pageNum;
 
             switch (getType()) {
                 case TYPE_ALL:
                     size = mListAllData.size();
                     pageNum = size/5;
-                    size2 = size % 5;
-                    if (size2 == 0) {
-                        pageNum++;
-                    }
+                    pageNum++;
                     mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeAll, this);
                     break;
                 case TYPE_OUT:
                     size = mListOut.size();
                     pageNum = size/5;
-                    size2 = size % 5;
-                    if (size2 == 0) {
-                        pageNum++;
-                    }
+                    pageNum++;
                     mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeFrom, this);
                     break;
                 case TYPE_IN:
                     size = mListIn.size();
                     pageNum = size/5;
-                    size2 = size % 5;
-                    if (size2 == 0) {
-                        pageNum++;
-                    }
+                    pageNum++;
                     mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeTo, this);
                     break;
             }
