@@ -72,16 +72,6 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
      */
     protected static List<TxRecordBean> mListIn = new ArrayList<>();
 
-    /**
-     * 所有本地记录的缓存
-     */
-    protected List<TxRecordBean> mListDataTemp = new ArrayList<>();
-    /**
-     * 未获取交易信息的本地缓存,缓存hash值
-     */
-    protected List<TxRecordBean> mTxHashUnpackedTemp = new ArrayList<>();
-
-
 
     /**
      * 交易记录
@@ -155,19 +145,19 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mContainerView != null) {
-            //防止重复创建视图
-            LoggerUtils.i(TAG, "AbsBaseViewPagerFragment 无需重新创建视图");
-            initView(mContainerView);
-
-            mImmersionBar = ImmersionBar.with(mActivity, this);
-            initImmersionBar();
-            setListener();
-            if (getUserVisibleHint()) {
-                LoggerUtils.i(TAG, "visible 第一次 可见的 fragment 要加载数据");
-                initData();//第一个 可见的 fragment 要加载数据
-            } else {
-                LoggerUtils.i(TAG, "visible 非第一次 可见的 fragment 不要加载数据");
-            }
+//            //防止重复创建视图
+//            LoggerUtils.i(TAG, "AbsBaseViewPagerFragment 无需重新创建视图");
+//            initView(mContainerView);
+//
+//            mImmersionBar = ImmersionBar.with(mActivity, this);
+//            initImmersionBar();
+//            setListener();
+//            if (getUserVisibleHint()) {
+//                LoggerUtils.i(TAG, "visible 第一次 可见的 fragment 要加载数据");
+//                initData();//第一个 可见的 fragment 要加载数据
+//            } else {
+//                LoggerUtils.i(TAG, "visible 非第一次 可见的 fragment 不要加载数据");
+//            }
             return mContainerView;
         }
 

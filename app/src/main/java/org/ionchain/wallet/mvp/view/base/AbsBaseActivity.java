@@ -18,6 +18,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
@@ -26,6 +27,7 @@ import org.ionchain.wallet.constant.ConstantActivitySkipTag;
 import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
+import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.manager.ManageWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.webview.WebActivity;
 import org.ionchain.wallet.utils.LocalManageUtil;
@@ -346,6 +348,11 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      */
 
     protected void skipToBack(WalletBeanNew walletBean) {
+        if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
+            finish();
+            skip(MainActivity.class);
+            return;
+        }
         if (mActivityFrom.equals(ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY)) {
             Intent intent = new Intent();
             /*

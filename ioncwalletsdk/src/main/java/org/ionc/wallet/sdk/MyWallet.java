@@ -1,9 +1,11 @@
 package org.ionc.wallet.sdk;
 
-import org.bouncycastle.crypto.digests.SHA256Digest;
-import org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;
-import org.bouncycastle.crypto.generators.SCrypt;
-import org.bouncycastle.crypto.params.KeyParameter;
+
+import com.lambdaworks.crypto.SCrypt;
+
+import org.spongycastle.crypto.digests.SHA256Digest;
+import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;
+import org.spongycastle.crypto.params.KeyParameter;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Hash;
@@ -11,6 +13,7 @@ import org.web3j.crypto.WalletFile;
 import org.web3j.utils.Numeric;
 
 import java.nio.charset.Charset;
+import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -33,11 +36,15 @@ public class MyWallet {
 
     private static byte[] generateDerivedScryptKey(
             byte[] password, byte[] salt, int n, int r, int p, int dkLen)  {
-        return SCrypt.generate(password, salt, n, r, p, dkLen);
+        try {
+            return SCrypt.scrypt(password, salt, n, r, p, dkLen);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private static byte[] generateAes128CtrDerivedKey(
-            byte[] password, byte[] salt, int c, String prf) throws CipherException {
+    private static byte[] generateAes128CtrDerivedKey(byte[] password, byte[] salt, int c, String prf) throws CipherException {
 
         if (!prf.equals("hmac-sha256")) {
             throw new CipherException("Unsupported prf:" + prf);
@@ -51,8 +58,7 @@ public class MyWallet {
         return ((KeyParameter) gen.generateDerivedParameters(256)).getKey();
     }
 
-    private static byte[] performCipherOperation(
-            int mode, byte[] iv, byte[] encryptKey, byte[] text) throws CipherException {
+    private static byte[] performCipherOperation(int mode, byte[] iv, byte[] encryptKey, byte[] text) throws CipherException {
 
         try {
             IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);

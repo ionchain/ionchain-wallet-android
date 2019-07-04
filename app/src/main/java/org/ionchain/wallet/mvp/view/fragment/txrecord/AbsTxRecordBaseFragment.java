@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lzy.okgo.OkGo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import org.ionc.wallet.bean.CurrentPageNum;
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
@@ -52,7 +51,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     private String tag = "beannet";
     private int mOffset = 0;
     protected int mPageNum = 0;
-    protected static CurrentPageNum mCurrentPageNumBean;
     private RecyclerView mListView;
     /**
      * 每次上拉加载更过的时候，新增的itemd的数量
@@ -169,74 +167,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     protected void visible() {
         LoggerUtils.i(tag, "TAG_NAME = " + TAG_NAME + " visible() = " + isVisible());
-        getPageNum();
         getLocalData();//可见 visible ,左右切换
     }
 
-    private void getPageNum() {
-        if (mWalletBeanNew == null) {
-            return;
-        }
-        switch (getType()) {
-            case TYPE_ALL:
-                mCurrentPageNumBean = IONCWalletSDK.getInstance().txAllCurrentPageNumBean(mWalletBeanNew.getAddress());
-                LoggerUtils.i("method1", "getPageNum" + "   all " + mCurrentPageNumBean);
-                if (mCurrentPageNumBean == null) {
-                    mCurrentPageNumBean = new CurrentPageNum();
-                    mPageNum = 0;
-                    mCurrentPageNumBean.setAddress(mWalletBeanNew.getAddress());
-                    mCurrentPageNumBean.setNumAll(String.valueOf(1));
-                    IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
-                } else {
-                    if (mCurrentPageNumBean.getNumAll() == null) {
-                        mPageNum = 0;
-                        mCurrentPageNumBean.setNumAll(String.valueOf(1));
-                        IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
-                    } else {
-                        mPageNum = Integer.parseInt(mCurrentPageNumBean.getNumAll());
-                    }
-                }
-                break;
-            case TYPE_OUT:
-                mCurrentPageNumBean = IONCWalletSDK.getInstance().txAllCurrentPageNumBean(mWalletBeanNew.getAddress());
-                LoggerUtils.i("method1", "getPageNum" + "   out " + mCurrentPageNumBean);
-                if (mCurrentPageNumBean == null) {
-                    mCurrentPageNumBean = new CurrentPageNum();
-                    mPageNum = 0;
-                    mCurrentPageNumBean.setAddress(mWalletBeanNew.getAddress());
-                    mCurrentPageNumBean.setNumOut(String.valueOf(1));
-                    IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
-                } else {
-                    if (mCurrentPageNumBean.getNumOut() == null) {
-                        mPageNum = 0;
-                        mCurrentPageNumBean.setNumOut(String.valueOf(1));
-                        IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
-                    } else {
-                        mPageNum = Integer.parseInt(mCurrentPageNumBean.getNumOut());
-                    }
-                }
-                break;
-            case TYPE_IN:
-                mCurrentPageNumBean = IONCWalletSDK.getInstance().txAllCurrentPageNumBean(mWalletBeanNew.getAddress());
-                LoggerUtils.i("method1", "getPageNum" + "   in " + mCurrentPageNumBean);
-                if (mCurrentPageNumBean == null) {
-                    mCurrentPageNumBean = new CurrentPageNum();
-                    mPageNum = 0;
-                    mCurrentPageNumBean.setAddress(mWalletBeanNew.getAddress());
-                    mCurrentPageNumBean.setNumIn(String.valueOf(1));
-                    IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
-                } else {
-                    if (mCurrentPageNumBean.getNumIn() == null) {
-                        mPageNum = 0;
-                        mCurrentPageNumBean.setNumIn(String.valueOf(1));
-                        IONCWalletSDK.getInstance().saveCurrentPageNum(mCurrentPageNumBean);
-                    } else {
-                        mPageNum = Integer.parseInt(mCurrentPageNumBean.getNumIn());
-                    }
-                }
-                break;
-        }
-    }
 
     /**
      * @return 当前页的类型
@@ -246,7 +179,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     protected void initData() {
         LoggerUtils.i(tag, "initData ");
-        getPageNum();
         getLocalData(); //初始化
     }
 
@@ -391,6 +323,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
         //数据比对
         int size = 0;
+
         switch (getType()) {
             case TYPE_ALL:
                 LoggerUtils.i(tag, "size = " + size);
@@ -399,8 +332,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     txRecordHelper(b);
                     mListAllData.add(0, b);
                 }
-                mCurrentPageNumBean.setNumAll(String.valueOf(mPageNum));
-                IONCWalletSDK.getInstance().updateCurrentPageNum(mCurrentPageNumBean);
                 size = mListAllData.size();
                 break;
             case TYPE_OUT:
@@ -411,8 +342,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     txRecordHelper(b);
                     mListOut.add(0, b);
                 }
-                mCurrentPageNumBean.setNumOut(String.valueOf(mPageNum));
-                IONCWalletSDK.getInstance().updateCurrentPageNum(mCurrentPageNumBean);
                 size = mListOut.size();
                 break;
             case TYPE_IN:
@@ -423,8 +352,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     txRecordHelper(b);
                     mListIn.add(0, b);
                 }
-                mCurrentPageNumBean.setNumIn(String.valueOf(mPageNum));
-                IONCWalletSDK.getInstance().updateCurrentPageNum(mCurrentPageNumBean);
                 size = mListIn.size();
                 break;
         }
@@ -463,6 +390,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     public void onPullToDown(WalletBeanNew walletBeanNew, SmartRefreshLayout refresh) {
         mRefresh = refresh;
+        mWalletBeanNew = walletBeanNew;
         LoggerUtils.i(TAG, "   isVisibleToUser = " + mVisibleToUser);
         if (mVisibleToUser) {
             if (mTxRecordPresenter == null) {
@@ -470,21 +398,16 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             }
             switch (getType()) {
                 case TYPE_ALL:
-                    mPageNum++;
                     LoggerUtils.i("beannet", "all  mPageNum = " + mPageNum + " " + walletBeanNew.toString());
-                    mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), mPageSizeAll, this);
+                    mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), "1", mPageSizeAll, this);
                     break;
                 case TYPE_OUT:
-                    mPageNum++;
-
                     LoggerUtils.i("beannet", "out  mPageNum = " + mPageNum);
-                    mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), mPageSizeFrom, this);
+                    mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), "1", mPageSizeFrom, this);
                     break;
                 case TYPE_IN:
-                    mPageNum++;
-
                     LoggerUtils.i("beannet", "in  mPageNum = " + mPageNum);
-                    mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), String.valueOf(mPageNum), mPageSizeTo, this);
+                    mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), "1", mPageSizeTo, this);
                     break;
             }
         }
@@ -522,6 +445,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                  */
                 currentCount = mListAllData.size();
                 if (currentCount == txRecordAllCount) {
+                    getNetData();
                     ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
@@ -547,6 +471,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                  */
                 currentCount = mListOut.size();
                 if (currentCount == txRecordOutCount) {
+                    getNetData();
                     ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
@@ -573,6 +498,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                  */
                 currentCount = mListIn.size();
                 if (currentCount == txRecordInCount) {
+                    getNetData();
                     ToastUtil.showToastLonger(getAppString(R.string.no_record));
                     return;
                 }
@@ -596,6 +522,49 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         }
 
         mTxRecordAdapter.notifyDataSetChanged();
+    }
+
+    private void getNetData() {
+        if (mVisibleToUser) {
+            if (mTxRecordPresenter == null) {
+                mTxRecordPresenter = new TxRecordPresenter();
+            }
+            int size;
+            int pageNum = 0;
+            int size2;
+
+            switch (getType()) {
+                case TYPE_ALL:
+                    size = mListAllData.size();
+                    pageNum = size/5;
+                    size2 = size % 5;
+                    if (size2 == 0) {
+                        pageNum++;
+                    }
+                    mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeAll, this);
+                    break;
+                case TYPE_OUT:
+                    size = mListOut.size();
+                    pageNum = size/5;
+                    size2 = size % 5;
+                    if (size2 == 0) {
+                        pageNum++;
+                    }
+                    LoggerUtils.i("beannet", "out  mPageNum = " + mPageNum);
+                    mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeFrom, this);
+                    break;
+                case TYPE_IN:
+                    size = mListIn.size();
+                    pageNum = size/5;
+                    size2 = size % 5;
+                    if (size2 == 0) {
+                        pageNum++;
+                    }
+                    LoggerUtils.i("beannet", "in  mPageNum = " + mPageNum);
+                    mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeTo, this);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -635,7 +604,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     private void resetData() {
         mOffset = 0;
         mPageNum = 0;
-        mCurrentPageNumBean = null;
     }
 
     /**

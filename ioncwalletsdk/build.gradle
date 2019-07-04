@@ -45,8 +45,8 @@ dependencies {
     api 'androidx.appcompat:appcompat:1.1.0-beta01'
     //    数字钱包
     api 'org.web3j:core:4.2.0-android'
-    api 'org.bitcoinj:bitcoinj-core:0.15.2'
-    api 'org.web3j:crypto:4.3.1'
+    api 'org.bitcoinj:bitcoinj-core:0.14.7'
+
     //    数据库管理
     api 'org.greenrobot:greendao:3.2.2'
     api 'org.greenrobot:greendao-generator:3.2.2'

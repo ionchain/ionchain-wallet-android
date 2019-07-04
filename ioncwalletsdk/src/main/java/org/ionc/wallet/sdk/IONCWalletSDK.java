@@ -18,7 +18,6 @@ import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.greenrobot.greendao.query.QueryBuilder;
-import org.ionc.wallet.bean.CurrentPageNum;
 import org.ionc.wallet.bean.KeystoreBean;
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBean;
@@ -33,7 +32,6 @@ import org.ionc.wallet.callback.OnTransationCallback;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.daohelper.EntityManager;
-import org.ionc.wallet.greendaogen.CurrentPageNumDao;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.greendaogen.TxRecordBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
@@ -758,50 +756,6 @@ public class IONCWalletSDK {
         EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).insertOrReplace(txRecordBean);
     }
 
-    /**
-     * @param txRecordBean 保存当前页码
-     */
-    public void saveCurrentPageNum(CurrentPageNum txRecordBean) {
-        EntityManager.getInstance().getCurrentPageNumDao(mDaoSession).insertOrReplace(txRecordBean);
-    }
-
-    /**
-     * 通过钱包地址查询钱包
-     *
-     * @param address
-     * @return
-     */
-    public CurrentPageNum txAllCurrentPageNum(String address) {
-        CurrentPageNum wallet = mDaoSession.getCurrentPageNumDao().queryBuilder().where(CurrentPageNumDao.Properties.NumAll.eq(address)).unique();
-        return wallet;
-    }
-
-    public CurrentPageNum txAllCurrentPageNumBean(String address) {
-        CurrentPageNum wallet = mDaoSession.getCurrentPageNumDao().queryBuilder().where(CurrentPageNumDao.Properties.Address.eq(address)).unique();
-        return wallet;
-    }
-
-    /**
-     * 通过钱包地址查询钱包
-     *
-     * @param address
-     * @return
-     */
-    public CurrentPageNum txOutCurrentPageNum(String address) {
-        CurrentPageNum wallet = mDaoSession.getCurrentPageNumDao().queryBuilder().where(CurrentPageNumDao.Properties.NumOut.eq(address)).unique();
-        return wallet;
-    }
-
-    /**
-     * 通过钱包地址查询钱包
-     *
-     * @param address
-     * @return
-     */
-    public CurrentPageNum txInCurrentPageNum(String address) {
-        CurrentPageNum wallet = mDaoSession.getCurrentPageNumDao().queryBuilder().where(CurrentPageNumDao.Properties.NumIn.eq(address)).unique();
-        return wallet;
-    }
 
     /**
      * 更新钱包
@@ -819,20 +773,6 @@ public class IONCWalletSDK {
         }
     }
 
-    /**
-     * 更新页码
-     *
-     * @param currentPageNum
-     */
-    public void updateCurrentPageNum(CurrentPageNum currentPageNum) {
-
-        try {
-            LoggerUtils.i("beanbinny", "update--wallet = " + currentPageNum.toString());
-            EntityManager.getInstance().getCurrentPageNumDao(mDaoSession).update(currentPageNum);
-        } catch (Throwable e) {
-            LoggerUtils.e("修改密码失败:" + e.getMessage());
-        }
-    }
 
     /**
      * 更新交易记录

@@ -23,7 +23,6 @@ public class DaoMaster extends AbstractDaoMaster {
     public static void createAllTables(Database db, boolean ifNotExists) {
         TxRecordBeanDao.createTable(db, ifNotExists);
         WalletBeanDao.createTable(db, ifNotExists);
-        CurrentPageNumDao.createTable(db, ifNotExists);
         WalletBeanNewDao.createTable(db, ifNotExists);
     }
 
@@ -31,7 +30,6 @@ public class DaoMaster extends AbstractDaoMaster {
     public static void dropAllTables(Database db, boolean ifExists) {
         TxRecordBeanDao.dropTable(db, ifExists);
         WalletBeanDao.dropTable(db, ifExists);
-        CurrentPageNumDao.dropTable(db, ifExists);
         WalletBeanNewDao.dropTable(db, ifExists);
     }
 
@@ -53,7 +51,6 @@ public class DaoMaster extends AbstractDaoMaster {
         super(db, SCHEMA_VERSION);
         registerDaoClass(TxRecordBeanDao.class);
         registerDaoClass(WalletBeanDao.class);
-        registerDaoClass(CurrentPageNumDao.class);
         registerDaoClass(WalletBeanNewDao.class);
     }
 

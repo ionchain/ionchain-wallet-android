@@ -1,7 +1,6 @@
 package org.ionc.wallet.daohelper;
 
 
-import org.ionc.wallet.greendaogen.CurrentPageNumDao;
 import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.greendaogen.TxRecordBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
@@ -41,10 +40,6 @@ public class EntityManager {
      */
     public WalletBeanDao getWalletDaoOld(DaoSession daoSession) {
         return daoSession.getWalletBeanDao();
-    }
-
-    public CurrentPageNumDao getCurrentPageNumDao(DaoSession daoSession) {
-        return daoSession.getCurrentPageNumDao();
     }
 
     /**
