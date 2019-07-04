@@ -48,7 +48,7 @@ public class UpdateModelModel implements IUpdateModel {
 
                 } else {
                     LoggerUtils.e("update: 数据解析失败");
-                    callback.onCheckForUpdateError(App.mAppInstance.getResources().getString(R.string.error_data_parase));
+                    callback.onCheckForUpdateError(App.mAppInstance.getResources().getString(R.string.error_data_parse));
                 }
             }
         }, ConstantNetCancelTag.NET_CANCEL_TAG_UPDATE);

@@ -195,7 +195,7 @@ public class IONCWalletSDK {
         byte[] seedBytes = ds.getSeedBytes();
 
         if (seedBytes == null) {
-            callback.onImportMnemonicFailure(appContext.getString(R.string.create_wallte_failur));
+            callback.onImportMnemonicFailure(appContext.getString(R.string.create_wallet_failure));
             return;
         }
         DeterministicKey dkKey = HDKeyDerivation.createMasterPrivateKey(seedBytes);
@@ -586,7 +586,7 @@ public class IONCWalletSDK {
             if (!TextUtils.isEmpty(hashTx)) {
                 mHandler.post(() -> callback.OnTxSuccess(hashTx, nonce));
             } else {
-                mHandler.post(() -> callback.onTxFailure(appContext.getString(R.string.transacton_failed)));
+                mHandler.post(() -> callback.onTxFailure(appContext.getString(R.string.transaction_failed)));
             }
         } catch (final IOException | CipherException | NullPointerException | IllegalArgumentException | InterruptedException | ExecutionException e) {
             mHandler.post(() -> callback.onTxFailure(e.getMessage()));

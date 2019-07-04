@@ -145,12 +145,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
                         .importWalletByMnemonicCode(namestr, Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);
             }
         });
-        linkUrlTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skipWebProtocol();
-            }
-        });
+        linkUrlTv.setOnClickListener(v -> skipWebProtocol());
     }
 
     @Override

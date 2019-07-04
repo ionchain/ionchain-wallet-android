@@ -128,14 +128,14 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {
-                    ToastUtil.showToastLonger(getString(R.string.error_parase_device_bind_data));
+                    ToastUtil.showToastLonger(getString(R.string.error_parse_device_bind_data));
                     return;
                 }
 
                 String json = response.body();
                 DeviceBean bindBean = NetUtils.gsonToBean(json, DeviceBean.class);
                 if (bindBean == null || bindBean.getData() == null) {
-                    callback.onBindFailure(getString(R.string.error_parase_device_bind_data));
+                    callback.onBindFailure(getString(R.string.error_parse_device_bind_data));
                     return;
                 }
                 if (bindBean.getSuccess() != 0) {
@@ -182,14 +182,14 @@ public class DeviceModel implements IDeviceModel {
             @Override
             public void onSuccess(Response<String> response) {
                 if (response == null) {
-                    ToastUtil.showToastLonger(App.mAppInstance.getString(R.string.device_unbind_data_parase_error));
+                    ToastUtil.showToastLonger(App.mAppInstance.getString(R.string.device_unbind_data_parse_error));
                     return;
                 }
 
                 String json = response.body();
                 DeviceBean bindBean = NetUtils.gsonToBean(json, DeviceBean.class);
                 if (Objects.requireNonNull(bindBean).getData() == null) {
-                    callback.onUnbindFailure(App.mAppInstance.getString(R.string.device_unbind_data_parase_error));
+                    callback.onUnbindFailure(App.mAppInstance.getString(R.string.device_unbind_data_parse_error));
                     return;
                 }
                 if (bindBean.getSuccess() != 0) {

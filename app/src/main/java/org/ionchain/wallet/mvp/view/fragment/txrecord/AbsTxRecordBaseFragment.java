@@ -49,8 +49,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     private List<TxRecordBean> mListInTemp = new ArrayList<>();
     private String mNode = getHostNode();
     private String tag = "beannet";
-    private int mOffset = 0;
-    protected int mPageNum = 0;
     private RecyclerView mListView;
     /**
      * 每次上拉加载更过的时候，新增的itemd的数量
@@ -221,8 +219,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      */
     @Override
     public void onTxRecordBrowserSuccess(TxRecordBeanTemp.DataBean browserData) {
-        mRefresh.finishRefresh();
-        mRefresh.finishLoadMore();
+        finishRefresh();
         mListNetTemp.clear();
         LoggerUtils.i("method", "onTxRecordBrowserSuccess" + "   " + browserData.toString());
         List<TxRecordBean> txRecordBeansNew = new ArrayList<>();
@@ -316,7 +313,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
         if (txRecordBeansNew.size() == 0) {
             LoggerUtils.i(tag, "size = 0,无新数据");
-            mPageNum--;
             ToastUtil.showToastLonger(getAppString(R.string.smart_refresh_no_new_data));
             return;
         }
@@ -359,6 +355,13 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         mTxRecordAdapter.notifyDataSetChanged();
     }
 
+    private void finishRefresh() {
+        if (mRefresh != null) {
+            mRefresh.finishRefresh();
+            mRefresh.finishLoadMore();
+        }
+    }
+
     /**
      * @param error 网络数据传递错误时，传递本地数据
      */
@@ -366,7 +369,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     public void onTxRecordBrowserFailure(String error) {
         mRefresh.finishRefresh();
         mRefresh.finishLoadMore();
-        mPageNum--;
         ToastUtil.showToastLonger(error);
         LoggerUtils.e("onTxRecordBrowserFailure", error);
     }
@@ -374,10 +376,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     @Override
     public void onTxRecordSuccessDataNUll() {
-        mRefresh.finishRefresh();
-        mRefresh.finishLoadMore();
-        LoggerUtils.i("jsontx", "mPageNum" + "   " + mPageNum);
-        mPageNum--;
+        finishRefresh();
         ToastUtil.showToastLonger(getAppString(R.string.no_more_rexord));
     }
 
@@ -398,15 +397,12 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             }
             switch (getType()) {
                 case TYPE_ALL:
-                    LoggerUtils.i("beannet", "all  mPageNum = " + mPageNum + " " + walletBeanNew.toString());
                     mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), "1", mPageSizeAll, this);
                     break;
                 case TYPE_OUT:
-                    LoggerUtils.i("beannet", "out  mPageNum = " + mPageNum);
                     mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), "1", mPageSizeFrom, this);
                     break;
                 case TYPE_IN:
-                    LoggerUtils.i("beannet", "in  mPageNum = " + mPageNum);
                     mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), "1", mPageSizeTo, this);
                     break;
             }
@@ -550,7 +546,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     if (size2 == 0) {
                         pageNum++;
                     }
-                    LoggerUtils.i("beannet", "out  mPageNum = " + mPageNum);
                     mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeFrom, this);
                     break;
                 case TYPE_IN:
@@ -560,7 +555,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     if (size2 == 0) {
                         pageNum++;
                     }
-                    LoggerUtils.i("beannet", "in  mPageNum = " + mPageNum);
                     mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeTo, this);
                     break;
             }
@@ -570,8 +564,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     public void onAddressChanged(WalletBeanNew currentWallet) {
         LoggerUtils.i("method", "onAddressChanged");
-
-        resetData();
         switch (getType()) {
             case TYPE_ALL:
                 mWalletBeanNew = currentWallet;
@@ -601,10 +593,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         }
     }
 
-    private void resetData() {
-        mOffset = 0;
-        mPageNum = 0;
-    }
 
     /**
      * 有新的交易发生

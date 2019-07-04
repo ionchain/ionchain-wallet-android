@@ -117,7 +117,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         ClassicsHeader.REFRESH_HEADER_FAILED = getAppString(R.string.smart_refresh_header_failed);
 //        ClassicsHeader.REFRESH_HEADER_LASTTIME = "'" + getAppString(R.string.smart_refresh_header_last_time) + "' M-d HH:mm";
 
-        ClassicsFooter.REFRESH_FOOTER_PULLING = getAppString(R.string.smart_refresh_footer_pulldown);
+        ClassicsFooter.REFRESH_FOOTER_PULLING = getAppString(R.string.smart_refresh_footer_pull_down);
         ClassicsFooter.REFRESH_FOOTER_REFRESHING = getAppString(R.string.smart_refresh_footer_refreshing);
         ClassicsFooter.REFRESH_FOOTER_LOADING = getAppString(R.string.smart_refresh_footer_loading);
         ClassicsFooter.REFRESH_FOOTER_RELEASE = getAppString(R.string.smart_refresh_footer_release);

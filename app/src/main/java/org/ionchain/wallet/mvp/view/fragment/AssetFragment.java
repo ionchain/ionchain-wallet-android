@@ -828,7 +828,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
     @Override
     public void onDataParseError() {
-        ToastUtil.showToastLonger(getAppString(R.string.error_data_parase));
+        ToastUtil.showToastLonger(getAppString(R.string.error_data_parse));
     }
 
     private void cancelGetNode() {

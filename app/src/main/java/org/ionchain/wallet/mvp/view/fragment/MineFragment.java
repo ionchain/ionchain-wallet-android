@@ -49,10 +49,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
      * 币种选择
      */
     private RelativeLayout mCoinTypeRL;
-    /**
-     * 下载对话框
-     */
-    private DownloadDialog mDownloadDialog;
+
     /**
      * 版本信息对话框 ,带有的按钮类型为检查更新
      */
@@ -92,7 +89,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
          * 展示版本信息
          * */
         mVersionInfoRL.setOnClickListener(v -> {
-            String info = "";
+            String info;
 
             if (isCurrentLanguageZN()) {
                 info = getAppString(R.string.version_info_zn);
@@ -227,7 +224,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
             mVersionInfoDialogWithDownload.show();
         } catch (NullPointerException e) {
             LoggerUtils.e("" + e.getMessage());
-            ToastUtil.showToastLonger(mActivity.getAppString(R.string.error_data_parase));
+            ToastUtil.showToastLonger(mActivity.getAppString(R.string.error_data_parse));
         }
 
     }

@@ -59,7 +59,7 @@
 
             <TextView
                 style="@style/A_Style_tab_mine"
-                android:text="@string/version_info_item" />
+                android:text="@string/version_info_title" />
 
             <ImageView
                 style="@style/A_Style_tab_mine_item_image"

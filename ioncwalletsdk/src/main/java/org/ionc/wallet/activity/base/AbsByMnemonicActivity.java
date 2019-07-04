@@ -85,7 +85,7 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
                     return;
                 }
                 if (repwdEt.getText() == null) {
-                    ToastUtil.showToastLonger(getAppString(R.string.passwors_again_can_not_empty));
+                    ToastUtil.showToastLonger(getAppString(R.string.passwords_again_can_not_empty));
                     return;
                 }
                 String content = mnemonic.getText().toString().trim();

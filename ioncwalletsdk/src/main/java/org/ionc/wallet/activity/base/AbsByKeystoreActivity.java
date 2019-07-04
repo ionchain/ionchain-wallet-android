@@ -56,7 +56,7 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
                     showProgress(getAppString(R.string.importing_please_wait));
                     IONCWalletSDK.getInstance().importWalletByKeyStore("", pass, keystoreStr, AbsByKeystoreActivity.this);
                 } else {
-                    ToastUtil.showLong(getAppString(R.string.please_chech_input));
+                    ToastUtil.showLong(getAppString(R.string.please_check_input));
 
                 }
             }

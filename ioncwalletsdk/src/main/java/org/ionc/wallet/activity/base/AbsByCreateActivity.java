@@ -156,11 +156,11 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
             return;
         }
         if (pwdEt.getText() == null) {
-            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_passwors));
+            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_passwords));
             return;
         }
         if (resetPwdEt.getText() == null) {
-            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_password_againe));
+            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_password_again));
             return;
         }
         walletnamestr = walletNameEt.getText().toString().trim();

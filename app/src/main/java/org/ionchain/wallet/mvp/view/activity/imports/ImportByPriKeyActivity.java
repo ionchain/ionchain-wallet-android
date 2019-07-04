@@ -1,6 +1,5 @@
 package org.ionchain.wallet.mvp.view.activity.imports;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -161,68 +160,62 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
                 }
             }
         });
-        importBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String pass;//获取密码
-                String pass2;
-                setViewAlphaAnimation(importBtn);
-                if (mPrivateKey.getText() == null) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
-                    return;
-                }
-                if (!WalletUtils.isValidPrivateKey(mPrivateKey.getText().toString())) {
-                    ToastUtil.showToastLonger(getResources().getString(com.ionc.wallet.sdk.R.string.error_private_key));
-                    return;
-                }
-                if (nameEt.getText() == null) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
-                    return;
-                }
-                if (pwdEt.getText() == null) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
-                    return;
-                }
-                if (repwdEt.getText() == null) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_re_password_null));
-                    return;
-                }
-                private_key = mPrivateKey.getText().toString().trim();
-                pass2 = repwdEt.getText().toString().trim();
-                pass = pwdEt.getText().toString().trim();
-                if (!check(pass2) || !check(pass)) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
-                    return;
-                }
-
-                if (private_key.startsWith("0x")) {
-                    private_key = private_key.substring(2);
-                }
-                if (private_key.length() != 64) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key));
-                    return;
-                }
-
-                if (!pass2.equals(pass)) {
-                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (IONCWalletSDK.getInstance().getWalletByName(namestr) != null) {
-                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                newPassword = pass;
-                showProgress(getString(R.string.importing_wallet));
-                IONCWalletSDK.getInstance()
-                        .importPrivateKey(namestr, private_key, pass, ImportByPriKeyActivity.this);
+        importBtn.setOnClickListener(v -> {
+            namestr = nameEt.getText().toString().trim();
+            if (IONCWalletSDK.getInstance().getWalletByName(namestr) != null) {
+                Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
-        mTitleLeftImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+            String pass;//获取密码
+            String pass2;
+            setViewAlphaAnimation(importBtn);
+            if (mPrivateKey.getText() == null) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
+                return;
             }
+            if (!WalletUtils.isValidPrivateKey(mPrivateKey.getText().toString())) {
+                ToastUtil.showToastLonger(getResources().getString(com.ionc.wallet.sdk.R.string.error_private_key));
+                return;
+            }
+            if (nameEt.getText() == null) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
+                return;
+            }
+            if (pwdEt.getText() == null) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
+                return;
+            }
+            if (repwdEt.getText() == null) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_re_password_null));
+                return;
+            }
+            private_key = mPrivateKey.getText().toString().trim();
+            pass2 = repwdEt.getText().toString().trim();
+            pass = pwdEt.getText().toString().trim();
+            if (!check(pass2) || !check(pass)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
+                return;
+            }
+
+            if (private_key.startsWith("0x")) {
+                private_key = private_key.substring(2);
+            }
+            if (private_key.length() != 64) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key));
+                return;
+            }
+
+            if (!pass2.equals(pass)) {
+                Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            newPassword = pass;
+            showProgress(getString(R.string.importing_wallet));
+            IONCWalletSDK.getInstance()
+                    .importPrivateKey(namestr, private_key, pass, ImportByPriKeyActivity.this);
         });
+        mTitleLeftImage.setOnClickListener(v -> finish());
     }
 
     @Override
@@ -276,20 +269,14 @@ public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity impl
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.wallet_name_exists))
                     .setMessage(getString(R.string.import_and_update_password))
-                    .setPositiveButton(R.string.continues, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            LoggerUtils.i("钱包已存在,执行更新");
-                            IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByPriKeyActivity.this);
-                        }
+                    .setPositiveButton(R.string.continues, (dialog, which) -> {
+                        dialog.dismiss();
+                        LoggerUtils.i("钱包已存在,执行更新");
+                        IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByPriKeyActivity.this);
                     })
-                    .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            LoggerUtils.i("钱包已存在,取消更新");
-                            dialog.dismiss();
-                        }
+                    .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
+                        LoggerUtils.i("钱包已存在,取消更新");
+                        dialog.dismiss();
                     })
                     .show();
         } else {

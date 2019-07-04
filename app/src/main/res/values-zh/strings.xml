@@ -73,7 +73,6 @@
     <string name="update_success">更新成功啦!</string>
     <string name="import_private_key">导入私钥</string>
     <string name="explicit_private_key">明文私钥</string>
-    <string name="version_info_item">版本信息</string>
     <string name="about_us">关于我们</string>
     <string name="my_devices">我的设备</string>
     <string name="tab_device">设备</string>
@@ -109,7 +108,7 @@
     <string name="tx_amount">转账金额</string>
     <string name="tx_fee">交易费用</string>
     <string name="error_net_device_list">设备列表服务器出错！</string>
-    <string name="error_data_parase">解析数据失败</string>
+    <string name="error_data_parse">解析数据失败</string>
     <string name="wallet_exists">该钱包已存在</string>
     <string name="wallet_name_must_not_empty">钱包的名字不能为空</string>
     <string name="export_private_key">导出私钥</string>
@@ -161,8 +160,8 @@
     <string name="key_store_must_not_empty">KS 不能为空</string>
     <string name="error_device_all_service">获取所有设备出错</string>
     <string name="error_net_tx_recorder">交易记录请求失败</string>
-    <string name="device_unbind_data_parase_error">设备解除绑数据解析错误</string>
-    <string name="error_parase_device_bind_data">设备绑数据解析错误</string>
+    <string name="device_unbind_data_parse_error">设备解除绑数据解析错误</string>
+    <string name="error_parse_device_bind_data">设备绑数据解析错误</string>
     <string name="error_net_device_bind">设备绑定网络错误</string>
     <string name="error_net_device_unbind">设备解除绑定网络错误</string>
     <string name="tx_record">交易记录</string>
@@ -195,9 +194,8 @@
     <string name="error_net_getting_usd">获取美元价格失败</string>
     <string name="error_net_getting_rate_rmb">获取汇率信息失败</string>
     <string name="error_net_request_update">更新检查请求出错</string>
-    <string name="version_info_massage">版本号:v1.0.4\n\n版本信息:\n\n1.兼容以太坊标准钱包\n\n2.助记词验证兼容大小写\n\n</string>
     <string name="btn_background">后台下载</string>
-    <string name="smart_refresh_footer_pulldown">上拉加载更多</string>
+    <string name="smart_refresh_footer_pull_down">上拉加载更多</string>
     <string name="smart_refresh_footer_refreshing">正在刷新…</string>
     <string name="smart_refresh_footer_loading">正在加载…</string>
     <string name="smart_refresh_footer_release">释放立即加载</string>
@@ -236,4 +234,5 @@
     <string name="ionchain_explore">Ionchain Explorer</string>
     <string name="new_tx_record">新纪录</string>
     <string name="no_more_rexord">暂未获取到新的交易记录</string>
+    <string name="global_tag" translatable="false">XLog</string>
 </resources>
