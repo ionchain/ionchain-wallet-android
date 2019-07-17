@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.BitmapUtils;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -17,7 +17,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PICTURE_FILE_NAME;
 
-public class ShowAddressActivity extends AbsBaseCommonTitleTwoActivity {
+public class ShowAddressActivity extends AbsBaseActivityTitleTwo {
     private ImageView back;
     private TextView walletAddressTv;
     private ImageView showQrImg;

@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".mvp.view.activity.webview.TxRecordBrowserActivity"></activity>
+        <activity android:name=".mvp.view.activity.webview.UseHelpActivity"></activity>
+        <activity android:name=".mvp.view.activity.webview.TxRecordBrowserActivity" />
         <activity
             android:name=".mvp.view.activity.transaction.TxRecordDetailActivity"
             android:launchMode="singleTop" />
@@ -122,7 +123,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".mvp.view.activity.webview.WebActivity"
+            android:name=".mvp.view.activity.webview.AgreementWebActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/IONCAppTheme" />
+        <activity
+            android:name=".mvp.view.activity.webview.AboutUsWebActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />

@@ -32,6 +32,7 @@
             <ImageView
                 style="@style/A_Style_tab_mine_item_image"
                 android:src="@mipmap/ic_keyboard_arrow_right" />
+
             <View
 
                 style="@style/A_Style_tab_mine_split_line" />
@@ -90,6 +91,21 @@
             <TextView
                 style="@style/A_Style_tab_mine"
                 android:text="@string/about_us" />
+
+            <ImageView
+                style="@style/A_Style_tab_mine_item_image"
+                android:src="@mipmap/ic_keyboard_arrow_right" />
+
+            <View style="@style/A_Style_tab_mine_split_line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/using_help"
+            style="@style/A_Style_tab_mine_item_container">
+
+            <TextView
+                style="@style/A_Style_tab_mine"
+                android:text="@string/using_help" />
 
             <ImageView
                 style="@style/A_Style_tab_mine_item_image"

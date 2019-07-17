@@ -16,7 +16,7 @@ import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.mvp.view.activity.webview.TxRecordBrowserActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.web3j.utils.Convert;
@@ -28,7 +28,7 @@ import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
 import static org.ionchain.wallet.constant.ConstantParams.TX_HASH;
 import static org.ionchain.wallet.constant.ConstantParams.TX_HASH_NULL;
 
-public class TxRecordDetailActivity extends AbsBaseCommonTitleTwoActivity {
+public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
 
     private TxRecordBean mTxRecordBean;
     private ImageView txDetailIcon;

@@ -237,4 +237,5 @@
     <string name="ionchain_explore">Ionchain Explorer</string>
     <string name="new_tx_record">New record</string>
     <string name="no_more_rexord">Haven\'t obtain new transaction record</string>
+    <string name="using_help">Instruction Manual</string>
 </resources>

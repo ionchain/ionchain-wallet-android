@@ -1,9 +1,10 @@
 package org.ionchain.wallet.mvp.view.activity.webview;
 
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -13,8 +14,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -24,35 +25,20 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.base.AbsBaseActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleTwo;
 
-import static org.ionchain.wallet.App.isCurrentLanguageZN;
-import static org.ionchain.wallet.constant.ConstantParams.URL_REQUEST_TYPE;
-import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_PROTOCOL;
+import static android.view.KeyEvent.KEYCODE_BACK;
 
-public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
-
+public abstract class AbsWebActivity extends AbsBaseActivityTitleTwo implements OnRefreshListener {
     private static final String NET_ERR_INTERNET_DISCONNECTED = "net::ERR_INTERNET_DISCONNECTED";
-    RelativeLayout mNetErrorHintPage;
-    WebView mWebView;
-    SmartRefreshLayout smartRefreshLayout;
-    private boolean request_error = false;
 
-
-    /**
-     * 请求类型
-     */
-    private char mRequestType = URL_TAG_PROTOCOL;
     /**
      * web view title
      */
-    private TextView mWebTitle;
-
-    @Override
-    protected void handleIntent(Intent intent) {
-        super.handleIntent(intent);
-        mRequestType = intent.getCharExtra(URL_REQUEST_TYPE, mRequestType);
-    }
+    protected RelativeLayout mNetErrorHintPage;
+    protected WebView mWebView;
+    protected SmartRefreshLayout mRefreshLayout;
+    protected boolean request_error = false;
 
     @Override
     protected int getLayoutId() {
@@ -61,7 +47,8 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
 
     @Override
     protected void initData() {
-        smartRefreshLayout.setOnRefreshListener(this);
+        super.initData();
+        mRefreshLayout.setOnRefreshListener(this);
         //不现实水平滚动条
         mWebView.setHorizontalScrollBarEnabled(false);
         //不现实垂直滚动条
@@ -81,8 +68,11 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
         webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
         webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
 
-        //其他细节操作
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setDatabaseEnabled(true);
+        String appCacheDir = getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
+        webSettings.setAppCachePath(appCacheDir);
+        webSettings.setAppCacheEnabled(true);
         webSettings.setAllowFileAccess(true); //设置可以访问文件
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
@@ -91,24 +81,19 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        if (isCurrentLanguageZN()) {
-            if (mRequestType == URL_TAG_PROTOCOL) {
-                 LoggerUtils.i("webview", "URL_TAG_PROTOCOL = " + URL_TAG_PROTOCOL);
-                mWebView.loadUrl(BuildConfig.URL_PROTOCOL_CN); //加载协议
-            } else {
-                mWebView.loadUrl(BuildConfig.URL_ABOUTUS_CN); //加载关于我们
-            }
+        initWebData();
+    }
 
-        } else {
-            if (mRequestType == URL_TAG_PROTOCOL) {
-                mWebView.loadUrl(BuildConfig.URL_PROTOCOL_EN); //加载协议
+    protected abstract void initWebData();
 
-            } else {
-                mWebView.loadUrl(BuildConfig.URL_ABOUT_US_EN); //加载关于我们
-            }
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        mWebView.reload();
+    }
 
-        }
-
+    @Override
+    protected String getTitleName() {
+        return null;
     }
 
     @Override
@@ -118,6 +103,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                mWebView.getSettings().setBlockNetworkImage(true);
 //                showProgress(getAppString(R.string.app_loading));
                 mWebView.setVisibility(View.GONE);
             }
@@ -127,6 +113,12 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
                 super.onReceivedError(view, errorCode, description, failingUrl);
                 request_error = true;
 
+            }
+             @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                 LoggerUtils.i("title = ",url);
+                view.loadUrl(url);
+                return true;
             }
 
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -148,8 +140,8 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-//                hideProgress();
-                smartRefreshLayout.finishRefresh();
+                mWebView.getSettings().setBlockNetworkImage(false);
+                mRefreshLayout.finishRefresh();
                 if (!request_error) {
                     mWebView.setVisibility(View.VISIBLE);
                     mNetErrorHintPage.setVisibility(View.GONE);
@@ -165,36 +157,23 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 if (title != null) {
-                    mWebTitle.setText(title);
+                    setWebPageTitle(title);
                 }
             }
         });
     }
 
-    @Override
-    protected void setImmersionBar() {
-        super.setImmersionBar();
-        mImmersionBar.titleView(R.id.toolbarlayout)
-                .statusBarDarkFont(true)
-                .execute();
-    }
+    protected abstract void setWebPageTitle(String title);
 
     @Override
     protected void initView() {
 
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         mWebView = findViewById(R.id.web_view);
         mNetErrorHintPage = findViewById(R.id.net_error_hint_page_rl);
-        smartRefreshLayout = findViewById(R.id.smart_refresh_layout);
+        mRefreshLayout = findViewById(R.id.smart_refresh_layout);
         if (BuildConfig.APP_DEBUG) {
-            smartRefreshLayout.setEnableRefresh(false);
+            mRefreshLayout.setEnableRefresh(false);
         }
-        mWebTitle = findViewById(R.id.web_title);
     }
 
     @Override
@@ -205,11 +184,7 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
             mWebView.onPause();
             mWebView.clearCache(true);
             mWebView.clearHistory();
-            //动态创建webview调用
-            //ViewGroup parent = (ViewGroup) mWebView.getParent();
-            //if (parent != null) {
-            //  parent.removeView(mWebView);
-            //}
+
             mWebView.removeAllViews();
             //先结束未结束线程，以免可能会导致空指针异常
             mWebView.destroy();
@@ -219,8 +194,11 @@ public class WebActivity extends AbsBaseActivity implements OnRefreshListener {
     }
 
     @Override
-    public void onRefresh(RefreshLayout refreshLayout) {
-        mWebView.reload();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KEYCODE_BACK) && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
-
 }

@@ -11,14 +11,14 @@ import androidx.annotation.Nullable;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleTwo;
 
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
 import static org.ionchain.wallet.mvp.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class SelectImportModeActivity extends AbsBaseCommonTitleTwoActivity implements View.OnClickListener {
+public class SelectImportModeActivity extends AbsBaseActivityTitleTwo implements View.OnClickListener {
 
     private ImageView back;
     private Button byMnemonic;

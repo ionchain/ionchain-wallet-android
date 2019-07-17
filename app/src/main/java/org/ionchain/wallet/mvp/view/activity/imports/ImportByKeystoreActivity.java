@@ -21,7 +21,7 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleThreeActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleThree;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 
@@ -31,7 +31,7 @@ import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByKeystoreActivity extends AbsBaseCommonTitleThreeActivity implements OnCreateWalletCallback, TextWatcher {
+public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implements OnCreateWalletCallback, TextWatcher {
     private AppCompatEditText mKeystore;
     private AppCompatEditText pwdEt;
     private AppCompatEditText nameEt;

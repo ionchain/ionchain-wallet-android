@@ -29,7 +29,7 @@ import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
 import org.ionchain.wallet.mvp.view.activity.manager.ManageWalletActivity;
-import org.ionchain.wallet.mvp.view.activity.webview.WebActivity;
+import org.ionchain.wallet.mvp.view.activity.webview.AgreementWebActivity;
 import org.ionchain.wallet.utils.LocalManageUtil;
 
 import java.io.Serializable;
@@ -45,9 +45,6 @@ import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_M
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
-import static org.ionchain.wallet.constant.ConstantParams.URL_REQUEST_TYPE;
-import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_ABOUT_US;
-import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_PROTOCOL;
 import static org.ionchain.wallet.mvp.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 
 public abstract class AbsBaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
@@ -237,17 +234,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      * 跳转到 协议一些页面
      * */
     protected void skipWebProtocol() {
-        Intent intent = new Intent(mActivity, WebActivity.class);
-        intent.putExtra(URL_REQUEST_TYPE, URL_TAG_PROTOCOL);
-        startActivity(intent);
-    }
-
-    /*
-     * 跳转到 关于我们页面
-     * */
-    protected void skipWebAboutUs() {
-        Intent intent = new Intent(mActivity, WebActivity.class);
-        intent.putExtra(URL_REQUEST_TYPE, URL_TAG_ABOUT_US);
+        Intent intent = new Intent(mActivity, AgreementWebActivity.class);
         startActivity(intent);
     }
 

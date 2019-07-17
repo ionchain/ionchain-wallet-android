@@ -19,7 +19,7 @@ import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.mvp.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.mvp.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.mvp.view.activity.modify.ModifyAndExportWalletActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.widget.dialog.check.DialogCheckMnemonic;
@@ -34,7 +34,7 @@ import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_W
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ManageWalletActivity extends AbsBaseCommonTitleTwoActivity implements
+public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
         ManagerWalletHelper.OnWalletManagerItemClickedListener,
         DialogMnemonic.OnSavedMnemonicCallback,
         DialogTextMessage.OnBtnClickedListener,

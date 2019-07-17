@@ -21,7 +21,7 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleThreeActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleThree;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -48,7 +48,7 @@ import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
  * 596928539@qq.com
  * 转账
  */
-public class TxOutActivity extends AbsBaseCommonTitleThreeActivity implements
+public class TxOutActivity extends AbsBaseActivityTitleThree implements
         OnTransationCallback,
         OnCheckWalletPasswordCallback {
 

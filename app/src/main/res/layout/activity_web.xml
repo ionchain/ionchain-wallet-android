@@ -1,34 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".mvp.view.activity.webview.WebActivity">
-
-    <RelativeLayout
-        android:id="@+id/toolbarlayout"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/blue_top">
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:src="@mipmap/arrow_back_white" />
-
-        <TextView
-            style="@style/common_title"
-            android:id="@+id/web_title"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textSize_16" />
-    </RelativeLayout>
-
+    android:orientation="vertical">
+    <include layout="@layout/activity_common_title_two" />
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smart_refresh_layout"
         android:layout_width="match_parent"

@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import org.ionchain.wallet.R;
 
-public abstract class AbsBaseCommonTitleThreeActivity extends AbsBaseActivity {
+public abstract class AbsBaseActivityTitleThree extends AbsBaseActivity {
 
     protected RelativeLayout mTitleRl;
     protected ImageView mTitleLeftImage;

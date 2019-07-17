@@ -12,10 +12,11 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.UpdateBean;
 import org.ionchain.wallet.mvp.model.update.OnCheckUpdateInfoCallback;
 import org.ionchain.wallet.mvp.presenter.update.UpdatePresenter;
-import org.ionchain.wallet.mvp.view.activity.setting.coin.SelectCoinActivity;
 import org.ionchain.wallet.mvp.view.activity.manager.ManageWalletActivity;
+import org.ionchain.wallet.mvp.view.activity.setting.coin.SelectCoinActivity;
 import org.ionchain.wallet.mvp.view.activity.setting.language.SettingLanguageActivity;
-import org.ionchain.wallet.mvp.view.activity.webview.WebActivity;
+import org.ionchain.wallet.mvp.view.activity.webview.AboutUsWebActivity;
+import org.ionchain.wallet.mvp.view.activity.webview.UseHelpActivity;
 import org.ionchain.wallet.mvp.view.base.AbsBaseFragment;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.widget.dialog.download.DownloadDialog;
@@ -24,8 +25,6 @@ import org.ionchain.wallet.widget.dialog.version.VersionInfoDialog;
 import java.util.Objects;
 
 import static org.ionchain.wallet.App.isCurrentLanguageZN;
-import static org.ionchain.wallet.constant.ConstantParams.URL_REQUEST_TYPE;
-import static org.ionchain.wallet.constant.ConstantParams.URL_TAG_ABOUT_US;
 
 public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.OnVersionDialogBtnClickedListener, OnCheckUpdateInfoCallback, DownloadDialog.OnDownloadCallback {
 
@@ -45,6 +44,10 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
      * 关于我们
      */
     private RelativeLayout mAboutUsRL;
+    /**
+     * 使用帮助
+     */
+    private RelativeLayout mUseHelp;
     /**
      * 币种选择
      */
@@ -72,6 +75,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
         mWalletManageRL = rootView.findViewById(R.id.walletManageRLayout);
         mVersionInfoRL = rootView.findViewById(R.id.version_info);
         mAboutUsRL = rootView.findViewById(R.id.about_us);
+        mUseHelp = rootView.findViewById(R.id.using_help);
         mCoinTypeRL = rootView.findViewById(R.id.coin_type);
         mLanguageSettingRL = rootView.findViewById(R.id.language_setting);
     }
@@ -103,8 +107,11 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
             mVersionInfoDialogWithUpdate.show();
         });
         mAboutUsRL.setOnClickListener(v -> {
-            Intent intent = new Intent(mActivity, WebActivity.class);
-            intent.putExtra(URL_REQUEST_TYPE, URL_TAG_ABOUT_US);
+            Intent intent = new Intent(mActivity, AboutUsWebActivity.class);
+            startActivity(intent);
+        });
+        mUseHelp.setOnClickListener(v -> {
+            Intent intent = new Intent(mActivity, UseHelpActivity.class);
             startActivity(intent);
         });
     }

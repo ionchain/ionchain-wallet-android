@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.SPUtils;
 
 import static org.ionchain.wallet.App.mCoinType;
@@ -16,7 +16,7 @@ import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_IDR;
 import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_KRW;
 import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
 
-public class SelectCoinActivity extends AbsBaseCommonTitleTwoActivity implements View.OnClickListener {
+public class SelectCoinActivity extends AbsBaseActivityTitleTwo implements View.OnClickListener {
     private Button coinUs;
     private Button coinCny;
     private Button coinKrw;

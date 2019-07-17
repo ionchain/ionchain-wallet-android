@@ -7,11 +7,10 @@ import android.widget.TextView;
 
 import org.ionchain.wallet.R;
 
-public abstract class AbsBaseCommonTitleTwoActivity extends AbsBaseActivity {
+public abstract class AbsBaseActivityTitleTwo extends AbsBaseActivity {
 
     protected RelativeLayout mTitleRl;
     protected ImageView mTitleLeftImage;
-    protected ImageView mTitleRightImage;
     protected TextView mTitleNameTv;
 
     protected View mTitleHeader;
@@ -26,7 +25,7 @@ public abstract class AbsBaseCommonTitleTwoActivity extends AbsBaseActivity {
         mTitleNameTv = findViewById(R.id.common_title);
         mTitleRl.setBackgroundColor(getCommonTitleBackgroundColor());
         mTitleHeader.setBackgroundColor(getTitleHeaderBackgroundColor());
-        mTitleNameTv.setText(getTitleName());
+        mTitleNameTv.setText(getTitleName()==null?"":getTitleName());
         mTitleNameTv.setTextColor(getTitleNameColor());
     }
 

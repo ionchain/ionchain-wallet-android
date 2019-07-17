@@ -5,13 +5,13 @@ import android.widget.TextView;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleTwoActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.LocalManageUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.App.skipToMain;
 
-public class SettingLanguageActivity extends AbsBaseCommonTitleTwoActivity implements View.OnClickListener {
+public class SettingLanguageActivity extends AbsBaseActivityTitleTwo implements View.OnClickListener {
     private TextView mUserSelect;
 
     @Override

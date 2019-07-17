@@ -23,7 +23,7 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.activity.MainActivity;
-import org.ionchain.wallet.mvp.view.base.AbsBaseCommonTitleThreeActivity;
+import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleThree;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -36,7 +36,7 @@ import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByPriKeyActivity extends AbsBaseCommonTitleThreeActivity implements TextWatcher, OnCreateWalletCallback, OnUpdateWalletCallback {
+public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements TextWatcher, OnCreateWalletCallback, OnUpdateWalletCallback {
 
     private AppCompatEditText mPrivateKey;
     private AppCompatEditText pwdEt;
