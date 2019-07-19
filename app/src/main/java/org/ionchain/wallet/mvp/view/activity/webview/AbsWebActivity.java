@@ -6,6 +6,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -26,8 +27,6 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.mvp.view.base.AbsBaseActivityTitleTwo;
-
-import static android.view.KeyEvent.KEYCODE_BACK;
 
 public abstract class AbsWebActivity extends AbsBaseActivityTitleTwo implements OnRefreshListener {
     private static final String NET_ERR_INTERNET_DISCONNECTED = "net::ERR_INTERNET_DISCONNECTED";
@@ -182,20 +181,20 @@ public abstract class AbsWebActivity extends AbsBaseActivityTitleTwo implements 
             //再次打开页面时，若界面没有消亡，会导致进度条不显示并且界面崩溃
             mWebView.stopLoading();
             mWebView.onPause();
-            mWebView.clearCache(true);
-            mWebView.clearHistory();
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
 
             mWebView.removeAllViews();
-            //先结束未结束线程，以免可能会导致空指针异常
+            mWebView.clearHistory();
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
             mWebView.destroy();
             mWebView = null;
-            super.onDestroy();
         }
+        super.onDestroy();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KEYCODE_BACK) && mWebView.canGoBack()) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
             mWebView.goBack();
             return true;
         }

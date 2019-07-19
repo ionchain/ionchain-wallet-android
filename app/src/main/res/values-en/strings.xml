@@ -21,7 +21,7 @@
     <string name="import_wallet_text">Import  wallet</string>
     <string name="back_arrow">Back</string>
     <string name="language_setting">Language Settings</string>
-    <string name="language_cn">Chinese Language</string>
+    <string name="language_cn">Chinese</string>
     <string name="language_en">English</string>
     <string name="language_auto">Default</string>
     <string name="setting_select_language">Current language chosen:  %s</string>
