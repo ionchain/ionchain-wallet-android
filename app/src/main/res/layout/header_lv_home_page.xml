@@ -3,14 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/header_lv_home_page"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="wrap_content"
+
+    tools:context=".view.activity.MainActivity"
     android:orientation="vertical">
 
     <!--背景  -->
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:background="@drawable/app_bar"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/home_head_background"
         android:contentDescription="@string/header_back" />
     <!--90-->
     <RelativeLayout
