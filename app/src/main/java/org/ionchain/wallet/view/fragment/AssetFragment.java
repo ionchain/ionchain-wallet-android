@@ -544,6 +544,8 @@ public class AssetFragment extends AbsBaseFragment implements
         titles.add(getAppString(R.string.tab_out));
         titles.add(getAppString(R.string.tab_in));
         viewPager.setAdapter(new TxRecordPagerAdapter(getChildFragmentManager(), mFragmentListTxRecord, titles));
+        viewPager.setPageTransformer(true,new DepthPageTransformer());
+//        viewPager.setPageTransformer(true,new ZoomOutPageTransformer());
         tabLayout.setupWithViewPager(viewPager);
     }
 
