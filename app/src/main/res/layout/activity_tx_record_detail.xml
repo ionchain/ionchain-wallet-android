@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.ionchain.wallet.mvp.view.activity.transaction.TxRecordDetailActivity">
+    tools:context=".view.activity.transaction.TxRecordDetailActivity">
 
     <View
         android:id="@+id/title_header"

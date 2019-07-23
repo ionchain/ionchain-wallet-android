@@ -37,7 +37,7 @@ import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.helper.ActivityHelper;
-import org.ionchain.wallet.mvp.view.activity.MainActivity;
+import org.ionchain.wallet.view.activity.MainActivity;
 import org.ionchain.wallet.qrcode.DisplayUtil;
 import org.ionchain.wallet.qrcode.activity.ZXingLibrary;
 import org.ionchain.wallet.utils.SPUtils;

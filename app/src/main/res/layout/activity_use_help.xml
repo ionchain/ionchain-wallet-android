@@ -3,6 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.ionchain.wallet.mvp.view.activity.webview.UseHelpActivity">
+    tools:context=".view.activity.webview.UseHelpActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

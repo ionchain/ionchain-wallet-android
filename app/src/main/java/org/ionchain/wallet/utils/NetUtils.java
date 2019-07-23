@@ -23,7 +23,7 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.widget.dialog.version.VersionInfoDialog;
+import org.ionchain.wallet.view.widget.dialog.version.VersionInfoDialog;
 import org.json.JSONObject;
 
 import java.io.File;

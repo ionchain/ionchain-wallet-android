@@ -12,7 +12,7 @@ import org.ionc.wallet.adapter.IViewHolderHelper;
 
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.DeviceBean;
-import org.ionchain.wallet.mvp.callback.OnUnbindDeviceButtonClickedListener;
+import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
 
 import java.util.List;
 

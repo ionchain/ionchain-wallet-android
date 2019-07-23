@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/grey"/>
-        <org.ionchain.wallet.widget.dialog.flowlayout.FlowLayout
+        <org.ionchain.wallet.view.widget.dialog.flowlayout.FlowLayout
             android:layout_below="@id/line1"
             android:id="@+id/backup_mnemonic_word"
             android:layout_width="match_parent"
@@ -87,7 +87,7 @@
             <TextView
                 android:id="@+id/mmnemonic12"
                 style="@style/mnnemonic_tv_style" />
-        </org.ionchain.wallet.widget.dialog.flowlayout.FlowLayout>
+        </org.ionchain.wallet.view.widget.dialog.flowlayout.FlowLayout>
         <View
             android:id="@+id/line2"
             android:layout_below="@id/backup_mnemonic_word"

@@ -95,11 +95,20 @@ public class MyWallet {
         return Hash.sha3(result);
     }
 
+    /**
+     * @param password
+     * @param walletFile
+     * @return
+     * @throws CipherException
+     */
     public static ECKeyPair decrypt(String password, WalletFile walletFile)
             throws CipherException {
 
         validate(walletFile);
 
+
+
+        // 死要文件中的内部对象
         WalletFile.Crypto crypto = walletFile.getCrypto();
 
         byte[] mac = Numeric.hexStringToByteArray(crypto.getMac());
