@@ -1,204 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/header_lv_home_page"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
+    android:layout_height="215dp"
     tools:context=".view.activity.MainActivity"
     android:orientation="vertical">
-
     <!--背景  -->
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="194dp"
         android:background="@mipmap/home_head_background"
         android:contentDescription="@string/header_back" />
     <!--90-->
-    <RelativeLayout
-        android:id="@+id/h1"
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
+ <androidx.cardview.widget.CardView
+     android:layout_marginLeft="16dp"
+     android:layout_marginRight="16dp"
+     android:layout_marginTop="5dp"
+     android:layout_marginBottom="5dp"
+     android:layout_centerHorizontal="true"
+     app:cardElevation="5dp"
+     android:layout_width="330dp"
+     android:layout_height="330dp">
+     <RelativeLayout
+         android:id="@+id/h1"
+         android:layout_centerHorizontal="true"
+         android:background="@mipmap/home_wallet_card_background"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+         <ImageView
+             android:id="@+id/wallet_logo"
+             android:layout_width="20dp"
+             android:layout_height="20dp"
+             android:layout_margin="10dp"
+             android:background="@mipmap/home_head"
+             android:contentDescription="@string/wallet_icon" />
 
-        <ImageView
-            android:id="@+id/wallet_logo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
-            android:background="@mipmap/wallet_logo"
-            android:contentDescription="@string/wallet_icon" />
+         <TextView
+             android:id="@+id/wallet_name_tv"
+             android:layout_width="35dp"
+             android:layout_height="20dp"
+             android:layout_marginTop="10dp"
+             android:layout_marginStart="38dp"
+             android:gravity="center"
+             android:text="IONC"
+             android:textColor="@color/grey"/>
 
-        <TextView
-            android:id="@+id/wallet_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_below="@id/wallet_logo"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="@string/wallet"
-            android:textColor="@color/white"
-            android:textSize="@dimen/txt_22sp" />
+         <TextView
+             android:layout_marginTop="50dp"
+             android:id="@+id/please_backup_wallet"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerHorizontal="true"
+             android:background="@drawable/please_backup_wallet"
+             android:drawableLeft="@drawable/exclamation"
+             android:gravity="center"
+             android:padding="@dimen/h3"
+             android:text="@string/before_use_backup"
+             android:textColor="@color/colorAccent"
+             android:textSize="10sp" />
+         <ImageView
+             android:id="@+id/wallet_list"
+             android:layout_width="22dp"
+             android:layout_height="22dp"
+             android:layout_margin="20dp"
+             android:layout_alignParentEnd="true"
+             android:layout_marginEnd="@dimen/h30"
+             android:background="@mipmap/more_wallet" />
 
-        <ImageView
-            android:id="@+id/wallet_list"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/h30"
-            android:background="@mipmap/more_wallet" />
-    </RelativeLayout>
-    <!--balance 120-->
-    <LinearLayout
-        android:id="@+id/balance_ll"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_below="@id/h1"
-        android:orientation="vertical">
+         <TextView
+             android:layout_marginTop="60dp"
+             android:layout_marginLeft="10dp"
+             android:layout_width="40dp"
+             android:layout_height="15sp"
+             android:text="总资产"
+             android:textColor="#FF333333"
+             android:textSize="13sp"
+             />
 
-        <!--28-->
-        <RelativeLayout
-            android:id="@+id/modify_wallet"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+         <TextView
+             android:id="@+id/ionc_balance_tx"
+             android:layout_width="wrap_content"
+             android:layout_height="32dp"
+             android:layout_marginLeft="10dp"
+             android:layout_marginTop="80dp"
+             android:gravity="center"
+             android:text="1342300.00"
+             android:textColor="#FF333333"
+             android:textSize="30sp"
+             android:textStyle="bold" />
+         <TextView
+             android:id="@+id/tag_ionc"
+             android:layout_width="30dp"
+             android:layout_height="18dp"
+             android:layout_marginTop="95dp"
+             android:layout_marginLeft="10dp"
+             android:layout_toRightOf="@id/ionc_balance_tx"
+             android:text="IONC"
+             android:textColor="#FF333333"
+             android:textSize="11.67sp"
+             android:textStyle="bold" />
+         <TextView
+             android:id="@+id/rmb_balance_tx"
+             android:layout_width="wrap_content"
+             android:layout_height="16dp"
+             android:gravity="center"
+             android:layout_marginStart="10dp"
+             android:layout_marginTop="120dp"
+             android:text="14356.914"
+             android:textColor="#ff666666"
+             android:textSize="@dimen/txt_16sp"
+             android:textStyle="bold" />
+         <TextView
+             android:id="@+id/rmb_icon"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignBaseline="@id/rmb_balance_tx"
+             android:layout_alignParentBottom="true"
+             android:layout_toEndOf="@id/rmb_balance_tx"
+             android:text="USD"
+             android:layout_marginTop="120dp"
+             android:textSize="@dimen/txt_16sp"
+             android:textColor="#ff666666"
+             android:textStyle="bold" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true">
+         <!--转账 40-->
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="36dp"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:layout_marginTop="158dp"
+             android:baselineAligned="false"
+             android:gravity="center"
+             android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/ionc_balance_tx"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="****"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_22sp"
-                    android:textStyle="bold" />
+             <LinearLayout
+                 android:id="@+id/tx_out_ll"
+                 android:layout_width="0dp"
+                 android:background="@drawable/tx_btn_background"
+                 android:layout_height="match_parent"
+                 android:layout_weight="1"
+                 android:gravity="center_horizontal"
+                 android:orientation="horizontal"
+                 tools:ignore="NestedWeights,UseCompoundDrawables">
 
-                <TextView
-                    android:id="@+id/tag_ionc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/ionc_balance_tx"
-                    android:layout_toRightOf="@id/ionc_balance_tx"
-                    android:text="    IONC"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:contentDescription="@string/tab_out"
+                     android:src="@mipmap/tx_out_icon" />
 
-                <TextView
-                    android:id="@+id/rmb_balance_tx"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/ionc_balance_tx"
-                    android:gravity="center"
-                    android:maxLength="20"
-                    android:ellipsize="middle"
-                    android:text="****"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_16sp"
-                    android:textStyle="bold" />
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_marginStart="5dp"
+                     android:gravity="center"
+                     android:text="@string/tab_out"
+                     android:textColor="@color/white"
+                     android:textSize="@dimen/txt_18sp" />
+             </LinearLayout>
 
-                <TextView
-                    android:id="@+id/rmb_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/rmb_balance_tx"
-                    android:layout_alignParentBottom="true"
-                    android:layout_toEndOf="@id/rmb_balance_tx"
-                    android:layout_toRightOf="@id/ionc_balance_tx"
-                    android:text="    USD"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+             <View
+                 android:layout_width="1dp"
+                 android:layout_height="match_parent"
+                 android:layout_gravity="center"
+                 android:layout_margin="@dimen/h10"
+                 android:background="@color/white" />
 
-            <TextView
-                android:id="@+id/please_backup_wallet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/please_backup_wallet"
-                android:drawableLeft="@drawable/exclamation"
-                android:gravity="center"
-                android:padding="@dimen/h3"
-                android:text="@string/before_use_backup"
-                android:textColor="@color/colorAccent"
-                android:textSize="10sp" />
+             <LinearLayout
+                 android:id="@+id/tx_in_ll"
+                 android:layout_width="0dp"
+                 android:layout_height="match_parent"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:background="@drawable/tx_btn_background"
+                 tools:ignore="UseCompoundDrawables">
 
-        </RelativeLayout>
-        <!--转账 40-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/h10"
-            android:layout_weight="1"
-            android:baselineAligned="false"
-            android:gravity="center"
-            android:orientation="horizontal">
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:contentDescription="@string/tab_in"
+                     android:src="@mipmap/tx_in_icon" />
 
-            <LinearLayout
-                android:id="@+id/tx_out_ll"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                tools:ignore="NestedWeights,UseCompoundDrawables">
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginStart="5dp"
+                     android:text="@string/tab_in"
+                     android:textColor="@color/white"
+                     android:textSize="@dimen/txt_18sp" />
+             </LinearLayout>
+         </LinearLayout>
+     </RelativeLayout>
+ </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/tab_out"
-                    android:src="@mipmap/tx_out_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:gravity="center"
-                    android:text="@string/tab_out"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_18sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/h10"
-                android:background="@color/white" />
-
-            <LinearLayout
-                android:id="@+id/tx_in_ll"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/tab_in"
-                    android:src="@mipmap/tx_in_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/tab_in"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_18sp" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
 </RelativeLayout>

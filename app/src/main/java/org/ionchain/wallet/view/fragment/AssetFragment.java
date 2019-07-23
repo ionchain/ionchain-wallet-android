@@ -235,7 +235,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     protected void handleShow() {
         LoggerUtils.i("method", "handleShow" + "   AssetFragment");
-        mImmersionBar.statusBarColor(R.color.blue_top).statusBarDarkFont(false).execute();
+        mImmersionBar.statusBarColor(R.color.top_bar_color).statusBarDarkFont(false).execute();
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         if (mCurrentWallet == null) {
             ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
@@ -693,7 +693,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onBalanceSuccess(BigDecimal balanceBigDecimal, String nodeUrlTag) {
         LoggerUtils.i("离子币余额获取成功:" + balanceBigDecimal.toPlainString());
-        mIoncBalanceTx.setTextColor(Color.WHITE);
+        mIoncBalanceTx.setTextColor(Color.BLACK);
         mIONCBalance = balanceBigDecimal;
         //正常显示离子币余额
         mIoncBalanceTx.setText(balanceBigDecimal.toPlainString());
@@ -792,7 +792,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onUSDExRateRMBSuccess(USDExRmb.DataBean dataBean) {
         //转换为人民币
-        mRmbTx.setTextColor(Color.WHITE);
+        mRmbTx.setTextColor(Color.GRAY);
         mCNY = dataBean.getCNY();
         mUS = dataBean.getUSD();
         mIDR = dataBean.getIDR();

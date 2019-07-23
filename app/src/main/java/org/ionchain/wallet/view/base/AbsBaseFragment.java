@@ -160,7 +160,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     }
 
     private int getTopBarColor() {
-        return R.color.blue_top;
+        return R.color.top_bar_color;
     }
 
     @Override
