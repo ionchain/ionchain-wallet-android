@@ -1,18 +1,24 @@
 package org.ionchain.wallet.view.activity.setting.language;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.LocalManageUtil;
+import org.ionchain.wallet.utils.SPUtils;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.utils.ViewUtils;
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 
 import static org.ionchain.wallet.App.skipToMain;
 
 public class SettingLanguageActivity extends AbsBaseActivityTitleTwo implements View.OnClickListener {
     private TextView mUserSelect;
+    private Button auto;
+    private Button chinese;
+    private Button english;
 
     @Override
     protected void initData() {
@@ -23,9 +29,38 @@ public class SettingLanguageActivity extends AbsBaseActivityTitleTwo implements 
     protected void initView() {
         mUserSelect = findViewById(R.id.tv_user_select);
         mUserSelect.setText(getString(R.string.setting_select_language, LocalManageUtil.getSelectLanguage(this)));
-        findViewById(R.id.btn_auto).setOnClickListener(this);
-        findViewById(R.id.btn_cn).setOnClickListener(this);
-        findViewById(R.id.btn_en).setOnClickListener(this);
+
+        auto = findViewById(R.id.btn_auto);
+        auto.setOnClickListener(this);
+        chinese = findViewById(R.id.btn_cn);
+        chinese.setOnClickListener(this);
+        english = findViewById(R.id.btn_en);
+        english.setOnClickListener(this);
+        setBtnBgColor();
+
+
+    }
+
+    private void setBtnBgColor() {
+        switch (SPUtils.getInstance().getSelectLanguage()) {
+            case 0:
+                ViewUtils.setBtnSelectedColor(this, auto);
+                ViewUtils.setBtnUnSelectedColor(this, chinese);
+                ViewUtils.setBtnUnSelectedColor(this, english);
+                break;
+            case 1:
+                ViewUtils.setBtnSelectedColor(this, chinese);
+                ViewUtils.setBtnUnSelectedColor(this, english);
+                ViewUtils.setBtnUnSelectedColor(this, auto);
+                break;
+            case 2:
+            default:
+                ViewUtils.setBtnSelectedColor(this, english);
+                ViewUtils.setBtnUnSelectedColor(this, chinese);
+                ViewUtils.setBtnUnSelectedColor(this, auto);
+                break;
+        }
+
     }
 
     @Override
@@ -61,6 +96,7 @@ public class SettingLanguageActivity extends AbsBaseActivityTitleTwo implements 
                 App.currentLanguage = "en";
                 break;
         }
+        setBtnBgColor();
         skipToMain();
     }
 }

@@ -212,7 +212,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">5dp</item>
-        <item name="android:textColor">@color/title_blue</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:padding">5dp</item>
     </style>
 
@@ -261,14 +261,5 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
     </style>
-    <style name="A_Style_Version_info_dialog_btn" >
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/dialog_btn_height_40dp</item>
-        <item name="android:paddingStart">@dimen/h5</item>
-        <item name="android:paddingEnd">@dimen/h5</item>
-        <item name="android:layout_below">@id/version_snd_line</item>
-        <item name="android:layout_marginTop">@dimen/h10</item>
-    </style>
-
-
+   
 </resources>

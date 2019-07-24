@@ -10,8 +10,8 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.widget.dialog.LogUtils;
 
 
 public abstract class AbsBaseDialog extends Dialog {
@@ -80,7 +80,7 @@ public abstract class AbsBaseDialog extends Dialog {
             p.width = (int) (d.getWidth() * 0.9); // 宽度设置为屏幕的0.65
             dialogWindow.setAttributes(p);
         } else {
-            LogUtils.e("设置对话框带下大小失败");
+            LoggerUtils.e("设置对话框带下大小失败");
         }
     }
 

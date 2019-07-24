@@ -106,11 +106,11 @@
 
         <Button
             android:id="@+id/left_btn"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="96dp"
+            android:layout_height="30dp"
+            android:background="@drawable/dialog_cancel_btn"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
-            android:background="@drawable/dialog_cancel_btn"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/cancel"
@@ -119,11 +119,11 @@
 
         <Button
             android:id="@+id/right_btn"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_width="96dp"
+            android:layout_height="30dp"
+            android:background="@drawable/common_btn_background_main_color"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/dialog_sure_btn"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/btn_sure_text"

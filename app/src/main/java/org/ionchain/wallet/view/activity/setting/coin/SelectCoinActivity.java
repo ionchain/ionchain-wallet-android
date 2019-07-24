@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.utils.ViewUtils;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.SPUtils;
 
@@ -95,15 +96,31 @@ public class SelectCoinActivity extends AbsBaseActivityTitleTwo implements View.
         switch (ct) {
             case COIN_TYPE_USD:
                 ct = getAppString(R.string.coin_type_us);
+                ViewUtils.setBtnSelectedColor(this,coinUs);
+                ViewUtils.setBtnUnSelectedColor(this,coinCny);
+                ViewUtils.setBtnUnSelectedColor(this,coinKrw);
+                ViewUtils.setBtnUnSelectedColor(this,coinIdr);
                 break;
             case COIN_TYPE_CNY:
                 ct = getAppString(R.string.coin_type_rmb);
+                ViewUtils.setBtnSelectedColor(this,coinCny);
+                ViewUtils.setBtnUnSelectedColor(this,coinUs);
+                ViewUtils.setBtnUnSelectedColor(this,coinKrw);
+                ViewUtils.setBtnUnSelectedColor(this,coinIdr);
                 break;
             case COIN_TYPE_KRW:
                 ct = getAppString(R.string.coin_type_han_yuan);
+                ViewUtils.setBtnSelectedColor(this,coinKrw);
+                ViewUtils.setBtnUnSelectedColor(this,coinUs);
+                ViewUtils.setBtnUnSelectedColor(this,coinCny);
+                ViewUtils.setBtnUnSelectedColor(this,coinIdr);
                 break;
             case COIN_TYPE_IDR:
                 ct = getAppString(R.string.coin_type_yin_ni_dun);
+                ViewUtils.setBtnSelectedColor(this,coinIdr);
+                ViewUtils.setBtnUnSelectedColor(this,coinUs);
+                ViewUtils.setBtnUnSelectedColor(this,coinKrw);
+                ViewUtils.setBtnUnSelectedColor(this,coinCny);
                 break;
         }
         LoggerUtils.i("cointype = "+ct);

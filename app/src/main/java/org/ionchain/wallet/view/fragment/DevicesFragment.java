@@ -33,7 +33,7 @@ import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.view.widget.DialogBindDevice;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
-import org.ionchain.wallet.view.widget.dialog.check.DialogCheckMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonic;
 import org.jetbrains.annotations.NotNull;

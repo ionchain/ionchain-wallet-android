@@ -13,45 +13,38 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:text="@string/version_info_title"
-        android:textColor="@color/black"
+        android:textColor="#666666"
         android:textSize="@dimen/txt_14sp"
         android:textStyle="bold" />
 
-    <View
-        android:id="@+id/version_first_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/version_info_title"
-        android:background="@color/grey_cccccc" />
 
     <TextView
         android:id="@+id/version_info_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/version_first_line"
+        android:layout_below="@id/version_info_title"
         android:padding="@dimen/margin_h20"
         android:text="@string/dialog_version_info"
-        android:textColor="@color/black" />
-
-    <View
-        android:id="@+id/version_snd_line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/version_info_content"
-        android:background="@color/grey_cccccc" />
+        android:textColor="#333333" />
 
     <Button
         android:id="@+id/version_info_btn_cancel"
-        style="@style/A_Style_Version_info_dialog_btn"
+        android:layout_width="96dp"
+        android:layout_height="30dp"
+        android:layout_margin="@dimen/h10"
+        android:layout_below="@id/version_info_content"
         android:background="@drawable/dialog_cancel_btn"
         android:text="@string/btn_close"
         />
 
     <Button
         android:id="@+id/version_info_btn_update"
-        android:background="@drawable/dialog_sure_btn"
         android:text="@string/btn_update"
+        android:layout_width="96dp"
+        android:layout_height="30dp"
+        android:layout_margin="@dimen/h10"
+        android:layout_below="@id/version_info_content"
+        android:background="@drawable/common_btn_background_main_color"
         android:textColor="@color/white"
-        style="@style/A_Style_Version_info_dialog_btn"
         android:layout_alignParentEnd="true"/>
 </RelativeLayout>

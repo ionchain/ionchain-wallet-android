@@ -1,7 +1,6 @@
 package org.ionchain.wallet.view.widget.dialog.mnemonic;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -69,18 +68,8 @@ public class DialogMnemonic extends AbsBaseDialog {
 
     @Override
     protected void initData() {
-        next_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callback.onSaveMnemonicSure();
-            }
-        });
-        mClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callback.onSaveMnemonicCancel(DialogMnemonic.this);
-            }
-        });
+        next_sure.setOnClickListener(v -> callback.onSaveMnemonicSure());
+        mClose.setOnClickListener(v -> callback.onSaveMnemonicCancel(DialogMnemonic.this));
     }
 
     @Override

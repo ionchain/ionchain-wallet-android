@@ -247,4 +247,5 @@
     <string name="wallet_password_input">输入密码</string>
     <string name="wallet_password_input_hint">请输入keystore密码</string>
     <string name="total_assets">总资产</string>
+    <string name="back_up">Backup mnemonic words</string>
 </resources>

@@ -22,7 +22,7 @@ import org.ionchain.wallet.view.activity.modify.ModifyAndExportWalletActivity;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
-import org.ionchain.wallet.view.widget.dialog.check.DialogCheckMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonic;
 

@@ -1,4 +1,4 @@
-package org.ionchain.wallet.view.widget.dialog.check;
+package org.ionchain.wallet.view.widget.dialog.mnemonic;
 
 import android.app.Activity;
 import android.graphics.Color;

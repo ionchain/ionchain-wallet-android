@@ -3,7 +3,7 @@ package org.ionchain.wallet.view.widget.dialog.callback;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.ionchain.wallet.view.widget.dialog.check.DialogCheckMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 
 import java.util.List;
 

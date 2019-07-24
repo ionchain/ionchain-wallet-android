@@ -17,8 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.widget.dialog.LogUtils;
 import org.ionchain.wallet.view.widget.dialog.base.AbsBaseDialog;
 
 /**
@@ -168,7 +168,7 @@ public class ModifyPasswordDialog extends AbsBaseDialog implements View.OnClickL
             p.width = (int) (d.getWidth() * 0.9); // 宽度设置为屏幕的0.65
             dialogWindow.setAttributes(p);
         } else {
-            LogUtils.e("设置对话框带下大小失败");
+            LoggerUtils.e("设置对话框带下大小失败");
         }
     }
 
@@ -204,7 +204,7 @@ public class ModifyPasswordDialog extends AbsBaseDialog implements View.OnClickL
             @Override
             public void afterTextChanged(Editable s) {
                 newPassword = s.toString();
-                LogUtils.i(newPassword);
+                LoggerUtils.i(newPassword);
             }
         });
         //重复新密码

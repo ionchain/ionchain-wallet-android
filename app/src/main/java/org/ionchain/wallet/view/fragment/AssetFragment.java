@@ -55,7 +55,7 @@ import org.ionchain.wallet.view.fragment.txrecord.TxRecordInFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordOutFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordPagerAdapter;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
-import org.ionchain.wallet.view.widget.dialog.check.DialogCheckMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonic;
 import org.ionchain.wallet.view.widget.dialog.more.MoreWalletDialog;
