@@ -16,4 +16,6 @@
     <color name="bga_pp_btn_confirm_pressed">#CC17C7D1</color>
     <color name="possible_result_points">#ffbd21</color>
     <color name="top_bar_color">#06CACE</color>
+    <color name="tx_color_failure">#FD4F4F</color>
+    <color name="split_line_color">#cccccc</color>
 </resources>

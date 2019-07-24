@@ -78,9 +78,9 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
      */
     protected TxRecordPresenter mTxRecordPresenter;
 
-    protected final char TYPE_ALL = 0;
-    protected final char TYPE_OUT = 1;
-    protected final char TYPE_IN = 2;
+    public static final char TYPE_ALL = 0;
+    public static final char TYPE_OUT = 1;
+    public static final char TYPE_IN = 2;
 
     public AbsBaseViewPagerFragment() {
         this.TAG_NAME = this.getClass().getSimpleName();
@@ -217,7 +217,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     }
 
     private int getTopBarColor() {
-        return R.color.blue_top;
+        return R.color.main_color;
     }
 
     @Override

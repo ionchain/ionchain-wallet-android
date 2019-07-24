@@ -3,20 +3,20 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <corners android:radius="0dp" />
-            <solid android:color="@color/main_btn_color_disable" />
+            <corners android:radius="5dp" />
+            <solid android:color="#FF28CDEB" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <corners android:radius="0dp" />
+            <corners android:radius="5dp" />
             <solid android:color="@color/main_btn_color_pressed" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="0dp" />
-            <solid android:color="@color/main_btn_color_normal_50abf1" />
+            <corners android:radius="5dp" />
+            <solid android:color="#FF28CDEB" />
         </shape>
     </item>
 </selector>

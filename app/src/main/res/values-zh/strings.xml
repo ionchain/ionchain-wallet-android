@@ -218,13 +218,13 @@
     <string name="tx_success">转账成功</string>
     <string name="tx_failure">转账失败</string>
     <string name="tx_in_addrss_title">收款地址</string>
-    <string name="save_qrcode">长按可保存到本地</string>
+    <string name="save_qrcode">保存图片</string>
     <string name="has_been_done">已完成</string>
     <string name="coin_type_us">美元</string>
     <string name="coin_type_rmb">人民币</string>
     <string name="coin_type_han_yuan">韩元</string>
     <string name="coin_type_yin_ni_dun">印尼盾</string>
-    <string name="tx_block_suspended">交易未完成</string>
+    <string name="tx_block_suspended">进行中</string>
     <string name="error_tx_recorder">交易失败</string>
     <string name="setting_select_coin_type">当前币种</string>
     <string name="no_record">暂无更多交易记录</string>
@@ -236,4 +236,7 @@
     <string name="no_more_rexord">暂未获取到新的交易记录</string>
     <string name="global_tag" translatable="false">XLog</string>
     <string name="using_help">使用手册</string>
+    <string name="tx_done">已完成</string>
+    <string name="copy_address">复制地址</string>
+    <string name="scan_to_pay">扫一扫,向我付款</string>
 </resources>

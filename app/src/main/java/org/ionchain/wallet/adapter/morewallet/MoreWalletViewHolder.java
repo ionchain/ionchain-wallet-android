@@ -14,5 +14,6 @@ import org.ionc.wallet.adapter.IViewHolder;
 class MoreWalletViewHolder implements IViewHolder {
     ImageView mWalletImg;
     TextView mWalletName;
+    TextView mWalletBalance;
 
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/header_lv_home_page"
     android:layout_width="match_parent"
-    android:layout_height="215dp"
+    android:layout_height="255dp"
     tools:context=".view.activity.MainActivity"
     android:orientation="vertical">
     <!--背景  -->
@@ -15,9 +15,9 @@
         android:contentDescription="@string/header_back" />
     <!--90-->
  <androidx.cardview.widget.CardView
-     android:layout_marginLeft="16dp"
-     android:layout_marginRight="16dp"
-     android:layout_marginTop="5dp"
+     android:layout_marginLeft="@dimen/home_margin_horizon"
+     android:layout_marginRight="@dimen/home_margin_horizon"
+     android:layout_marginTop="45dp"
      android:layout_marginBottom="5dp"
      android:layout_centerHorizontal="true"
      app:cardElevation="5dp"
@@ -39,7 +39,7 @@
 
          <TextView
              android:id="@+id/wallet_name_tv"
-             android:layout_width="35dp"
+             android:layout_width="wrap_content"
              android:layout_height="20dp"
              android:layout_marginTop="10dp"
              android:layout_marginStart="38dp"

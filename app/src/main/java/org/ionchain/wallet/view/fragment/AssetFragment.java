@@ -35,11 +35,14 @@ import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.NodeBean;
 import org.ionchain.wallet.bean.USDExRmb;
-import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.callback.OnIONCNodeCallback;
+import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.model.ioncprice.callbcak.OnUSDExRateRMBCallback;
 import org.ionchain.wallet.model.ioncprice.callbcak.OnUSDPriceCallback;
 import org.ionchain.wallet.presenter.ioncrmb.PricePresenter;
+import org.ionchain.wallet.utils.SPUtils;
+import org.ionchain.wallet.utils.SoftKeyboardUtil;
+import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.activity.address.ShowAddressActivity;
 import org.ionchain.wallet.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.view.activity.imports.SelectImportModeActivity;
@@ -51,9 +54,6 @@ import org.ionchain.wallet.view.fragment.txrecord.TxRecordAllFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordInFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordOutFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordPagerAdapter;
-import org.ionchain.wallet.utils.SPUtils;
-import org.ionchain.wallet.utils.SoftKeyboardUtil;
-import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.view.widget.dialog.check.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
@@ -388,16 +388,6 @@ public class AssetFragment extends AbsBaseFragment implements
          * */
         mMoreWallet.setOnClickListener(v -> {
             DisplayMetrics metrics = new DisplayMetrics();
-//            Objects.requireNonNull(mActivity).getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//            int screenHeight = metrics.heightPixels;
-//            int screenWidth = metrics.widthPixels;
-//            mBuilder.setAnimationStyle(R.style.push_left_in_out)
-//                    .setWidth((int) (screenWidth * 0.6))
-//                    .setHeight(screenHeight)
-//                    .setLocation(mRefresh, Gravity.END | Gravity.TOP, 0, 0)
-//                    .build()
-//                    .show();
-//            mMoreWalletListView.smoothScrollToPosition(0);
 
             mMoreWalletDialog = new MoreWalletDialog(mActivity);
             mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
@@ -407,12 +397,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 mMoreWallets.addAll(mMoreWalletsTemp);
             }
             mMoreWalletDialog.setData(mMoreWallets, AssetFragment.this);
-//            mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
-//            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
-//                mMoreWallets.clear();
-//                mMoreWallets.addAll(mMoreWalletsTemp);
-//                mMoreWalletDialog.notifyDataSetChanged();
-//            }
+
             mMoreWalletDialog.show();
         });
     }

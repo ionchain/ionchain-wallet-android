@@ -48,8 +48,8 @@ public class MoreWalletDialog extends AbsBaseDialog {
     private void findViews() {
         closeMore = (ImageView) findViewById(R.id.close_more_btn);
         mMoreWalletListView = (ListView) findViewById(R.id.data_list);
-        importWallet = (TextView) findViewById(R.id.scan_popu);
-        createWallet = (TextView) findViewById(R.id.new_ll);
+        importWallet = (TextView) findViewById(R.id.scan_import);
+        createWallet = (TextView) findViewById(R.id.create_wallet_tv);
         mMoreWalletListView.setAdapter(mAdapterMore);
     }
 

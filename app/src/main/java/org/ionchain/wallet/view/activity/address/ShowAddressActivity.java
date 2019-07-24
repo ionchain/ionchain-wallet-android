@@ -1,18 +1,16 @@
 package org.ionchain.wallet.view.activity.address;
 
 import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.BitmapUtils;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 
 import static org.ionchain.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.PICTURE_FILE_NAME;
@@ -21,7 +19,8 @@ public class ShowAddressActivity extends AbsBaseActivityTitleTwo {
     private ImageView back;
     private TextView walletAddressTv;
     private ImageView showQrImg;
-    private Button copyBtn;
+    private TextView copyBtn;
+    private TextView save_image_address;
 
     private String address = "";
 
@@ -34,6 +33,7 @@ public class ShowAddressActivity extends AbsBaseActivityTitleTwo {
     private void findViews() {
         back = findViewById(R.id.back);
         walletAddressTv = findViewById(R.id.walletAddressTv);
+        save_image_address = findViewById(R.id.save_image_address);
         showQrImg = findViewById(R.id.show_qr_img);
         copyBtn = findViewById(R.id.copyBtn);
         walletAddressTv.setText(address);
@@ -83,13 +83,9 @@ public class ShowAddressActivity extends AbsBaseActivityTitleTwo {
     @Override
     protected void initView() {
         findViews();
-        showQrImg.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                BitmapUtils.savePicture(QRCodeUtils.generateQRCode(address, 200), PICTURE_FILE_NAME, address + ".jpg");
-                ToastUtil.showLong(getAppString(R.string.save_pos));
-                return true;
-            }
+        save_image_address.setOnClickListener(v -> {
+            BitmapUtils.savePicture(QRCodeUtils.generateQRCode(address, 200), PICTURE_FILE_NAME, address + ".jpg");
+            ToastUtil.showLong(getAppString(R.string.save_pos));
         });
     }
 

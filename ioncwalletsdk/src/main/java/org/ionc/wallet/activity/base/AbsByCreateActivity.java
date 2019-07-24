@@ -169,7 +169,7 @@ public abstract class AbsByCreateActivity extends BaseActivity implements View.O
 
         if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(resetpass)) {
             createBtn.setEnabled(true);
-            createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+            createBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
         } else {
             createBtn.setEnabled(false);
             createBtn.setBackgroundColor(getResources().getColor(R.color.grey));

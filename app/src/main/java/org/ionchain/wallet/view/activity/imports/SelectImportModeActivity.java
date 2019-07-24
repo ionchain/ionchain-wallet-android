@@ -71,9 +71,6 @@ public class SelectImportModeActivity extends AbsBaseActivityTitleTwo implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*
-         *交易成功，返回成功的hash值给fragment
-         */
 
         if (resultCode == NEW_WALLET_FOR_RESULT_CODE) {
             Intent intent = new Intent();
@@ -83,11 +80,9 @@ public class SelectImportModeActivity extends AbsBaseActivityTitleTwo implements
                 LoggerUtils.i("requestCode", "requestCode = " + requestCode + "resultCode = " + resultCode + "address = " + walletBeanNew.getAddress());
                 intent.putExtra(SERIALIZABLE_DATA_WALLET_BEAN, walletBeanNew);
                 setResult(NEW_WALLET_FOR_RESULT_CODE, intent);
-            finish();
+                finish();
             }
-        } else {
-            finish();
-        }
+        } 
     }
 
     @Override

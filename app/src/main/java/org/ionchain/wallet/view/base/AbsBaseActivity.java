@@ -98,7 +98,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         return R.color.top_bar_color;
     }
     protected int getColorBlue(){
-       return getResources().getColor(R.color.blue_top);
+       return getResources().getColor(R.color.main_color);
     }
 
     protected int getColorWhite() {

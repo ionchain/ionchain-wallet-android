@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +44,7 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
     private ImageView txDetailQrcode;
 
     private WalletBeanNew mWalletBeanNew;
-    private LinearLayout go_to_ionchain_explore;
+    private TextView mGoToIonchainExplore;
 
     /**
      * Find the Views in the layout<br />
@@ -66,7 +65,7 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
         txDetailBlock = (TextView) findViewById(R.id.tx_detail_block);
         wallet_name = (TextView) findViewById(R.id.wallet_name);
         txDetailQrcode = findViewById(R.id.tx_detail_qrcode);
-        go_to_ionchain_explore = findViewById(R.id.go_to_ionchain_explore);
+        mGoToIonchainExplore = findViewById(R.id.go_to_ionchain_explore);
     }
 
     @Override
@@ -152,7 +151,7 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
             StringUtils.copy(this, mTxRecordBean.getHash());
             Toast.makeText(this, getAppString(R.string.copy_from_addr), Toast.LENGTH_LONG).show();
         });
-        go_to_ionchain_explore.setOnClickListener(new View.OnClickListener() {
+        mGoToIonchainExplore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String hash = mTxRecordBean.getHash();

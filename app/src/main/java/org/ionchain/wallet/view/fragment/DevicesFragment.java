@@ -122,7 +122,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         super.onHiddenChanged(hidden);
         if (!hidden) {
             mImmersionBar
-                    .statusBarColor(R.color.blue_top)
+                    .statusBarColor(R.color.main_color)
                     .execute();
         }
     }

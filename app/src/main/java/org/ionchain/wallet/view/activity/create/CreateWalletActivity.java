@@ -114,7 +114,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
 
                     if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(pass2) && checkbox.isChecked()) {
                         createBtn.setEnabled(true);
-                        createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                        createBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
                     } else {
                         createBtn.setEnabled(false);
                         createBtn.setBackgroundColor(getResources().getColor(R.color.grey));
@@ -217,7 +217,7 @@ public class CreateWalletActivity extends AbsBaseActivity implements
 
         if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(resetpass) && checkbox.isChecked()) {
             createBtn.setEnabled(true);
-            createBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+            createBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
         } else {
             createBtn.setEnabled(false);
             createBtn.setBackgroundColor(getResources().getColor(R.color.grey));

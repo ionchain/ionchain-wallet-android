@@ -52,7 +52,7 @@
 
         <Button
             android:textColor="@color/white"
-            android:background="@color/blue_top"
+            android:background="@color/main_color"
             android:id="@+id/copyBtn"
             android:layout_width="match_parent"
             android:layout_height="40dp"

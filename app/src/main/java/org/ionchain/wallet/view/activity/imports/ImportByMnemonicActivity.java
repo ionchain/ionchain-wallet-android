@@ -83,7 +83,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
                     if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(namestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                         importBtn.setEnabled(true);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                        importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
                     } else {
                         importBtn.setEnabled(false);
                         importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
@@ -189,7 +189,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
             namestr = nameEt.getText().toString().trim();
             if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(namestr)&& !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
             } else {
                 importBtn.setEnabled(false);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.grey));

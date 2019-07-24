@@ -221,13 +221,13 @@
     <string name="tx_success">Successfully transferred</string>
     <string name="tx_failure">Fail to transfer</string>
     <string name="tx_in_addrss_title">Payee\'s address</string>
-    <string name="save_qrcode">Long press can save to local</string>
+    <string name="save_qrcode">Save to local</string>
     <string name="has_been_done">Completed</string>
     <string name="coin_type_us">USD</string>
     <string name="coin_type_rmb">CNY</string>
     <string name="coin_type_han_yuan">KRW</string>
     <string name="coin_type_yin_ni_dun">IDR</string>
-    <string name="tx_block_suspended">Suspended</string>
+    <string name="tx_block_suspended">ongoing</string>
     <string name="error_tx_recorder">Transaction failed</string>
     <string name="setting_select_coin_type">Current currency type</string>
     <string name="no_record">No more transaction record</string>
@@ -238,4 +238,7 @@
     <string name="new_tx_record">New record</string>
     <string name="no_more_rexord">Haven\'t obtain new transaction record</string>
     <string name="using_help">Instruction Manual</string>
+    <string name="tx_done">Done</string>
+    <string name="copy_address">复制地址</string>
+    <string name="scan_to_pay">Scan, payment</string>
 </resources>

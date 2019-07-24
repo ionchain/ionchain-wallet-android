@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,42 +7,13 @@
     android:orientation="vertical"
     tools:context=".view.activity.transaction.TxRecordDetailActivity">
 
-    <View
-        android:id="@+id/title_header"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#00BFFF" />
+    <include layout="@layout/activity_common_title_two" />
 
     <LinearLayout
-        android:layout_below="@id/title_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/tx_record_detail_bg"
         android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/common_title_rl"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/transparent">
-
-            <ImageView
-                android:id="@+id/common_image_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/padding_size_16dp"
-                android:src="@mipmap/arrow_back_blue" />
-
-            <TextView
-                android:id="@+id/common_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="自定义标题"
-                android:textColor="@color/blue_top"
-                android:textSize="@dimen/title_size" />
-        </RelativeLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -199,8 +170,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/copy"
-                        android:gravity="center|left"
-                        android:maxLines="2"
+                        android:ellipsize="middle"
+                        android:gravity="center"
+                        android:singleLine="true"
                         android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textSize_14" />
@@ -257,8 +229,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/copy"
-                        android:gravity="center_vertical|left"
-                        android:maxLines="2"
+                        android:ellipsize="middle"
+                        android:gravity="center"
+                        android:singleLine="true"
                         android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textSize_14" />
@@ -275,7 +248,7 @@
                     android:layerType="software" />
 
                 <TextView
-                    android:id="@+id/tx_hash"
+                    android:id="@+id/tx_state_tv"
                     android:layout_width="@dimen/tx_detail_left_tag"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/line2"
@@ -286,22 +259,22 @@
 
                 <TextView
                     android:id="@+id/tx_detail_hash"
-                    android:layout_width="160dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/tx_hash"
-                    android:layout_toEndOf="@id/tx_hash"
+                    android:layout_alignBaseline="@id/tx_state_tv"
+                    android:layout_marginEnd="@dimen/h25"
+                    android:layout_toEndOf="@id/tx_state_tv"
                     android:drawableEnd="@drawable/copy"
                     android:ellipsize="middle"
-                    android:maxLength="20"
                     android:singleLine="true"
                     android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
                     android:textColor="@color/black" />
 
                 <TextView
-                    android:id="@+id/tx_block"
+                    android:id="@+id/tx_datetime_tv"
                     android:layout_width="@dimen/tx_detail_left_tag"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tx_hash"
+                    android:layout_below="@id/tx_state_tv"
                     android:layout_marginStart="@dimen/tx_marginStar"
                     android:layout_marginTop="@dimen/h20"
                     android:text="@string/tx_block"
@@ -311,8 +284,8 @@
                     android:id="@+id/tx_detail_block"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/tx_block"
-                    android:layout_toEndOf="@id/tx_block"
+                    android:layout_alignBaseline="@id/tx_datetime_tv"
+                    android:layout_toEndOf="@id/tx_datetime_tv"
                     android:ellipsize="middle"
                     android:singleLine="true"
                     android:text="174834"
@@ -322,35 +295,24 @@
                     android:id="@+id/tx_detail_qrcode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/line2"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/h10"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/h10"
                     android:layout_marginEnd="@dimen/h25"
                     android:src="@mipmap/scan" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-        <LinearLayout
-            android:id="@+id/go_to_ionchain_explore"
-            android:layout_marginBottom="@dimen/h30"
-            android:layout_width="match_parent"
-            android:paddingStart="@dimen/h30"
-            android:gravity="center"
-            android:layout_height="40dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/wallet_logo" />
-            <TextView
-                android:layout_marginLeft="@dimen/h5"
-                android:text="@string/go_to_ionchain_explore"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/blue_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/go_to_ionchain_explore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:text="@string/go_to_ionchain_explore"
+            android:textColor="@color/main_color" />
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

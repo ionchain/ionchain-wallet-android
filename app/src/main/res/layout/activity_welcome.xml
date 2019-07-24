@@ -7,12 +7,14 @@
     android:id="@+id/welcome_layout">
     <ImageView
         android:id="@+id/logoIv"
+        android:layout_marginTop="190dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo"
+        android:src="@mipmap/welcome_logo"
         android:layout_centerInParent="true"
         />
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_below="@id/logoIv"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"

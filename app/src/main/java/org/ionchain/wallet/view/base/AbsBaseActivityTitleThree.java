@@ -27,7 +27,7 @@ public abstract class AbsBaseActivityTitleThree extends AbsBaseActivity {
     protected abstract String getTitleName();
 
     private int getCommonTitleBackgroundColor() {
-        return getResources().getColor(R.color.blue_top);
+        return getResources().getColor(R.color.main_color);
     }
     @Override
     protected void setImmersionBar() {

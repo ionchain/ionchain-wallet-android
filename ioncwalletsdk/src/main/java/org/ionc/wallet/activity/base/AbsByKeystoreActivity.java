@@ -88,7 +88,7 @@ public abstract class AbsByKeystoreActivity extends BaseActivity implements OnCr
 
             if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr)) {
                 importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
             } else {
                 importBtn.setEnabled(false);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.grey));

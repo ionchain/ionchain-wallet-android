@@ -184,4 +184,5 @@
     <dimen name="tx_marginStar">20dp</dimen>
     <dimen name="tx_detail_left_tag">60dp</dimen>
     <dimen name="tx_left_tag">12sp</dimen>
+    <dimen name="home_margin_horizon">16dp</dimen>
 </resources>

@@ -12,7 +12,7 @@
     <item android:state_pressed="false" android:state_enabled="false">
         <shape >
             <!-- 背景色 -->
-            <solid android:color="@color/blue_top"/>
+            <solid android:color="@color/main_color"/>
         </shape>
     </item>
 

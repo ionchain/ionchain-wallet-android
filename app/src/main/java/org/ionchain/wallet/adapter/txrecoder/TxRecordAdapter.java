@@ -9,56 +9,94 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import org.ionc.wallet.bean.TxRecordBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.DateUtils;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.utils.ColorUtils;
 
 import java.util.List;
 
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
-import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
+import static org.ionc.wallet.utils.DateUtils.YYYY_MM_DD_HH_MM_SS;
+import static org.ionchain.wallet.view.base.AbsBaseViewPagerFragment.TYPE_ALL;
+import static org.ionchain.wallet.view.base.AbsBaseViewPagerFragment.TYPE_IN;
+import static org.ionchain.wallet.view.base.AbsBaseViewPagerFragment.TYPE_OUT;
 
 public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHolder> {
     private Context context;
-    private String split = " ： ";
+    private WalletBeanNew mWalletBeanNew;
+    private char mType;
 
-    public TxRecordAdapter(Context context, int layoutResId, @Nullable List<TxRecordBean> data) {
+    public TxRecordAdapter(char type, WalletBeanNew walletBeanNew, Context context, int layoutResId, @Nullable List<TxRecordBean> data) {
         super(layoutResId, data);
         this.context = context;
+        mWalletBeanNew = walletBeanNew;
+        mType = type;
     }
 
     @Override
     protected void convert(BaseViewHolder viewHolder, TxRecordBean item) {
 
-        viewHolder.setText(R.id.tx_hash, context.getResources().getString(R.string.tx_hash) + split + item.getHash());
         try {
             if (!TextUtils.isEmpty(item.getTc_in_out())) {
-                String time = DateUtils.getDateToString(Long.parseLong(item.getTc_in_out()), Y4M2D2H2M2S2);
+                String time = DateUtils.getDateToString(Long.parseLong(item.getTc_in_out()), YYYY_MM_DD_HH_MM_SS);
                 LoggerUtils.i("time = " + time);
-                viewHolder.setText(R.id.tx_time, context.getResources().getString(R.string.tx_time) + split + time);
+                viewHolder.setText(R.id.tx_item_datetime_tv, time);
             } else {
-                viewHolder.setText(R.id.tx_time, context.getResources().getString(R.string.tx_time) + split + "来自网络");
+                viewHolder.setText(R.id.tx_item_datetime_tv, "来自网络");
             }
         } catch (NumberFormatException r) {
-            viewHolder.setText(R.id.tx_time, context.getResources().getString(R.string.tx_time) + split + "来自网络");
+            viewHolder.setText(R.id.tx_item_datetime_tv, "来自网络");
         }
-
-
         if (TX_SUSPENDED.equals(item.getBlockNumber())) {
-            viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block) + split + context.getResources().getString(R.string.tx_block_suspended));
-            viewHolder.setVisible(R.id.sync_node,true);
+            viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_block_suspended));
+            if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
+                //转出 进行中
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+            } else {
+                //转入 进行中
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+            }
+
         } else if (context.getResources().getString(R.string.tx_failure).equals(item.getBlockNumber())) {
-            viewHolder.setVisible(R.id.sync_node,true);
-            viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block) + split + context.getResources().getString(R.string.tx_block_failure));
+            //交易失败
+            viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_block_failure));
+            viewHolder.setTextColor(R.id.tx_item_state_tv, ColorUtils.getTxColorFailure());
+            if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
+                //转出  交易失败
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+            } else {
+                //转入 交易失败
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+            }
         } else {
-            viewHolder.setVisible(R.id.sync_node,false);
-            viewHolder.setText(R.id.tx_block, context.getResources().getString(R.string.tx_block) + split + item.getBlockNumber());
+            //已完成
+            viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_done));
+            if (item.getFrom().equals(item.getTo())) {
+                switch (mType) {
+                    case TYPE_ALL:
+                        viewHolder.setText(R.id.tx_item_value, item.getValue() + " IONC");
+                        break;
+                    case TYPE_OUT:
+                        viewHolder.setText(R.id.tx_item_value, "- " + item.getValue() + " IONC");
+                        break;
+                    case TYPE_IN:
+                        viewHolder.setText(R.id.tx_item_value, "+ " + item.getValue() + " IONC");
+                        break;
+                }
+            } else if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
+                //转出已完成
+                viewHolder.setText(R.id.tx_item_value, "- " + item.getValue() + " IONC");
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+            } else {
+                //转入已完成
+                viewHolder.setText(R.id.tx_item_value, "+ " + item.getValue() + " IONC");
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+            }
         }
-        viewHolder.setText(R.id.tx_from, context.getResources().getString(R.string.tx_out_addr) + split + item.getFrom());
-        viewHolder.setText(R.id.tx_to, context.getResources().getString(R.string.tx_in_addr) + split + item.getTo());
-        LoggerUtils.i("valueeee",item.getValue());
-        viewHolder.setText(R.id.tx_value, context.getResources().getString(R.string.tx_amount) + split + item.getValue() + " IONC");
-        viewHolder.setText(R.id.tx_fee, context.getResources().getString(R.string.tx_fee) + split + item.getGas() + " IONC");
-        viewHolder.addOnClickListener(R.id.sync_node);
+
+
+//        viewHolder.addOnClickListener(R.id.tx_state_img);
     }
 }

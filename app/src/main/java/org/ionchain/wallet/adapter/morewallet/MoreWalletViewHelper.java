@@ -23,12 +23,14 @@ public class MoreWalletViewHelper implements IViewHolderHelper<MoreWalletViewHol
         viewHolder = new MoreWalletViewHolder();
         viewHolder.mWalletName = convertView.findViewById(R.id.more_wallet_text);
         viewHolder.mWalletImg = convertView.findViewById(R.id.more_wallet_img);
+        viewHolder.mWalletBalance = convertView.findViewById(R.id.more_wallet_balance);
         return viewHolder;
     }
 
     @Override
     public void bindListDataToView(Context context, List<WalletBeanNew> iBaseBeanList, MoreWalletViewHolder viewHolder, int pos) {
         viewHolder.mWalletName.setText(iBaseBeanList.get(pos).getName());
+        viewHolder.mWalletBalance.setText(iBaseBeanList.get(pos).getBalance() + " IONC");
         viewHolder.mWalletImg.setImageResource(App.sRandomHeaderMore[iBaseBeanList.get(pos).getMIconIndex()]);
     }
 }

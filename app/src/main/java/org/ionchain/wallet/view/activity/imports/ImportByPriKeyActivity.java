@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -138,7 +139,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
 
                     if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(namestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                         importBtn.setEnabled(true);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                        importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
                     } else {
                         importBtn.setEnabled(false);
                         importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
@@ -244,7 +245,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
 
             if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(namestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
             } else {
                 importBtn.setEnabled(false);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
@@ -314,4 +315,13 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
         LoggerUtils.e("导入失败 " + error);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
 }

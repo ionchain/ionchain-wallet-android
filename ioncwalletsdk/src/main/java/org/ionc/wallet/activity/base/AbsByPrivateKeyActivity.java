@@ -147,7 +147,7 @@ public abstract class AbsByPrivateKeyActivity extends BaseActivity implements Te
 
             if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)) {
                 importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
             } else {
                 importBtn.setEnabled(false);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.grey));

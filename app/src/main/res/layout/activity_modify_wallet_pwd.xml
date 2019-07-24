@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/blue_top"
+            android:textColor="@color/main_color"
             android:textSize="@dimen/title_size"
             android:text="修改密码"/>
         <TextView
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/blue_top"
+            android:textColor="@color/main_color"
             android:textSize="@dimen/title_right_size"
             android:text="完成" />
     </RelativeLayout>

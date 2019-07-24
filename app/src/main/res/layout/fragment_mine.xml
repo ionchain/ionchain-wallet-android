@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_gravity="center"
-        android:background="@color/blue_top"
+        android:background="@color/main_color"
         android:gravity="center"
         android:text="@string/nav_mine"
         android:textColor="@color/white"

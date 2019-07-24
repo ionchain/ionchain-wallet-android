@@ -22,7 +22,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="导入私钥"
-            android:textColor="@color/blue_top"
+            android:textColor="@color/main_color"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
 

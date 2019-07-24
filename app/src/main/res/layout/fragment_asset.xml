@@ -22,9 +22,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_btn_height_40dp"
             app:tabGravity="fill"
-            app:tabIndicatorFullWidth="true"
-            app:tabIndicatorColor="#333333"
-            app:tabSelectedTextColor="#333333" />
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorColor="@color/main_color"
+            app:tabSelectedTextColor="@color/main_color" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/tx_record_content"

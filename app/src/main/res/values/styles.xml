@@ -21,8 +21,8 @@
     </style>
 
     <style name="MyEditText" parent="Base.Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/blue_top</item>
-        <item name="colorControlActivated">@color/blue_top</item>
+        <item name="colorControlNormal">@color/main_color</item>
+        <item name="colorControlActivated">@color/main_color</item>
     </style>
 
     <style name="MyEditTextNUll" parent="Base.Theme.AppCompat.Light">
@@ -36,7 +36,7 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginLeft">@dimen/padding_size_16dp</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/blue_top</item>
+        <item name="android:textColor">@color/main_color</item>
     </style>
 
     <style name="DialogAnimation" parent="@android:style/Animation">
@@ -125,7 +125,7 @@
     </style>
 
     <style name="TxRecorder">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_below">@id/h1</item>
         <item name="android:focusable">true</item>

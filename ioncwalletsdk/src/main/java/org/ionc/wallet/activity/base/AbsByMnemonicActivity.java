@@ -146,7 +146,7 @@ public abstract class AbsByMnemonicActivity extends BaseActivity implements Text
 
             if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr)) {
                 importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
             } else {
                 importBtn.setEnabled(false);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.grey));

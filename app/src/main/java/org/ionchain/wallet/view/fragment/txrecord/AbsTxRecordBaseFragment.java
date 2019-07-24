@@ -84,7 +84,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         mListView.setLayoutManager(new GridLayoutManager(mActivity, 1));
         switch (getType()) {
             case TYPE_ALL:
-                mTxRecordAdapter = new TxRecordAdapter(mActivity, R.layout.item_txrecord, mListAllData);
+                mTxRecordAdapter = new TxRecordAdapter(TYPE_ALL, mWalletBeanNew,mActivity, R.layout.item_txrecord, mListAllData);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view12, position) -> {
                     skipToDetail(mListAllData.get(position));
                 });
@@ -93,7 +93,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 });
                 break;
             case TYPE_OUT:
-                mTxRecordAdapter = new TxRecordAdapter(mActivity, R.layout.item_txrecord, mListOut);
+                mTxRecordAdapter = new TxRecordAdapter(TYPE_OUT,mWalletBeanNew, mActivity, R.layout.item_txrecord, mListOut);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view13, position) -> {
                     skipToDetail(mListOut.get(position));
 
@@ -103,7 +103,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 });
                 break;
             case TYPE_IN:
-                mTxRecordAdapter = new TxRecordAdapter(mActivity, R.layout.item_txrecord, mListIn);
+                mTxRecordAdapter = new TxRecordAdapter(TYPE_IN, mWalletBeanNew, mActivity, R.layout.item_txrecord, mListIn);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view14, position) -> {
                     skipToDetail(mListIn.get(position));
                 });
@@ -600,7 +600,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             objectAnimator.end();//动画结束
         }
         mSyncImageView.setClickable(true);
-        TextView v = (TextView) mTxRecordAdapter.getViewByPosition(mItemClickedPos, R.id.tx_block);
+        TextView v = (TextView) mTxRecordAdapter.getViewByPosition(mItemClickedPos, R.id.tx_datetime_tv);
         LoggerUtils.i("ethTransaction", "OnTxRecordNodeSuccess" + "   " + txRecordBean.toString());
         if (TX_SUSPENDED.equals(txRecordBean.getBlockNumber())) {
             ToastUtil.showToastLonger(getAppString(R.string.tx_block_suspended));

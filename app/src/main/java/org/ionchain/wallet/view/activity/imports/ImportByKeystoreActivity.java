@@ -90,7 +90,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
         checkbox.setOnClickListener(v -> {
             if (mKeystore.getText() != null && pwdEt.getText() != null && nameEt.getText() != null && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
             } else {
                 importBtn.setEnabled(false);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
@@ -143,7 +143,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
 
             if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(namestr) && checkbox.isChecked()) {
                 importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.blue_top));
+                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
             } else {
                 importBtn.setEnabled(false);
                 importBtn.setBackgroundColor(getResources().getColor(R.color.grey));

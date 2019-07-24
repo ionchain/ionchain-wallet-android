@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent"
+    android:background="@color/main_color"
     android:orientation="vertical">
 
     <View
         android:id="@+id/title_header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/blue_top" />
+        android:background="@color/main_color" />
 
     <RelativeLayout
         android:id="@+id/common_title_rl"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="自定义标题"
-            android:textColor="@color/blue_top"
+            android:textColor="@color/main_color"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>
 </LinearLayout>

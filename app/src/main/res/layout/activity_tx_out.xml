@@ -3,98 +3,170 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f9f9f9"
     android:orientation="vertical"
     tools:context=".view.activity.transaction.TxOutActivity">
-    <include layout="@layout/activity_common_title_three"/>
+
+    <include layout="@layout/activity_common_title_three" />
+
+
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/balance_tv"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/h60"
-            android:gravity="center"
-            android:text="@string/balance_"
-            android:textColor="#666666"
-            android:textSize="@dimen/textSize_14" />
-
-        <EditText
-            android:id="@+id/tx_to_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_h20"
-            android:layout_marginTop="@dimen/h15"
-            android:layout_marginRight="@dimen/margin_h20"
-            android:hint="@string/payee_address"
-            android:text=""
-            android:textColor="#666666"
-            android:theme="@style/MyEditText" />
-
-        <EditText
-            android:id="@+id/tx_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_h20"
-            android:layout_marginTop="@dimen/h15"
-            android:layout_marginRight="@dimen/margin_h20"
-            android:hint="@string/tx_amount_in_tx"
-            android:inputType="numberDecimal"
-            android:text=""
-            android:textColor="#666666"
-            android:theme="@style/MyEditText" />
-
-        <TextView
-            android:id="@+id/tx_cost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_h20"
-            android:layout_marginTop="@dimen/h15"
-            android:layout_marginRight="@dimen/margin_h20"
-            android:clickable="false"
-            android:text="@string/tx_fee"
-            android:textColor="#666666"
-            android:textSize="15sp"
-            android:theme="@style/MyEditTextNUll" />
-
-        <SeekBar
-            android:id="@+id/tx_seek_bar_index"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_h20"
-            android:layout_marginRight="@dimen/margin_h20"
-            android:thumb="@mipmap/progress_index" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_h20"
-            android:layout_marginRight="@dimen/margin_h20"
-            android:orientation="horizontal">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="@string/slow"
-                android:textSize="10sp" />
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="地址"
+                android:textColor="#333333"
+                android:textSize="15sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="@string/fast"
-                android:textSize="10sp" />
+            <EditText
+                android:id="@+id/tx_to_address"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="@dimen/margin_h20"
+                android:layout_toEndOf="@id/address"
+                android:background="@null"
+                android:gravity="center|start"
+                android:hint="@string/payee_address"
+                android:text=""
+                android:textColor="#666666"
+                android:textSize="13sp" />
+            <View
+                android:layout_below="@id/address"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/split_line_color" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/tx_next"
-            android:layout_width="324dp"
+        <RelativeLayout
+            android:id="@+id/account_rl"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
-            android:background="@color/blue_top"
-            android:text="@string/next_step"
-            android:textColor="@color/white" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/account"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="金额"
+                android:textColor="#333333"
+                android:textSize="15sp" />
+
+
+            <EditText
+                android:id="@+id/tx_value"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="@dimen/margin_h20"
+                android:layout_toEndOf="@id/account"
+                android:background="@null"
+                android:gravity="center|start"
+                android:hint="@string/tx_amount"
+                android:text=""
+                android:textColor="#666666"
+                android:textSize="13sp" />
+            <View
+                android:layout_below="@id/account"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/split_line_color" />
+        </RelativeLayout>
+
+        <TextView
+
+            android:id="@+id/balance_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:text="@string/balance_"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tx_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_h20"
+                android:layout_marginTop="@dimen/h15"
+                android:layout_marginRight="@dimen/margin_h20"
+                android:clickable="false"
+                android:text="@string/tx_fee"
+                android:textColor="#666666"
+                android:textSize="15sp"
+                android:theme="@style/MyEditTextNUll" />
+
+            <SeekBar
+                android:id="@+id/tx_seek_bar_index"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_h20"
+                android:layout_marginRight="@dimen/margin_h20"
+                android:thumb="@mipmap/progress_index" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_h20"
+                android:layout_marginRight="@dimen/margin_h20"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/slow"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/fast"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/tx_next"
+        android:layout_width="324dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/tx_btn_background"
+        android:text="@string/next_step"
+        android:textColor="@color/white" />
+
 </LinearLayout>
