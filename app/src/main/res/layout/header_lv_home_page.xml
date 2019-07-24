@@ -71,10 +71,10 @@
 
          <TextView
              android:layout_marginTop="60dp"
-             android:layout_marginLeft="10dp"
+             android:layout_marginStart="10dp"
              android:layout_width="40dp"
              android:layout_height="15sp"
-             android:text="总资产"
+             android:text="@string/total_assets"
              android:textColor="#FF333333"
              android:textSize="13sp"
              />
@@ -139,7 +139,7 @@
              <LinearLayout
                  android:id="@+id/tx_out_ll"
                  android:layout_width="0dp"
-                 android:background="@drawable/tx_btn_background"
+                 android:background="@drawable/common_btn_background"
                  android:layout_height="match_parent"
                  android:layout_weight="1"
                  android:gravity="center_horizontal"
@@ -177,7 +177,7 @@
                  android:layout_height="match_parent"
                  android:layout_weight="1"
                  android:gravity="center"
-                 android:background="@drawable/tx_btn_background"
+                 android:background="@drawable/common_btn_background"
                  tools:ignore="UseCompoundDrawables">
 
                  <ImageView

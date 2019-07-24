@@ -45,6 +45,7 @@ import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_M
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
+import static org.ionchain.wallet.utils.SoftKeyboardFixerForFullscreen.assistActivity;
 import static org.ionchain.wallet.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 
 public abstract class AbsBaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
@@ -67,20 +68,14 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getLayoutId());
-
-
+        assistActivity(this);
         ActivityHelper.getHelper().addActivity(this);
-
         Intent intent = getIntent();
-
-
         if (intent != null) {
             handleIntent(intent);
         }
-
-        initView();
-
         initCommonTitle();
+        initView();
         setImmersionBar();
         initData();
         setListener();

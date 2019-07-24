@@ -15,105 +15,179 @@
         android:textColor="@color/white"
         android:textSize="@dimen/txt_22sp" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/header"
-        android:orientation="vertical">
+        android:layout_below="@id/header">
 
-        <RelativeLayout
-            android:id="@+id/walletManageRLayout"
-            style="@style/A_Style_tab_mine_item_container">
 
-            <TextView
-                style="@style/A_Style_tab_mine"
-                android:text="@string/wallet_management" />
-
-            <ImageView
-                style="@style/A_Style_tab_mine_item_image"
-                android:src="@mipmap/ic_keyboard_arrow_right" />
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <View
-
-                style="@style/A_Style_tab_mine_split_line" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/language_setting"
-            style="@style/A_Style_tab_mine_item_container">
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#FFF8F8F8"
+                />
+            <ImageView
+                android:layout_marginTop="50dp"
+                android:src="@mipmap/head_portrait"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
-                style="@style/A_Style_tab_mine"
-                android:text="@string/language_setting" />
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal"
+                android:text="我的名字"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#FFF8F8F8"
+                />
+            <RelativeLayout
+                android:id="@+id/walletManageRLayout"
+                style="@style/A_Style_tab_mine_item_container">
 
-            <ImageView
-                style="@style/A_Style_tab_mine_item_image"
-                android:src="@mipmap/ic_keyboard_arrow_right" />
+                <ImageView
+                    android:src="@mipmap/mine_manager_wallet"
+                    android:id="@+id/img1"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_toRightOf="@id/img1"
+                    style="@style/A_Style_tab_mine"
+                    android:text="@string/wallet_management" />
 
-            <View style="@style/A_Style_tab_mine_split_line" />
-        </RelativeLayout>
+                <ImageView
+                    style="@style/A_Style_tab_mine_item_image"
+                    android:src="@mipmap/ic_keyboard_arrow_right" />
 
-        <RelativeLayout
-            android:id="@+id/version_info"
-            style="@style/A_Style_tab_mine_item_container">
+                <View
 
-            <TextView
-                style="@style/A_Style_tab_mine"
-                android:text="@string/version_info_title" />
+                    style="@style/A_Style_tab_mine_split_line" />
 
-            <ImageView
-                style="@style/A_Style_tab_mine_item_image"
-                android:src="@mipmap/ic_keyboard_arrow_right" />
+            </RelativeLayout>
 
-            <View style="@style/A_Style_tab_mine_split_line" />
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/language_setting"
+                style="@style/A_Style_tab_mine_item_container">
 
-        <RelativeLayout
-            android:id="@+id/coin_type"
-            style="@style/A_Style_tab_mine_item_container">
+                <ImageView
+                    android:src="@mipmap/mine_language_setting"
+                    android:id="@+id/img2"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_toRightOf="@id/img2"
+                    style="@style/A_Style_tab_mine"
+                    android:text="@string/language_setting" />
 
-            <TextView
-                style="@style/A_Style_tab_mine"
-                android:text="@string/coin_type" />
+                <ImageView
+                    style="@style/A_Style_tab_mine_item_image"
+                    android:src="@mipmap/ic_keyboard_arrow_right" />
 
-            <ImageView
-                style="@style/A_Style_tab_mine_item_image"
-                android:src="@mipmap/ic_keyboard_arrow_right" />
+                <View style="@style/A_Style_tab_mine_split_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/coin_type"
+                style="@style/A_Style_tab_mine_item_container">
 
-            <View style="@style/A_Style_tab_mine_split_line" />
-        </RelativeLayout>
+                <ImageView
+                    android:src="@mipmap/mine_coin_type"
+                    android:id="@+id/img4"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_toRightOf="@id/img4"
+                    style="@style/A_Style_tab_mine"
+                    android:text="@string/coin_type" />
 
-        <RelativeLayout
-            android:id="@+id/about_us"
-            style="@style/A_Style_tab_mine_item_container">
+                <ImageView
+                    style="@style/A_Style_tab_mine_item_image"
+                    android:src="@mipmap/ic_keyboard_arrow_right" />
 
-            <TextView
-                style="@style/A_Style_tab_mine"
-                android:text="@string/about_us" />
+                <View style="@style/A_Style_tab_mine_split_line" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#FFF8F8F8"
+                />
+            <RelativeLayout
+                android:id="@+id/version_info"
+                style="@style/A_Style_tab_mine_item_container">
 
-            <ImageView
-                style="@style/A_Style_tab_mine_item_image"
-                android:src="@mipmap/ic_keyboard_arrow_right" />
+                <ImageView
+                    android:src="@mipmap/mine_version_info"
+                    android:id="@+id/img3"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_toRightOf="@id/img3"
+                    style="@style/A_Style_tab_mine"
+                    android:text="@string/version_info_title" />
 
-            <View style="@style/A_Style_tab_mine_split_line" />
-        </RelativeLayout>
+                <ImageView
+                    style="@style/A_Style_tab_mine_item_image"
+                    android:src="@mipmap/ic_keyboard_arrow_right" />
 
-        <RelativeLayout
-            android:id="@+id/using_help"
-            style="@style/A_Style_tab_mine_item_container">
+                <View style="@style/A_Style_tab_mine_split_line" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/about_us"
+                style="@style/A_Style_tab_mine_item_container">
 
-            <TextView
-                style="@style/A_Style_tab_mine"
-                android:text="@string/using_help" />
+                <ImageView
+                    android:src="@mipmap/mine_about_us"
+                    android:id="@+id/img5"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_toRightOf="@id/img5"
+                    style="@style/A_Style_tab_mine"
+                    android:text="@string/about_us" />
 
-            <ImageView
-                style="@style/A_Style_tab_mine_item_image"
-                android:src="@mipmap/ic_keyboard_arrow_right" />
+                <ImageView
+                    style="@style/A_Style_tab_mine_item_image"
+                    android:src="@mipmap/ic_keyboard_arrow_right" />
 
-            <View style="@style/A_Style_tab_mine_split_line" />
-        </RelativeLayout>
+                <View style="@style/A_Style_tab_mine_split_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/using_help"
+                style="@style/A_Style_tab_mine_item_container">
+                <ImageView
+                    android:src="@mipmap/mine_manager_wallet"
+                    android:id="@+id/img6"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_toRightOf="@id/img6"
+                    style="@style/A_Style_tab_mine"
+                    android:text="@string/using_help" />
+
+                <ImageView
+                    style="@style/A_Style_tab_mine_item_image"
+                    android:src="@mipmap/ic_keyboard_arrow_right" />
+
+                <View style="@style/A_Style_tab_mine_split_line" />
+            </RelativeLayout>
 
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

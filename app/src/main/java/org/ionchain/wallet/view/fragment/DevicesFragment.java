@@ -54,6 +54,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     private DevicePresenter mDevicePresenter;
     private ImageView   addDevice;
     private ImageView   wallet_img_device;
+    private ImageView   no_device_img;
     private TextView wallet_name_devices;
 
     private WalletBeanNew mCurrentWallet;
@@ -75,6 +76,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         mListView = view.findViewById(R.id.devices_lv);
         addDevice = view.findViewById(R.id.add_devices);
         wallet_img_device = view.findViewById(R.id.wallet_img_device);
+        no_device_img = view.findViewById(R.id.no_device_img);
         wallet_name_devices = view.findViewById(R.id.wallet_name_devices);
 
         mAdapter = new CommonAdapter(mActivity, mDataBeanList, R.layout.item_devices_layout, new DeviceViewHelper(this));

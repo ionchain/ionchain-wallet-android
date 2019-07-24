@@ -2,14 +2,9 @@ package org.ionchain.wallet.view.activity.imports;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,18 +18,16 @@ import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.activity.MainActivity;
-import org.ionchain.wallet.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.view.activity.MainActivity;
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 
 import java.util.Arrays;
 
 import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWatcher, OnImportMnemonicCallback, OnUpdateWalletCallback {
-    private RelativeLayout importHeader;
-    private ImageView back;
+public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements  OnImportMnemonicCallback, OnUpdateWalletCallback {
     private AppCompatEditText mnemonic;
     private AppCompatEditText pwdEt;
     private AppCompatEditText nameEt;
@@ -52,8 +45,6 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        importHeader = (RelativeLayout) findViewById(R.id.import_header);
-        back = (ImageView) findViewById(R.id.back);
         mnemonic = (AppCompatEditText) findViewById(R.id.mnemonic);
         pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
         nameEt = (AppCompatEditText) findViewById(R.id.nameEt);
@@ -66,84 +57,61 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     @Override
     protected void setListener() {
         super.setListener();
-        back.setOnClickListener(v -> finish());
-
-        mnemonic.addTextChangedListener(this);
-        pwdEt.addTextChangedListener(this);
-        nameEt.addTextChangedListener(this);
-        repwdEt.addTextChangedListener(this);
-        checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mnemonic.getText() != null && nameEt.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
-                    String content = mnemonic.getText().toString().trim();
-                    namestr = nameEt.getText().toString().trim();
-                    String pwdstr = pwdEt.getText().toString().trim();
-                    String resetpwdstr = repwdEt.getText().toString().trim();
-
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(namestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
-                        importBtn.setEnabled(true);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
-                    } else {
-                        importBtn.setEnabled(false);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-                    }
-                }
+        importBtn.setOnClickListener(v -> {
+            //检查私钥是否为空
+            String content = mnemonic.getText().toString();
+            if (TextUtils.isEmpty(content)) {
+                ToastUtil.showToastLonger(getAppString(R.string.error_mnemonics));
+                return;
             }
-        });
-        importBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setViewAlphaAnimation(importBtn);
-                if (mnemonic.getText() == null) {
-                    ToastUtil.showToastLonger(getAppString(R.string.error_mnemonics));
-                    return;
-                }
-
-                if (pwdEt.getText() == null) {
-                    ToastUtil.showToastLonger(getAppString(R.string.illegal_password_null));
-                    return;
-                }
-                if (repwdEt.getText() == null) {
-                    ToastUtil.showToastLonger(getAppString(R.string.illegal_re_password_null));
-                    return;
-                }if (nameEt.getText() == null) {
-                    ToastUtil.showToastLonger(getAppString(R.string.illegal_name));
-                    return;
-                }
-                String content = mnemonic.getText().toString();
-
-
-                String resetpass = pwdEt.getText().toString().trim();
-                String pass = repwdEt.getText().toString().trim();
-                if (StringUtils.isEmpty(content)) {
-                    ToastUtil.showToastLonger(getAppString(R.string.error_mnemonics));
-                    return;
-                }
-                String con_temp = content.replace(" ", "");
-                String[] array_str = content.split(" ");
-                if (!StringUtils.isEN(con_temp) || array_str.length < 12) {
-                    ToastUtil.showLong(getAppString(R.string.error_mnemonics));
-                    return;
-                }
-                if (!check(resetpass) || !check(pass)) {
-                    ToastUtil.showToastLonger(getAppString(R.string.illegal_password));
-                    return;
-                }
-                if (!resetpass.equals(pass)) {
-                    Toast.makeText(mActivity.getApplicationContext(), getAppString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                namestr = nameEt.getText().toString().trim();
-                if (IONCWalletSDK.getInstance().getWalletByName(namestr)!=null) {
-                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                newPassword = pass;
-                showProgress(getAppString(R.string.importing_wallet));
-                IONCWalletSDK.getInstance()
-                        .importWalletByMnemonicCode(namestr, Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);
+            //检查名字是否为空
+            namestr = nameEt.getText().toString().trim();
+            if (TextUtils.isEmpty(namestr)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
+                return;
             }
+            //检查密码是否为空
+            String pass = pwdEt.getText().toString();
+            String pass2 = repwdEt.getText().toString();
+
+            if (TextUtils.isEmpty(pass)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
+                return;
+            }
+            if (TextUtils.isEmpty(pass2)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_re_password_null));
+                return;
+            }
+
+            //检查是否选中协议
+            if (!checkbox.isChecked()) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.please_aggreement));
+                return;
+            }
+            setViewAlphaAnimation(importBtn);
+
+            String con_temp = content.replace(" ", "");
+            String[] array_str = content.split(" ");
+            if (!StringUtils.isEN(con_temp) || array_str.length < 12) {
+                ToastUtil.showLong(getAppString(R.string.error_mnemonics));
+                return;
+            }
+            if (!check(pass2) || !check(pass)) {
+                ToastUtil.showToastLonger(getAppString(R.string.illegal_password));
+                return;
+            }
+            if (!pass2.equals(pass)) {
+                Toast.makeText(mActivity.getApplicationContext(), getAppString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (IONCWalletSDK.getInstance().getWalletByName(namestr)!=null) {
+                Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            newPassword = pass;
+            showProgress(getAppString(R.string.importing_wallet));
+            IONCWalletSDK.getInstance()
+                    .importWalletByMnemonicCode(namestr, Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);
         });
         linkUrlTv.setOnClickListener(v -> skipWebProtocol());
     }
@@ -155,9 +123,12 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
 
     @Override
     protected void initData() {
-        mImmersionBar.titleView(R.id.import_header)
-                .statusBarDarkFont(true)
-                .execute();
+       
+    }
+
+    @Override
+    protected String getTitleName() {
+        return getAppString(R.string.import_by_mnemonics);
     }
 
     @Override
@@ -169,35 +140,6 @@ public class ImportByMnemonicActivity extends AbsBaseActivity implements TextWat
     protected int getLayoutId() {
         return R.layout.activity_import_by_mnemonic;
     }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (mnemonic.getText() != null && nameEt.getText() != null&& pwdEt.getText() != null && repwdEt.getText() != null) {
-            String content = mnemonic.getText().toString().trim();
-            String pwdstr = pwdEt.getText().toString().trim();
-            String resetpwdstr = repwdEt.getText().toString().trim();
-            namestr = nameEt.getText().toString().trim();
-            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(namestr)&& !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
-                importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
-            } else {
-                importBtn.setEnabled(false);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-            }
-        }
-
-    }
-
 
     @Override
     public void onImportMnemonicSuccess(WalletBeanNew walletBean) {

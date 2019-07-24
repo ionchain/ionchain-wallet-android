@@ -229,7 +229,9 @@
 
     <!--我的界面的-->
     <style name="A_Style_tab_mine">
+
         <item name="android:textColor">@color/library_33</item>
+        <item name="android:layout_marginStart">10dp</item>
         <item name="android:textSize">@dimen/txt_16sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

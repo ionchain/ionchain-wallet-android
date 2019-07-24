@@ -2,11 +2,8 @@ package org.ionchain.wallet.view.activity.imports;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -23,11 +20,11 @@ import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.activity.MainActivity;
-import org.ionchain.wallet.view.base.AbsBaseActivityTitleThree;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.view.activity.MainActivity;
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleThree;
 import org.web3j.crypto.WalletUtils;
 
 import java.util.List;
@@ -37,7 +34,7 @@ import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements TextWatcher, OnCreateWalletCallback, OnUpdateWalletCallback {
+public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements  OnCreateWalletCallback, OnUpdateWalletCallback {
 
     private AppCompatEditText mPrivateKey;
     private AppCompatEditText pwdEt;
@@ -46,7 +43,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
     private Button importBtn;
     private CheckBox checkbox;
     private String private_key;
-    private String newPassword;
+    private String newPasswordTemp;
     private String namestr;
     private ImageView back;
     private TextView linkUrlTv;
@@ -115,9 +112,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
     @Override
     protected void initView() {
         findViews();
-        mPrivateKey.addTextChangedListener(this);
-        pwdEt.addTextChangedListener(this);
-        repwdEt.addTextChangedListener(this);
     }
 
     @Override
@@ -128,76 +122,63 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
     @Override
     protected void setListener() {
         super.setListener();
-        checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mPrivateKey.getText() != null && nameEt.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
-                    String content = mPrivateKey.getText().toString().trim();
-                    String pwdstr = pwdEt.getText().toString().trim();
-                    namestr = nameEt.getText().toString().trim();
-                    String resetpwdstr = repwdEt.getText().toString().trim();
 
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(namestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
-                        importBtn.setEnabled(true);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
-                    } else {
-                        importBtn.setEnabled(false);
-                        importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-                    }
-                }
-            }
-        });
-        linkUrlTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skipWebProtocol();
-            }
-        });
-        mTitleRightImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (requestCameraPermissions()) {
-                    skip(CaptureActivity.class, FROM_SCAN);
-                }
+        linkUrlTv.setOnClickListener(v -> skipWebProtocol());
+        mTitleRightImage.setOnClickListener(v -> {
+            if (requestCameraPermissions()) {
+                skip(CaptureActivity.class, FROM_SCAN);
             }
         });
         importBtn.setOnClickListener(v -> {
+            //检查私钥是否为空
+            String private_key = mPrivateKey.getText().toString().trim();
+            if (TextUtils.isEmpty(private_key)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
+                return;
+            }
+            //检查名字是否为空
             namestr = nameEt.getText().toString().trim();
+            if (TextUtils.isEmpty(namestr)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
+                return;
+            }
+            //检查密码是否为空
+            String pass = pwdEt.getText().toString();
+            String pass2 = repwdEt.getText().toString();
+
+            if (TextUtils.isEmpty(pass)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
+                return;
+            }
+            if (TextUtils.isEmpty(pass2)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_re_password_null));
+                return;
+            }
+
+            //检查是否选中协议
+            if (!checkbox.isChecked()) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.please_aggreement));
+                return;
+            }
+
             if (IONCWalletSDK.getInstance().getWalletByName(namestr) != null) {
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
-            String pass;//获取密码
-            String pass2;
+
             setViewAlphaAnimation(importBtn);
-            if (mPrivateKey.getText() == null) {
-                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key_null));
-                return;
-            }
+
             if (!WalletUtils.isValidPrivateKey(mPrivateKey.getText().toString())) {
                 ToastUtil.showToastLonger(getResources().getString(com.ionc.wallet.sdk.R.string.error_private_key));
                 return;
             }
-            if (nameEt.getText() == null) {
-                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
-                return;
-            }
-            if (pwdEt.getText() == null) {
-                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
-                return;
-            }
-            if (repwdEt.getText() == null) {
-                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_re_password_null));
-                return;
-            }
-            private_key = mPrivateKey.getText().toString().trim();
+
             pass2 = repwdEt.getText().toString().trim();
             pass = pwdEt.getText().toString().trim();
             if (!check(pass2) || !check(pass)) {
                 ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
                 return;
             }
-
             if (private_key.startsWith("0x")) {
                 private_key = private_key.substring(2);
             }
@@ -210,8 +191,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            newPassword = pass;
+            newPasswordTemp = pass;
             showProgress(getString(R.string.importing_wallet));
             IONCWalletSDK.getInstance()
                     .importPrivateKey(namestr, private_key, pass, ImportByPriKeyActivity.this);
@@ -225,34 +205,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
     }
 
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (mPrivateKey.getText() != null && nameEt.getText() != null && pwdEt.getText() != null && repwdEt.getText() != null) {
-            String contentstr = mPrivateKey.getText().toString().trim();
-            String pwdstr = pwdEt.getText().toString().trim();
-            namestr = nameEt.getText().toString().trim();
-            String resetpwdstr = repwdEt.getText().toString().trim();
-
-            if (!TextUtils.isEmpty(contentstr) && !TextUtils.isEmpty(namestr) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(resetpwdstr) && checkbox.isChecked()) {
-                importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
-            } else {
-                importBtn.setEnabled(false);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-            }
-        }
-
-    }
 
     /**
      * @param walletBean 钱包
@@ -273,7 +225,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
                     .setPositiveButton(R.string.continues, (dialog, which) -> {
                         dialog.dismiss();
                         LoggerUtils.i("钱包已存在,执行更新");
-                        IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByPriKeyActivity.this);
+                        IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPasswordTemp, ImportByPriKeyActivity.this);
                     })
                     .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
                         LoggerUtils.i("钱包已存在,取消更新");

@@ -241,4 +241,10 @@
     <string name="tx_done">Done</string>
     <string name="copy_address">复制地址</string>
     <string name="scan_to_pay">Scan, payment</string>
+    <string name="wallet_password_set">设置密码</string>
+    <string name="please_aggreement">请先同意协议及服务</string>
+    <string name="import_by_mnemonics">Import Mnemonic</string>
+    <string name="wallet_password_input">输入密码</string>
+    <string name="wallet_password_input_hint">请输入keystore密码</string>
+    <string name="total_assets">总资产</string>
 </resources>

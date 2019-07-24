@@ -2,10 +2,7 @@ package org.ionchain.wallet.view.activity.imports;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -20,10 +17,10 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.activity.MainActivity;
-import org.ionchain.wallet.view.base.AbsBaseActivityTitleThree;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
+import org.ionchain.wallet.view.activity.MainActivity;
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleThree;
 
 import java.util.List;
 
@@ -31,14 +28,14 @@ import static org.ionc.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
-public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implements OnCreateWalletCallback, TextWatcher {
+public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implements OnCreateWalletCallback {
     private AppCompatEditText mKeystore;
     private AppCompatEditText pwdEt;
     private AppCompatEditText nameEt;
     private Button importBtn;
     private CheckBox checkbox;
     private TextView linkUrlTv;
-    private String keystoreStr;
+    private String mKeystoreStr;
     private String namestr;
 
     @Override
@@ -50,52 +47,49 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
     protected void setListener() {
         super.setListener();
         importBtn.setOnClickListener(v -> {
-            setViewAlphaAnimation(importBtn);
-            if (nameEt.getText() == null) {
-                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_name));
-                return;
-            }
-            if (pwdEt.getText() == null) {
-                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.illegal_password_null));
-                return;
-            }
-            if (mKeystore.getText() == null) {
+            //检查私钥是否为空
+            mKeystoreStr = mKeystore.getText().toString();
+            if (TextUtils.isEmpty(mKeystoreStr)) {
                 org.ionchain.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
                 return;
             }
+            //检查名字是否为空
             namestr = nameEt.getText().toString().trim();
+            if (TextUtils.isEmpty(namestr)) {
+                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
+                return;
+            }
+            //检查密码是否为空
+            String pass = pwdEt.getText().toString();
+
+            if (TextUtils.isEmpty(pass)) {
+                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
+                return;
+            }
+            //检查是否选中协议
+            if (!checkbox.isChecked()) {
+                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.please_aggreement));
+                return;
+            }
+            setViewAlphaAnimation(importBtn);
+
             if (IONCWalletSDK.getInstance().getWalletByName(namestr)!=null) {
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
-            keystoreStr = mKeystore.getText().toString();
-            //读取keystore密码
-            String pass = pwdEt.getText().toString();
+
             //生成keystory文件
             showProgress(getString(R.string.importing_wallet));
             LoggerUtils.i("正在导入KS......");
-            IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, keystoreStr, ImportByKeystoreActivity.this);
+            IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, mKeystoreStr, ImportByKeystoreActivity.this);
         });
-        linkUrlTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                skipWebProtocol();
-            }
-        });
+        linkUrlTv.setOnClickListener(v -> skipWebProtocol());
         mTitleRightImage.setOnClickListener(v -> {
             if (requestCameraPermissions()) {
                 skip(CaptureActivity.class, FROM_SCAN);
             }
         });
-        checkbox.setOnClickListener(v -> {
-            if (mKeystore.getText() != null && pwdEt.getText() != null && nameEt.getText() != null && checkbox.isChecked()) {
-                importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
-            } else {
-                importBtn.setEnabled(false);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-            }
-        });
+
     }
 
 
@@ -106,9 +100,6 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
 
         pwdEt = findViewById(R.id.pwdEt);
         nameEt = findViewById(R.id.nameEt);
-        mKeystore.addTextChangedListener(this);
-        pwdEt.addTextChangedListener(this);
-        nameEt.addTextChangedListener(this);
         checkbox = findViewById(R.id.checkbox);
 
 
@@ -124,32 +115,6 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
         return R.layout.activity_import_by_keystore;
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (mKeystore.getText() != null && pwdEt.getText() != null && nameEt.getText() != null) {
-            String content = mKeystore.getText().toString().trim();
-            String pwdstr = pwdEt.getText().toString().trim();
-            namestr = nameEt.getText().toString().trim();
-
-            if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(namestr) && checkbox.isChecked()) {
-                importBtn.setEnabled(true);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
-            } else {
-                importBtn.setEnabled(false);
-                importBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-            }
-        }
-    }
 
     @Override
     public void onCreateSuccess(WalletBeanNew walletBean) {
@@ -198,7 +163,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
                     mKeystore.setText(result);
-                    keystoreStr = result;
+                    mKeystoreStr = result;
                     LoggerUtils.i(result);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ToastUtil.showLong(getAppString(R.string.error_parase_toast_qr_code));

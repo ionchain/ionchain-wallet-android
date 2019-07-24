@@ -2,14 +2,10 @@ package org.ionchain.wallet.view.activity.create;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +20,11 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.activity.MainActivity;
-import org.ionchain.wallet.view.activity.imports.SelectImportModeActivity;
-import org.ionchain.wallet.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.view.activity.MainActivity;
+import org.ionchain.wallet.view.activity.imports.SelectImportModeActivity;
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.view.widget.dialog.check.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
@@ -42,14 +38,12 @@ import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_W
 import static org.ionchain.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
 import static org.ionchain.wallet.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 
-public class CreateWalletActivity extends AbsBaseActivity implements
-        TextWatcher,
+public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
         OnImportMnemonicCallback,
         OnSimulateTimeConsume,
         DialogMnemonic.OnSavedMnemonicCallback,
         DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak {
 
-    private ImageView back;
     private AppCompatEditText walletNameEt;
     private AppCompatEditText pwdEt;
     private AppCompatEditText resetPwdEt;
@@ -72,7 +66,6 @@ public class CreateWalletActivity extends AbsBaseActivity implements
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        back = findViewById(R.id.back);
         walletNameEt = findViewById(R.id.walletNameEt);
         pwdEt = findViewById(R.id.pwdEt);
         resetPwdEt = findViewById(R.id.resetPwdEt);
@@ -89,91 +82,60 @@ public class CreateWalletActivity extends AbsBaseActivity implements
         mActivityFrom = intent.getStringExtra(INTENT_FROM_WHERE_TAG);
     }
 
-    @Override
-    protected void setImmersionBar() {
-        super.setImmersionBar();
-        mImmersionBar.titleView(R.id.toolbarlayout).statusBarDarkFont(true).execute();
-    }
+ 
 
     @Override
     protected void initView() {
         findViews();
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+
+        createBtn.setOnClickListener(v -> {
+
+            /*
+             * 检查钱包名字是否符规则
+             * */
+            walletnamestr = walletNameEt.getText().toString().trim();
+            pass = pwdEt.getText().toString().trim();
+            resetpass = resetPwdEt.getText().toString().trim();
+            if (TextUtils.isEmpty(walletnamestr)) {
+                ToastUtil.showShort(getResources().getString(R.string.please_input_wallet_name));
+                return;
             }
-        });
-        checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (walletNameEt.getText() != null && pwdEt.getText() != null && resetPwdEt.getText() != null) {
-                    String content = walletNameEt.getText().toString().trim();
-                    String pwdstr = pwdEt.getText().toString().trim();
-                    String pass2 = resetPwdEt.getText().toString().trim();
-
-                    if (!TextUtils.isEmpty(content) && !TextUtils.isEmpty(pwdstr) && !TextUtils.isEmpty(pass2) && checkbox.isChecked()) {
-                        createBtn.setEnabled(true);
-                        createBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
-                    } else {
-                        createBtn.setEnabled(false);
-                        createBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-                    }
-                }
+            if (!StringUtils.isNumENCN(walletnamestr)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
+                return;
             }
-        });
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                /*
-                 * 检查钱包名字是否符规则
-                 * */
-
-                if (TextUtils.isEmpty(walletnamestr)) {
-                    ToastUtil.showShort(getResources().getString(R.string.please_input_wallet_name));
-                    return;
-                }
-                if (!StringUtils.isNumENCN(walletnamestr)) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
-                    return;
-                }
-                if (walletnamestr.length() > 8) {
-                    ToastUtil.showLong(getResources().getString(R.string.illegal_name_length));
-                    return;
-                }
-                /*
-                 * 从数据库比对，重复检查
-                 * */
-                if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
-                    Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-
-                if (!check(resetpass) || !check(pass)) {
-                    ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
-                    return;
-                }
-                if (!resetpass.equals(pass)) {
-                    ToastUtil.showShortToast(getResources().getString(R.string.illegal_password_must_equal));
-                    return;
-                }
-
-                showProgress(getResources().getString(R.string.creating_wallet));
-                IONCWalletSDK.getInstance().simulateTimeConsuming(CreateWalletActivity.this);
-
+            if (walletnamestr.length() > 8) {
+                ToastUtil.showLong(getResources().getString(R.string.illegal_name_length));
+                return;
             }
+
+            /*
+             * 从数据库比对，重复检查
+             * */
+            if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
+                Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            if (!check(resetpass) || !check(pass)) {
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password));
+                return;
+            }
+            if (!resetpass.equals(pass)) {
+                ToastUtil.showShortToast(getResources().getString(R.string.illegal_password_must_equal));
+                return;
+            }
+
+            showProgress(getResources().getString(R.string.creating_wallet));
+            IONCWalletSDK.getInstance().simulateTimeConsuming(CreateWalletActivity.this);
+
         });
         importBtn.setOnClickListener(v -> {
             Intent intent = new Intent(mActivity, SelectImportModeActivity.class);
             startActivityForResult(intent, NEW_WALLET_FOR_RESULT_CODE);
         });
         linkUrlTv.setOnClickListener(v -> skipWebProtocol());
-        walletNameEt.addTextChangedListener(this);
-        pwdEt.addTextChangedListener(this);
-        resetPwdEt.addTextChangedListener(this);
     }
 
     @Override
@@ -186,43 +148,11 @@ public class CreateWalletActivity extends AbsBaseActivity implements
 
     }
 
-
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+    protected String getTitleName() {
+        return getAppString(R.string.app_create_wallet);
     }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (walletNameEt.getText() == null) {
-            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_name));
-            return;
-        }
-        if (pwdEt.getText() == null) {
-            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_password));
-            return;
-        }
-        if (resetPwdEt.getText() == null) {
-            ToastUtil.showToastLonger(getResources().getString(R.string.please_input_wallet_password_again));
-            return;
-        }
-        walletnamestr = walletNameEt.getText().toString().trim();
-        pass = pwdEt.getText().toString().trim();
-        resetpass = resetPwdEt.getText().toString().trim();
-
-        if (!TextUtils.isEmpty(walletnamestr) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(resetpass) && checkbox.isChecked()) {
-            createBtn.setEnabled(true);
-            createBtn.setBackgroundColor(getResources().getColor(R.color.main_color));
-        } else {
-            createBtn.setEnabled(false);
-            createBtn.setBackgroundColor(getResources().getColor(R.color.grey));
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

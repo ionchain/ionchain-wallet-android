@@ -2,18 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/main_color"
     android:orientation="vertical">
-
     <View
         android:id="@+id/title_header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/main_color" />
+        android:background="@color/top_bar_color" />
 
     <RelativeLayout
         android:id="@+id/common_title_rl"
         android:layout_width="match_parent"
+        android:background="@color/top_bar_color"
         android:layout_height="?actionBarSize">
 
         <ImageView
@@ -29,8 +28,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="自定义标题"
-            android:textColor="@color/main_color"
+            android:text="导入助记词"
+            android:textColor="@color/white"
             android:textSize="@dimen/title_size" />
+
+        <TextView
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:id="@+id/common_title_save_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_size_16dp"/>
     </RelativeLayout>
+
 </LinearLayout>

@@ -1,227 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/delBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/padding_size_16dp"
-        android:background="@color/main_color"
-        android:text="@string/delete_wallet"
-        android:textColor="@color/white" />
+    <include layout="@layout/activity_common_title_three_tv"/>
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#FFF8F8F8" />
+    <RelativeLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:background="@mipmap/manager_wallet_card">
+        <TextView
+            android:id="@+id/total_assets"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/app_bar"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/h10"
-            android:paddingBottom="@dimen/h10">
-
-            <include layout="@layout/custom_title_bar" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_size_16dp"
-                android:layout_marginTop="@dimen/h10"
-                android:layout_marginRight="@dimen/padding_size_16dp"
-                android:gravity="center"
-                >
-
-                <TextView
-                    android:id="@+id/walletBalanceTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/h5"
-                    android:gravity="center"
-                    android:text="0.0000"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/h5"
-                    android:layout_toEndOf="@id/walletBalanceTv"
-                    android:gravity="bottom"
-                    android:layout_alignBaseline="@id/walletBalanceTv"
-                    android:text="@string/ionc_tag"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_12sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_below="@id/walletBalanceTv"
-                    android:id="@+id/rmbBalanceTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/h5"
-                    android:gravity="center"
-                    android:text="0.0000"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/textSize_14"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/h5"
-                    android:gravity="bottom"
-                    android:layout_toEndOf="@id/rmbBalanceTv"
-                    android:text="RMB"
-                    android:layout_alignBaseline="@id/rmbBalanceTv"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/txt_8sp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_size_16dp"
-                android:layout_marginTop="@dimen/h10"
-                android:layout_marginRight="@dimen/padding_size_16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/wallet_address"
-                    android:textColor="#B3BFD0"
-                    android:textSize="@dimen/txt_14sp" />
-
-                <TextView
-                    android:id="@+id/walletAddressTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="#B3BFD0"
-                    android:textSize="@dimen/txt_14sp" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
+            android:text="@string/total_assets"
+            android:textColor="#FFFFFFFF"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_below="@id/total_assets"
+            android:id="@+id/walletBalanceTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="0.0000"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginTop="@dimen/h10"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:text="@string/wallet_name"
-            android:textSize="@dimen/txt_18sp" />
+            android:layout_marginStart="@dimen/h5"
+            android:layout_toEndOf="@id/walletBalanceTv"
+            android:gravity="bottom"
+            android:layout_alignBaseline="@id/walletBalanceTv"
+            android:text="@string/ionc_tag"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_12sp"
+            android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/walletNameEt"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp"
-            android:hint="@string/wallet_name"
-            android:maxLength="8"
+        <TextView
+            android:layout_marginTop="76dp"
+            android:id="@+id/rmbBalanceTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="0.0000"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/h5"
+            android:gravity="bottom"
+            android:layout_toEndOf="@id/rmbBalanceTv"
+            android:text="RMB"
+            android:layout_alignBaseline="@id/rmbBalanceTv"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_12sp" />
+         <View
+             android:id="@+id/dash"
+             android:layout_marginTop="110dp"
+             android:background="@color/white"
+             android:layout_width="match_parent"
+             android:layout_height="3px"/>
+        <TextView
+            android:id="@+id/address"
+            android:layout_marginTop="125dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/wallet_address"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_14sp" />
+
+        <TextView
+            android:layout_toRightOf="@id/address"
+            android:layout_alignBaseline="@id/address"
+            android:id="@+id/walletAddressTv"
+            android:layout_marginStart="5dp"
+            android:layout_width="280dp"
             android:singleLine="true"
-            android:textColor="@color/library_33"
-            android:textSize="@dimen/hint_text_size" />
+            android:ellipsize="middle"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_14sp" />
+    </RelativeLayout>
 
 
-        <RelativeLayout
-            android:id="@+id/modifyPwdLayout"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_size_16dp"
+        android:layout_marginTop="@dimen/h10"
+        android:layout_marginRight="@dimen/padding_size_16dp"
+        android:text="@string/wallet_name"
+        android:textSize="@dimen/txt_18sp" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/walletNameEt"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h50"
+        android:layout_marginLeft="@dimen/padding_size_16dp"
+        android:layout_marginRight="@dimen/padding_size_16dp"
+        android:hint="@string/wallet_name"
+        android:maxLength="8"
+        android:singleLine="true"
+        android:textColor="@color/library_33"
+        android:textSize="@dimen/hint_text_size" />
+
+
+    <RelativeLayout
+        android:id="@+id/modifyPwdLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h50"
+        android:layout_marginLeft="@dimen/padding_size_16dp"
+        android:layout_marginRight="@dimen/padding_size_16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/hint_text_size"
+            android:text="@string/midify_password" />
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/hint_text_size"
-                android:text="@string/midify_password" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h1"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line" />
-        </RelativeLayout>
+            android:layout_height="@dimen/h1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/line" />
+    </RelativeLayout>
 
 
-        <RelativeLayout
-            android:id="@+id/import_pri_layout"
+    <RelativeLayout
+        android:id="@+id/import_pri_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h50"
+        android:layout_marginLeft="@dimen/padding_size_16dp"
+        android:layout_marginRight="@dimen/padding_size_16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/hint_text_size"
+            android:text="@string/export_private_key" />
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp">
+            android:layout_height="@dimen/h1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/line" />
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/hint_text_size"
-                android:text="@string/export_private_key" />
+    <RelativeLayout
+        android:id="@+id/import_mnemonic_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h50"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/padding_size_16dp"
+        android:layout_marginRight="@dimen/padding_size_16dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h1"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line" />
-        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/hint_text_size"
+            android:text="@string/export_mnemonics" />
 
-        <RelativeLayout
-            android:id="@+id/import_mnemonic_layout"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/h50"
-            android:visibility="gone"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp">
+            android:layout_height="@dimen/h1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/line" />
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/hint_text_size"
-                android:text="@string/export_mnemonics" />
+    <RelativeLayout
+        android:id="@+id/import_key_store_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h50"
+        android:layout_marginLeft="@dimen/padding_size_16dp"
+        android:layout_marginRight="@dimen/padding_size_16dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h1"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/import_key_store_layout"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/hint_text_size"
+            android:text="@string/export_keystore" />
+        <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/h50"
-            android:layout_marginLeft="@dimen/padding_size_16dp"
-            android:layout_marginRight="@dimen/padding_size_16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/hint_text_size"
-                android:text="@string/export_keystore" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/h1"
-                android:layout_alignParentBottom="true"
-                android:background="@color/line" />
-        </RelativeLayout>
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_height="@dimen/h1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/line" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/delBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_size_16dp"
+        android:background="@color/main_color"
+        android:text="@string/delete_wallet"
+        android:textColor="@color/white" />
+</LinearLayout>

@@ -18,11 +18,10 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.view.activity.create.CreateWalletSelectActivity;
-import org.ionchain.wallet.view.base.AbsBaseActivity;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
-import org.ionchain.wallet.view.widget.IONCTitleBar;
+import org.ionchain.wallet.view.activity.create.CreateWalletSelectActivity;
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleThreeTv;
 import org.ionchain.wallet.view.widget.dialog.check.DialogPasswordCheck;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.view.widget.dialog.modify.ModifyPasswordDialog;
@@ -39,7 +38,7 @@ import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
  */
-public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
+public class ModifyAndExportWalletActivity extends AbsBaseActivityTitleThreeTv implements
         OnImportPrivateKeyCallback,
         View.OnClickListener,
         OnDeletefinishCallback,
@@ -78,7 +77,6 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     private DialogPasswordCheck deleteWallet;
     private DialogPasswordCheck exportPK;
     private DialogPasswordCheck exportKS;
-    private IONCTitleBar mIONCTitleBar;
 
     /**
      * Find the Views in the layout<br />
@@ -146,32 +144,29 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivity implements
     @Override
     protected void initView() {
         findViews();
-        mIONCTitleBar = findViewById(R.id.ionc_title_bar);
-        mIONCTitleBar.setTitle(mWallet.getName());
-        mIONCTitleBar.setLeftImgRes(R.mipmap.arrow_back_white);
-        mIONCTitleBar.setLeftBtnCLickedListener(v -> {
-            SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
-            finish();
-        });
-        mIONCTitleBar.setRightTextCLickedListener(v -> {
-            if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
-                mWallet.setName(walletNameEt.getText().toString());
-                mIONCTitleBar.setTitle(walletNameEt.getText().toString());
-                SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
-                IONCWalletSDK.getInstance().updateWallet(mWallet);
-                ToastUtil.showShort(getAppString(R.string.has_been_done));
-            } else {
-                ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
-            }
 
+        mTitleRightTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
+                    mWallet.setName(walletNameEt.getText().toString());
+                    mTitleNameTv.setText(walletNameEt.getText().toString());
+                    SoftKeyboardUtil.hideSoftKeyboard(ModifyAndExportWalletActivity.this);
+                    IONCWalletSDK.getInstance().updateWallet(mWallet);
+                    ToastUtil.showShort(getAppString(R.string.has_been_done));
+                } else {
+                    ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
+                }
+            }
         });
+       
     }
 
     @Override
-    protected void setImmersionBar() {
-        super.setImmersionBar();
-        mImmersionBar.titleView(mIONCTitleBar).statusBarDarkFont(true).execute();
+    protected String getTitleName() {
+        return mWallet.getName();
     }
+
 
     @Override
     protected int getLayoutId() {

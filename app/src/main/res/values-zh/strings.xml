@@ -9,7 +9,7 @@
     <string name="exit_app">按两次退出程序！</string>
     <string name="protocol_title">离子链钱包服务及协议</string>
     <string name="protocol_hint">我已经仔细阅读并同意</string>
-    <string name="password_rule">数字、大小写字母与特殊符号混合(空白和下划线除外)，且长度为8~12位</string>
+    <string name="password_rule">注意：密码为数字、大小写字母与特殊符号混合(空白和下划线除外)，且长度为8~12位</string>
     <string name="wallet_icon">钱包icon</string>
     <string name="tx_in">转入</string>
     <string name="tx_out">转出</string>
@@ -142,10 +142,10 @@
     <string name="import_btn">开始导入</string>
     <string name="check_mnemonics_dialog_title">请按顺序输入您所保存的助记词</string>
     <string name="delete_wallet">删除钱包</string>
-    <string name="wallet_name">钱包名</string>
+    <string name="wallet_name">钱包名字</string>
     <string name="midify_password">修改密码</string>
     <string name="export_mnemonics">导出助记词</string>
-    <string name="wallet_address">钱包地址</string>
+    <string name="wallet_address">地址</string>
     <string name="back">返回</string>
     <string name="save">保存</string>
     <string name="title">标题</string>
@@ -239,4 +239,10 @@
     <string name="tx_done">已完成</string>
     <string name="copy_address">复制地址</string>
     <string name="scan_to_pay">扫一扫,向我付款</string>
+    <string name="wallet_password_set">设置密码</string>
+    <string name="please_aggreement">请先同意协议及服务</string>
+    <string name="import_by_mnemonics">导入助记词</string>
+    <string name="wallet_password_input">输入密码</string>
+    <string name="wallet_password_input_hint">请输入keystore密码</string>
+    <string name="total_assets">总资产</string>
 </resources>
