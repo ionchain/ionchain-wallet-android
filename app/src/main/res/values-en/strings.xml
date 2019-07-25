@@ -142,7 +142,7 @@
     <string name="keystore_password_input">Please enter the keystore password</string>
     <string name="keystore_title">Import Keystore</string>
     <string name="import_btn">Import</string>
-    <string name="check_mnemonics_dialog_title">Please enter your saved mnemonic in order</string>
+    <string name="check_mnemonics_dialog_title">Please enter your saved mnemonic words in order</string>
     <string name="delete_wallet">Delete wallet</string>
     <string name="wallet_name">Wallet Name</string>
     <string name="midify_password">Change password</string>
@@ -238,4 +238,5 @@
     <string name="new_tx_record">New record</string>
     <string name="no_more_rexord">Haven\'t obtain new transaction record</string>
     <string name="using_help">Instruction Manual</string>
+    <string name="copy_address">Copy Address</string>
 </resources>

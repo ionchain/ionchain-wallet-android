@@ -92,7 +92,7 @@
                     android:layout_margin="@dimen/padding_size_16dp"
                     android:layout_marginBottom="20dp"
                     android:background="@color/blue_top"
-                    android:text="复制收款地址"
+                    android:text="@string/copy_address"
                     android:textColor="@color/white" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

@@ -163,7 +163,7 @@ public class DialogCheckMnemonic extends AbsBaseDialog implements View.OnClickLi
                     || TextUtils.isEmpty(m11)
                     || TextUtils.isEmpty(m12)
             ) {
-                Toast.makeText(mActivity, "请检查您的是否已全部输入", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, mActivity.getResources().getString(R.string.please_check_input), Toast.LENGTH_SHORT).show();
                 return;
             }
             String[] ms = {
