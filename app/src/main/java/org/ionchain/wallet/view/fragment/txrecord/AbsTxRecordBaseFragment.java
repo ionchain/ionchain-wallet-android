@@ -367,8 +367,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
      */
     @Override
     public void onTxRecordBrowserFailure(String error) {
-        mRefresh.finishRefresh();
-        mRefresh.finishLoadMore();
+        finishRefresh();
         ToastUtil.showToastLonger(error);
         LoggerUtils.e("onTxRecordBrowserFailure", error);
     }

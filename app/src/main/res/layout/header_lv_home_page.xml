@@ -21,8 +21,8 @@
      android:layout_marginBottom="5dp"
      android:layout_centerHorizontal="true"
      app:cardElevation="5dp"
-     android:layout_width="330dp"
-     android:layout_height="330dp">
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
      <RelativeLayout
          android:id="@+id/h1"
          android:layout_centerHorizontal="true"

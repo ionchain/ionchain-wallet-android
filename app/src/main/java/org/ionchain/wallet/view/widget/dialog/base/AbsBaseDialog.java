@@ -46,9 +46,8 @@ public abstract class AbsBaseDialog extends Dialog {
      * 初始化 弹窗数据
      */
     protected void initDialog() {
+        initDialogDefault();
     }
-
-    ;
 
     /**
      * 实例化视图

@@ -24,7 +24,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
-import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
         ManagerWalletHelper.OnWalletManagerItemClickedListener,
-        DialogMnemonic.OnSavedMnemonicCallback,
+        DialogMnemonicShow.OnSavedMnemonicCallback,
         DialogTextMessage.OnBtnClickedListener,
         OnDialogCheck12MnemonicCallbcak,
         OnRefreshLoadMoreListener {
@@ -48,7 +48,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
     private Button createBtn;
     private CommonAdapter mAdapter;
     private List<WalletBeanNew> mWalletBeans = new ArrayList<>();
-    private DialogMnemonic dialogMnemonic;
+    private DialogMnemonicShow dialogMnemonic;
     private WalletBeanNew mCurrentWallet;
 
     private void findViews() {
@@ -127,7 +127,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
         if (!TextUtils.isEmpty(mCurrentWallet.getMnemonic())) {
             ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
             String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
-            dialogMnemonic = new DialogMnemonic(this, mnemonics, this);
+            dialogMnemonic = new DialogMnemonicShow(this, mnemonics, this);
             dialogMnemonic.show();
             return;
         }
@@ -146,7 +146,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
     }
 
     @Override
-    public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
+    public void onSaveMnemonicCancel(DialogMnemonicShow dialogMnemonic) {
         dialogMnemonic.dismiss();
     }
 

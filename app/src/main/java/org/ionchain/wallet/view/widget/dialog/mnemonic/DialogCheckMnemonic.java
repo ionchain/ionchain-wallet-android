@@ -44,6 +44,7 @@ public class DialogCheckMnemonic extends AbsBaseDialog implements View.OnClickLi
 
     @Override
     protected void initDialog() {
+        super.initDialog();
         setCancelable(false);
     }
 

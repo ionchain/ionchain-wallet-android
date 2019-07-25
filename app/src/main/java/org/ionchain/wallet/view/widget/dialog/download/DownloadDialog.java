@@ -103,7 +103,7 @@ public class DownloadDialog extends AbsBaseDialog implements View.OnClickListene
 
     @Override
     protected void initDialog() {
-        initDialogDefault();
+        super.initDialog();
         setCancelable(cancelable);
     }
 

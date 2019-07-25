@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -55,9 +54,9 @@ import org.ionchain.wallet.view.fragment.txrecord.TxRecordInFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordOutFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordPagerAdapter;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
-import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
-import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
 import org.ionchain.wallet.view.widget.dialog.more.MoreWalletDialog;
 
 import java.math.BigDecimal;
@@ -92,7 +91,7 @@ import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
 public class AssetFragment extends AbsBaseFragment implements
         OnRefreshListener,
         OnBalanceCallback,
-        DialogMnemonic.OnSavedMnemonicCallback,
+        DialogMnemonicShow.OnSavedMnemonicCallback,
         DialogTextMessage.OnBtnClickedListener,
         OnDialogCheck12MnemonicCallbcak,
         OnUSDPriceCallback,
@@ -172,7 +171,7 @@ public class AssetFragment extends AbsBaseFragment implements
     /**
      * 引导用户备份,助记词
      */
-    private DialogMnemonic dialogMnemonic;
+    private DialogMnemonicShow dialogMnemonic;
 
     /**
      * 币价信息
@@ -380,14 +379,13 @@ public class AssetFragment extends AbsBaseFragment implements
          * */
         mPleaseBackupWallet.setOnClickListener(v -> {
             String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
-            dialogMnemonic = new DialogMnemonic(mActivity, mnemonics, AssetFragment.this);
+            dialogMnemonic = new DialogMnemonicShow(mActivity, mnemonics, AssetFragment.this);
             dialogMnemonic.show();
         });
         /*
          * 更多钱包
          * */
         mMoreWallet.setOnClickListener(v -> {
-            DisplayMetrics metrics = new DisplayMetrics();
 
             mMoreWalletDialog = new MoreWalletDialog(mActivity);
             mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
@@ -588,7 +586,7 @@ public class AssetFragment extends AbsBaseFragment implements
     }
 
     @Override
-    public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
+    public void onSaveMnemonicCancel(DialogMnemonicShow dialogMnemonic) {
         dialogMnemonic.dismiss();
     }
 

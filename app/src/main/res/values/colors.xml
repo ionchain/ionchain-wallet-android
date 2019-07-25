@@ -18,4 +18,5 @@
     <color name="top_bar_color">#06CACE</color>
     <color name="tx_color_failure">#FD4F4F</color>
     <color name="split_line_color">#cccccc</color>
+    <color name="dialog_title_color">#666666</color>
 </resources>

@@ -75,9 +75,6 @@ public class DialogTextMessage extends AbsBaseDialog {
 
     }
 
-    @Override
-    protected void initDialog() {
-    }
 
     @Override
     protected void initView() {

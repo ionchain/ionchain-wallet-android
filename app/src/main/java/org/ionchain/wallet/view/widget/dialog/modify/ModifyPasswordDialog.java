@@ -6,10 +6,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Display;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -55,18 +52,18 @@ public class ModifyPasswordDialog extends AbsBaseDialog implements View.OnClickL
      */
     private void findViews() {
         //输入框
-        modifyDialogCurrentPasswordEt = (AppCompatEditText) findViewById(R.id.modify_dialog_current_password_et);
-        newPasswordEt = (AppCompatEditText) findViewById(R.id.modify_dialog_new_password_et);
-        newPasswordAgainEt = (AppCompatEditText) findViewById(R.id.modify_dialog_new_password_again_et);
+        modifyDialogCurrentPasswordEt = findViewById(R.id.modify_dialog_current_password_et);
+        newPasswordEt = findViewById(R.id.modify_dialog_new_password_et);
+        newPasswordAgainEt = findViewById(R.id.modify_dialog_new_password_again_et);
 
         //小眼睛
-        showNewPasswordImg = (ImageView) findViewById(R.id.show_new_password);
-        showNewPasswordAgainImg = (ImageView) findViewById(R.id.show_new_password_again);
+        showNewPasswordImg = findViewById(R.id.show_new_password);
+        showNewPasswordAgainImg = findViewById(R.id.show_new_password_again);
         showNewPasswordImg.setOnClickListener(this);
         showNewPasswordAgainImg.setOnClickListener(this);
         //按钮
-        modifyBtnCancel = (AppCompatButton) findViewById(R.id.modify_btn_cancel);
-        modifyBtnSure = (AppCompatButton) findViewById(R.id.modify_btn_sure);
+        modifyBtnCancel = findViewById(R.id.modify_btn_cancel);
+        modifyBtnSure = findViewById(R.id.modify_btn_sure);
         modifyBtnCancel.setOnClickListener(this);
         modifyBtnSure.setOnClickListener(this);
     }
@@ -147,30 +144,6 @@ public class ModifyPasswordDialog extends AbsBaseDialog implements View.OnClickL
 
     }
 
-    @Override
-    protected void initDialog() {
-        /*
-         * 获取圣诞框的窗口对象及参数对象以修改对话框的布局设置,
-         * 可以直接调用getWindow(),表示获得这个Activity的Window
-         * 对象,这样这可以以同样的方式改变这个Activity的属性.
-         */
-        Window dialogWindow = getWindow();
-
-        /*
-         * 将对话框的大小按屏幕大小的百分比设置
-         */
-        WindowManager m = mActivity.getWindowManager();
-        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
-        WindowManager.LayoutParams p; // 获取对话框当前的参数值
-        if (dialogWindow != null) {
-            p = dialogWindow.getAttributes();
-//            p.height = (int) (d.getHeight() * 0.6); // 高度设置为屏幕的0.6
-            p.width = (int) (d.getWidth() * 0.9); // 宽度设置为屏幕的0.65
-            dialogWindow.setAttributes(p);
-        } else {
-            LoggerUtils.e("设置对话框带下大小失败");
-        }
-    }
 
     @Override
     protected void initView() {

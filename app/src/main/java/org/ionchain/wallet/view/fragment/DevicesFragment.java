@@ -35,7 +35,7 @@ import org.ionchain.wallet.view.widget.DialogBindDevice;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
-import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ import java.util.List;
 /**
  * 我的设备
  */
-public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceButtonClickedListener, OnRefreshListener, OnDeviceListCallback, DialogMnemonic.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak, OnBindDeviceCallback {
+public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceButtonClickedListener, OnRefreshListener, OnDeviceListCallback, DialogMnemonicShow.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak, OnBindDeviceCallback {
     private static final int QRCODE_BIND_DEVICE = 10;
     private ListView mListView;
     private CommonAdapter mAdapter;
@@ -58,7 +58,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     private TextView wallet_name_devices;
 
     private WalletBeanNew mCurrentWallet;
-    private DialogMnemonic dialogMnemonic;
+    private DialogMnemonicShow dialogMnemonic;
 
     private DialogBindDevice mDialogBindCardWithWallet;//绑定设备的弹窗
     @Override
@@ -97,7 +97,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
                 if (!TextUtils.isEmpty(mCurrentWallet.getMnemonic())) {
                     org.ionchain.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
                     String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
-                    dialogMnemonic = new DialogMnemonic(mActivity, mnemonics, DevicesFragment.this);
+                    dialogMnemonic = new DialogMnemonicShow(mActivity, mnemonics, DevicesFragment.this);
                     dialogMnemonic.show();
                     return;
                 }
@@ -208,7 +208,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     }
 
     @Override
-    public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
+    public void onSaveMnemonicCancel(DialogMnemonicShow dialogMnemonic) {
         dialogMnemonic.dismiss();
     }
 

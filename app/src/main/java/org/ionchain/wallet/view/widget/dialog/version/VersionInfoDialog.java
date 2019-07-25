@@ -164,6 +164,7 @@ public class VersionInfoDialog extends AbsBaseDialog implements View.OnClickList
 
     @Override
     protected void initDialog() {
+        super.initDialog();
         setCancelable(cancelable);
     }
 

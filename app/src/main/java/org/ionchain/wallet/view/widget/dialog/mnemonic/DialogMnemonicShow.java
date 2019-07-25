@@ -19,7 +19,7 @@ import org.ionchain.wallet.view.widget.dialog.base.AbsBaseDialog;
  * @author 596928539@qq.com
  * @date 2019/04/04
  */
-public class DialogMnemonic extends AbsBaseDialog {
+public class DialogMnemonicShow extends AbsBaseDialog {
     private TextView mmnemonic1;
     private TextView mmnemonic2;
     private TextView mmnemonic3;
@@ -60,7 +60,7 @@ public class DialogMnemonic extends AbsBaseDialog {
         next_sure = findViewById(R.id.next_sure);
     }
 
-    public DialogMnemonic(@NonNull Context context, String[] mmnemonicList, OnSavedMnemonicCallback onSavedMnemonicCallback) {
+    public DialogMnemonicShow(@NonNull Context context, String[] mmnemonicList, OnSavedMnemonicCallback onSavedMnemonicCallback) {
         super(context);
         this.mmnemonicArray = mmnemonicList;
         this.callback = onSavedMnemonicCallback;
@@ -69,11 +69,12 @@ public class DialogMnemonic extends AbsBaseDialog {
     @Override
     protected void initData() {
         next_sure.setOnClickListener(v -> callback.onSaveMnemonicSure());
-        mClose.setOnClickListener(v -> callback.onSaveMnemonicCancel(DialogMnemonic.this));
+        mClose.setOnClickListener(v -> callback.onSaveMnemonicCancel(DialogMnemonicShow.this));
     }
 
     @Override
     protected void initDialog() {
+        super.initDialog();
         setCancelable(false);
     }
 
@@ -102,7 +103,7 @@ public class DialogMnemonic extends AbsBaseDialog {
     public interface OnSavedMnemonicCallback {
         void onSaveMnemonicSure();
 
-        void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic);
+        void onSaveMnemonicCancel(DialogMnemonicShow dialogMnemonic);
 
     }
 }

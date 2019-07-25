@@ -30,10 +30,6 @@ public class DialogPasswordCheck extends AbsBaseDialog {
 
     }
 
-    @Override
-    protected void initDialog() {
-
-    }
 
     @Override
     protected void initView() {

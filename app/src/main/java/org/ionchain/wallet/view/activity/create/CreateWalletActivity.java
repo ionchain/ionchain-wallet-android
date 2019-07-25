@@ -28,7 +28,7 @@ import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
-import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonic;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ import static org.ionchain.wallet.view.fragment.AssetFragment.NEW_WALLET_FOR_RES
 public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
         OnImportMnemonicCallback,
         OnSimulateTimeConsume,
-        DialogMnemonic.OnSavedMnemonicCallback,
+        DialogMnemonicShow.OnSavedMnemonicCallback,
         DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak {
 
     private AppCompatEditText walletNameEt;
@@ -55,7 +55,7 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
     private String walletnamestr;
     private String pass;
     private String resetpass;
-    private DialogMnemonic dialogMnemonic;
+    private DialogMnemonicShow dialogMnemonic;
     WalletBeanNew walletBean;
 
 
@@ -180,7 +180,7 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
         this.walletBean = walletBean;
         //首先备份助记词
         String[] mnemonics = walletBean.getMnemonic().split(" ");
-        dialogMnemonic = new DialogMnemonic(this, mnemonics, this);
+        dialogMnemonic = new DialogMnemonicShow(this, mnemonics, this);
         dialogMnemonic.show();
     }
 
@@ -216,7 +216,7 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
      * @param dialogMnemonic 取消备份助记词
      */
     @Override
-    public void onSaveMnemonicCancel(DialogMnemonic dialogMnemonic) {
+    public void onSaveMnemonicCancel(DialogMnemonicShow dialogMnemonic) {
         dialogMnemonic.dismiss();
         IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
         skipToBack(walletBean); //创建钱包时，取消备份助记词
