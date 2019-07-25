@@ -26,7 +26,6 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static org.ionchain.wallet.App.mAppInstance;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_STORAGE_PERMISSIONS;
 
@@ -269,7 +268,7 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
      * @return 字符串
      */
     public String getAppString(int id) {
-        return mAppInstance.getAppString(id);
+        return getResources().getString(id);
     }
 
     /**

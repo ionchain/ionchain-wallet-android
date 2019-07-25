@@ -237,7 +237,6 @@
     <string name="global_tag" translatable="false">XLog</string>
     <string name="using_help">使用手册</string>
     <string name="tx_done">已完成</string>
-    <string name="copy_address">复制地址</string>
     <string name="scan_to_pay">扫一扫,向我付款</string>
     <string name="wallet_password_set">设置密码</string>
     <string name="please_aggreement">请先同意协议及服务</string>
@@ -246,4 +245,5 @@
     <string name="wallet_password_input_hint">请输入keystore密码</string>
     <string name="total_assets">总资产</string>
     <string name="back_up">备份助记词</string>
+    <string name="copy_address">复制地址</string>
 </resources>

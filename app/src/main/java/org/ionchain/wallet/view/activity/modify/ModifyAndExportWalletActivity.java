@@ -18,10 +18,19 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
+<<<<<<< HEAD
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.activity.create.CreateWalletSelectActivity;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleThreeTv;
+=======
+import org.ionchain.wallet.utils.SPUtils;
+import org.ionchain.wallet.utils.SoftKeyboardUtil;
+import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.view.activity.create.CreateWalletSelectActivity;
+import org.ionchain.wallet.view.base.AbsBaseActivity;
+import org.ionchain.wallet.view.widget.IONCTitleBar;
+>>>>>>> master
 import org.ionchain.wallet.view.widget.dialog.check.DialogPasswordCheck;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.view.widget.dialog.modify.ModifyPasswordDialog;
@@ -54,6 +63,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivityTitleThreeTv i
     private TextView walletBalanceTv;
     private TextView rmbBalanceTv;
     private TextView walletAddressTv;
+    private TextView coin_type;
     private AppCompatEditText walletNameEt;
     private RelativeLayout modifyPwdLayout;
     private RelativeLayout importLayout;
@@ -89,6 +99,7 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivityTitleThreeTv i
         walletBalanceTv = (TextView) findViewById(R.id.walletBalanceTv);
         rmbBalanceTv = (TextView) findViewById(R.id.rmbBalanceTv);
         walletAddressTv = (TextView) findViewById(R.id.walletAddressTv);
+        coin_type = (TextView) findViewById(R.id.coin_type);
         walletNameEt = (AppCompatEditText) findViewById(R.id.walletNameEt);
         modifyPwdLayout = (RelativeLayout) findViewById(R.id.modifyPwdLayout);
         importLayout = (RelativeLayout) findViewById(R.id.import_pri_layout);
@@ -116,6 +127,8 @@ public class ModifyAndExportWalletActivity extends AbsBaseActivityTitleThreeTv i
         if (mWallet == null) {
             return;
         }
+        coin_type.setText(SPUtils.getInstance().getCoinType());
+
         if (!TextUtils.isEmpty(mWallet.getAddress())) {
             walletAddressTv.setText(mWallet.getAddress());
         }
