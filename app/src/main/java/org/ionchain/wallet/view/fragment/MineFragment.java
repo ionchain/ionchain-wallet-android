@@ -8,17 +8,18 @@ import android.widget.RelativeLayout;
 import com.lzy.okgo.model.Progress;
 
 import org.ionc.wallet.utils.LoggerUtils;
+import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.UpdateBean;
 import org.ionchain.wallet.model.update.OnCheckUpdateInfoCallback;
 import org.ionchain.wallet.presenter.update.UpdatePresenter;
+import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.activity.manager.ManageWalletActivity;
 import org.ionchain.wallet.view.activity.setting.coin.SelectCoinActivity;
 import org.ionchain.wallet.view.activity.setting.language.SettingLanguageActivity;
 import org.ionchain.wallet.view.activity.webview.AboutUsWebActivity;
 import org.ionchain.wallet.view.activity.webview.UseHelpActivity;
 import org.ionchain.wallet.view.base.AbsBaseFragment;
-import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.widget.dialog.download.DownloadDialog;
 import org.ionchain.wallet.view.widget.dialog.version.VersionInfoDialog;
 
@@ -60,9 +61,16 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     /**
      * 新版本信息对话框 ,带有的按钮类型为下载
      */
-    private VersionInfoDialog mVersionInfoDialogWithDownload;
+    private VersionInfoDialog mVersionInfoDialog;
     private UpdatePresenter mUpdatePresenter;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (App.isCurrentLanguageEN()) {
+            mUseHelp.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * Find the Views in the layout<br />
@@ -222,13 +230,13 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
              * */
             mVersionInfoDialogWithUpdate.dismiss();
 
-            mVersionInfoDialogWithDownload = new VersionInfoDialog(mActivity, updateBean.getData().get(0).getUrl(), MineFragment.this)
+            mVersionInfoDialog = new VersionInfoDialog(mActivity, updateBean.getData().get(0).getUrl(), MineFragment.this)
                     .setTitleName(mActivity.getAppString(R.string.version_info_title))
                     .setMustUpdate(must_update)
                     .setSureBtnName(getString(R.string.dialog_btn_download))
                     .setVersionInfo(update_info)
                     .setRightBtnType(VersionInfoDialog.VERSION_RIGHT_BTN_TYPE_DOWNLOAD);
-            mVersionInfoDialogWithDownload.show();
+            mVersionInfoDialog.show();
         } catch (NullPointerException e) {
             LoggerUtils.e("" + e.getMessage());
             ToastUtil.showToastLonger(mActivity.getAppString(R.string.error_data_parse));
