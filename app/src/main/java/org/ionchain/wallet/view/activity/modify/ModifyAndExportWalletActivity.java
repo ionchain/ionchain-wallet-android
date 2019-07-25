@@ -18,19 +18,11 @@ import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
-<<<<<<< HEAD
-import org.ionchain.wallet.utils.SoftKeyboardUtil;
-import org.ionchain.wallet.utils.ToastUtil;
-import org.ionchain.wallet.view.activity.create.CreateWalletSelectActivity;
-import org.ionchain.wallet.view.base.AbsBaseActivityTitleThreeTv;
-=======
 import org.ionchain.wallet.utils.SPUtils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.activity.create.CreateWalletSelectActivity;
-import org.ionchain.wallet.view.base.AbsBaseActivity;
-import org.ionchain.wallet.view.widget.IONCTitleBar;
->>>>>>> master
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleThreeTv;
 import org.ionchain.wallet.view.widget.dialog.check.DialogPasswordCheck;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionchain.wallet.view.widget.dialog.modify.ModifyPasswordDialog;
@@ -43,6 +35,7 @@ import java.io.IOException;
 import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
+
 
 /**
  * 修改钱包：钱包名、修改密码、导出私钥
