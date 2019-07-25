@@ -741,7 +741,7 @@ public class IONCWalletSDK {
         //私钥不存储于数据库中
         wallet.setAddress(wallet.getAddress().toLowerCase());//小写本地地址
         wallet.setPrivateKey("");
-        wallet.setPassword("");
+//        wallet.setPassword("");
         EntityManager.getInstance().getWalletDaoNew(mDaoSession).insertOrReplace(wallet);
     }
 
