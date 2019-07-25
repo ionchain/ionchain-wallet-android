@@ -1,4 +1,4 @@
-package org.ionchain.wallet.bean
+package org.ionc.wallet.bean
 
 import java.io.Serializable
 

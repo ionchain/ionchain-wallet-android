@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="导入助记词"
+            android:text="@string/import_m_mnemonics"
             android:textColor="@color/blue_top"
             android:textSize="@dimen/title_size" />
     </RelativeLayout>

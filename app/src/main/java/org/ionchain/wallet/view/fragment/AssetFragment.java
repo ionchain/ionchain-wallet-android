@@ -28,6 +28,7 @@ import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
+import org.ionc.wallet.callback.OnTxRecordTimestampCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
@@ -97,7 +98,7 @@ public class AssetFragment extends AbsBaseFragment implements
         OnDialogCheck12MnemonicCallbcak,
         OnUSDPriceCallback,
         OnUSDExRateRMBCallback,
-        OnIONCNodeCallback, OnTxRecordFromNodeCallback, OnLoadMoreListener, MoreWalletDialog.OnMoreWalletDialogItemClickedListener {
+        OnIONCNodeCallback, OnTxRecordFromNodeCallback, OnLoadMoreListener, MoreWalletDialog.OnMoreWalletDialogItemClickedListener, OnTxRecordTimestampCallback {
 
 
     /**
@@ -853,11 +854,10 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
         hideProgress();
-        mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
-        mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
-        txRecordHelper(txRecordBean);
         LoggerUtils.i("syncBrowser", "OnTxRecordNodeSuccess" + "   AssetFragment" + txRecordBean.toString());
-        IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
+        //取出块的哈希值，获取交易完成时间
+        IONCWalletSDK.getInstance().ethTransactiontimestamp(mNodeIONC,txRecordBean,this);
+
     }
 
     @Override
@@ -873,6 +873,27 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onTxRecordNodeStart() {
         LoggerUtils.i("4444444444444444");
         showProgress(getAppString(R.string.please_wait));
+    }
+
+    @Override
+    public void OnTxRecordTimestampSuccess(TxRecordBean txRecordBean) {
+        mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
+        mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
+        txRecordHelper(txRecordBean);
+        IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
+    }
+
+    @Override
+    public void onTxRecordTimestampFailure(String error, TxRecordBean recordBean) {
+        mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
+        mTxRecordOutFragment.onNewTxRecordByTx(recordBean);
+        txRecordHelper(recordBean);
+        IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
+    }
+
+    @Override
+    public void onTxRecordTimestampStart() {
+
     }
 
 

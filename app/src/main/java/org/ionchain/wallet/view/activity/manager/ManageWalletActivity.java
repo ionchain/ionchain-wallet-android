@@ -69,7 +69,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
 
     @Override
     protected String getTitleName() {
-        return "钱包管理";
+        return getAppString(R.string.title_manage_wallet);
     }
 
     @Override

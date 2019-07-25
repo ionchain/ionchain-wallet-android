@@ -1,4 +1,4 @@
-package org.ionchain.wallet.bean
+package org.ionc.wallet.bean
 
 import java.io.Serializable
 
@@ -17,8 +17,6 @@ class DeviceUnbind : Serializable {
     var message: String? = null
 
     companion object {
-
-
         private const val serialVersionUID = 7396183758899566166L
     }
 }

@@ -30,6 +30,7 @@ import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
 import org.ionc.wallet.callback.OnTransationCallback;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
+import org.ionc.wallet.callback.OnTxRecordTimestampCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.daohelper.EntityManager;
 import org.ionc.wallet.greendaogen.DaoSession;
@@ -545,6 +546,38 @@ public class IONCWalletSDK {
                     mHandler.post(() -> {
                         LoggerUtils.e(e.getMessage());
                         onTxRecordFromNodeCallback.onTxRecordNodeFailure(e.getLocalizedMessage(), txRecordBean);
+                    });
+                }
+            }
+        }.start();
+    }
+
+    public void ethTransactiontimestamp(final String node,  final TxRecordBean txRecordBean, final OnTxRecordTimestampCallback timestampCallback) {
+
+        if (TextUtils.isEmpty(txRecordBean.getBlockHash())) {
+            timestampCallback.onTxRecordTimestampFailure("", txRecordBean);
+            return;
+        }
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Web3j web3j = Web3j.build(new HttpService(node));
+                    BigInteger timestampRaw = web3j.ethGetBlockByHash(txRecordBean.getBlockHash(),true).send().getBlock().getTimestamp();//获取时间戳
+                    if (timestampRaw == null) {
+                        mHandler.post(() -> {
+                            timestampCallback.onTxRecordTimestampFailure("error", txRecordBean);
+                        });
+                        return;
+                    }
+                    txRecordBean.setTc_in_out(timestampRaw.toString());
+                    mHandler.post(() -> timestampCallback.OnTxRecordTimestampSuccess(txRecordBean));
+                } catch (final IOException | NullPointerException e) {
+                    LoggerUtils.e("client", e.getMessage());
+                    mHandler.post(() -> {
+                        LoggerUtils.e(e.getMessage());
+                        timestampCallback.onTxRecordTimestampFailure(e.getLocalizedMessage(), txRecordBean);
                     });
                 }
             }

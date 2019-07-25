@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/backup_mnemonic_title"
         android:gravity="center"
-        android:text="备份助记词"
+        android:text="@string/import_m_mnemonics"
         android:textColor="#ffffff" />
     <RelativeLayout
         android:layout_width="match_parent"
