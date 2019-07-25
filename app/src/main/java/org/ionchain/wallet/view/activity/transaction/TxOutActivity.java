@@ -23,7 +23,6 @@ import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
-import org.ionchain.wallet.utils.SPUtils;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleThree;
 import org.ionchain.wallet.view.widget.dialog.check.DialogPasswordCheck;
@@ -34,11 +33,6 @@ import java.math.BigInteger;
 
 import static java.lang.String.valueOf;
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
-import static org.ionchain.wallet.App.mAppInstance;
-import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_CNY;
-import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_IDR;
-import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_KRW;
-import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_KSP;
@@ -118,7 +112,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
 
     @Override
     protected String getTitleName() {
-        return mAppInstance.getAppString(R.string.tx);
+        return getAppString(R.string.tx);
     }
 
     @Override
@@ -162,7 +156,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
                 mGasPrice = BigDecimal.valueOf(gasPrice).multiply(mGasPriceScaleGWei);
                 //显示gas消耗
                 mFee = getCurrentFee(mGasPrice).toPlainString();
-                mTxCostTv.setText(mAppInstance.getAppString(R.string.tx_fee) + mFee + " IONC");
+                mTxCostTv.setText(getAppString(R.string.tx_fee) + mFee + " IONC");
             }
 
             @Override

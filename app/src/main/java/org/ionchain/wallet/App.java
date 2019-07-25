@@ -252,7 +252,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
 
         Printer androidPrinter = new AndroidPrinter();             // Printer that print the log using android.util.Log
         Printer filePrinter = new FilePrinter                      // Printer that print the log to the file system
-                .Builder(new File(Environment.getExternalStorageDirectory(), "xlogsample").getPath())       // Specify the path to save log file
+                .Builder(new File(Environment.getExternalStorageDirectory(), "ionc_wallet_log").getPath())       // Specify the path to save log file
                 .fileNameGenerator(new DateFileNameGenerator())        // Default: ChangelessFileNameGenerator("log")
                 // .backupStrategy(new MyBackupStrategy())             // Default: FileSizeBackupStrategy(1024 * 1024)
                 // .cleanStrategy(new FileLastModifiedCleanStrategy(MAX_TIME))     // Default: NeverCleanStrategy()
@@ -268,27 +268,4 @@ public class App extends Application implements Application.ActivityLifecycleCal
         globalFilePrinter = filePrinter;
     }
 
-    /**
-     * @param id 多语言环境中的
-     * @return 字符串
-     */
-    public String getAppString(int id) {
-        return getResources().getString(id);
-    }
-
-    /**
-     * @param id  多语言环境中的
-     * @param obj
-     * @return 字符串
-     */
-    public String getAppString(int id, Object obj) {
-        return getResources().getString(id, obj);
-    }
-    /**
-     * @param id 多语言环境中的
-     * @return color
-     */
-    public int getAppColor(int id) {
-        return getResources().getColor(id);
-    }
 }

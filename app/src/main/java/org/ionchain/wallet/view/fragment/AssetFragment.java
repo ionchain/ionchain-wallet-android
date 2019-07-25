@@ -540,6 +540,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mFragmentListTxRecord.add(mTxRecordOutFragment);
         mFragmentListTxRecord.add(mTxRecordInFragment);
         List<String> titles = new ArrayList<>();
+        LoggerUtils.e("tab",getAppString(R.string.tab_all));
         titles.add(getAppString(R.string.tab_all));
         titles.add(getAppString(R.string.tab_out));
         titles.add(getAppString(R.string.tab_in));

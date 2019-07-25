@@ -27,10 +27,10 @@ import org.ionchain.wallet.constant.ConstantActivitySkipTag;
 import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.immersionbar.ImmersionBar;
+import org.ionchain.wallet.utils.LocalManageUtil;
 import org.ionchain.wallet.view.activity.MainActivity;
 import org.ionchain.wallet.view.activity.manager.ManageWalletActivity;
 import org.ionchain.wallet.view.activity.webview.AgreementWebActivity;
-import org.ionchain.wallet.utils.LocalManageUtil;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,7 +40,6 @@ import java.util.TimerTask;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static org.ionchain.wallet.App.mAppInstance;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantParams.REQUEST_CODE_QRCODE_PERMISSIONS;
@@ -300,7 +299,16 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      * @return 字符串
      */
     public String getAppString(int id) {
-        return mAppInstance.getAppString(id);
+        return getResources().getString(id);
+    }
+
+    /**
+     * @param id  多语言环境中的
+     * @param obj
+     * @return 字符串
+     */
+    public String getAppString(int id, Object obj) {
+        return getResources().getString(id, obj);
     }
 
     /**
@@ -311,14 +319,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
         return getResources().getColor(id);
     }
 
-    /**
-     * @param id  多语言环境中的
-     * @param obj
-     * @return 字符串
-     */
-    public String getAppString(int id, Object obj) {
-        return mAppInstance.getAppString(id, obj);
-    }
+
 
 
     @Override
