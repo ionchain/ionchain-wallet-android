@@ -33,8 +33,8 @@ import org.ionchain.wallet.qrcode.activity.CodeUtils;
 import org.ionchain.wallet.view.base.AbsBaseFragment;
 import org.ionchain.wallet.view.widget.DialogBindDevice;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
-import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
+import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,15 +52,16 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     private List<DeviceBean.DataBean> mDataBeanList = new ArrayList<>();
     private SmartRefreshLayout mSwipeRefreshLayout;
     private DevicePresenter mDevicePresenter;
-    private ImageView   addDevice;
-    private ImageView   wallet_img_device;
-    private ImageView   no_device_img;
+    private ImageView addDevice;
+    private ImageView wallet_img_device;
+    private ImageView no_device_img;
     private TextView wallet_name_devices;
 
     private WalletBeanNew mCurrentWallet;
     private DialogMnemonicShow dialogMnemonic;
 
     private DialogBindDevice mDialogBindCardWithWallet;//绑定设备的弹窗
+
     @Override
     protected int getFragmentLayout() {
         return R.layout.fragment_devices;
@@ -91,20 +92,17 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         /*
          * 绑定设备
          * */
-        addDevice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(mCurrentWallet.getMnemonic())) {
-                    org.ionchain.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
-                    String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
-                    dialogMnemonic = new DialogMnemonicShow(mActivity, mnemonics, DevicesFragment.this);
-                    dialogMnemonic.show();
-                    return;
-                }
-                Intent intent = new Intent(mActivity, CaptureActivity.class);
-                startActivityForResult(intent, 10);    }
+        addDevice.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(mCurrentWallet.getMnemonic())) {
+                org.ionchain.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
+                String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
+                dialogMnemonic = new DialogMnemonicShow(mActivity, mnemonics, DevicesFragment.this);
+                dialogMnemonic.show();
+                return;
+            }
+            Intent intent = new Intent(mActivity, CaptureActivity.class);
+            startActivityForResult(intent, 10);
         });
-
     }
 
     @Override
@@ -113,7 +111,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
         wallet_name_devices.setText(mCurrentWallet.getName());
-//        getDeviceList();
+        getDeviceList();
     }
 
 
@@ -129,9 +127,21 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
 
     @Override
     protected void handleShow() {
-        mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
-        wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
-        wallet_name_devices.setText(mCurrentWallet.getName());
+        if (mCurrentWallet != null) {
+            WalletBeanNew walletBeanNew = IONCWalletSDK.getInstance().getMainWallet();
+            if (!mCurrentWallet.getName().equals(walletBeanNew.getName())) {
+                mDataBeanList.clear();
+                mAdapter.notifyDataSetChanged();
+                mCurrentWallet = walletBeanNew;
+                wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
+                wallet_name_devices.setText(mCurrentWallet.getName());
+                getDeviceList();
+            }
+        } else {
+            mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
+            wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
+            wallet_name_devices.setText(mCurrentWallet.getName());
+        }
     }
 
     @Override
@@ -153,10 +163,9 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
 //        if (StringUtils.isEmpty(address)) {
 //            return;
 //        }
-//        mDevicePresenter.getAllWalletDevicesList(address, this);
+        mDevicePresenter.getCurrentWalletDevicesList(mCurrentWallet, this);
 
     }
-
 
     @Override
     public void onUnbindButtonClick(String cksn, int position) {
@@ -173,6 +182,8 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     @Override
     public void onDeviceListSuccess(@NotNull List<DeviceBean.DataBean> list) {
 //        mSwipeRefreshLayout.finishRefresh();
+        no_device_img.setVisibility(View.GONE);
+        mListView.setVisibility(View.VISIBLE);
         isRefreshing = false;
         mDataBeanList.clear();
         mDataBeanList.addAll(list);
@@ -241,10 +252,11 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         org.ionchain.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         /**
          * 处理二维码扫描结果
          */

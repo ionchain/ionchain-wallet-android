@@ -343,7 +343,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         bean.setGas(itemBeanBrowser.getGas());
         bean.setGasPrice(itemBeanBrowser.getGasPrice());
         bean.setNonce(itemBeanBrowser.getNonce());
-        bean.setV(Integer.valueOf(itemBeanBrowser.getV()));
+//        bean.setV(Integer.valueOf(itemBeanBrowser.getV()));
         bean.setR(itemBeanBrowser.getR());
         bean.setS(itemBeanBrowser.getS());
         bean.setBlockNumber(String.valueOf(itemBeanBrowser.getBlockNumber()));//可以作为是否交易成功的展示依据

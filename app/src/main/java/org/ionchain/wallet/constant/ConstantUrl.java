@@ -10,7 +10,7 @@ public class ConstantUrl {
     /**
      * 设备host
      */
-    private static final String URL_DEVICES_HOST = "http://sendrobot.ionchain.org";
+    private static final String URL_DEVICES_HOST = "http://em-api.ionchain.org";
     /**
      * 获取设备列表
      */
