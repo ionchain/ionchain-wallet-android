@@ -16,6 +16,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
+import org.ionc.wallet.bean.DeviceBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
@@ -23,14 +24,13 @@ import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
-import org.ionchain.wallet.bean.DeviceBean;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.callback.OnDeviceListCallback;
 import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
 import org.ionchain.wallet.presenter.device.DevicePresenter;
-import org.ionchain.wallet.view.base.AbsBaseFragment;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
+import org.ionchain.wallet.view.base.AbsBaseFragment;
 import org.ionchain.wallet.view.widget.DialogBindDevice;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
@@ -102,9 +102,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
                     return;
                 }
                 Intent intent = new Intent(mActivity, CaptureActivity.class);
-                startActivityForResult(intent, 10);
-
-            }
+                startActivityForResult(intent, 10);    }
         });
 
     }

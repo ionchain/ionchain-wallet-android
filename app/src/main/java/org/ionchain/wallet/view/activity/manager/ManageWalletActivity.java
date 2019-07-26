@@ -18,7 +18,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.view.activity.imports.SelectImportModeActivity;
-import org.ionchain.wallet.view.activity.modify.ModifyAndExportWalletActivity;
+import org.ionchain.wallet.view.activity.modify.ModifyWalletActivity;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
@@ -69,7 +69,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
 
     @Override
     protected String getTitleName() {
-        return "钱包管理";
+        return getAppString(R.string.title_manage_wallet);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
             dialogMnemonic.show();
             return;
         }
-        skip(ModifyAndExportWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
+        skip(ModifyWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
     }
 
     @Override

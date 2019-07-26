@@ -6,16 +6,6 @@
 
     <include layout="@layout/activity_common_title_two" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:text="@string/password_rule"
-        android:textColor="@color/main_color"
-        android:textSize="@dimen/txt_12sp" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

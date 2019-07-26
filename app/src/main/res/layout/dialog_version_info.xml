@@ -33,7 +33,7 @@
         android:layout_height="30dp"
         android:layout_margin="@dimen/h10"
         android:layout_below="@id/version_info_content"
-        android:background="@drawable/dialog_cancel_btn"
+        android:background="@drawable/common_btn_background_grey_color"
         android:text="@string/btn_close"
         />
 

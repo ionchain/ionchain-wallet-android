@@ -27,6 +27,7 @@ import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
+import org.ionc.wallet.callback.OnTxRecordTimestampCallback;
 import org.ionc.wallet.sdk.IONCWalletSDK;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
@@ -45,7 +46,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.activity.address.ShowAddressActivity;
 import org.ionchain.wallet.view.activity.create.CreateWalletActivity;
 import org.ionchain.wallet.view.activity.imports.SelectImportModeActivity;
-import org.ionchain.wallet.view.activity.modify.ModifyAndExportWalletActivity;
+import org.ionchain.wallet.view.activity.modify.ModifyWalletActivity;
 import org.ionchain.wallet.view.activity.transaction.TxOutActivity;
 import org.ionchain.wallet.view.base.AbsBaseFragment;
 import org.ionchain.wallet.view.base.AbsBaseViewPagerFragment;
@@ -96,7 +97,7 @@ public class AssetFragment extends AbsBaseFragment implements
         OnDialogCheck12MnemonicCallbcak,
         OnUSDPriceCallback,
         OnUSDExRateRMBCallback,
-        OnIONCNodeCallback, OnTxRecordFromNodeCallback, OnLoadMoreListener, MoreWalletDialog.OnMoreWalletDialogItemClickedListener {
+        OnIONCNodeCallback, OnTxRecordFromNodeCallback, OnLoadMoreListener, MoreWalletDialog.OnMoreWalletDialogItemClickedListener, OnTxRecordTimestampCallback {
 
 
     /**
@@ -234,7 +235,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     protected void handleShow() {
         LoggerUtils.i("method", "handleShow" + "   AssetFragment");
-        mImmersionBar.statusBarColor(R.color.top_bar_color).statusBarDarkFont(false).execute();
+        mImmersionBar.statusBarColor(R.color.main_color).statusBarDarkFont(false).execute();
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         if (mCurrentWallet == null) {
             ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
@@ -347,7 +348,7 @@ public class AssetFragment extends AbsBaseFragment implements
              *  将币价信息携带过去
              */
             cancelGetNode();// 修改钱包
-            skip(ModifyAndExportWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
+            skip(ModifyWalletActivity.class, PARCELABLE_WALLET_BEAN, mCurrentWallet);
         });
 
 
@@ -836,11 +837,10 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
         hideProgress();
-        mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
-        mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
-        txRecordHelper(txRecordBean);
         LoggerUtils.i("syncBrowser", "OnTxRecordNodeSuccess" + "   AssetFragment" + txRecordBean.toString());
-        IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
+        //取出块的哈希值，获取交易完成时间
+        IONCWalletSDK.getInstance().ethTransactiontimestamp(mNodeIONC,txRecordBean,this);
+
     }
 
     @Override
@@ -856,6 +856,27 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onTxRecordNodeStart() {
         LoggerUtils.i("4444444444444444");
         showProgress(getAppString(R.string.please_wait));
+    }
+
+    @Override
+    public void OnTxRecordTimestampSuccess(TxRecordBean txRecordBean) {
+        mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
+        mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
+        txRecordHelper(txRecordBean);
+        IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
+    }
+
+    @Override
+    public void onTxRecordTimestampFailure(String error, TxRecordBean recordBean) {
+        mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
+        mTxRecordOutFragment.onNewTxRecordByTx(recordBean);
+        txRecordHelper(recordBean);
+        IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
+    }
+
+    @Override
+    public void onTxRecordTimestampStart() {
+
     }
 
 

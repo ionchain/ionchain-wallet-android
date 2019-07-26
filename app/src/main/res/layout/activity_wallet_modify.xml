@@ -52,6 +52,7 @@
             android:textSize="@dimen/txt_12sp"
             android:textStyle="bold" />
 
+
         <TextView
             android:layout_marginTop="76dp"
             android:id="@+id/rmbBalanceTv"

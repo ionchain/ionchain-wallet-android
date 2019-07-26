@@ -170,7 +170,7 @@
                 android:id="@+id/using_help"
                 style="@style/A_Style_tab_mine_item_container">
                 <ImageView
-                    android:src="@mipmap/mine_manager_wallet"
+                    android:src="@mipmap/mine_use_help"
                     android:id="@+id/img6"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"

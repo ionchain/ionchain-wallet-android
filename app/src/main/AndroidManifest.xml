@@ -19,9 +19,9 @@
 
     <application
         android:name=".App"
-        android:icon="@mipmap/login_logo"
+        android:icon="@mipmap/app_logo"
         android:label="@string/ionc_app_name"
-        android:roundIcon="@mipmap/login_logo"
+        android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
@@ -86,7 +86,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.modify.ModifyAndExportWalletActivity"
+            android:name=".view.activity.modify.ModifyWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

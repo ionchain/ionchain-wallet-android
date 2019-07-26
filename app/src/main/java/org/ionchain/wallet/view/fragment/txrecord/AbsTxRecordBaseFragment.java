@@ -244,12 +244,12 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                         LoggerUtils.i("valueeee", itemBeanBrowser.getValue());
                         bean.setValue(String.valueOf(itemBeanBrowser.getEtherValue()));
                         bean.setSuccess(true);
+                        bean.setBlockHash(itemBeanBrowser.getBlockHash());
                         bean.setPublicKey(mWalletBeanNew.getPublic_key());
                         bean.setGas(itemBeanBrowser.getGas());
                         bean.setGasPrice(itemBeanBrowser.getGasPrice());
                         bean.setNonce(itemBeanBrowser.getNonce());
                         bean.setBlockNumber(String.valueOf(itemBeanBrowser.getBlockNumber()));//可以作为是否交易成功的展示依据
-
                         txRecordBeansNew.add(0, bean);
                     } else {
                         LoggerUtils.i("oldhash", "old 哈希" + "   " + itemBeanBrowser.getHash());
@@ -264,19 +264,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                         data) {
                     LoggerUtils.i(tag, "网络请求成功" + itemBeanBrowser.toString());
                     if (IONCWalletSDK.getInstance().notExist(itemBeanBrowser.getHash())) {
-                        TxRecordBean bean = new TxRecordBean();
-                        bean.setHash(itemBeanBrowser.getHash());
-                        bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
-                        bean.setTo(itemBeanBrowser.getTx_to());
-                        bean.setFrom(itemBeanBrowser.getTx_from());
-                        bean.setValue(String.valueOf(Convert.fromWei(itemBeanBrowser.getValue(), Convert.Unit.ETHER)));
-                        bean.setSuccess(true);
-                        bean.setPublicKey(mWalletBeanNew.getPublic_key());
-                        bean.setGas(itemBeanBrowser.getGas());
-                        bean.setGasPrice(itemBeanBrowser.getGasPrice());
-                        bean.setNonce(itemBeanBrowser.getNonce());
-                        bean.setBlockNumber(String.valueOf(itemBeanBrowser.getBlockNumber()));//可以作为是否交易成功的展示依据
-                        txRecordBeansNew.add(0, bean);
+                        insertTxRecordBean(txRecordBeansNew, itemBeanBrowser);
                     }
 
                     LoggerUtils.i(tag, "out size  = " + txRecordBeansNew.size());
@@ -290,19 +278,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     LoggerUtils.i("beannet", "hash" + "   " + itemBeanBrowser.getHash());
                     if (IONCWalletSDK.getInstance().notExist(itemBeanBrowser.getHash())) {
                         LoggerUtils.i("beannet", "onTxRecordBrowserSuccess" + "   新增 = " + itemBeanBrowser.getHash());
-                        TxRecordBean bean = new TxRecordBean();
-                        bean.setHash(itemBeanBrowser.getHash());
-                        bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
-                        bean.setTo(itemBeanBrowser.getTx_to());
-                        bean.setFrom(itemBeanBrowser.getTx_from());
-                        bean.setValue(String.valueOf(Convert.fromWei(itemBeanBrowser.getValue(), Convert.Unit.ETHER)));
-                        bean.setSuccess(true);
-                        bean.setPublicKey(mWalletBeanNew.getPublic_key());
-                        bean.setGas(itemBeanBrowser.getGas());
-                        bean.setGasPrice(itemBeanBrowser.getGasPrice());
-                        bean.setNonce(itemBeanBrowser.getNonce());
-                        bean.setBlockNumber(String.valueOf(itemBeanBrowser.getBlockNumber()));//可以作为是否交易成功的展示依据
-                        txRecordBeansNew.add(0, bean);
+                        insertTxRecordBean(txRecordBeansNew, itemBeanBrowser);
                     }
 
                 }
@@ -341,7 +317,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 size = mListOut.size();
                 break;
             case TYPE_IN:
-
                 LoggerUtils.i(tag, "size in  = " + size);
                 for (TxRecordBean b :
                         txRecordBeansNew) {
@@ -353,6 +328,26 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
         }
         ToastUtil.showToastLonger(getAppString(R.string.new_tx_record) + " " + (size - oldSize));
         mTxRecordAdapter.notifyDataSetChanged();
+    }
+
+    private void insertTxRecordBean(List<TxRecordBean> txRecordBeansNew, TxRecordBeanTemp.DataBean.ItemBean itemBeanBrowser) {
+        TxRecordBean bean = new TxRecordBean();
+        bean.setHash(itemBeanBrowser.getHash());
+        bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
+        bean.setTo(itemBeanBrowser.getTx_to());
+        bean.setFrom(itemBeanBrowser.getTx_from());
+        bean.setValue(String.valueOf(Convert.fromWei(itemBeanBrowser.getValue(), Convert.Unit.ETHER)));
+        bean.setSuccess(true);
+        bean.setBlockHash(itemBeanBrowser.getBlockHash());
+        bean.setPublicKey(mWalletBeanNew.getPublic_key());
+        bean.setGas(itemBeanBrowser.getGas());
+        bean.setGasPrice(itemBeanBrowser.getGasPrice());
+        bean.setNonce(itemBeanBrowser.getNonce());
+        bean.setV(Integer.valueOf(itemBeanBrowser.getV()));
+        bean.setR(itemBeanBrowser.getR());
+        bean.setS(itemBeanBrowser.getS());
+        bean.setBlockNumber(String.valueOf(itemBeanBrowser.getBlockNumber()));//可以作为是否交易成功的展示依据
+        txRecordBeansNew.add(0, bean);
     }
 
     private void finishRefresh() {
@@ -527,19 +522,19 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
             switch (getType()) {
                 case TYPE_ALL:
                     size = mListAllData.size();
-                    pageNum = size/5;
+                    pageNum = size / 5;
                     pageNum++;
                     mTxRecordPresenter.getTxRecordAll("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeAll, this);
                     break;
                 case TYPE_OUT:
                     size = mListOut.size();
-                    pageNum = size/5;
+                    pageNum = size / 5;
                     pageNum++;
                     mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeFrom, this);
                     break;
                 case TYPE_IN:
                     size = mListIn.size();
-                    pageNum = size/5;
+                    pageNum = size / 5;
                     pageNum++;
                     mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), String.valueOf(pageNum), mPageSizeTo, this);
                     break;
