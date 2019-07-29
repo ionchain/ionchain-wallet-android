@@ -66,11 +66,12 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     /**
      * 转出记录
      */
-    protected static List<TxRecordBean> mListOut = new ArrayList<>();
+    protected static List<TxRecordBean> mListDone = new ArrayList<>();
     /**
      * 转入记录
      */
     protected static List<TxRecordBean> mListIn = new ArrayList<>();
+    protected static List<TxRecordBean> mListFailure = new ArrayList<>();
 
 
     /**
@@ -79,8 +80,9 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     protected TxRecordPresenter mTxRecordPresenter;
 
     public static final char TYPE_ALL = 0;
-    public static final char TYPE_OUT = 1;
-    public static final char TYPE_IN = 2;
+    public static final char TYPE_DONE = 1;
+    public static final char TYPE_DOING = 2;
+    public static final char TYPE_FAILURE = 3;
 
     public AbsBaseViewPagerFragment() {
         this.TAG_NAME = this.getClass().getSimpleName();

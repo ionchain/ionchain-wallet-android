@@ -32,6 +32,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import static java.lang.String.valueOf;
+import static org.ionc.wallet.sdk.IONCWalletSDK.TX_FAILURE;
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionchain.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionchain.wallet.constant.ConstantParams.CURRENT_ADDRESS;
@@ -240,8 +241,6 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
         mTxRecordBean.setValue(mTxAccount);
         mTxRecordBean.setPublicKey(mWalletBeanNew.getPublic_key());
         mTxRecordBean.setHash(hashTx);
-        mTxRecordBean.setLocal(true);
-        mTxRecordBean.setSuccess(true);
         mTxRecordBean.setNonce(String.valueOf(nonce));
         mTxRecordBean.setGasPrice(String.valueOf(mGasPrice));
         mTxRecordBean.setGas(String.valueOf(GAS_MIN_COUNT));
@@ -269,11 +268,9 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
         mTxRecordBean.setValue(mTxAccount);
         mTxRecordBean.setPublicKey(mWalletBeanNew.getPublic_key());
         mTxRecordBean.setHash(TX_HASH_NULL);
-        mTxRecordBean.setLocal(true);
-        mTxRecordBean.setSuccess(true);
         mTxRecordBean.setGasPrice(String.valueOf(mGasPrice));
         mTxRecordBean.setGas(String.valueOf(GAS_MIN_COUNT));
-        mTxRecordBean.setBlockNumber(getAppString(R.string.tx_failure));//交易失败
+        mTxRecordBean.setBlockNumber(TX_FAILURE);//交易失败
 
         Intent intent = new Intent();
         intent.putExtra(TX_ACTIVITY_RESULT, mTxRecordBean);

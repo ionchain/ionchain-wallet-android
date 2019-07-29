@@ -84,6 +84,7 @@ public class IONCWalletSDK {
     private static String keystoreDir;
     private static final SecureRandom secureRandom = SecureRandomUtils.secureRandom(); //"https://ropsten.etherscan.io/token/0x92e831bbbb22424e0f22eebb8beb126366fa07ce"
     public static final String TX_SUSPENDED = "TX_SUSPENDED";
+    public static final String TX_FAILURE = "TX_FAILURE";
 
     private Handler mHandler;
     private final String TAG = this.getClass().getSimpleName();
@@ -141,7 +142,7 @@ public class IONCWalletSDK {
     }
 
 
-    private DaoSession mDaoSession;
+    private static DaoSession mDaoSession;
 
 
     /**
@@ -908,7 +909,23 @@ public class IONCWalletSDK {
     /**
      * 检查旧表是否存在   WalletBean
      */
-    public boolean checkOldDataBaseExist() {
+    public boolean checkWalletBeanTableExist() {
+        List<WalletBean> walletList;
+        try {
+            QueryBuilder.LOG_SQL = true;
+            QueryBuilder.LOG_VALUES = true;
+            QueryBuilder<WalletBean> qb = EntityManager.getInstance().getWalletDaoOld(mDaoSession).queryBuilder();
+            walletList = qb.orderDesc(WalletBeanDao.Properties.Id).list();
+            return walletList != null;
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+
+    /**
+     * 检查旧表是否存在   TxRecordBean
+     */
+    public boolean checkTxRecordBeanTableExist() {
         List<WalletBean> walletList;
         try {
             QueryBuilder.LOG_SQL = true;
@@ -924,7 +941,7 @@ public class IONCWalletSDK {
     /**
      * @param walletBeanOlds 钱包旧数据库数据迁移
      */
-    public void migrateDb(List<WalletBean> walletBeanOlds) {
+    public void migrateWalletDb(List<WalletBean> walletBeanOlds) {
         int count = walletBeanOlds.size();
         for (int i = 0; i < count; i++) {
             WalletBeanNew walletBeanNew = new WalletBeanNew();
@@ -1031,6 +1048,32 @@ public class IONCWalletSDK {
                 .offset((int) offset)
                 .limit((int) perPageDataNum)
                 .list();
+        Collections.reverse(list);
+        return list;
+    }
+
+    /**
+     * 分页加载数据
+     *
+     * @param blockNum
+     * @param address
+     * @param offset
+     * @param perPageDataNum
+     * @return 当页交易记录
+     */
+    public List<TxRecordBean> txRecordAllByBlockNumber(String blockNum, String address, long offset, long perPageDataNum) {
+        TxRecordBeanDao dao = mDaoSession.getTxRecordBeanDao();
+        List<TxRecordBean> list = dao.queryBuilder()
+                .where(TxRecordBeanDao.Properties.BlockNumber.eq(blockNum), TxRecordBeanDao.Properties.From.eq(address))
+//                .offset((int) offset)
+//                .limit((int) perPageDataNum)
+                .list();
+        List<TxRecordBean> list1 = dao.queryBuilder()
+                .where(TxRecordBeanDao.Properties.BlockNumber.eq(blockNum), TxRecordBeanDao.Properties.To.eq(address))
+//                .offset((int) offset)
+//                .limit((int) perPageDataNum)
+                .list();
+        list.addAll(list1);
         Collections.reverse(list);
         return list;
     }

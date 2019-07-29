@@ -4,13 +4,13 @@ import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionchain.wallet.view.fragment.AssetFragment;
 
-public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTxRecordFromNodeCallback,
+public class TxRecordDoneFragment extends AbsTxRecordBaseFragment implements OnTxRecordFromNodeCallback,
         AssetFragment.OnPullToRefreshCallback {
 
 
     @Override
     protected int getType() {
-        return TYPE_OUT;
+        return TYPE_DONE;
     }
 
 
@@ -19,7 +19,7 @@ public class TxRecordOutFragment extends AbsTxRecordBaseFragment implements OnTx
      */
     @Override
     public void onNewTxRecordByTx(TxRecordBean txRecordBean) {
-        mListOut.add(0, txRecordBean);
+        mListDone.add(0, txRecordBean);
         super.onNewTxRecordByTx(txRecordBean);
     }
 }

@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import org.greenrobot.greendao.database.Database;
 import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.TxRecordBeanDao;
-import org.ionc.wallet.greendaogen.WalletBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanNewDao;
+import org.ionc.wallet.utils.LoggerUtils;
 
 public class MyOpenHelper extends DaoMaster.OpenHelper {
     public MyOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {
@@ -22,13 +22,16 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
  
             @Override
             public void onCreateAllTables(Database db, boolean ifNotExists) {
-                DaoMaster.createAllTables(db, ifNotExists);
+                TxRecordBeanDao.createTable(db, ifNotExists);
+//                WalletBeanDao.createTable(db, ifNotExists);
+                WalletBeanNewDao.createTable(db, ifNotExists);
             }
  
             @Override
             public void onDropAllTables(Database db, boolean ifExists) {
+                LoggerUtils.i("dbtest",db.toString());
                 DaoMaster.dropAllTables(db, ifExists);
             }
-        },  WalletBeanNewDao.class, WalletBeanDao.class, TxRecordBeanDao.class);
+        },  WalletBeanNewDao.class, TxRecordBeanDao.class);
     }
 }

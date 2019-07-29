@@ -169,8 +169,8 @@ dependencies {
     implementation group: 'com.google.android.material', name: 'material', version: '1.1.0-alpha07'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     // https://mvnrepository.com/artifact/androidx.recyclerview/recyclerview
-    implementation group: 'androidx.recyclerview', name: 'recyclerview', version: '1.1.0-alpha06'
-
+    implementation group: 'androidx.recyclerview', name: 'recyclerview', version: '1.1.0-beta01'
+    implementation 'com.android.support:multidex:1.0.3'
 
 }
 

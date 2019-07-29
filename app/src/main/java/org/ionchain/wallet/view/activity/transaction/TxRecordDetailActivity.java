@@ -22,6 +22,7 @@ import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 
+import static org.ionc.wallet.sdk.IONCWalletSDK.TX_FAILURE;
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
 import static org.ionchain.wallet.constant.ConstantParams.TX_HASH;
@@ -88,7 +89,7 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
     protected void initData() {
         super.initData();
 
-        if (getAppString(R.string.tx_failure).equals(mTxRecordBean.getBlockNumber())) {
+        if (TX_FAILURE.equals(mTxRecordBean.getBlockNumber())) {
             txDetailText.setText(getAppString(R.string.tx_failure));
             txDetailIcon.setImageResource(R.drawable.tx_failure);
 
@@ -106,8 +107,8 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
         txDetailFee.setText(mTxRecordBean.getGas() + " IONC");
         txDetailFee.setText(Convert.fromWei(new BigDecimal(mTxRecordBean.getGasPrice()).multiply(new BigDecimal(mTxRecordBean.getGas())), Convert.Unit.ETHER) + " IONC");
         txDetailFee1.setText("=Gas(" + mTxRecordBean.getGas() + ")*" + " GasPrice(" + Convert.fromWei(mTxRecordBean.getGasPrice(), Convert.Unit.GWEI) + " GWei)");
-        txDetailTo.setText(mTxRecordBean.getTo() + "   ");
-        txDetailFrom.setText(mTxRecordBean.getFrom() + "   ");
+        txDetailTo.setText(mTxRecordBean.getTo().trim());
+        txDetailFrom.setText(mTxRecordBean.getFrom().trim());
         txDetailHash.setText(mTxRecordBean.getHash() + "   ");
 
         txDetailBlock.setText(mTxRecordBean.getBlockNumber());

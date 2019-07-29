@@ -38,12 +38,6 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
      * 本地交易的时时间戳
      */
     private String tc_in_out;
-    private boolean local;
-    private boolean success;
-
-    private Long indexForAll;
-    private Long indexForOut;
-    private Long indexForIn;
 
 
     @Override
@@ -203,46 +197,6 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.tc_in_out = tc_in_out;
     }
 
-    public boolean isLocal() {
-        return local;
-    }
-
-    public void setLocal(boolean local) {
-        this.local = local;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public Long getIndexForAll() {
-        return indexForAll;
-    }
-
-    public void setIndexForAll(Long indexForAll) {
-        this.indexForAll = indexForAll;
-    }
-
-    public Long getIndexForOut() {
-        return indexForOut;
-    }
-
-    public void setIndexForOut(Long indexForOut) {
-        this.indexForOut = indexForOut;
-    }
-
-    public Long getIndexForIn() {
-        return indexForIn;
-    }
-
-    public void setIndexForIn(Long indexForIn) {
-        this.indexForIn = indexForIn;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -269,19 +223,6 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         dest.writeString(this.s);
         dest.writeValue(this.v);
         dest.writeString(this.tc_in_out);
-        dest.writeByte(this.local ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.success ? (byte) 1 : (byte) 0);
-        dest.writeValue(this.indexForAll);
-        dest.writeValue(this.indexForOut);
-        dest.writeValue(this.indexForIn);
-    }
-
-    public boolean getLocal() {
-        return this.local;
-    }
-
-    public boolean getSuccess() {
-        return this.success;
     }
 
     public TxRecordBean() {
@@ -307,19 +248,13 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.s = in.readString();
         this.v = (Integer) in.readValue(Integer.class.getClassLoader());
         this.tc_in_out = in.readString();
-        this.local = in.readByte() != 0;
-        this.success = in.readByte() != 0;
-        this.indexForAll = (Long) in.readValue(Long.class.getClassLoader());
-        this.indexForOut = (Long) in.readValue(Long.class.getClassLoader());
-        this.indexForIn = (Long) in.readValue(Long.class.getClassLoader());
     }
 
-    @Generated(hash = 628270852)
+    @Generated(hash = 217395210)
     public TxRecordBean(Long id, String hash, String nonce, String blockHash, String blockNumber,
             String transactionIndex, String from, String to, String value, String gasPrice, String gas,
             String input, String creates, String publicKey, String raw, String r, String s, Integer v,
-            String tc_in_out, boolean local, boolean success, Long indexForAll, Long indexForOut,
-            Long indexForIn) {
+            String tc_in_out) {
         this.id = id;
         this.hash = hash;
         this.nonce = nonce;
@@ -339,11 +274,6 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
         this.s = s;
         this.v = v;
         this.tc_in_out = tc_in_out;
-        this.local = local;
-        this.success = success;
-        this.indexForAll = indexForAll;
-        this.indexForOut = indexForOut;
-        this.indexForIn = indexForIn;
     }
 
     public static final Creator<TxRecordBean> CREATOR = new Creator<TxRecordBean>() {
@@ -380,11 +310,6 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
                 ", s='" + s + '\'' +
                 ", v=" + v +
                 ", tc_in_out='" + tc_in_out + '\'' +
-                ", local=" + local +
-                ", success=" + success +
-                ", indexForAll=" + indexForAll +
-                ", indexForOut=" + indexForOut +
-                ", indexForIn=" + indexForIn +
                 '}';
     }
 }

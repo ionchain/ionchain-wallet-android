@@ -150,8 +150,8 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_gravity="center"
-                     android:contentDescription="@string/tab_out"
-                     android:src="@mipmap/tx_out_icon" />
+                     android:contentDescription="@string/tab_tx_done"
+                     android:src="@mipmap/tx_btn_out" />
 
                  <TextView
                      android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                      android:layout_gravity="center"
                      android:layout_marginStart="5dp"
                      android:gravity="center"
-                     android:text="@string/tab_out"
+                     android:text="@string/tx_btn_out"
                      android:textColor="@color/white"
                      android:textSize="@dimen/txt_18sp" />
              </LinearLayout>
@@ -183,14 +183,14 @@
                  <ImageView
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:contentDescription="@string/tab_in"
-                     android:src="@mipmap/tx_in_icon" />
+                     android:contentDescription="@string/tab_tx_doing"
+                     android:src="@mipmap/tx_btn_in" />
 
                  <TextView
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_marginStart="5dp"
-                     android:text="@string/tab_in"
+                     android:text="@string/tx_btn_in"
                      android:textColor="@color/white"
                      android:textSize="@dimen/txt_18sp" />
              </LinearLayout>

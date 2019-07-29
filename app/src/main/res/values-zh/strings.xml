@@ -211,9 +211,9 @@
     <string name="copy_hash_addr">交易号已复制</string>
     <string name="copy_from_addr">转出地址已复制</string>
     <string name="copy_to_addr">转入地址已复制</string>
-    <string name="tab_all">全部</string>
-    <string name="tab_in">转入</string>
-    <string name="tab_out">转出</string>
+    <string name="tab_tx_all">全部</string>
+    <string name="tab_tx_doing">已提交</string>
+    <string name="tab_tx_done">已完成</string>
     <string name="tx_detail">交易详情</string>
     <string name="tx_success">转账成功</string>
     <string name="tx_failure">转账失败</string>
@@ -247,4 +247,7 @@
     <string name="back_up">备份助记词</string>
     <string name="copy_address">复制地址</string>
     <string name="device_unbind_success">解绑成功</string>
+    <string name="tab_tx_failure">已失败</string>
+    <string name="tx_btn_out">转出</string>
+    <string name="tx_btn_in">转出</string>
 </resources>

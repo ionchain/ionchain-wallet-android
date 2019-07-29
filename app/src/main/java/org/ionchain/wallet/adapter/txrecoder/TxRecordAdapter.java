@@ -17,11 +17,9 @@ import org.ionchain.wallet.utils.ColorUtils;
 
 import java.util.List;
 
+import static org.ionc.wallet.sdk.IONCWalletSDK.TX_FAILURE;
 import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
 import static org.ionc.wallet.utils.DateUtils.YYYY_MM_DD_HH_MM_SS;
-import static org.ionchain.wallet.view.base.AbsBaseViewPagerFragment.TYPE_ALL;
-import static org.ionchain.wallet.view.base.AbsBaseViewPagerFragment.TYPE_IN;
-import static org.ionchain.wallet.view.base.AbsBaseViewPagerFragment.TYPE_OUT;
 
 public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHolder> {
     private Context context;
@@ -49,56 +47,57 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
         } catch (NumberFormatException r) {
             viewHolder.setText(R.id.tx_item_datetime_tv, "来自网络");
         }
-        if (TX_SUSPENDED.equals(item.getBlockNumber())) {
-            viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_block_suspended));
-            if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
-                //转出 进行中
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out_doing);
-            } else {
-                //转入 进行中
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in_doing);
-            }
 
-        } else if (context.getResources().getString(R.string.tx_failure).equals(item.getBlockNumber())) {
-            //交易失败
-            viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_block_failure));
-            viewHolder.setTextColor(R.id.tx_item_state_tv, ColorUtils.getTxColorFailure());
-            if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
-                //转出  交易失败
+        if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
+            //转出
+            viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_out));
+            viewHolder.setText(R.id.tx_item_value, "- " + item.getValue() + " IONC");
+            if (TX_SUSPENDED.equals(item.getBlockNumber())) {
+                //进行中
+                viewHolder.setTextColor(R.id.tx_item_datetime_tv,context.getResources().getColor(R.color.tx_color_out_doing));
+                viewHolder.setTextColor(R.id.tx_item_value,context.getResources().getColor(R.color.tx_color_out_doing));
+                viewHolder.setTextColor(R.id.tx_item_state_tv,context.getResources().getColor(R.color.tx_color_out_doing));
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out_doing);
+            } else if (TX_FAILURE.equals(item.getBlockNumber())) {
+                //失败
+                viewHolder.setTextColor(R.id.tx_item_datetime_tv,ColorUtils.getTxColorFailure());
+                viewHolder.setTextColor(R.id.tx_item_value,ColorUtils.getTxColorFailure());
+                viewHolder.setTextColor(R.id.tx_item_state_tv, ColorUtils.getTxColorFailure());
                 viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out_failure);
             } else {
-                //转入 交易失败
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in_failure);
+                //已完成
+                viewHolder.setTextColor(R.id.tx_item_datetime_tv,context.getResources().getColor(R.color.tx_color_out_done));
+                viewHolder.setTextColor(R.id.tx_item_value,context.getResources().getColor(R.color.tx_color_out_done));
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+                viewHolder.setTextColor(R.id.tx_item_state_tv, context.getResources().getColor(R.color.tx_color_out_done));
+                LoggerUtils.i("hashcolor",item.getHash());
             }
         } else {
-            //已完成
-            viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_done));
-            if (item.getFrom().equals(item.getTo())) {
-                switch (mType) {
-                    case TYPE_ALL:
-                        viewHolder.setText(R.id.tx_item_value, item.getValue() + " IONC");
-                        viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
-                        break;
-                    case TYPE_OUT:
-                        viewHolder.setText(R.id.tx_item_value, "- " + item.getValue() + " IONC");
-                        viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
-                        break;
-                    case TYPE_IN:
-                        viewHolder.setText(R.id.tx_item_value, "+ " + item.getValue() + " IONC");
-                        viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in);
-                        break;
-                }
-            } else if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
-                //转出已完成
-                viewHolder.setText(R.id.tx_item_value, "- " + item.getValue() + " IONC");
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+            //转入 进行中
+            viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_in));
+            viewHolder.setText(R.id.tx_item_value, "+ " + item.getValue() + " IONC");
+
+            if (TX_SUSPENDED.equals(item.getBlockNumber())) {
+                //进行中
+                viewHolder.setTextColor(R.id.tx_item_datetime_tv, context.getResources().getColor(R.color.tx_color_in_doing));
+                viewHolder.setTextColor(R.id.tx_item_state_tv, context.getResources().getColor(R.color.tx_color_in_doing));
+                viewHolder.setTextColor(R.id.tx_item_value,context.getResources().getColor(R.color.tx_color_in_doing));
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in_doing);
+            } else if (TX_FAILURE.equals(item.getBlockNumber())) {
+                //失败
+                viewHolder.setTextColor(R.id.tx_item_datetime_tv, ColorUtils.getTxColorFailure());
+                viewHolder.setTextColor(R.id.tx_item_state_tv, ColorUtils.getTxColorFailure());
+                viewHolder.setTextColor(R.id.tx_item_state_tv, ColorUtils.getTxColorFailure());
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out_failure);
+
             } else {
-                //转入已完成
-                viewHolder.setText(R.id.tx_item_value, "+ " + item.getValue() + " IONC");
+                //已完成
+                viewHolder.setTextColor(R.id.tx_item_datetime_tv, context.getResources().getColor(R.color.tx_color_in_done));
+                viewHolder.setTextColor(R.id.tx_item_state_tv, context.getResources().getColor(R.color.tx_color_in_done));
+                viewHolder.setTextColor(R.id.tx_item_value,context.getResources().getColor(R.color.tx_color_in_done));
                 viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in);
             }
         }
-
 
 //        viewHolder.addOnClickListener(R.id.tx_state_img);
     }

@@ -214,9 +214,9 @@
     <string name="copy_hash_addr">Transaction number copied</string>
     <string name="copy_to_addr">Outgoing address copied</string>
     <string name="copy_from_addr">Roll-in address copied</string>
-    <string name="tab_all">All</string>
-    <string name="tab_in">Roll-in</string>
-    <string name="tab_out">Outgoing</string>
+    <string name="tab_tx_all">All</string>
+    <string name="tab_tx_doing">Tx-Doing</string>
+    <string name="tab_tx_done">Tx-Done</string>
     <string name="tx_detail">Transaction details</string>
     <string name="tx_success">Successfully transferred</string>
     <string name="tx_failure">Fail to transfer</string>
@@ -249,4 +249,7 @@
     <string name="back_up">Backup mnemonic words</string>
     <string name="copy_address">Copy Address</string>
     <string name="device_unbind_success">Unbind Successfully</string>
+    <string name="tab_tx_failure">Tx-Failure</string>
+    <string name="tx_btn_out">转出</string>
+    <string name="tx_btn_in">转出</string>
 </resources>

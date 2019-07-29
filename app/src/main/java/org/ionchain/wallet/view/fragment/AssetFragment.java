@@ -51,8 +51,9 @@ import org.ionchain.wallet.view.activity.transaction.TxOutActivity;
 import org.ionchain.wallet.view.base.AbsBaseFragment;
 import org.ionchain.wallet.view.base.AbsBaseViewPagerFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordAllFragment;
-import org.ionchain.wallet.view.fragment.txrecord.TxRecordInFragment;
-import org.ionchain.wallet.view.fragment.txrecord.TxRecordOutFragment;
+import org.ionchain.wallet.view.fragment.txrecord.TxRecordDoingFragment;
+import org.ionchain.wallet.view.fragment.txrecord.TxRecordDoneFragment;
+import org.ionchain.wallet.view.fragment.txrecord.TxRecordFailureFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordPagerAdapter;
 import org.ionchain.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionchain.wallet.view.widget.dialog.export.DialogTextMessage;
@@ -193,9 +194,10 @@ public class AssetFragment extends AbsBaseFragment implements
 
     private List<AbsBaseViewPagerFragment> mFragmentListTxRecord = new ArrayList<>();
 
-    private TxRecordInFragment mTxRecordInFragment;
+    private TxRecordDoingFragment mTxRecordDoingFragment;
     private TxRecordAllFragment mTxRecordAllFragment;
-    private TxRecordOutFragment mTxRecordOutFragment;
+    private TxRecordDoneFragment mTxRecordDoneFragment;
+    private TxRecordFailureFragment mTxRecordFailureFragment;
 
     private String mOldAddress = "";
     private double mCNY = 0;
@@ -479,13 +481,12 @@ public class AssetFragment extends AbsBaseFragment implements
                 if (DEFAULT_TRANSCATION_HASH_NULL.equals(t.getHash())) {
                     //交易失败
                     mTxRecordAllFragment.onNewTxRecordByTx(t);
-                    mTxRecordOutFragment.onNewTxRecordByTx(t);
+//                    mTxRecordDoneFragment.onNewTxRecordByTx(t);
                     IONCWalletSDK.getInstance().saveTxRecordBean(t);
                     return;
                 }
                 //交易成功
                 //刷刷新余额
-                balance();
 //                //请求交易区块等信息
                 IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
                         , t.getHash()
@@ -517,17 +518,20 @@ public class AssetFragment extends AbsBaseFragment implements
         if (mCurrentWallet == null) {
             mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         }
-        mTxRecordInFragment = new TxRecordInFragment();
-        mTxRecordOutFragment = new TxRecordOutFragment();
+        mTxRecordDoingFragment = new TxRecordDoingFragment();
+        mTxRecordDoneFragment = new TxRecordDoneFragment();
         mTxRecordAllFragment = new TxRecordAllFragment();
+        mTxRecordFailureFragment = new TxRecordFailureFragment();
         mFragmentListTxRecord.add(mTxRecordAllFragment);
-        mFragmentListTxRecord.add(mTxRecordOutFragment);
-        mFragmentListTxRecord.add(mTxRecordInFragment);
+        mFragmentListTxRecord.add(mTxRecordDoneFragment);
+        mFragmentListTxRecord.add(mTxRecordDoingFragment);
+        mFragmentListTxRecord.add(mTxRecordFailureFragment);
         List<String> titles = new ArrayList<>();
-        LoggerUtils.e("tab",getAppString(R.string.tab_all));
-        titles.add(getAppString(R.string.tab_all));
-        titles.add(getAppString(R.string.tab_out));
-        titles.add(getAppString(R.string.tab_in));
+        LoggerUtils.e("tab",getAppString(R.string.tab_tx_all));
+        titles.add(getAppString(R.string.tab_tx_all));
+        titles.add(getAppString(R.string.tab_tx_done));
+        titles.add(getAppString(R.string.tab_tx_doing));
+        titles.add(getAppString(R.string.tab_tx_failure));
         viewPager.setAdapter(new TxRecordPagerAdapter(getChildFragmentManager(), mFragmentListTxRecord, titles));
         viewPager.setPageTransformer(true,new DepthPageTransformer());
 //        viewPager.setPageTransformer(true,new ZoomOutPageTransformer());
@@ -542,8 +546,8 @@ public class AssetFragment extends AbsBaseFragment implements
     private void changeWallet() {
         tabLayout.selectTab(tabLayout.getTabAt(0));
         mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
-        mTxRecordOutFragment.onAddressChanged(mCurrentWallet);
-        mTxRecordInFragment.onAddressChanged(mCurrentWallet);
+        mTxRecordDoneFragment.onAddressChanged(mCurrentWallet);
+        mTxRecordDoingFragment.onAddressChanged(mCurrentWallet);
     }
 
 
@@ -560,19 +564,19 @@ public class AssetFragment extends AbsBaseFragment implements
         if (mTxRecordAllFragment != null) {
             mTxRecordAllFragment.onPullToDown(mCurrentWallet, mRefresh);
         }
-        if (mTxRecordOutFragment != null) {
-            mTxRecordOutFragment.onPullToDown(mCurrentWallet, mRefresh);
+        if (mTxRecordDoneFragment != null) {
+            mTxRecordDoneFragment.onPullToDown(mCurrentWallet, mRefresh);
         }
-        if (mTxRecordInFragment != null) {
-            mTxRecordInFragment.onPullToDown(mCurrentWallet, mRefresh);
+        if (mTxRecordDoingFragment != null) {
+            mTxRecordDoingFragment.onPullToDown(mCurrentWallet, mRefresh);
         }
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         mTxRecordAllFragment.onPullToUp(mCurrentWallet, mRefresh);
-        mTxRecordInFragment.onPullToUp(mCurrentWallet, mRefresh);
-        mTxRecordOutFragment.onPullToUp(mCurrentWallet, mRefresh);
+        mTxRecordDoingFragment.onPullToUp(mCurrentWallet, mRefresh);
+        mTxRecordDoneFragment.onPullToUp(mCurrentWallet, mRefresh);
         mRefresh.finishLoadMore(500);
     }
 
@@ -840,14 +844,14 @@ public class AssetFragment extends AbsBaseFragment implements
         LoggerUtils.i("syncBrowser", "OnTxRecordNodeSuccess" + "   AssetFragment" + txRecordBean.toString());
         //取出块的哈希值，获取交易完成时间
         IONCWalletSDK.getInstance().ethTransactiontimestamp(mNodeIONC,txRecordBean,this);
-
+        balance();
     }
 
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean recordBean) {
         hideProgress();
         mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
-        mTxRecordOutFragment.onNewTxRecordByTx(recordBean);
+//        mTxRecordDoneFragment.onNewTxRecordByTx(recordBean);
         txRecordHelper(recordBean);
         IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
     }
@@ -861,7 +865,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void OnTxRecordTimestampSuccess(TxRecordBean txRecordBean) {
         mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
-        mTxRecordOutFragment.onNewTxRecordByTx(txRecordBean);
+        mTxRecordDoneFragment.onNewTxRecordByTx(txRecordBean);
         txRecordHelper(txRecordBean);
         IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
     }
@@ -869,7 +873,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onTxRecordTimestampFailure(String error, TxRecordBean recordBean) {
         mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
-        mTxRecordOutFragment.onNewTxRecordByTx(recordBean);
+        mTxRecordDoneFragment.onNewTxRecordByTx(recordBean);
         txRecordHelper(recordBean);
         IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
     }

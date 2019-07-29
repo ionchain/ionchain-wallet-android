@@ -171,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/copy"
                         android:ellipsize="middle"
-                        android:gravity="center"
+                        android:gravity="center|left"
                         android:singleLine="true"
                         android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
                         android:textColor="@color/black"
@@ -230,7 +230,7 @@
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/copy"
                         android:ellipsize="middle"
-                        android:gravity="center"
+                        android:gravity="center|left"
                         android:singleLine="true"
                         android:text="0x2425dcb0f2bc858d9fa37f6a298afd061ea462a4"
                         android:textColor="@color/black"
@@ -294,11 +294,11 @@
                 <ImageView
                     android:id="@+id/tx_detail_qrcode"
                     android:layout_width="wrap_content"
+                    android:layout_below="@id/tx_detail_block"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/h10"
-                    android:layout_marginEnd="@dimen/h25"
+                    android:layout_marginTop="60dp"
                     android:src="@mipmap/scan" />
 
             </RelativeLayout>

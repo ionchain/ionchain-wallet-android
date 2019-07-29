@@ -16,8 +16,12 @@
     <color name="bga_pp_btn_confirm_pressed">#CC17C7D1</color>
     <color name="possible_result_points">#ffbd21</color>
     <color name="top_bar_color">#06CACE</color>
-    <color name="tx_color_failure">#FD4F4F</color>
+    <color name="tx_color_failure">#999999</color>
     <color name="split_line_color">#cccccc</color>
     <color name="dialog_title_color">#666666</color>
     <color name="main_color">#27e4e8</color>
+    <color name="tx_color_in_doing">#F69696</color>
+    <color name="tx_color_out_doing">#85B8F3</color>
+    <color name="tx_color_out_done">#2D8BF5</color>
+    <color name="tx_color_in_done">#FD4F4F</color>
 </resources>
