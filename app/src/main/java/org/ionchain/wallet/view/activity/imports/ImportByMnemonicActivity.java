@@ -144,22 +144,18 @@ public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements
     @Override
     public void onImportMnemonicSuccess(WalletBeanNew walletBean) {
         walletBean.setMnemonic("");
-        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
-
+        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress().toLowerCase());
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getAppString(R.string.wallet_exists))
                     .setMessage(getAppString(R.string.import_and_update_password))
-                    .setPositiveButton(getAppString(R.string.continues), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    .setPositiveButton(getAppString(R.string.continues), (dialog, which) -> {
 
-                            dialog.dismiss();
-                            IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByMnemonicActivity.this);
+                        dialog.dismiss();
+                        IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByMnemonicActivity.this);
 
-                        }
                     })
                     .setNegativeButton(getAppString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override

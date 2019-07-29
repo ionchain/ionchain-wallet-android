@@ -165,18 +165,15 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
     protected void initView() {
         findViews();
 
-        mTitleRightTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
-                    mWallet.setName(walletNameEt.getText().toString());
-                    mTitleNameTv.setText(walletNameEt.getText().toString());
-                    SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
-                    IONCWalletSDK.getInstance().updateWallet(mWallet);
-                    ToastUtil.showShort(getAppString(R.string.has_been_done));
-                } else {
-                    ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
-                }
+        mTitleRightTv.setOnClickListener(v -> {
+            if (walletNameEt.getText() != null && !StringUtils.isEmpty(walletNameEt.getText().toString())) {
+                mWallet.setName(walletNameEt.getText().toString());
+                mTitleNameTv.setText(walletNameEt.getText().toString());
+                SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
+                IONCWalletSDK.getInstance().updateWallet(mWallet);
+                ToastUtil.showShort(getAppString(R.string.has_been_done));
+            } else {
+                ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
             }
         });
        
@@ -234,22 +231,16 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                 deleteWallet.setLeftBtnText(getAppString(R.string.cancel));
                 deleteWallet.setRightBtnText(getAppString(R.string.sure));
                 deleteWallet.setTitleText(getAppString(R.string.please_input_wallet_password));
-                deleteWallet.setLeftBtnClickedListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteWallet.dismiss();  //删除钱包
-                    }
+                deleteWallet.setLeftBtnClickedListener(v12 -> {
+                    deleteWallet.dismiss();  //删除钱包
                 });
-                deleteWallet.setRightBtnClickedListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (StringUtils.isEmpty(deleteWallet.getPasswordEt().getText().toString())) {
-                            ToastUtil.showToastLonger(getAppString(R.string.please_input_wallet_password));
-                            return;
-                        }
-                        String p_input = deleteWallet.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, p_input, mWallet.getKeystore(), ModifyWalletActivity.this); //删除钱包的时候检查密码
+                deleteWallet.setRightBtnClickedListener(v1 -> {
+                    if (StringUtils.isEmpty(deleteWallet.getPasswordEt().getText().toString())) {
+                        ToastUtil.showToastLonger(getAppString(R.string.please_input_wallet_password));
+                        return;
                     }
+                    String p_input = deleteWallet.getPasswordEt().getText().toString();
+                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, p_input, mWallet.getKeystore(), ModifyWalletActivity.this); //删除钱包的时候检查密码
                 });
                 deleteWallet.show();//删除钱包
                 break;
@@ -268,32 +259,23 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                         exportPK.dismiss(); //导出私钥
                     }
                 });
-                exportPK.setRightBtnClickedListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*比对密码是否正确*/
-                        String pwd1 = exportPK.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this); //导出私钥
-                    }
+                exportPK.setRightBtnClickedListener(v15 -> {
+                    /*比对密码是否正确*/
+                    String pwd1 = exportPK.getPasswordEt().getText().toString();
+                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this); //导出私钥
                 });
                 exportPK.show();//导出私钥
                 break;
             case R.id.import_key_store_layout://导出KS
                 flag = FLAG_EXPORT_KS;
                 exportKS = new DialogPasswordCheck(this);
-                exportKS.setLeftBtnClickedListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        exportKS.dismiss(); //导出KS
-                    }
+                exportKS.setLeftBtnClickedListener(v13 -> {
+                    exportKS.dismiss(); //导出KS
                 });
-                exportKS.setRightBtnClickedListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        /*比对密码是否正确*/
-                        String pwd1 = exportKS.getPasswordEt().getText().toString();
-                        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this);//导出KS
-                    }
+                exportKS.setRightBtnClickedListener(v14 -> {
+                    /*比对密码是否正确*/
+                    String pwd1 = exportKS.getPasswordEt().getText().toString();
+                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this);//导出KS
                 });
                 exportKS.show(); //导出KS
                 break;

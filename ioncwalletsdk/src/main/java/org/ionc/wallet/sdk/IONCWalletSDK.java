@@ -473,10 +473,10 @@ public class IONCWalletSDK {
     }
 
     /**
-     * @param node         区块节点
-     * @param hash         交易的 哈希值
+     * @param node                       区块节点
+     * @param hash                       交易的 哈希值
      * @param txRecordBean
-     * @param onTxRecordFromNodeCallback     回调
+     * @param onTxRecordFromNodeCallback 回调
      */
     public void ethTransaction(final String node, final String hash, final TxRecordBean txRecordBean, final OnTxRecordFromNodeCallback onTxRecordFromNodeCallback) {
 
@@ -552,7 +552,7 @@ public class IONCWalletSDK {
         }.start();
     }
 
-    public void ethTransactiontimestamp(final String node,  final TxRecordBean txRecordBean, final OnTxRecordTimestampCallback timestampCallback) {
+    public void ethTransactiontimestamp(final String node, final TxRecordBean txRecordBean, final OnTxRecordTimestampCallback timestampCallback) {
 
         if (TextUtils.isEmpty(txRecordBean.getBlockHash())) {
             timestampCallback.onTxRecordTimestampFailure("", txRecordBean);
@@ -564,7 +564,7 @@ public class IONCWalletSDK {
                 super.run();
                 try {
                     Web3j web3j = Web3j.build(new HttpService(node));
-                    BigInteger timestampRaw = web3j.ethGetBlockByHash(txRecordBean.getBlockHash(),true).send().getBlock().getTimestamp();//获取时间戳
+                    BigInteger timestampRaw = web3j.ethGetBlockByHash(txRecordBean.getBlockHash(), true).send().getBlock().getTimestamp();//获取时间戳
                     if (timestampRaw == null) {
                         mHandler.post(() -> {
                             timestampCallback.onTxRecordTimestampFailure("error", txRecordBean);
@@ -595,9 +595,9 @@ public class IONCWalletSDK {
     public void transaction(final String nodeIONC, final TransactionHelper helper, final OnTransationCallback callback) {
         try {
             Web3j web3j = Web3j.build(new HttpService(nodeIONC));
-            LoggerUtils.i("gettest","0 "+Thread.currentThread().getName());
+            LoggerUtils.i("gettest", "0 " + Thread.currentThread().getName());
             EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(helper.getWalletBeanTx().getAddress(), DefaultBlockParameterName.PENDING).sendAsync().get();//转账
-            LoggerUtils.i("gettest","1 "+Thread.currentThread().getId());
+            LoggerUtils.i("gettest", "1 " + Thread.currentThread().getId());
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
             String toAddress = helper.getToAddress().toLowerCase();
 //                    Credentials credentials = MyWalletUtils.loadCredentials(helper.getWalletBeanTx().getPassword(), new File(helper.getWalletBeanTx().getKeystore()));
@@ -606,7 +606,7 @@ public class IONCWalletSDK {
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
             String signedData = Numeric.toHexString(signedMessage);
             EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).sendAsync().get();//转账
-            LoggerUtils.i("gettest","2 "+Thread.currentThread().getId());
+            LoggerUtils.i("gettest", "2 " + Thread.currentThread().getId());
             final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
             LoggerUtils.i("nonce", valueOf(nonce));
 
@@ -664,12 +664,7 @@ public class IONCWalletSDK {
      * @return
      */
     public WalletBeanNew getWalletByAddress(String address) {
-        WalletBeanNew wallet = null;
-        List<WalletBeanNew> list = mDaoSession.getWalletBeanNewDao().queryBuilder().where(WalletBeanNewDao.Properties.Address.eq(address)).list();
-        if (list.size() > 0) {
-            wallet = list.get(0);
-        }
-        return wallet;
+        return mDaoSession.getWalletBeanNewDao().queryBuilder().where(WalletBeanNewDao.Properties.Address.eq(address)).unique();
     }
 
 

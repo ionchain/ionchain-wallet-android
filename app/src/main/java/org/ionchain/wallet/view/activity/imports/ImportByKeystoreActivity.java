@@ -119,7 +119,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
     @Override
     public void onCreateSuccess(WalletBeanNew walletBean) {
         hideProgress();
-        WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
+        WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress().toLowerCase());
         LoggerUtils.i("KS导入成功:" + walletBean.toString());
         if (null != wallet) {
             ToastUtil.showLong(getAppString(R.string.wallet_exists));

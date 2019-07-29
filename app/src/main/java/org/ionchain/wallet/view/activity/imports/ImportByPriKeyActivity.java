@@ -213,7 +213,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
     public void onCreateSuccess(final WalletBeanNew walletBean) {
         LoggerUtils.i(walletBean.toString());
         hideProgress();
-        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress());
+        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress().toLowerCase());
         if (null != wallet) {
             LoggerUtils.i("导入私钥--钱包存在,是否更新?" + wallet.toString());
             wallet.setPassword(walletBean.getPassword());

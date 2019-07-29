@@ -134,12 +134,12 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
             dialogPasswordCheck.setBtnClickedListener(v1 -> dialogPasswordCheck.dismiss(), v12 -> {
                 dialogPasswordCheck.dismiss();
                 closeInputMethod();
-                LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mNodeIONC);
+                LoggerUtils.i("主链节点获取成功（检查交易密码之前）：" + mWalletBeanNew.getPassword());
                 //检查密码是否正确
                 String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
-                LoggerUtils.i("主链节点获取成功（检查交易密码之前）pwd_input ：" + mNodeIONC);
+                LoggerUtils.i("主链节点获取成功（检查交易密码之前）pwd_input ：" + pwd_input);
 
-                IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mKsPath, TxOutActivity.this); //转账
+                IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mWalletBeanNew.getKeystore(), TxOutActivity.this); //转账
             }).show();
         });
         txSeekBarIndex.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

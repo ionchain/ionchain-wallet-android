@@ -34,6 +34,10 @@ class DeviceBean : Serializable {
         var system: String? = null
         var created_at: String? = null
         var image_url: String? = null
+        override fun toString(): String {
+            return "DataBean(id=$id, name=$name, cksn=$cksn, system=$system, created_at=$created_at, image_url=$image_url)"
+        }
+
     }
 
     companion object {

@@ -248,4 +248,5 @@
     <string name="back_up">Backup mnemonic words</string>
     <string name="total_assets">Total</string>
     <string name="copy_address">Copy Address</string>
+    <string name="device_unbind_success">Unbind Successfully</string>
 </resources>

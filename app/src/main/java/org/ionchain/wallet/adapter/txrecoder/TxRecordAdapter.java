@@ -53,10 +53,10 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
             viewHolder.setText(R.id.tx_item_state_tv, context.getResources().getString(R.string.tx_block_suspended));
             if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
                 //转出 进行中
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out_doing);
             } else {
                 //转入 进行中
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in_doing);
             }
 
         } else if (context.getResources().getString(R.string.tx_failure).equals(item.getBlockNumber())) {
@@ -65,10 +65,10 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
             viewHolder.setTextColor(R.id.tx_item_state_tv, ColorUtils.getTxColorFailure());
             if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
                 //转出  交易失败
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out_failure);
             } else {
                 //转入 交易失败
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in_failure);
             }
         } else {
             //已完成
@@ -77,12 +77,15 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
                 switch (mType) {
                     case TYPE_ALL:
                         viewHolder.setText(R.id.tx_item_value, item.getValue() + " IONC");
+                        viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
                         break;
                     case TYPE_OUT:
                         viewHolder.setText(R.id.tx_item_value, "- " + item.getValue() + " IONC");
+                        viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
                         break;
                     case TYPE_IN:
                         viewHolder.setText(R.id.tx_item_value, "+ " + item.getValue() + " IONC");
+                        viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in);
                         break;
                 }
             } else if (mWalletBeanNew.getAddress().equals(item.getFrom())) {
@@ -92,7 +95,7 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
             } else {
                 //转入已完成
                 viewHolder.setText(R.id.tx_item_value, "+ " + item.getValue() + " IONC");
-                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_out);
+                viewHolder.setImageResource(R.id.tx_item_state_img, R.mipmap.tx_done_icon_in);
             }
         }
 

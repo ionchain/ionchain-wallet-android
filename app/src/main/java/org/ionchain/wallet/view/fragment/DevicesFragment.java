@@ -26,7 +26,7 @@ import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.callback.OnDeviceListCallback;
-import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
+import org.ionchain.wallet.callback.OnUnbindDeviceCallback;
 import org.ionchain.wallet.presenter.device.DevicePresenter;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
@@ -44,7 +44,13 @@ import java.util.List;
 /**
  * 我的设备
  */
-public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceButtonClickedListener, OnRefreshListener, OnDeviceListCallback, DialogMnemonicShow.OnSavedMnemonicCallback, DialogTextMessage.OnBtnClickedListener, OnDialogCheck12MnemonicCallbcak, OnBindDeviceCallback {
+public class DevicesFragment extends AbsBaseFragment implements
+        OnRefreshListener,
+        OnDeviceListCallback,
+        DialogMnemonicShow.OnSavedMnemonicCallback,
+        DialogTextMessage.OnBtnClickedListener,
+        OnDialogCheck12MnemonicCallbcak,
+        OnBindDeviceCallback, OnUnbindDeviceCallback {
     private static final int QRCODE_BIND_DEVICE = 10;
     private ListView mListView;
     private CommonAdapter mAdapter;
@@ -61,6 +67,8 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     private DialogMnemonicShow dialogMnemonic;
 
     private DialogBindDevice mDialogBindCardWithWallet;//绑定设备的弹窗
+
+    private int mPosToBeRemove;
 
     @Override
     protected int getFragmentLayout() {
@@ -80,7 +88,7 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
         no_device_img = view.findViewById(R.id.no_device_img);
         wallet_name_devices = view.findViewById(R.id.wallet_name_devices);
 
-        mAdapter = new CommonAdapter(mActivity, mDataBeanList, R.layout.item_devices_layout, new DeviceViewHelper(this));
+        mAdapter = new CommonAdapter(mActivity, mDataBeanList, R.layout.item_devices_layout, new DeviceViewHelper());
         mListView.setAdapter(mAdapter);
 
 
@@ -103,6 +111,12 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
             Intent intent = new Intent(mActivity, CaptureActivity.class);
             startActivityForResult(intent, 10);
         });
+        mListView.setOnItemClickListener((parent, view, position, id) -> {
+            mPosToBeRemove = position;
+            mDevicePresenter.unbindDeviceToWallet(mCurrentWallet.getAddress(), mDataBeanList.get(position).getCksn(), DevicesFragment.this);
+        })
+        ;
+
     }
 
     @Override
@@ -163,15 +177,12 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
 //        if (StringUtils.isEmpty(address)) {
 //            return;
 //        }
+
+        //从网络获取数据
         mDevicePresenter.getCurrentWalletDevicesList(mCurrentWallet, this);
 
     }
 
-    @Override
-    public void onUnbindButtonClick(String cksn, int position) {
-        LoggerUtils.i(TAG, "onUnbindButtonClick: " + cksn);
-
-    }
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
@@ -307,6 +318,18 @@ public class DevicesFragment extends AbsBaseFragment implements OnUnbindDeviceBu
     @Override
     public void onBindFailure(String result) {
         LoggerUtils.e(result);
-        ToastUtil.showShortToast("该业务暂未开放");
+        ToastUtil.showShortToast(result);
+    }
+
+    @Override
+    public void onUnbindSuccess(DeviceBean.DataBean dataBean) {
+        mDataBeanList.remove(mPosToBeRemove);
+        mAdapter.notifyDataSetChanged();
+        ToastUtil.showShort(getAppString(R.string.device_unbind_success));
+    }
+
+    @Override
+    public void onUnbindFailure(String result) {
+        ToastUtil.showShort(result);
     }
 }

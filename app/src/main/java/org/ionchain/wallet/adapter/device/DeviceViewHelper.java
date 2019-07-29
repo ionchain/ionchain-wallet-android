@@ -12,7 +12,6 @@ import org.ionc.wallet.adapter.IViewHolder;
 import org.ionc.wallet.adapter.IViewHolderHelper;
 import org.ionc.wallet.bean.DeviceBean;
 import org.ionchain.wallet.R;
-import org.ionchain.wallet.callback.OnUnbindDeviceButtonClickedListener;
 
 import java.util.List;
 
@@ -22,11 +21,7 @@ import java.util.List;
  * 描述: 辅助类 绑定数据
  */
 public class DeviceViewHelper implements IViewHolderHelper<DeviceViewHolder, DeviceBean.DataBean> {
-    private OnUnbindDeviceButtonClickedListener mListener;
 
-    public DeviceViewHelper(OnUnbindDeviceButtonClickedListener listener) {
-        mListener = listener;
-    }
 
     @Override
     public IViewHolder initItemViewHolder(DeviceViewHolder viewHolder, View view) {
@@ -47,16 +42,6 @@ public class DeviceViewHelper implements IViewHolderHelper<DeviceViewHolder, Dev
                 .into(viewHolder.deviceIcon);
         viewHolder.deviceName.setText(bean.getName());
         viewHolder.bindDate.setText(bean.getCreated_at());
-//        viewHolder.totalIncome.setText(bean.getCreated_at());
-        if (mListener != null) {
-            viewHolder.unbindDevice.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    mListener.onUnbindButtonClick(bean.getCksn(),position);
-                    return false;
-                }
-            });
-        }
     }
 
 }
