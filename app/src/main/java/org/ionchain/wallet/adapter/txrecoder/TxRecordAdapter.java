@@ -101,4 +101,8 @@ public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHold
 
 //        viewHolder.addOnClickListener(R.id.tx_state_img);
     }
+
+    public void setCurrentWalletBean(WalletBeanNew walletBeanNew) {
+        mWalletBeanNew = walletBeanNew;
+    }
 }

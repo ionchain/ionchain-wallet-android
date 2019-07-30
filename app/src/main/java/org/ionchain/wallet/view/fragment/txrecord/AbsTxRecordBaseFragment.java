@@ -606,6 +606,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 
     @Override
     public void onAddressChanged(WalletBeanNew currentWallet) {
+
         LoggerUtils.i("method", "onAddressChanged");
         switch (getType()) {
             case TYPE_ALL:
@@ -617,6 +618,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 if (mTxRecordAdapter == null) {
                     return;
                 }
+                mTxRecordAdapter.setCurrentWalletBean(mWalletBeanNew);
                 mTxRecordAdapter.notifyDataSetChanged();
                 getLocalData();// 全部需要显示
                 break;
@@ -625,6 +627,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 if (mTxRecordAdapter == null) {
                     return;
                 }
+                mTxRecordAdapter.setCurrentWalletBean(mWalletBeanNew);
                 mTxRecordAdapter.notifyDataSetChanged();
                 break;
             case TYPE_DOING:
@@ -632,6 +635,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 if (mTxRecordAdapter == null) {
                     return;
                 }
+                mTxRecordAdapter.setCurrentWalletBean(mWalletBeanNew);
                 mTxRecordAdapter.notifyDataSetChanged();
                 break;
             case TYPE_FAILURE:
@@ -639,6 +643,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 if (mTxRecordAdapter == null) {
                     return;
                 }
+                mTxRecordAdapter.setCurrentWalletBean(mWalletBeanNew);
                 mTxRecordAdapter.notifyDataSetChanged();
                 break;
         }
