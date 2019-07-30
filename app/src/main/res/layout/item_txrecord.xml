@@ -10,8 +10,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/home_margin_horizon"
-        android:src="@mipmap/tx_out" />
+        android:layout_marginStart="@dimen/home_margin_horizon" />
 
 
     <TextView
@@ -21,7 +20,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_toEndOf="@id/tx_item_state_img"
-        android:text="已转出"
+        android:text=""
         android:textColor="#FF333333"
         android:textSize="13sp" />
 
@@ -34,7 +33,7 @@
         android:layout_below="@id/tx_item_state_tv"
         android:layout_toEndOf="@id/tx_item_state_img"
         android:gravity="center"
-        android:text="2019-11-14 02:40"
+        android:text=""
         android:textColor="#FF999999"
         android:textSize="11sp" />
 
@@ -46,7 +45,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/home_margin_horizon"
-        android:text="-326.914"
+        android:text=""
         android:textColor="#FF2D8BF5"
         android:textSize="15.33sp" />
     <View
