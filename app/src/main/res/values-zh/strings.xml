@@ -249,5 +249,6 @@
     <string name="device_unbind_success">解绑成功</string>
     <string name="tab_tx_failure">已失败</string>
     <string name="tx_btn_out">转出</string>
-    <string name="tx_btn_in">转出</string>
+    <string name="tx_btn_in">转入</string>
+    <string name="wallet_amount">金额</string>
 </resources>

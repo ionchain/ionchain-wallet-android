@@ -269,6 +269,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
             case R.id.import_key_store_layout://导出KS
                 flag = FLAG_EXPORT_KS;
                 exportKS = new DialogPasswordCheck(this);
+                exportKS.setTitleText(getAppString(R.string.export_keystore));
                 exportKS.setLeftBtnClickedListener(v13 -> {
                     exportKS.dismiss(); //导出KS
                 });

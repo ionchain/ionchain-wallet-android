@@ -81,7 +81,7 @@ public class DevicesFragment extends AbsBaseFragment implements
         mSwipeRefreshLayout = view.findViewById(R.id.refresh_asset);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mSwipeRefreshLayout.setEnableRefresh(false);
+//        mSwipeRefreshLayout.setEnableRefresh(false);
         mListView = view.findViewById(R.id.devices_lv);
         addDevice = view.findViewById(R.id.add_devices);
         wallet_img_device = view.findViewById(R.id.wallet_img_device);
@@ -114,8 +114,7 @@ public class DevicesFragment extends AbsBaseFragment implements
         mListView.setOnItemClickListener((parent, view, position, id) -> {
             mPosToBeRemove = position;
             mDevicePresenter.unbindDeviceToWallet(mCurrentWallet.getAddress(), mDataBeanList.get(position).getCksn(), DevicesFragment.this);
-        })
-        ;
+        });
 
     }
 
@@ -125,6 +124,9 @@ public class DevicesFragment extends AbsBaseFragment implements
         mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
         wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
         wallet_name_devices.setText(mCurrentWallet.getName());
+        showProgress();
+        no_device_img.setVisibility(View.GONE);
+        mListView.setVisibility(View.GONE);
         getDeviceList();
     }
 
@@ -186,16 +188,23 @@ public class DevicesFragment extends AbsBaseFragment implements
 
     @Override
     public void onRefresh(RefreshLayout refreshLayout) {
-        isRefreshing = true;
+        no_device_img.setVisibility(View.GONE);
+        mListView.setVisibility(View.GONE);
         getDeviceList();
     }
 
     @Override
     public void onDeviceListSuccess(@NotNull List<DeviceBean.DataBean> list) {
 //        mSwipeRefreshLayout.finishRefresh();
-        no_device_img.setVisibility(View.GONE);
-        mListView.setVisibility(View.VISIBLE);
-        isRefreshing = false;
+        hideProgress();
+        if (list.size() == 0) {
+            no_device_img.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.GONE);
+        } else {
+            no_device_img.setVisibility(View.GONE);
+            mListView.setVisibility(View.VISIBLE);
+        }
+
         mDataBeanList.clear();
         mDataBeanList.addAll(list);
         mAdapter.notifyDataSetChanged();
@@ -203,7 +212,17 @@ public class DevicesFragment extends AbsBaseFragment implements
 
     @Override
     public void onDeviceListFailure(@NotNull String errorMessage) {
+        hideProgress();
+        no_device_img.setVisibility(View.VISIBLE);
+        mListView.setVisibility(View.GONE);
         ToastUtil.showToastLonger(errorMessage);
+    }
+
+    @Override
+    public void onDataNull() {
+        hideProgress();
+        no_device_img.setVisibility(View.VISIBLE);
+        mListView.setVisibility(View.GONE);
     }
 
     @Override

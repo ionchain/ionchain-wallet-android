@@ -32,7 +32,7 @@
                 android:layout_height="45dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:text="地址"
+                android:text="@string/wallet_address"
                 android:textColor="#333333"
                 android:textSize="15sp" />
 
@@ -70,7 +70,7 @@
                 android:layout_height="45dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:text="金额"
+                android:text="@string/wallet_amount"
                 android:textColor="#333333"
                 android:textSize="15sp" />
 

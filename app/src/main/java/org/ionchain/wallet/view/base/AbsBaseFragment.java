@@ -42,7 +42,6 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     protected View mContainerView;
     protected boolean mIsFirstBindData = true;
     protected ImmersionBar mImmersionBar;
-    protected boolean isRefreshing = false;//listview是否可用
 
     public AbsBaseFragment() {
         this.TAG = this.getClass().getSimpleName();
@@ -257,6 +256,10 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
 
     protected void showProgress(String msg) {
         mActivity.showProgress(msg);
+    }
+
+    protected void showProgress() {
+        mActivity.showProgress(getAppString(R.string.please_wait));
     }
 
     protected void hideProgress() {

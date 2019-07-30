@@ -14,7 +14,7 @@
     <string name="password_rule">Include numbers, capital and non-capital letters, symbols(except space and underscore), length: 8~12 characters</string>
     <string name="wallet_icon">Wallet icon</string>
     <string name="tx_in">Roll-in</string>
-    <string name="tx_out">Outgoing</string>
+    <string name="tx_out">Roll-out</string>
     <string name="tx_recorder">Transaction record</string>
     <string name="header_back">Background</string>
     <string name="name_hint">Name exclude special characters, length can nott exceed 8 charactersg</string>
@@ -240,16 +240,17 @@
     <string name="using_help">Instruction Manual</string>
     <string name="tx_done">Done</string>
     <string name="scan_to_pay">Scan, payment</string>
-    <string name="wallet_password_set">设置密码</string>
+    <string name="wallet_password_set">Set password</string>
     <string name="please_aggreement">请先同意协议及服务</string>
     <string name="import_by_mnemonics">Import Mnemonic</string>
-    <string name="wallet_password_input">输入密码</string>
-    <string name="wallet_password_input_hint">请输入keystore密码</string>
+    <string name="wallet_password_input">Enter Password</string>
+    <string name="wallet_password_input_hint">Please enter keystore password</string>
     <string name="total_assets">Total</string>
     <string name="back_up">Backup mnemonic words</string>
     <string name="copy_address">Copy Address</string>
     <string name="device_unbind_success">Unbind Successfully</string>
     <string name="tab_tx_failure">Tx-Failure</string>
-    <string name="tx_btn_out">转出</string>
-    <string name="tx_btn_in">转出</string>
+    <string name="tx_btn_out">Roll-out</string>
+    <string name="tx_btn_in">Roll-in</string>
+    <string name="wallet_amount">Amount</string>
 </resources>

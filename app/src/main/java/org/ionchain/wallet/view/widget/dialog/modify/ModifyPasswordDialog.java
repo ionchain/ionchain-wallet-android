@@ -144,6 +144,10 @@ public class ModifyPasswordDialog extends AbsBaseDialog implements View.OnClickL
 
     }
 
+    @Override
+    protected void initDialog() {
+        super.initDialog();
+    }
 
     @Override
     protected void initView() {

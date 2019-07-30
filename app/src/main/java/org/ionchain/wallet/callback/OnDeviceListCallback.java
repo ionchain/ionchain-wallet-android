@@ -24,4 +24,6 @@ public interface OnDeviceListCallback extends OnLoadingView {
      * @param errorMessage 失败信息
      */
     void onDeviceListFailure(String errorMessage)       ;
+
+    void onDataNull();
 }

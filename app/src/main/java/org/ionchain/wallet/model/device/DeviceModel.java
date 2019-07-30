@@ -52,11 +52,11 @@ public class DeviceModel implements IDeviceModel {
                 String json = response.body();
                 LoggerUtils.j(json);
                 DeviceListBean bean = NetUtils.gsonToBean(json, DeviceListBean.class);
-                if (Objects.requireNonNull(bean).getData() == null) {
-                    callback.onLoadFinish();
+                if (bean == null || bean.getData() == null) {
+                    callback.onDataNull();
                     return;
                 }
-                callback.onDeviceListSuccess(Objects.requireNonNull(bean.getData()));
+                callback.onDeviceListSuccess(bean.getData());
             }
 
             @Override
