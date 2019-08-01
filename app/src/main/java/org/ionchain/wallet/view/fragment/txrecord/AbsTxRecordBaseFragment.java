@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,24 +44,15 @@ import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
  */
 public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment implements OnTxRecordBrowserDataCallback, AssetFragment.OnPullToRefreshCallback, OnTxRecordFromNodeCallback {
     private SmartRefreshLayout mRefresh;
-    private List<TxRecordBean> mListDoneTemp = new ArrayList<>();
-    private List<TxRecordBean> mListInTemp = new ArrayList<>();
-    private List<TxRecordBean> mListFailureTemp = new ArrayList<>();
     private String mNode = getHostNode();
     private String tag = "beannet";
     private RecyclerView mRecyclerView;
     private ImageView mNoTxRecordImg;
-    /**
-     * 每次上拉加载更过的时候，新增的itemd的数量
-     */
-    private long mPerPageAddNum = 5;
 
     /**
      * 缓存当期那被点击的item的位置
      */
     private int mItemClickedPos;
-    private String split = " ： ";
-    private View mSyncImageView;
     private String mPageSizeAll = String.valueOf(5);
     private String mPageSizeFrom = String.valueOf(5);
     private String mPageSizeTo = String.valueOf(5);
@@ -90,9 +80,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                 mTxRecordAdapter.setOnItemClickListener((adapter, view12, position) -> {
                     skipToDetail(mListAllData.get(position));
                 });
-                mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
-                    syncBrowser(view15, position);
-                });
                 break;
             case TYPE_DONE:
                 mTxRecordAdapter = new TxRecordAdapter(TYPE_DONE, mWalletBeanNew, mActivity, R.layout.item_txrecord, mListDoneData);
@@ -100,26 +87,17 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     skipToDetail(mListDoneData.get(position));
 
                 });
-                mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
-                    syncBrowser(view15, position);
-                });
                 break;
             case TYPE_DOING:
                 mTxRecordAdapter = new TxRecordAdapter(TYPE_DOING, mWalletBeanNew, mActivity, R.layout.item_txrecord, mListDoingData);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view14, position) -> {
                     skipToDetail(mListDoingData.get(position));
                 });
-                mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
-                    syncBrowser(view15, position);
-                });
                 break;
             case TYPE_FAILURE:
                 mTxRecordAdapter = new TxRecordAdapter(TYPE_FAILURE, mWalletBeanNew, mActivity, R.layout.item_txrecord, mListFailureData);
                 mTxRecordAdapter.setOnItemClickListener((adapter, view14, position) -> {
                     skipToDetail(mListFailureData.get(position));
-                });
-                mTxRecordAdapter.setOnItemChildClickListener((adapter, view15, position) -> {
-                    syncBrowser(view15, position);
                 });
                 break;
         }
@@ -136,8 +114,6 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     }
 
     private void syncBrowser(View view15, int position) {
-        mSyncImageView = view15;
-        mSyncImageView.setClickable(false);
         LoggerUtils.i("binny", "initView" + "   AbsTxRecordBaseFragment" + position);
 
         mItemClickedPos = position;
@@ -270,7 +246,16 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     mTxRecordPresenter.getTxRecordFrom("3", mWalletBeanNew.getAddress(), "1", mPageSizeFrom, this);
                     break;
                 case TYPE_DOING:
-                    mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), "1", mPageSizeTo, this);
+//                    mTxRecordPresenter.getTxRecordTo("3", mWalletBeanNew.getAddress(), "1", mPageSizeTo, this);
+                    //更新状态
+                    int count = mListDoingData.size();
+                    for (int i = 0; i < count; i++) {
+                        TxRecordBean t = mListDoingData.get(i);
+                        IONCWalletSDK.getInstance().ethTransaction(mNode
+                                , t.getHash()
+                                , t
+                                , this);
+                    }
                     break;
             }
         }
@@ -299,6 +284,10 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
          */
         long offset;
         int currentCount;
+        /**
+         * 每次上拉加载更过的时候，新增的itemd的数量
+         */
+        long perPageAddNum = 5;
         switch (getType()) {
             case TYPE_ALL:
 
@@ -314,11 +303,11 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     getNetData();
                     return;
                 }
-                offset = txRecordAllCount - currentCount - mPerPageAddNum;
+                offset = txRecordAllCount - currentCount - perPageAddNum;
                 /*
                  * 取出 5个数据
                  */
-                mListAllDataTemp = IONCWalletSDK.getInstance().txRecordAllByAddress(mWalletBeanNew.getAddress(), offset, mPerPageAddNum);
+                mListAllDataTemp = IONCWalletSDK.getInstance().txRecordAllByAddress(mWalletBeanNew.getAddress(), offset, perPageAddNum);
                 mListAllData.addAll(mListAllDataTemp);
 //                for (TxRecordBean t :
 //                        mListAllDataTemp) {
@@ -326,9 +315,9 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
 //                        mListAllData.add(t);
 //                    }
 //                }
-                if (mListAllData.size()==0) {
+                if (mListAllData.size() == 0) {
                     showNoTxRecord();
-                }else {
+                } else {
                     hideNoTxRecord();
                 }
                 break;
@@ -343,21 +332,21 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     getNetData();
                     return;
                 }
-                offset = txDoneCount - currentCount - mPerPageAddNum;
+                offset = txDoneCount - currentCount - perPageAddNum;
 
                 LoggerUtils.i("method", "onPullToUp" + "   txDoneCount " + txDoneCount);
-                mListDoneTemp = IONCWalletSDK.getInstance().txRecordAllByAddress(mWalletBeanNew.getAddress(), offset, mPerPageAddNum);
+                List<TxRecordBean> listDoneTemp = IONCWalletSDK.getInstance().txRecordAllByAddress(mWalletBeanNew.getAddress(), offset, perPageAddNum);
                 for (TxRecordBean t :
-                        mListDoneTemp) {
+                        listDoneTemp) {
                     //不存在，并且不是挂在交易和失败交易
                     if (!mListDoneData.contains(t) && !TX_SUSPENDED.equals(t.getBlockNumber()) && !TX_FAILURE.equals(t.getBlockNumber())) {
                         LoggerUtils.i("doing", t.toString());
                         mListDoneData.add(t);
                     }
                 }
-                if (mListDoneData.size()==0) {
+                if (mListDoneData.size() == 0) {
                     showNoTxRecord();
-                }else {
+                } else {
                     hideNoTxRecord();
                 }
                 break;
@@ -372,18 +361,18 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     getNetData();
                     return;
                 }
-                offset = txRecordInCount - currentCount - mPerPageAddNum;
-                mListInTemp = IONCWalletSDK.getInstance().txRecordAllByBlockNumber(TX_SUSPENDED, mWalletBeanNew.getAddress(), offset, mPerPageAddNum);
-                LoggerUtils.i("mmmmm", mListInTemp.size());
+                offset = txRecordInCount - currentCount - perPageAddNum;
+                List<TxRecordBean> listDoingDataTemp = IONCWalletSDK.getInstance().txRecordAllByBlockNumber(TX_SUSPENDED, mWalletBeanNew.getAddress(), offset, perPageAddNum);
+                LoggerUtils.i("mmmmm", listDoingDataTemp.size());
                 for (TxRecordBean t :
-                        mListInTemp) {
+                        listDoingDataTemp) {
                     if (!mListDoingData.contains(t)) {
                         mListDoingData.add(t);
                     }
                 }
-                if (mListDoingData.size()==0) {
+                if (mListDoingData.size() == 0) {
                     showNoTxRecord();
-                }else {
+                } else {
                     hideNoTxRecord();
                 }
                 break;
@@ -398,25 +387,22 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
                     getNetData();
                     return;
                 }
-                offset = txRecordFailureCount - currentCount - mPerPageAddNum;
+                offset = txRecordFailureCount - currentCount - perPageAddNum;
 
                 LoggerUtils.i("method", "onPullToUp" + "   txRecordFailureCount " + txRecordFailureCount);
                 LoggerUtils.i("method", "onPullToUp" + "   currentCount " + currentCount);
                 LoggerUtils.i("method", "onPullToUp" + "   offset " + offset);
-                if (mListFailureTemp != null) {
-                    mListFailureTemp.clear();
-                }
-                mListFailureTemp = IONCWalletSDK.getInstance().txRecordAllByBlockNumber(TX_FAILURE, mWalletBeanNew.getAddress(), offset, mPerPageAddNum);
-                LoggerUtils.i("mmmmm", mListFailureTemp.size());
+                List<TxRecordBean> listFailureTemp = IONCWalletSDK.getInstance().txRecordAllByBlockNumber(TX_FAILURE, mWalletBeanNew.getAddress(), offset, perPageAddNum);
+                LoggerUtils.i("mmmmm", listFailureTemp.size());
                 for (TxRecordBean t :
-                        mListFailureTemp) {
+                        listFailureTemp) {
                     if (!mListFailureData.contains(t)) {
                         mListFailureData.add(t);
                     }
                 }
-                if (mListFailureData.size()==0) {
+                if (mListFailureData.size() == 0) {
                     showNoTxRecord();
-                }else {
+                } else {
                     hideNoTxRecord();
                 }
                 break;
@@ -655,28 +641,22 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseViewPagerFragment i
     @Override
     public void OnTxRecordNodeSuccess(TxRecordBean txRecordBean) {
 
-        mSyncImageView.setClickable(true);
-        TextView v = (TextView) mTxRecordAdapter.getViewByPosition(mItemClickedPos, R.id.tx_datetime_tv);
         LoggerUtils.i("ethTransaction", "OnTxRecordNodeSuccess" + "   " + txRecordBean.toString());
         if (TX_SUSPENDED.equals(txRecordBean.getBlockNumber())) {
             ToastUtil.showToastLonger(getAppString(R.string.tx_block_suspended));
             return;
         }
-        if (v != null) {
-            v.setText(getResources().getString(R.string.tx_block) + split + txRecordBean.getBlockNumber());
-        }
+
         LoggerUtils.i("ethTransaction", "OnTxRecordNodeSuccess4" + "   " + txRecordBean.toString());
-        mSyncImageView.setVisibility(View.GONE);
+        mListDoingData.remove(txRecordBean);
+        mTxRecordAdapter.notifyDataSetChanged();
         IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
     }
 
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean txRecordBean) {
         LoggerUtils.e("ethTransaction", error);
-        mSyncImageView.setClickable(true);
-        txRecordBean.setBlockNumber(TX_FAILURE);
         IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
-
     }
 
     @Override

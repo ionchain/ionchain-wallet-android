@@ -47,20 +47,48 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
         this.TAG = this.getClass().getSimpleName();
     }
 
-//
-//    /*
-//     * 防止频繁请求网络
-//     * */
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        LoggerUtils.i("AbsBaseFragment setUserVisibleHint " + TAG + "   isVisibleToUser " + isVisibleToUser);
-//        if (mIsFirstBindData && mContainerView != null && isVisibleToUser) {
-//            mIsFirstBindData = false;
-//            LoggerUtils.i("AbsBaseFragment setUserVisibleHint initData " + TAG);
-//            initData();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
-//        }
-//    }
+    /**
+     * @param hidden 在hide，show的时候会触发
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            LoggerUtils.i("AbsBaseFragment 隐藏:" + this.getClass().getSimpleName());
+            handleHidden();
+        } else {
+            LoggerUtils.i("AbsBaseFragment 显示:" + this.getClass().getSimpleName());
+            handleShow();
+        }
+    }
+
+
+    /*
+     * 防止频繁请求网络
+     * */
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            pageOnShow();
+        } else {
+            pageOnHide();
+        }
+    }
+
+    /**
+     * ViewPager中的Fragment对用户可见的时候调用
+     */
+    private void pageOnHide() {
+
+    }
+
+    /**
+     *  ViewPager中的Fragment对用户不可见的时候调用
+     */
+    private void pageOnShow() {
+
+    }
 
 
     /**
@@ -99,14 +127,6 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
             return mContainerView;
         }
 
-        /*
-         * 创建视图
-         * */
-        /*
-         * 如果第一次创建时，可见，则加载数据，绑定数据
-         * */
-
-        LoggerUtils.i("创建视图 AbsBaseFragment " + this.TAG);
         mContainerView = inflater.inflate(getFragmentLayout(), container, false);
         initView(mContainerView);
 
@@ -127,6 +147,15 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
     /**
      * @return 布局文件
@@ -152,13 +181,17 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
      * 设置沉浸式
      */
     private void initImmersionBar() {
-        mImmersionBar
-                .statusBarColor(getTopBarColor())
-                .execute();
+        mImmersionBar.statusBarColor(getTopBarColor()).execute();
     }
 
     private int getTopBarColor() {
         return R.color.main_color;
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     @Override
@@ -291,20 +324,6 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
         return getResources().getString(id, obj);
     }
 
-    /**
-     * @param hidden 在hide，show的时候会触发
-     */
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            LoggerUtils.i("AbsBaseFragment 隐藏:" + this.getClass().getSimpleName());
-            handleHidden();
-        } else {
-            LoggerUtils.i("AbsBaseFragment 显示:" + this.getClass().getSimpleName());
-            handleShow();
-        }
-    }
 
     /**
      * 可见
