@@ -120,12 +120,13 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
     protected void setListener() {
         super.setListener();
         txNext.setOnClickListener(v -> {
-            if (IONCWalletSDK.getInstance().getTxRecordBeansByTimes(String.valueOf(System.currentTimeMillis())) != null) {
-                return;
-            }
+
             mAddressTo = txToAddressEt.getText().toString();
             mTxAccount = mTxValueEt.getText().toString();
-
+            if (mWalletBeanNew.getAddress().equals(mAddressTo)) {
+                ToastUtil.showShort(getAppString(R.string.address_to_same_whit_from));
+                return;
+            }
             if (StringUtils.isEmpty(mAddressTo) || StringUtils.isEmpty(mTxAccount)) {
                 ToastUtil.showToastLonger(getAppString(R.string.please_check_addr_amount));
                 return;

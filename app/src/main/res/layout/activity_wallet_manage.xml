@@ -62,7 +62,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_button_0_main"
             android:enabled="true"
-            android:text="@string/activity_create_wallet"
+            android:text="@string/app_create_wallet"
             android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

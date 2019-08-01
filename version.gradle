@@ -7,7 +7,7 @@ ext{
 
     extSchemaVersion = 8  //数据库版本
 
-    extMinSdkVersion = 22
+    extMinSdkVersion = 21
     extTargetSdkVersion = 26
     extCompileSdkVersion = 28
     extBuildToolsVersion = '28.0.3'

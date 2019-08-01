@@ -1,15 +1,12 @@
 package org.ionc.wallet.sdk;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-
-import com.ionc.wallet.sdk.R;
 
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
@@ -37,14 +34,12 @@ import org.ionc.wallet.greendaogen.DaoSession;
 import org.ionc.wallet.greendaogen.TxRecordBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanDao;
 import org.ionc.wallet.greendaogen.WalletBeanNewDao;
-import org.ionc.wallet.sdk.widget.IONCAllWalletDialogSDK;
 import org.ionc.wallet.transaction.TransactionHelper;
 import org.ionc.wallet.utils.GsonUtils;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.SecureRandomUtils;
 import org.ionc.wallet.utils.StringUtils;
-import org.ionc.wallet.utils.ToastUtil;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
@@ -76,6 +71,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static java.lang.String.valueOf;
+import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_CODE_BALANCE_IONC;
+import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_CREATE_WALLET_FAILURE;
+import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_KEYSTORE;
+import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_TRANSCATION_FAILURE;
 import static org.ionc.wallet.utils.RandomUntil.getNum;
 
 public class IONCWalletSDK {
@@ -126,6 +125,7 @@ public class IONCWalletSDK {
      * 交易的nonce值，来判断是否是同一笔交易
      */
     private BigInteger nonce;
+
 
     private IONCWalletSDK() {
     }
@@ -197,7 +197,7 @@ public class IONCWalletSDK {
         byte[] seedBytes = ds.getSeedBytes();
 
         if (seedBytes == null) {
-            callback.onImportMnemonicFailure(appContext.getString(R.string.create_wallet_failure));
+            callback.onImportMnemonicFailure(ERROR_CREATE_WALLET_FAILURE);
             return;
         }
         DeterministicKey dkKey = HDKeyDerivation.createMasterPrivateKey(seedBytes);
@@ -274,7 +274,7 @@ public class IONCWalletSDK {
                 try {
                     KeystoreBean keystoreBean = GsonUtils.gsonToBean(keystoreContent, KeystoreBean.class);
                     if (keystoreBean == null) {
-                        mHandler.post(() -> callback.onCreateFailure(appContext.getResources().getString(R.string.error_key_story)));
+                        mHandler.post(() -> callback.onCreateFailure(ERROR_KEYSTORE));
                         return;
                     }
                     final WalletBeanNew bean = new WalletBeanNew();
@@ -466,7 +466,7 @@ public class IONCWalletSDK {
                     LoggerUtils.e("client", e.getMessage());
                     mHandler.post(() -> {
                         LoggerUtils.e(e.getMessage());
-                        callback.onBalanceFailure(appContext.getString(R.string.error_net_ionc));
+                        callback.onBalanceFailure(ERROR_CODE_BALANCE_IONC);
                     });
                 }
             }
@@ -620,7 +620,7 @@ public class IONCWalletSDK {
             if (!TextUtils.isEmpty(hashTx)) {
                 mHandler.post(() -> callback.OnTxSuccess(hashTx, nonce));
             } else {
-                mHandler.post(() -> callback.onTxFailure(appContext.getString(R.string.transaction_failed)));
+                mHandler.post(() -> callback.onTxFailure(ERROR_TRANSCATION_FAILURE));
             }
         } catch (final IOException | CipherException | NullPointerException | IllegalArgumentException | InterruptedException | ExecutionException e) {
             mHandler.post(() -> callback.onTxFailure(e.getMessage()));
@@ -841,20 +841,6 @@ public class IONCWalletSDK {
         EntityManager.getInstance().getTxRecordBeanDao(mDaoSession).delete(txRecordBean);
     }
 
-    /**
-     * 支付
-     *
-     * @param activity
-     * @param callback
-     */
-    public void transactionDialog(Activity activity, IONCAllWalletDialogSDK.OnTxResultCallback callback) {
-        List<WalletBeanNew> beans = getAllWalletNew();
-        if (beans == null || beans.size() <= 0) {
-            ToastUtil.showLong(activity.getResources().getString(R.string.wallet_empty));
-            return;
-        }
-        new IONCAllWalletDialogSDK(activity, beans, callback).show();
-    }
 
     /**
      * @return 首页展示的钱包
@@ -1008,6 +994,8 @@ public class IONCWalletSDK {
 
 
     /**
+     * 把当前钱包的相关记录，都找出来
+     *
      * @param address 当前钱包相关的交易记录
      * @return 交易总数
      */
@@ -1036,10 +1024,11 @@ public class IONCWalletSDK {
 
     /**
      * 分页加载数据
+     * 先选出所有数据，然后偏移，然后截取
      *
-     * @param address
-     * @param offset
-     * @param perPageDataNum
+     * @param address        钱包地址
+     * @param offset         偏移量
+     * @param perPageDataNum 取出数量，即每页现实的数量
      * @return 当页交易记录
      */
     public List<TxRecordBean> txRecordAllByAddress(String address, long offset, long perPageDataNum) {

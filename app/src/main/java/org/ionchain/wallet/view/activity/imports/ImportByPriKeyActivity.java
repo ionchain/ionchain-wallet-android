@@ -7,7 +7,6 @@ import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +56,6 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
      */
 
     private void findViews() {
-        RelativeLayout header = (RelativeLayout) findViewById(R.id.header);
 
         mPrivateKey = (AppCompatEditText) findViewById(R.id.contentEt);
         pwdEt = (AppCompatEditText) findViewById(R.id.pwdEt);
@@ -116,7 +114,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
 
     @Override
     protected String getTitleName() {
-        return "导入私钥";
+        return getAppString(R.string.import_private_key);
     }
 
     @Override
@@ -169,7 +167,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
             setViewAlphaAnimation(importBtn);
 
             if (!WalletUtils.isValidPrivateKey(mPrivateKey.getText().toString())) {
-                ToastUtil.showToastLonger(getResources().getString(com.ionc.wallet.sdk.R.string.error_private_key));
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_private_key));
                 return;
             }
 

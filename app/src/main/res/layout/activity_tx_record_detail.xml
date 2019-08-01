@@ -149,7 +149,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/to"
+                    android:id="@+id/tx_to_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tx_fee1_ll"
@@ -166,7 +166,7 @@
                         android:textSize="@dimen/tx_left_tag" />
 
                     <TextView
-                        android:id="@+id/tx_detail_to_copy"
+                        android:id="@+id/tx_detail_roll_in"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/copy"
@@ -183,7 +183,7 @@
                     android:id="@+id/from_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/to"
+                    android:layout_below="@id/tx_to_ll"
                     android:layout_marginStart="@dimen/tx_marginStar"
                     android:layout_marginTop="@dimen/h15"
                     android:layout_marginEnd="@dimen/h25"
@@ -208,7 +208,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tx_from_ll_copy"
+                    android:id="@+id/tx_from_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/from_ll"
@@ -225,7 +225,7 @@
                         android:textSize="@dimen/tx_left_tag" />
 
                     <TextView
-                        android:id="@+id/tx_detail_from"
+                        android:id="@+id/tx_detail_roll_out"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/copy"
@@ -241,7 +241,7 @@
                     android:id="@+id/line2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tx_from_ll_copy"
+                    android:layout_below="@id/tx_from_ll"
                     android:layout_marginLeft="@dimen/h10"
                     android:layout_marginRight="@dimen/h10"
                     android:background="@drawable/dot_line"

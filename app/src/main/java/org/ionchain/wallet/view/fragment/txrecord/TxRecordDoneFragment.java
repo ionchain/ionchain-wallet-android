@@ -19,7 +19,7 @@ public class TxRecordDoneFragment extends AbsTxRecordBaseFragment implements OnT
      */
     @Override
     public void onNewTxRecordByTx(TxRecordBean txRecordBean) {
-        mListDone.add(0, txRecordBean);
+        mListDoneData.add(0, txRecordBean);
         super.onNewTxRecordByTx(txRecordBean);
     }
 }

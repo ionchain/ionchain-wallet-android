@@ -229,7 +229,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
 
                 flag = FLAG_DELETE_WALLET;
                 deleteWallet.setLeftBtnText(getAppString(R.string.cancel));
-                deleteWallet.setRightBtnText(getAppString(R.string.sure));
+                deleteWallet.setRightBtnText(getAppString(R.string.btn_sure_text));
                 deleteWallet.setTitleText(getAppString(R.string.please_input_wallet_password));
                 deleteWallet.setLeftBtnClickedListener(v12 -> {
                     deleteWallet.dismiss();  //删除钱包

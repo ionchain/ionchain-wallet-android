@@ -66,12 +66,12 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
     /**
      * 转出记录
      */
-    protected static List<TxRecordBean> mListDone = new ArrayList<>();
+    protected List<TxRecordBean> mListDoneData = new ArrayList<>();
     /**
      * 转入记录
      */
-    protected static List<TxRecordBean> mListIn = new ArrayList<>();
-    protected static List<TxRecordBean> mListFailure = new ArrayList<>();
+    protected List<TxRecordBean> mListDoingData = new ArrayList<>();
+    protected List<TxRecordBean> mListFailureData = new ArrayList<>();
 
 
     /**
@@ -101,7 +101,7 @@ public abstract class AbsBaseViewPagerFragment extends Fragment implements EasyP
         if (mContainerView != null && isVisibleToUser) {
             LoggerUtils.i(TAG, "AbsBaseViewPagerFragment setUserVisibleHint visible ");
             visible();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
-        }else {
+        } else {
             unVisible();
         }
     }

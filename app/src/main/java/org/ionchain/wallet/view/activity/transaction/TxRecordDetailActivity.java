@@ -60,8 +60,8 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
         txDetailValue = (TextView) findViewById(R.id.tx_detail_value);
         txDetailFee = (TextView) findViewById(R.id.tx_detail_fee);
         txDetailFee1 = (TextView) findViewById(R.id.tx_detail_fee1);
-        txDetailTo = (TextView) findViewById(R.id.tx_detail_to_copy);
-        txDetailFrom = (TextView) findViewById(R.id.tx_detail_from);
+        txDetailTo = (TextView) findViewById(R.id.tx_detail_roll_in);
+        txDetailFrom = (TextView) findViewById(R.id.tx_detail_roll_out);
         txDetailHash = (TextView) findViewById(R.id.tx_detail_hash);
         txDetailBlock = (TextView) findViewById(R.id.tx_detail_block);
         wallet_name = (TextView) findViewById(R.id.wallet_name);
@@ -144,13 +144,13 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
             StringUtils.copy(this, mTxRecordBean.getHash());
             Toast.makeText(this, getAppString(R.string.copy_hash_addr), Toast.LENGTH_LONG).show();
         });
-        findViewById(R.id.tx_detail_to_copy).setOnClickListener(v -> {
+        findViewById(R.id.tx_detail_roll_in).setOnClickListener(v -> {
             StringUtils.copy(this, mTxRecordBean.getTo());
-            Toast.makeText(this, getAppString(R.string.copy_to_addr), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getAppString(R.string.copy_roll_in_addr), Toast.LENGTH_LONG).show();
         });
-        findViewById(R.id.tx_from_ll_copy).setOnClickListener(v -> {
+        findViewById(R.id.tx_detail_roll_out).setOnClickListener(v -> {
             StringUtils.copy(this, mTxRecordBean.getHash());
-            Toast.makeText(this, getAppString(R.string.copy_from_addr), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getAppString(R.string.copy_roll_out_addr), Toast.LENGTH_LONG).show();
         });
         mGoToIonchainExplore.setOnClickListener(new View.OnClickListener() {
             @Override

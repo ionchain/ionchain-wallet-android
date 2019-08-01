@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/version_info_title"
         android:padding="@dimen/margin_h20"
-        android:text="@string/dialog_version_info"
         android:textColor="#333333" />
 
     <Button

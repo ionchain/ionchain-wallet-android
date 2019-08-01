@@ -11,8 +11,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="194dp"
-        android:background="@mipmap/home_head_background"
-        android:contentDescription="@string/header_back" />
+        android:background="@mipmap/home_head_background" />
     <!--90-->
  <androidx.cardview.widget.CardView
      android:layout_marginLeft="@dimen/home_margin_horizon"
@@ -34,8 +33,7 @@
              android:layout_width="20dp"
              android:layout_height="20dp"
              android:layout_margin="10dp"
-             android:background="@mipmap/home_head"
-             android:contentDescription="@string/wallet_icon" />
+             android:background="@mipmap/home_head"/>
 
          <TextView
              android:id="@+id/wallet_name_tv"

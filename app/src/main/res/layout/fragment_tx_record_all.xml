@@ -7,12 +7,19 @@
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/tx_record_lv"
         android:dividerHeight="0dp"
         android:divider="#00000000"
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/no_tx_record"
+        android:src="@mipmap/no_tx_record"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
 

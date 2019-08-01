@@ -7,16 +7,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import org.ionc.wallet.sdk.widget.BaseDialog;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.view.widget.dialog.base.AbsBaseDialog;
 
 /**
  * USER: binny
  * DATE: 2018/9/13
  * 描述:
  */
-public class DialogBindDevice extends BaseDialog {
+public class DialogBindDevice extends AbsBaseDialog {
     public DialogBindDevice(@NonNull Context context) {
         super(context);
     }
@@ -31,6 +31,11 @@ public class DialogBindDevice extends BaseDialog {
         findViews();
         setCanceledOnTouchOutside(false);
         initListener();
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     private void initListener() {
