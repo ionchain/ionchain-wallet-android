@@ -5,7 +5,7 @@ import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionchain.wallet.view.fragment.AssetFragment;
 
 public class TxRecordDoneFragment extends AbsTxRecordBaseFragment implements OnTxRecordFromNodeCallback,
-        AssetFragment.OnPullToRefreshCallback {
+        AssetFragment.OnPullToRefreshCallback, TxRecordDoingFragment.OnPullToDownSuccessCallback {
 
 
     @Override
@@ -19,6 +19,12 @@ public class TxRecordDoneFragment extends AbsTxRecordBaseFragment implements OnT
      */
     @Override
     public void onNewTxRecordByTx(TxRecordBean txRecordBean) {
+        mListDoneData.add(0, txRecordBean);
+        super.onNewTxRecordByTx(txRecordBean);
+    }
+
+    @Override
+    public void onSuccess(TxRecordBean txRecordBean) {
         mListDoneData.add(0, txRecordBean);
         super.onNewTxRecordByTx(txRecordBean);
     }

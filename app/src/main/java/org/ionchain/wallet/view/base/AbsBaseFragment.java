@@ -63,32 +63,34 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     }
 
 
+    protected boolean mVisibleToUser;
+
     /*
      * 防止频繁请求网络
      * */
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            pageOnShow();
+        mVisibleToUser = isVisibleToUser;
+        LoggerUtils.i("local-data", "   isVisibleToUser = " + isVisibleToUser + ";  mContainerView = " + mContainerView);
+        if (mContainerView != null && isVisibleToUser) {
+            LoggerUtils.i(TAG, "AbsBaseFragment setUserVisibleHint visible ");
+            visible();//创建其他fragment 时  不加载数据，当 该fragment 可见时，加载数据
         } else {
-            pageOnHide();
+            unVisible();
         }
     }
 
-    /**
-     * ViewPager中的Fragment对用户可见的时候调用
-     */
-    private void pageOnHide() {
+    protected void unVisible() {
 
     }
 
     /**
-     *  ViewPager中的Fragment对用户不可见的时候调用
+     * 对用户可见
      */
-    private void pageOnShow() {
-
+    protected void visible() {
     }
+    
 
 
     /**
@@ -328,12 +330,12 @@ public abstract class AbsBaseFragment extends Fragment implements EasyPermission
     /**
      * 可见
      */
-    protected abstract void handleShow();
+    protected  void handleShow(){};
 
     /**
      * 不可见
      */
-    protected abstract void handleHidden();
+    protected  void handleHidden(){};
 
 
 }

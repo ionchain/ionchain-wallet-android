@@ -48,7 +48,6 @@ import org.ionchain.wallet.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.view.activity.modify.ModifyWalletActivity;
 import org.ionchain.wallet.view.activity.transaction.TxOutActivity;
 import org.ionchain.wallet.view.base.AbsBaseFragment;
-import org.ionchain.wallet.view.base.AbsBaseViewPagerFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordAllFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordDoingFragment;
 import org.ionchain.wallet.view.fragment.txrecord.TxRecordDoneFragment;
@@ -191,7 +190,7 @@ public class AssetFragment extends AbsBaseFragment implements
      */
     private ViewPager viewPager;
 
-    private List<AbsBaseViewPagerFragment> mFragmentListTxRecord = new ArrayList<>();
+    private List<AbsBaseFragment> mFragmentListTxRecord = new ArrayList<>();
 
     private TxRecordDoingFragment mTxRecordDoingFragment;
     private TxRecordAllFragment mTxRecordAllFragment;
@@ -518,6 +517,7 @@ public class AssetFragment extends AbsBaseFragment implements
         }
         mTxRecordDoingFragment = new TxRecordDoingFragment();
         mTxRecordDoneFragment = new TxRecordDoneFragment();
+        mTxRecordDoingFragment.setSuccessCallback(mTxRecordDoneFragment);
         mTxRecordAllFragment = new TxRecordAllFragment();
         mTxRecordFailureFragment = new TxRecordFailureFragment();
         mFragmentListTxRecord.add(mTxRecordAllFragment);
@@ -842,6 +842,8 @@ public class AssetFragment extends AbsBaseFragment implements
         LoggerUtils.i("syncBrowser", "OnTxRecordNodeSuccess" + "   AssetFragment" + txRecordBean.toString());
         //取出块的哈希值，获取交易完成时间
 //        IONCWalletSDK.getInstance().ethTransactiontimestamp(mNodeIONC,txRecordBean,this);
+        mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
+        IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
         balance();
     }
 
@@ -850,8 +852,8 @@ public class AssetFragment extends AbsBaseFragment implements
         hideProgress();
         mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
 //        mTxRecordDoneFragment.onNewTxRecordByTx(recordBean);
-        txRecordHelper(recordBean);
-        IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
+        recordBean.setPublicKey(mCurrentWallet.getPublic_key());
+        IONCWalletSDK.getInstance().saveTxRecordBean(recordBean);
     }
 
     @Override
