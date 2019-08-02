@@ -1,4 +1,3 @@
-Version number: 1.1.4&&
-1. Fix password problems &
-2. Fix known multilingual bugs &
-3. Optimized transaction record switching
+Version number: 1.1.6&&
+1. UI replacement&
+2. Fix known bugs

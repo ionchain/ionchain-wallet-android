@@ -174,7 +174,7 @@
     <string name="coin_type">Choose currency</string>
     <string name="import_ks">Import KS</string>
     <string name="copy_hash_addr">Transaction number copied</string>
-    <string name="copy_roll_out_addr">Outgoing address copied</string>
+    <string name="copy_roll_out_addr">Roll-out address copied</string>
     <string name="copy_roll_in_addr">Roll-in address copied</string>
     <string name="tab_tx_all">All</string>
     <string name="tab_tx_doing">Tx-Doing</string>
@@ -214,5 +214,5 @@
     <string name="tx_btn_in">Roll-in</string>
     <string name="please_wait">Please wait…</string>
     <string name="wallet_amount">Amount</string>
-    <string name="address_to_same_whit_from">转入和转出地址相同！</string>
+    <string name="address_to_same_whit_from">Same transfer and transfer address!</string>
 </resources>

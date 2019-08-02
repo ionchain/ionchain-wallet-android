@@ -150,9 +150,6 @@
     <string name="smart_refresh_header_release">Release to refresh</string>
     <string name="smart_refresh_header_finish">Refresh complete</string>
     <string name="smart_refresh_header_failed">Refresh failed</string>
-    <string name="smart_refresh_header_last_time">Last update</string>
-    <string name="balance_usd">Receiving balance</string>
-    <string name="balance_usd_rate_rmb">Converting to RMB</string>
     <string name="ionc_tag">IONC</string>
     <string name="version_info_right_btn_text">Check for updates</string>
     <string name="error_net_web_view_hint">Network request failed</string>
@@ -161,10 +158,7 @@
     <string name="current_language_en">Current language is English, do not need to switch</string>
     <string name="current_language_zn">Current language is Chinese, do not need to switch</string>
     <string name="error_net_node">Error in obtaining main chain node</string>
-    <string name="please_refresh">Please refresh first</string>
     <string name="must_update">This version must be updated</string>
-    <string name="balance_getting">Receiving balance</string>
-    <string name="getting_rate_rmb">Obtaining exchange rate information</string>
     <string name="error_net_getting_rate_rmb">Failed to obtain exchange rate</string>
     <string name="error_net_getting_usd">Failed to obtain dollar price</string>
     <string name="error_net_request_update">Update net request error</string>
@@ -182,7 +176,7 @@
     <string name="coin_type">Choose currency</string>
     <string name="import_ks">Import KS</string>
     <string name="copy_hash_addr">Transaction number copied</string>
-    <string name="copy_roll_out_addr">Outgoing address copied</string>
+    <string name="copy_roll_out_addr">Roll-out address copied</string>
     <string name="copy_roll_in_addr">Roll-in address copied</string>
     <string name="tab_tx_all">All</string>
     <string name="tab_tx_doing">Tx-Doing</string>
@@ -220,5 +214,5 @@
     <string name="tx_btn_out">Roll-out</string>
     <string name="tx_btn_in">Roll-in</string>
     <string name="wallet_amount">Amount</string>
-    <string name="address_to_same_whit_from">转入和转出地址相同！</string>
+    <string name="address_to_same_whit_from">Same transfer and transfer address!</string>
 </resources>
