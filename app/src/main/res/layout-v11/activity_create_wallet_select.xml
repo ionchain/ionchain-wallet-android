@@ -68,7 +68,6 @@
             android:layout_marginBottom="@dimen/margin_h20"
             android:button="@null"
             android:checked="true"
-            android:drawableStart="@drawable/check_white"
             android:drawablePadding="@dimen/h5"
             android:gravity="center"
             android:text=""

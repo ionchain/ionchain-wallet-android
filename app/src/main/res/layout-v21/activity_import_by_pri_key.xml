@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_common_title_three" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/password_rule"
+        android:textColor="@color/main_color"
+        android:textSize="@dimen/txt_12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/contentEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:background="@drawable/comm_imput_bg"
+            android:gravity="left"
+            android:hint="@string/explicit_private_key"
+            android:minLines="5"
+            android:padding="@dimen/h5"
+            android:text=""
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
+
+            <TextView
+                android:id="@+id/wallet_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/wallet_name" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/nameEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
+                android:layout_marginRight="@dimen/padding_size_16dp"
+                android:layout_toEndOf="@id/wallet_name_tv"
+                android:background="@null"
+                android:gravity="start|center_vertical"
+                android:hint="@string/wallet_name_input"
+                android:padding="@dimen/h5"
+                android:singleLine="true"
+                android:textSize="@dimen/hint_text_size" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/split_line_color" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
+
+            <TextView
+                android:id="@+id/wallet_pwd_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/wallet_password_set" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/pwdEt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
+                android:layout_marginRight="@dimen/padding_size_16dp"
+                android:layout_toRightOf="@id/wallet_pwd_tv"
+                android:background="@null"
+                android:gravity="start|center_vertical"
+                android:hint="@string/wallet_password_set"
+                android:maxLength="12"
+                android:padding="@dimen/h5"
+                android:singleLine="true"
+                android:textSize="@dimen/hint_text_size" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/split_line_color" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h50"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/padding_size_16dp"
+            android:layout_marginRight="@dimen/padding_size_16dp">
+
+            <TextView
+                android:id="@+id/wallet_pwd_again_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/wallet_password_set" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/repwdEt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/h50"
+                android:layout_marginLeft="@dimen/padding_size_16dp"
+                android:layout_marginRight="@dimen/padding_size_16dp"
+                android:layout_toEndOf="@id/wallet_pwd_again_tv"
+                android:background="@null"
+                android:gravity="start|center_vertical"
+                android:hint="@string/wallet_create_password_again"
+                android:maxLength="12"
+                android:padding="@dimen/h5"
+                android:singleLine="true"
+                android:textSize="@dimen/hint_text_size" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/split_line_color" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="false"
+                android:drawableLeft="@drawable/check_blue"
+                android:drawablePadding="@dimen/h5"
+                android:text="@string/protocol_hint"
+                android:textColor="@color/library_33"
+                android:textSize="@dimen/txt_12sp" />
+
+            <TextView
+                android:id="@+id/linkUrlTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/h10"
+                android:autoLink="web"
+                android:text="@string/protocol_title"
+                android:textColor="@color/main_color"
+                android:textSize="@dimen/txt_12sp" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/importBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_size_16dp"
+            android:layout_marginTop="@dimen/margin_top__size_40dp"
+            android:layout_marginRight="@dimen/padding_size_16dp"
+            android:background="@drawable/common_btn_background_main_color"
+            android:text="@string/import_btn"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

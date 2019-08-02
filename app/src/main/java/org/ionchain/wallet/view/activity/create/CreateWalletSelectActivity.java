@@ -16,9 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import org.ionchain.wallet.R;
+import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.activity.imports.SelectImportModeActivity;
 import org.ionchain.wallet.view.base.AbsBaseActivity;
-import org.ionchain.wallet.utils.ToastUtil;
 
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
