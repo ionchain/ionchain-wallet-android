@@ -149,7 +149,7 @@
     <string name="smart_refresh_header_finish">Refresh complete</string>
     <string name="smart_refresh_header_failed">Refresh failed</string>
     <string name="ionc_tag">IONC</string>
-    <string name="version_info_right_btn_text">Check for updates</string>
+    <string name="version_info_right_btn_text">Update</string>
     <string name="error_net_web_view_hint">Network request failed</string>
     <string name="forbidden_photo">Please do not capture or screenshots. copy your mnemonic carefully!</string>
     <string name="restore_by_mnemonics_hint">Wallet can be recovered using mnemonic words, original password is not needed, please keep well</string>
