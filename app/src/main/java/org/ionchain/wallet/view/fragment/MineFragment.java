@@ -14,6 +14,7 @@ import org.ionchain.wallet.bean.UpdateBean;
 import org.ionchain.wallet.model.update.OnCheckUpdateInfoCallback;
 import org.ionchain.wallet.presenter.update.UpdatePresenter;
 import org.ionchain.wallet.utils.ToastUtil;
+import org.ionchain.wallet.view.activity.exchange.ExChangeActivity;
 import org.ionchain.wallet.view.activity.manager.ManageWalletActivity;
 import org.ionchain.wallet.view.activity.setting.coin.SelectCoinActivity;
 import org.ionchain.wallet.view.activity.setting.language.SettingLanguageActivity;
@@ -29,6 +30,10 @@ import static org.ionchain.wallet.App.isCurrentLanguageZN;
 
 public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.OnVersionDialogBtnClickedListener, OnCheckUpdateInfoCallback, DownloadDialog.OnDownloadCallback {
 
+    /**
+     * 钱包管理
+     */
+    private RelativeLayout mine_change_main_chain;
     /**
      * 钱包管理
      */
@@ -80,7 +85,8 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
      */
     @SuppressLint("CutPasteId")
     private void findViews(View rootView) {
-        mWalletManageRL = rootView.findViewById(R.id.walletManageRLayout);
+        mWalletManageRL = rootView.findViewById(R.id.mine_manager_rl);
+        mine_change_main_chain = rootView.findViewById(R.id.mine_change_main_chain);
         mVersionInfoRL = rootView.findViewById(R.id.version_info);
         mAboutUsRL = rootView.findViewById(R.id.about_us);
         mUseHelp = rootView.findViewById(R.id.using_help);
@@ -95,6 +101,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     protected void setListener() {
 
         mWalletManageRL.setOnClickListener(v -> skip(ManageWalletActivity.class));
+        mine_change_main_chain.setOnClickListener(v -> skip(ExChangeActivity.class));
         mCoinTypeRL.setOnClickListener(v -> skip(SelectCoinActivity.class));
         mLanguageSettingRL.setOnClickListener(v -> startActivity(new Intent(mActivity, SettingLanguageActivity.class)));
         /*

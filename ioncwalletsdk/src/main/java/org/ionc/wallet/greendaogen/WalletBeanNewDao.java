@@ -40,7 +40,8 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
         public final static Property Us = new Property(13, String.class, "us", false, "US");
         public final static Property Krw = new Property(14, String.class, "krw", false, "KRW");
         public final static Property Idr = new Property(15, String.class, "idr", false, "IDR");
-        public final static Property Light = new Property(16, boolean.class, "light", false, "LIGHT");
+        public final static Property ContracBalance = new Property(16, String.class, "contracBalance", false, "CONTRAC_BALANCE");
+        public final static Property Light = new Property(17, boolean.class, "light", false, "LIGHT");
     }
 
 
@@ -72,7 +73,8 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
                 "\"US\" TEXT," + // 13: us
                 "\"KRW\" TEXT," + // 14: krw
                 "\"IDR\" TEXT," + // 15: idr
-                "\"LIGHT\" INTEGER NOT NULL );"); // 16: light
+                "\"CONTRAC_BALANCE\" TEXT," + // 16: contracBalance
+                "\"LIGHT\" INTEGER NOT NULL );"); // 17: light
     }
 
     /** Drops the underlying database table. */
@@ -156,7 +158,12 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
         if (idr != null) {
             stmt.bindString(16, idr);
         }
-        stmt.bindLong(17, entity.getLight() ? 1L: 0L);
+ 
+        String contracBalance = entity.getContracBalance();
+        if (contracBalance != null) {
+            stmt.bindString(17, contracBalance);
+        }
+        stmt.bindLong(18, entity.getLight() ? 1L: 0L);
     }
 
     @Override
@@ -234,7 +241,12 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
         if (idr != null) {
             stmt.bindString(16, idr);
         }
-        stmt.bindLong(17, entity.getLight() ? 1L: 0L);
+ 
+        String contracBalance = entity.getContracBalance();
+        if (contracBalance != null) {
+            stmt.bindString(17, contracBalance);
+        }
+        stmt.bindLong(18, entity.getLight() ? 1L: 0L);
     }
 
     @Override
@@ -261,7 +273,8 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // us
             cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // krw
             cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // idr
-            cursor.getShort(offset + 16) != 0 // light
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // contracBalance
+            cursor.getShort(offset + 17) != 0 // light
         );
         return entity;
     }
@@ -284,7 +297,8 @@ public class WalletBeanNewDao extends AbstractDao<WalletBeanNew, Long> {
         entity.setUs(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
         entity.setKrw(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
         entity.setIdr(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setLight(cursor.getShort(offset + 16) != 0);
+        entity.setContracBalance(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
+        entity.setLight(cursor.getShort(offset + 17) != 0);
      }
     
     @Override

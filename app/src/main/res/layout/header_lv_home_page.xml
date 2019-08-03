@@ -28,22 +28,25 @@
          android:background="@mipmap/home_wallet_card_background"
          android:layout_width="match_parent"
          android:layout_height="match_parent">
-         <ImageView
-             android:id="@+id/wallet_logo"
-             android:layout_width="20dp"
-             android:layout_height="20dp"
-             android:layout_margin="10dp"
-             android:background="@mipmap/home_head"/>
-
-         <TextView
-             android:id="@+id/wallet_name_tv"
-             android:layout_width="wrap_content"
-             android:layout_height="20dp"
-             android:layout_marginTop="10dp"
-             android:layout_marginStart="38dp"
-             android:gravity="center"
-             android:text="IONC"
-             android:textColor="@color/grey"/>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/wallet_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@mipmap/random_header_1"/>
+            <TextView
+                android:id="@+id/wallet_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:text="name"
+                android:textColor="@color/grey"/>
+        </LinearLayout>
 
          <TextView
              android:layout_marginTop="50dp"

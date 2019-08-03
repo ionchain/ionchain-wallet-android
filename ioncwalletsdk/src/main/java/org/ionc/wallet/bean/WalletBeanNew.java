@@ -90,11 +90,105 @@ public class WalletBeanNew implements Parcelable {
      * 印尼盾价格 缓存
      */
     private String idr;
+    /**
+     * 合约账户的余额
+     */
+    private String contracBalance;
 
     /**
-     *  是否是轻钱包,本钱包默认的就是轻钱包
+     * 是否是轻钱包,本钱包默认的就是轻钱包
      */
     private boolean light = true;
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.privateKey);
+        dest.writeString(this.name);
+        dest.writeString(this.address);
+        dest.writeString(this.public_key);
+        dest.writeString(this.balance);
+        dest.writeString(this.keystore);
+        dest.writeString(this.password);
+        dest.writeValue(this.mIconIndex);
+        dest.writeString(this.mnemonic);
+        dest.writeByte(this.chosen ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isMainWallet ? (byte) 1 : (byte) 0);
+        dest.writeString(this.rmb);
+        dest.writeString(this.us);
+        dest.writeString(this.krw);
+        dest.writeString(this.idr);
+        dest.writeString(this.contracBalance);
+        dest.writeByte(this.light ? (byte) 1 : (byte) 0);
+    }
+
+    public WalletBeanNew() {
+    }
+
+    protected WalletBeanNew(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.privateKey = in.readString();
+        this.name = in.readString();
+        this.address = in.readString();
+        this.public_key = in.readString();
+        this.balance = in.readString();
+        this.keystore = in.readString();
+        this.password = in.readString();
+        this.mIconIndex = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.mnemonic = in.readString();
+        this.chosen = in.readByte() != 0;
+        this.isMainWallet = in.readByte() != 0;
+        this.rmb = in.readString();
+        this.us = in.readString();
+        this.krw = in.readString();
+        this.idr = in.readString();
+        this.contracBalance = in.readString();
+        this.light = in.readByte() != 0;
+    }
+
+    @Generated(hash = 426566056)
+    public WalletBeanNew(Long id, String privateKey, String name, String address,
+            String public_key, String balance, String keystore, String password,
+            Integer mIconIndex, String mnemonic, boolean chosen, boolean isMainWallet,
+            String rmb, String us, String krw, String idr, String contracBalance,
+            boolean light) {
+        this.id = id;
+        this.privateKey = privateKey;
+        this.name = name;
+        this.address = address;
+        this.public_key = public_key;
+        this.balance = balance;
+        this.keystore = keystore;
+        this.password = password;
+        this.mIconIndex = mIconIndex;
+        this.mnemonic = mnemonic;
+        this.chosen = chosen;
+        this.isMainWallet = isMainWallet;
+        this.rmb = rmb;
+        this.us = us;
+        this.krw = krw;
+        this.idr = idr;
+        this.contracBalance = contracBalance;
+        this.light = light;
+    }
+
+    public static final Creator<WalletBeanNew> CREATOR = new Creator<WalletBeanNew>() {
+        @Override
+        public WalletBeanNew createFromParcel(Parcel source) {
+            return new WalletBeanNew(source);
+        }
+
+        @Override
+        public WalletBeanNew[] newArray(int size) {
+            return new WalletBeanNew[size];
+        }
+    };
 
     public Long getId() {
         return id;
@@ -224,120 +318,12 @@ public class WalletBeanNew implements Parcelable {
         this.idr = idr;
     }
 
-    public boolean isLight() {
-        return light;
+    public String getContracBalance() {
+        return contracBalance;
     }
 
-    public void setLight(boolean light) {
-        this.light = light;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(this.id);
-        dest.writeString(this.privateKey);
-        dest.writeString(this.name);
-        dest.writeString(this.address);
-        dest.writeString(this.public_key);
-        dest.writeString(this.balance);
-        dest.writeString(this.keystore);
-        dest.writeString(this.password);
-        dest.writeValue(this.mIconIndex);
-        dest.writeString(this.mnemonic);
-        dest.writeByte(this.chosen ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isMainWallet ? (byte) 1 : (byte) 0);
-        dest.writeString(this.rmb);
-        dest.writeString(this.us);
-        dest.writeString(this.krw);
-        dest.writeString(this.idr);
-        dest.writeByte(this.light ? (byte) 1 : (byte) 0);
-    }
-
-    public WalletBeanNew() {
-    }
-
-    protected WalletBeanNew(Parcel in) {
-        this.id = (Long) in.readValue(Long.class.getClassLoader());
-        this.privateKey = in.readString();
-        this.name = in.readString();
-        this.address = in.readString();
-        this.public_key = in.readString();
-        this.balance = in.readString();
-        this.keystore = in.readString();
-        this.password = in.readString();
-        this.mIconIndex = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.mnemonic = in.readString();
-        this.chosen = in.readByte() != 0;
-        this.isMainWallet = in.readByte() != 0;
-        this.rmb = in.readString();
-        this.us = in.readString();
-        this.krw = in.readString();
-        this.idr = in.readString();
-        this.light = in.readByte() != 0;
-    }
-
-    @Generated(hash = 387588)
-    public WalletBeanNew(Long id, String privateKey, String name, String address,
-            String public_key, String balance, String keystore, String password,
-            Integer mIconIndex, String mnemonic, boolean chosen, boolean isMainWallet,
-            String rmb, String us, String krw, String idr, boolean light) {
-        this.id = id;
-        this.privateKey = privateKey;
-        this.name = name;
-        this.address = address;
-        this.public_key = public_key;
-        this.balance = balance;
-        this.keystore = keystore;
-        this.password = password;
-        this.mIconIndex = mIconIndex;
-        this.mnemonic = mnemonic;
-        this.chosen = chosen;
-        this.isMainWallet = isMainWallet;
-        this.rmb = rmb;
-        this.us = us;
-        this.krw = krw;
-        this.idr = idr;
-        this.light = light;
-    }
-
-    public static final Creator<WalletBeanNew> CREATOR = new Creator<WalletBeanNew>() {
-        @Override
-        public WalletBeanNew createFromParcel(Parcel source) {
-            return new WalletBeanNew(source);
-        }
-
-        @Override
-        public WalletBeanNew[] newArray(int size) {
-            return new WalletBeanNew[size];
-        }
-    };
-
-    @Override
-    public String toString() {
-        return "WalletBeanNew{" +
-                "id=" + id +
-                ", privateKey='" + privateKey + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", public_key='" + public_key + '\'' +
-                ", balance='" + balance + '\'' +
-                ", keystore='" + keystore + '\'' +
-                ", password='" + password + '\'' +
-                ", mIconIndex=" + mIconIndex +
-                ", mnemonic='" + mnemonic + '\'' +
-                ", chosen=" + chosen +
-                ", isMainWallet=" + isMainWallet +
-                ", rmb='" + rmb + '\'' +
-                ", us='" + us + '\'' +
-                ", krw='" + krw + '\'' +
-                ", idr='" + idr + '\'' +
-                ", light=" + light +
-                '}';
+    public void setContracBalance(String contracBalance) {
+        this.contracBalance = contracBalance;
     }
 
     public Integer getMIconIndex() {
@@ -362,5 +348,9 @@ public class WalletBeanNew implements Parcelable {
 
     public boolean getLight() {
         return this.light;
+    }
+
+    public void setLight(boolean light) {
+        this.light = light;
     }
 }

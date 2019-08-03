@@ -25,12 +25,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
-        <activity android:name=".view.activity.webview.UseHelpActivity"></activity>
-        <activity android:name=".view.activity.webview.TxRecordBrowserActivity" />
+        <activity
+            android:name=".view.activity.exchange.ContractWalletDetailActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".view.activity.exchange.ExChangeActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".view.activity.webview.UseHelpActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".view.activity.webview.TxRecordBrowserActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".view.activity.transaction.TxRecordDetailActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".view.activity.setting.coin.SelectCoinActivity" />
+        <activity
+            android:name=".view.activity.setting.coin.SelectCoinActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".view.activity.setting.language.SettingLanguageActivity"
             android:launchMode="singleTop"
@@ -50,6 +62,7 @@
         <activity
             android:name=".view.activity.welcome.WelcomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleFullscreen"
             android:windowSoftInputMode="adjustResize|stateHidden">
@@ -135,6 +148,7 @@
         <activity
             android:name=".qrcode.activity.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />

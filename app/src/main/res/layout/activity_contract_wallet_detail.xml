@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cccccc"
+    android:orientation="vertical"
+    tools:context="org.ionchain.wallet.view.activity.exchange.ContractWalletDetailActivity">
+
+    <include layout="@layout/activity_common_title_two" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/some"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="20dp"
+            android:background="@drawable/contract_detail_bg">
+
+            <RelativeLayout
+                android:id="@+id/item2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="15dp"
+                android:background="@drawable/contract_detail_item_bg">
+
+                <TextView
+                    android:id="@+id/ex_wallet_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="钱包名字"
+                    android:textColor="@color/black" />
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="1dp"
+                    android:layout_height="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/ex_wallet_name"
+                    android:background="@color/main_color" />
+
+                <TextView
+                    android:id="@+id/ex_wallet_balacne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/line"
+                    android:gravity="center|left"
+                    android:text="00000"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/ex_wallet_amount"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/item2"
+                android:layout_margin="15dp"
+                android:hint="@string/tx_amount" />
+
+            <RelativeLayout
+                android:id="@+id/item3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ex_wallet_amount"
+                android:layout_margin="15dp"
+                android:background="@drawable/contract_detail_item_bg">
+
+                <TextView
+                    android:id="@+id/ex_wallet_address_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/wallet_address"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ex_wallet_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ex_wallet_address_tag"
+                    android:layout_margin="10dp"
+                    android:gravity="center|left"
+                    android:maxLines="2"
+                    android:text="00000"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item3"
+                android:layout_margin="15dp"
+                android:background="@drawable/contract_detail_item_bg">
+
+                <TextView
+                    android:id="@+id/ex_wallet_contract_address_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/wallet_contract_address"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ex_wallet_contract_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ex_wallet_contract_address_tag"
+                    android:layout_margin="10dp"
+                    android:gravity="center|left"
+                    android:maxLines="2"
+                    android:text="0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/exchange_main_chain"
+                android:layout_width="130dp"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:background="@color/main_color"
+                android:text="@string/mine_change_main_chain" />
+        </RelativeLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="total_assets">总资产</string>
+    <string name="total_assets">Total</string>
+    <string name="ex_success_submit">Has been submitted</string>
 </resources>

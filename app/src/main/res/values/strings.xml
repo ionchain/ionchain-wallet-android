@@ -105,7 +105,7 @@
     <string name="error_input_password">Please enter the correct password</string>
     <string name="copy_done_addr">Address copied</string>
     <string name="error_copy">Copy failed</string>
-    <string name="balance_">Balance</string>
+    <string name="wallet_balance">Balance</string>
     <string name="save_pos">Saved successfully! \n save path: SD card root directory ionchainAddress folder</string>
     <string name="permission_request">Please allow relevant access first</string>
     <string name="permission_storage">Access for saving required</string>
@@ -215,4 +215,10 @@
     <string name="please_wait">Please wait…</string>
     <string name="wallet_amount">Amount</string>
     <string name="address_to_same_whit_from">Same transfer and transfer address!</string>
+    <string name="mine_change_main_chain">Main chain switch</string>
+    <string name="contract_wallet_detail">Detail</string>
+    <string name="wallet_contract_address">Contract</string>
+    <string name="ex_success_submit">已提交</string>
+    <string name="ex_success_failure">Switch failure</string>
+    <string name="please_check_amount">Incorrect amount input</string>
 </resources>

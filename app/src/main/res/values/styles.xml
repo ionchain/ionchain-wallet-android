@@ -2,9 +2,10 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/main_color</item>
         <item name="colorPrimaryDark">@color/main_color</item>
         <item name="colorAccent">@color/main_color</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="IONCAppTheme" parent="Theme.AppCompat.Light.NoActionBar">

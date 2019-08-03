@@ -10,7 +10,7 @@
     <string name="app_update_no">Versi terbaru diperbarui</string>
     <string name="attention">Perhatian</string>
     <string name="back">Kembali</string>
-    <string name="balance_">Saldo</string>
+    <string name="wallet_balance">Saldo</string>
     <string name="before_use_backup">Backup sebelum guna</string>
     <string name="btn_background">Latar belakang download</string>
     <string name="btn_cancel">Batal</string>
@@ -214,4 +214,10 @@
     <string name="please_wait">Please wait…</string>
     <string name="please_check_input">Please check whether content is correct</string>
     <string name="using_help">Instruction Manual</string>
+    <string name="mine_change_main_chain">Main chain switch</string>
+    <string name="contract_wallet_detail">Detail</string>
+    <string name="wallet_contract_address">Contract</string>
+    <string name="ex_success_failure">Switch failure</string>
+    <string name="ex_success_submit">Has been submitted</string>
+    <string name="please_check_amount">Incorrect amount input</string>
 </resources>

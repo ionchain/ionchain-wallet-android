@@ -25,44 +25,73 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#FFF8F8F8"
-                />
+                android:background="#FFF8F8F8" />
+
             <ImageView
-                android:layout_marginTop="50dp"
-                android:src="@mipmap/head_portrait"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/head_portrait" />
 
             <TextView
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <View
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@color/black" />
+
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#FFF8F8F8"
-                />
+                android:layout_marginTop="10dp"
+                android:background="#FFF8F8F8" />
+
             <RelativeLayout
-                android:id="@+id/walletManageRLayout"
+                android:id="@+id/mine_change_main_chain"
                 style="@style/A_Style_tab_mine_item_container">
 
                 <ImageView
-                    android:src="@mipmap/mine_manager_wallet"
-                    android:id="@+id/img1"
-                    android:layout_centerVertical="true"
+                    android:id="@+id/img0"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/main_chain_ex" />
+
                 <TextView
-                    android:layout_toRightOf="@id/img1"
                     style="@style/A_Style_tab_mine"
+                    android:layout_toEndOf="@id/img0"
+                    android:text="@string/mine_change_main_chain" />
+
+                <ImageView
+                    style="@style/A_Style_tab_mine_item_image"
+                    android:src="@mipmap/ic_keyboard_arrow_right" />
+
+                <View
+
+                    style="@style/A_Style_tab_mine_split_line" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mine_manager_rl"
+                style="@style/A_Style_tab_mine_item_container">
+
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/mine_manager_wallet" />
+
+                <TextView
+                    style="@style/A_Style_tab_mine"
+                    android:layout_toRightOf="@id/img1"
                     android:text="@string/wallet_management" />
 
                 <ImageView
@@ -80,14 +109,15 @@
                 style="@style/A_Style_tab_mine_item_container">
 
                 <ImageView
-                    android:src="@mipmap/mine_language_setting"
                     android:id="@+id/img2"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/mine_language_setting" />
+
                 <TextView
-                    android:layout_toRightOf="@id/img2"
                     style="@style/A_Style_tab_mine"
+                    android:layout_toRightOf="@id/img2"
                     android:text="@string/language_setting" />
 
                 <ImageView
@@ -96,19 +126,21 @@
 
                 <View style="@style/A_Style_tab_mine_split_line" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/coin_type"
                 style="@style/A_Style_tab_mine_item_container">
 
                 <ImageView
-                    android:src="@mipmap/mine_coin_type"
                     android:id="@+id/img4"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/mine_coin_type" />
+
                 <TextView
-                    android:layout_toRightOf="@id/img4"
                     style="@style/A_Style_tab_mine"
+                    android:layout_toRightOf="@id/img4"
                     android:text="@string/coin_type" />
 
                 <ImageView
@@ -117,24 +149,26 @@
 
                 <View style="@style/A_Style_tab_mine_split_line" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#FFF8F8F8"
-                />
+                android:background="#FFF8F8F8" />
+
             <RelativeLayout
                 android:id="@+id/version_info"
                 style="@style/A_Style_tab_mine_item_container">
 
                 <ImageView
-                    android:src="@mipmap/mine_version_info"
                     android:id="@+id/img3"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/mine_version_info" />
+
                 <TextView
-                    android:layout_toRightOf="@id/img3"
                     style="@style/A_Style_tab_mine"
+                    android:layout_toRightOf="@id/img3"
                     android:text="@string/version_info_title" />
 
                 <ImageView
@@ -143,19 +177,21 @@
 
                 <View style="@style/A_Style_tab_mine_split_line" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/about_us"
                 style="@style/A_Style_tab_mine_item_container">
 
                 <ImageView
-                    android:src="@mipmap/mine_about_us"
                     android:id="@+id/img5"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/mine_about_us" />
+
                 <TextView
-                    android:layout_toRightOf="@id/img5"
                     style="@style/A_Style_tab_mine"
+                    android:layout_toRightOf="@id/img5"
                     android:text="@string/about_us" />
 
                 <ImageView
@@ -168,15 +204,17 @@
             <RelativeLayout
                 android:id="@+id/using_help"
                 style="@style/A_Style_tab_mine_item_container">
+
                 <ImageView
-                    android:src="@mipmap/mine_use_help"
                     android:id="@+id/img6"
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/mine_use_help" />
+
                 <TextView
-                    android:layout_toRightOf="@id/img6"
                     style="@style/A_Style_tab_mine"
+                    android:layout_toRightOf="@id/img6"
                     android:text="@string/using_help" />
 
                 <ImageView
@@ -186,7 +224,9 @@
                 <View style="@style/A_Style_tab_mine_split_line" />
             </RelativeLayout>
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

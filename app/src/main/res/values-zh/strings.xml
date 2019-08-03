@@ -105,7 +105,7 @@
     <string name="error_input_password">请输入的正确的密码</string>
     <string name="copy_done_addr">已复制地址</string>
     <string name="error_copy">复制失败</string>
-    <string name="balance_">余额</string>
+    <string name="wallet_balance">余额</string>
     <string name="save_pos">保存成功！\n保存路径: SD卡根目录的 ionchainAddress 文件夹下</string>
     <string name="permission_request">请先授予相关权限!</string>
     <string name="permission_storage">需要打开存储的权限</string>
@@ -213,4 +213,10 @@
     <string name="tx_btn_in">转入</string>
     <string name="wallet_amount">金额</string>
     <string name="address_to_same_whit_from">转入和转出地址相同！</string>
+    <string name="mine_change_main_chain">主链切换</string>
+    <string name="contract_wallet_detail">账户详情</string>
+    <string name="wallet_contract_address">合约地址</string>
+    <string name="ex_success_submit">已提交</string>
+    <string name="ex_success_failure">切换失败</string>
+    <string name="please_check_amount">金额输入有误</string>
 </resources>

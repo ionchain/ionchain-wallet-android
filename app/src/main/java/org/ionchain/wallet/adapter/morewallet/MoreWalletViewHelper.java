@@ -21,9 +21,9 @@ public class MoreWalletViewHelper implements IViewHolderHelper<MoreWalletViewHol
     @Override
     public IViewHolder initItemViewHolder(MoreWalletViewHolder viewHolder, View convertView) {
         viewHolder = new MoreWalletViewHolder();
-        viewHolder.mWalletName = convertView.findViewById(R.id.more_wallet_text);
-        viewHolder.mWalletImg = convertView.findViewById(R.id.more_wallet_img);
-        viewHolder.mWalletBalance = convertView.findViewById(R.id.more_wallet_balance);
+        viewHolder.mWalletName = convertView.findViewById(R.id.item_list_wallet_name);
+        viewHolder.mWalletImg = convertView.findViewById(R.id.item_list_wallet_img);
+        viewHolder.mWalletBalance = convertView.findViewById(R.id.item_wallet_balance);
         return viewHolder;
     }
 

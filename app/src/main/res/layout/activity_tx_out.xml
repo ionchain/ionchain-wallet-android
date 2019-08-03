@@ -103,7 +103,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
             android:gravity="center"
-            android:text="@string/balance_"
+            android:text="@string/wallet_balance"
             android:textColor="#999999"
             android:textSize="12sp" />
 

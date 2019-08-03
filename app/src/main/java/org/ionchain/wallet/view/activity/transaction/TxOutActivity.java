@@ -123,6 +123,13 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
 
             mAddressTo = txToAddressEt.getText().toString();
             mTxAccount = mTxValueEt.getText().toString();
+            double value = 0;
+            try {
+                value = Double.parseDouble(mTxAccount);
+            } catch (NumberFormatException e) {
+                ToastUtil.showLong(getAppString(R.string.please_check_amount));
+                return;
+            }
             if (mWalletBeanNew.getAddress().equals(mAddressTo)) {
                 ToastUtil.showShort(getAppString(R.string.address_to_same_whit_from));
                 return;
@@ -202,7 +209,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
         txSeekBarIndex.setMax(SEEK_BAR_MAX_VALUE_100_GWEI);
         txSeekBarIndex.setProgress(30);
         mTxCostTv.setText(getAppString(R.string.tx_fee) + getCurrentFee(mGasPrice.multiply(mGasPriceScaleGWei)).toPlainString() + " IONC");
-        mBalanceTv.setText(getAppString(R.string.balance_) + ": " + mWalletBeanNew.getBalance());
+        mBalanceTv.setText(getAppString(R.string.wallet_balance) + ": " + mWalletBeanNew.getBalance());
     }
 
 

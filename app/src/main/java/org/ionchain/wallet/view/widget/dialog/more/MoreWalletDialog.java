@@ -80,7 +80,7 @@ public class MoreWalletDialog extends AbsBaseDialog {
     @Override
     protected void initDialog() {
         super.initDialog();
-        mAdapterMore = new CommonAdapter(mContext, mMoreWallets, R.layout.item_popup_list, new MoreWalletViewHelper());
+        mAdapterMore = new CommonAdapter(mContext, mMoreWallets, R.layout.item_more_wallet_list, new MoreWalletViewHelper());
     }
 
 

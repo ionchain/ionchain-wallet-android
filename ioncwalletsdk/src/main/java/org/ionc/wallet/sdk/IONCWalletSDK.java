@@ -8,6 +8,8 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.google.common.collect.ImmutableList;
+
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
@@ -21,6 +23,8 @@ import org.ionc.wallet.bean.WalletBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
+import org.ionc.wallet.callback.OnContractCoinBalanceCallback;
+import org.ionc.wallet.callback.OnContractCoinTransfereCallback;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
@@ -40,6 +44,11 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.RandomUntil;
 import org.ionc.wallet.utils.SecureRandomUtils;
 import org.ionc.wallet.utils.StringUtils;
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
@@ -65,6 +74,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +85,9 @@ import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_CODE_BALANCE_IONC;
 import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_CREATE_WALLET_FAILURE;
 import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_KEYSTORE;
 import static org.ionc.wallet.constant.ConstanErrorCode.ERROR_TRANSCATION_FAILURE;
+import static org.ionc.wallet.sdk.Web3jCancelTag.CONTRACT_BALANCE_CANCEL;
 import static org.ionc.wallet.utils.RandomUntil.getNum;
+import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 public class IONCWalletSDK {
     private volatile static IONCWalletSDK mInstance;
@@ -1103,6 +1115,117 @@ public class IONCWalletSDK {
                 .list();
         Collections.reverse(list);
         return list;
+    }
+
+
+    private static final String ETH_NODE = "https://mainnet.infura.io/";
+
+
+    /**
+     * @param b
+     * @param position
+     * @param fromAddress     合约账户地址
+     * @param contractAddress 合约地址
+     */
+    public void contractBalance(int position, String fromAddress, String contractAddress, OnContractCoinBalanceCallback balanceCallback) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Web3jCancelTag.CONTRACT_BALANCE_CANCEL = false;
+                    Web3j web3j = Web3j.build(new HttpService(ETH_NODE));
+                    Function b = new Function(
+                            "balanceOf",//余额的方法名称
+                            ImmutableList.of(new Address(fromAddress)),
+                            Arrays.asList(new TypeReference<Address>() {
+                            }, new TypeReference<Uint256>() {
+                            })
+                    );
+                    String data = FunctionEncoder.encode(b);
+                    if (CONTRACT_BALANCE_CANCEL) {
+                        LoggerUtils.e("取消查询余额");
+                        return;
+                    }
+                    String balance = web3j.ethCall(createEthCallTransaction(fromAddress, contractAddress, data), DefaultBlockParameterName.PENDING).sendAsync().get().getValue();
+                    if (balance == null && !CONTRACT_BALANCE_CANCEL) {
+                        LoggerUtils.e("balance = null" + fromAddress);
+                        mHandler.post(() -> balanceCallback.onContractCoinBalanceSuccess(position, "0.000"));
+                        return;
+                    }
+                    String s = new BigInteger(balance.substring(2), 16).toString();
+                    LoggerUtils.e("balance = " + Convert.fromWei(new BigDecimal(s), Convert.Unit.ETHER) + "  " + balance);
+                    if (!CONTRACT_BALANCE_CANCEL) {
+                        mHandler.post(() -> balanceCallback.onContractCoinBalanceSuccess(position, Convert.fromWei(new BigDecimal(s), Convert.Unit.ETHER).toPlainString()));
+                    } else {
+                        LoggerUtils.e("取消投递消息 " + CONTRACT_BALANCE_CANCEL);
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    if (!CONTRACT_BALANCE_CANCEL) {
+                        mHandler.post(() -> balanceCallback.onContractCoinBalanceFailure(position, e.getMessage()));
+                    }
+                }
+            }
+        }.start();
+    }
+
+    /**
+     * 通过合约发起转账
+     *
+     * @param contractAddress 合约地址，代币地址
+     * @param fromPrivateKey  合约中账户地址对应的私钥
+     * @param fromAddress     合约中的账户地址
+     * @param toAddress       收款地址
+     */
+    public void contractTransfer(WalletBeanNew walletBeanNew, String password, String contractAddress, String toAddress, double ioncWallet, OnContractCoinTransfereCallback coinTransfereCallback) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+
+                    String fromAddress = walletBeanNew.getAddress();
+                    Web3j web3j = Web3j.build(new HttpService(ETH_NODE));
+                    BigInteger value = Convert.toWei(BigDecimal.valueOf(ioncWallet), Convert.Unit.ETHER).toBigInteger();//转账金额
+
+                    EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(fromAddress, DefaultBlockParameterName.PENDING).send();
+                    BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+                    LoggerUtils.e("=======nonce  :    " + nonce);
+                    BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
+                    LoggerUtils.e("=======gasPrice  :    " + gasPrice);
+
+                    //智能合约事物
+                    Function function = new Function(
+                            "transfer",//交易的方法名称
+                            Arrays.asList(new Address(toAddress), new Uint256(value)),
+                            Arrays.asList(new TypeReference<Address>() {
+                            }, new TypeReference<Uint256>() {
+                            })
+                    );
+                    String data = FunctionEncoder.encode(function);
+//            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, new BigInteger("300000"), contractAddress, value, data);
+                    RawTransaction rawTransaction = RawTransaction.createTransaction(
+                            nonce,
+                            gasPrice,
+                            new BigInteger("300000"),
+                            contractAddress,
+                            data);
+                    //通过私钥获取凭证  当然也可以根据其他的获取 其他方式详情请看web3j
+//                    Credentials credentials = Credentials.create(fromPrivateKey);
+                    Credentials credentials = loadCredentials(walletBeanNew.getLight(), password, new File(walletBeanNew.getKeystore()));
+                    byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+                    String hexValue = Numeric.toHexString(signedMessage);
+                    //发送事务
+                    EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
+                    //事物的HASH
+                    String transactionHash = ethSendTransaction.getTransactionHash();
+                    mHandler.post(() -> coinTransfereCallback.onContractCoinTransferSuccess(transactionHash));
+                } catch (CipherException | IOException | InterruptedException | ExecutionException e) {
+                    mHandler.post(() -> coinTransfereCallback.onContractCoinTransferSuccess(e.getMessage()));
+                }
+            }
+        }.start();
+
     }
 
 }
