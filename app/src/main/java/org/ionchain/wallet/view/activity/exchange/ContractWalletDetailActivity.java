@@ -71,7 +71,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     protected void handleIntent(Intent intent) {
         super.handleIntent(intent);
         mWalletBeanNew = intent.getParcelableExtra(ConstantParams.PARCELABLE_WALLET_BEAN);
-        pos = intent.getIntExtra("pos",0);
+        pos = intent.getIntExtra("pos", 0);
     }
 
     @Override
@@ -148,12 +148,12 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     @Override
     public void onCheckWalletPasswordSuccess(WalletBeanNew bean) {
         mDialogPasswordCheck.dismiss();
-
+        showProgress(getAppString(R.string.please_wait));
         String password = mDialogPasswordCheck.getPasswordEt().getText().toString();
         if (TextUtils.isEmpty(password)) {
             ToastUtil.showLong(getAppString(R.string.please_input_current_password));
         }
-        IONCWalletSDK.getInstance().contractTransfer(mWalletBeanNew, password, contractAddress, "0xaCb1B4fF1974e7EF03CacBbad98448237B913036", mValue,this);
+        IONCWalletSDK.getInstance().contractTransfer(mWalletBeanNew, password, contractAddress, "0xaCb1B4fF1974e7EF03CacBbad98448237B913036", mValue, this);
     }
 
     @Override
@@ -163,12 +163,15 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
 
     @Override
     public void onContractCoinTransferSuccess(String hash) {
-        LoggerUtils.e("hash = "+ hash);
+        LoggerUtils.e("hash = " + hash);
+        hideProgress();
+
         ToastUtil.showLong(getAppString(R.string.ex_success_submit));
     }
 
     @Override
     public void onContractCoinTransferFailure(String error) {
+        hideProgress();
         ToastUtil.showLong(getAppString(R.string.ex_success_failure));
     }
 

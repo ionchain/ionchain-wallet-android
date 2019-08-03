@@ -147,6 +147,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
+                android:textColor="@color/white"
                 android:background="@color/main_color"
                 android:text="@string/mine_change_main_chain" />
         </RelativeLayout>
