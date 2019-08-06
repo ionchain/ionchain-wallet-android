@@ -240,7 +240,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                         return;
                     }
                     String p_input = deleteWallet.getPasswordEt().getText().toString();
-                    IONCWallet.checkCurrentWalletPassword(mWallet, p_input, mWallet.getKeystore(), ModifyWalletActivity.this); //删除钱包的时候检查密码
+                    IONCWallet.checkCurrentWalletPassword(false, mWallet, p_input, mWallet.getKeystore(), ModifyWalletActivity.this); //删除钱包的时候检查密码
                 });
                 deleteWallet.show();//删除钱包
                 break;
@@ -262,7 +262,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                 exportPK.setRightBtnClickedListener(v15 -> {
                     /*比对密码是否正确*/
                     String pwd1 = exportPK.getPasswordEt().getText().toString();
-                    IONCWallet.checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this); //导出私钥
+                    IONCWallet.checkCurrentWalletPassword(false, mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this); //导出私钥
                 });
                 exportPK.show();//导出私钥
                 break;
@@ -276,7 +276,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                 exportKS.setRightBtnClickedListener(v14 -> {
                     /*比对密码是否正确*/
                     String pwd1 = exportKS.getPasswordEt().getText().toString();
-                    IONCWallet.checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this);//导出KS
+                    IONCWallet.checkCurrentWalletPassword(false, mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this);//导出KS
                 });
                 exportKS.show(); //导出KS
                 break;
@@ -319,7 +319,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
         showProgress(getAppString(R.string.modifying_password));
         this.newPassword = newPassword;
         this.currentPassword = currentPassword;
-        IONCWallet.checkCurrentWalletPassword(mWallet, currentPassword, mWallet.getKeystore(), this); //修改密码对话框
+        IONCWallet.checkCurrentWalletPassword(false, mWallet, currentPassword, mWallet.getKeystore(), this); //修改密码对话框
     }
 
 

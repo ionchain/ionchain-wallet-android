@@ -14,13 +14,10 @@ import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.constant.ConstantParams;
-import org.ionchain.wallet.view.activity.webview.TxRecordBrowserActivity;
-import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.utils.QRCodeUtils;
 import org.ionchain.wallet.utils.ToastUtil;
-import org.web3j.utils.Convert;
-
-import java.math.BigDecimal;
+import org.ionchain.wallet.view.activity.webview.TxRecordBrowserActivity;
+import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 
 import static org.ionc.wallet.sdk.IONCWallet.TX_FAILURE;
 import static org.ionc.wallet.sdk.IONCWallet.TX_SUSPENDED;
@@ -35,8 +32,7 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
     private TextView txDetailText;
     private TextView txDetailTime;
     private TextView txDetailValue;
-    private TextView txDetailFee;
-    private TextView txDetailFee1;
+    private TextView txFee;
     private TextView txDetailTo;
     private TextView txDetailFrom;
     private TextView txDetailHash;
@@ -58,8 +54,7 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
         txDetailText = (TextView) findViewById(R.id.tx_detail_text);
         txDetailTime = (TextView) findViewById(R.id.tx_detail_time);
         txDetailValue = (TextView) findViewById(R.id.tx_detail_value);
-        txDetailFee = (TextView) findViewById(R.id.tx_detail_fee);
-        txDetailFee1 = (TextView) findViewById(R.id.tx_detail_fee1);
+        txFee = (TextView) findViewById(R.id.tx_detail_fee);
         txDetailTo = (TextView) findViewById(R.id.tx_detail_roll_in);
         txDetailFrom = (TextView) findViewById(R.id.tx_detail_roll_out);
         txDetailHash = (TextView) findViewById(R.id.tx_detail_hash);
@@ -104,9 +99,7 @@ public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
         String time = DateUtils.getDateToString(Long.parseLong(mTxRecordBean.getTc_in_out()), Y4M2D2H2M2S2);
         txDetailTime.setText(time);
         txDetailValue.setText(mTxRecordBean.getValue() + " IONC");
-        txDetailFee.setText(mTxRecordBean.getGas() + " IONC");
-        txDetailFee.setText(Convert.fromWei(new BigDecimal(mTxRecordBean.getGasPrice()).multiply(new BigDecimal(mTxRecordBean.getGas())), Convert.Unit.ETHER) + " IONC");
-        txDetailFee1.setText("=Gas(" + mTxRecordBean.getGas() + ")*" + " GasPrice(" + Convert.fromWei(mTxRecordBean.getGasPrice(), Convert.Unit.GWEI) + " GWei)");
+        txFee.setText(mTxRecordBean.getGas() + " IONC");
         txDetailTo.setText(mTxRecordBean.getTo().trim());
         txDetailFrom.setText(mTxRecordBean.getFrom().trim());
         txDetailHash.setText(mTxRecordBean.getHash() + "   ");

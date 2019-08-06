@@ -169,7 +169,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
             mDialogPasswordCheck.setRightBtnClickedListener(v14 -> {
                 /*比对密码是否正确*/
                 String pwd1 = mDialogPasswordCheck.getPasswordEt().getText().toString();
-                IONCWallet.checkCurrentWalletPassword(mWalletBeanNew, pwd1, mWalletBeanNew.getKeystore(), ContractWalletDetailActivity.this);//导出KS
+                IONCWallet.checkCurrentWalletPassword(false, mWalletBeanNew, pwd1, mWalletBeanNew.getKeystore(), ContractWalletDetailActivity.this);//导出KS
             });
             mDialogPasswordCheck.show();
         });

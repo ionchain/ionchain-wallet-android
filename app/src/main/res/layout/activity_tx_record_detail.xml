@@ -123,36 +123,12 @@
                         android:textSize="@dimen/textSize_14" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/tx_fee1_ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tx_fee_ll"
-                    android:layout_marginStart="@dimen/tx_marginStar"
-                    android:layout_marginEnd="@dimen/h25"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="@dimen/tx_detail_left_tag"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/textSize_16" />
-
-                    <TextView
-                        android:id="@+id/tx_detail_fee1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="21dp"
-                        android:gravity="center_vertical|left"
-                        android:text="0.0063 IONC"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/textSize_10"
-                        tools:ignore="RtlHardcoded" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/tx_to_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tx_fee1_ll"
+                    android:layout_below="@id/tx_fee_ll"
                     android:layout_marginStart="@dimen/tx_marginStar"
                     android:layout_marginTop="@dimen/h15"
                     android:layout_marginEnd="@dimen/h25"
@@ -296,7 +272,6 @@
                     android:layout_width="wrap_content"
                     android:layout_below="@id/tx_detail_block"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="60dp"
                     android:src="@mipmap/scan" />

@@ -251,7 +251,7 @@ public class WalletBeanNew implements Parcelable {
     }
 
     public void setPassword(String password) {
-        this.password = "";
+        this.password = password;
     }
 
     public Integer getIconIndex() {
@@ -352,5 +352,29 @@ public class WalletBeanNew implements Parcelable {
 
     public void setLight(boolean light) {
         this.light = light;
+    }
+
+    @Override
+    public String toString() {
+        return "WalletBeanNew{" +
+                "id=" + id +
+                ", privateKey='" + privateKey + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", public_key='" + public_key + '\'' +
+                ", balance='" + balance + '\'' +
+                ", keystore='" + keystore + '\'' +
+                ", password='" + password + '\'' +
+                ", mIconIndex=" + mIconIndex +
+                ", mnemonic='" + mnemonic + '\'' +
+                ", chosen=" + chosen +
+                ", isMainWallet=" + isMainWallet +
+                ", rmb='" + rmb + '\'' +
+                ", us='" + us + '\'' +
+                ", krw='" + krw + '\'' +
+                ", idr='" + idr + '\'' +
+                ", contracBalance='" + contracBalance + '\'' +
+                ", light=" + light +
+                '}';
     }
 }

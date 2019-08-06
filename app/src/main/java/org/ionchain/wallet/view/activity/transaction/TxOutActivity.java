@@ -150,7 +150,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
                 String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
                 LoggerUtils.i("主链节点获取成功（检查交易密码之前）pwd_input ：" + pwd_input);
 
-                IONCWallet.checkCurrentWalletPassword(mWalletBeanNew, pwd_input, mWalletBeanNew.getKeystore(), TxOutActivity.this); //转账
+                IONCWallet.checkCurrentWalletPassword(true, mWalletBeanNew, pwd_input, mWalletBeanNew.getKeystore(), TxOutActivity.this); //转账
             }).show();
         });
         txSeekBarIndex.setOnSeekBarChangeListener(this);
@@ -344,9 +344,9 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
     @SuppressLint("SetTextI18n")
     @Override
     public void onGasPriceSuccess(BigInteger gasPrice) {
-        LoggerUtils.e("fee", "getGasPriceETH  net = " + gasPrice.toString());
+        LoggerUtils.e("fee", "getGasPriceETH  onGasPriceSuccess = " + gasPrice.toString());
         mGasPrice = new BigDecimal(gasPrice);
-        LoggerUtils.e("fee", "mGasPrice  net = " + mGasPrice.toString());
+        LoggerUtils.e("fee", "mGasPrice  onGasPriceSuccess = " + mGasPrice.toString());
 
         mGasLimit = BigInteger.valueOf(GAS_LIMIT_MIN + GAS_LIMIT_DEFAULT);
         mTxCostTv.setText(getAppString(R.string.tx_fee) + "：" + getCurrentFee(new BigDecimal(mGasLimit)) + " IONC");

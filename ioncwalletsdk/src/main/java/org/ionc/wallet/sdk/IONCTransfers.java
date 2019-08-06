@@ -141,60 +141,64 @@ public class IONCTransfers {
      * @param callback 转账结果
      */
     public static void transaction(final String nodeIONC, final TransactionHelper helper, final OnTransationCallback callback) {
-        try {
-            Web3j web3j = Web3j.build(new HttpService(nodeIONC));
-            LoggerUtils.i("gettest", "0 " + Thread.currentThread().getName());
-            EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(helper.getWalletBeanTx().getAddress(), DefaultBlockParameterName.PENDING).sendAsync().get();//转账
-            LoggerUtils.i("gettest", "1 " + Thread.currentThread().getId());
-            BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-            String toAddress = helper.getToAddress().toLowerCase();
+      new Thread(){
+          @Override
+          public void run() {
+              super.run();
+              try {
+                  LoggerUtils.e("fee", helper.toString());
+                  Web3j web3j = Web3j.build(new HttpService(nodeIONC));
+                  EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(helper.getWalletBeanTx().getAddress(), DefaultBlockParameterName.PENDING).send();//转账
+                  BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+                  String toAddress = helper.getToAddress().toLowerCase();
 //                    Credentials credentials = MyWalletUtils.loadCredentials(helper.getWalletBeanTx().getPassword(), new File(helper.getWalletBeanTx().getKeystore()));
-            Credentials credentials = loadCredentials(helper.getWalletBeanTx().getLight(), helper.getWalletBeanTx().getPassword(), new File(helper.getWalletBeanTx().getKeystore()));
-            RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, helper.getGasPrice(), helper.getGasLimit(), toAddress, helper.getTxValue());
-            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
-            String signedData = Numeric.toHexString(signedMessage);
-            EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).sendAsync().get();//转账
-            LoggerUtils.i("gettest", "2 " + Thread.currentThread().getId());
-            final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
-            LoggerUtils.i("nonce", valueOf(nonce));
-            web3j.shutdown();
-            if (!TextUtils.isEmpty(hashTx)) {
-                IONCSDK.mHandler.post(() -> callback.onTxSuccess(hashTx, nonce));
-            } else {
-                IONCSDK.mHandler.post(() -> callback.onTxFailure(ERROR_TRANSCATION_FAILURE));
-            }
-        } catch (final IOException | CipherException | NullPointerException | IllegalArgumentException | InterruptedException | ExecutionException e) {
-            IONCSDK.mHandler.post(() -> callback.onTxFailure(e.getMessage()));
-        }
+                  Credentials credentials = loadCredentials(helper.getWalletBeanTx().getLight(), helper.getWalletBeanTx().getPassword(), new File(helper.getWalletBeanTx().getKeystore()));
+//                  Credentials credentials = WalletUtils.loadCredentials(helper.getWalletBeanTx().getPassword(), new File(helper.getWalletBeanTx().getKeystore()));;
+                  RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, helper.getGasPrice(), helper.getGasLimit(), toAddress, helper.getTxValue());
+//                  RawTransaction rawTransaction = RawTransaction.createEtherTransaction(nonce, new BigInteger("400000"), helper.getGasLimit(), toAddress, helper.getTxValue());
+                  byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+                  String signedData = Numeric.toHexString(signedMessage);
+                  EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(signedData).send();//转账
+                  final String hashTx = ethSendTransaction.getTransactionHash();//转账成功hash 不为null
+                  if (!TextUtils.isEmpty(hashTx)) {
+                      IONCSDK.mHandler.post(() -> callback.onTxSuccess(hashTx, nonce));
+                  } else {
+                      IONCSDK.mHandler.post(() -> callback.onTxFailure(ERROR_TRANSCATION_FAILURE));
+                  }
+              } catch (final IOException | CipherException | NullPointerException | IllegalArgumentException e) {
+                  IONCSDK.mHandler.post(() -> callback.onTxFailure(e.getMessage()));
+              }
+          }
+      }.start();
     }
 
     public static void getGasPriceETH(String node, OnGasPriceCallback priceCallback) {
 
-       new Thread(){
-           @Override
-           public void run() {
-               super.run();
-               try {
-                   Web3j web3j = Web3j.build(new HttpService(node));
-                   BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
-                   mHandler.post(new Runnable() {
-                       @Override
-                       public void run() {
-                           priceCallback.onGasPriceSuccess(gasPrice);
-                       }
-                   }) ;
-               } catch (IOException e) {
-                   LoggerUtils.e(e.getMessage());
-                   mHandler.post(new Runnable() {
-                       @Override
-                       public void run() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Web3j web3j = Web3j.build(new HttpService(node));
+                    BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            priceCallback.onGasPriceSuccess(gasPrice);
+                        }
+                    });
+                } catch (IOException e) {
+                    LoggerUtils.e(e.getMessage());
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
 
-                           priceCallback.onGasRiceFailure(e.getMessage());
-                       }
-                   });
-               }
-           }
-       }.start();
+                            priceCallback.onGasRiceFailure(e.getMessage());
+                        }
+                    });
+                }
+            }
+        }.start();
     }
 
     public static void getGasPriceETH(OnGasPriceCallback priceCallback) {
@@ -233,7 +237,7 @@ public class IONCTransfers {
      * @param fromAddress     合约账户地址
      * @param contractAddress 合约地址
      */
-    public  static void contractBalance(int position, String fromAddress, String contractAddress, OnContractCoinBalanceCallback balanceCallback) {
+    public static void contractBalance(int position, String fromAddress, String contractAddress, OnContractCoinBalanceCallback balanceCallback) {
         new Thread() {
             @Override
             public void run() {
@@ -277,6 +281,7 @@ public class IONCTransfers {
 
     /**
      * 通过合约发起转账
+     *
      * @param fromPrivateKey  合约中账户地址对应的私钥
      * @param fromAddress     合约中的账户地址
      * @param gasPrice
@@ -284,7 +289,7 @@ public class IONCTransfers {
      * @param contractAddress 合约地址，代币地址
      * @param toAddress       收款地址
      */
-    public  static void contractTransfer(WalletBeanNew walletBeanNew, BigInteger gasPrice, String gasLimit, String password, String contractAddress, String toAddress, double ioncWallet, OnContractCoinTransferCallback contractCoinTransferCallback) {
+    public static void contractTransfer(WalletBeanNew walletBeanNew, BigInteger gasPrice, String gasLimit, String password, String contractAddress, String toAddress, double ioncWallet, OnContractCoinTransferCallback contractCoinTransferCallback) {
         new Thread() {
             @Override
             public void run() {
@@ -334,7 +339,8 @@ public class IONCTransfers {
         }.start();
 
     }
-    public  static void contractTransfer(WalletBeanNew walletBeanNew, BigInteger gasPrice, String gasLimit, String password, double ioncWallet, OnContractCoinTransferCallback contractCoinTransferCallback) {
+
+    public static void contractTransfer(WalletBeanNew walletBeanNew, BigInteger gasPrice, String gasLimit, String password, double ioncWallet, OnContractCoinTransferCallback contractCoinTransferCallback) {
         new Thread() {
             @Override
             public void run() {

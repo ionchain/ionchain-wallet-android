@@ -586,12 +586,13 @@ public class IONCWallet {
     }
 
     /**
+     * @param needTemp
      * @param beanNew 当前正在操作的钱包此处可以缓存钱包的所有信息，换出位置是内存
      * @param password          密码
      * @param ksp               路径
      * @param callback          回掉
      */
-    public static void checkCurrentWalletPassword(WalletBeanNew beanNew, final String password, final String ksp, final OnCheckWalletPasswordCallback callback) {
+    public static void checkCurrentWalletPassword(boolean needTemp, WalletBeanNew beanNew, final String password, final String ksp, final OnCheckWalletPasswordCallback callback) {
         new Thread() {
             @Override
             public void run() {
@@ -603,7 +604,11 @@ public class IONCWallet {
                     beanNew.setPrivateKey(keyPair.getPrivateKey().toString(16));//私钥
                     beanNew.setPublic_key(keyPair.getPublicKey().toString(16));//公钥
                     beanNew.setAddress("0x" + Keys.getAddress(keyPair)); //地址
-                    beanNew.setPassword(password); //密码
+                    if (needTemp) {
+                        beanNew.setPassword(password); //密码,发起交易的时候，需要内存的中的密码
+                    }else {
+                        beanNew.setPassword("");
+                    }
                     beanNew.setKeystore(ksp);
                     mHandler.post(() -> callback.onCheckWalletPasswordSuccess(beanNew));
                 } catch (IOException | CipherException | NullPointerException e) {

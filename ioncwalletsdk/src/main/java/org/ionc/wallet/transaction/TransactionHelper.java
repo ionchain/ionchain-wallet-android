@@ -105,4 +105,15 @@ public class TransactionHelper {
         LoggerUtils.i("value", String.valueOf(value));
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "TransactionHelper{" +
+                "walletBeanTx=" + walletBeanTx +
+                ", toAddress='" + toAddress + '\'' +
+                ", gasPrice=" + gasPrice +
+                ", txValue='" + txValue + '\'' +
+                ", gasLimit=" + gasLimit +
+                '}';
+    }
 }
