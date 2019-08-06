@@ -191,8 +191,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
             }
             newPasswordTemp = pass;
             showProgress(getString(R.string.importing_wallet));
-            IONCWallet
-                    .importPrivateKey(namestr, private_key, pass, ImportByPriKeyActivity.this);
+            IONCWallet.importPrivateKey(namestr, private_key, pass, ImportByPriKeyActivity.this);
         });
         mTitleLeftImage.setOnClickListener(v -> finish());
     }

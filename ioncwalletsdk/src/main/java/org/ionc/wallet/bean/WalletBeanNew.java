@@ -251,7 +251,7 @@ public class WalletBeanNew implements Parcelable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = "";
     }
 
     public Integer getIconIndex() {
