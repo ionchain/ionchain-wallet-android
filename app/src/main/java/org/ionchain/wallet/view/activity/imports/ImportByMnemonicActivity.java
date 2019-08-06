@@ -15,7 +15,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.utils.ToastUtil;
@@ -104,13 +104,13 @@ public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements
                 Toast.makeText(mActivity.getApplicationContext(), getAppString(R.string.illegal_password_must_equal), Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (IONCWalletSDK.getInstance().getWalletByName(namestr)!=null) {
+            if (IONCWallet.getWalletByName(namestr)!=null) {
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
             newPassword = pass;
             showProgress(getAppString(R.string.importing_wallet));
-            IONCWalletSDK.getInstance()
+            IONCWallet
                     .importWalletByMnemonicCode(namestr, Arrays.asList(content.split(" ")), pass, ImportByMnemonicActivity.this);
         });
         linkUrlTv.setOnClickListener(v -> skipWebProtocol());
@@ -144,7 +144,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements
     @Override
     public void onImportMnemonicSuccess(WalletBeanNew walletBean) {
         walletBean.setMnemonic("");
-        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress().toLowerCase());
+        final WalletBeanNew wallet = IONCWallet.getWalletByAddress(walletBean.getAddress().toLowerCase());
         if (null != wallet) {
             wallet.setPassword(walletBean.getPassword());
             wallet.setPrivateKey(walletBean.getPrivateKey());
@@ -154,7 +154,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements
                     .setPositiveButton(getAppString(R.string.continues), (dialog, which) -> {
 
                         dialog.dismiss();
-                        IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPassword, ImportByMnemonicActivity.this);
+                        IONCWallet.updatePasswordAndKeyStore(wallet, newPassword, ImportByMnemonicActivity.this);
 
                     })
                     .setNegativeButton(getAppString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -165,9 +165,9 @@ public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements
                     })
                     .show();
         } else {
-            IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
+            IONCWallet.changeMainWalletAndSave(walletBean);
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
-            if (IONCWalletSDK.getInstance().getAllWalletNew().size()==1) {
+            if (IONCWallet.getAllWalletNew().size()==1) {
                 skip(MainActivity.class);
                 finish();
             }else {
@@ -185,7 +185,7 @@ public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements
 
     @Override
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
-        IONCWalletSDK.getInstance().updateWallet(wallet);
+        IONCWallet.updateWallet(wallet);
         ToastUtil.showToastLonger(getAppString(R.string.update_success));
         skipToBack(wallet);//z助记词更新钱包
     }

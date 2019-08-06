@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCSDK;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class SoftKeyboardUtil {
     public static void hideSoftKeyboard(List<View> viewList) {
         if (viewList == null) return;
 
-        InputMethodManager inputMethodManager = (InputMethodManager) IONCWalletSDK.appContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) IONCSDK.appContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
 
         for (View v : viewList) {
             inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

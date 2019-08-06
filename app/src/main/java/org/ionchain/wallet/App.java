@@ -34,13 +34,13 @@ import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import org.ionc.wallet.daohelper.MyOpenHelper;
 import org.ionc.wallet.greendaogen.DaoMaster;
 import org.ionc.wallet.greendaogen.DaoSession;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCSDK;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.helper.ActivityHelper;
-import org.ionchain.wallet.view.activity.MainActivity;
 import org.ionchain.wallet.qrcode.DisplayUtil;
 import org.ionchain.wallet.qrcode.activity.ZXingLibrary;
 import org.ionchain.wallet.utils.SPUtils;
+import org.ionchain.wallet.view.activity.MainActivity;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -86,7 +86,7 @@ public class App extends Application implements Application.ActivityLifecycleCal
         initOKGO();
         initXlog();
 
-        IONCWalletSDK.getInstance().initIONCWalletSDK(this, initDb());
+        IONCSDK.init(this, initDb());
         ZXingLibrary.initDisplayOpinion(this);
         CrashHandler.getInstance().init(this);
         initDisplayOpinion();

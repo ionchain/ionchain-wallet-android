@@ -3,7 +3,7 @@ package org.ionc.wallet.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCSDK;
 
 /**
  * Created by HuangQiang on 2017/6/28.
@@ -13,7 +13,7 @@ public class ToastUtil {
 
 
     private static Context getContext(){
-        return IONCWalletSDK.appContext;
+        return IONCSDK.appContext;
     }
     public static void showShortToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();

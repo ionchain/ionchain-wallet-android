@@ -17,8 +17,8 @@ import org.ionchain.wallet.utils.ColorUtils;
 
 import java.util.List;
 
-import static org.ionc.wallet.sdk.IONCWalletSDK.TX_FAILURE;
-import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
+import static org.ionc.wallet.sdk.IONCWallet.TX_FAILURE;
+import static org.ionc.wallet.sdk.IONCWallet.TX_SUSPENDED;
 import static org.ionc.wallet.utils.DateUtils.YYYY_MM_DD_HH_MM_SS;
 
 public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHolder> {

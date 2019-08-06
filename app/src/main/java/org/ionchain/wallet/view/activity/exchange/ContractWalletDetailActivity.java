@@ -16,9 +16,10 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnContractCoinBalanceCallback;
-import org.ionc.wallet.callback.OnContractCoinTransfereCallback;
-import org.ionc.wallet.sdk.IONCWalletSDK;
-import org.ionc.wallet.sdk.Web3jCancelTag;
+import org.ionc.wallet.callback.OnContractCoinTransferCallback;
+import org.ionc.wallet.sdk.IONCCancelTag;
+import org.ionc.wallet.sdk.IONCTransfers;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.constant.ConstantParams;
@@ -26,7 +27,7 @@ import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.view.widget.dialog.check.DialogPasswordCheck;
 
-public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implements OnContractCoinBalanceCallback, OnCheckWalletPasswordCallback, OnContractCoinTransfereCallback, OnRefreshListener {
+public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implements OnContractCoinBalanceCallback, OnCheckWalletPasswordCallback, OnContractCoinTransferCallback, OnRefreshListener {
 
     private WalletBeanNew mWalletBeanNew;
 
@@ -38,7 +39,8 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     private EditText ex_wallet_amount;
 
     private SmartRefreshLayout mSmartRefreshLayout;
-    private String contractAddress = "0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF";
+    private String mContractAddress = "0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF";
+    private String mContractToAddress ="0xaCb1B4fF1974e7EF03CacBbad98448237B913036";
     private DialogPasswordCheck mDialogPasswordCheck;
 
     private int pos;
@@ -87,9 +89,9 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
         }
         exWalletName.setText(mWalletBeanNew.getName());
         exWalletAddress.setText(mWalletBeanNew.getAddress());
-        exWalletContractAddress.setText(contractAddress); //合约地址
-//        exWalletBalacne.setText(mWalletBeanNew.getContracBalance());
-        IONCWalletSDK.getInstance().contractBalance(0, mWalletBeanNew.getAddress(), contractAddress, this);
+        exWalletContractAddress.setText(getAppString(R.string.wallet_contract_address)+": "+ mContractAddress); //合约地址
+        exWalletBalacne.setText(mWalletBeanNew.getContracBalance());
+        IONCTransfers.contractBalance(0, mWalletBeanNew.getAddress(), mContractAddress, this);
     }
 
     @Override
@@ -100,19 +102,19 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     @Override
     public void onContractCoinBalanceSuccess(int position, String balance) {
         mSmartRefreshLayout.finishRefresh();
-        if (Web3jCancelTag.CONTRACT_BALANCE_CANCEL) {
+        if (IONCCancelTag.CONTRACT_BALANCE_CANCEL) {
             LoggerUtils.e("取消 onContractCoinBalanceSuccess");
             return;
         }
         exWalletBalacne.setText(balance + " IONC");
         mWalletBeanNew.setContracBalance(balance);
-        IONCWalletSDK.getInstance().saveWallet(mWalletBeanNew);
+       IONCWallet.saveWallet(mWalletBeanNew);
     }
 
     @Override
     public void onContractCoinBalanceFailure(int position, String error) {
         mSmartRefreshLayout.finishRefresh();
-        if (Web3jCancelTag.CONTRACT_BALANCE_CANCEL) {
+        if (IONCCancelTag.CONTRACT_BALANCE_CANCEL) {
             LoggerUtils.e("取消 onContractCoinBalanceFailure");
             return;
         }
@@ -139,7 +141,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
             mDialogPasswordCheck.setRightBtnClickedListener(v14 -> {
                 /*比对密码是否正确*/
                 String pwd1 = mDialogPasswordCheck.getPasswordEt().getText().toString();
-                IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWalletBeanNew, pwd1, mWalletBeanNew.getKeystore(), ContractWalletDetailActivity.this);//导出KS
+               IONCWallet.checkCurrentWalletPassword(mWalletBeanNew, pwd1, mWalletBeanNew.getKeystore(), ContractWalletDetailActivity.this);//导出KS
             });
             mDialogPasswordCheck.show();
         });
@@ -153,7 +155,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
         if (TextUtils.isEmpty(password)) {
             ToastUtil.showLong(getAppString(R.string.please_input_current_password));
         }
-        IONCWalletSDK.getInstance().contractTransfer(mWalletBeanNew, password, contractAddress, "0xaCb1B4fF1974e7EF03CacBbad98448237B913036", mValue, this);
+        IONCTransfers.contractTransfer(mWalletBeanNew, password, mContractAddress, mContractToAddress, mValue, this);
     }
 
     @Override
@@ -177,7 +179,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        IONCWalletSDK.getInstance().contractBalance(0, mWalletBeanNew.getAddress(), contractAddress, this);
+        IONCTransfers.contractBalance(0, mWalletBeanNew.getAddress(), mContractAddress, this);
     }
 
     @Override
@@ -193,7 +195,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     }
 
     private void backToExWallet() {
-        Web3jCancelTag.CONTRACT_BALANCE_CANCEL = true;
+        IONCCancelTag.CONTRACT_BALANCE_CANCEL = true;
         Intent intent = new Intent();
         intent.putExtra(ConstantParams.PARCELABLE_WALLET_BEAN, mWalletBeanNew);
         intent.putExtra("pos", pos);

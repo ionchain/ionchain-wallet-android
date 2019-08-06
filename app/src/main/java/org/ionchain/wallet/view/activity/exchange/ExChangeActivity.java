@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.ContractWalletAdapter;
@@ -76,7 +76,7 @@ public class ExChangeActivity extends AbsBaseActivityTitleTwo {
     @Override
     protected void initData() {
         super.initData();
-        mWalletBeanNewList.addAll(IONCWalletSDK.getInstance().getAllWalletNew());
+        mWalletBeanNewList.addAll(IONCWallet.getAllWalletNew());
         if (mWalletBeanNewList.size() > 0) {
             mContractWalletAdapter.notifyDataSetChanged();
         } else {

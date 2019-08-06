@@ -18,7 +18,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
@@ -333,7 +333,7 @@ public abstract class AbsBaseActivity extends AppCompatActivity implements EasyP
      */
 
     protected void skipToBack(WalletBeanNew walletBean) {
-        if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
+        if (IONCWallet.getAllWalletNew().size() == 1) {
             finish();
             skip(MainActivity.class);
             return;

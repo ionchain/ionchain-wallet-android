@@ -13,7 +13,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.view.activity.create.CreateWalletActivity;
@@ -62,7 +62,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
     @SuppressWarnings("unchecked")
     @Override
     protected void initData() {
-        mWalletBeans = IONCWalletSDK.getInstance().getAllWalletNew();
+        mWalletBeans = IONCWallet.getAllWalletNew();
         mAdapter = new CommonAdapter(this, mWalletBeans, R.layout.item_wallet_manager_layout, new ManagerWalletHelper(this));
         listview.setAdapter(mAdapter);
     }
@@ -108,7 +108,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
     public void onRefresh(RefreshLayout refreshlayout) {
         srl.finishRefresh();
         mWalletBeans.clear();
-        mWalletBeans.addAll(IONCWalletSDK.getInstance().getAllWalletNew());
+        mWalletBeans.addAll(IONCWallet.getAllWalletNew());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -116,7 +116,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
     protected void onResume() {
         super.onResume();
         mWalletBeans.clear();
-        mWalletBeans.addAll(IONCWalletSDK.getInstance().getAllWalletNew());
+        mWalletBeans.addAll(IONCWallet.getAllWalletNew());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -177,7 +177,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
         }
         //更新
         mCurrentWallet.setMnemonic("");
-        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
+        IONCWallet.updateWallet(mCurrentWallet);
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
 //        skip(MainActivity.class);

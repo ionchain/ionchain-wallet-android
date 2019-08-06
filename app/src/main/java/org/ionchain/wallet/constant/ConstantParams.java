@@ -1,5 +1,7 @@
 package org.ionchain.wallet.constant;
 
+import java.math.BigDecimal;
+
 /**
  * USER: binny
  * DATE: 2018/9/26
@@ -34,9 +36,10 @@ public final class ConstantParams {
     public static final String PICTURE_FILE_NAME = "ionchainAddress";
 
 
-    public static final int SEEK_BAR_MAX_VALUE_100_GWEI = 100;//seekbar 本身的最大值 Gwei
-    public static final int SEEK_BAR_MIN_VALUE_1_GWEI = 1;//最小值
-    public static final int SEEK_BAR_SRART_VALUE = 30;//进度条的起始值
+    public static final int GAS_LIMIT_MAX_RANGE = 500000;
+    public static final int GAS_LIMIT_DEFAULT = 100000;
+    public static final int GAS_LIMIT_MIN = 300000;
+    public static final BigDecimal GAS_PRICE_DEFAULT_WEI = BigDecimal.valueOf(20000000000L);
 
     public static final String CURRENT_ADDRESS = "address";
     public static final String CURRENT_BALANCE = "balance";

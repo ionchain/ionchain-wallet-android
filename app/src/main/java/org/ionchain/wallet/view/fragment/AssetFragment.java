@@ -27,7 +27,8 @@ import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCTransfers;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.BuildConfig;
@@ -68,6 +69,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import static java.math.BigDecimal.ROUND_HALF_UP;
+import static org.ionc.wallet.sdk.IONCTxRecords.saveTxRecordBean;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
 import static org.ionchain.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_CNY;
@@ -236,7 +238,7 @@ public class AssetFragment extends AbsBaseFragment implements
     protected void handleShow() {
         LoggerUtils.i("method", "handleShow" + "   AssetFragment");
         mImmersionBar.statusBarColor(R.color.main_color).statusBarDarkFont(false).execute();
-        mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
+        mCurrentWallet = IONCWallet.getMainWallet();
         if (mCurrentWallet == null) {
             ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
 //            跳转到钱包创建或者导入界面
@@ -267,7 +269,7 @@ public class AssetFragment extends AbsBaseFragment implements
         super.onResume();
         LoggerUtils.i("method", "onResume" + "   AssetFragment");
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(mActivity));
-        mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
+        mCurrentWallet = IONCWallet.getMainWallet();
 
         if (mCurrentWallet == null) {
             ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
@@ -389,7 +391,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mMoreWallet.setOnClickListener(v -> {
 
             mMoreWalletDialog = new MoreWalletDialog(mActivity);
-            mMoreWalletsTemp = IONCWalletSDK.getInstance().getAllWalletNew();
+            mMoreWalletsTemp = IONCWallet.getAllWalletNew();
             if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
                 mMoreWallets.clear();
 //            Collections.reverse(mMoreWalletsTemp);
@@ -411,7 +413,7 @@ public class AssetFragment extends AbsBaseFragment implements
             } else {
                 mMoreWallets.get(i).setIsMainWallet(true);
             }
-            IONCWalletSDK.getInstance().saveWallet(mMoreWallets.get(i));
+            IONCWallet.saveWallet(mMoreWallets.get(i));
         }
         mCurrentWallet = mMoreWallets.get(position);
         mWalletNameTx.setText(mCurrentWallet.getName());
@@ -479,13 +481,13 @@ public class AssetFragment extends AbsBaseFragment implements
                 if (DEFAULT_TRANSCATION_HASH_NULL.equals(t.getHash())) {
                     //交易失败
                     mTxRecordAllFragment.onNewTxRecordByTx(t);
-                    IONCWalletSDK.getInstance().saveTxRecordBean(t);
+                    saveTxRecordBean(t);
                     return;
                 }
                 //交易成功
                 //刷刷新余额
 //                //请求交易区块等信息
-                IONCWalletSDK.getInstance().ethTransaction(mNodeIONC
+                IONCTransfers.ethTransaction(mNodeIONC
                         , t.getHash()
                         , t
                         , this);
@@ -513,7 +515,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     protected void initData() {
         if (mCurrentWallet == null) {
-            mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
+            mCurrentWallet = IONCWallet.getMainWallet();
         }
         mTxRecordDoingFragment = new TxRecordDoingFragment();
         mTxRecordDoneFragment = new TxRecordDoneFragment();
@@ -626,7 +628,7 @@ public class AssetFragment extends AbsBaseFragment implements
         }
         //更新
         mCurrentWallet.setMnemonic("");
-        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
+        IONCWallet.updateWallet(mCurrentWallet);
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
 //        skip(MainActivity.class);
@@ -664,7 +666,7 @@ public class AssetFragment extends AbsBaseFragment implements
      * 获取余额
      */
     private void balance() {
-        IONCWalletSDK.getInstance().getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
+        IONCWallet.getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
     }
 
 
@@ -686,7 +688,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mIoncBalanceTx.setText(balanceBigDecimal.toPlainString());
 
         mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
-        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);//更新余额到数据库
+        IONCWallet.updateWallet(mCurrentWallet);//更新余额到数据库
 
         //获取美元价格
         mPricePresenter = new PricePresenter();
@@ -736,7 +738,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mUSDPrice = usdPrice;
         mTotalUSDPrice = mIONCBalance.multiply(BigDecimal.valueOf(mUSDPrice));
         //计算美元价格
-        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
+        IONCWallet.updateWallet(mCurrentWallet);
 
         /*
          * 请求汇率
@@ -786,7 +788,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mKRW = dataBean.getKRW();
         LoggerUtils.i("balance = ");
         setBalance();
-        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet); //更新到数据库
+        IONCWallet.updateWallet(mCurrentWallet); //更新到数据库
         mRefreshHeader.setLastUpdateText(new SimpleDateFormat("上次更新:yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
     }
 
@@ -828,7 +830,7 @@ public class AssetFragment extends AbsBaseFragment implements
     private void txRecordHelper(TxRecordBean txRecordBean) {
         txRecordBean.setPublicKey(mCurrentWallet.getPublic_key());
 
-        IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
+       saveTxRecordBean(txRecordBean);
     }
 
     /**
@@ -841,9 +843,9 @@ public class AssetFragment extends AbsBaseFragment implements
         hideProgress();
         LoggerUtils.i("syncBrowser", "OnTxRecordNodeSuccess" + "   AssetFragment" + txRecordBean.toString());
         //取出块的哈希值，获取交易完成时间
-//        IONCWalletSDK.getInstance().ethTransactiontimestamp(mNodeIONC,txRecordBean,this);
+//        IONCWallet.ethTransactiontimestamp(mNodeIONC,txRecordBean,this);
         mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
-        IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
+        saveTxRecordBean(txRecordBean);
         balance();
     }
 
@@ -853,7 +855,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
 //        mTxRecordDoneFragment.onNewTxRecordByTx(recordBean);
         recordBean.setPublicKey(mCurrentWallet.getPublic_key());
-        IONCWalletSDK.getInstance().saveTxRecordBean(recordBean);
+        saveTxRecordBean(recordBean);
     }
 
     @Override
@@ -867,7 +869,7 @@ public class AssetFragment extends AbsBaseFragment implements
 //        mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
 //        mTxRecordDoneFragment.onNewTxRecordByTx(txRecordBean);
 //        txRecordHelper(txRecordBean);
-//        IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
+//        IONCWallet.updateTxRecordBean(txRecordBean);
 //    }
 //
 //    @Override
@@ -875,7 +877,7 @@ public class AssetFragment extends AbsBaseFragment implements
 //        mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
 //        mTxRecordDoneFragment.onNewTxRecordByTx(recordBean);
 //        txRecordHelper(recordBean);
-//        IONCWalletSDK.getInstance().updateTxRecordBean(recordBean);
+//        IONCWallet.updateTxRecordBean(recordBean);
 //    }
 //
 //    @Override
@@ -944,6 +946,6 @@ public class AssetFragment extends AbsBaseFragment implements
                 break;
         }
         LoggerUtils.i("balance = COIN_TYPE_IDR ", balance);
-        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
+        IONCWallet.updateWallet(mCurrentWallet);
     }
 }

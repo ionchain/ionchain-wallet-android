@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
@@ -73,7 +73,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
             }
             setViewAlphaAnimation(importBtn);
 
-            if (IONCWalletSDK.getInstance().getWalletByName(namestr)!=null) {
+            if (IONCWallet.getWalletByName(namestr)!=null) {
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -81,7 +81,7 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
             //生成keystory文件
             showProgress(getString(R.string.importing_wallet));
             LoggerUtils.i("正在导入KS......");
-            IONCWalletSDK.getInstance().importWalletByKeyStore(namestr, pass, mKeystoreStr, ImportByKeystoreActivity.this);
+            IONCWallet.importWalletByKeyStore(namestr, pass, mKeystoreStr, ImportByKeystoreActivity.this);
         });
         linkUrlTv.setOnClickListener(v -> skipWebProtocol());
         mTitleRightImage.setOnClickListener(v -> {
@@ -119,15 +119,15 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
     @Override
     public void onCreateSuccess(WalletBeanNew walletBean) {
         hideProgress();
-        WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress().toLowerCase());
+        WalletBeanNew wallet = IONCWallet.getWalletByAddress(walletBean.getAddress().toLowerCase());
         LoggerUtils.i("KS导入成功:" + walletBean.toString());
         if (null != wallet) {
             ToastUtil.showLong(getAppString(R.string.wallet_exists));
         } else {
-            IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
+            IONCWallet.changeMainWalletAndSave(walletBean);
             walletBean.setMIconIndex(getNum(7));
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
-            if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
+            if (IONCWallet.getAllWalletNew().size() == 1) {
                 skip(MainActivity.class);
             } else {
                 skipToBack(walletBean);//KS 导入钱包

@@ -30,7 +30,7 @@
             <RelativeLayout
                 android:id="@+id/item2"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="30dp"
                 android:layout_margin="15dp"
                 android:background="@drawable/contract_detail_item_bg">
 
@@ -40,8 +40,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
                     android:text="钱包名字"
                     android:textColor="@color/black" />
 
@@ -68,12 +66,13 @@
                     android:textSize="14sp" />
             </RelativeLayout>
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/ex_wallet_amount"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@id/item2"
-                android:layout_margin="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:hint="@string/tx_amount" />
 
             <RelativeLayout
@@ -108,38 +107,18 @@
                     android:textSize="12sp" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <TextView
+                android:background="@drawable/contract_detail_item_bg"
+                android:layout_below="@id/item3"
+                android:id="@+id/ex_wallet_contract_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item3"
                 android:layout_margin="15dp"
-                android:background="@drawable/contract_detail_item_bg">
-
-                <TextView
-                    android:id="@+id/ex_wallet_contract_address_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="@string/wallet_contract_address"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/ex_wallet_contract_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/ex_wallet_contract_address_tag"
-                    android:layout_margin="10dp"
-                    android:gravity="center|left"
-                    android:maxLines="2"
-                    android:text="0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
-            </RelativeLayout>
-
+                android:gravity="center|left"
+                android:maxLines="2"
+                android:text="合约：0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/exchange_main_chain"
                 android:layout_width="130dp"

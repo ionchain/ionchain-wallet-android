@@ -22,8 +22,8 @@ import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 
-import static org.ionc.wallet.sdk.IONCWalletSDK.TX_FAILURE;
-import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
+import static org.ionc.wallet.sdk.IONCWallet.TX_FAILURE;
+import static org.ionc.wallet.sdk.IONCWallet.TX_SUSPENDED;
 import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
 import static org.ionchain.wallet.constant.ConstantParams.TX_HASH;
 import static org.ionchain.wallet.constant.ConstantParams.TX_HASH_NULL;

@@ -46,7 +46,7 @@ public class PriceModel implements IPriceModel {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
-                LoggerUtils.i(":onStart");
+                LoggerUtils.i(":onTxStart");
                 usdPriceCallback.onUSDPriceStart();
             }
 
@@ -85,7 +85,7 @@ public class PriceModel implements IPriceModel {
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
-                LoggerUtils.i(":onStart");
+                LoggerUtils.i(":onTxStart");
                 usdExRateRMBCallback.onUSDExRateRMBStart();
             }
 

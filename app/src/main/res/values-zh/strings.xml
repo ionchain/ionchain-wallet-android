@@ -215,7 +215,7 @@
     <string name="address_to_same_whit_from">转入和转出地址相同！</string>
     <string name="mine_change_main_chain">主链切换</string>
     <string name="contract_wallet_detail">账户详情</string>
-    <string name="wallet_contract_address">合约地址</string>
+    <string name="wallet_contract_address">合约</string>
     <string name="ex_success_submit">已提交</string>
     <string name="ex_success_failure">切换失败</string>
     <string name="please_check_amount">金额输入有误</string>

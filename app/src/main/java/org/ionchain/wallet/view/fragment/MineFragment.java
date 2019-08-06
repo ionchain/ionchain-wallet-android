@@ -33,7 +33,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     /**
      * 钱包管理
      */
-    private RelativeLayout mine_change_main_chain;
+    private RelativeLayout mMineChangeMainChain;
     /**
      * 钱包管理
      */
@@ -86,7 +86,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     @SuppressLint("CutPasteId")
     private void findViews(View rootView) {
         mWalletManageRL = rootView.findViewById(R.id.mine_manager_rl);
-        mine_change_main_chain = rootView.findViewById(R.id.mine_change_main_chain);
+        mMineChangeMainChain = rootView.findViewById(R.id.mine_change_main_chain);
         mVersionInfoRL = rootView.findViewById(R.id.version_info);
         mAboutUsRL = rootView.findViewById(R.id.about_us);
         mUseHelp = rootView.findViewById(R.id.using_help);
@@ -101,7 +101,7 @@ public class MineFragment extends AbsBaseFragment implements VersionInfoDialog.O
     protected void setListener() {
 
         mWalletManageRL.setOnClickListener(v -> skip(ManageWalletActivity.class));
-        mine_change_main_chain.setOnClickListener(v -> skip(ExChangeActivity.class));
+        mMineChangeMainChain.setOnClickListener(v -> skip(ExChangeActivity.class));
         mCoinTypeRL.setOnClickListener(v -> skip(SelectCoinActivity.class));
         mLanguageSettingRL.setOnClickListener(v -> startActivity(new Intent(mActivity, SettingLanguageActivity.class)));
         /*

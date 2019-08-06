@@ -1,6 +1,6 @@
 package org.ionc.wallet.callback;
 
-public interface OnContractCoinTransfereCallback {
+public interface OnContractCoinTransferCallback {
     /**
      * @param position
      * @param balance  余额

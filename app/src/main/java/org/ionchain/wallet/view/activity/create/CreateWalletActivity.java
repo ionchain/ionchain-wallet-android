@@ -16,7 +16,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnImportMnemonicCallback;
 import org.ionc.wallet.callback.OnSimulateTimeConsume;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
@@ -112,7 +112,7 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
             /*
              * 从数据库比对，重复检查
              * */
-            if (null != IONCWalletSDK.getInstance().getWalletByName(walletnamestr)) {
+            if (null != IONCWallet.getWalletByName(walletnamestr)) {
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -128,7 +128,7 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
             }
 
             showProgress(getResources().getString(R.string.creating_wallet));
-            IONCWalletSDK.getInstance().simulateTimeConsuming(CreateWalletActivity.this);
+            IONCWallet.simulateTimeConsuming(CreateWalletActivity.this);
 
         });
         importBtn.setOnClickListener(v -> {
@@ -175,7 +175,7 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
         Log.i(TAG, "onCreateSuccess: " + walletBean);
         hideProgress();
         walletBean.setMIconIndex(getNum(7));
-        IONCWalletSDK.getInstance().saveWallet(walletBean);
+        IONCWallet.saveWallet(walletBean);
         SoftKeyboardUtil.hideSoftKeyboard(this);
         this.walletBean = walletBean;
         //首先备份助记词
@@ -193,7 +193,7 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
 
     @Override
     public void onSimulateFinish() {
-        IONCWalletSDK.getInstance().createIONCWallet(walletnamestr, pass, CreateWalletActivity.this);
+        IONCWallet.createIONCWallet(walletnamestr, pass, CreateWalletActivity.this);
     }
 
     /**
@@ -218,7 +218,7 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
     @Override
     public void onSaveMnemonicCancel(DialogMnemonicShow dialogMnemonic) {
         dialogMnemonic.dismiss();
-        IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
+        IONCWallet.changeMainWalletAndSave(walletBean);
         skipToBack(walletBean); //创建钱包时，取消备份助记词
     }
 
@@ -266,10 +266,10 @@ public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements
         }
         //更新
         walletBean.setMnemonic("");
-        IONCWalletSDK.getInstance().updateWallet(walletBean);
+        IONCWallet.updateWallet(walletBean);
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         //跳转到首页
-        if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
+        if (IONCWallet.getAllWalletNew().size() == 1) {
             LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功--只有一个钱包");
             skip(MainActivity.class);
         } else {

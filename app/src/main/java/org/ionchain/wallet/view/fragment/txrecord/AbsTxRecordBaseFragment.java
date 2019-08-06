@@ -14,7 +14,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCTransfers;
+import org.ionc.wallet.sdk.IONCTxRecords;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.txrecoder.TxRecordAdapter;
@@ -31,8 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN;
-import static org.ionc.wallet.sdk.IONCWalletSDK.TX_FAILURE;
-import static org.ionc.wallet.sdk.IONCWalletSDK.TX_SUSPENDED;
+import static org.ionc.wallet.sdk.IONCTxRecords.txRecordAllByAddress;
+import static org.ionc.wallet.sdk.IONCTxRecords.txRecordAllByBlockNumber;
+import static org.ionc.wallet.sdk.IONCTxRecords.txRecordItemCountAllByAddress;
+import static org.ionc.wallet.sdk.IONCTxRecords.updateTxRecordBean;
+import static org.ionc.wallet.sdk.IONCWallet.TX_FAILURE;
+import static org.ionc.wallet.sdk.IONCWallet.TX_SUSPENDED;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_TX_RECORD;
 import static org.ionchain.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionchain.wallet.utils.UrlUtils.getHostNode;
@@ -87,6 +92,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
     static final char TYPE_DONE = 1;
     static final char TYPE_DOING = 2;
     static final char TYPE_FAILURE = 3;
+
     /**
      * @param walletBeanNew 初始化所所需的钱保
      */
@@ -179,7 +185,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
     private void updateTxRecordPubliceKey(TxRecordBean txRecordBean) {
         txRecordBean.setPublicKey(mWalletBeanNew.getPublic_key());
 
-        IONCWalletSDK.getInstance().saveTxRecordBean(txRecordBean);
+        IONCTxRecords.saveTxRecordBean(txRecordBean);
     }
 
 
@@ -195,7 +201,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
 
 
     private void insertTxRecordBean(List<TxRecordBean> txRecordBeansNew, TxRecordBeanTemp.DataBean.ItemBean itemBeanBrowser) {
-        if (IONCWalletSDK.getInstance().notExist(itemBeanBrowser.getHash())) {
+        if (IONCTxRecords.notExist(itemBeanBrowser.getHash())) {
             TxRecordBean bean = new TxRecordBean();
             bean.setHash(itemBeanBrowser.getHash());
             bean.setTc_in_out(String.valueOf(System.currentTimeMillis()));
@@ -251,7 +257,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                     int count = mListDoingData.size();
                     for (int i = 0; i < count; i++) {
                         TxRecordBean t = mListDoingData.get(i);
-                        IONCWalletSDK.getInstance().ethTransaction(mNode
+                        IONCTransfers.ethTransaction(mNode
                                 , t.getHash()
                                 , t
                                 , this);
@@ -298,7 +304,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                 /*
                  * 通过地址从数据库查找钱包的钱包的转入和转出的记录
                  */
-                long txRecordAllCount = IONCWalletSDK.getInstance().txRecordItemCountAllByAddress(mWalletBeanNew.getAddress());
+                long txRecordAllCount = txRecordItemCountAllByAddress(mWalletBeanNew.getAddress());
                 /*
                  * 展示中的数量
                  */
@@ -311,7 +317,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                 /*
                  * 取出 5个数据
                  */
-                List<TxRecordBean> listAllDataTemp = IONCWalletSDK.getInstance().txRecordAllByAddress(mWalletBeanNew.getAddress(), offset, perPageAddNum);
+                List<TxRecordBean> listAllDataTemp = txRecordAllByAddress(mWalletBeanNew.getAddress(), offset, perPageAddNum);
                 mListAllData.addAll(listAllDataTemp);
 //                for (TxRecordBean t :
 //                        mListAllDataTemp) {
@@ -326,7 +332,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                 }
                 break;
             case TYPE_DONE:
-                long txDoneCount = IONCWalletSDK.getInstance().txRecordItemCountAllByAddress(mWalletBeanNew.getAddress());
+                long txDoneCount = txRecordItemCountAllByAddress(mWalletBeanNew.getAddress());
 
                 /*
                  * 展示中的数量
@@ -339,7 +345,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                 offset = txDoneCount - currentCount - perPageAddNum;
 
                 LoggerUtils.i("method", "onPullToUp" + "   txDoneCount " + txDoneCount);
-                List<TxRecordBean> listDoneTemp = IONCWalletSDK.getInstance().txRecordAllByAddress(mWalletBeanNew.getAddress(), offset, perPageAddNum);
+                List<TxRecordBean> listDoneTemp = txRecordAllByAddress(mWalletBeanNew.getAddress(), offset, perPageAddNum);
                 for (TxRecordBean t :
                         listDoneTemp) {
                     //不存在，并且不是挂在交易和失败交易
@@ -355,7 +361,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                 }
                 break;
             case TYPE_DOING:
-                long txRecordInCount = IONCWalletSDK.getInstance().txRecordItemCountAllByAddress(mWalletBeanNew.getAddress());
+                long txRecordInCount = txRecordItemCountAllByAddress(mWalletBeanNew.getAddress());
 
                 /*
                  * 展示中的数量
@@ -366,7 +372,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                     return;
                 }
                 offset = txRecordInCount - currentCount - perPageAddNum;
-                List<TxRecordBean> listDoingDataTemp = IONCWalletSDK.getInstance().txRecordAllByBlockNumber(TX_SUSPENDED, mWalletBeanNew.getAddress(), offset, perPageAddNum);
+                List<TxRecordBean> listDoingDataTemp = txRecordAllByBlockNumber(TX_SUSPENDED, mWalletBeanNew.getAddress(), offset, perPageAddNum);
                 LoggerUtils.i("mmmmm", listDoingDataTemp.size());
                 for (TxRecordBean t :
                         listDoingDataTemp) {
@@ -381,7 +387,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                 }
                 break;
             case TYPE_FAILURE:
-                long txRecordFailureCount = IONCWalletSDK.getInstance().txRecordItemCountAllByAddress(mWalletBeanNew.getAddress());
+                long txRecordFailureCount = txRecordItemCountAllByAddress(mWalletBeanNew.getAddress());
 
                 /*
                  * 展示中的数量
@@ -396,7 +402,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                 LoggerUtils.i("method", "onPullToUp" + "   txRecordFailureCount " + txRecordFailureCount);
                 LoggerUtils.i("method", "onPullToUp" + "   currentCount " + currentCount);
                 LoggerUtils.i("method", "onPullToUp" + "   offset " + offset);
-                List<TxRecordBean> listFailureTemp = IONCWalletSDK.getInstance().txRecordAllByBlockNumber(TX_FAILURE, mWalletBeanNew.getAddress(), offset, perPageAddNum);
+                List<TxRecordBean> listFailureTemp = txRecordAllByBlockNumber(TX_FAILURE, mWalletBeanNew.getAddress(), offset, perPageAddNum);
                 LoggerUtils.i("mmmmm", listFailureTemp.size());
                 for (TxRecordBean t :
                         listFailureTemp) {
@@ -649,14 +655,14 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
         LoggerUtils.i("ethTransaction", "OnTxRecordNodeSuccess4" + "   " + txRecordBean.toString());
         mListDoingData.remove(txRecordBean);
         mTxRecordAdapter.notifyDataSetChanged();
-        IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
+        updateTxRecordBean(txRecordBean);
         pullToDownSuccess(txRecordBean);
     }
 
     @Override
     public void onTxRecordNodeFailure(String error, TxRecordBean txRecordBean) {
         LoggerUtils.e("ethTransaction", error);
-        IONCWalletSDK.getInstance().updateTxRecordBean(txRecordBean);
+        updateTxRecordBean(txRecordBean);
     }
 
     @Override

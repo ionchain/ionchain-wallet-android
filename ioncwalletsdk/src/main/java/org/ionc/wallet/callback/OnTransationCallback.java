@@ -14,7 +14,7 @@ public interface OnTransationCallback {
      * @param hashTx 转账成功的hash值
      * @param nonce
      */
-    void OnTxSuccess(String hashTx, BigInteger nonce);
+    void onTxSuccess(String hashTx, BigInteger nonce);
 
     /**
      * 转账失败
@@ -26,5 +26,5 @@ public interface OnTransationCallback {
     /**
      * 交易正在进行
      */
-    void OnTxDoing();
+    void onTxStart();
 }

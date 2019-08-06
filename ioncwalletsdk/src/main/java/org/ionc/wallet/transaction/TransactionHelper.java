@@ -31,6 +31,16 @@ public class TransactionHelper {
      * 转账金额
      */
     private String txValue;
+    private BigInteger gasLimit;
+
+    public BigInteger getGasLimit() {
+        return gasLimit;
+    }
+
+    public TransactionHelper setGasLimit(BigInteger gasLimit) {
+        this.gasLimit = gasLimit;
+        return this;
+    }
 
     /**
      * 转出钱包,泳衣获取转出所需相关的必备参数
@@ -82,7 +92,7 @@ public class TransactionHelper {
      * @return 当前的 gasPrice 单位 wei
      */
     public BigInteger getGasPrice() {
-        return Convert.toWei(String.valueOf(gasPrice), Convert.Unit.GWEI).toBigInteger();
+        return gasPrice.toBigInteger();
     }
 
     /**

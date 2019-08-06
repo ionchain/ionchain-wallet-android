@@ -18,7 +18,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.DeviceBean;
 import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.App;
@@ -121,7 +121,7 @@ public class DevicesFragment extends AbsBaseFragment implements
     @Override
     protected void initData() {
         mDevicePresenter = new DevicePresenter();
-        mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
+        mCurrentWallet = IONCWallet.getMainWallet();
         wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
         wallet_name_devices.setText(mCurrentWallet.getName());
         showProgress();
@@ -144,7 +144,7 @@ public class DevicesFragment extends AbsBaseFragment implements
     @Override
     protected void handleShow() {
         if (mCurrentWallet != null) {
-            WalletBeanNew walletBeanNew = IONCWalletSDK.getInstance().getMainWallet();
+            WalletBeanNew walletBeanNew = IONCWallet.getMainWallet();
             if (!mCurrentWallet.getName().equals(walletBeanNew.getName())) {
                 mDataBeanList.clear();
                 mAdapter.notifyDataSetChanged();
@@ -154,7 +154,7 @@ public class DevicesFragment extends AbsBaseFragment implements
                 getDeviceList();
             }
         } else {
-            mCurrentWallet = IONCWalletSDK.getInstance().getMainWallet();
+            mCurrentWallet = IONCWallet.getMainWallet();
             wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
             wallet_name_devices.setText(mCurrentWallet.getName());
         }
@@ -166,7 +166,7 @@ public class DevicesFragment extends AbsBaseFragment implements
     }
 
     private void getDeviceList() {
-//        List<WalletBeanNew> list = IONCWalletSDK.getInstance().getAllWalletNew();
+//        List<WalletBeanNew> list = IONCWallet.getAllWalletNew();
 //        if (list == null || list.size() == 0) {
 //            return;
 //        }
@@ -278,7 +278,7 @@ public class DevicesFragment extends AbsBaseFragment implements
         }
         //更新
         mCurrentWallet.setMnemonic("");
-        IONCWalletSDK.getInstance().updateWallet(mCurrentWallet);
+        IONCWallet.updateWallet(mCurrentWallet);
         org.ionchain.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
     }

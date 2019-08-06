@@ -14,7 +14,7 @@ import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnDeletefinishCallback;
 import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
@@ -108,7 +108,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
         if (!bShowKSRl) {
             import_key_store_layout.setVisibility(View.GONE);
         }
-        if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
+        if (IONCWallet.getAllWalletNew().size() == 1) {
             delBtn.setVisibility(View.GONE);
         }
         import_mnemonic_layout.setOnClickListener(this);
@@ -170,13 +170,13 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                 mWallet.setName(walletNameEt.getText().toString());
                 mTitleNameTv.setText(walletNameEt.getText().toString());
                 SoftKeyboardUtil.hideSoftKeyboard(ModifyWalletActivity.this);
-                IONCWalletSDK.getInstance().updateWallet(mWallet);
+                IONCWallet.updateWallet(mWallet);
                 ToastUtil.showShort(getAppString(R.string.has_been_done));
             } else {
                 ToastUtil.showShort(getAppString(R.string.wallet_name_must_not_empty));
             }
         });
-       
+
     }
 
     @Override
@@ -240,7 +240,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                         return;
                     }
                     String p_input = deleteWallet.getPasswordEt().getText().toString();
-                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, p_input, mWallet.getKeystore(), ModifyWalletActivity.this); //删除钱包的时候检查密码
+                    IONCWallet.checkCurrentWalletPassword(mWallet, p_input, mWallet.getKeystore(), ModifyWalletActivity.this); //删除钱包的时候检查密码
                 });
                 deleteWallet.show();//删除钱包
                 break;
@@ -262,7 +262,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                 exportPK.setRightBtnClickedListener(v15 -> {
                     /*比对密码是否正确*/
                     String pwd1 = exportPK.getPasswordEt().getText().toString();
-                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this); //导出私钥
+                    IONCWallet.checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this); //导出私钥
                 });
                 exportPK.show();//导出私钥
                 break;
@@ -276,7 +276,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
                 exportKS.setRightBtnClickedListener(v14 -> {
                     /*比对密码是否正确*/
                     String pwd1 = exportKS.getPasswordEt().getText().toString();
-                    IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this);//导出KS
+                    IONCWallet.checkCurrentWalletPassword(mWallet, pwd1, mWallet.getKeystore(), ModifyWalletActivity.this);//导出KS
                 });
                 exportKS.show(); //导出KS
                 break;
@@ -290,9 +290,9 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
     @Override
     public void onDeleteFinish() {
         //检查是否还有钱包
-        if (IONCWalletSDK.getInstance().getAllWalletNew() == null || IONCWalletSDK.getInstance().getAllWalletNew().size() > 0) {
-            IONCWalletSDK.getInstance().getAllWalletNew().get(0).setIsMainWallet(true);
-            IONCWalletSDK.getInstance().saveWallet(IONCWalletSDK.getInstance().getAllWalletNew().get(0));
+        if (IONCWallet.getAllWalletNew() == null || IONCWallet.getAllWalletNew().size() > 0) {
+            IONCWallet.getAllWalletNew().get(0).setIsMainWallet(true);
+            IONCWallet.saveWallet(IONCWallet.getAllWalletNew().get(0));
 
         } else {
             //去创建钱包
@@ -319,7 +319,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
         showProgress(getAppString(R.string.modifying_password));
         this.newPassword = newPassword;
         this.currentPassword = currentPassword;
-        IONCWalletSDK.getInstance().checkCurrentWalletPassword(mWallet, currentPassword, mWallet.getKeystore(), this); //修改密码对话框
+        IONCWallet.checkCurrentWalletPassword(mWallet, currentPassword, mWallet.getKeystore(), this); //修改密码对话框
     }
 
 
@@ -328,7 +328,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
         switch (flag) {
             case FLAG_DELETE_WALLET:
                 deleteWallet.dismiss();
-                IONCWalletSDK.getInstance().deleteWallet(mWallet, ModifyWalletActivity.this);
+                IONCWallet.deleteWallet(mWallet, ModifyWalletActivity.this);
                 finish();
                 break;
             case FLAG_EXPORT_KS:
@@ -354,8 +354,7 @@ public class ModifyWalletActivity extends AbsBaseActivityTitleThreeTv implements
             case FLAG_MODIFY_PWD: //修改密码
                 hideProgress();
                 LoggerUtils.i("wallet -bean" + bean);
-                IONCWalletSDK.getInstance()
-                        .updatePasswordAndKeyStore(bean, newPassword, this);
+                IONCWallet.updatePasswordAndKeyStore(bean, newPassword, this);
                 break;
         }
 

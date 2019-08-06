@@ -16,7 +16,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.callback.OnUpdateWalletCallback;
-import org.ionc.wallet.sdk.IONCWalletSDK;
+import org.ionc.wallet.sdk.IONCWallet;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
@@ -159,7 +159,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
                 return;
             }
 
-            if (IONCWalletSDK.getInstance().getWalletByName(namestr) != null) {
+            if (IONCWallet.getWalletByName(namestr) != null) {
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -191,7 +191,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
             }
             newPasswordTemp = pass;
             showProgress(getString(R.string.importing_wallet));
-            IONCWalletSDK.getInstance()
+            IONCWallet
                     .importPrivateKey(namestr, private_key, pass, ImportByPriKeyActivity.this);
         });
         mTitleLeftImage.setOnClickListener(v -> finish());
@@ -211,7 +211,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
     public void onCreateSuccess(final WalletBeanNew walletBean) {
         LoggerUtils.i(walletBean.toString());
         hideProgress();
-        final WalletBeanNew wallet = IONCWalletSDK.getInstance().getWalletByAddress(walletBean.getAddress().toLowerCase());
+        final WalletBeanNew wallet = IONCWallet.getWalletByAddress(walletBean.getAddress().toLowerCase());
         if (null != wallet) {
             LoggerUtils.i("导入私钥--钱包存在,是否更新?" + wallet.toString());
             wallet.setPassword(walletBean.getPassword());
@@ -223,7 +223,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
                     .setPositiveButton(R.string.continues, (dialog, which) -> {
                         dialog.dismiss();
                         LoggerUtils.i("钱包已存在,执行更新");
-                        IONCWalletSDK.getInstance().updatePasswordAndKeyStore(wallet, newPasswordTemp, ImportByPriKeyActivity.this);
+                        IONCWallet.updatePasswordAndKeyStore(wallet, newPasswordTemp, ImportByPriKeyActivity.this);
                     })
                     .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
                         LoggerUtils.i("钱包已存在,取消更新");
@@ -234,8 +234,8 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
             walletBean.setMIconIndex(getNum(7));
             LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功");
             ToastUtil.showToastLonger(getResources().getString(R.string.import_success));
-            IONCWalletSDK.getInstance().changeMainWalletAndSave(walletBean);
-            if (IONCWalletSDK.getInstance().getAllWalletNew().size() == 1) {
+            IONCWallet.changeMainWalletAndSave(walletBean);
+            if (IONCWallet.getAllWalletNew().size() == 1) {
                 LoggerUtils.i("导入私钥--钱包不存在---执行导入---导入私钥成功--只有一个钱包");
                 skip(MainActivity.class);
             } else {
@@ -253,7 +253,7 @@ public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements
 
     @Override
     public void onUpdateWalletSuccess(WalletBeanNew wallet) {
-        IONCWalletSDK.getInstance().updateWallet(wallet);
+        IONCWallet.updateWallet(wallet);
         ToastUtil.showToastLonger(getResources().getString(R.string.update_success));
         skipToBack(wallet); //私钥更新钱包
     }
