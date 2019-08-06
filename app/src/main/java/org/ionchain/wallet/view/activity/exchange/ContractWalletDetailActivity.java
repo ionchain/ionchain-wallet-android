@@ -1,9 +1,11 @@
 package org.ionchain.wallet.view.activity.exchange;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
 import org.ionc.wallet.callback.OnContractCoinBalanceCallback;
 import org.ionc.wallet.callback.OnContractCoinTransferCallback;
+import org.ionc.wallet.callback.OnGasPriceCallback;
 import org.ionc.wallet.sdk.IONCCancelTag;
 import org.ionc.wallet.sdk.IONCTransfers;
 import org.ionc.wallet.sdk.IONCWallet;
@@ -26,26 +29,43 @@ import org.ionchain.wallet.constant.ConstantParams;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.view.widget.dialog.check.DialogPasswordCheck;
+import org.web3j.utils.Convert;
 
-public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implements OnContractCoinBalanceCallback, OnCheckWalletPasswordCallback, OnContractCoinTransferCallback, OnRefreshListener {
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import static org.ionchain.wallet.constant.ConstantParams.GAS_LIMIT_DEFAULT;
+import static org.ionchain.wallet.constant.ConstantParams.GAS_LIMIT_MAX_RANGE;
+import static org.ionchain.wallet.constant.ConstantParams.GAS_LIMIT_MIN;
+import static org.ionchain.wallet.constant.ConstantParams.GAS_PRICE_DEFAULT_WEI;
+
+public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implements OnContractCoinBalanceCallback, OnCheckWalletPasswordCallback, OnContractCoinTransferCallback, OnRefreshListener, SeekBar.OnSeekBarChangeListener, OnGasPriceCallback {
 
     private WalletBeanNew mWalletBeanNew;
 
-    private TextView exWalletName;
-    private TextView exWalletBalacne;
-    private TextView exWalletAddress;
-    private TextView exWalletContractAddress;
-    private AppCompatButton exchangeMainChain;
-    private EditText ex_wallet_amount;
+    private TextView mExWalletName;
+    private TextView mExWalletBalacne;
+    private TextView mExWalletAddress;
+    private TextView mExWalletContractAddress;
+    private AppCompatButton mExchangeMainChain;
+    private EditText mExWalletAmount;
 
     private SmartRefreshLayout mSmartRefreshLayout;
     private String mContractAddress = "0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF";
-    private String mContractToAddress ="0xaCb1B4fF1974e7EF03CacBbad98448237B913036";
+    private String mContractToAddress = "0xaCb1B4fF1974e7EF03CacBbad98448237B913036";
     private DialogPasswordCheck mDialogPasswordCheck;
 
     private int pos;
     private double mValue;
 
+    private EditText mTxValueEt;
+    private TextView mTxCostTv;
+    private SeekBar txSeekBarIndex;
+    private BigDecimal mGas = null;
+    private String mFee = "";
+    private BigDecimal mGasPrice = GAS_PRICE_DEFAULT_WEI;
+
+    public BigInteger mGasLimit = BigInteger.valueOf((GAS_LIMIT_MIN));
     /**
      * Find the Views in the layout<br />
      * <br />
@@ -53,14 +73,18 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        exWalletName = findViewById(R.id.ex_wallet_name);
-        exWalletBalacne = findViewById(R.id.ex_wallet_balacne);
-        exWalletAddress = findViewById(R.id.ex_wallet_address);
-        ex_wallet_amount = findViewById(R.id.ex_wallet_amount);
-        exWalletContractAddress = findViewById(R.id.ex_wallet_contract_address);
-        exchangeMainChain = findViewById(R.id.exchange_main_chain);
+        mTxValueEt = findViewById(R.id.tx_value);
+        mTxCostTv = findViewById(R.id.tx_cost);
+        txSeekBarIndex = findViewById(R.id.tx_seek_bar_index);
+        mExWalletName = findViewById(R.id.ex_wallet_name);
+        mExWalletBalacne = findViewById(R.id.ex_wallet_balacne);
+        mExWalletAddress = findViewById(R.id.ex_wallet_address);
+        mExWalletAmount = findViewById(R.id.ex_wallet_amount);
+        mExWalletContractAddress = findViewById(R.id.ex_wallet_contract_address);
+        mExchangeMainChain = findViewById(R.id.exchange_main_chain);
         mSmartRefreshLayout = findViewById(R.id.srl);
         mSmartRefreshLayout.setOnRefreshListener(this);
+        txSeekBarIndex.setOnSeekBarChangeListener(this);
     }
 
 
@@ -87,11 +111,15 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
         if (mWalletBeanNew == null) {
             return;
         }
-        exWalletName.setText(mWalletBeanNew.getName());
-        exWalletAddress.setText(mWalletBeanNew.getAddress());
-        exWalletContractAddress.setText(getAppString(R.string.wallet_contract_address)+": "+ mContractAddress); //合约地址
-        exWalletBalacne.setText(mWalletBeanNew.getContracBalance());
+        txSeekBarIndex.setMax(GAS_LIMIT_MAX_RANGE + GAS_LIMIT_MIN);// 500000+300000
+        txSeekBarIndex.setProgress(GAS_LIMIT_MIN + GAS_LIMIT_DEFAULT);//300000+100000
+        mTxCostTv.setText(getAppString(R.string.tx_fee) + "：- -" + " IONC");
+        mExWalletName.setText(mWalletBeanNew.getName());
+        mExWalletAddress.setText(getAppString(R.string.wallet_address) + ": " + mWalletBeanNew.getAddress());
+        mExWalletContractAddress.setText(getAppString(R.string.wallet_contract_address) + ": " + mContractAddress); //合约地址
+        mExWalletBalacne.setText(mWalletBeanNew.getContracBalance());
         IONCTransfers.contractBalance(0, mWalletBeanNew.getAddress(), mContractAddress, this);
+        IONCTransfers.getGasPriceETH(this);
     }
 
     @Override
@@ -106,9 +134,9 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
             LoggerUtils.e("取消 onContractCoinBalanceSuccess");
             return;
         }
-        exWalletBalacne.setText(balance + " IONC");
+        mExWalletBalacne.setText(balance);
         mWalletBeanNew.setContracBalance(balance);
-       IONCWallet.saveWallet(mWalletBeanNew);
+        IONCWallet.saveWallet(mWalletBeanNew);
     }
 
     @Override
@@ -118,7 +146,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
             LoggerUtils.e("取消 onContractCoinBalanceFailure");
             return;
         }
-        exWalletBalacne.setText(mWalletBeanNew.getContracBalance());//  取出历史数据
+        mExWalletBalacne.setText(mWalletBeanNew.getContracBalance());//  取出历史数据
     }
 
     @Override
@@ -126,9 +154,9 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
         mTitleLeftImage.setOnClickListener(v -> {
             backToExWallet();
         });
-        exchangeMainChain.setOnClickListener(v -> {
+        mExchangeMainChain.setOnClickListener(v -> {
             try {
-                mValue = Double.parseDouble(ex_wallet_amount.getText().toString());
+                mValue = Double.parseDouble(mExWalletAmount.getText().toString());
             } catch (NumberFormatException e) {
                 ToastUtil.showLong(getAppString(R.string.please_check_amount));
                 return;
@@ -141,7 +169,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
             mDialogPasswordCheck.setRightBtnClickedListener(v14 -> {
                 /*比对密码是否正确*/
                 String pwd1 = mDialogPasswordCheck.getPasswordEt().getText().toString();
-               IONCWallet.checkCurrentWalletPassword(mWalletBeanNew, pwd1, mWalletBeanNew.getKeystore(), ContractWalletDetailActivity.this);//导出KS
+                IONCWallet.checkCurrentWalletPassword(mWalletBeanNew, pwd1, mWalletBeanNew.getKeystore(), ContractWalletDetailActivity.this);//导出KS
             });
             mDialogPasswordCheck.show();
         });
@@ -155,7 +183,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
         if (TextUtils.isEmpty(password)) {
             ToastUtil.showLong(getAppString(R.string.please_input_current_password));
         }
-        IONCTransfers.contractTransfer(mWalletBeanNew, password, mContractAddress, mContractToAddress, mValue, this);
+        IONCTransfers.contractTransfer(mWalletBeanNew, mGasPrice.toBigInteger(), mGasLimit.toString(), password, mValue, this);
     }
 
     @Override
@@ -180,6 +208,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         IONCTransfers.contractBalance(0, mWalletBeanNew.getAddress(), mContractAddress, this);
+        IONCTransfers.getGasPriceETH(this);
     }
 
     @Override
@@ -202,5 +231,52 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
         setResult(10, intent);
         finish();
 
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        mGasLimit = BigInteger.valueOf(progress + GAS_LIMIT_MIN);
+        mFee = String.valueOf(getCurrentFee(new BigDecimal(mGasLimit)));
+        LoggerUtils.e("fee", "mGasLimit  = " + mGasLimit);
+        mTxCostTv.setText(getAppString(R.string.tx_fee) + ": " + mFee + " IONC");
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    /**
+     * 获取当前进度条下的费用
+     *
+     * @param gasLimit 消耗的最少的gas量
+     * @return 矿工费
+     */
+    public String getCurrentFee(BigDecimal gasLimit) {
+        mGas = mGasPrice.multiply(gasLimit);
+        LoggerUtils.e("fee", "mGasPrice  getCurrentFee = " + mGasPrice.toString());
+        LoggerUtils.e("fee", "gasLimit  getCurrentFee = " + gasLimit.toString());
+        return Convert.fromWei(mGas, Convert.Unit.ETHER).toPlainString();
+    }
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onGasPriceSuccess(BigInteger gasPrice) {
+        LoggerUtils.e("fee", "getGasPriceETH  net = " + gasPrice.toString());
+        mGasPrice = new BigDecimal(gasPrice);
+        LoggerUtils.e("fee", "mGasPrice  net = " + mGasPrice.toString());
+
+        mGasLimit = BigInteger.valueOf(GAS_LIMIT_MIN + GAS_LIMIT_DEFAULT);
+
+        mTxCostTv.setText(getAppString(R.string.tx_fee) + "：" + getCurrentFee(new BigDecimal(mGasLimit)) + " IONC");
+    }
+
+    @Override
+    public void onGasRiceFailure(String error) {
+        ToastUtil.showLong(error);
     }
 }

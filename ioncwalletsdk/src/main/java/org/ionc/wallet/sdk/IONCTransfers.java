@@ -50,7 +50,8 @@ public class IONCTransfers {
     public static final String TX_SUSPENDED = "TX_SUSPENDED";
     public static final String TX_FAILURE = "TX_FAILURE";
 
-    private static final String ETH_NODE = "https://mainnet.infura.io/";
+    public static final String ETH_NODE = "https://mainnet.infura.io/";
+
     /**
      * @param node                       区块节点
      * @param hash                       交易的 哈希值
@@ -167,7 +168,7 @@ public class IONCTransfers {
         }
     }
 
-    public static void gasPrice(String node, OnGasPriceCallback priceCallback) {
+    public static void getGasPriceETH(String node, OnGasPriceCallback priceCallback) {
 
        new Thread(){
            @Override
@@ -194,6 +195,35 @@ public class IONCTransfers {
                }
            }
        }.start();
+    }
+
+    public static void getGasPriceETH(OnGasPriceCallback priceCallback) {
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Web3j web3j = Web3j.build(new HttpService(ETH_NODE));
+                    BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            priceCallback.onGasPriceSuccess(gasPrice);
+                        }
+                    });
+                } catch (IOException e) {
+                    LoggerUtils.e(e.getMessage());
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            priceCallback.onGasRiceFailure(e.getMessage());
+                        }
+                    });
+                }
+            }
+        }.start();
     }
 
 
@@ -247,13 +277,14 @@ public class IONCTransfers {
 
     /**
      * 通过合约发起转账
-     *
-     * @param contractAddress 合约地址，代币地址
      * @param fromPrivateKey  合约中账户地址对应的私钥
      * @param fromAddress     合约中的账户地址
+     * @param gasPrice
+     * @param gasLimit
+     * @param contractAddress 合约地址，代币地址
      * @param toAddress       收款地址
      */
-    public  static void contractTransfer(WalletBeanNew walletBeanNew, String password, String contractAddress, String toAddress, double ioncWallet, OnContractCoinTransferCallback contractCoinTransferCallback) {
+    public  static void contractTransfer(WalletBeanNew walletBeanNew, BigInteger gasPrice, String gasLimit, String password, String contractAddress, String toAddress, double ioncWallet, OnContractCoinTransferCallback contractCoinTransferCallback) {
         new Thread() {
             @Override
             public void run() {
@@ -267,8 +298,8 @@ public class IONCTransfers {
                     EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(fromAddress, DefaultBlockParameterName.PENDING).send();
                     BigInteger nonce = ethGetTransactionCount.getTransactionCount();
                     LoggerUtils.e("=======nonce  :    " + nonce);
-                    BigInteger gasPrice = web3j.ethGasPrice().send().getGasPrice();
-                    LoggerUtils.e("=======gasPrice  :    " + gasPrice);
+//                    BigInteger getGasPriceETH = web3j.ethGasPrice().send().getGasPrice();
+//                    LoggerUtils.e("=======getGasPriceETH  :    " + getGasPriceETH);
 
                     //智能合约事物
                     Function function = new Function(
@@ -279,12 +310,62 @@ public class IONCTransfers {
                             })
                     );
                     String data = FunctionEncoder.encode(function);
-//            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, new BigInteger("300000"), contractAddress, value, data);
+//            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, getGasPriceETH, new BigInteger("300000"), contractAddress, value, data);
                     RawTransaction rawTransaction = RawTransaction.createTransaction(
                             nonce,
                             gasPrice,
-                            new BigInteger("300000"),
+                            new BigInteger(gasLimit),
                             contractAddress,
+                            data);
+                    //通过私钥获取凭证  当然也可以根据其他的获取 其他方式详情请看web3j
+//                    Credentials credentials = Credentials.create(fromPrivateKey);
+                    Credentials credentials = loadCredentials(walletBeanNew.getLight(), password, new File(walletBeanNew.getKeystore()));
+                    byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+                    String hexValue = Numeric.toHexString(signedMessage);
+                    //发送事务
+                    EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
+                    //事物的HASH
+                    String transactionHash = ethSendTransaction.getTransactionHash();
+                    mHandler.post(() -> contractCoinTransferCallback.onContractCoinTransferSuccess(transactionHash));
+                } catch (CipherException | IOException | InterruptedException | ExecutionException e) {
+                    mHandler.post(() -> contractCoinTransferCallback.onContractCoinTransferSuccess(e.getMessage()));
+                }
+            }
+        }.start();
+
+    }
+    public  static void contractTransfer(WalletBeanNew walletBeanNew, BigInteger gasPrice, String gasLimit, String password, double ioncWallet, OnContractCoinTransferCallback contractCoinTransferCallback) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+
+                    String fromAddress = walletBeanNew.getAddress();
+                    Web3j web3j = Web3j.build(new HttpService(ETH_NODE));
+                    BigInteger value = Convert.toWei(BigDecimal.valueOf(ioncWallet), Convert.Unit.ETHER).toBigInteger();//转账金额
+
+                    EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(fromAddress, DefaultBlockParameterName.PENDING).send();
+                    BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+                    LoggerUtils.e("=======nonce  :    " + nonce);
+//                    BigInteger getGasPriceETH = web3j.ethGasPrice().send().getGasPrice();
+//                    LoggerUtils.e("=======getGasPriceETH  :    " + getGasPriceETH);
+
+                    //智能合约事物
+                    Function function = new Function(
+                            "transfer",//交易的方法名称
+                            Arrays.asList(new Address("0xaCb1B4fF1974e7EF03CacBbad98448237B913036"), new Uint256(value)),
+                            Arrays.asList(new TypeReference<Address>() {
+                            }, new TypeReference<Uint256>() {
+                            })
+                    );
+                    String data = FunctionEncoder.encode(function);
+//            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, getGasPriceETH, new BigInteger("300000"), contractAddress, value, data);
+                    RawTransaction rawTransaction = RawTransaction.createTransaction(
+                            nonce,
+                            gasPrice,
+                            new BigInteger(gasLimit),
+                            "0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF",
                             data);
                     //通过私钥获取凭证  当然也可以根据其他的获取 其他方式详情请看web3j
 //                    Credentials credentials = Credentials.create(fromPrivateKey);

@@ -181,7 +181,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-        IONCTransfers.gasPrice(mNodeIONC, this);
+        IONCTransfers.getGasPriceETH(mNodeIONC, this);
         if (BuildConfig.APP_DEBUG) {
             txToAddressEt.setText(ADDRESS_DEBUG);
         }
@@ -325,12 +325,9 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-        LoggerUtils.e("transfer", "mGasLimit = " + mGasLimit.toString());
-        LoggerUtils.e("transfer", "progress = " + progress);
         //显示gas消耗
         mGasLimit = BigInteger.valueOf(progress + GAS_LIMIT_MIN);
         mFee = String.valueOf(getCurrentFee(new BigDecimal(mGasLimit)));
-        LoggerUtils.e("transfer", "mFee = " + mFee);
         mTxCostTv.setText(getAppString(R.string.tx_fee) + ": " + mFee + " IONC");
     }
 
@@ -347,7 +344,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
     @SuppressLint("SetTextI18n")
     @Override
     public void onGasPriceSuccess(BigInteger gasPrice) {
-        LoggerUtils.e("fee", "gasPrice  net = " + gasPrice.toString());
+        LoggerUtils.e("fee", "getGasPriceETH  net = " + gasPrice.toString());
         mGasPrice = new BigDecimal(gasPrice);
         LoggerUtils.e("fee", "mGasPrice  net = " + mGasPrice.toString());
 

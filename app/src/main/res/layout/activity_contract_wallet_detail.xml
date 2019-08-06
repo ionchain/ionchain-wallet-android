@@ -22,7 +22,7 @@
         <RelativeLayout
             android:id="@+id/some"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_margin="20dp"
             android:background="@drawable/contract_detail_bg">
@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
+                    android:layout_toLeftOf="@id/line"
                     android:text="钱包名字"
                     android:textColor="@color/black" />
 
@@ -47,16 +47,15 @@
                     android:id="@+id/line"
                     android:layout_width="1dp"
                     android:layout_height="10dp"
+                    android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@id/ex_wallet_name"
                     android:background="@color/main_color" />
 
                 <TextView
                     android:id="@+id/ex_wallet_balacne"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@id/line"
@@ -64,6 +63,17 @@
                     android:text="00000"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/ex_wallet_balacne"
+                    android:gravity="center|bottom"
+                    android:text="IONC"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -75,50 +85,82 @@
                 android:layout_marginEnd="15dp"
                 android:hint="@string/tx_amount" />
 
-            <RelativeLayout
-                android:id="@+id/item3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ex_wallet_amount"
-                android:layout_margin="15dp"
-                android:background="@drawable/contract_detail_item_bg">
-
-                <TextView
-                    android:id="@+id/ex_wallet_address_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:text="@string/wallet_address"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/ex_wallet_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/ex_wallet_address_tag"
-                    android:layout_margin="10dp"
-                    android:gravity="center|left"
-                    android:maxLines="2"
-                    android:text="00000"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
             <TextView
-                android:background="@drawable/contract_detail_item_bg"
-                android:layout_below="@id/item3"
-                android:id="@+id/ex_wallet_contract_address"
+                android:layout_below="@id/ex_wallet_amount"
+                android:id="@+id/tx_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginLeft="@dimen/margin_h20"
+                android:layout_marginTop="@dimen/h15"
+                android:layout_marginRight="@dimen/margin_h20"
+                android:clickable="false"
+                android:text="@string/tx_fee"
+                android:textColor="#666666"
+                android:textSize="15sp"
+                android:theme="@style/MyEditTextNUll" />
+            <SeekBar
+                android:layout_below="@id/tx_cost"
+                android:id="@+id/tx_seek_bar_index"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:thumb="@mipmap/progress_index" />
+
+            <RelativeLayout
+                android:layout_below="@id/tx_seek_bar_index"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_h20"
+                android:layout_marginRight="@dimen/margin_h20"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/slow"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/fast"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/ex_wallet_address"
+                android:layout_below="@id/tx_seek_bar_index"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/contract_detail_item_bg"
                 android:gravity="center|left"
                 android:maxLines="2"
+                android:padding="10dp"
+                android:text="地址：0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF"
+                android:textColor="@color/black"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/ex_wallet_contract_address"
+                android:layout_below="@id/ex_wallet_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/contract_detail_item_bg"
+                android:gravity="center|left"
+                android:maxLines="2"
+                android:padding="10dp"
                 android:text="合约：0xbC647aAd10114B89564c0a7aabE542bd0cf2C5aF"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/exchange_main_chain"
                 android:layout_width="130dp"
@@ -126,9 +168,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
-                android:textColor="@color/white"
                 android:background="@color/main_color"
-                android:text="@string/mine_change_main_chain" />
+                android:text="@string/mine_change_main_chain"
+                android:textColor="@color/white" />
         </RelativeLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

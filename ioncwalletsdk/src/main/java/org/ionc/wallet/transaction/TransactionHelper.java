@@ -87,9 +87,9 @@ public class TransactionHelper {
     }
 
     /**
-     * 将 gasPrice 转为 wei,再转为 BigInteger类型
+     * 将 getGasPriceETH 转为 wei,再转为 BigInteger类型
      *
-     * @return 当前的 gasPrice 单位 wei
+     * @return 当前的 getGasPriceETH 单位 wei
      */
     public BigInteger getGasPrice() {
         return gasPrice.toBigInteger();

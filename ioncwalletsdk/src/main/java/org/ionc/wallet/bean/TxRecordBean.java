@@ -300,7 +300,7 @@ public class TxRecordBean implements Parcelable, Comparable<TxRecordBean> {
                 ", from='" + from + '\'' +
                 ", to='" + to + '\'' +
                 ", value='" + value + '\'' +
-                ", gasPrice='" + gasPrice + '\'' +
+                ", getGasPriceETH='" + gasPrice + '\'' +
                 ", gas='" + gas + '\'' +
                 ", input='" + input + '\'' +
                 ", creates='" + creates + '\'' +
