@@ -1,3 +1,4 @@
-Version number: 1.1.7&&
+Version number: 1.1.8&&
 &
-1, "my" interface added main network switching function &
+1, the main network switch added, fee adjustable &
+2. Dynamically obtain the commission unit price & of the main chain
