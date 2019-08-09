@@ -4,7 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 
-import com.ionc.wallet.sdk.BuildConfig;
+import org.ionchain.wallet.BuildConfig;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -54,7 +54,7 @@ public final class StringUtils {
         }
     }
 
-    /**
+    /*
      * 只包含数字 英文 汉字
      *
      * @param str

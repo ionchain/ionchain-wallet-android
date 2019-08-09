@@ -33,7 +33,7 @@ public class DateUtils {
      */
     public static String getCurDate(String pattern) {
         SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
-        return sDateFormat.format(new java.util.Date());
+        return sDateFormat.format(new Date());
     }
 
     /**

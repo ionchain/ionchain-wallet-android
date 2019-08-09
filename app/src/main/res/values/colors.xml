@@ -24,4 +24,18 @@
     <color name="tx_color_out_doing">#85B8F3</color>
     <color name="tx_color_out_done">#2D8BF5</color>
     <color name="tx_color_in_done">#FD4F4F</color>
+    <color name="main_blue">#3574FA</color>
+    <color name="blue_btn">#50ABF1</color>
+    <color name="blue_light">#50ABF1</color>
+    <!--<color name="main_color">#06CACE</color>-->
+    <color name="white">#FFFFFF</color><!--白色 -->
+    <color name="saddlebrown">#8B4513</color><!--重褐色 -->
+    <color name="grey">#808080</color><!--灰色 -->
+    <color name="blue">#0000FF</color><!--蓝色 -->
+    <color name="black">#000000</color><!--黑色 -->
+    <color name="library_33">#333333</color>
+    <color name="library_66">#666666</color>
+    <color name="chosen_wallet_color">#FFB6C1</color>
+    <color name="red">#ff0000</color>
+    <color name="transparent">#00000000</color>
 </resources>

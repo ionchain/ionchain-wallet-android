@@ -19,7 +19,7 @@ public interface OnTxRecordTimestampCallback {
      *  @param error
      * @param recordBean
      */
-    void onTxRecordTimestampFailure(String error,TxRecordBean txRecordBean);
+    void onTxRecordTimestampFailure(String error, TxRecordBean txRecordBean);
 
     void onTxRecordTimestampStart();
 

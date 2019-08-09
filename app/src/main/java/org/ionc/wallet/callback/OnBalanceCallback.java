@@ -14,6 +14,6 @@ public interface OnBalanceCallback {
      *
      * @param error 失败信息
      */
-    void onBalanceFailure(String error );
+    void onBalanceFailure(String error);
 
 }

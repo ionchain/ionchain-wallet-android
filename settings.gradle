@@ -1,1 +1,1 @@
-include ':app', ':ioncwalletsdk'
+include ':app'
