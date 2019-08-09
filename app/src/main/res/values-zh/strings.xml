@@ -219,4 +219,5 @@
     <string name="ex_success_submit">已提交</string>
     <string name="ex_success_failure">切换失败</string>
     <string name="please_check_amount">金额输入有误</string>
+    <string name="shop">商店</string>
 </resources>

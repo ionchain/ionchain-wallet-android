@@ -133,7 +133,7 @@ public abstract class AbsWebActivity extends AbsBaseActivityTitleTwo implements 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
                 super.onReceivedSslError(view, handler, error);
-                handler.proceed(); //表示等待证书响应
+                handler.proceed();
             }
 
             @Override

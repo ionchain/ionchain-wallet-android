@@ -58,7 +58,16 @@
             android:layout_width="1px"
             android:layout_height="match_parent"
             android:background="@color/btn_semicircle_color" />
-
+        <RadioButton
+            android:id="@+id/rb_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_shop_selector"
+            android:gravity="center"
+            android:text="@string/shop"
+            android:textColor="@drawable/tab_text_color" />
         <View
             android:layout_width="1px"
             android:layout_height="match_parent"
@@ -70,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/tab_usercenter_selector"
+            android:drawableTop="@drawable/tab_user_center_selector"
             android:gravity="center"
             android:text="@string/tab_mine"
             android:textColor="@drawable/tab_text_color" />

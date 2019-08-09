@@ -221,4 +221,8 @@
     <string name="ex_success_submit">已提交</string>
     <string name="ex_success_failure">Switch failure</string>
     <string name="please_check_amount">Incorrect amount input</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shop">商店</string>
 </resources>

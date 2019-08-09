@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -391,20 +390,20 @@ public class AssetFragment extends AbsBaseFragment implements
         mMoreWallet.setOnClickListener(v -> {
 
             mMoreWalletDialog = new MoreWalletDialog(mActivity);
-            mMoreWalletsTemp = IONCWallet.getAllWalletNew();
-            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
-                mMoreWallets.clear();
-//            Collections.reverse(mMoreWalletsTemp);
-                mMoreWallets.addAll(mMoreWalletsTemp);
-            }
-            mMoreWalletDialog.setData(mMoreWallets, AssetFragment.this);
+//            mMoreWalletsTemp = IONCWallet.getAllWalletNew();
+//            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
+//                mMoreWallets.clear();
+////            Collections.reverse(mMoreWalletsTemp);
+//                mMoreWallets.addAll(mMoreWalletsTemp);
+//            }
+            mMoreWalletDialog.setLisenter(AssetFragment.this);
 
             mMoreWalletDialog.show();
         });
     }
 
     @Override
-    public void onMoreWalletDialogItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onMoreWalletDialogItemClick(WalletBeanNew wallet, int position) {
         LoggerUtils.i(TAG, "onItemClick: ");
 
         for (int i = 0; i < mMoreWallets.size(); i++) {
@@ -415,7 +414,7 @@ public class AssetFragment extends AbsBaseFragment implements
             }
             IONCWallet.saveWallet(mMoreWallets.get(i));
         }
-        mCurrentWallet = mMoreWallets.get(position);
+        mCurrentWallet =wallet;
         mWalletNameTx.setText(mCurrentWallet.getName());
         setBackupTag();
         Integer ids = mCurrentWallet.getMIconIndex();

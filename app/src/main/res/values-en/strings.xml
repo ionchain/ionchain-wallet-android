@@ -221,4 +221,5 @@
     <string name="ex_success_submit">Has been submitted</string>
     <string name="ex_success_failure">Switch failure</string>
     <string name="please_check_amount">Incorrect amount input</string>
+    <string name="shop">商店</string>
 </resources>

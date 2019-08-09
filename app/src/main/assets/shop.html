@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>WebAPP测试</title>
+    <script>
+         function callAndroid(){
+        // 由于对象映射，所以调用test对象等于调用Android映射的对象
+             <!--alert("Android调用了JS的callJS方法");-->
+            android.showWallets();
+         }
+
+    </script>
+</head>
+<body>
+<button type="button" id="button1" onclick="callAndroid()" style="width:500px;height:600px;"><font size="50" face="arial" color="red">调用原生钱包</font></button>
+</body>
+</html>

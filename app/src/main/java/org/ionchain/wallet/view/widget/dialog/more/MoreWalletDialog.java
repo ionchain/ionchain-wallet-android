@@ -1,8 +1,6 @@
 package org.ionchain.wallet.view.widget.dialog.more;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,6 +9,8 @@ import androidx.annotation.NonNull;
 
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.sdk.IONCWallet;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.view.widget.dialog.base.AbsBaseDialog;
@@ -50,7 +50,7 @@ public class MoreWalletDialog extends AbsBaseDialog {
         mMoreWalletListView = (ListView) findViewById(R.id.data_list);
         importWallet = (TextView) findViewById(R.id.scan_import);
         createWallet = (TextView) findViewById(R.id.create_wallet_tv);
-        mMoreWalletListView.setAdapter(mAdapterMore);
+
     }
 
     @Override
@@ -65,44 +65,37 @@ public class MoreWalletDialog extends AbsBaseDialog {
 
     @Override
     protected void initData() {
-
+        mMoreWallets = IONCWallet.getAllWalletNew();
+        LoggerUtils.e("wallet" + mMoreWallets.size());
+        mAdapterMore = new CommonAdapter(mContext, mMoreWallets, R.layout.item_more_wallet_list, new MoreWalletViewHelper());
+        mMoreWalletListView.setAdapter(mAdapterMore);
     }
 
     @Override
     protected void setListener() {
         super.setListener();
-        mMoreWalletListView.setOnItemClickListener((parent, view, position, id) -> mItemClickedListener.onMoreWalletDialogItemClick(parent, view, position, id));
+        mMoreWalletListView.setOnItemClickListener((parent, view, position, id) -> mItemClickedListener.onMoreWalletDialogItemClick(mMoreWallets.get(position),position));
         importWallet.setOnClickListener(v -> mItemClickedListener.onMoreWalletDialogImportBtnClick(this));
         createWallet.setOnClickListener(v -> mItemClickedListener.onMoreWalletDialogCreateBtnClick(this));
         closeMore.setOnClickListener(v -> dismiss());
     }
-
-    @Override
-    protected void initDialog() {
-        super.initDialog();
-        mAdapterMore = new CommonAdapter(mContext, mMoreWallets, R.layout.item_more_wallet_list, new MoreWalletViewHelper());
-    }
-
 
     /**
      * @param data     钱包列表
      * @param listener 监听
      * @return 本实例
      */
-    public MoreWalletDialog setData(List<WalletBeanNew> data, OnMoreWalletDialogItemClickedListener listener) {
+    public MoreWalletDialog setLisenter(OnMoreWalletDialogItemClickedListener listener) {
         mItemClickedListener = listener;
-        mMoreWallets = data;
         return this;
     }
 
     public interface OnMoreWalletDialogItemClickedListener {
         /**
-         * @param parent
-         * @param view
+         * @param wallet
          * @param position
-         * @param id
          */
-        void onMoreWalletDialogItemClick(AdapterView<?> parent, View view, int position, long id);
+        void onMoreWalletDialogItemClick(WalletBeanNew wallet, int position);
 
         /**
          * 导入钱包
