@@ -11,11 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.callback.OnCreateWalletCallback;
-import org.ionc.wallet.sdk.IONCWallet;
-import org.ionc.wallet.utils.LoggerUtils;
-import org.ionc.wallet.utils.ToastUtil;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.callback.OnCreateWalletCallback;
+import org.sdk.wallet.sdk.IONCWallet;
+import org.sdk.wallet.utils.LoggerUtils;
+import org.sdk.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.qrcode.activity.CaptureActivity;
 import org.ionchain.wallet.qrcode.activity.CodeUtils;
@@ -24,7 +24,7 @@ import org.ionchain.wallet.view.base.AbsBaseActivityTitleThree;
 
 import java.util.List;
 
-import static org.ionc.wallet.utils.RandomUntil.getNum;
+import static org.sdk.wallet.utils.RandomUntil.getNum;
 import static org.ionchain.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 

@@ -23,7 +23,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;

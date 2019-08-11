@@ -3,7 +3,7 @@ package org.ionchain.wallet.adapter.morewallet;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.ionc.wallet.adapter.IViewHolder;
+import org.sdk.wallet.adapter.IViewHolder;
 
 
 /**

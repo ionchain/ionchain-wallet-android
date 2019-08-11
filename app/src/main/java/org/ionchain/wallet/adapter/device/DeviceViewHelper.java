@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.ionc.wallet.adapter.IViewHolder;
-import org.ionc.wallet.adapter.IViewHolderHelper;
-import org.ionc.wallet.bean.DeviceBean;
+import org.sdk.wallet.adapter.IViewHolder;
+import org.sdk.wallet.adapter.IViewHolderHelper;
+import org.sdk.wallet.bean.DeviceBean;
 import org.ionchain.wallet.R;
 
 import java.util.List;

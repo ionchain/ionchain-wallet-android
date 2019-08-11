@@ -1,4 +1,3 @@
-Version number: 1.1.8&&
+Version number: 1.1.9&&
 &
-1, the main network switch added, fee adjustable &
-2. Dynamically obtain the commission unit price & of the main chain
+1. Fix the transaction costs on the transaction record details page

@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ionc.wallet.utils.StringUtils;
+import org.sdk.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.utils.BitmapUtils;
 import org.ionchain.wallet.utils.QRCodeUtils;

@@ -28,7 +28,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.utils.LoggerUtils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

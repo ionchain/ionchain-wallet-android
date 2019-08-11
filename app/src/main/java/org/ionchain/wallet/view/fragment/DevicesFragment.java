@@ -15,12 +15,12 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.bean.DeviceBean;
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.sdk.IONCWallet;
-import org.ionc.wallet.utils.LoggerUtils;
-import org.ionc.wallet.utils.ToastUtil;
+import org.sdk.wallet.adapter.CommonAdapter;
+import org.sdk.wallet.bean.DeviceBean;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.sdk.IONCWallet;
+import org.sdk.wallet.utils.LoggerUtils;
+import org.sdk.wallet.utils.ToastUtil;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.device.DeviceViewHelper;

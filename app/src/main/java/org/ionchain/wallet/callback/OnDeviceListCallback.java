@@ -1,7 +1,7 @@
 package org.ionchain.wallet.callback;
 
 
-import org.ionc.wallet.bean.DeviceBean;
+import org.sdk.wallet.bean.DeviceBean;
 
 import java.util.List;
 

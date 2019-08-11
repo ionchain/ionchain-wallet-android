@@ -11,9 +11,9 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
-import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.sdk.IONCWallet;
+import org.sdk.wallet.adapter.CommonAdapter;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.sdk.IONCWallet;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.walletmanager.ManagerWalletHelper;
 import org.ionchain.wallet.view.activity.create.CreateWalletActivity;

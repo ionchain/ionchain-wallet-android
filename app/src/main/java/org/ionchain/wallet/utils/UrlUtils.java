@@ -1,6 +1,6 @@
 package org.ionchain.wallet.utils;
 
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.utils.LoggerUtils;
 
 public class UrlUtils {
 

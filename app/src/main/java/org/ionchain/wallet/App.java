@@ -31,10 +31,10 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
-import org.ionc.wallet.daohelper.MyOpenHelper;
-import org.ionc.wallet.greendaogen.DaoMaster;
-import org.ionc.wallet.greendaogen.DaoSession;
-import org.ionc.wallet.sdk.IONCSDK;
+import org.sdk.wallet.daohelper.MyOpenHelper;
+import org.sdk.wallet.greendaogen.DaoMaster;
+import org.sdk.wallet.greendaogen.DaoSession;
+import org.sdk.wallet.sdk.IONCSDK;
 import org.ionchain.wallet.crasher.CrashHandler;
 import org.ionchain.wallet.helper.ActivityHelper;
 import org.ionchain.wallet.qrcode.DisplayUtil;
@@ -50,7 +50,7 @@ import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 
-import static org.ionc.wallet.constant.ConstanParams.DB_NAME;
+import static org.sdk.wallet.constant.ConstanParams.DB_NAME;
 import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
 import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
 

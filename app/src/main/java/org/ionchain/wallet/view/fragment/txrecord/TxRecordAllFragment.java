@@ -1,6 +1,6 @@
 package org.ionchain.wallet.view.fragment.txrecord;
 
-import org.ionc.wallet.bean.TxRecordBean;
+import org.sdk.wallet.bean.TxRecordBean;
 
 
 public class TxRecordAllFragment extends AbsTxRecordBaseFragment {

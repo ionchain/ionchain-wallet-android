@@ -1,6 +1,6 @@
 package org.ionchain.wallet.callback;
 
-import org.ionc.wallet.callback.OnDataParseErrorCallback;
+import org.sdk.wallet.callback.OnDataParseErrorCallback;
 import org.ionchain.wallet.bean.NodeBean;
 
 import java.util.List;

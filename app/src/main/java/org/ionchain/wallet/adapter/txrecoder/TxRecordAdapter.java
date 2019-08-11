@@ -8,18 +8,18 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.utils.DateUtils;
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.bean.TxRecordBean;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.utils.DateUtils;
+import org.sdk.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.utils.ColorUtils;
 
 import java.util.List;
 
-import static org.ionc.wallet.sdk.IONCWallet.TX_FAILURE;
-import static org.ionc.wallet.sdk.IONCWallet.TX_SUSPENDED;
-import static org.ionc.wallet.utils.DateUtils.YYYY_MM_DD_HH_MM_SS;
+import static org.sdk.wallet.sdk.IONCWallet.TX_FAILURE;
+import static org.sdk.wallet.sdk.IONCWallet.TX_SUSPENDED;
+import static org.sdk.wallet.utils.DateUtils.YYYY_MM_DD_HH_MM_SS;
 
 public class TxRecordAdapter extends BaseQuickAdapter<TxRecordBean, BaseViewHolder> {
     private Context context;

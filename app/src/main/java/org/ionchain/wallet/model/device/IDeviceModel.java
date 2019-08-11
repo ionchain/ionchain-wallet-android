@@ -1,6 +1,6 @@
 package org.ionchain.wallet.model.device;
 
-import org.ionc.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.bean.WalletBeanNew;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
 import org.ionchain.wallet.callback.OnDeviceDetailCallback;
 import org.ionchain.wallet.callback.OnDeviceListCallback;

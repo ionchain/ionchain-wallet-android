@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 
 import com.lzy.okgo.model.Progress;
 
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.bean.UpdateBean;

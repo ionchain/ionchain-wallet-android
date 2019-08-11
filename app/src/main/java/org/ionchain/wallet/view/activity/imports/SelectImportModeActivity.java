@@ -8,8 +8,8 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 

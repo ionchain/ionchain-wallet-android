@@ -7,10 +7,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import org.ionc.wallet.adapter.CommonAdapter;
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.sdk.IONCWallet;
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.adapter.CommonAdapter;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.sdk.IONCWallet;
+import org.sdk.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.adapter.morewallet.MoreWalletViewHelper;
 import org.ionchain.wallet.view.widget.dialog.base.AbsBaseDialog;

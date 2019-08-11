@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
-import org.ionc.wallet.callback.OnDeletefinishCallback;
-import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
-import org.ionc.wallet.callback.OnUpdateWalletCallback;
-import org.ionc.wallet.sdk.IONCWallet;
-import org.ionc.wallet.utils.LoggerUtils;
-import org.ionc.wallet.utils.StringUtils;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.callback.OnCheckWalletPasswordCallback;
+import org.sdk.wallet.callback.OnDeletefinishCallback;
+import org.sdk.wallet.callback.OnImportPrivateKeyCallback;
+import org.sdk.wallet.callback.OnUpdateWalletCallback;
+import org.sdk.wallet.sdk.IONCWallet;
+import org.sdk.wallet.utils.LoggerUtils;
+import org.sdk.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.utils.SPUtils;
 import org.ionchain.wallet.utils.SoftKeyboardUtil;
@@ -32,7 +32,7 @@ import org.web3j.utils.Files;
 import java.io.File;
 import java.io.IOException;
 
-import static org.ionc.wallet.utils.StringUtils.check;
+import static org.sdk.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_CNY;
 import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_IDR;
 import static org.ionchain.wallet.constant.ConstantCoinType.COIN_TYPE_KRW;

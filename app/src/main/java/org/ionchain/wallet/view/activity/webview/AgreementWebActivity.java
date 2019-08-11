@@ -2,7 +2,7 @@ package org.ionchain.wallet.view.activity.webview;
 
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 

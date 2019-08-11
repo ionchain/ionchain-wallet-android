@@ -12,11 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.callback.OnImportMnemonicCallback;
-import org.ionc.wallet.callback.OnUpdateWalletCallback;
-import org.ionc.wallet.sdk.IONCWallet;
-import org.ionc.wallet.utils.StringUtils;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.callback.OnImportMnemonicCallback;
+import org.sdk.wallet.callback.OnUpdateWalletCallback;
+import org.sdk.wallet.sdk.IONCWallet;
+import org.sdk.wallet.utils.StringUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.utils.ToastUtil;
 import org.ionchain.wallet.view.activity.MainActivity;
@@ -24,7 +24,7 @@ import org.ionchain.wallet.view.base.AbsBaseActivityTitleTwo;
 
 import java.util.Arrays;
 
-import static org.ionc.wallet.utils.StringUtils.check;
+import static org.sdk.wallet.utils.StringUtils.check;
 import static org.ionchain.wallet.utils.AnimationUtils.setViewAlphaAnimation;
 
 public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements  OnImportMnemonicCallback, OnUpdateWalletCallback {

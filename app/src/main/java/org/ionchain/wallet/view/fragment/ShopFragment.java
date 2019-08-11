@@ -27,8 +27,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.view.activity.transaction.TxOutActivity;
 import org.ionchain.wallet.view.base.AbsBaseFragment;

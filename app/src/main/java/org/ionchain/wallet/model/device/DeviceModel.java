@@ -5,10 +5,10 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.ionc.wallet.bean.DeviceBean;
-import org.ionc.wallet.bean.DeviceListBean;
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.utils.LoggerUtils;
+import org.sdk.wallet.bean.DeviceBean;
+import org.sdk.wallet.bean.DeviceListBean;
+import org.sdk.wallet.bean.WalletBeanNew;
+import org.sdk.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.App;
 import org.ionchain.wallet.R;
 import org.ionchain.wallet.callback.OnBindDeviceCallback;
