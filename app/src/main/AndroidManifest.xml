@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
-        android:name=".App"
+        android:name="org.ionc.wallet.App"
         android:icon="@mipmap/app_logo"
         android:label="@string/ionc_app_name"
         android:roundIcon="@mipmap/app_logo"
@@ -26,25 +26,25 @@
         android:theme="@style/AppTheme"
         tools:replace="android:label">
         <activity
-            android:name=".view.activity.exchange.ContractWalletDetailActivity"
+            android:name="org.ionc.wallet.view.activity.exchange.ContractWalletDetailActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".view.activity.exchange.ExChangeActivity"
+            android:name="org.ionc.wallet.view.activity.exchange.ExChangeActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".view.activity.webview.UseHelpActivity"
+            android:name="org.ionc.wallet.view.activity.webview.UseHelpActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".view.activity.webview.TxRecordBrowserActivity"
+            android:name="org.ionc.wallet.view.activity.webview.TxRecordBrowserActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".view.activity.transaction.TxRecordDetailActivity"
+            android:name="org.ionc.wallet.view.activity.transaction.TxRecordDetailActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".view.activity.setting.coin.SelectCoinActivity"
+            android:name="org.ionc.wallet.view.activity.setting.coin.SelectCoinActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".view.activity.setting.language.SettingLanguageActivity"
+            android:name="org.ionc.wallet.view.activity.setting.language.SettingLanguageActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
@@ -60,7 +60,7 @@
         </provider>
 
         <activity
-            android:name=".view.activity.welcome.WelcomeActivity"
+            android:name="org.ionc.wallet.view.activity.welcome.WelcomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -73,80 +73,80 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name="org.ionc.wallet.view.activity.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
-            android:name=".view.activity.create.CreateWalletSelectActivity"
+            android:name="org.ionc.wallet.view.activity.create.CreateWalletSelectActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".view.activity.create.CreateWalletActivity"
+            android:name="org.ionc.wallet.view.activity.create.CreateWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.imports.ImportByPriKeyActivity"
+            android:name="org.ionc.wallet.view.activity.imports.ImportByPriKeyActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.modify.ModifyWalletActivity"
+            android:name="org.ionc.wallet.view.activity.modify.ModifyWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.manager.ManageWalletActivity"
+            android:name="org.ionc.wallet.view.activity.manager.ManageWalletActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.address.ShowAddressActivity"
+            android:name="org.ionc.wallet.view.activity.address.ShowAddressActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.transaction.TxOutActivity"
+            android:name="org.ionc.wallet.view.activity.transaction.TxOutActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.imports.SelectImportModeActivity"
+            android:name="org.ionc.wallet.view.activity.imports.SelectImportModeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.imports.ImportByMnemonicActivity"
+            android:name="org.ionc.wallet.view.activity.imports.ImportByMnemonicActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.imports.ImportByKeystoreActivity"
+            android:name="org.ionc.wallet.view.activity.imports.ImportByKeystoreActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.webview.AgreementWebActivity"
+            android:name="org.ionc.wallet.view.activity.webview.AgreementWebActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".view.activity.webview.AboutUsWebActivity"
+            android:name="org.ionc.wallet.view.activity.webview.AboutUsWebActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/IONCAppTheme" />
         <activity
-            android:name=".qrcode.activity.CaptureActivity"
+            android:name="org.ionc.wallet.qrcode.activity.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

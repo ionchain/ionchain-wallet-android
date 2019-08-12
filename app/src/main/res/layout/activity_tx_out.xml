@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#f9f9f9"
     android:orientation="vertical"
-    tools:context=".view.activity.transaction.TxOutActivity">
+    tools:context="org.ionc.wallet.view.activity.transaction.TxOutActivity">
 
     <include layout="@layout/activity_common_title_three" />
 

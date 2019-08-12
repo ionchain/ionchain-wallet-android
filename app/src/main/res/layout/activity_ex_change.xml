@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.ionchain.wallet.view.activity.exchange.ExChangeActivity">
+    tools:context="org.ionc.wallet.view.activity.exchange.ExChangeActivity">
     <include layout="@layout/activity_common_title_two" />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="10dp"

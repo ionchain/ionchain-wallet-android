@@ -5,7 +5,7 @@
     android:id="@+id/header_lv_home_page"
     android:layout_width="match_parent"
     android:layout_height="255dp"
-    tools:context=".view.activity.MainActivity"
+    tools:context="org.ionc.wallet.view.activity.MainActivity"
     android:orientation="vertical">
     <!--背景  -->
     <ImageView

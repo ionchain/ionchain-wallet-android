@@ -168,7 +168,7 @@ public class IONCWallet {
 //            String addr1 = walletFile.getAddress();
             String addr2 = Keys.getAddress(ecKeyPair);
             String walletAddress = Keys.toChecksumAddress(addr2);
-            walletBean.setAddress(Keys.toChecksumAddress(walletAddress));//设置钱包地址
+            walletBean.setAddress(walletAddress);//设置钱包地址
             LoggerUtils.i("钱包地址： " + walletAddress);
             walletBean.setPassword(password);
 

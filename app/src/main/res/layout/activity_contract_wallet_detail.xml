@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#cccccc"
     android:orientation="vertical"
-    tools:context="org.ionchain.wallet.view.activity.exchange.ContractWalletDetailActivity">
+    tools:context="org.ionc.wallet.view.activity.exchange.ContractWalletDetailActivity">
 
     <include layout="@layout/activity_common_title_two" />
 
