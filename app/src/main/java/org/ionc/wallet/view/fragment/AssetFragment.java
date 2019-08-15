@@ -272,7 +272,7 @@ public class AssetFragment extends AbsBaseFragment implements
         super.onResume();
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(mActivity));
         mCurrentWallet = IONCWallet.getMainWallet();
-
+        balance();
         mTxRecordAllFragment.initRecordWalletBean(mCurrentWallet);
         setBackupTag();
         mWalletNameTx.setText(mCurrentWallet.getName());

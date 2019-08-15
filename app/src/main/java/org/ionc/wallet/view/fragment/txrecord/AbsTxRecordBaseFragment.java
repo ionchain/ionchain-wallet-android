@@ -549,6 +549,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                 break;
         }
         ToastUtil.showToastLonger(getAppString(R.string.new_tx_record) + " " + (size - oldSize));
+        hideNoTxRecord();
         mTxRecordAdapter.notifyDataSetChanged();
     }
 
