@@ -7,26 +7,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.sdk.wallet.bean.TxRecordBean;
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.utils.DateUtils;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.sdk.wallet.utils.StringUtils;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.TxRecordBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.constant.ConstantParams;
+import org.ionc.wallet.utils.DateUtils;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.QRCodeUtils;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.webview.TxRecordBrowserActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
+import org.ionchain.wallet.R;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 
-import static org.sdk.wallet.sdk.IONCWallet.TX_FAILURE;
-import static org.sdk.wallet.sdk.IONCWallet.TX_SUSPENDED;
-import static org.sdk.wallet.utils.DateUtils.Y4M2D2H2M2S2;
+import static org.ionc.wallet.constant.ConstantParams.TX_FAILURE;
 import static org.ionc.wallet.constant.ConstantParams.TX_HASH;
 import static org.ionc.wallet.constant.ConstantParams.TX_HASH_NULL;
+import static org.ionc.wallet.constant.ConstantParams.TX_SUSPENDED;
+import static org.ionc.wallet.utils.DateUtils.Y4M2D2H2M2S2;
 
 public class TxRecordDetailActivity extends AbsBaseActivityTitleTwo {
 

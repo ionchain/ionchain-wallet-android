@@ -3,11 +3,10 @@ package org.ionc.wallet.adapter.morewallet;
 import android.content.Context;
 import android.view.View;
 
-import org.sdk.wallet.adapter.IViewHolder;
-import org.sdk.wallet.adapter.IViewHolderHelper;
-import org.sdk.wallet.bean.WalletBeanNew;
-
 import org.ionc.wallet.App;
+import org.ionc.wallet.adapter.IViewHolder;
+import org.ionc.wallet.adapter.IViewHolderHelper;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionchain.wallet.R;
 
 import java.util.List;

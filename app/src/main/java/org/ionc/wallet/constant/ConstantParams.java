@@ -81,6 +81,7 @@ public final class ConstantParams {
     public static final String TX_HASH = "TX_HASH";
     public static final String TX_HASH_NULL = "null";
 
-
+    public static final String TX_SUSPENDED = "TX_SUSPENDED";
+    public static final String TX_FAILURE = "TX_FAILURE";
 
 }

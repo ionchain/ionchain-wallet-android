@@ -19,7 +19,7 @@ import com.lzy.okserver.OkDownload;
 import com.lzy.okserver.download.DownloadListener;
 import com.lzy.okserver.download.DownloadTask;
 
-import org.sdk.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.App;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;

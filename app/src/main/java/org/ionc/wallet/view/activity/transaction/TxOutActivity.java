@@ -10,31 +10,28 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import org.sdk.wallet.bean.TxRecordBean;
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnCheckWalletPasswordCallback;
-import org.sdk.wallet.callback.OnGasPriceCallback;
-import org.sdk.wallet.callback.OnTransationCallback;
-import org.sdk.wallet.sdk.IONCTransfers;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.transaction.TransactionHelper;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.sdk.wallet.utils.StringUtils;
-import org.ionchain.wallet.BuildConfig;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.TxRecordBean;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
+import org.ionc.wallet.callback.OnGasPriceCallback;
+import org.ionc.wallet.callback.OnTransationCallback;
 import org.ionc.wallet.qrcode.activity.CaptureActivity;
 import org.ionc.wallet.qrcode.activity.CodeUtils;
+import org.ionc.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleThree;
 import org.ionc.wallet.view.widget.dialog.check.DialogPasswordCheck;
+import org.ionc.wallet.web3j.IONCTransfers;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionc.wallet.web3j.TransactionHelper;
+import org.ionchain.wallet.BuildConfig;
+import org.ionchain.wallet.R;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import static org.sdk.wallet.sdk.IONCTxRecords.saveTxRecordBean;
-import static org.sdk.wallet.sdk.IONCWallet.TX_FAILURE;
-import static org.sdk.wallet.sdk.IONCWallet.TX_SUSPENDED;
 import static org.ionc.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionc.wallet.constant.ConstantParams.CURRENT_ADDRESS;
 import static org.ionc.wallet.constant.ConstantParams.GAS_LIMIT_DEFAULT;
@@ -43,8 +40,11 @@ import static org.ionc.wallet.constant.ConstantParams.GAS_LIMIT_MIN;
 import static org.ionc.wallet.constant.ConstantParams.GAS_PRICE_DEFAULT_WEI;
 import static org.ionc.wallet.constant.ConstantParams.TX_ACTIVITY_FOR_RESULT_CODE;
 import static org.ionc.wallet.constant.ConstantParams.TX_ACTIVITY_RESULT;
+import static org.ionc.wallet.constant.ConstantParams.TX_FAILURE;
 import static org.ionc.wallet.constant.ConstantParams.TX_HASH_NULL;
+import static org.ionc.wallet.constant.ConstantParams.TX_SUSPENDED;
 import static org.ionc.wallet.utils.UrlUtils.getHostNode;
+import static org.ionc.wallet.web3j.IONCTxRecords.saveTxRecordBean;
 
 /**
  * 596928539@qq.com

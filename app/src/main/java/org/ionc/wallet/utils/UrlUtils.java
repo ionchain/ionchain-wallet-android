@@ -1,7 +1,5 @@
 package org.ionc.wallet.utils;
 
-import org.sdk.wallet.utils.LoggerUtils;
-
 public class UrlUtils {
 
     //测试服

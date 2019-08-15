@@ -22,23 +22,19 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.sdk.wallet.bean.TxRecordBean;
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnBalanceCallback;
-import org.sdk.wallet.callback.OnTxRecordFromNodeCallback;
-import org.sdk.wallet.sdk.IONCTransfers;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
 import org.ionc.wallet.App;
-import org.ionchain.wallet.BuildConfig;
-import org.ionchain.wallet.R;
 import org.ionc.wallet.bean.NodeBean;
+import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.USDExRmb;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnIONCNodeCallback;
+import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.constant.ConstantParams;
 import org.ionc.wallet.model.ioncprice.callbcak.OnUSDExRateRMBCallback;
 import org.ionc.wallet.model.ioncprice.callbcak.OnUSDPriceCallback;
 import org.ionc.wallet.presenter.ioncrmb.PricePresenter;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SPUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
 import org.ionc.wallet.utils.ToastUtil;
@@ -58,6 +54,10 @@ import org.ionc.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
 import org.ionc.wallet.view.widget.dialog.more.MoreWalletDialog;
+import org.ionc.wallet.web3j.IONCTransfers;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.BuildConfig;
+import org.ionchain.wallet.R;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -68,7 +68,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import static java.math.BigDecimal.ROUND_HALF_UP;
-import static org.sdk.wallet.sdk.IONCTxRecords.saveTxRecordBean;
 import static org.ionc.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
 import static org.ionc.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionc.wallet.constant.ConstantCoinType.COIN_TYPE_CNY;
@@ -87,6 +86,7 @@ import static org.ionc.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionc.wallet.constant.ConstantParams.TX_ACTIVITY_FOR_RESULT_CODE;
 import static org.ionc.wallet.constant.ConstantParams.TX_ACTIVITY_RESULT;
 import static org.ionc.wallet.utils.UrlUtils.getHostNode;
+import static org.ionc.wallet.web3j.IONCTxRecords.saveTxRecordBean;
 
 
 public class AssetFragment extends AbsBaseFragment implements
@@ -108,6 +108,10 @@ public class AssetFragment extends AbsBaseFragment implements
      * 当前展示的钱包
      */
     private WalletBeanNew mCurrentWallet;
+    /**
+     * 当前展示的钱包
+     */
+    private WalletBeanNew mOldWallet;
     /**
      * 钱包名字
      */
@@ -266,28 +270,19 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        LoggerUtils.i("method", "onResume" + "   AssetFragment");
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(mActivity));
         mCurrentWallet = IONCWallet.getMainWallet();
 
-        if (mCurrentWallet == null) {
-            ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
-//            跳转到钱包创建或者导入界面
-            return;
-        }
         mTxRecordAllFragment.initRecordWalletBean(mCurrentWallet);
         setBackupTag();
         mWalletNameTx.setText(mCurrentWallet.getName());
         Integer id = mCurrentWallet.getMIconIndex();
         mWalletLogo.setImageResource(App.sRandomHeader[id]);
-        balance(); //回到前台  onResume
         if (!TextUtils.isEmpty(mOldAddress) && !mOldAddress.equals(mCurrentWallet.getAddress())) {
             mTxRecordAllFragment.onAddressChanged(mCurrentWallet);
         }
         mOldAddress = mCurrentWallet.getAddress();
-//        else {
-//            mTxRecordAllFragment.onPullToDown(mCurrentWallet);
-//        }
+
         setBalance();
     }
 
@@ -389,6 +384,7 @@ public class AssetFragment extends AbsBaseFragment implements
          * */
         mMoreWallet.setOnClickListener(v -> {
 
+            mOldWallet = mCurrentWallet;//缓存切换前的钱包
             mMoreWalletDialog = new MoreWalletDialog(mActivity);
 //            mMoreWalletsTemp = IONCWallet.getAllWalletNew();
 //            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
@@ -396,7 +392,7 @@ public class AssetFragment extends AbsBaseFragment implements
 ////            Collections.reverse(mMoreWalletsTemp);
 //                mMoreWallets.addAll(mMoreWalletsTemp);
 //            }
-            mMoreWalletDialog.setLisenter(AssetFragment.this);
+            mMoreWalletDialog.setMoreWalletListItemClickedLisenter(AssetFragment.this);
 
             mMoreWalletDialog.show();
         });
@@ -406,14 +402,14 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onMoreWalletDialogItemClick(WalletBeanNew wallet, int position) {
         LoggerUtils.i(TAG, "onItemClick: ");
 
-        for (int i = 0; i < mMoreWallets.size(); i++) {
-            if (i != position) {
-                mMoreWallets.get(i).setIsMainWallet(false);
-            } else {
-                mMoreWallets.get(i).setIsMainWallet(true);
-            }
-            IONCWallet.saveWallet(mMoreWallets.get(i));
+        //修改主钱包
+        if (!mOldWallet.getAddress().endsWith(wallet.getAddress())) {
+            mOldWallet.setIsMainWallet(false);
+            IONCWallet.updateWallet(mOldWallet);
+            wallet.setIsMainWallet(true);
+            IONCWallet.updateWallet(wallet);
         }
+
         mCurrentWallet =wallet;
         mWalletNameTx.setText(mCurrentWallet.getName());
         setBackupTag();
@@ -863,26 +859,7 @@ public class AssetFragment extends AbsBaseFragment implements
         showProgress(getAppString(R.string.please_wait));
     }
 
-//    @Override
-//    public void OnTxRecordTimestampSuccess(TxRecordBean txRecordBean) {
-//        mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
-//        mTxRecordDoneFragment.onNewTxRecordByTx(txRecordBean);
-//        txRecordHelper(txRecordBean);
-//        IONCWallet.updateTxRecordBean(txRecordBean);
-//    }
-//
-//    @Override
-//    public void onTxRecordTimestampFailure(String error, TxRecordBean recordBean) {
-//        mTxRecordAllFragment.onNewTxRecordByTx(recordBean);
-//        mTxRecordDoneFragment.onNewTxRecordByTx(recordBean);
-//        txRecordHelper(recordBean);
-//        IONCWallet.updateTxRecordBean(recordBean);
-//    }
-//
-//    @Override
-//    public void onTxRecordTimestampStart() {
-//
-//    }
+
 
 
     public interface OnPullToRefreshCallback {

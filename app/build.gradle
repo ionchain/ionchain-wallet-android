@@ -185,6 +185,9 @@ dependencies {
     api 'androidx.core:core-ktx:1.2.0-alpha03'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    implementation  'com.umeng.umsdk:analytics:7.5.4'
+    implementation  'com.umeng.umsdk:common:1.5.4'
+
 }
 buildscript {
     repositories {
@@ -197,7 +200,7 @@ buildscript {
 
 greendao {
     schemaVersion extSchemaVersion
-    daoPackage 'org.ionc.wallet.greendaogen'
+    daoPackage 'org.ionc.wallet.db.greendaogen'
     targetGenDir 'src/main/java'
 }
 repositories {

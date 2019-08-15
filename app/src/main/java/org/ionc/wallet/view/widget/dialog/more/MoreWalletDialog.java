@@ -7,13 +7,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import org.sdk.wallet.adapter.CommonAdapter;
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.adapter.morewallet.MoreWalletViewHelper;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.view.widget.dialog.base.AbsBaseDialog;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ public class MoreWalletDialog extends AbsBaseDialog {
      * @param listener 监听
      * @return 本实例
      */
-    public MoreWalletDialog setLisenter(OnMoreWalletDialogItemClickedListener listener) {
+    public MoreWalletDialog setMoreWalletListItemClickedLisenter(OnMoreWalletDialogItemClickedListener listener) {
         mItemClickedListener = listener;
         return this;
     }

@@ -1,6 +1,6 @@
 package org.ionc.wallet.view.fragment.txrecord;
 
-import org.sdk.wallet.bean.TxRecordBean;
+import org.ionc.wallet.bean.TxRecordBean;
 
 
 public class TxRecordAllFragment extends AbsTxRecordBaseFragment {

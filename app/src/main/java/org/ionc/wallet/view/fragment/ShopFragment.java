@@ -27,12 +27,12 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.view.activity.transaction.TxOutActivity;
 import org.ionc.wallet.view.base.AbsBaseFragment;
 import org.ionc.wallet.view.widget.dialog.more.MoreWalletDialog;
+import org.ionchain.wallet.R;
 
 import static org.ionc.wallet.constant.ConstantIntentParam.INTENT_PARAM_CURRENT_WALLET;
 import static org.ionc.wallet.constant.ConstantParams.CURRENT_ADDRESS;
@@ -197,7 +197,7 @@ public class ShopFragment extends AbsBaseFragment implements OnRefreshListener, 
         public void showWallets() {
             LoggerUtils.e("TransferForWeb");
             mMoreWalletDialog = new MoreWalletDialog(mActivity);
-            mMoreWalletDialog.setLisenter(ShopFragment.this);
+            mMoreWalletDialog.setMoreWalletListItemClickedLisenter(ShopFragment.this);
             mMoreWalletDialog.show();
         }
     }

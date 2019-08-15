@@ -12,22 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnImportMnemonicCallback;
-import org.sdk.wallet.callback.OnUpdateWalletCallback;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.StringUtils;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnImportMnemonicCallback;
+import org.ionc.wallet.callback.OnUpdateWalletCallback;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.MainActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 
 import java.util.Arrays;
 
-import static org.sdk.wallet.utils.StringUtils.check;
 import static org.ionc.wallet.utils.AnimationUtils.setViewAlphaAnimation;
+import static org.ionc.wallet.utils.StringUtils.check;
 
-public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements  OnImportMnemonicCallback, OnUpdateWalletCallback {
+public class ImportByMnemonicActivity extends AbsBaseActivityTitleTwo implements OnImportMnemonicCallback, OnUpdateWalletCallback {
     private AppCompatEditText mnemonic;
     private AppCompatEditText pwdEt;
     private AppCompatEditText nameEt;

@@ -15,20 +15,19 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnCheckWalletPasswordCallback;
-import org.sdk.wallet.callback.OnContractCoinBalanceCallback;
-import org.sdk.wallet.callback.OnContractCoinTransferCallback;
-import org.sdk.wallet.callback.OnGasPriceCallback;
-import org.sdk.wallet.sdk.IONCCancelTag;
-import org.sdk.wallet.sdk.IONCTransfers;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
+import org.ionc.wallet.callback.OnContractCoinBalanceCallback;
+import org.ionc.wallet.callback.OnContractCoinTransferCallback;
+import org.ionc.wallet.callback.OnGasPriceCallback;
 import org.ionc.wallet.constant.ConstantParams;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionc.wallet.view.widget.dialog.check.DialogPasswordCheck;
+import org.ionc.wallet.web3j.IONCTransfers;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
@@ -130,7 +129,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     @Override
     public void onContractCoinBalanceSuccess(int position, String balance) {
         mSmartRefreshLayout.finishRefresh();
-        if (IONCCancelTag.CONTRACT_BALANCE_CANCEL) {
+        if (org.sdk.wallet.sdk.IONCCancelTag.CONTRACT_BALANCE_CANCEL) {
             LoggerUtils.e("取消 onContractCoinBalanceSuccess");
             return;
         }
@@ -142,7 +141,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     @Override
     public void onContractCoinBalanceFailure(int position, String error) {
         mSmartRefreshLayout.finishRefresh();
-        if (IONCCancelTag.CONTRACT_BALANCE_CANCEL) {
+        if (org.sdk.wallet.sdk.IONCCancelTag.CONTRACT_BALANCE_CANCEL) {
             LoggerUtils.e("取消 onContractCoinBalanceFailure");
             return;
         }
@@ -224,7 +223,7 @@ public class ContractWalletDetailActivity extends AbsBaseActivityTitleTwo implem
     }
 
     private void backToExWallet() {
-        IONCCancelTag.CONTRACT_BALANCE_CANCEL = true;
+        org.sdk.wallet.sdk.IONCCancelTag.CONTRACT_BALANCE_CANCEL = true;
         Intent intent = new Intent();
         intent.putExtra(ConstantParams.PARCELABLE_WALLET_BEAN, mWalletBeanNew);
         intent.putExtra("pos", pos);

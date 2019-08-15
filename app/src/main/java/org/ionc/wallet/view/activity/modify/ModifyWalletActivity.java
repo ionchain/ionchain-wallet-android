@@ -9,17 +9,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnCheckWalletPasswordCallback;
-import org.sdk.wallet.callback.OnDeletefinishCallback;
-import org.sdk.wallet.callback.OnImportPrivateKeyCallback;
-import org.sdk.wallet.callback.OnUpdateWalletCallback;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.sdk.wallet.utils.StringUtils;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
+import org.ionc.wallet.callback.OnDeletefinishCallback;
+import org.ionc.wallet.callback.OnImportPrivateKeyCallback;
+import org.ionc.wallet.callback.OnUpdateWalletCallback;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SPUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.create.CreateWalletSelectActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleThreeTv;
@@ -27,18 +25,20 @@ import org.ionc.wallet.view.widget.dialog.check.DialogPasswordCheck;
 import org.ionc.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionc.wallet.view.widget.dialog.modify.ModifyPasswordDialog;
 import org.ionc.wallet.view.widget.dialog.modify.OnModifyPasswordDialogCallback;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 import org.web3j.utils.Files;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.sdk.wallet.utils.StringUtils.check;
 import static org.ionc.wallet.constant.ConstantCoinType.COIN_TYPE_CNY;
 import static org.ionc.wallet.constant.ConstantCoinType.COIN_TYPE_IDR;
 import static org.ionc.wallet.constant.ConstantCoinType.COIN_TYPE_KRW;
 import static org.ionc.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
 import static org.ionc.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
 import static org.ionc.wallet.utils.AnimationUtils.setViewAlphaAnimation;
+import static org.ionc.wallet.utils.StringUtils.check;
 
 
 /**

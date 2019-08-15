@@ -5,18 +5,18 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.sdk.wallet.bean.DeviceBean;
-import org.sdk.wallet.bean.DeviceListBean;
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.utils.LoggerUtils;
 import org.ionc.wallet.App;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.DeviceBean;
+import org.ionc.wallet.bean.DeviceListBean;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBindDeviceCallback;
 import org.ionc.wallet.callback.OnDeviceDetailCallback;
 import org.ionc.wallet.callback.OnDeviceListCallback;
 import org.ionc.wallet.callback.OnUnbindDeviceCallback;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.NetUtils;
 import org.ionc.wallet.utils.ToastUtil;
+import org.ionchain.wallet.R;
 import org.json.JSONObject;
 
 import java.util.HashMap;

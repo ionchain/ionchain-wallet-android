@@ -11,22 +11,22 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnCreateWalletCallback;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.sdk.wallet.utils.ToastUtil;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnCreateWalletCallback;
 import org.ionc.wallet.qrcode.activity.CaptureActivity;
 import org.ionc.wallet.qrcode.activity.CodeUtils;
+import org.ionc.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.MainActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleThree;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 
 import java.util.List;
 
-import static org.sdk.wallet.utils.RandomUntil.getNum;
 import static org.ionc.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionc.wallet.utils.AnimationUtils.setViewAlphaAnimation;
+import static org.ionc.wallet.utils.RandomUntil.getNum;
 
 public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implements OnCreateWalletCallback {
     private AppCompatEditText mKeystore;

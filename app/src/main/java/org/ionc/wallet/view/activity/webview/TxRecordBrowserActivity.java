@@ -2,7 +2,7 @@ package org.ionc.wallet.view.activity.webview;
 
 import android.content.Intent;
 
-import org.sdk.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 
 import static org.ionc.wallet.constant.ConstantParams.TX_HASH;

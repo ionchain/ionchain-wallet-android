@@ -4,7 +4,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.sdk.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.bean.USDExRmb;
 import org.ionc.wallet.bean.USDPriceBean;
 import org.ionc.wallet.model.ioncprice.callbcak.OnUSDExRateRMBCallback;

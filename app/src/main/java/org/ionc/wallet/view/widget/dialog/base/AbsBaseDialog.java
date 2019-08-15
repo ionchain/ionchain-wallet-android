@@ -10,7 +10,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
-import org.sdk.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 
 

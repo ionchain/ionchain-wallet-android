@@ -1,6 +1,6 @@
 package org.ionc.wallet.view.activity.webview;
 
-import org.sdk.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.LoggerUtils;
 
 import static org.ionc.wallet.App.isCurrentLanguageZN;
 

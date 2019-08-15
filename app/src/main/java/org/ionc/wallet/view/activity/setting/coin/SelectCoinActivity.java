@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.sdk.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 import org.ionc.wallet.utils.ViewUtils;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;

@@ -13,29 +13,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnImportMnemonicCallback;
-import org.sdk.wallet.callback.OnSimulateTimeConsume;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.sdk.wallet.utils.StringUtils;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnImportMnemonicCallback;
+import org.ionc.wallet.callback.OnSimulateTimeConsume;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.MainActivity;
 import org.ionc.wallet.view.activity.imports.SelectImportModeActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionc.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
-import org.ionc.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionc.wallet.view.widget.dialog.export.DialogTextMessage;
+import org.ionc.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 
 import java.util.List;
 
-import static org.sdk.wallet.utils.RandomUntil.getNum;
-import static org.sdk.wallet.utils.StringUtils.check;
 import static org.ionc.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionc.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
+import static org.ionc.wallet.utils.RandomUntil.getNum;
+import static org.ionc.wallet.utils.StringUtils.check;
 import static org.ionc.wallet.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 
 public class CreateWalletActivity extends AbsBaseActivityTitleTwo implements

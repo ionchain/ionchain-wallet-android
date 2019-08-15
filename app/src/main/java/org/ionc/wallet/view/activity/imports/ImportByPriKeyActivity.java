@@ -13,27 +13,27 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnCreateWalletCallback;
-import org.sdk.wallet.callback.OnUpdateWalletCallback;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.callback.OnCreateWalletCallback;
+import org.ionc.wallet.callback.OnUpdateWalletCallback;
 import org.ionc.wallet.qrcode.activity.CaptureActivity;
 import org.ionc.wallet.qrcode.activity.CodeUtils;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.MainActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleThree;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 import org.web3j.crypto.WalletUtils;
 
 import java.util.List;
 
-import static org.sdk.wallet.utils.RandomUntil.getNum;
-import static org.sdk.wallet.utils.StringUtils.check;
 import static org.ionc.wallet.constant.ConstantParams.FROM_SCAN;
 import static org.ionc.wallet.utils.AnimationUtils.setViewAlphaAnimation;
+import static org.ionc.wallet.utils.RandomUntil.getNum;
+import static org.ionc.wallet.utils.StringUtils.check;
 
-public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements  OnCreateWalletCallback, OnUpdateWalletCallback {
+public class ImportByPriKeyActivity extends AbsBaseActivityTitleThree implements OnCreateWalletCallback, OnUpdateWalletCallback {
 
     private AppCompatEditText mPrivateKey;
     private AppCompatEditText pwdEt;

@@ -11,20 +11,20 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
-import org.sdk.wallet.adapter.CommonAdapter;
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.adapter.walletmanager.ManagerWalletHelper;
+import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.create.CreateWalletActivity;
 import org.ionc.wallet.view.activity.imports.SelectImportModeActivity;
 import org.ionc.wallet.view.activity.modify.ModifyWalletActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
-import org.ionc.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionc.wallet.view.widget.dialog.export.DialogTextMessage;
+import org.ionc.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 
 import java.util.ArrayList;
 import java.util.List;

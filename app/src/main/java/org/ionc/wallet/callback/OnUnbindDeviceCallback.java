@@ -1,7 +1,7 @@
 package org.ionc.wallet.callback;
 
 
-import org.sdk.wallet.bean.DeviceBean;
+import org.ionc.wallet.bean.DeviceBean;
 
 /**
  * USER: binny

@@ -1,6 +1,5 @@
 package org.ionc.wallet.callback;
 
-import org.sdk.wallet.callback.OnDataParseErrorCallback;
 import org.ionc.wallet.bean.NodeBean;
 
 import java.util.List;

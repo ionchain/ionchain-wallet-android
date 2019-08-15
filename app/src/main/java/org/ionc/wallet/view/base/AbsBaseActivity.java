@@ -17,20 +17,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.sdk.wallet.utils.SoftKeyboardUtil;
-import org.sdk.wallet.utils.ToastUtil;
-import org.ionchain.wallet.R;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.constant.ConstantActivitySkipTag;
 import org.ionc.wallet.constant.ConstantParams;
 import org.ionc.wallet.helper.ActivityHelper;
 import org.ionc.wallet.immersionbar.ImmersionBar;
 import org.ionc.wallet.utils.LocalManageUtil;
+import org.ionc.wallet.utils.LoggerUtils;
+import org.ionc.wallet.utils.SoftKeyboardUtil;
+import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.MainActivity;
 import org.ionc.wallet.view.activity.manager.ManageWalletActivity;
 import org.ionc.wallet.view.activity.webview.AgreementWebActivity;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 
 import java.io.Serializable;
 import java.util.List;

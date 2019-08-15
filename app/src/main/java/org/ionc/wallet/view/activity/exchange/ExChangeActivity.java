@@ -7,14 +7,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.sdk.IONCWallet;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.ionchain.wallet.R;
 import org.ionc.wallet.adapter.ContractWalletAdapter;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.constant.ConstantParams;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
+import org.ionc.wallet.web3j.IONCWallet;
+import org.ionchain.wallet.R;
 
 import java.util.ArrayList;
 import java.util.List;

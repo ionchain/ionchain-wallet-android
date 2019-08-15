@@ -11,43 +11,45 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lzy.okgo.OkGo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import org.sdk.wallet.bean.TxRecordBean;
-import org.sdk.wallet.bean.WalletBeanNew;
-import org.sdk.wallet.callback.OnTxRecordFromNodeCallback;
-import org.sdk.wallet.sdk.IONCTransfers;
-import org.sdk.wallet.sdk.IONCTxRecords;
-import org.sdk.wallet.utils.LoggerUtils;
-import org.ionchain.wallet.R;
 import org.ionc.wallet.adapter.txrecoder.TxRecordAdapter;
+import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.TxRecordBeanTemp;
+import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTxRecordBrowserDataCallback;
+import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.presenter.transcation.TxRecordPresenter;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.transaction.TxRecordDetailActivity;
 import org.ionc.wallet.view.base.AbsBaseFragment;
 import org.ionc.wallet.view.fragment.AssetFragment;
+import org.ionc.wallet.web3j.IONCTransfers;
+import org.ionc.wallet.web3j.IONCTxRecords;
+import org.ionchain.wallet.R;
 import org.web3j.utils.Convert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.chad.library.adapter.base.BaseQuickAdapter.SCALEIN;
-import static org.sdk.wallet.sdk.IONCTxRecords.txRecordAllByAddress;
-import static org.sdk.wallet.sdk.IONCTxRecords.txRecordAllByBlockNumber;
-import static org.sdk.wallet.sdk.IONCTxRecords.txRecordItemCountAllByAddress;
-import static org.sdk.wallet.sdk.IONCTxRecords.updateTxRecordBean;
-import static org.sdk.wallet.sdk.IONCWallet.TX_FAILURE;
-import static org.sdk.wallet.sdk.IONCWallet.TX_SUSPENDED;
 import static org.ionc.wallet.constant.ConstantParams.PARCELABLE_TX_RECORD;
 import static org.ionc.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
+import static org.ionc.wallet.constant.ConstantParams.TX_FAILURE;
+import static org.ionc.wallet.constant.ConstantParams.TX_SUSPENDED;
 import static org.ionc.wallet.utils.UrlUtils.getHostNode;
+import static org.ionc.wallet.web3j.IONCTxRecords.txRecordAllByAddress;
+import static org.ionc.wallet.web3j.IONCTxRecords.txRecordAllByBlockNumber;
+import static org.ionc.wallet.web3j.IONCTxRecords.txRecordItemCountAllByAddress;
+import static org.ionc.wallet.web3j.IONCTxRecords.updateTxRecordBean;
 
 /**
  * 1、先网络数据，
  * 2、如果网络数据获取失败，则直接显示本地数据
  * 3、如果网络数据获取成功，则对比本地缓存的未记录的数据，并更新本地数据
  */
-public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements OnTxRecordBrowserDataCallback, AssetFragment.OnPullToRefreshCallback, OnTxRecordFromNodeCallback {
+public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
+        OnTxRecordBrowserDataCallback,
+        AssetFragment.OnPullToRefreshCallback, OnTxRecordFromNodeCallback {
     private SmartRefreshLayout mRefresh;
     private String mNode = getHostNode();
     private String tag = "beannet";

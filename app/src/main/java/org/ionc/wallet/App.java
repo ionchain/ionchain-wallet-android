@@ -31,18 +31,18 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
-import org.ionchain.wallet.BuildConfig;
-import org.ionchain.wallet.R;
-import org.sdk.wallet.daohelper.MyOpenHelper;
-import org.sdk.wallet.greendaogen.DaoMaster;
-import org.sdk.wallet.greendaogen.DaoSession;
-import org.sdk.wallet.sdk.IONCSDK;
 import org.ionc.wallet.crasher.CrashHandler;
+import org.ionc.wallet.db.daohelper.MyOpenHelper;
+import org.ionc.wallet.db.greendaogen.DaoMaster;
+import org.ionc.wallet.db.greendaogen.DaoSession;
 import org.ionc.wallet.helper.ActivityHelper;
 import org.ionc.wallet.qrcode.DisplayUtil;
 import org.ionc.wallet.qrcode.activity.ZXingLibrary;
 import org.ionc.wallet.utils.SPUtils;
 import org.ionc.wallet.view.activity.MainActivity;
+import org.ionc.wallet.web3j.IONCSDK;
+import org.ionchain.wallet.BuildConfig;
+import org.ionchain.wallet.R;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -52,9 +52,9 @@ import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 
-import static org.sdk.wallet.constant.ConstanParams.DB_NAME;
-import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
 import static org.ionc.wallet.constant.ConstantCoinType.COIN_TYPE_USD;
+import static org.ionc.wallet.constant.ConstantParams.DB_NAME;
+import static org.ionchain.wallet.BuildConfig.APP_DEBUG;
 
 /**
  * Created by binny on 2018/11/29.
