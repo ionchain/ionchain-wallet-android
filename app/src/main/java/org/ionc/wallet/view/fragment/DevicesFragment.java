@@ -15,11 +15,13 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.ionc.ionclib.bean.WalletBeanNew;
+import org.ionc.ionclib.utils.ToastUtil;
+import org.ionc.ionclib.web3j.IONCSDKWallet;
 import org.ionc.wallet.App;
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.adapter.device.DeviceViewHelper;
 import org.ionc.wallet.bean.DeviceBean;
-import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnBindDeviceCallback;
 import org.ionc.wallet.callback.OnDeviceListCallback;
 import org.ionc.wallet.callback.OnUnbindDeviceCallback;
@@ -27,14 +29,12 @@ import org.ionc.wallet.presenter.device.DevicePresenter;
 import org.ionc.wallet.qrcode.activity.CaptureActivity;
 import org.ionc.wallet.qrcode.activity.CodeUtils;
 import org.ionc.wallet.utils.LoggerUtils;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.base.AbsBaseFragment;
 import org.ionc.wallet.view.widget.DialogBindDevice;
 import org.ionc.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbcak;
 import org.ionc.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
-import org.ionc.wallet.web3j.IONCWallet;
 import org.ionchain.wallet.R;
 import org.jetbrains.annotations.NotNull;
 
@@ -102,7 +102,7 @@ public class DevicesFragment extends AbsBaseFragment implements
          * */
         addDevice.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(mCurrentWallet.getMnemonic())) {
-                org.ionc.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
+               ToastUtil.showToastLonger(getResources().getString(R.string.toast_please_backup_wallet));
                 String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
                 dialogMnemonic = new DialogMnemonicShow(mActivity, mnemonics, DevicesFragment.this);
                 dialogMnemonic.show();
@@ -121,7 +121,7 @@ public class DevicesFragment extends AbsBaseFragment implements
     @Override
     protected void initData() {
         mDevicePresenter = new DevicePresenter();
-        mCurrentWallet = IONCWallet.getMainWallet();
+        mCurrentWallet = IONCSDKWallet.getMainWallet();
         wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
         wallet_name_devices.setText(mCurrentWallet.getName());
         showProgress();
@@ -144,7 +144,7 @@ public class DevicesFragment extends AbsBaseFragment implements
     @Override
     protected void handleShow() {
         if (mCurrentWallet != null) {
-            WalletBeanNew walletBeanNew = IONCWallet.getMainWallet();
+            WalletBeanNew walletBeanNew = IONCSDKWallet.getMainWallet();
             if (!mCurrentWallet.getName().equals(walletBeanNew.getName())) {
                 mDataBeanList.clear();
                 mAdapter.notifyDataSetChanged();
@@ -154,7 +154,7 @@ public class DevicesFragment extends AbsBaseFragment implements
                 getDeviceList();
             }
         } else {
-            mCurrentWallet = IONCWallet.getMainWallet();
+            mCurrentWallet = IONCSDKWallet.getMainWallet();
             wallet_img_device.setImageResource(App.sRandomHeader[mCurrentWallet.getMIconIndex()]);
             wallet_name_devices.setText(mCurrentWallet.getName());
         }
@@ -166,7 +166,7 @@ public class DevicesFragment extends AbsBaseFragment implements
     }
 
     private void getDeviceList() {
-//        List<WalletBeanNew> list = IONCWallet.getAllWalletNew();
+//        List<WalletBeanNew> list = IONCSDKWallet.getAllWalletNew();
 //        if (list == null || list.size() == 0) {
 //            return;
 //        }
@@ -264,22 +264,22 @@ public class DevicesFragment extends AbsBaseFragment implements
     public void onDialogCheckMnemonics12(String[] s, List<AppCompatEditText> editTextList, DialogCheckMnemonic dialogCheckMnemonic) {
         String[] mnemonics = mCurrentWallet.getMnemonic().split(" ");
         if (s.length != mnemonics.length) {
-            org.ionc.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.error_mnemonics));
+           ToastUtil.showToastLonger(getResources().getString(R.string.error_mnemonics));
             return;
         }
         int count = mnemonics.length;
         for (int i = 0; i < count; i++) {
             if (!mnemonics[i].equals(s[i])) {
                 String index = String.valueOf((i + 1));
-                org.ionc.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.error_index_mnemonics, index));
+                ToastUtil.showToastLonger(getResources().getString(R.string.error_index_mnemonics, index));
                 editTextList.get(i).setTextColor(Color.RED);
                 return;
             }
         }
         //更新
         mCurrentWallet.setMnemonic("");
-        IONCWallet.updateWallet(mCurrentWallet);
-        org.ionc.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
+        IONCSDKWallet.updateWallet(mCurrentWallet);
+        ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
     }
 

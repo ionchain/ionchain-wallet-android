@@ -9,10 +9,10 @@ import androidx.annotation.NonNull;
 
 import com.lzy.okgo.model.Progress;
 
-import org.ionchain.wallet.R;
-import org.ionc.wallet.utils.ToastUtil;
+import org.ionc.ionclib.utils.ToastUtil;
 import org.ionc.wallet.view.widget.dialog.base.AbsBaseDialog;
 import org.ionc.wallet.view.widget.dialog.download.DownloadDialog;
+import org.ionchain.wallet.R;
 
 /**
  * 展示 版本信息  检查版本更新

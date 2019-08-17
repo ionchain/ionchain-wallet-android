@@ -14,10 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import org.ionc.ionclib.utils.ToastUtil;
 import org.ionc.wallet.App;
 import org.ionc.wallet.immersionbar.ImmersionBar;
 import org.ionc.wallet.utils.LoggerUtils;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionchain.wallet.R;
 
 import java.io.Serializable;

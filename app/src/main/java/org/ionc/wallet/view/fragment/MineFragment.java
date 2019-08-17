@@ -7,13 +7,12 @@ import android.widget.RelativeLayout;
 
 import com.lzy.okgo.model.Progress;
 
-import org.ionc.wallet.utils.LoggerUtils;
+import org.ionc.ionclib.utils.ToastUtil;
 import org.ionc.wallet.App;
-import org.ionchain.wallet.R;
 import org.ionc.wallet.bean.UpdateBean;
 import org.ionc.wallet.model.update.OnCheckUpdateInfoCallback;
 import org.ionc.wallet.presenter.update.UpdatePresenter;
-import org.ionc.wallet.utils.ToastUtil;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.view.activity.exchange.ExChangeActivity;
 import org.ionc.wallet.view.activity.manager.ManageWalletActivity;
 import org.ionc.wallet.view.activity.setting.coin.SelectCoinActivity;
@@ -23,6 +22,7 @@ import org.ionc.wallet.view.activity.webview.UseHelpActivity;
 import org.ionc.wallet.view.base.AbsBaseFragment;
 import org.ionc.wallet.view.widget.dialog.download.DownloadDialog;
 import org.ionc.wallet.view.widget.dialog.version.VersionInfoDialog;
+import org.ionchain.wallet.R;
 
 import java.util.Objects;
 

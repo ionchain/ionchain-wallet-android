@@ -1,29 +1,20 @@
 package org.ionc.wallet.web3j;
 
-import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.db.daohelper.EntityManager;
-import org.ionc.wallet.db.greendaogen.TxRecordBeanDao;
+import org.ionc.ionclib.bean.TxRecordBean;
+import org.ionc.ionclib.db.daohelper.EntityManager;
+import org.ionc.ionclib.db.greendaogen.DaoSession;
+import org.ionc.ionclib.db.greendaogen.TxRecordBeanDao;
+import org.ionc.ionclib.web3j.IONCSDK;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.ionc.wallet.web3j.IONCSDK.mDaoSession;
 
 
 public class IONCTxRecords {
 
-    /**
-     * 通过钱包地址查询钱包
-     * <p>
-     * 转入
-     *
-     * @param timeStemp 转入地址
-     * @return 该钱包收到的转账记录
-     */
-    public static TxRecordBean getTxRecordBeansByTimes(String timeStemp) {
-        return mDaoSession.getTxRecordBeanDao().queryBuilder().where(TxRecordBeanDao.Properties.Tc_in_out.eq(timeStemp)).unique();
-    }
 
+    private static DaoSession mDaoSession = IONCSDK.getDaoSession();
 
     public static boolean notExist(String hash) {
         List<TxRecordBean> list = mDaoSession.getTxRecordBeanDao().queryBuilder().where(TxRecordBeanDao.Properties.Hash.eq(hash)).list();

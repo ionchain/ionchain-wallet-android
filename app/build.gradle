@@ -187,6 +187,7 @@ dependencies {
 
     implementation  'com.umeng.umsdk:analytics:7.5.4'
     implementation  'com.umeng.umsdk:common:1.5.4'
+    implementation project(path: ':ionclib')
 
 }
 buildscript {

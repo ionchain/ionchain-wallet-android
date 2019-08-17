@@ -15,10 +15,10 @@ import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import org.ionchain.wallet.R;
-import org.ionc.wallet.utils.ToastUtil;
+import org.ionc.ionclib.utils.ToastUtil;
 import org.ionc.wallet.view.activity.imports.SelectImportModeActivity;
 import org.ionc.wallet.view.base.AbsBaseActivity;
+import org.ionchain.wallet.R;
 
 import static org.ionc.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MAIN_ACTIVITY;
 import static org.ionc.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;

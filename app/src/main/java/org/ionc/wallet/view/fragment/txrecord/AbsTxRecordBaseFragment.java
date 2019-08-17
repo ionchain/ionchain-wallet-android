@@ -11,19 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lzy.okgo.OkGo;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.ionc.ionclib.bean.TxRecordBean;
+import org.ionc.ionclib.bean.WalletBeanNew;
+import org.ionc.ionclib.callback.OnTxRecordFromNodeCallback;
+import org.ionc.ionclib.utils.ToastUtil;
+import org.ionc.ionclib.web3j.IONCSDKTransfers;
 import org.ionc.wallet.adapter.txrecoder.TxRecordAdapter;
-import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.TxRecordBeanTemp;
-import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.callback.OnTxRecordBrowserDataCallback;
-import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.presenter.transcation.TxRecordPresenter;
 import org.ionc.wallet.utils.LoggerUtils;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.transaction.TxRecordDetailActivity;
 import org.ionc.wallet.view.base.AbsBaseFragment;
 import org.ionc.wallet.view.fragment.AssetFragment;
-import org.ionc.wallet.web3j.IONCTransfers;
 import org.ionc.wallet.web3j.IONCTxRecords;
 import org.ionchain.wallet.R;
 import org.web3j.utils.Convert;
@@ -259,7 +259,7 @@ public abstract class AbsTxRecordBaseFragment extends AbsBaseFragment implements
                     int count = mListDoingData.size();
                     for (int i = 0; i < count; i++) {
                         TxRecordBean t = mListDoingData.get(i);
-                        IONCTransfers.ethTransaction(mNode
+                        IONCSDKTransfers.getEthTransactionFromNode(mNode
                                 , t.getHash()
                                 , t
                                 , this);

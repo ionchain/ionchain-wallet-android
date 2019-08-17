@@ -31,16 +31,16 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
+import org.ionc.ionclib.db.daohelper.MyOpenHelper;
+import org.ionc.ionclib.db.greendaogen.DaoMaster;
+import org.ionc.ionclib.db.greendaogen.DaoSession;
+import org.ionc.ionclib.web3j.IONCSDK;
 import org.ionc.wallet.crasher.CrashHandler;
-import org.ionc.wallet.db.daohelper.MyOpenHelper;
-import org.ionc.wallet.db.greendaogen.DaoMaster;
-import org.ionc.wallet.db.greendaogen.DaoSession;
 import org.ionc.wallet.helper.ActivityHelper;
 import org.ionc.wallet.qrcode.DisplayUtil;
 import org.ionc.wallet.qrcode.activity.ZXingLibrary;
 import org.ionc.wallet.utils.SPUtils;
 import org.ionc.wallet.view.activity.MainActivity;
-import org.ionc.wallet.web3j.IONCSDK;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 

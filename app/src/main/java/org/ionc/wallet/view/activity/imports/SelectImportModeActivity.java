@@ -8,14 +8,14 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 
-import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.ionclib.bean.WalletBeanNew;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.R;
 
 import static org.ionc.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionc.wallet.constant.ConstantParams.SERIALIZABLE_DATA_WALLET_BEAN;
-import static org.ionc.wallet.utils.AnimationUtils.setViewAlphaAnimation;
+import static org.ionc.wallet.utils.ViewUtils.setViewAlphaAnimation;
 import static org.ionc.wallet.view.fragment.AssetFragment.NEW_WALLET_FOR_RESULT_CODE;
 
 public class SelectImportModeActivity extends AbsBaseActivityTitleTwo implements View.OnClickListener {

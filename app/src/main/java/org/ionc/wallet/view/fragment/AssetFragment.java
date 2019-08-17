@@ -22,14 +22,17 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.ionc.ionclib.bean.TxRecordBean;
+import org.ionc.ionclib.bean.WalletBeanNew;
+import org.ionc.ionclib.callback.OnBalanceCallback;
+import org.ionc.ionclib.callback.OnTxRecordFromNodeCallback;
+import org.ionc.ionclib.utils.ToastUtil;
+import org.ionc.ionclib.web3j.IONCSDKTransfers;
+import org.ionc.ionclib.web3j.IONCSDKWallet;
 import org.ionc.wallet.App;
 import org.ionc.wallet.bean.NodeBean;
-import org.ionc.wallet.bean.TxRecordBean;
 import org.ionc.wallet.bean.USDExRmb;
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.callback.OnBalanceCallback;
 import org.ionc.wallet.callback.OnIONCNodeCallback;
-import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.constant.ConstantParams;
 import org.ionc.wallet.model.ioncprice.callbcak.OnUSDExRateRMBCallback;
 import org.ionc.wallet.model.ioncprice.callbcak.OnUSDPriceCallback;
@@ -37,7 +40,6 @@ import org.ionc.wallet.presenter.ioncrmb.PricePresenter;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.SPUtils;
 import org.ionc.wallet.utils.SoftKeyboardUtil;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.address.ShowAddressActivity;
 import org.ionc.wallet.view.activity.create.CreateWalletActivity;
 import org.ionc.wallet.view.activity.imports.SelectImportModeActivity;
@@ -54,8 +56,6 @@ import org.ionc.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
 import org.ionc.wallet.view.widget.dialog.more.MoreWalletDialog;
-import org.ionc.wallet.web3j.IONCTransfers;
-import org.ionc.wallet.web3j.IONCWallet;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 
@@ -241,7 +241,7 @@ public class AssetFragment extends AbsBaseFragment implements
     protected void handleShow() {
         LoggerUtils.i("method", "handleShow" + "   AssetFragment");
         mImmersionBar.statusBarColor(R.color.main_color).statusBarDarkFont(false).execute();
-        mCurrentWallet = IONCWallet.getMainWallet();
+        mCurrentWallet = IONCSDKWallet.getMainWallet();
         if (mCurrentWallet == null) {
             ToastUtil.showLong(getResources().getString(R.string.wallet_null_toast));
 //            跳转到钱包创建或者导入界面
@@ -271,7 +271,7 @@ public class AssetFragment extends AbsBaseFragment implements
     public void onResume() {
         super.onResume();
         SoftKeyboardUtil.hideSoftKeyboard(Objects.requireNonNull(mActivity));
-        mCurrentWallet = IONCWallet.getMainWallet();
+        mCurrentWallet = IONCSDKWallet.getMainWallet();
         balance();
         mTxRecordAllFragment.initRecordWalletBean(mCurrentWallet);
         setBackupTag();
@@ -386,7 +386,7 @@ public class AssetFragment extends AbsBaseFragment implements
 
             mOldWallet = mCurrentWallet;//缓存切换前的钱包
             mMoreWalletDialog = new MoreWalletDialog(mActivity);
-//            mMoreWalletsTemp = IONCWallet.getAllWalletNew();
+//            mMoreWalletsTemp = IONCSDKWallet.getAllWalletNew();
 //            if (mMoreWalletsTemp != null && mMoreWalletsTemp.size() > 0) {
 //                mMoreWallets.clear();
 ////            Collections.reverse(mMoreWalletsTemp);
@@ -405,9 +405,9 @@ public class AssetFragment extends AbsBaseFragment implements
         //修改主钱包
         if (!mOldWallet.getAddress().endsWith(wallet.getAddress())) {
             mOldWallet.setIsMainWallet(false);
-            IONCWallet.updateWallet(mOldWallet);
+            IONCSDKWallet.updateWallet(mOldWallet);
             wallet.setIsMainWallet(true);
-            IONCWallet.updateWallet(wallet);
+            IONCSDKWallet.updateWallet(wallet);
         }
 
         mCurrentWallet =wallet;
@@ -482,7 +482,7 @@ public class AssetFragment extends AbsBaseFragment implements
                 //交易成功
                 //刷刷新余额
 //                //请求交易区块等信息
-                IONCTransfers.ethTransaction(mNodeIONC
+                IONCSDKTransfers.getEthTransactionFromNode(mNodeIONC
                         , t.getHash()
                         , t
                         , this);
@@ -510,7 +510,7 @@ public class AssetFragment extends AbsBaseFragment implements
     @Override
     protected void initData() {
         if (mCurrentWallet == null) {
-            mCurrentWallet = IONCWallet.getMainWallet();
+            mCurrentWallet = IONCSDKWallet.getMainWallet();
         }
         mTxRecordDoingFragment = new TxRecordDoingFragment();
         mTxRecordDoneFragment = new TxRecordDoneFragment();
@@ -623,7 +623,7 @@ public class AssetFragment extends AbsBaseFragment implements
         }
         //更新
         mCurrentWallet.setMnemonic("");
-        IONCWallet.updateWallet(mCurrentWallet);
+        IONCSDKWallet.updateWallet(mCurrentWallet);
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
 //        skip(MainActivity.class);
@@ -661,7 +661,7 @@ public class AssetFragment extends AbsBaseFragment implements
      * 获取余额
      */
     private void balance() {
-        IONCWallet.getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
+        IONCSDKWallet.getIONCWalletBalance(mNodeIONC, mCurrentWallet.getAddress(), this);
     }
 
 
@@ -683,7 +683,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mIoncBalanceTx.setText(balanceBigDecimal.toPlainString());
 
         mCurrentWallet.setBalance(balanceBigDecimal.toPlainString());  //缓存余额
-        IONCWallet.updateWallet(mCurrentWallet);//更新余额到数据库
+        IONCSDKWallet.updateWallet(mCurrentWallet);//更新余额到数据库
 
         //获取美元价格
         mPricePresenter = new PricePresenter();
@@ -733,7 +733,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mUSDPrice = usdPrice;
         mTotalUSDPrice = mIONCBalance.multiply(BigDecimal.valueOf(mUSDPrice));
         //计算美元价格
-        IONCWallet.updateWallet(mCurrentWallet);
+        IONCSDKWallet.updateWallet(mCurrentWallet);
 
         /*
          * 请求汇率
@@ -783,7 +783,7 @@ public class AssetFragment extends AbsBaseFragment implements
         mKRW = dataBean.getKRW();
         LoggerUtils.i("balance = ");
         setBalance();
-        IONCWallet.updateWallet(mCurrentWallet); //更新到数据库
+        IONCSDKWallet.updateWallet(mCurrentWallet); //更新到数据库
         mRefreshHeader.setLastUpdateText(new SimpleDateFormat("上次更新:yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
     }
 
@@ -838,7 +838,7 @@ public class AssetFragment extends AbsBaseFragment implements
         hideProgress();
         LoggerUtils.i("syncBrowser", "OnTxRecordNodeSuccess" + "   AssetFragment" + txRecordBean.toString());
         //取出块的哈希值，获取交易完成时间
-//        IONCWallet.ethTransactiontimestamp(mNodeIONC,txRecordBean,this);
+//        IONCSDKWallet.ethTransactiontimestamp(mNodeIONC,txRecordBean,this);
         mTxRecordAllFragment.onNewTxRecordByTx(txRecordBean);
         saveTxRecordBean(txRecordBean);
         balance();
@@ -922,6 +922,6 @@ public class AssetFragment extends AbsBaseFragment implements
                 break;
         }
         LoggerUtils.i("balance = COIN_TYPE_IDR ", balance);
-        IONCWallet.updateWallet(mCurrentWallet);
+        IONCSDKWallet.updateWallet(mCurrentWallet);
     }
 }

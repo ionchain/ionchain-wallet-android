@@ -27,7 +27,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.ionclib.bean.WalletBeanNew;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.view.activity.transaction.TxOutActivity;
 import org.ionc.wallet.view.base.AbsBaseFragment;
@@ -221,7 +221,7 @@ public class ShopFragment extends AbsBaseFragment implements OnRefreshListener, 
 //                //交易成功
 //                //刷刷新余额
 ////                //请求交易区块等信息
-////                IONCTransfers.ethTransaction(getHostNode()
+////                IONCSDKTransfers.ethTransaction(getHostNode()
 ////                        , t.getHash()
 ////                        , t
 ////                        , this);

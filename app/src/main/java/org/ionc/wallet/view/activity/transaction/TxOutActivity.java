@@ -10,21 +10,21 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.callback.OnCheckWalletPasswordCallback;
-import org.ionc.wallet.callback.OnGasPriceCallback;
-import org.ionc.wallet.callback.OnTransationCallback;
+import org.ionc.ionclib.bean.TxRecordBean;
+import org.ionc.ionclib.bean.WalletBeanNew;
+import org.ionc.ionclib.callback.OnCheckWalletPasswordCallback;
+import org.ionc.ionclib.callback.OnGasPriceCallback;
+import org.ionc.ionclib.callback.OnTransationCallback;
+import org.ionc.ionclib.utils.ToastUtil;
+import org.ionc.ionclib.web3j.IONCSDKTransfers;
+import org.ionc.ionclib.web3j.IONCSDKWallet;
+import org.ionc.ionclib.web3j.TransactionHelper;
 import org.ionc.wallet.qrcode.activity.CaptureActivity;
 import org.ionc.wallet.qrcode.activity.CodeUtils;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.StringUtils;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleThree;
 import org.ionc.wallet.view.widget.dialog.check.DialogPasswordCheck;
-import org.ionc.wallet.web3j.IONCTransfers;
-import org.ionc.wallet.web3j.IONCWallet;
-import org.ionc.wallet.web3j.TransactionHelper;
 import org.ionchain.wallet.BuildConfig;
 import org.ionchain.wallet.R;
 import org.web3j.utils.Convert;
@@ -150,7 +150,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
                 String pwd_input = dialogPasswordCheck.getPasswordEt().getText().toString();
                 LoggerUtils.i("主链节点获取成功（检查交易密码之前）pwd_input ：" + pwd_input);
 
-                IONCWallet.checkCurrentWalletPassword(true, mWalletBeanNew, pwd_input, mWalletBeanNew.getKeystore(), TxOutActivity.this); //转账
+                IONCSDKWallet.checkCurrentWalletPassword(true, mWalletBeanNew, pwd_input, mWalletBeanNew.getKeystore(), TxOutActivity.this); //转账
             }).show();
         });
         txSeekBarIndex.setOnSeekBarChangeListener(this);
@@ -181,7 +181,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-        IONCTransfers.getGasPriceETH(mNodeIONC, this);
+        IONCSDKTransfers.getGasPriceETH(mNodeIONC, this);
         if (BuildConfig.APP_DEBUG) {
             txToAddressEt.setText(ADDRESS_DEBUG);
         }
@@ -287,7 +287,7 @@ public class TxOutActivity extends AbsBaseActivityTitleThree implements
                 .setTxValue(mTxAccount)
                 .setGasLimit(mGasLimit)
                 .setWalletBeanTx(bean);
-        IONCTransfers.transaction(mNodeIONC, helper, TxOutActivity.this);
+        IONCSDKTransfers.transaction(mNodeIONC, helper, TxOutActivity.this);
 
     }
 

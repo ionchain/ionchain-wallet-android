@@ -7,13 +7,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.ionc.ionclib.bean.WalletBeanNew;
+import org.ionc.ionclib.utils.ToastUtil;
+import org.ionc.ionclib.web3j.IONCSDKWallet;
 import org.ionc.wallet.adapter.ContractWalletAdapter;
-import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.constant.ConstantParams;
 import org.ionc.wallet.utils.LoggerUtils;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
-import org.ionc.wallet.web3j.IONCWallet;
 import org.ionchain.wallet.R;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class ExChangeActivity extends AbsBaseActivityTitleTwo {
     @Override
     protected void initData() {
         super.initData();
-        mWalletBeanNewList.addAll(IONCWallet.getAllWalletNew());
+        mWalletBeanNewList.addAll(IONCSDKWallet.getAllWalletNew());
         if (mWalletBeanNewList.size() > 0) {
             mContractWalletAdapter.notifyDataSetChanged();
         } else {

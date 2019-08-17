@@ -11,22 +11,24 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.callback.OnCreateWalletCallback;
+import org.ionc.ionclib.bean.KeystoreBean;
+import org.ionc.ionclib.bean.WalletBeanNew;
+import org.ionc.ionclib.callback.OnCreateWalletCallback;
+import org.ionc.ionclib.utils.ToastUtil;
+import org.ionc.ionclib.web3j.IONCSDKWallet;
 import org.ionc.wallet.qrcode.activity.CaptureActivity;
 import org.ionc.wallet.qrcode.activity.CodeUtils;
+import org.ionc.wallet.utils.GsonUtils;
 import org.ionc.wallet.utils.LoggerUtils;
-import org.ionc.wallet.utils.ToastUtil;
+import org.ionc.wallet.utils.ViewUtils;
 import org.ionc.wallet.view.activity.MainActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleThree;
-import org.ionc.wallet.web3j.IONCWallet;
 import org.ionchain.wallet.R;
 
 import java.util.List;
 
+import static org.ionc.ionclib.utils.RandomUntil.getNum;
 import static org.ionc.wallet.constant.ConstantParams.FROM_SCAN;
-import static org.ionc.wallet.utils.AnimationUtils.setViewAlphaAnimation;
-import static org.ionc.wallet.utils.RandomUntil.getNum;
 
 public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implements OnCreateWalletCallback {
     private AppCompatEditText mKeystore;
@@ -50,30 +52,30 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
             //检查私钥是否为空
             mKeystoreStr = mKeystore.getText().toString();
             if (TextUtils.isEmpty(mKeystoreStr)) {
-                org.ionc.wallet.utils.ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
+                ToastUtil.showToastLonger(getAppString(R.string.key_store_must_not_empty));
                 return;
             }
             //检查名字是否为空
             namestr = nameEt.getText().toString().trim();
             if (TextUtils.isEmpty(namestr)) {
-                org.ionc.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_name));
                 return;
             }
             //检查密码是否为空
             String pass = pwdEt.getText().toString();
 
             if (TextUtils.isEmpty(pass)) {
-                org.ionc.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
+                ToastUtil.showToastLonger(getResources().getString(R.string.illegal_password_null));
                 return;
             }
             //检查是否选中协议
             if (!checkbox.isChecked()) {
-                org.ionc.wallet.utils.ToastUtil.showToastLonger(getResources().getString(R.string.please_aggreement));
+                ToastUtil.showToastLonger(getResources().getString(R.string.please_aggreement));
                 return;
             }
-            setViewAlphaAnimation(importBtn);
+            ViewUtils.setViewAlphaAnimation(importBtn);
 
-            if (IONCWallet.getWalletByName(namestr)!=null) {
+            if (IONCSDKWallet.getWalletByName(namestr)!=null) {
                 Toast.makeText(mActivity.getApplicationContext(), getResources().getString(R.string.wallet_name_exists), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -81,7 +83,8 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
             //生成keystory文件
             showProgress(getString(R.string.importing_wallet));
             LoggerUtils.i("正在导入KS......");
-            IONCWallet.importWalletByKeyStore(namestr, pass, mKeystoreStr, ImportByKeystoreActivity.this);
+            KeystoreBean keystoreBean = GsonUtils.gsonToBean(mKeystoreStr, KeystoreBean.class);
+            IONCSDKWallet.importWalletByKeyStore(namestr, pass, keystoreBean, mKeystoreStr,ImportByKeystoreActivity.this);
         });
         linkUrlTv.setOnClickListener(v -> skipWebProtocol());
         mTitleRightImage.setOnClickListener(v -> {
@@ -119,15 +122,15 @@ public class ImportByKeystoreActivity extends AbsBaseActivityTitleThree implemen
     @Override
     public void onCreateSuccess(WalletBeanNew walletBean) {
         hideProgress();
-        WalletBeanNew wallet = IONCWallet.getWalletByAddress(walletBean.getAddress().toLowerCase());
+        WalletBeanNew wallet = IONCSDKWallet.getWalletByAddress(walletBean.getAddress().toLowerCase());
         LoggerUtils.i("KS导入成功:" + walletBean.toString());
         if (null != wallet) {
             ToastUtil.showLong(getAppString(R.string.wallet_exists));
         } else {
-            IONCWallet.changeMainWalletAndSave(walletBean);
+            IONCSDKWallet.changeMainWalletAndSave(walletBean);
             walletBean.setMIconIndex(getNum(7));
             ToastUtil.showToastLonger(getAppString(R.string.import_success));
-            if (IONCWallet.getAllWalletNew().size() == 1) {
+            if (IONCSDKWallet.getAllWalletNew().size() == 1) {
                 skip(MainActivity.class);
             } else {
                 skipToBack(walletBean);//KS 导入钱包

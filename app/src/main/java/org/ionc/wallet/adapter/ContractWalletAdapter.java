@@ -7,8 +7,8 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import org.ionc.ionclib.bean.WalletBeanNew;
 import org.ionc.wallet.App;
-import org.ionc.wallet.bean.WalletBeanNew;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionchain.wallet.R;
 

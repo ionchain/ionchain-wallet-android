@@ -4,13 +4,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.ionc.ionclib.utils.ToastUtil;
 import org.ionc.wallet.App;
-import org.ionchain.wallet.R;
 import org.ionc.wallet.utils.LocalManageUtil;
 import org.ionc.wallet.utils.SPUtils;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.utils.ViewUtils;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
+import org.ionchain.wallet.R;
 
 import static org.ionc.wallet.App.skipToMain;
 

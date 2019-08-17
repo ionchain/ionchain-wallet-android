@@ -1,7 +1,7 @@
 package org.ionc.wallet.view.fragment.txrecord;
 
-import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.callback.OnTxRecordFromNodeCallback;
+import org.ionc.ionclib.bean.TxRecordBean;
+import org.ionc.ionclib.callback.OnTxRecordFromNodeCallback;
 import org.ionc.wallet.view.fragment.AssetFragment;
 
 public class TxRecordDoingFragment extends AbsTxRecordBaseFragment implements OnTxRecordFromNodeCallback,

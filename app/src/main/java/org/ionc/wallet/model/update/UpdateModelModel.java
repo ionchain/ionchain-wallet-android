@@ -4,14 +4,14 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
-import org.ionc.wallet.utils.LoggerUtils;
+import org.ionc.ionclib.utils.AppUtil;
 import org.ionc.wallet.App;
-import org.ionchain.wallet.R;
 import org.ionc.wallet.bean.UpdateBean;
 import org.ionc.wallet.constant.ConstantNetCancelTag;
-import org.ionc.wallet.utils.AppUtil;
+import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.NetUtils;
 import org.ionc.wallet.utils.UrlUtils;
+import org.ionchain.wallet.R;
 
 public class UpdateModelModel implements IUpdateModel {
     @Override

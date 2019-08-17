@@ -5,12 +5,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ionc.wallet.utils.StringUtils;
-import org.ionchain.wallet.R;
+import org.ionc.ionclib.utils.ToastUtil;
 import org.ionc.wallet.utils.BitmapUtils;
 import org.ionc.wallet.utils.QRCodeUtils;
-import org.ionc.wallet.utils.ToastUtil;
+import org.ionc.wallet.utils.StringUtils;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
+import org.ionchain.wallet.R;
 
 import static org.ionc.wallet.constant.ConstantParams.INTENT_PARAME_WALLET_ADDRESS;
 import static org.ionc.wallet.constant.ConstantParams.PICTURE_FILE_NAME;

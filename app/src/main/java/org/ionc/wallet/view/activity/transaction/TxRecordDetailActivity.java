@@ -7,14 +7,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.ionclib.bean.TxRecordBean;
+import org.ionc.ionclib.bean.WalletBeanNew;
+import org.ionc.ionclib.utils.ToastUtil;
 import org.ionc.wallet.constant.ConstantParams;
 import org.ionc.wallet.utils.DateUtils;
 import org.ionc.wallet.utils.LoggerUtils;
 import org.ionc.wallet.utils.QRCodeUtils;
 import org.ionc.wallet.utils.StringUtils;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.webview.TxRecordBrowserActivity;
 import org.ionc.wallet.view.base.AbsBaseActivityTitleTwo;
 import org.ionchain.wallet.R;

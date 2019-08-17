@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.ionchain.wallet.R;
+import org.ionc.ionclib.utils.ToastUtil;
 import org.ionc.wallet.helper.ActivityHelper;
 import org.ionc.wallet.view.base.AbsBaseActivity;
 import org.ionc.wallet.view.fragment.AssetFragment;
 import org.ionc.wallet.view.fragment.DevicesFragment;
 import org.ionc.wallet.view.fragment.MineFragment;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.fragment.ShopFragment;
+import org.ionchain.wallet.R;
 
 import java.util.ArrayList;
 import java.util.List;

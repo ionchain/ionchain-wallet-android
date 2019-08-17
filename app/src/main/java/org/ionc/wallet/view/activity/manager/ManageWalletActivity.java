@@ -11,10 +11,11 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import org.ionc.ionclib.bean.WalletBeanNew;
+import org.ionc.ionclib.utils.ToastUtil;
+import org.ionc.ionclib.web3j.IONCSDKWallet;
 import org.ionc.wallet.adapter.CommonAdapter;
 import org.ionc.wallet.adapter.walletmanager.ManagerWalletHelper;
-import org.ionc.wallet.bean.WalletBeanNew;
-import org.ionc.wallet.utils.ToastUtil;
 import org.ionc.wallet.view.activity.create.CreateWalletActivity;
 import org.ionc.wallet.view.activity.imports.SelectImportModeActivity;
 import org.ionc.wallet.view.activity.modify.ModifyWalletActivity;
@@ -23,7 +24,6 @@ import org.ionc.wallet.view.widget.dialog.callback.OnDialogCheck12MnemonicCallbc
 import org.ionc.wallet.view.widget.dialog.export.DialogTextMessage;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogCheckMnemonic;
 import org.ionc.wallet.view.widget.dialog.mnemonic.DialogMnemonicShow;
-import org.ionc.wallet.web3j.IONCWallet;
 import org.ionchain.wallet.R;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import java.util.List;
 import static org.ionc.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_MANAGER_ACTIVITY;
 import static org.ionc.wallet.constant.ConstantActivitySkipTag.INTENT_FROM_WHERE_TAG;
 import static org.ionc.wallet.constant.ConstantParams.PARCELABLE_WALLET_BEAN;
-import static org.ionc.wallet.utils.AnimationUtils.setViewAlphaAnimation;
+import static org.ionc.wallet.utils.ViewUtils.setViewAlphaAnimation;
 
 public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
         ManagerWalletHelper.OnWalletManagerItemClickedListener,
@@ -62,7 +62,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
     @SuppressWarnings("unchecked")
     @Override
     protected void initData() {
-        mWalletBeans = IONCWallet.getAllWalletNew();
+        mWalletBeans = IONCSDKWallet.getAllWalletNew();
         mAdapter = new CommonAdapter(this, mWalletBeans, R.layout.item_wallet_manager_layout, new ManagerWalletHelper(this));
         listview.setAdapter(mAdapter);
     }
@@ -108,7 +108,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
     public void onRefresh(RefreshLayout refreshlayout) {
         srl.finishRefresh();
         mWalletBeans.clear();
-        mWalletBeans.addAll(IONCWallet.getAllWalletNew());
+        mWalletBeans.addAll(IONCSDKWallet.getAllWalletNew());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -116,7 +116,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
     protected void onResume() {
         super.onResume();
         mWalletBeans.clear();
-        mWalletBeans.addAll(IONCWallet.getAllWalletNew());
+        mWalletBeans.addAll(IONCSDKWallet.getAllWalletNew());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -177,7 +177,7 @@ public class ManageWalletActivity extends AbsBaseActivityTitleTwo implements
         }
         //更新
         mCurrentWallet.setMnemonic("");
-        IONCWallet.updateWallet(mCurrentWallet);
+        IONCSDKWallet.updateWallet(mCurrentWallet);
         ToastUtil.showToastLonger(getResources().getString(R.string.authentication_successful));
         dialogCheckMnemonic.dismiss();
 //        skip(MainActivity.class);

@@ -8,8 +8,8 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
-import org.ionc.wallet.bean.TxRecordBean;
-import org.ionc.wallet.bean.WalletBeanNew;
+import org.ionc.ionclib.bean.TxRecordBean;
+import org.ionc.ionclib.bean.WalletBeanNew;
 import org.ionc.wallet.utils.ColorUtils;
 import org.ionc.wallet.utils.DateUtils;
 import org.ionc.wallet.utils.LoggerUtils;
